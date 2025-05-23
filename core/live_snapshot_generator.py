@@ -74,13 +74,6 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.apply(_apply_movement("FV", "fv_movement"), subset=["FV"])
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
-    if "is_new" in df.columns:
-        styled = styled.apply(
-            lambda row: [
-                "background-color: #fff3cd" if row.get("is_new") else "" for _ in row
-            ],
-            axis=1,
-        )
 
     styled = (
         styled
@@ -190,6 +183,10 @@ def compare_and_flag_new_rows(
 ) -> Tuple[List[dict], Dict[str, dict]]:
     """Return entries annotated with new-row and movement flags.
 
+    Rows are identified using a composite key of
+    ``game_id``, ``market``, ``side``, and ``best_book`` so that
+    changes are detected per team matchup and sportsbook.
+
     Parameters
     ----------
     current_entries : List[dict]
@@ -213,7 +210,9 @@ def compare_and_flag_new_rows(
     next_snapshot = {}
 
     for entry in current_entries:
-        key = f"{entry.get('market')}:{entry.get('side')}"
+        game_id = entry.get("game_id", "")
+        book = entry.get("best_book", "")
+        key = f"{game_id}:{entry.get('market')}:{entry.get('side')}:{book}"
         fair_odds = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
         ev_pct = entry.get("ev_percent")
@@ -355,7 +354,7 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
 
 
 def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFrame:
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)␊
     if df.empty:
         return df
 
@@ -466,7 +465,9 @@ def main():
             ev_pct = r.get("ev_percent")
             if fair_odds is None or ev_pct is None or market_odds is None:
                 continue
-            key = f"{r['market']}:{r['side']}"
+            game_id = r.get("game_id", "")
+            book = r.get("best_book", "")
+            key = f"{game_id}:{r['market']}:{r['side']}:{book}"
             snapshot_next[key] = {
                 "fair_odds": fair_odds,
                 "market_odds": market_odds,
