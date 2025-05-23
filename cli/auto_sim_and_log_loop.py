@@ -55,6 +55,17 @@ def run_live_snapshot():
         subprocess.Popen(cmd, shell=True)
 
 
+def run_personal_snapshot():
+    today_str, tomorrow_str = get_date_strings()
+    for date_str in [today_str, tomorrow_str]:
+        print(f"\n📣 [{datetime.now()}] Running personal snapshot generator for {date_str}...")
+        default_script = os.path.join("core", "personal_snapshot_generator.py")
+        if not os.path.exists(default_script):
+            default_script = "personal_snapshot_generator.py"
+        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight"
+        subprocess.Popen(cmd, shell=True)
+
+
 print(
     "🔄 Starting auto loop... "
     "(Sim: 30 min | Log & Snapshot: 5 min, for today and tomorrow)"
@@ -75,6 +86,7 @@ while True:
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
         try:
             run_live_snapshot()
+            run_personal_snapshot()
         except Exception as e:
             print(f"❌ Live snapshot failed: {e}")
         last_snapshot_time = now
