@@ -661,6 +661,11 @@ def send_discord_notification(row):
         print(f"⛔ Skipping excluded market: {row['market']}")
         return
 
+    # Temporarily suppress team totals notifications
+    if "team_totals" in market_str:
+        print(f"⛔ Team totals disabled for Discord: {row['market']}")
+        return
+
     # Skip H2H if outside target EV range
     if market_str.startswith("h2h") and (row["ev_percent"] < 5.0 or row["ev_percent"] > 20.0):
         print(f"⛔ Skipping H2H outside EV range: {row['market']} | EV: {row['ev_percent']:.2f}%")

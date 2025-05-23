@@ -7,6 +7,12 @@ class MLBPricingEngine:
         self.stddev_scaling_factor = calibration.get("stddev_scaling_factor", 1.0)
         self.run_diff_scaling_factor = calibration.get("run_diff_scaling_factor", 1.0)
 
+        team_scaling = calibration.get("team_total_scaling", {})
+        self.home_mean_factor = team_scaling.get("home_mean_factor", 1.0)
+        self.home_std_factor = team_scaling.get("home_std_factor", 1.0)
+        self.away_mean_factor = team_scaling.get("away_mean_factor", 1.0)
+        self.away_std_factor = team_scaling.get("away_std_factor", 1.0)
+
         logit_params = calibration.get("logit_win_pct_calibration", {})
         self.logit_a = logit_params.get("a")
         self.logit_b = logit_params.get("b")
@@ -65,3 +71,11 @@ class MLBPricingEngine:
             line: self.calc_runline_prob(scaled_diffs, line)
             for line in lines
         }
+
+    def apply_team_total_scaling(self, scores, is_home=True):
+        mean_factor = self.home_mean_factor if is_home else self.away_mean_factor
+        std_factor = self.home_std_factor if is_home else self.away_std_factor
+
+        mean_score = np.mean(scores)
+        std_scaled = [(s - mean_score) * std_factor + mean_score for s in scores]
+        return [s * mean_factor for s in std_scaled]

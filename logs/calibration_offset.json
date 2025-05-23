@@ -5,5 +5,11 @@
   "logit_win_pct_calibration": {
     "a": -0.0827,
     "b": 0.8327
+  },
+  "team_total_scaling": {
+    "home_mean_factor": 1.0,
+    "home_std_factor": 1.0,
+    "away_mean_factor": 1.0,
+    "away_std_factor": 1.0
   }
 }

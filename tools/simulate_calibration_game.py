@@ -101,6 +101,10 @@ run_diffs = [h - a for h, a in zip(home_scores, away_scores)]
 TARGET_MEAN = 8.85
 TARGET_TOTAL_RUN_SD = 4.65
 TARGET_RUN_DIFF_SD = 3.0
+TARGET_HOME_MEAN = 4.62
+TARGET_AWAY_MEAN = 4.35
+TARGET_HOME_SD = 3.35
+TARGET_AWAY_SD = 3.20
 
 actual_mean = round(np.mean(total_scores), 3)
 actual_std = round(np.std(total_scores), 3)
@@ -109,6 +113,11 @@ std_scaling_factor = round(TARGET_TOTAL_RUN_SD / actual_std, 4)
 mean_diff = np.mean(run_diffs)
 std_diff = np.std(run_diffs)
 diff_scaling_factor = round(TARGET_RUN_DIFF_SD / std_diff, 4)
+
+home_mean_factor = round(TARGET_HOME_MEAN / np.mean(home_scores), 4)
+away_mean_factor = round(TARGET_AWAY_MEAN / np.mean(away_scores), 4)
+home_std_factor = round(TARGET_HOME_SD / np.std(home_scores), 4)
+away_std_factor = round(TARGET_AWAY_SD / np.std(away_scores), 4)
 
 scaled_total_scores = [(r - actual_mean) * std_scaling_factor + actual_mean for r in total_scores]
 scaled_run_diffs = [(d - mean_diff) * diff_scaling_factor + mean_diff for d in run_diffs]
@@ -214,6 +223,12 @@ calib_data = {
     "run_scaling_factor": adjustment_factor,
     "stddev_scaling_factor": std_scaling_factor,
     "run_diff_scaling_factor": diff_scaling_factor,
+    "team_total_scaling": {
+        "home_mean_factor": home_mean_factor,
+        "home_std_factor": home_std_factor,
+        "away_mean_factor": away_mean_factor,
+        "away_std_factor": away_std_factor,
+    },
     "logit_win_pct_calibration": {
         "a": round(logit_a, 4),
         "b": round(logit_b, 4)
@@ -228,6 +243,12 @@ try:
     print(f"  - Run Mean Scaling:     x{adjustment_factor:.4f}")
     print(f"  - Total Runs SD Scale:  x{std_scaling_factor:.4f}")
     print(f"  - Run Diff SD Scale:    x{diff_scaling_factor:.4f}")
+    print(
+        f"  - Team Totals Home → mean x{home_mean_factor:.4f}, sd x{home_std_factor:.4f}"
+    )
+    print(
+        f"  - Team Totals Away → mean x{away_mean_factor:.4f}, sd x{away_std_factor:.4f}"
+    )
     print(f"  - Logit Calibration:    logit(p) = {logit_a:.4f} + {logit_b:.4f} * logit(p_sim)")
 except Exception as e:
     print(f"⚠️ Failed to write calibration offset: {e}")

@@ -311,6 +311,12 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     print(f"   - Run Scaling:     x{pricing_engine.run_scaling_factor:.4f}")
     print(f"   - StdDev Scaling:  x{pricing_engine.stddev_scaling_factor:.4f}")
     print(f"   - RunDiff Scaling: x{pricing_engine.run_diff_scaling_factor:.4f}")
+    print(
+        f"   - Team Totals (Home): mean x{pricing_engine.home_mean_factor:.4f}, sd x{pricing_engine.home_std_factor:.4f}"
+    )
+    print(
+        f"   - Team Totals (Away): mean x{pricing_engine.away_mean_factor:.4f}, sd x{pricing_engine.away_std_factor:.4f}"
+    )
 
     # Run simulations
     raw_home_scores, raw_away_scores, all_results = [], [], []
@@ -366,6 +372,8 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
     home_scores = [(t + d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
     away_scores = [(t - d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
+    home_scores = pricing_engine.apply_team_total_scaling(home_scores, is_home=True)
+    away_scores = pricing_engine.apply_team_total_scaling(away_scores, is_home=False)
     home_scores = [round(x, 1) for x in home_scores]
     away_scores = [round(x, 1) for x in away_scores]
 
@@ -591,6 +599,8 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             team_totals = {}
             home_scores = [sum(inn["home_runs"] for inn in r["innings"] if inn["inning"] <= innings_cap) for r in all_results]
             away_scores = [sum(inn["away_runs"] for inn in r["innings"] if inn["inning"] <= innings_cap) for r in all_results]
+            home_scores = pricing_engine.apply_team_total_scaling(home_scores, is_home=True)
+            away_scores = pricing_engine.apply_team_total_scaling(away_scores, is_home=False)
 
             for line in config.get("team_total_lines", []):
                 for team_abbr, scores in [(home_abbr, home_scores), (away_abbr, away_scores)]:
@@ -619,6 +629,8 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     def inning_summary(inning_cap, label, benchmark=None):
         home = [sum(inn["home_runs"] for inn in r["innings"] if inn["inning"] <= inning_cap) for r in all_results]
         away = [sum(inn["away_runs"] for inn in r["innings"] if inn["inning"] <= inning_cap) for r in all_results]
+        home = pricing_engine.apply_team_total_scaling(home, is_home=True)
+        away = pricing_engine.apply_team_total_scaling(away, is_home=False)
         summary = summarize_distribution(home, away, label, benchmark=benchmark)
         return summary, home, away
 
