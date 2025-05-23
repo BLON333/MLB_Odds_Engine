@@ -1,0 +1,9 @@
+{
+  "run_scaling_factor": 0.9918,
+  "stddev_scaling_factor": 1.0544,
+  "run_diff_scaling_factor": 0.7035,
+  "logit_win_pct_calibration": {
+    "a": -0.0827,
+    "b": 0.8327
+  }
+}

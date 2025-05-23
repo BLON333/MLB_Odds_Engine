@@ -1,0 +1,192 @@
+{
+  "moneyline": {
+    "ATL": {
+      "prob": 0.5605,
+      "odds": -127.53,
+      "ev": 6.05
+    },
+    "TOR": {
+      "prob": 0.4395,
+      "odds": 127.53,
+      "ev": -6.05
+    }
+  },
+  "runline": {
+    "ATL+1.5": {
+      "prob": 0.6578999999999999,
+      "odds": -192.31,
+      "ev": 15.789999999999992
+    },
+    "TOR-1.5": {
+      "prob": 0.3421,
+      "odds": 192.31,
+      "ev": -15.79
+    }
+  },
+  "total": {
+    "line": 9.5,
+    "over": {
+      "prob": 0.3876,
+      "odds": 158.0,
+      "ev": -11.24
+    },
+    "under": {
+      "prob": 0.6124,
+      "odds": -158.0,
+      "ev": 11.240000000000006
+    }
+  },
+  "home_score": 4.3015,
+  "away_score": {
+    "mean": 4.4405,
+    "std": 3.0825411189471588,
+    "mode": 3,
+    "percent_2_to_9": 75.9
+  },
+  "game_type": "UNDER 9.5",
+  "derivative_segments": {
+    "1st Inning": {
+      "label": "1st Inning",
+      "rows": [
+        {
+          "market_label": "Score \u22651 run",
+          "prob_str": "  46.6%",
+          "odds_str": "114.59",
+          "ev_str": " -3.40"
+        }
+      ]
+    },
+    "First 3 Innings": {
+      "label": "First 3 Innings",
+      "rows": [
+        {
+          "market_label": "ATL win",
+          "prob_str": "  52.9%",
+          "odds_str": "-112.53",
+          "ev_str": "  2.95"
+        },
+        {
+          "market_label": "TOR win",
+          "prob_str": "  47.1%",
+          "odds_str": "112.53",
+          "ev_str": " -2.95"
+        },
+        {
+          "market_label": "Run line (ATL +0.5)",
+          "prob_str": "  64.1%",
+          "odds_str": "-178.55",
+          "ev_str": " 14.10"
+        },
+        {
+          "market_label": "Total > 3.5",
+          "prob_str": "  36.9%",
+          "odds_str": "171.0",
+          "ev_str": "-13.10"
+        }
+      ]
+    },
+    "First 5 Innings": {
+      "label": "First 5 Innings",
+      "rows": [
+        {
+          "market_label": "ATL win",
+          "prob_str": "  52.9%",
+          "odds_str": "-112.47",
+          "ev_str": "  2.93"
+        },
+        {
+          "market_label": "TOR win",
+          "prob_str": "  47.1%",
+          "odds_str": "112.47",
+          "ev_str": " -2.93"
+        },
+        {
+          "market_label": "Run line (ATL +0.5)",
+          "prob_str": "  59.9%",
+          "odds_str": "-149.38",
+          "ev_str": "  9.90"
+        },
+        {
+          "market_label": "Total > 5.5",
+          "prob_str": "  40.1%",
+          "odds_str": "149.38",
+          "ev_str": " -9.90"
+        }
+      ]
+    },
+    "First 7 Innings": {
+      "label": "First 7 Innings",
+      "rows": [
+        {
+          "market_label": "ATL win",
+          "prob_str": "  52.1%",
+          "odds_str": "-108.85",
+          "ev_str": "  2.12"
+        },
+        {
+          "market_label": "TOR win",
+          "prob_str": "  47.9%",
+          "odds_str": "108.85",
+          "ev_str": " -2.12"
+        },
+        {
+          "market_label": "Run line (ATL +0.5)",
+          "prob_str": "  58.2%",
+          "odds_str": "-139.23",
+          "ev_str": "  8.20"
+        },
+        {
+          "market_label": "Total > 6.5",
+          "prob_str": "  50.1%",
+          "odds_str": "-100.4",
+          "ev_str": "  0.10"
+        }
+      ]
+    },
+    "recommendations": {
+      "best": "UNDER 9.5",
+      "runline": "ATL+1.5",
+      "early": "Bet early on UNDER",
+      "f5": "ATL+1.5",
+      "avoid": "Avoid longshots"
+    },
+    "value_opportunities": [
+      {
+        "label": "ATL (moneyline)",
+        "prob": 0.5605,
+        "odds": -127.53,
+        "ev": 6.05
+      },
+      {
+        "label": "TOR (moneyline)",
+        "prob": 0.4395,
+        "odds": 127.53,
+        "ev": -6.05
+      },
+      {
+        "label": "ATL+1.5 (runline)",
+        "prob": 0.6578999999999999,
+        "odds": -192.31,
+        "ev": 15.789999999999992
+      },
+      {
+        "label": "TOR-1.5 (runline)",
+        "prob": 0.3421,
+        "odds": 192.31,
+        "ev": -15.79
+      },
+      {
+        "label": "Total over",
+        "prob": 0.3876,
+        "odds": 158.0,
+        "ev": -11.24
+      },
+      {
+        "label": "Total under",
+        "prob": 0.6124,
+        "odds": -158.0,
+        "ev": 11.240000000000006
+      }
+    ]
+  }
+}

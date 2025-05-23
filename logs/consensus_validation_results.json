@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "total_labels": 24,
+    "devigged": 18,
+    "fallbacks": 0,
+    "failures": 6,
+    "reasons": {
+      "sim_only": 6,
+      "devig": 18,
+      "only 1 book matched": 10
+    }
+  },
+  "failures": [
+    [
+      "2025-05-22-MIL@PIT",
+      "h2h",
+      "MIL",
+      "sim_only"
+    ],
+    [
+      "2025-05-22-MIL@PIT",
+      "h2h",
+      "PIT",
+      "sim_only"
+    ],
+    [
+      "2025-05-22-MIL@PIT",
+      "totals",
+      "Over 12.5",
+      "sim_only"
+    ],
+    [
+      "2025-05-22-MIL@PIT",
+      "totals",
+      "Under 12.5",
+      "sim_only"
+    ],
+    [
+      "2025-05-22-SEA@HOU",
+      "h2h",
+      "HOU",
+      "sim_only"
+    ],
+    [
+      "2025-05-22-SEA@HOU",
+      "h2h",
+      "SEA",
+      "sim_only"
+    ]
+  ]
+}

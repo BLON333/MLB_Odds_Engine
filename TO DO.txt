@@ -1,0 +1,41 @@
+TO DO LIST
+
+Integrate to user friendly platform - For the best balance of time, effort, and results, a web app using Flask or Django with a simple frontend might be your best bet. It's relatively quick to set up, offers a nice user experience, and provides the flexibility to expand or integrate with ChatGPT."
+
+
+Integrate Confidence ratings - "Sure! Let's build a basic recipe. First, define your confidence levels, say from 1 to 5. Then, calculate the difference between your model's probability and the implied probability from the odds. For example, a difference of 0-5% might be a confidence level of 1, while 20%+ could be a 5. Combine this with EV%: a higher EV% boosts the confidence level. You can also add a cap, like skipping bets with a variance above a certain threshold. Sound good?"
+
+Integrate AI - "For the best balance of time, effort, and results, a web app using Flask or Django with a simple frontend might be your best bet. It's relatively quick to set up, offers a nice user experience, and provides the flexibility to expand or integrate with ChatGPT."
+
+
+CLV Logging 
+
+Automated bet grading
+
+
+
+
+
+To get the most out of your MLB Monte Carlo simulator, you can follow a structured daily routine:
+
+Morning:
+
+Run Initial Simulations: Simulate all games for the day based on current lineups, starting pitchers, and weather conditions.
+
+Identify Edges: Pinpoint betting edges by comparing simulated probabilities to sportsbook odds.
+
+Set Alerts: Schedule notifications for key updates like lineup changes or odds shifts.
+
+Afternoon:
+
+Check Updates: Re-run simulations if there are major changes in lineups, pitching matchups, or weather.
+
+Reassess Bets: Adjust your betting strategy based on the latest simulations and market movements.
+
+Evening:
+
+Monitor Games: Keep an eye on in-progress games for live betting opportunities.
+
+Analyze Results: After games, review your performance, track which bets were profitable, and refine your model.
+
+This approach ensures you're making data-driven decisions throughout the day!
