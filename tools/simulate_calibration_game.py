@@ -262,7 +262,13 @@ for key, raw in segment_raw.items():
     print(f"  - Total SD:   {actual_sd:.2f} → Target: {tgt['run_sd']} | Scale: x{run_sd_factor:.4f}")
     print(f"  - Diff SD:    {actual_diff_sd:.2f} → Target: {tgt['diff_sd']} | Scale: x{diff_sd_factor:.4f}")
 
-adjustment_factor = round(TARGET_MEAN / actual_mean, 4)
+# Use the full-game average for run mean scaling. The variable
+# ``actual_mean`` above gets reassigned inside the segment loop, so
+# by the time we reach the calibration factors it holds the F7 value
+# rather than the overall game mean. Grab the overall mean from
+# ``total_scores`` to avoid inflating the scaling factor.
+overall_mean = np.mean(total_scores)
+adjustment_factor = round(TARGET_MEAN / overall_mean, 4)
 
 calib_path = "logs/calibration_offset.json"
 calib_data = {
