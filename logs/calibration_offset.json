@@ -11,5 +11,11 @@
     "home_std_factor": 1.0,
     "away_mean_factor": 1.0,
     "away_std_factor": 1.0
+  },
+  "segment_scaling": {
+    "f1": {"run_mean": 1.05, "run_sd": 1.55, "diff_sd": 1.55},
+    "f3": {"run_mean": 3.30, "run_sd": 2.70, "diff_sd": 2.70},
+    "f5": {"run_mean": 5.40, "run_sd": 3.35, "diff_sd": 3.35},
+    "f7": {"run_mean": 7.25, "run_sd": 3.85, "diff_sd": 3.85}
   }
 }
