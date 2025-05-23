@@ -61,6 +61,17 @@ def pitcher_has_enrichment(p):
     )
 
 
+def apply_segment_scaling(values, target_mean=None, target_sd=None):
+    mean = np.mean(values)
+    std = np.std(values)
+    scaled = values
+    if target_sd and std > 0:
+        scaled = [(v - mean) * (target_sd / std) + mean for v in scaled]
+    if target_mean is not None:
+        scaled = [v + (target_mean - mean) for v in scaled]
+    return scaled
+
+
 
 
 def extract_universal_markets(game_id, full_game_market, derivative_segments, run_distribution=None):
@@ -363,6 +374,14 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             pct = 100 * count / n_simulations
             print(f"    - {name:20} → {pct:.1f}% of sims")
 
+    # Extract raw segment scores before calibration
+    segment_raw = {}
+    for cap, key in [(1, "f1"), (3, "f3"), (5, "f5"), (7, "f7")]:
+        home_seg = [sum(inn["home_runs"] for inn in r["innings"] if inn["inning"] <= cap) for r in all_results]
+        away_seg = [sum(inn["away_runs"] for inn in r["innings"] if inn["inning"] <= cap) for r in all_results]
+        totals_seg = [h + a for h, a in zip(home_seg, away_seg)]
+        diffs_seg = [h - a for h, a in zip(home_seg, away_seg)]
+        segment_raw[key] = {"total": totals_seg, "diff": diffs_seg}
 
     # Apply calibration
     raw_totals = [h + a for h, a in zip(raw_home_scores, raw_away_scores)]
@@ -523,30 +542,41 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     }
 
 
+    key_map = {"F1": "f1", "F3": "f3", "F5": "f5", "F7": "f7"}
+
     for seg_key, config in segment_configs.items():
         label = config["label"]
         innings_cap = config["innings"]
         stats = compute_partial_derivatives(all_results, innings_cap)
         seg = {"label": label, "markets": {}}
 
-        # Totals
+        seg_id = key_map.get(seg_key)
+        seg_cal = pricing_engine.segment_scaling.get(seg_id, {})
+        seg_totals_scaled = apply_segment_scaling(
+            segment_raw[seg_id]["total"],
+            target_mean=seg_cal.get("run_mean"),
+            target_sd=seg_cal.get("run_sd")
+        )
+        seg_diffs_scaled = apply_segment_scaling(
+            segment_raw[seg_id]["diff"],
+            target_mean=None,
+            target_sd=seg_cal.get("diff_sd")
+        )
+        pmf_total_seg = summarize_pmf(np.round(seg_totals_scaled).astype(int))
+        pmf_diff_seg = summarize_pmf(np.round(seg_diffs_scaled).astype(int))
+
         totals = {}
         for line in config.get("total_lines", []):
-            over_prob = calculate_tail_probability(
-                summarize_pmf([
-                    sum(inn["home_runs"] + inn["away_runs"] for inn in r["innings"] if inn["inning"] <= innings_cap)
-                    for r in all_results
-                ]), line, direction="over"
-            )
+            over_prob = calculate_tail_probability(pmf_total_seg, line, direction="over")
             under_prob = 1 - over_prob
             totals[f"Over {line}"] = {"prob": round(over_prob, 4), "fair_odds": to_american_odds(over_prob)}
             totals[f"Under {line}"] = {"prob": round(under_prob, 4), "fair_odds": to_american_odds(under_prob)}
-        seg["markets"]["total"] = totals
+        seg["markets"]["totals"] = totals
 
         if seg_key == "F1":
             # Special case: "Score in 1st inning"
-            p = stats["score_1plus"]
-            seg["markets"]["total"] = {
+            p = calculate_tail_probability(pmf_total_seg, 0.5, direction="over")
+            seg["markets"]["totals"] = {
                 "Over 0.5": {"prob": p, "fair_odds": to_american_odds(p)},
                 "Under 0.5": {"prob": 1 - p, "fair_odds": to_american_odds(1 - p)}
             }
@@ -560,14 +590,9 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
             # Spreads
             spreads = {}
-            run_diff_partial = summarize_pmf([
-                sum(inn["home_runs"] - inn["away_runs"] for inn in r["innings"] if inn["inning"] <= innings_cap)
-                for r in all_results
-            ])
-
             for line in config.get("spread_lines", []):
                 # Home -line
-                prob_home_minus = calculate_tail_probability(run_diff_partial, line, direction="over")
+                prob_home_minus = calculate_tail_probability(pmf_diff_seg, line, direction="over")
                 prob_away_plus = 1 - prob_home_minus
 
                 spreads[f"{home_abbr} -{line}"] = {
@@ -580,7 +605,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
                 }
 
                 # Away -line
-                prob_away_minus = calculate_tail_probability(run_diff_partial, -line, direction="under")
+                prob_away_minus = calculate_tail_probability(pmf_diff_seg, -line, direction="under")
                 prob_home_plus = 1 - prob_away_minus
 
                 spreads[f"{away_abbr} -{line}"] = {
