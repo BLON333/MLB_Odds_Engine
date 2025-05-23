@@ -74,6 +74,13 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.apply(_apply_movement("FV", "fv_movement"), subset=["FV"])
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
+    if "is_new" in df.columns:
+        styled = styled.apply(
+            lambda row: [
+                "background-color: #fff3cd" if row.get("is_new") else "" for _ in row
+            ],
+            axis=1,
+        )
 
     styled = (
         styled
