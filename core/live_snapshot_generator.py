@@ -354,7 +354,7 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
 
 
 def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFrame:
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)␊
     if df.empty:
         return df
 
