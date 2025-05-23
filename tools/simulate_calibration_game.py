@@ -98,6 +98,17 @@ away_scores = [r["away_score"] for r in results]
 total_scores = [h + a for h, a in zip(home_scores, away_scores)]
 run_diffs = [h - a for h, a in zip(home_scores, away_scores)]
 
+# ----------------------------
+# Segment Raw Totals/Differentials
+# ----------------------------
+segment_raw = {}
+for cap, key in [(1, "f1"), (3, "f3"), (5, "f5"), (7, "f7")]:
+    home_seg = [sum(inn["home_runs"] for inn in r["innings"] if inn["inning"] <= cap) for r in results]
+    away_seg = [sum(inn["away_runs"] for inn in r["innings"] if inn["inning"] <= cap) for r in results]
+    totals_seg = [h + a for h, a in zip(home_seg, away_seg)]
+    diffs_seg = [h - a for h, a in zip(home_seg, away_seg)]
+    segment_raw[key] = {"total": totals_seg, "diff": diffs_seg}
+
 TARGET_MEAN = 8.85
 TARGET_TOTAL_RUN_SD = 4.65
 TARGET_RUN_DIFF_SD = 3.0
@@ -216,6 +227,41 @@ with open("logs/calibration_outcomes.csv", "w", newline="") as f:
 
 print("\n\U0001f4c4 Exported outcome summary to: logs/calibration_outcomes.csv")
 
+# ----------------------------
+# Segment Calibration Factors
+# ----------------------------
+segment_targets = {
+    "f1": {"run_mean": 1.05, "run_sd": 1.55, "diff_sd": 1.55},
+    "f3": {"run_mean": 3.30, "run_sd": 2.70, "diff_sd": 2.70},
+    "f5": {"run_mean": 5.40, "run_sd": 3.35, "diff_sd": 3.35},
+    "f7": {"run_mean": 7.25, "run_sd": 3.85, "diff_sd": 3.85},
+}
+
+segment_scaling = {}
+for key, raw in segment_raw.items():
+    tgt = segment_targets[key]
+    actual_mean = np.mean(raw["total"])
+    actual_sd = np.std(raw["total"])
+    actual_diff_sd = np.std(raw["diff"])
+
+    run_sd_factor = round(tgt["run_sd"] / actual_sd, 4) if actual_sd > 0 else 1.0
+    run_mean_shift = round(tgt["run_mean"] - actual_mean, 4)
+    diff_sd_factor = round(tgt["diff_sd"] / actual_diff_sd, 4) if actual_diff_sd > 0 else 1.0
+
+    segment_scaling[key] = {
+        "run_mean": round(tgt["run_mean"], 2),
+        "run_sd": round(tgt["run_sd"], 2),
+        "diff_sd": round(tgt["diff_sd"], 2),
+        "run_sd_scaling_factor": run_sd_factor,
+        "run_mean_shift": run_mean_shift,
+        "diff_sd_scaling_factor": diff_sd_factor,
+    }
+
+    print(f"\n📊 Segment {key.upper()} Calibration:")
+    print(f"  - Total Mean: {actual_mean:.2f} → Target: {tgt['run_mean']} | Δ: {run_mean_shift:+.2f}")
+    print(f"  - Total SD:   {actual_sd:.2f} → Target: {tgt['run_sd']} | Scale: x{run_sd_factor:.4f}")
+    print(f"  - Diff SD:    {actual_diff_sd:.2f} → Target: {tgt['diff_sd']} | Scale: x{diff_sd_factor:.4f}")
+
 adjustment_factor = round(TARGET_MEAN / actual_mean, 4)
 
 calib_path = "logs/calibration_offset.json"
@@ -232,6 +278,14 @@ calib_data = {
     "logit_win_pct_calibration": {
         "a": round(logit_a, 4),
         "b": round(logit_b, 4)
+    },
+    "segment_scaling": {
+        k: {
+            "run_mean": v["run_mean"],
+            "run_sd": v["run_sd"],
+            "diff_sd": v["diff_sd"],
+        }
+        for k, v in segment_scaling.items()
     }
 }
 

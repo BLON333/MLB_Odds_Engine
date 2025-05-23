@@ -13,6 +13,9 @@ class MLBPricingEngine:
         self.away_mean_factor = team_scaling.get("away_mean_factor", 1.0)
         self.away_std_factor = team_scaling.get("away_std_factor", 1.0)
 
+        # Segment-level scaling factors for derivatives
+        self.segment_scaling = calibration.get("segment_scaling", {})
+
         logit_params = calibration.get("logit_win_pct_calibration", {})
         self.logit_a = logit_params.get("a")
         self.logit_b = logit_params.get("b")
