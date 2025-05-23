@@ -1,0 +1,4277 @@
+{
+  "2025-04-19-SD@HOU": {
+    "start_time": "2025-04-19T23:10:00Z",
+    "h2h": {
+      "HOU": {
+        "price": 175,
+        "book": "draftkings",
+        "consensus_prob": 0.375029,
+        "consensus_odds": 166.65
+      },
+      "SD": {
+        "price": -230,
+        "book": "draftkings",
+        "consensus_prob": 0.624971,
+        "consensus_odds": -166.65
+      }
+    },
+    "h2h_source": {
+      "HOU": "draftkings",
+      "SD": "draftkings"
+    },
+    "spreads": {
+      "HOU+1.5": {
+        "price": -177,
+        "book": "pinnacle",
+        "consensus_prob": 0.536575,
+        "consensus_odds": -115.78
+      },
+      "SD-1.5": {
+        "price": 150,
+        "book": "pinnacle",
+        "consensus_prob": 0.463425,
+        "consensus_odds": 115.78
+      }
+    },
+    "spreads_source": {
+      "HOU+1.5": "pinnacle",
+      "SD-1.5": "pinnacle"
+    },
+    "totals": {
+      "Over 6.5": {
+        "price": 105,
+        "book": "draftkings",
+        "consensus_prob": 0.154536,
+        "consensus_odds": 547.1
+      },
+      "Under 6.5": {
+        "price": -136,
+        "book": "fanduel",
+        "consensus_prob": 0.181283,
+        "consensus_odds": 451.62
+      },
+      "Over 5.5": {
+        "price": -114,
+        "book": "pinnacle",
+        "consensus_prob": 0.16793,
+        "consensus_odds": 495.49
+      },
+      "Under 5.5": {
+        "price": -102,
+        "book": "pinnacle",
+        "consensus_prob": 0.159179,
+        "consensus_odds": 528.22
+      },
+      "Over 6.0": {
+        "price": -110,
+        "book": "bovada",
+        "consensus_prob": 0.165124,
+        "consensus_odds": 505.61
+      },
+      "Under 6.0": {
+        "price": -120,
+        "book": "bovada",
+        "consensus_prob": 0.171948,
+        "consensus_odds": 481.57
+      }
+    },
+    "totals_source": {
+      "Over 6.5": "draftkings",
+      "Under 6.5": "fanduel",
+      "Over 5.5": "pinnacle",
+      "Under 5.5": "pinnacle",
+      "Over 6.0": "bovada",
+      "Under 6.0": "bovada"
+    },
+    "alternate_spreads": {
+      "HOU-3.5": {
+        "price": 1300,
+        "book": "draftkings",
+        "consensus_prob": 0.004564,
+        "consensus_odds": 21810.6
+      },
+      "HOU-2.5": {
+        "price": 800,
+        "book": "draftkings",
+        "consensus_prob": 0.007393,
+        "consensus_odds": 13426.31
+      },
+      "HOU-1.5": {
+        "price": 425,
+        "book": "draftkings",
+        "consensus_prob": 0.011641,
+        "consensus_odds": 8490.33
+      },
+      "HOU+1.5": {
+        "price": -177,
+        "book": "pinnacle",
+        "consensus_prob": 0.030699,
+        "consensus_odds": 3157.44
+      },
+      "HOU+2.5": {
+        "price": -315,
+        "book": "pinnacle",
+        "consensus_prob": 0.037383,
+        "consensus_odds": 2575.01
+      },
+      "HOU+3.5": {
+        "price": -564,
+        "book": "pinnacle",
+        "consensus_prob": 0.042921,
+        "consensus_odds": 2229.86
+      },
+      "SD+3.5": {
+        "price": -3500,
+        "book": "draftkings",
+        "consensus_prob": 0.051044,
+        "consensus_odds": 1859.09
+      },
+      "SD+2.5": {
+        "price": -1600,
+        "book": "draftkings",
+        "consensus_prob": 0.048248,
+        "consensus_odds": 1972.62
+      },
+      "SD+1.5": {
+        "price": -675,
+        "book": "draftkings",
+        "consensus_prob": 0.044074,
+        "consensus_odds": 2168.91
+      },
+      "SD-1.5": {
+        "price": 150,
+        "book": "pinnacle",
+        "consensus_prob": 0.0249,
+        "consensus_odds": 3916.06
+      },
+      "SD-2.5": {
+        "price": 252,
+        "book": "pinnacle",
+        "consensus_prob": 0.01825,
+        "consensus_odds": 5379.45
+      },
+      "SD-3.5": {
+        "price": 412,
+        "book": "pinnacle",
+        "consensus_prob": 0.012895,
+        "consensus_odds": 7654.94
+      },
+      "HOU+6.5": {
+        "price": -2200,
+        "book": "draftkings",
+        "consensus_prob": 0.050336,
+        "consensus_odds": 1886.65
+      },
+      "HOU+6.0": {
+        "price": -2000,
+        "book": "draftkings",
+        "consensus_prob": 0.050118,
+        "consensus_odds": 1895.29
+      },
+      "HOU+5.5": {
+        "price": -1150,
+        "book": "draftkings",
+        "consensus_prob": 0.048414,
+        "consensus_odds": 1965.52
+      },
+      "HOU+5.0": {
+        "price": -1100,
+        "book": "draftkings",
+        "consensus_prob": 0.048238,
+        "consensus_odds": 1973.05
+      },
+      "HOU+4.5": {
+        "price": -625,
+        "book": "draftkings",
+        "consensus_prob": 0.045365,
+        "consensus_odds": 2104.34
+      },
+      "HOU+4.0": {
+        "price": -550,
+        "book": "draftkings",
+        "consensus_prob": 0.044528,
+        "consensus_odds": 2145.78
+      },
+      "HOU+3.0": {
+        "price": -498,
+        "book": "pinnacle",
+        "consensus_prob": 0.041646,
+        "consensus_odds": 2301.19
+      },
+      "HOU+2.0": {
+        "price": -261,
+        "book": "pinnacle",
+        "consensus_prob": 0.035292,
+        "consensus_odds": 2733.5
+      },
+      "HOU+1.0": {
+        "price": 130,
+        "book": "draftkings",
+        "consensus_prob": 0.02288,
+        "consensus_odds": 4270.63
+      },
+      "HOU-1.0": {
+        "price": 340,
+        "book": "draftkings",
+        "consensus_prob": 0.01196,
+        "consensus_odds": 8261.2
+      },
+      "HOU-2.0": {
+        "price": 750,
+        "book": "draftkings",
+        "consensus_prob": 0.008379,
+        "consensus_odds": 11834.6
+      },
+      "HOU-3.0": {
+        "price": 1300,
+        "book": "draftkings",
+        "consensus_prob": 0.005197,
+        "consensus_odds": 19141.87
+      },
+      "SD-6.5": {
+        "price": 1000,
+        "book": "draftkings",
+        "consensus_prob": 0.004784,
+        "consensus_odds": 20803.01
+      },
+      "SD-6.0": {
+        "price": 950,
+        "book": "draftkings",
+        "consensus_prob": 0.005012,
+        "consensus_odds": 19852.11
+      },
+      "SD-5.5": {
+        "price": 625,
+        "book": "draftkings",
+        "consensus_prob": 0.007258,
+        "consensus_odds": 13677.9
+      },
+      "SD-5.0": {
+        "price": 600,
+        "book": "draftkings",
+        "consensus_prob": 0.007518,
+        "consensus_odds": 13201.41
+      },
+      "SD-4.5": {
+        "price": 400,
+        "book": "draftkings",
+        "consensus_prob": 0.010525,
+        "consensus_odds": 9401.19
+      },
+      "SD-4.0": {
+        "price": 360,
+        "book": "draftkings",
+        "consensus_prob": 0.01144,
+        "consensus_odds": 8641.26
+      },
+      "SD-3.0": {
+        "price": 370,
+        "book": "pinnacle",
+        "consensus_prob": 0.013821,
+        "consensus_odds": 7135.37
+      },
+      "SD-2.0": {
+        "price": 214,
+        "book": "pinnacle",
+        "consensus_prob": 0.020022,
+        "consensus_odds": 4894.51
+      },
+      "SD-1.0": {
+        "price": -168,
+        "book": "draftkings",
+        "consensus_prob": 0.032988,
+        "consensus_odds": 2931.41
+      },
+      "SD+1.0": {
+        "price": -500,
+        "book": "draftkings",
+        "consensus_prob": 0.043853,
+        "consensus_odds": 2180.35
+      },
+      "SD+2.0": {
+        "price": -1450,
+        "book": "draftkings",
+        "consensus_prob": 0.046763,
+        "consensus_odds": 2038.44
+      },
+      "SD+3.0": {
+        "price": -3500,
+        "book": "draftkings",
+        "consensus_prob": 0.049652,
+        "consensus_odds": 1914.02
+      }
+    },
+    "alternate_spreads_source": {
+      "HOU-3.5": "draftkings",
+      "HOU-2.5": "draftkings",
+      "HOU-1.5": "draftkings",
+      "HOU+1.5": "pinnacle",
+      "HOU+2.5": "pinnacle",
+      "HOU+3.5": "pinnacle",
+      "SD+3.5": "draftkings",
+      "SD+2.5": "draftkings",
+      "SD+1.5": "draftkings",
+      "SD-1.5": "pinnacle",
+      "SD-2.5": "pinnacle",
+      "SD-3.5": "pinnacle",
+      "HOU+6.5": "draftkings",
+      "HOU+6.0": "draftkings",
+      "HOU+5.5": "draftkings",
+      "HOU+5.0": "draftkings",
+      "HOU+4.5": "draftkings",
+      "HOU+4.0": "draftkings",
+      "HOU+3.0": "pinnacle",
+      "HOU+2.0": "pinnacle",
+      "HOU+1.0": "draftkings",
+      "HOU-1.0": "draftkings",
+      "HOU-2.0": "draftkings",
+      "HOU-3.0": "draftkings",
+      "SD-6.5": "draftkings",
+      "SD-6.0": "draftkings",
+      "SD-5.5": "draftkings",
+      "SD-5.0": "draftkings",
+      "SD-4.5": "draftkings",
+      "SD-4.0": "draftkings",
+      "SD-3.0": "pinnacle",
+      "SD-2.0": "pinnacle",
+      "SD-1.0": "draftkings",
+      "SD+1.0": "draftkings",
+      "SD+2.0": "draftkings",
+      "SD+3.0": "draftkings"
+    },
+    "alternate_spreads_1st_5_innings": {
+      "HOU-3.5": {
+        "price": 900,
+        "book": "fanduel",
+        "consensus_prob": 0.009422,
+        "consensus_odds": 10513.46
+      },
+      "HOU-2.5": {
+        "price": 900,
+        "book": "fanduel",
+        "consensus_prob": 0.009422,
+        "consensus_odds": 10513.46
+      },
+      "HOU-1.5": {
+        "price": 800,
+        "book": "fanduel",
+        "consensus_prob": 0.010469,
+        "consensus_odds": 9452.01
+      },
+      "HOU-0.5": {
+        "price": 390,
+        "book": "fanduel",
+        "consensus_prob": 0.025902,
+        "consensus_odds": 3760.71
+      },
+      "HOU+0.5": {
+        "price": 175,
+        "book": "fanduel",
+        "consensus_prob": 0.040924,
+        "consensus_odds": 2343.55
+      },
+      "HOU+1.5": {
+        "price": -270,
+        "book": "fanduel",
+        "consensus_prob": 0.068031,
+        "consensus_odds": 1369.92
+      },
+      "HOU+2.5": {
+        "price": -700,
+        "book": "fanduel",
+        "consensus_prob": 0.082446,
+        "consensus_odds": 1112.92
+      },
+      "HOU+3.5": {
+        "price": -1700,
+        "book": "fanduel",
+        "consensus_prob": 0.088989,
+        "consensus_odds": 1023.73
+      },
+      "SD+3.5": {
+        "price": -10000,
+        "book": "fanduel",
+        "consensus_prob": 0.093291,
+        "consensus_odds": 971.91
+      },
+      "SD+2.5": {
+        "price": -4500,
+        "book": "fanduel",
+        "consensus_prob": 0.092176,
+        "consensus_odds": 984.88
+      },
+      "SD+1.5": {
+        "price": -1450,
+        "book": "fanduel",
+        "consensus_prob": 0.088145,
+        "consensus_odds": 1034.49
+      },
+      "SD+0.5": {
+        "price": -650,
+        "book": "fanduel",
+        "consensus_prob": 0.074002,
+        "consensus_odds": 1251.31
+      },
+      "SD-0.5": {
+        "price": -260,
+        "book": "fanduel",
+        "consensus_prob": 0.059324,
+        "consensus_odds": 1585.66
+      },
+      "SD-1.5": {
+        "price": 180,
+        "book": "fanduel",
+        "consensus_prob": 0.033651,
+        "consensus_odds": 2871.68
+      },
+      "SD-2.5": {
+        "price": 430,
+        "book": "fanduel",
+        "consensus_prob": 0.017778,
+        "consensus_odds": 5524.93
+      },
+      "SD-3.5": {
+        "price": 900,
+        "book": "fanduel",
+        "consensus_prob": 0.009422,
+        "consensus_odds": 10513.46
+      },
+      "HOU+1.0": {
+        "price": -198,
+        "book": "pinnacle",
+        "consensus_prob": 0.062605,
+        "consensus_odds": 1497.32
+      },
+      "HOU-1.0": {
+        "price": 213,
+        "book": "pinnacle",
+        "consensus_prob": 0.030104,
+        "consensus_odds": 3221.82
+      },
+      "SD-1.0": {
+        "price": 165,
+        "book": "pinnacle",
+        "consensus_prob": 0.035556,
+        "consensus_odds": 2712.46
+      },
+      "SD+1.0": {
+        "price": -264,
+        "book": "pinnacle",
+        "consensus_prob": 0.068338,
+        "consensus_odds": 1363.31
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "HOU-3.5": "fanduel",
+      "HOU-2.5": "fanduel",
+      "HOU-1.5": "fanduel",
+      "HOU-0.5": "fanduel",
+      "HOU+0.5": "fanduel",
+      "HOU+1.5": "fanduel",
+      "HOU+2.5": "fanduel",
+      "HOU+3.5": "fanduel",
+      "SD+3.5": "fanduel",
+      "SD+2.5": "fanduel",
+      "SD+1.5": "fanduel",
+      "SD+0.5": "fanduel",
+      "SD-0.5": "fanduel",
+      "SD-1.5": "fanduel",
+      "SD-2.5": "fanduel",
+      "SD-3.5": "fanduel",
+      "HOU+1.0": "pinnacle",
+      "HOU-1.0": "pinnacle",
+      "SD-1.0": "pinnacle",
+      "SD+1.0": "pinnacle"
+    },
+    "alternate_team_totals": {
+      "Over 0.5": {
+        "price": -600,
+        "book": "fanduel",
+        "consensus_prob": 0.113622,
+        "consensus_odds": 780.11
+      },
+      "Over 1.5": {
+        "price": -900,
+        "book": "fanduel",
+        "consensus_prob": 0.10489,
+        "consensus_odds": 853.38
+      },
+      "Over 2.5": {
+        "price": -260,
+        "book": "fanduel",
+        "consensus_prob": 0.080016,
+        "consensus_odds": 1149.75
+      },
+      "Over 3.5": {
+        "price": 200,
+        "book": "betmgm",
+        "consensus_prob": 0.057252,
+        "consensus_odds": 1646.66
+      },
+      "Over 4.5": {
+        "price": 370,
+        "book": "fanduel",
+        "consensus_prob": 0.037944,
+        "consensus_odds": 2535.46
+      },
+      "Over 5.5": {
+        "price": 640,
+        "book": "fanduel",
+        "consensus_prob": 0.025122,
+        "consensus_odds": 3880.57
+      },
+      "Under 0.5": {
+        "price": 370,
+        "book": "fanduel",
+        "consensus_prob": 0.028204,
+        "consensus_odds": 3445.6
+      },
+      "Under 1.5": {
+        "price": 490,
+        "book": "fanduel",
+        "consensus_prob": 0.036924,
+        "consensus_odds": 2608.27
+      },
+      "Under 2.5": {
+        "price": 188,
+        "book": "fanduel",
+        "consensus_prob": 0.061682,
+        "consensus_odds": 1521.22
+      },
+      "Under 3.5": {
+        "price": -275,
+        "book": "fanduel",
+        "consensus_prob": 0.084543,
+        "consensus_odds": 1082.83
+      },
+      "Under 4.5": {
+        "price": -600,
+        "book": "fanduel",
+        "consensus_prob": 0.103879,
+        "consensus_odds": 862.66
+      },
+      "Over 6.5": {
+        "price": 520,
+        "book": "fanduel",
+        "consensus_prob": 0.02138,
+        "consensus_odds": 4577.27
+      },
+      "Over 7.5": {
+        "price": 800,
+        "book": "fanduel",
+        "consensus_prob": 0.014729,
+        "consensus_odds": 6689.33
+      },
+      "Under 5.5": {
+        "price": -470,
+        "book": "fanduel",
+        "consensus_prob": 0.109303,
+        "consensus_odds": 814.89
+      },
+      "Under 6.5": {
+        "price": -1000,
+        "book": "fanduel",
+        "consensus_prob": 0.120508,
+        "consensus_odds": 729.82
+      }
+    },
+    "alternate_team_totals_source": {
+      "Over 0.5": "fanduel",
+      "Over 1.5": "fanduel",
+      "Over 2.5": "fanduel",
+      "Over 3.5": "betmgm",
+      "Over 4.5": "fanduel",
+      "Over 5.5": "fanduel",
+      "Under 0.5": "fanduel",
+      "Under 1.5": "fanduel",
+      "Under 2.5": "fanduel",
+      "Under 3.5": "fanduel",
+      "Under 4.5": "fanduel",
+      "Over 6.5": "fanduel",
+      "Over 7.5": "fanduel",
+      "Under 5.5": "fanduel",
+      "Under 6.5": "fanduel"
+    },
+    "alternate_totals": {
+      "Over 6.5": {
+        "price": 124,
+        "book": "pinnacle",
+        "consensus_prob": 0.020531,
+        "consensus_odds": 4770.68
+      },
+      "Over 7.5": {
+        "price": 201,
+        "book": "pinnacle",
+        "consensus_prob": 0.015027,
+        "consensus_odds": 6554.69
+      },
+      "Over 8.5": {
+        "price": 260,
+        "book": "fanduel",
+        "consensus_prob": 0.012238,
+        "consensus_odds": 8071.27
+      },
+      "Over 9.5": {
+        "price": 410,
+        "book": "fanduel",
+        "consensus_prob": 0.008645,
+        "consensus_odds": 11467.38
+      },
+      "Over 10.5": {
+        "price": 580,
+        "book": "fanduel",
+        "consensus_prob": 0.006634,
+        "consensus_odds": 14973.86
+      },
+      "Over 11.5": {
+        "price": 880,
+        "book": "fanduel",
+        "consensus_prob": 0.004605,
+        "consensus_odds": 21615.53
+      },
+      "Over 12.5": {
+        "price": 1100,
+        "book": "fanduel",
+        "consensus_prob": 0.003601,
+        "consensus_odds": 27670.06
+      },
+      "Under 6.5": {
+        "price": -148,
+        "book": "pinnacle",
+        "consensus_prob": 0.025309,
+        "consensus_odds": 3851.16
+      },
+      "Under 7.5": {
+        "price": -260,
+        "book": "bovada",
+        "consensus_prob": 0.030807,
+        "consensus_odds": 3146.02
+      },
+      "Under 8.5": {
+        "price": -380,
+        "book": "fanduel",
+        "consensus_prob": 0.033659,
+        "consensus_odds": 2870.97
+      },
+      "Under 9.5": {
+        "price": -700,
+        "book": "fanduel",
+        "consensus_prob": 0.037423,
+        "consensus_odds": 2572.15
+      },
+      "Under 10.5": {
+        "price": -1200,
+        "book": "fanduel",
+        "consensus_prob": 0.03944,
+        "consensus_odds": 2435.5
+      },
+      "Under 11.5": {
+        "price": -3000,
+        "book": "fanduel",
+        "consensus_prob": 0.041242,
+        "consensus_odds": 2324.71
+      },
+      "Under 12.5": {
+        "price": -4500,
+        "book": "fanduel",
+        "consensus_prob": 0.04227,
+        "consensus_odds": 2265.74
+      },
+      "Under 13.5": {
+        "price": -10000,
+        "book": "fanduel",
+        "consensus_prob": 0.042782,
+        "consensus_odds": 2237.43
+      },
+      "Under 14.5": {
+        "price": -50000,
+        "book": "fanduel",
+        "consensus_prob": 0.043124,
+        "consensus_odds": 2218.89
+      },
+      "Over 2.5": {
+        "price": -1850,
+        "book": "draftkings",
+        "consensus_prob": 0.040994,
+        "consensus_odds": 2339.38
+      },
+      "Over 3.0": {
+        "price": -1600,
+        "book": "draftkings",
+        "consensus_prob": 0.040668,
+        "consensus_odds": 2358.94
+      },
+      "Over 3.5": {
+        "price": -475,
+        "book": "draftkings",
+        "consensus_prob": 0.034531,
+        "consensus_odds": 2795.95
+      },
+      "Over 4.0": {
+        "price": -435,
+        "book": "bovada",
+        "consensus_prob": 0.03412,
+        "consensus_odds": 2830.83
+      },
+      "Over 4.5": {
+        "price": -325,
+        "book": "betmgm",
+        "consensus_prob": 0.031616,
+        "consensus_odds": 3062.96
+      },
+      "Over 5.0": {
+        "price": -218,
+        "book": "draftkings",
+        "consensus_prob": 0.028599,
+        "consensus_odds": 3396.63
+      },
+      "Over 5.5": {
+        "price": -150,
+        "book": "betmgm",
+        "consensus_prob": 0.02478,
+        "consensus_odds": 3935.51
+      },
+      "Over 7.0": {
+        "price": 169,
+        "book": "pinnacle",
+        "consensus_prob": 0.016882,
+        "consensus_odds": 5823.47
+      },
+      "Over 8.0": {
+        "price": 240,
+        "book": "bovada",
+        "consensus_prob": 0.013106,
+        "consensus_odds": 7530.09
+      },
+      "Over 9.0": {
+        "price": 340,
+        "book": "draftkings",
+        "consensus_prob": 0.00982,
+        "consensus_odds": 10083.3
+      },
+      "Over 10.0": {
+        "price": 500,
+        "book": "draftkings",
+        "consensus_prob": 0.007202,
+        "consensus_odds": 13785.03
+      },
+      "Over 11.0": {
+        "price": 750,
+        "book": "draftkings",
+        "consensus_prob": 0.005084,
+        "consensus_odds": 19569.55
+      },
+      "Under 2.5": {
+        "price": 900,
+        "book": "draftkings",
+        "consensus_prob": 0.004321,
+        "consensus_odds": 23042.79
+      },
+      "Under 3.0": {
+        "price": 800,
+        "book": "draftkings",
+        "consensus_prob": 0.004801,
+        "consensus_odds": 20728.99
+      },
+      "Under 3.5": {
+        "price": 325,
+        "book": "draftkings",
+        "consensus_prob": 0.010986,
+        "consensus_odds": 9002.49
+      },
+      "Under 4.0": {
+        "price": 290,
+        "book": "draftkings",
+        "consensus_prob": 0.011673,
+        "consensus_odds": 8466.78
+      },
+      "Under 4.5": {
+        "price": 240,
+        "book": "betmgm",
+        "consensus_prob": 0.014046,
+        "consensus_odds": 7019.46
+      },
+      "Under 5.0": {
+        "price": 165,
+        "book": "draftkings",
+        "consensus_prob": 0.017001,
+        "consensus_odds": 5782.01
+      },
+      "Under 5.5": {
+        "price": 118,
+        "book": "betmgm",
+        "consensus_prob": 0.020823,
+        "consensus_odds": 4702.38
+      },
+      "Under 7.0": {
+        "price": -206,
+        "book": "pinnacle",
+        "consensus_prob": 0.028779,
+        "consensus_odds": 3374.76
+      },
+      "Under 8.0": {
+        "price": -335,
+        "book": "bovada",
+        "consensus_prob": 0.032842,
+        "consensus_odds": 2944.88
+      },
+      "Under 9.0": {
+        "price": -500,
+        "book": "draftkings",
+        "consensus_prob": 0.036008,
+        "consensus_odds": 2677.16
+      },
+      "Under 10.0": {
+        "price": -850,
+        "book": "draftkings",
+        "consensus_prob": 0.038661,
+        "consensus_odds": 2486.59
+      },
+      "Under 11.0": {
+        "price": -1450,
+        "book": "draftkings",
+        "consensus_prob": 0.040422,
+        "consensus_odds": 2373.9
+      },
+      "Over 6.0": {
+        "price": 106,
+        "book": "pinnacle",
+        "consensus_prob": 0.020976,
+        "consensus_odds": 4667.35
+      },
+      "Under 6.0": {
+        "price": -124,
+        "book": "pinnacle",
+        "consensus_prob": 0.02392,
+        "consensus_odds": 4080.6
+      }
+    },
+    "alternate_totals_source": {
+      "Over 6.5": "pinnacle",
+      "Over 7.5": "pinnacle",
+      "Over 8.5": "fanduel",
+      "Over 9.5": "fanduel",
+      "Over 10.5": "fanduel",
+      "Over 11.5": "fanduel",
+      "Over 12.5": "fanduel",
+      "Under 6.5": "pinnacle",
+      "Under 7.5": "bovada",
+      "Under 8.5": "fanduel",
+      "Under 9.5": "fanduel",
+      "Under 10.5": "fanduel",
+      "Under 11.5": "fanduel",
+      "Under 12.5": "fanduel",
+      "Under 13.5": "fanduel",
+      "Under 14.5": "fanduel",
+      "Over 2.5": "draftkings",
+      "Over 3.0": "draftkings",
+      "Over 3.5": "draftkings",
+      "Over 4.0": "bovada",
+      "Over 4.5": "betmgm",
+      "Over 5.0": "draftkings",
+      "Over 5.5": "betmgm",
+      "Over 7.0": "pinnacle",
+      "Over 8.0": "bovada",
+      "Over 9.0": "draftkings",
+      "Over 10.0": "draftkings",
+      "Over 11.0": "draftkings",
+      "Under 2.5": "draftkings",
+      "Under 3.0": "draftkings",
+      "Under 3.5": "draftkings",
+      "Under 4.0": "draftkings",
+      "Under 4.5": "betmgm",
+      "Under 5.0": "draftkings",
+      "Under 5.5": "betmgm",
+      "Under 7.0": "pinnacle",
+      "Under 8.0": "bovada",
+      "Under 9.0": "draftkings",
+      "Under 10.0": "draftkings",
+      "Under 11.0": "draftkings",
+      "Over 6.0": "pinnacle",
+      "Under 6.0": "pinnacle"
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": {
+        "price": -118,
+        "book": "betmgm",
+        "consensus_prob": 0.062485,
+        "consensus_odds": 1500.38
+      },
+      "Over 3.5": {
+        "price": 220,
+        "book": "bovada",
+        "consensus_prob": 0.046711,
+        "consensus_odds": 2040.82
+      },
+      "Over 4.5": {
+        "price": 370,
+        "book": "fanduel",
+        "consensus_prob": 0.038626,
+        "consensus_odds": 2488.93
+      },
+      "Over 5.5": {
+        "price": 700,
+        "book": "fanduel",
+        "consensus_prob": 0.014516,
+        "consensus_odds": 6788.95
+      },
+      "Under 2.5": {
+        "price": -135,
+        "book": "fanduel",
+        "consensus_prob": 0.063769,
+        "consensus_odds": 1468.16
+      },
+      "Under 3.5": {
+        "price": -300,
+        "book": "bovada",
+        "consensus_prob": 0.076862,
+        "consensus_odds": 1201.03
+      },
+      "Under 4.5": {
+        "price": -600,
+        "book": "fanduel",
+        "consensus_prob": 0.083536,
+        "consensus_odds": 1097.09
+      },
+      "Over 1.5": {
+        "price": -325,
+        "book": "betmgm",
+        "consensus_prob": 0.087382,
+        "consensus_odds": 1044.4
+      },
+      "Under 1.5": {
+        "price": 230,
+        "book": "betmgm",
+        "consensus_prob": 0.036324,
+        "consensus_odds": 2653.0
+      },
+      "Over 3.0": {
+        "price": -218,
+        "book": "pinnacle",
+        "consensus_prob": 0.061714,
+        "consensus_odds": 1520.38
+      },
+      "Over 5.0": {
+        "price": 161,
+        "book": "pinnacle",
+        "consensus_prob": 0.044492,
+        "consensus_odds": 2147.6
+      },
+      "Under 3.0": {
+        "price": -220,
+        "book": "bovada",
+        "consensus_prob": 0.060362,
+        "consensus_odds": 1556.67
+      },
+      "Under 5.0": {
+        "price": -189,
+        "book": "pinnacle",
+        "consensus_prob": 0.075943,
+        "consensus_odds": 1216.78
+      },
+      "Over 2.0": {
+        "price": -175,
+        "book": "bovada",
+        "consensus_prob": 0.073897,
+        "consensus_odds": 1253.23
+      },
+      "Over 4.0": {
+        "price": 340,
+        "book": "bovada",
+        "consensus_prob": 0.026392,
+        "consensus_odds": 3689.03
+      },
+      "Under 2.0": {
+        "price": 135,
+        "book": "bovada",
+        "consensus_prob": 0.049415,
+        "consensus_odds": 1923.68
+      },
+      "Under 4.0": {
+        "price": -526,
+        "book": "bovada",
+        "consensus_prob": 0.097574,
+        "consensus_odds": 924.86
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 2.5": "betmgm",
+      "Over 3.5": "bovada",
+      "Over 4.5": "fanduel",
+      "Over 5.5": "fanduel",
+      "Under 2.5": "fanduel",
+      "Under 3.5": "bovada",
+      "Under 4.5": "fanduel",
+      "Over 1.5": "betmgm",
+      "Under 1.5": "betmgm",
+      "Over 3.0": "pinnacle",
+      "Over 5.0": "pinnacle",
+      "Under 3.0": "bovada",
+      "Under 5.0": "pinnacle",
+      "Over 2.0": "bovada",
+      "Over 4.0": "bovada",
+      "Under 2.0": "bovada",
+      "Under 4.0": "bovada"
+    },
+    "h2h_1st_5_innings": {
+      "HOU": {
+        "price": 300,
+        "book": "betmgm",
+        "consensus_prob": 0.246067,
+        "consensus_odds": 306.39
+      },
+      "SD": {
+        "price": -450,
+        "book": "betmgm",
+        "consensus_prob": 0.753933,
+        "consensus_odds": -306.39
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "HOU": "betmgm",
+      "SD": "betmgm"
+    },
+    "spreads_1st_5_innings": {
+      "HOU+0.5": {
+        "price": 188,
+        "book": "fanduel",
+        "consensus_prob": 0.114425,
+        "consensus_odds": 773.93
+      },
+      "SD-0.5": {
+        "price": -260,
+        "book": "fanduel",
+        "consensus_prob": 0.222622,
+        "consensus_odds": 349.19
+      },
+      "HOU0.0": {
+        "price": 110,
+        "book": "pinnacle",
+        "consensus_prob": 0.150399,
+        "consensus_odds": 564.9
+      },
+      "SD-0.0": {
+        "price": -124,
+        "book": "pinnacle",
+        "consensus_prob": 0.174839,
+        "consensus_odds": 471.95
+      },
+      "HOU+1.0": {
+        "price": -120,
+        "book": "bovada",
+        "consensus_prob": 0.172276,
+        "consensus_odds": 480.46
+      },
+      "SD-1.0": {
+        "price": -110,
+        "book": "bovada",
+        "consensus_prob": 0.165439,
+        "consensus_odds": 504.45
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "HOU+0.5": "fanduel",
+      "SD-0.5": "fanduel",
+      "HOU0.0": "pinnacle",
+      "SD-0.0": "pinnacle",
+      "HOU+1.0": "bovada",
+      "SD-1.0": "bovada"
+    },
+    "team_totals": {
+      "Over 2.5": {
+        "price": 115,
+        "book": "draftkings",
+        "consensus_prob": 0.224612,
+        "consensus_odds": 345.21
+      },
+      "Under 2.5": {
+        "price": -148,
+        "book": "draftkings",
+        "consensus_prob": 0.277481,
+        "consensus_odds": 260.39
+      },
+      "Over 3.5": {
+        "price": -137,
+        "book": "pinnacle",
+        "consensus_prob": 0.248012,
+        "consensus_odds": 303.21
+      },
+      "Under 3.5": {
+        "price": -125,
+        "book": "bovada",
+        "consensus_prob": 0.249895,
+        "consensus_odds": 300.17
+      }
+    },
+    "team_totals_source": {
+      "Over 2.5": "draftkings",
+      "Under 2.5": "draftkings",
+      "Over 3.5": "pinnacle",
+      "Under 3.5": "bovada"
+    },
+    "totals_1st_5_innings": {
+      "Over 2.5": {
+        "price": -120,
+        "book": "betmgm",
+        "consensus_prob": 0.245576,
+        "consensus_odds": 307.21
+      },
+      "Under 2.5": {
+        "price": -135,
+        "book": "bovada",
+        "consensus_prob": 0.262395,
+        "consensus_odds": 281.1
+      },
+      "Over 4.0": {
+        "price": -109,
+        "book": "pinnacle",
+        "consensus_prob": 0.248236,
+        "consensus_odds": 302.84
+      },
+      "Under 4.0": {
+        "price": -105,
+        "book": "pinnacle",
+        "consensus_prob": 0.243793,
+        "consensus_odds": 310.18
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 2.5": "betmgm",
+      "Under 2.5": "bovada",
+      "Over 4.0": "pinnacle",
+      "Under 4.0": "pinnacle"
+    },
+    "alternate_spreads_1st_7_innings": {
+      "HOU+1.5": {
+        "price": -160,
+        "book": "betmgm",
+        "consensus_prob": 0.190403,
+        "consensus_odds": 425.2
+      },
+      "HOU+0.5": {
+        "price": 135,
+        "book": "betmgm",
+        "consensus_prob": 0.131662,
+        "consensus_odds": 659.52
+      },
+      "HOU+2.5": {
+        "price": -325,
+        "book": "betmgm",
+        "consensus_prob": 0.236604,
+        "consensus_odds": 322.65
+      },
+      "SD-1.5": {
+        "price": 118,
+        "book": "betmgm",
+        "consensus_prob": 0.141929,
+        "consensus_odds": 604.58
+      },
+      "SD-0.5": {
+        "price": -190,
+        "book": "betmgm",
+        "consensus_prob": 0.202713,
+        "consensus_odds": 393.31
+      },
+      "SD-2.5": {
+        "price": 220,
+        "book": "betmgm",
+        "consensus_prob": 0.096689,
+        "consensus_odds": 934.24
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "HOU+1.5": "betmgm",
+      "HOU+0.5": "betmgm",
+      "HOU+2.5": "betmgm",
+      "SD-1.5": "betmgm",
+      "SD-0.5": "betmgm",
+      "SD-2.5": "betmgm"
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 5.5": {
+        "price": 170,
+        "book": "betmgm",
+        "consensus_prob": 0.114051,
+        "consensus_odds": 776.8
+      },
+      "Over 4.5": {
+        "price": -102,
+        "book": "betmgm",
+        "consensus_prob": 0.155493,
+        "consensus_odds": 543.12
+      },
+      "Over 3.5": {
+        "price": -200,
+        "book": "betmgm",
+        "consensus_prob": 0.205292,
+        "consensus_odds": 387.11
+      },
+      "Under 5.5": {
+        "price": -250,
+        "book": "betmgm",
+        "consensus_prob": 0.219956,
+        "consensus_odds": 354.64
+      },
+      "Under 4.5": {
+        "price": -135,
+        "book": "betmgm",
+        "consensus_prob": 0.1769,
+        "consensus_odds": 465.29
+      },
+      "Under 3.5": {
+        "price": 140,
+        "book": "betmgm",
+        "consensus_prob": 0.128308,
+        "consensus_odds": 679.37
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 5.5": "betmgm",
+      "Over 4.5": "betmgm",
+      "Over 3.5": "betmgm",
+      "Under 5.5": "betmgm",
+      "Under 4.5": "betmgm",
+      "Under 3.5": "betmgm"
+    },
+    "h2h_1st_7_innings": {
+      "HOU": {
+        "price": 210,
+        "book": "betmgm",
+        "consensus_prob": 0.300752,
+        "consensus_odds": 232.5
+      },
+      "SD": {
+        "price": -300,
+        "book": "betmgm",
+        "consensus_prob": 0.699248,
+        "consensus_odds": -232.5
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "HOU": "betmgm",
+      "SD": "betmgm"
+    }
+  },
+  "2025-04-19-MIN@ATL": {
+    "start_time": "2025-04-19T23:15:00Z",
+    "h2h": {
+      "ATL": {
+        "price": -254,
+        "book": "pinnacle",
+        "consensus_prob": 0.6342,
+        "consensus_odds": -173.37
+      },
+      "MIN": {
+        "price": 203,
+        "book": "pinnacle",
+        "consensus_prob": 0.3658,
+        "consensus_odds": 173.37
+      }
+    },
+    "h2h_source": {
+      "ATL": "pinnacle",
+      "MIN": "pinnacle"
+    },
+    "spreads": {
+      "ATL-1.5": {
+        "price": 145,
+        "book": "draftkings",
+        "consensus_prob": 0.433797,
+        "consensus_odds": 130.52
+      },
+      "MIN+1.5": {
+        "price": -188,
+        "book": "draftkings",
+        "consensus_prob": 0.566203,
+        "consensus_odds": -130.52
+      }
+    },
+    "spreads_source": {
+      "ATL-1.5": "draftkings",
+      "MIN+1.5": "draftkings"
+    },
+    "totals": {
+      "Over 7.5": {
+        "price": -115,
+        "book": "bovada",
+        "consensus_prob": 0.248678,
+        "consensus_odds": 302.13
+      },
+      "Under 7.5": {
+        "price": -120,
+        "book": "fanduel",
+        "consensus_prob": 0.253762,
+        "consensus_odds": 294.07
+      },
+      "Over 8.5": {
+        "price": -110,
+        "book": "draftkings",
+        "consensus_prob": 0.243123,
+        "consensus_odds": 311.31
+      },
+      "Under 8.5": {
+        "price": -125,
+        "book": "betmgm",
+        "consensus_prob": 0.254437,
+        "consensus_odds": 293.02
+      }
+    },
+    "totals_source": {
+      "Over 7.5": "bovada",
+      "Under 7.5": "fanduel",
+      "Over 8.5": "draftkings",
+      "Under 8.5": "betmgm"
+    },
+    "alternate_spreads": {
+      "ATL-3.5": {
+        "price": 390,
+        "book": "fanduel",
+        "consensus_prob": 0.012027,
+        "consensus_odds": 8214.63
+      },
+      "ATL-2.5": {
+        "price": 240,
+        "book": "fanduel",
+        "consensus_prob": 0.016921,
+        "consensus_odds": 5809.82
+      },
+      "ATL-1.5": {
+        "price": 140,
+        "book": "fanduel",
+        "consensus_prob": 0.024149,
+        "consensus_odds": 4040.96
+      },
+      "ATL+1.5": {
+        "price": -484,
+        "book": "pinnacle",
+        "consensus_prob": 0.041676,
+        "consensus_odds": 2299.46
+      },
+      "ATL+2.5": {
+        "price": -933,
+        "book": "pinnacle",
+        "consensus_prob": 0.046108,
+        "consensus_odds": 2068.82
+      },
+      "ATL+3.5": {
+        "price": -1450,
+        "book": "fanduel",
+        "consensus_prob": 0.048604,
+        "consensus_odds": 1957.44
+      },
+      "MIN+3.5": {
+        "price": -650,
+        "book": "fanduel",
+        "consensus_prob": 0.04372,
+        "consensus_odds": 2187.28
+      },
+      "MIN+2.5": {
+        "price": -350,
+        "book": "fanduel",
+        "consensus_prob": 0.038821,
+        "consensus_odds": 2475.93
+      },
+      "MIN+1.5": {
+        "price": -188,
+        "book": "fanduel",
+        "consensus_prob": 0.031423,
+        "consensus_odds": 3082.38
+      },
+      "MIN-1.5": {
+        "price": 352,
+        "book": "pinnacle",
+        "consensus_prob": 0.013979,
+        "consensus_odds": 7053.59
+      },
+      "MIN-2.5": {
+        "price": 577,
+        "book": "pinnacle",
+        "consensus_prob": 0.009511,
+        "consensus_odds": 10414.14
+      },
+      "MIN-3.5": {
+        "price": 640,
+        "book": "fanduel",
+        "consensus_prob": 0.007295,
+        "consensus_odds": 13608.02
+      },
+      "ATL+4.5": {
+        "price": -2000,
+        "book": "draftkings",
+        "consensus_prob": 0.049985,
+        "consensus_odds": 1900.6
+      },
+      "ATL+4.0": {
+        "price": -1850,
+        "book": "draftkings",
+        "consensus_prob": 0.049793,
+        "consensus_odds": 1908.31
+      },
+      "ATL+3.0": {
+        "price": -975,
+        "book": "draftkings",
+        "consensus_prob": 0.047602,
+        "consensus_odds": 2000.75
+      },
+      "ATL+2.0": {
+        "price": -834,
+        "book": "pinnacle",
+        "consensus_prob": 0.045301,
+        "consensus_odds": 2107.46
+      },
+      "ATL+1.0": {
+        "price": -255,
+        "book": "draftkings",
+        "consensus_prob": 0.0377,
+        "consensus_odds": 2552.52
+      },
+      "ATL-1.0": {
+        "price": -110,
+        "book": "draftkings",
+        "consensus_prob": 0.027492,
+        "consensus_odds": 3537.42
+      },
+      "ATL-2.0": {
+        "price": 200,
+        "book": "draftkings",
+        "consensus_prob": 0.02001,
+        "consensus_odds": 4897.5
+      },
+      "ATL-3.0": {
+        "price": 340,
+        "book": "draftkings",
+        "consensus_prob": 0.01394,
+        "consensus_odds": 7073.6
+      },
+      "ATL-4.0": {
+        "price": 525,
+        "book": "draftkings",
+        "consensus_prob": 0.008397,
+        "consensus_odds": 11809.02
+      },
+      "ATL-4.5": {
+        "price": 550,
+        "book": "draftkings",
+        "consensus_prob": 0.008074,
+        "consensus_odds": 12285.43
+      },
+      "ATL-5.0": {
+        "price": 800,
+        "book": "draftkings",
+        "consensus_prob": 0.005832,
+        "consensus_odds": 17046.78
+      },
+      "ATL-5.5": {
+        "price": 850,
+        "book": "draftkings",
+        "consensus_prob": 0.005525,
+        "consensus_odds": 17999.55
+      },
+      "MIN-4.5": {
+        "price": 950,
+        "book": "draftkings",
+        "consensus_prob": 0.004998,
+        "consensus_odds": 19908.0
+      },
+      "MIN-4.0": {
+        "price": 900,
+        "book": "draftkings",
+        "consensus_prob": 0.005248,
+        "consensus_odds": 18954.88
+      },
+      "MIN-3.0": {
+        "price": 550,
+        "book": "draftkings",
+        "consensus_prob": 0.008074,
+        "consensus_odds": 12285.43
+      },
+      "MIN-2.0": {
+        "price": 538,
+        "book": "pinnacle",
+        "consensus_prob": 0.010077,
+        "consensus_odds": 9823.59
+      },
+      "MIN-1.0": {
+        "price": 190,
+        "book": "draftkings",
+        "consensus_prob": 0.018098,
+        "consensus_odds": 5425.47
+      },
+      "MIN+1.0": {
+        "price": -120,
+        "book": "draftkings",
+        "consensus_prob": 0.028628,
+        "consensus_odds": 3393.08
+      },
+      "MIN+2.0": {
+        "price": -270,
+        "book": "draftkings",
+        "consensus_prob": 0.035414,
+        "consensus_odds": 2723.74
+      },
+      "MIN+3.0": {
+        "price": -500,
+        "book": "draftkings",
+        "consensus_prob": 0.041566,
+        "consensus_odds": 2305.81
+      },
+      "MIN+4.0": {
+        "price": -925,
+        "book": "draftkings",
+        "consensus_prob": 0.047364,
+        "consensus_odds": 2011.31
+      },
+      "MIN+4.5": {
+        "price": -975,
+        "book": "draftkings",
+        "consensus_prob": 0.047602,
+        "consensus_odds": 2000.75
+      },
+      "MIN+5.0": {
+        "price": -1600,
+        "book": "draftkings",
+        "consensus_prob": 0.049397,
+        "consensus_odds": 1924.41
+      },
+      "MIN+5.5": {
+        "price": -1750,
+        "book": "draftkings",
+        "consensus_prob": 0.049647,
+        "consensus_odds": 1914.22
+      }
+    },
+    "alternate_spreads_source": {
+      "ATL-3.5": "fanduel",
+      "ATL-2.5": "fanduel",
+      "ATL-1.5": "fanduel",
+      "ATL+1.5": "pinnacle",
+      "ATL+2.5": "pinnacle",
+      "ATL+3.5": "fanduel",
+      "MIN+3.5": "fanduel",
+      "MIN+2.5": "fanduel",
+      "MIN+1.5": "fanduel",
+      "MIN-1.5": "pinnacle",
+      "MIN-2.5": "pinnacle",
+      "MIN-3.5": "fanduel",
+      "ATL+4.5": "draftkings",
+      "ATL+4.0": "draftkings",
+      "ATL+3.0": "draftkings",
+      "ATL+2.0": "pinnacle",
+      "ATL+1.0": "draftkings",
+      "ATL-1.0": "draftkings",
+      "ATL-2.0": "draftkings",
+      "ATL-3.0": "draftkings",
+      "ATL-4.0": "draftkings",
+      "ATL-4.5": "draftkings",
+      "ATL-5.0": "draftkings",
+      "ATL-5.5": "draftkings",
+      "MIN-4.5": "draftkings",
+      "MIN-4.0": "draftkings",
+      "MIN-3.0": "draftkings",
+      "MIN-2.0": "pinnacle",
+      "MIN-1.0": "draftkings",
+      "MIN+1.0": "draftkings",
+      "MIN+2.0": "draftkings",
+      "MIN+3.0": "draftkings",
+      "MIN+4.0": "draftkings",
+      "MIN+4.5": "draftkings",
+      "MIN+5.0": "draftkings",
+      "MIN+5.5": "draftkings"
+    },
+    "alternate_spreads_1st_5_innings": {
+      "ATL-3.5": {
+        "price": 550,
+        "book": "fanduel",
+        "consensus_prob": 0.014442,
+        "consensus_odds": 6824.25
+      },
+      "ATL-2.5": {
+        "price": 300,
+        "book": "fanduel",
+        "consensus_prob": 0.023469,
+        "consensus_odds": 4160.94
+      },
+      "ATL-1.5": {
+        "price": 185,
+        "book": "betmgm",
+        "consensus_prob": 0.034523,
+        "consensus_odds": 2796.62
+      },
+      "ATL-0.5": {
+        "price": -149,
+        "book": "pinnacle",
+        "consensus_prob": 0.053006,
+        "consensus_odds": 1786.58
+      },
+      "ATL+0.5": {
+        "price": -460,
+        "book": "fanduel",
+        "consensus_prob": 0.073702,
+        "consensus_odds": 1256.82
+      },
+      "ATL+1.5": {
+        "price": -1150,
+        "book": "fanduel",
+        "consensus_prob": 0.086366,
+        "consensus_odds": 1057.86
+      },
+      "ATL+2.5": {
+        "price": -4000,
+        "book": "fanduel",
+        "consensus_prob": 0.091587,
+        "consensus_odds": 991.86
+      },
+      "ATL+3.5": {
+        "price": -9000,
+        "book": "fanduel",
+        "consensus_prob": 0.092845,
+        "consensus_odds": 977.06
+      },
+      "MIN+3.5": {
+        "price": -950,
+        "book": "fanduel",
+        "consensus_prob": 0.084936,
+        "consensus_odds": 1077.36
+      },
+      "MIN+2.5": {
+        "price": -470,
+        "book": "fanduel",
+        "consensus_prob": 0.077407,
+        "consensus_odds": 1191.87
+      },
+      "MIN+1.5": {
+        "price": -250,
+        "book": "betmgm",
+        "consensus_prob": 0.06666,
+        "consensus_odds": 1400.15
+      },
+      "MIN+0.5": {
+        "price": 129,
+        "book": "pinnacle",
+        "consensus_prob": 0.047787,
+        "consensus_odds": 1992.62
+      },
+      "MIN-0.5": {
+        "price": 290,
+        "book": "fanduel",
+        "consensus_prob": 0.025879,
+        "consensus_odds": 3764.14
+      },
+      "MIN-1.5": {
+        "price": 650,
+        "book": "fanduel",
+        "consensus_prob": 0.012517,
+        "consensus_odds": 7889.13
+      },
+      "MIN-2.5": {
+        "price": 900,
+        "book": "fanduel",
+        "consensus_prob": 0.009388,
+        "consensus_odds": 10551.9
+      },
+      "MIN-3.5": {
+        "price": 900,
+        "book": "fanduel",
+        "consensus_prob": 0.009388,
+        "consensus_odds": 10551.9
+      },
+      "ATL+1.0": {
+        "price": -539,
+        "book": "pinnacle",
+        "consensus_prob": 0.079185,
+        "consensus_odds": 1162.87
+      },
+      "ATL-1.0": {
+        "price": -110,
+        "book": "pinnacle",
+        "consensus_prob": 0.049173,
+        "consensus_odds": 1933.64
+      },
+      "MIN-1.0": {
+        "price": 383,
+        "book": "pinnacle",
+        "consensus_prob": 0.019436,
+        "consensus_odds": 5045.09
+      },
+      "MIN+1.0": {
+        "price": -106,
+        "book": "pinnacle",
+        "consensus_prob": 0.048305,
+        "consensus_odds": 1970.18
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "ATL-3.5": "fanduel",
+      "ATL-2.5": "fanduel",
+      "ATL-1.5": "betmgm",
+      "ATL-0.5": "pinnacle",
+      "ATL+0.5": "fanduel",
+      "ATL+1.5": "fanduel",
+      "ATL+2.5": "fanduel",
+      "ATL+3.5": "fanduel",
+      "MIN+3.5": "fanduel",
+      "MIN+2.5": "fanduel",
+      "MIN+1.5": "betmgm",
+      "MIN+0.5": "pinnacle",
+      "MIN-0.5": "fanduel",
+      "MIN-1.5": "fanduel",
+      "MIN-2.5": "fanduel",
+      "MIN-3.5": "fanduel",
+      "ATL+1.0": "pinnacle",
+      "ATL-1.0": "pinnacle",
+      "MIN-1.0": "pinnacle",
+      "MIN+1.0": "pinnacle"
+    },
+    "alternate_team_totals": {
+      "Over 2.5": {
+        "price": -490,
+        "book": "fanduel",
+        "consensus_prob": 0.112003,
+        "consensus_odds": 792.83
+      },
+      "Over 3.5": {
+        "price": -205,
+        "book": "fanduel",
+        "consensus_prob": 0.088093,
+        "consensus_odds": 1035.16
+      },
+      "Over 4.5": {
+        "price": 168,
+        "book": "fanduel",
+        "consensus_prob": 0.068069,
+        "consensus_odds": 1369.1
+      },
+      "Over 5.5": {
+        "price": 310,
+        "book": "fanduel",
+        "consensus_prob": 0.04379,
+        "consensus_odds": 2183.63
+      },
+      "Over 6.5": {
+        "price": 520,
+        "book": "fanduel",
+        "consensus_prob": 0.028981,
+        "consensus_odds": 3350.54
+      },
+      "Over 7.5": {
+        "price": 850,
+        "book": "fanduel",
+        "consensus_prob": 0.019068,
+        "consensus_odds": 5144.39
+      },
+      "Over 8.5": {
+        "price": 880,
+        "book": "fanduel",
+        "consensus_prob": 0.015422,
+        "consensus_odds": 6384.24
+      },
+      "Under 1.5": {
+        "price": 850,
+        "book": "fanduel",
+        "consensus_prob": 0.018306,
+        "consensus_odds": 5362.69
+      },
+      "Under 2.5": {
+        "price": 320,
+        "book": "fanduel",
+        "consensus_prob": 0.049504,
+        "consensus_odds": 1920.04
+      },
+      "Under 3.5": {
+        "price": -155,
+        "book": "betmgm",
+        "consensus_prob": 0.073174,
+        "consensus_odds": 1266.61
+      },
+      "Under 4.5": {
+        "price": -230,
+        "book": "fanduel",
+        "consensus_prob": 0.093711,
+        "consensus_odds": 967.11
+      },
+      "Under 5.5": {
+        "price": -470,
+        "book": "fanduel",
+        "consensus_prob": 0.117727,
+        "consensus_odds": 749.42
+      },
+      "Under 6.5": {
+        "price": -1000,
+        "book": "fanduel",
+        "consensus_prob": 0.132641,
+        "consensus_odds": 653.91
+      },
+      "Under 7.5": {
+        "price": -1200,
+        "book": "fanduel",
+        "consensus_prob": 0.139511,
+        "consensus_odds": 616.79
+      }
+    },
+    "alternate_team_totals_source": {
+      "Over 2.5": "fanduel",
+      "Over 3.5": "fanduel",
+      "Over 4.5": "fanduel",
+      "Over 5.5": "fanduel",
+      "Over 6.5": "fanduel",
+      "Over 7.5": "fanduel",
+      "Over 8.5": "fanduel",
+      "Under 1.5": "fanduel",
+      "Under 2.5": "fanduel",
+      "Under 3.5": "betmgm",
+      "Under 4.5": "fanduel",
+      "Under 5.5": "fanduel",
+      "Under 6.5": "fanduel",
+      "Under 7.5": "fanduel"
+    },
+    "alternate_totals": {
+      "Over 5.5": {
+        "price": -550,
+        "book": "fanduel",
+        "consensus_prob": 0.043296,
+        "consensus_odds": 2209.68
+      },
+      "Over 6.5": {
+        "price": -320,
+        "book": "fanduel",
+        "consensus_prob": 0.038715,
+        "consensus_odds": 2482.98
+      },
+      "Over 7.5": {
+        "price": -163,
+        "book": "pinnacle",
+        "consensus_prob": 0.030888,
+        "consensus_odds": 3137.5
+      },
+      "Over 8.5": {
+        "price": 125,
+        "book": "betmgm",
+        "consensus_prob": 0.025377,
+        "consensus_odds": 3840.58
+      },
+      "Over 9.5": {
+        "price": 210,
+        "book": "betmgm",
+        "consensus_prob": 0.019271,
+        "consensus_odds": 5089.14
+      },
+      "Over 10.5": {
+        "price": 240,
+        "book": "fanduel",
+        "consensus_prob": 0.01646,
+        "consensus_odds": 5975.33
+      },
+      "Over 11.5": {
+        "price": 390,
+        "book": "fanduel",
+        "consensus_prob": 0.011723,
+        "consensus_odds": 8430.24
+      },
+      "Over 12.5": {
+        "price": 550,
+        "book": "fanduel",
+        "consensus_prob": 0.00901,
+        "consensus_odds": 10998.78
+      },
+      "Over 13.5": {
+        "price": 750,
+        "book": "fanduel",
+        "consensus_prob": 0.00635,
+        "consensus_odds": 15648.03
+      },
+      "Under 5.5": {
+        "price": 360,
+        "book": "draftkings",
+        "consensus_prob": 0.012322,
+        "consensus_odds": 8015.57
+      },
+      "Under 6.5": {
+        "price": 238,
+        "book": "pinnacle",
+        "consensus_prob": 0.016901,
+        "consensus_odds": 5816.81
+      },
+      "Under 7.5": {
+        "price": 131,
+        "book": "pinnacle",
+        "consensus_prob": 0.024726,
+        "consensus_odds": 3944.33
+      },
+      "Under 8.5": {
+        "price": -160,
+        "book": "betmgm",
+        "consensus_prob": 0.030189,
+        "consensus_odds": 3212.46
+      },
+      "Under 9.5": {
+        "price": -285,
+        "book": "betmgm",
+        "consensus_prob": 0.036333,
+        "consensus_odds": 2652.32
+      },
+      "Under 10.5": {
+        "price": -350,
+        "book": "fanduel",
+        "consensus_prob": 0.039188,
+        "consensus_odds": 2451.8
+      },
+      "Under 11.5": {
+        "price": -650,
+        "book": "fanduel",
+        "consensus_prob": 0.044133,
+        "consensus_odds": 2165.88
+      },
+      "Under 12.5": {
+        "price": -1100,
+        "book": "fanduel",
+        "consensus_prob": 0.04678,
+        "consensus_odds": 2037.67
+      },
+      "Under 13.5": {
+        "price": -2000,
+        "book": "fanduel",
+        "consensus_prob": 0.049222,
+        "consensus_odds": 1931.61
+      },
+      "Over 5.0": {
+        "price": -1600,
+        "book": "draftkings",
+        "consensus_prob": 0.049258,
+        "consensus_odds": 1930.13
+      },
+      "Over 6.0": {
+        "price": -500,
+        "book": "draftkings",
+        "consensus_prob": 0.042287,
+        "consensus_odds": 2264.79
+      },
+      "Over 7.0": {
+        "price": -255,
+        "book": "draftkings",
+        "consensus_prob": 0.036651,
+        "consensus_odds": 2628.44
+      },
+      "Over 8.0": {
+        "price": -136,
+        "book": "pinnacle",
+        "consensus_prob": 0.030113,
+        "consensus_odds": 3220.82
+      },
+      "Over 9.0": {
+        "price": 150,
+        "book": "bovada",
+        "consensus_prob": 0.022838,
+        "consensus_odds": 4278.67
+      },
+      "Over 10.0": {
+        "price": 230,
+        "book": "bovada",
+        "consensus_prob": 0.017529,
+        "consensus_odds": 5604.83
+      },
+      "Over 11.0": {
+        "price": 280,
+        "book": "draftkings",
+        "consensus_prob": 0.013773,
+        "consensus_odds": 7160.58
+      },
+      "Over 12.0": {
+        "price": 400,
+        "book": "draftkings",
+        "consensus_prob": 0.010467,
+        "consensus_odds": 9453.84
+      },
+      "Over 13.0": {
+        "price": 625,
+        "book": "draftkings",
+        "consensus_prob": 0.007219,
+        "consensus_odds": 13752.33
+      },
+      "Under 5.0": {
+        "price": 800,
+        "book": "draftkings",
+        "consensus_prob": 0.005815,
+        "consensus_odds": 17096.9
+      },
+      "Under 6.0": {
+        "price": 340,
+        "book": "draftkings",
+        "consensus_prob": 0.013319,
+        "consensus_odds": 7408.07
+      },
+      "Under 7.0": {
+        "price": 195,
+        "book": "pinnacle",
+        "consensus_prob": 0.018908,
+        "consensus_odds": 5188.77
+      },
+      "Under 8.0": {
+        "price": 111,
+        "book": "pinnacle",
+        "consensus_prob": 0.025167,
+        "consensus_odds": 3873.46
+      },
+      "Under 9.0": {
+        "price": -200,
+        "book": "bovada",
+        "consensus_prob": 0.03259,
+        "consensus_odds": 2968.43
+      },
+      "Under 10.0": {
+        "price": -325,
+        "book": "bovada",
+        "consensus_prob": 0.038042,
+        "consensus_odds": 2528.67
+      },
+      "Under 11.0": {
+        "price": -400,
+        "book": "draftkings",
+        "consensus_prob": 0.04187,
+        "consensus_odds": 2288.34
+      },
+      "Under 12.0": {
+        "price": -625,
+        "book": "draftkings",
+        "consensus_prob": 0.045118,
+        "consensus_odds": 2116.41
+      },
+      "Under 13.0": {
+        "price": -1150,
+        "book": "draftkings",
+        "consensus_prob": 0.04815,
+        "consensus_odds": 1976.84
+      }
+    },
+    "alternate_totals_source": {
+      "Over 5.5": "fanduel",
+      "Over 6.5": "fanduel",
+      "Over 7.5": "pinnacle",
+      "Over 8.5": "betmgm",
+      "Over 9.5": "betmgm",
+      "Over 10.5": "fanduel",
+      "Over 11.5": "fanduel",
+      "Over 12.5": "fanduel",
+      "Over 13.5": "fanduel",
+      "Under 5.5": "draftkings",
+      "Under 6.5": "pinnacle",
+      "Under 7.5": "pinnacle",
+      "Under 8.5": "betmgm",
+      "Under 9.5": "betmgm",
+      "Under 10.5": "fanduel",
+      "Under 11.5": "fanduel",
+      "Under 12.5": "fanduel",
+      "Under 13.5": "fanduel",
+      "Over 5.0": "draftkings",
+      "Over 6.0": "draftkings",
+      "Over 7.0": "draftkings",
+      "Over 8.0": "pinnacle",
+      "Over 9.0": "bovada",
+      "Over 10.0": "bovada",
+      "Over 11.0": "draftkings",
+      "Over 12.0": "draftkings",
+      "Over 13.0": "draftkings",
+      "Under 5.0": "draftkings",
+      "Under 6.0": "draftkings",
+      "Under 7.0": "pinnacle",
+      "Under 8.0": "pinnacle",
+      "Under 9.0": "bovada",
+      "Under 10.0": "bovada",
+      "Under 11.0": "draftkings",
+      "Under 12.0": "draftkings",
+      "Under 13.0": "draftkings"
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": {
+        "price": -260,
+        "book": "bovada",
+        "consensus_prob": 0.068814,
+        "consensus_odds": 1353.19
+      },
+      "Over 4.5": {
+        "price": 115,
+        "book": "pinnacle",
+        "consensus_prob": 0.04977,
+        "consensus_odds": 1909.24
+      },
+      "Over 5.5": {
+        "price": 210,
+        "book": "betmgm",
+        "consensus_prob": 0.035774,
+        "consensus_odds": 2695.33
+      },
+      "Over 6.5": {
+        "price": 340,
+        "book": "fanduel",
+        "consensus_prob": 0.023346,
+        "consensus_odds": 4183.39
+      },
+      "Over 7.5": {
+        "price": 600,
+        "book": "fanduel",
+        "consensus_prob": 0.014675,
+        "consensus_odds": 6714.31
+      },
+      "Under 3.5": {
+        "price": 190,
+        "book": "bovada",
+        "consensus_prob": 0.040889,
+        "consensus_odds": 2345.65
+      },
+      "Under 4.5": {
+        "price": -150,
+        "book": "fanduel",
+        "consensus_prob": 0.060572,
+        "consensus_odds": 1550.93
+      },
+      "Under 5.5": {
+        "price": -295,
+        "book": "betmgm",
+        "consensus_prob": 0.074575,
+        "consensus_odds": 1240.93
+      },
+      "Under 6.5": {
+        "price": -550,
+        "book": "fanduel",
+        "consensus_prob": 0.08692,
+        "consensus_odds": 1050.48
+      },
+      "Over 8.5": {
+        "price": 825,
+        "book": "betmgm",
+        "consensus_prob": 0.011105,
+        "consensus_odds": 8904.95
+      },
+      "Under 8.5": {
+        "price": -2500,
+        "book": "betmgm",
+        "consensus_prob": 0.098773,
+        "consensus_odds": 912.42
+      },
+      "Over 3.0": {
+        "price": -750,
+        "book": "bovada",
+        "consensus_prob": 0.08135,
+        "consensus_odds": 1129.26
+      },
+      "Over 5.0": {
+        "price": 152,
+        "book": "pinnacle",
+        "consensus_prob": 0.043209,
+        "consensus_odds": 2214.33
+      },
+      "Under 3.0": {
+        "price": 450,
+        "book": "bovada",
+        "consensus_prob": 0.026632,
+        "consensus_odds": 3654.88
+      },
+      "Under 5.0": {
+        "price": -178,
+        "book": "pinnacle",
+        "consensus_prob": 0.064867,
+        "consensus_odds": 1441.62
+      },
+      "Over 4.0": {
+        "price": -185,
+        "book": "bovada",
+        "consensus_prob": 0.066681,
+        "consensus_odds": 1399.68
+      },
+      "Over 6.0": {
+        "price": 250,
+        "book": "bovada",
+        "consensus_prob": 0.02935,
+        "consensus_odds": 3307.16
+      },
+      "Under 4.0": {
+        "price": 140,
+        "book": "bovada",
+        "consensus_prob": 0.042802,
+        "consensus_odds": 2236.34
+      },
+      "Under 6.0": {
+        "price": -350,
+        "book": "bovada",
+        "consensus_prob": 0.079897,
+        "consensus_odds": 1151.61
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 3.5": "bovada",
+      "Over 4.5": "pinnacle",
+      "Over 5.5": "betmgm",
+      "Over 6.5": "fanduel",
+      "Over 7.5": "fanduel",
+      "Under 3.5": "bovada",
+      "Under 4.5": "fanduel",
+      "Under 5.5": "betmgm",
+      "Under 6.5": "fanduel",
+      "Over 8.5": "betmgm",
+      "Under 8.5": "betmgm",
+      "Over 3.0": "bovada",
+      "Over 5.0": "pinnacle",
+      "Under 3.0": "bovada",
+      "Under 5.0": "pinnacle",
+      "Over 4.0": "bovada",
+      "Over 6.0": "bovada",
+      "Under 4.0": "bovada",
+      "Under 6.0": "bovada"
+    },
+    "h2h_1st_5_innings": {
+      "ATL": {
+        "price": -220,
+        "book": "betmgm",
+        "consensus_prob": 0.606289,
+        "consensus_odds": -153.99
+      },
+      "MIN": {
+        "price": 165,
+        "book": "betmgm",
+        "consensus_prob": 0.393711,
+        "consensus_odds": 153.99
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "ATL": "betmgm",
+      "MIN": "betmgm"
+    },
+    "spreads_1st_5_innings": {
+      "ATL-0.5": {
+        "price": 135,
+        "book": "betmgm",
+        "consensus_prob": 0.181299,
+        "consensus_odds": 451.58
+      },
+      "MIN+0.5": {
+        "price": -185,
+        "book": "betmgm",
+        "consensus_prob": 0.243312,
+        "consensus_odds": 310.99
+      },
+      "ATL0.0": {
+        "price": -238,
+        "book": "pinnacle",
+        "consensus_prob": 0.256582,
+        "consensus_odds": 289.74
+      },
+      "MIN-0.0": {
+        "price": 204,
+        "book": "pinnacle",
+        "consensus_prob": 0.130252,
+        "consensus_odds": 667.74
+      },
+      "MIN0.0": {
+        "price": 110,
+        "book": "bovada",
+        "consensus_prob": 0.188555,
+        "consensus_odds": 430.35
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "ATL-0.5": "betmgm",
+      "MIN+0.5": "betmgm",
+      "ATL0.0": "pinnacle",
+      "MIN-0.0": "pinnacle",
+      "MIN0.0": "bovada"
+    },
+    "team_totals": {
+      "Over 4.5": {
+        "price": -110,
+        "book": "pinnacle",
+        "consensus_prob": 0.157961,
+        "consensus_odds": 533.07
+      },
+      "Under 4.5": {
+        "price": -145,
+        "book": "bovada",
+        "consensus_prob": 0.176846,
+        "consensus_odds": 465.46
+      },
+      "Over 3.5": {
+        "price": -130,
+        "book": "draftkings",
+        "consensus_prob": 0.170696,
+        "consensus_odds": 485.84
+      },
+      "Under 3.5": {
+        "price": -125,
+        "book": "bovada",
+        "consensus_prob": 0.166121,
+        "consensus_odds": 501.97
+      },
+      "Over 2.5": {
+        "price": -138,
+        "book": "pinnacle",
+        "consensus_prob": 0.182963,
+        "consensus_odds": 446.56
+      },
+      "Under 2.5": {
+        "price": 117,
+        "book": "pinnacle",
+        "consensus_prob": 0.145412,
+        "consensus_odds": 587.7
+      }
+    },
+    "team_totals_source": {
+      "Over 4.5": "pinnacle",
+      "Under 4.5": "bovada",
+      "Over 3.5": "draftkings",
+      "Under 3.5": "bovada",
+      "Over 2.5": "pinnacle",
+      "Under 2.5": "pinnacle"
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": -135,
+        "book": "betmgm",
+        "consensus_prob": 0.265045,
+        "consensus_odds": 277.29
+      },
+      "Under 4.5": {
+        "price": -115,
+        "book": "bovada",
+        "consensus_prob": 0.24372,
+        "consensus_odds": 310.31
+      },
+      "Over 4.0": {
+        "price": -116,
+        "book": "pinnacle",
+        "consensus_prob": 0.255001,
+        "consensus_odds": 292.16
+      },
+      "Under 4.0": {
+        "price": 101,
+        "book": "pinnacle",
+        "consensus_prob": 0.236234,
+        "consensus_odds": 323.31
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": "betmgm",
+      "Under 4.5": "bovada",
+      "Over 4.0": "pinnacle",
+      "Under 4.0": "pinnacle"
+    },
+    "alternate_spreads_1st_3_innings": {
+      "ATL-1.5": {
+        "price": 450,
+        "book": "betmgm",
+        "consensus_prob": 0.168067,
+        "consensus_odds": 495.0
+      },
+      "MIN+1.5": {
+        "price": -900,
+        "book": "betmgm",
+        "consensus_prob": 0.831933,
+        "consensus_odds": -495.0
+      }
+    },
+    "alternate_spreads_1st_3_innings_source": {
+      "ATL-1.5": "betmgm",
+      "MIN+1.5": "betmgm"
+    },
+    "alternate_spreads_1st_7_innings": {
+      "ATL-1.5": {
+        "price": 120,
+        "book": "betmgm",
+        "consensus_prob": 0.140752,
+        "consensus_odds": 610.47
+      },
+      "ATL-0.5": {
+        "price": -145,
+        "book": "betmgm",
+        "consensus_prob": 0.183265,
+        "consensus_odds": 445.66
+      },
+      "ATL+0.5": {
+        "price": -300,
+        "book": "betmgm",
+        "consensus_prob": 0.232241,
+        "consensus_odds": 330.59
+      },
+      "MIN+1.5": {
+        "price": -165,
+        "book": "betmgm",
+        "consensus_prob": 0.192804,
+        "consensus_odds": 418.66
+      },
+      "MIN+0.5": {
+        "price": 105,
+        "book": "betmgm",
+        "consensus_prob": 0.151051,
+        "consensus_odds": 562.03
+      },
+      "MIN-0.5": {
+        "price": 210,
+        "book": "betmgm",
+        "consensus_prob": 0.099889,
+        "consensus_odds": 901.11
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "ATL-1.5": "betmgm",
+      "ATL-0.5": "betmgm",
+      "ATL+0.5": "betmgm",
+      "MIN+1.5": "betmgm",
+      "MIN+0.5": "betmgm",
+      "MIN-0.5": "betmgm"
+    },
+    "alternate_totals_1st_3_innings": {
+      "Over 3.5": {
+        "price": 240,
+        "book": "betmgm",
+        "consensus_prob": 0.09097,
+        "consensus_odds": 999.26
+      },
+      "Over 2.5": {
+        "price": -102,
+        "book": "betmgm",
+        "consensus_prob": 0.15618,
+        "consensus_odds": 540.29
+      },
+      "Over 4.5": {
+        "price": 450,
+        "book": "betmgm",
+        "consensus_prob": 0.056236,
+        "consensus_odds": 1678.22
+      },
+      "Under 3.5": {
+        "price": -350,
+        "book": "betmgm",
+        "consensus_prob": 0.240565,
+        "consensus_odds": 315.69
+      },
+      "Under 2.5": {
+        "price": -135,
+        "book": "betmgm",
+        "consensus_prob": 0.177682,
+        "consensus_odds": 462.8
+      },
+      "Under 4.5": {
+        "price": -900,
+        "book": "betmgm",
+        "consensus_prob": 0.278368,
+        "consensus_odds": 259.24
+      }
+    },
+    "alternate_totals_1st_3_innings_source": {
+      "Over 3.5": "betmgm",
+      "Over 2.5": "betmgm",
+      "Over 4.5": "betmgm",
+      "Under 3.5": "betmgm",
+      "Under 2.5": "betmgm",
+      "Under 4.5": "betmgm"
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": 115,
+        "book": "betmgm",
+        "consensus_prob": 0.143387,
+        "consensus_odds": 597.41
+      },
+      "Over 5.5": {
+        "price": -155,
+        "book": "betmgm",
+        "consensus_prob": 0.187387,
+        "consensus_odds": 433.65
+      },
+      "Over 4.5": {
+        "price": -285,
+        "book": "betmgm",
+        "consensus_prob": 0.228209,
+        "consensus_odds": 338.19
+      },
+      "Under 6.5": {
+        "price": -160,
+        "book": "betmgm",
+        "consensus_prob": 0.189712,
+        "consensus_odds": 427.11
+      },
+      "Under 5.5": {
+        "price": 110,
+        "book": "betmgm",
+        "consensus_prob": 0.146801,
+        "consensus_odds": 581.19
+      },
+      "Under 4.5": {
+        "price": 195,
+        "book": "betmgm",
+        "consensus_prob": 0.104503,
+        "consensus_odds": 856.91
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 6.5": "betmgm",
+      "Over 5.5": "betmgm",
+      "Over 4.5": "betmgm",
+      "Under 6.5": "betmgm",
+      "Under 5.5": "betmgm",
+      "Under 4.5": "betmgm"
+    },
+    "h2h_1st_3_innings": {
+      "ATL": {
+        "price": -210,
+        "book": "betmgm",
+        "consensus_prob": 0.628742,
+        "consensus_odds": -169.35
+      },
+      "MIN": {
+        "price": 150,
+        "book": "betmgm",
+        "consensus_prob": 0.371258,
+        "consensus_odds": 169.35
+      }
+    },
+    "h2h_1st_3_innings_source": {
+      "ATL": "betmgm",
+      "MIN": "betmgm"
+    },
+    "h2h_1st_7_innings": {
+      "ATL": {
+        "price": -225,
+        "book": "betmgm",
+        "consensus_prob": 0.642857,
+        "consensus_odds": -180.0
+      },
+      "MIN": {
+        "price": 160,
+        "book": "betmgm",
+        "consensus_prob": 0.357143,
+        "consensus_odds": 180.0
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "ATL": "betmgm",
+      "MIN": "betmgm"
+    },
+    "spreads_1st_1_innings": {
+      "ATL0.0": {
+        "price": -192,
+        "book": "pinnacle",
+        "consensus_prob": 0.63094,
+        "consensus_odds": -170.96
+      },
+      "MIN-0.0": {
+        "price": 160,
+        "book": "pinnacle",
+        "consensus_prob": 0.36906,
+        "consensus_odds": 170.96
+      }
+    },
+    "spreads_1st_1_innings_source": {
+      "ATL0.0": "pinnacle",
+      "MIN-0.0": "pinnacle"
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": {
+        "price": 102,
+        "book": "pinnacle",
+        "consensus_prob": 0.47673,
+        "consensus_odds": 109.76
+      },
+      "Under 0.5": {
+        "price": -119,
+        "book": "pinnacle",
+        "consensus_prob": 0.52327,
+        "consensus_odds": -109.76
+      }
+    },
+    "totals_1st_1_innings_source": {
+      "Over 0.5": "pinnacle",
+      "Under 0.5": "pinnacle"
+    }
+  },
+  "2025-04-19-SF@LAA": {
+    "start_time": "2025-04-20T01:38:00Z",
+    "h2h": {
+      "LAA": {
+        "price": 130,
+        "book": "betonlineag",
+        "consensus_prob": 0.437049,
+        "consensus_odds": 128.81
+      },
+      "SF": {
+        "price": -145,
+        "book": "bovada",
+        "consensus_prob": 0.562951,
+        "consensus_odds": -128.81
+      }
+    },
+    "h2h_source": {
+      "LAA": "betonlineag",
+      "SF": "bovada"
+    },
+    "spreads": {
+      "LAA+1.5": {
+        "price": -145,
+        "book": "betmgm",
+        "consensus_prob": 0.554524,
+        "consensus_odds": -124.48
+      },
+      "SF-1.5": {
+        "price": 125,
+        "book": "betopenly",
+        "consensus_prob": 0.445476,
+        "consensus_odds": 124.48
+      }
+    },
+    "spreads_source": {
+      "LAA+1.5": "betmgm",
+      "SF-1.5": "betopenly"
+    },
+    "totals": {
+      "Over 8.5": {
+        "price": -125,
+        "book": "bovada",
+        "consensus_prob": 0.52159,
+        "consensus_odds": -109.03
+      },
+      "Under 8.5": {
+        "price": 108,
+        "book": "betopenly",
+        "consensus_prob": 0.47841,
+        "consensus_odds": 109.03
+      }
+    },
+    "totals_source": {
+      "Over 8.5": "bovada",
+      "Under 8.5": "betopenly"
+    },
+    "alternate_spreads": {
+      "LAA-3.5": {
+        "price": 560,
+        "book": "fanduel",
+        "consensus_prob": 0.008961,
+        "consensus_odds": 11059.47
+      },
+      "LAA-2.5": {
+        "price": 360,
+        "book": "fanduel",
+        "consensus_prob": 0.012285,
+        "consensus_odds": 8040.01
+      },
+      "LAA-1.5": {
+        "price": 240,
+        "book": "betmgm",
+        "consensus_prob": 0.016923,
+        "consensus_odds": 5809.12
+      },
+      "LAA+1.5": {
+        "price": -146,
+        "book": "fanduel",
+        "consensus_prob": 0.032202,
+        "consensus_odds": 3005.4
+      },
+      "LAA+2.5": {
+        "price": -250,
+        "book": "betmgm",
+        "consensus_prob": 0.03878,
+        "consensus_odds": 2478.65
+      },
+      "LAA+3.5": {
+        "price": -360,
+        "book": "fanduel",
+        "consensus_prob": 0.043377,
+        "consensus_odds": 2205.37
+      },
+      "SF+3.5": {
+        "price": -1000,
+        "book": "fanduel",
+        "consensus_prob": 0.050097,
+        "consensus_odds": 1896.13
+      },
+      "SF+2.5": {
+        "price": -550,
+        "book": "betmgm",
+        "consensus_prob": 0.046742,
+        "consensus_odds": 2039.4
+      },
+      "SF+1.5": {
+        "price": -325,
+        "book": "betmgm",
+        "consensus_prob": 0.041832,
+        "consensus_odds": 2290.51
+      },
+      "SF-1.5": {
+        "price": 120,
+        "book": "pinnacle",
+        "consensus_prob": 0.025577,
+        "consensus_odds": 3809.76
+      },
+      "SF-2.5": {
+        "price": 185,
+        "book": "betmgm",
+        "consensus_prob": 0.019949,
+        "consensus_odds": 4912.78
+      },
+      "SF-3.5": {
+        "price": 260,
+        "book": "fanduel",
+        "consensus_prob": 0.015659,
+        "consensus_odds": 6286.1
+      },
+      "LAA+5.5": {
+        "price": -870,
+        "book": "draftkings",
+        "consensus_prob": 0.04985,
+        "consensus_odds": 1906.02
+      },
+      "LAA+5.0": {
+        "price": -810,
+        "book": "draftkings",
+        "consensus_prob": 0.049472,
+        "consensus_odds": 1921.35
+      },
+      "LAA+4.5": {
+        "price": -527,
+        "book": "draftkings",
+        "consensus_prob": 0.046715,
+        "consensus_odds": 2040.64
+      },
+      "LAA+4.0": {
+        "price": -481,
+        "book": "draftkings",
+        "consensus_prob": 0.046013,
+        "consensus_odds": 2073.3
+      },
+      "LAA+3.0": {
+        "price": -308,
+        "book": "draftkings",
+        "consensus_prob": 0.041957,
+        "consensus_odds": 2283.39
+      },
+      "LAA+2.0": {
+        "price": -188,
+        "book": "draftkings",
+        "consensus_prob": 0.03597,
+        "consensus_odds": 2680.09
+      },
+      "LAA+1.0": {
+        "price": -116,
+        "book": "draftkings",
+        "consensus_prob": 0.029092,
+        "consensus_odds": 3337.37
+      },
+      "LAA-1.0": {
+        "price": 189,
+        "book": "pinnacle",
+        "consensus_prob": 0.019985,
+        "consensus_odds": 4903.75
+      },
+      "LAA-2.0": {
+        "price": 306,
+        "book": "draftkings",
+        "consensus_prob": 0.01369,
+        "consensus_odds": 7204.6
+      },
+      "LAA-3.0": {
+        "price": 457,
+        "book": "draftkings",
+        "consensus_prob": 0.009978,
+        "consensus_odds": 9922.05
+      },
+      "LAA-4.0": {
+        "price": 660,
+        "book": "draftkings",
+        "consensus_prob": 0.007313,
+        "consensus_odds": 13574.28
+      },
+      "SF-5.5": {
+        "price": 497,
+        "book": "draftkings",
+        "consensus_prob": 0.00931,
+        "consensus_odds": 10641.14
+      },
+      "SF-5.0": {
+        "price": 472,
+        "book": "draftkings",
+        "consensus_prob": 0.009717,
+        "consensus_odds": 10191.24
+      },
+      "SF-4.5": {
+        "price": 347,
+        "book": "draftkings",
+        "consensus_prob": 0.012434,
+        "consensus_odds": 7942.46
+      },
+      "SF-4.0": {
+        "price": 323,
+        "book": "draftkings",
+        "consensus_prob": 0.013139,
+        "consensus_odds": 7510.93
+      },
+      "SF-3.0": {
+        "price": 243,
+        "book": "pinnacle",
+        "consensus_prob": 0.016706,
+        "consensus_odds": 5885.87
+      },
+      "SF-2.0": {
+        "price": 157,
+        "book": "pinnacle",
+        "consensus_prob": 0.022249,
+        "consensus_odds": 4394.58
+      },
+      "SF-1.0": {
+        "price": -112,
+        "book": "draftkings",
+        "consensus_prob": 0.029111,
+        "consensus_odds": 3335.13
+      },
+      "SF+1.0": {
+        "price": -224,
+        "book": "draftkings",
+        "consensus_prob": 0.038425,
+        "consensus_odds": 2502.47
+      },
+      "SF+2.0": {
+        "price": -450,
+        "book": "draftkings",
+        "consensus_prob": 0.045474,
+        "consensus_odds": 2099.06
+      },
+      "SF+3.0": {
+        "price": -770,
+        "book": "draftkings",
+        "consensus_prob": 0.049191,
+        "consensus_odds": 1932.89
+      },
+      "SF+4.0": {
+        "price": -1380,
+        "book": "draftkings",
+        "consensus_prob": 0.051824,
+        "consensus_odds": 1829.61
+      }
+    },
+    "alternate_spreads_source": {
+      "LAA-3.5": "fanduel",
+      "LAA-2.5": "fanduel",
+      "LAA-1.5": "betmgm",
+      "LAA+1.5": "fanduel",
+      "LAA+2.5": "betmgm",
+      "LAA+3.5": "fanduel",
+      "SF+3.5": "fanduel",
+      "SF+2.5": "betmgm",
+      "SF+1.5": "betmgm",
+      "SF-1.5": "pinnacle",
+      "SF-2.5": "betmgm",
+      "SF-3.5": "fanduel",
+      "LAA+5.5": "draftkings",
+      "LAA+5.0": "draftkings",
+      "LAA+4.5": "draftkings",
+      "LAA+4.0": "draftkings",
+      "LAA+3.0": "draftkings",
+      "LAA+2.0": "draftkings",
+      "LAA+1.0": "draftkings",
+      "LAA-1.0": "pinnacle",
+      "LAA-2.0": "draftkings",
+      "LAA-3.0": "draftkings",
+      "LAA-4.0": "draftkings",
+      "SF-5.5": "draftkings",
+      "SF-5.0": "draftkings",
+      "SF-4.5": "draftkings",
+      "SF-4.0": "draftkings",
+      "SF-3.0": "pinnacle",
+      "SF-2.0": "pinnacle",
+      "SF-1.0": "draftkings",
+      "SF+1.0": "draftkings",
+      "SF+2.0": "draftkings",
+      "SF+3.0": "draftkings",
+      "SF+4.0": "draftkings"
+    },
+    "alternate_spreads_1st_1_innings": {
+      "LAA-1.5": {
+        "price": 790,
+        "book": "fanduel",
+        "consensus_prob": 0.029868,
+        "consensus_odds": 3248.06
+      },
+      "SF+1.5": {
+        "price": -1500,
+        "book": "fanduel",
+        "consensus_prob": 0.218943,
+        "consensus_odds": 356.74
+      },
+      "LAA+1.5": {
+        "price": -1200,
+        "book": "draftkings",
+        "consensus_prob": 0.216054,
+        "consensus_odds": 362.85
+      },
+      "LAA+0.5": {
+        "price": -360,
+        "book": "draftkings",
+        "consensus_prob": 0.183177,
+        "consensus_odds": 445.92
+      },
+      "LAA-0.5": {
+        "price": 300,
+        "book": "draftkings",
+        "consensus_prob": 0.058515,
+        "consensus_odds": 1608.96
+      },
+      "SF-1.5": {
+        "price": 550,
+        "book": "draftkings",
+        "consensus_prob": 0.036009,
+        "consensus_odds": 2677.08
+      },
+      "SF-0.5": {
+        "price": 255,
+        "book": "draftkings",
+        "consensus_prob": 0.065932,
+        "consensus_odds": 1416.71
+      },
+      "SF+0.5": {
+        "price": -450,
+        "book": "draftkings",
+        "consensus_prob": 0.191503,
+        "consensus_odds": 422.19
+      }
+    },
+    "alternate_spreads_1st_1_innings_source": {
+      "LAA-1.5": "fanduel",
+      "SF+1.5": "fanduel",
+      "LAA+1.5": "draftkings",
+      "LAA+0.5": "draftkings",
+      "LAA-0.5": "draftkings",
+      "SF-1.5": "draftkings",
+      "SF-0.5": "draftkings",
+      "SF+0.5": "draftkings"
+    },
+    "alternate_spreads_1st_5_innings": {
+      "LAA-3.5": {
+        "price": 700,
+        "book": "fanduel",
+        "consensus_prob": 0.011783,
+        "consensus_odds": 8386.8
+      },
+      "LAA-2.5": {
+        "price": 430,
+        "book": "fanduel",
+        "consensus_prob": 0.018319,
+        "consensus_odds": 5358.81
+      },
+      "LAA-1.5": {
+        "price": 265,
+        "book": "fanduel",
+        "consensus_prob": 0.026827,
+        "consensus_odds": 3627.59
+      },
+      "LAA-0.5": {
+        "price": 158,
+        "book": "pinnacle",
+        "consensus_prob": 0.037649,
+        "consensus_odds": 2556.11
+      },
+      "LAA+0.5": {
+        "price": -125,
+        "book": "fanduel",
+        "consensus_prob": 0.051932,
+        "consensus_odds": 1825.6
+      },
+      "LAA+1.5": {
+        "price": -235,
+        "book": "fanduel",
+        "consensus_prob": 0.065245,
+        "consensus_odds": 1432.68
+      },
+      "LAA+2.5": {
+        "price": -420,
+        "book": "fanduel",
+        "consensus_prob": 0.075277,
+        "consensus_odds": 1228.43
+      },
+      "LAA+3.5": {
+        "price": -750,
+        "book": "fanduel",
+        "consensus_prob": 0.083173,
+        "consensus_odds": 1102.31
+      },
+      "SF+3.5": {
+        "price": -1800,
+        "book": "fanduel",
+        "consensus_prob": 0.089301,
+        "consensus_odds": 1019.81
+      },
+      "SF+2.5": {
+        "price": -750,
+        "book": "fanduel",
+        "consensus_prob": 0.082434,
+        "consensus_odds": 1113.09
+      },
+      "SF+1.5": {
+        "price": -390,
+        "book": "fanduel",
+        "consensus_prob": 0.073561,
+        "consensus_odds": 1259.42
+      },
+      "SF+0.5": {
+        "price": -210,
+        "book": "fanduel",
+        "consensus_prob": 0.062084,
+        "consensus_odds": 1510.72
+      },
+      "SF-0.5": {
+        "price": -106,
+        "book": "fanduel",
+        "consensus_prob": 0.047991,
+        "consensus_odds": 1983.72
+      },
+      "SF-1.5": {
+        "price": 172,
+        "book": "fanduel",
+        "consensus_prob": 0.035046,
+        "consensus_odds": 2753.39
+      },
+      "SF-2.5": {
+        "price": 280,
+        "book": "fanduel",
+        "consensus_prob": 0.025141,
+        "consensus_odds": 3877.57
+      },
+      "SF-3.5": {
+        "price": 430,
+        "book": "fanduel",
+        "consensus_prob": 0.017785,
+        "consensus_odds": 5522.72
+      },
+      "LAA+1.0": {
+        "price": -165,
+        "book": "pinnacle",
+        "consensus_prob": 0.058692,
+        "consensus_odds": 1603.81
+      },
+      "LAA-1.0": {
+        "price": 224,
+        "book": "pinnacle",
+        "consensus_prob": 0.029093,
+        "consensus_odds": 3337.25
+      },
+      "SF-1.0": {
+        "price": 140,
+        "book": "pinnacle",
+        "consensus_prob": 0.039276,
+        "consensus_odds": 2446.08
+      },
+      "SF+1.0": {
+        "price": -279,
+        "book": "pinnacle",
+        "consensus_prob": 0.069391,
+        "consensus_odds": 1341.11
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "LAA-3.5": "fanduel",
+      "LAA-2.5": "fanduel",
+      "LAA-1.5": "fanduel",
+      "LAA-0.5": "pinnacle",
+      "LAA+0.5": "fanduel",
+      "LAA+1.5": "fanduel",
+      "LAA+2.5": "fanduel",
+      "LAA+3.5": "fanduel",
+      "SF+3.5": "fanduel",
+      "SF+2.5": "fanduel",
+      "SF+1.5": "fanduel",
+      "SF+0.5": "fanduel",
+      "SF-0.5": "fanduel",
+      "SF-1.5": "fanduel",
+      "SF-2.5": "fanduel",
+      "SF-3.5": "fanduel",
+      "LAA+1.0": "pinnacle",
+      "LAA-1.0": "pinnacle",
+      "SF-1.0": "pinnacle",
+      "SF+1.0": "pinnacle"
+    },
+    "alternate_team_totals": {
+      "Over 1.5": {
+        "price": -1100,
+        "book": "fanduel",
+        "consensus_prob": 0.083531,
+        "consensus_odds": 1097.16
+      },
+      "Over 2.5": {
+        "price": -425,
+        "book": "betmgm",
+        "consensus_prob": 0.071544,
+        "consensus_odds": 1297.74
+      },
+      "Over 3.5": {
+        "price": -210,
+        "book": "fanduel",
+        "consensus_prob": 0.059435,
+        "consensus_odds": 1582.51
+      },
+      "Over 4.5": {
+        "price": 138,
+        "book": "fanduel",
+        "consensus_prob": 0.044494,
+        "consensus_odds": 2147.49
+      },
+      "Over 5.5": {
+        "price": 240,
+        "book": "fanduel",
+        "consensus_prob": 0.033986,
+        "consensus_odds": 2842.39
+      },
+      "Over 6.5": {
+        "price": 390,
+        "book": "fanduel",
+        "consensus_prob": 0.02458,
+        "consensus_odds": 3968.35
+      },
+      "Over 7.5": {
+        "price": 630,
+        "book": "fanduel",
+        "consensus_prob": 0.017482,
+        "consensus_odds": 5620.17
+      },
+      "Under 1.5": {
+        "price": 600,
+        "book": "fanduel",
+        "consensus_prob": 0.016459,
+        "consensus_odds": 5975.7
+      },
+      "Under 2.5": {
+        "price": 290,
+        "book": "fanduel",
+        "consensus_prob": 0.028699,
+        "consensus_odds": 3384.44
+      },
+      "Under 3.5": {
+        "price": 162,
+        "book": "fanduel",
+        "consensus_prob": 0.041061,
+        "consensus_odds": 2335.4
+      },
+      "Under 4.5": {
+        "price": -178,
+        "book": "fanduel",
+        "consensus_prob": 0.055879,
+        "consensus_odds": 1689.58
+      },
+      "Under 5.5": {
+        "price": -330,
+        "book": "fanduel",
+        "consensus_prob": 0.066265,
+        "consensus_odds": 1409.09
+      },
+      "Under 6.5": {
+        "price": -600,
+        "book": "betmgm",
+        "consensus_prob": 0.07559,
+        "consensus_odds": 1222.93
+      },
+      "Under 7.5": {
+        "price": -1200,
+        "book": "fanduel",
+        "consensus_prob": 0.082759,
+        "consensus_odds": 1108.33
+      },
+      "Over 8.5": {
+        "price": 1000,
+        "book": "draftkings",
+        "consensus_prob": 0.012963,
+        "consensus_odds": 7614.26
+      },
+      "Over 9.5": {
+        "price": 1600,
+        "book": "draftkings",
+        "consensus_prob": 0.009183,
+        "consensus_odds": 10789.69
+      },
+      "Under 8.5": {
+        "price": -2500,
+        "book": "betmgm",
+        "consensus_prob": 0.086974,
+        "consensus_odds": 1049.77
+      },
+      "Over 0.5": {
+        "price": -5000,
+        "book": "draftkings",
+        "consensus_prob": 0.091772,
+        "consensus_odds": 989.66
+      },
+      "Under 0.5": {
+        "price": 1600,
+        "book": "draftkings",
+        "consensus_prob": 0.006718,
+        "consensus_odds": 14785.38
+      },
+      "Under 9.5": {
+        "price": -5000,
+        "book": "draftkings",
+        "consensus_prob": 0.090624,
+        "consensus_odds": 1003.46
+      }
+    },
+    "alternate_team_totals_source": {
+      "Over 1.5": "fanduel",
+      "Over 2.5": "betmgm",
+      "Over 3.5": "fanduel",
+      "Over 4.5": "fanduel",
+      "Over 5.5": "fanduel",
+      "Over 6.5": "fanduel",
+      "Over 7.5": "fanduel",
+      "Under 1.5": "fanduel",
+      "Under 2.5": "fanduel",
+      "Under 3.5": "fanduel",
+      "Under 4.5": "fanduel",
+      "Under 5.5": "fanduel",
+      "Under 6.5": "betmgm",
+      "Under 7.5": "fanduel",
+      "Over 8.5": "draftkings",
+      "Over 9.5": "draftkings",
+      "Under 8.5": "betmgm",
+      "Over 0.5": "draftkings",
+      "Under 0.5": "draftkings",
+      "Under 9.5": "draftkings"
+    },
+    "alternate_totals": {
+      "Over 6.5": {
+        "price": -310,
+        "book": "fanduel",
+        "consensus_prob": 0.030696,
+        "consensus_odds": 3157.75
+      },
+      "Over 7.5": {
+        "price": -185,
+        "book": "betmgm",
+        "consensus_prob": 0.026123,
+        "consensus_odds": 3728.04
+      },
+      "Over 8.5": {
+        "price": -122,
+        "book": "fanduel",
+        "consensus_prob": 0.022057,
+        "consensus_odds": 4433.71
+      },
+      "Over 9.5": {
+        "price": 134,
+        "book": "pinnacle",
+        "consensus_prob": 0.018006,
+        "consensus_odds": 5453.7
+      },
+      "Over 10.5": {
+        "price": 176,
+        "book": "fanduel",
+        "consensus_prob": 0.015062,
+        "consensus_odds": 6539.22
+      },
+      "Over 11.5": {
+        "price": 255,
+        "book": "fanduel",
+        "consensus_prob": 0.011753,
+        "consensus_odds": 8408.47
+      },
+      "Over 12.5": {
+        "price": 340,
+        "book": "fanduel",
+        "consensus_prob": 0.009612,
+        "consensus_odds": 10303.66
+      },
+      "Over 13.5": {
+        "price": 480,
+        "book": "fanduel",
+        "consensus_prob": 0.007323,
+        "consensus_odds": 13555.61
+      },
+      "Over 14.5": {
+        "price": 630,
+        "book": "fanduel",
+        "consensus_prob": 0.005846,
+        "consensus_odds": 17005.71
+      },
+      "Under 6.5": {
+        "price": 230,
+        "book": "fanduel",
+        "consensus_prob": 0.012852,
+        "consensus_odds": 7680.89
+      },
+      "Under 7.5": {
+        "price": 143,
+        "book": "pinnacle",
+        "consensus_prob": 0.017237,
+        "consensus_odds": 5701.47
+      },
+      "Under 8.5": {
+        "price": 108,
+        "book": "betopenly",
+        "consensus_prob": 0.020381,
+        "consensus_odds": 4806.53
+      },
+      "Under 9.5": {
+        "price": -166,
+        "book": "fanduel",
+        "consensus_prob": 0.025373,
+        "consensus_odds": 3841.2
+      },
+      "Under 10.5": {
+        "price": -235,
+        "book": "betmgm",
+        "consensus_prob": 0.028526,
+        "consensus_odds": 3405.57
+      },
+      "Under 11.5": {
+        "price": -350,
+        "book": "fanduel",
+        "consensus_prob": 0.031818,
+        "consensus_odds": 3042.88
+      },
+      "Under 12.5": {
+        "price": -500,
+        "book": "fanduel",
+        "consensus_prob": 0.033883,
+        "consensus_odds": 2851.33
+      },
+      "Under 13.5": {
+        "price": -800,
+        "book": "fanduel",
+        "consensus_prob": 0.036272,
+        "consensus_odds": 2656.95
+      },
+      "Under 14.5": {
+        "price": -1200,
+        "book": "fanduel",
+        "consensus_prob": 0.037721,
+        "consensus_odds": 2551.04
+      },
+      "Over 5.5": {
+        "price": -475,
+        "book": "betmgm",
+        "consensus_prob": 0.033357,
+        "consensus_odds": 2897.87
+      },
+      "Over 6.0": {
+        "price": -450,
+        "book": "betmgm",
+        "consensus_prob": 0.032944,
+        "consensus_odds": 2935.45
+      },
+      "Over 7.0": {
+        "price": -250,
+        "book": "betmgm",
+        "consensus_prob": 0.028873,
+        "consensus_odds": 3363.44
+      },
+      "Over 8.0": {
+        "price": -155,
+        "book": "betmgm",
+        "consensus_prob": 0.024393,
+        "consensus_odds": 3999.54
+      },
+      "Over 9.0": {
+        "price": 111,
+        "book": "pinnacle",
+        "consensus_prob": 0.020035,
+        "consensus_odds": 4891.27
+      },
+      "Over 10.0": {
+        "price": 160,
+        "book": "pinnacle",
+        "consensus_prob": 0.016148,
+        "consensus_odds": 6092.72
+      },
+      "Over 11.0": {
+        "price": 220,
+        "book": "betmgm",
+        "consensus_prob": 0.012875,
+        "consensus_odds": 7666.99
+      },
+      "Over 12.0": {
+        "price": 310,
+        "book": "betmgm",
+        "consensus_prob": 0.010178,
+        "consensus_odds": 9725.11
+      },
+      "Over 13.0": {
+        "price": 427,
+        "book": "draftkings",
+        "consensus_prob": 0.007796,
+        "consensus_odds": 12727.09
+      },
+      "Under 5.5": {
+        "price": 325,
+        "book": "betmgm",
+        "consensus_prob": 0.010029,
+        "consensus_odds": 9871.08
+      },
+      "Under 6.0": {
+        "price": 300,
+        "book": "betmgm",
+        "consensus_prob": 0.010774,
+        "consensus_odds": 9181.6
+      },
+      "Under 7.0": {
+        "price": 194,
+        "book": "pinnacle",
+        "consensus_prob": 0.014487,
+        "consensus_odds": 6802.74
+      },
+      "Under 8.0": {
+        "price": 122,
+        "book": "pinnacle",
+        "consensus_prob": 0.018924,
+        "consensus_odds": 5184.3
+      },
+      "Under 9.0": {
+        "price": -135,
+        "book": "bovada",
+        "consensus_prob": 0.023229,
+        "consensus_odds": 4204.96
+      },
+      "Under 10.0": {
+        "price": -210,
+        "book": "betmgm",
+        "consensus_prob": 0.027243,
+        "consensus_odds": 3570.67
+      },
+      "Under 11.0": {
+        "price": -300,
+        "book": "betmgm",
+        "consensus_prob": 0.030729,
+        "consensus_odds": 3154.25
+      },
+      "Under 12.0": {
+        "price": -450,
+        "book": "betmgm",
+        "consensus_prob": 0.033418,
+        "consensus_odds": 2892.4
+      },
+      "Under 13.0": {
+        "price": -700,
+        "book": "draftkings",
+        "consensus_prob": 0.035881,
+        "consensus_odds": 2686.99
+      },
+      "Over 3.5": {
+        "price": -2000,
+        "book": "betmgm",
+        "consensus_prob": 0.039054,
+        "consensus_odds": 2460.56
+      },
+      "Over 4.0": {
+        "price": -2000,
+        "book": "betmgm",
+        "consensus_prob": 0.039054,
+        "consensus_odds": 2460.56
+      },
+      "Over 4.5": {
+        "price": -1100,
+        "book": "betmgm",
+        "consensus_prob": 0.03759,
+        "consensus_odds": 2560.28
+      },
+      "Over 5.0": {
+        "price": -900,
+        "book": "betmgm",
+        "consensus_prob": 0.036906,
+        "consensus_odds": 2609.59
+      },
+      "Over 14.0": {
+        "price": 575,
+        "book": "betmgm",
+        "consensus_prob": 0.006075,
+        "consensus_odds": 16360.91
+      },
+      "Under 3.5": {
+        "price": 800,
+        "book": "betmgm",
+        "consensus_prob": 0.004556,
+        "consensus_odds": 21849.08
+      },
+      "Under 4.0": {
+        "price": 775,
+        "book": "betmgm",
+        "consensus_prob": 0.004686,
+        "consensus_odds": 21240.16
+      },
+      "Under 4.5": {
+        "price": 575,
+        "book": "betmgm",
+        "consensus_prob": 0.006075,
+        "consensus_odds": 16360.91
+      },
+      "Under 5.0": {
+        "price": 525,
+        "book": "betmgm",
+        "consensus_prob": 0.006561,
+        "consensus_odds": 15141.58
+      },
+      "Under 14.0": {
+        "price": -1100,
+        "book": "betmgm",
+        "consensus_prob": 0.03759,
+        "consensus_odds": 2560.28
+      }
+    },
+    "alternate_totals_source": {
+      "Over 6.5": "fanduel",
+      "Over 7.5": "betmgm",
+      "Over 8.5": "fanduel",
+      "Over 9.5": "pinnacle",
+      "Over 10.5": "fanduel",
+      "Over 11.5": "fanduel",
+      "Over 12.5": "fanduel",
+      "Over 13.5": "fanduel",
+      "Over 14.5": "fanduel",
+      "Under 6.5": "fanduel",
+      "Under 7.5": "pinnacle",
+      "Under 8.5": "betopenly",
+      "Under 9.5": "fanduel",
+      "Under 10.5": "betmgm",
+      "Under 11.5": "fanduel",
+      "Under 12.5": "fanduel",
+      "Under 13.5": "fanduel",
+      "Under 14.5": "fanduel",
+      "Over 5.5": "betmgm",
+      "Over 6.0": "betmgm",
+      "Over 7.0": "betmgm",
+      "Over 8.0": "betmgm",
+      "Over 9.0": "pinnacle",
+      "Over 10.0": "pinnacle",
+      "Over 11.0": "betmgm",
+      "Over 12.0": "betmgm",
+      "Over 13.0": "draftkings",
+      "Under 5.5": "betmgm",
+      "Under 6.0": "betmgm",
+      "Under 7.0": "pinnacle",
+      "Under 8.0": "pinnacle",
+      "Under 9.0": "bovada",
+      "Under 10.0": "betmgm",
+      "Under 11.0": "betmgm",
+      "Under 12.0": "betmgm",
+      "Under 13.0": "draftkings",
+      "Over 3.5": "betmgm",
+      "Over 4.0": "betmgm",
+      "Over 4.5": "betmgm",
+      "Over 5.0": "betmgm",
+      "Over 14.0": "betmgm",
+      "Under 3.5": "betmgm",
+      "Under 4.0": "betmgm",
+      "Under 4.5": "betmgm",
+      "Under 5.0": "betmgm",
+      "Under 14.0": "betmgm"
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": {
+        "price": -470,
+        "book": "fanduel",
+        "consensus_prob": 0.057394,
+        "consensus_odds": 1642.34
+      },
+      "Over 3.5": {
+        "price": -235,
+        "book": "fanduel",
+        "consensus_prob": 0.04788,
+        "consensus_odds": 1988.55
+      },
+      "Over 4.5": {
+        "price": -128,
+        "book": "fanduel",
+        "consensus_prob": 0.038919,
+        "consensus_odds": 2469.44
+      },
+      "Over 5.5": {
+        "price": 146,
+        "book": "pinnacle",
+        "consensus_prob": 0.02972,
+        "consensus_odds": 3264.74
+      },
+      "Over 6.5": {
+        "price": 220,
+        "book": "betmgm",
+        "consensus_prob": 0.022583,
+        "consensus_odds": 4328.11
+      },
+      "Over 7.5": {
+        "price": 320,
+        "book": "fanduel",
+        "consensus_prob": 0.016933,
+        "consensus_odds": 5805.63
+      },
+      "Over 8.5": {
+        "price": 490,
+        "book": "fanduel",
+        "consensus_prob": 0.012054,
+        "consensus_odds": 8196.0
+      },
+      "Over 9.5": {
+        "price": 680,
+        "book": "fanduel",
+        "consensus_prob": 0.009118,
+        "consensus_odds": 10867.32
+      },
+      "Over 10.5": {
+        "price": 920,
+        "book": "fanduel",
+        "consensus_prob": 0.006972,
+        "consensus_odds": 14243.09
+      },
+      "Under 2.5": {
+        "price": 310,
+        "book": "fanduel",
+        "consensus_prob": 0.018283,
+        "consensus_odds": 5369.56
+      },
+      "Under 3.5": {
+        "price": 172,
+        "book": "fanduel",
+        "consensus_prob": 0.027508,
+        "consensus_odds": 3535.31
+      },
+      "Under 4.5": {
+        "price": -115,
+        "book": "betmgm",
+        "consensus_prob": 0.037183,
+        "consensus_odds": 2589.4
+      },
+      "Under 5.5": {
+        "price": -190,
+        "book": "betmgm",
+        "consensus_prob": 0.04563,
+        "consensus_odds": 2091.54
+      },
+      "Under 6.5": {
+        "price": -300,
+        "book": "fanduel",
+        "consensus_prob": 0.053339,
+        "consensus_odds": 1774.8
+      },
+      "Under 7.5": {
+        "price": -500,
+        "book": "fanduel",
+        "consensus_prob": 0.059265,
+        "consensus_odds": 1587.34
+      },
+      "Under 8.5": {
+        "price": -900,
+        "book": "fanduel",
+        "consensus_prob": 0.064006,
+        "consensus_odds": 1462.35
+      },
+      "Over 1.5": {
+        "price": -1000,
+        "book": "betmgm",
+        "consensus_prob": 0.064653,
+        "consensus_odds": 1446.72
+      },
+      "Over 2.0": {
+        "price": -800,
+        "book": "betmgm",
+        "consensus_prob": 0.063216,
+        "consensus_odds": 1481.88
+      },
+      "Over 3.0": {
+        "price": -300,
+        "book": "betmgm",
+        "consensus_prob": 0.053339,
+        "consensus_odds": 1774.8
+      },
+      "Over 4.0": {
+        "price": -160,
+        "book": "bovada",
+        "consensus_prob": 0.043222,
+        "consensus_odds": 2213.64
+      },
+      "Over 5.0": {
+        "price": 118,
+        "book": "pinnacle",
+        "consensus_prob": 0.033189,
+        "consensus_odds": 2913.05
+      },
+      "Over 6.0": {
+        "price": 185,
+        "book": "betmgm",
+        "consensus_prob": 0.024954,
+        "consensus_odds": 3907.37
+      },
+      "Under 1.5": {
+        "price": 525,
+        "book": "betmgm",
+        "consensus_prob": 0.011379,
+        "consensus_odds": 8688.12
+      },
+      "Under 2.0": {
+        "price": 475,
+        "book": "betmgm",
+        "consensus_prob": 0.012368,
+        "consensus_odds": 7985.38
+      },
+      "Under 3.0": {
+        "price": 220,
+        "book": "betmgm",
+        "consensus_prob": 0.022224,
+        "consensus_odds": 4399.64
+      },
+      "Under 4.0": {
+        "price": 130,
+        "book": "pinnacle",
+        "consensus_prob": 0.031957,
+        "consensus_odds": 3029.2
+      },
+      "Under 5.0": {
+        "price": -150,
+        "book": "betmgm",
+        "consensus_prob": 0.041915,
+        "consensus_odds": 2285.78
+      },
+      "Under 6.0": {
+        "price": -250,
+        "book": "betmgm",
+        "consensus_prob": 0.050799,
+        "consensus_odds": 1868.54
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 2.5": "fanduel",
+      "Over 3.5": "fanduel",
+      "Over 4.5": "fanduel",
+      "Over 5.5": "pinnacle",
+      "Over 6.5": "betmgm",
+      "Over 7.5": "fanduel",
+      "Over 8.5": "fanduel",
+      "Over 9.5": "fanduel",
+      "Over 10.5": "fanduel",
+      "Under 2.5": "fanduel",
+      "Under 3.5": "fanduel",
+      "Under 4.5": "betmgm",
+      "Under 5.5": "betmgm",
+      "Under 6.5": "fanduel",
+      "Under 7.5": "fanduel",
+      "Under 8.5": "fanduel",
+      "Over 1.5": "betmgm",
+      "Over 2.0": "betmgm",
+      "Over 3.0": "betmgm",
+      "Over 4.0": "bovada",
+      "Over 5.0": "pinnacle",
+      "Over 6.0": "betmgm",
+      "Under 1.5": "betmgm",
+      "Under 2.0": "betmgm",
+      "Under 3.0": "betmgm",
+      "Under 4.0": "pinnacle",
+      "Under 5.0": "betmgm",
+      "Under 6.0": "betmgm"
+    },
+    "h2h_1st_5_innings": {
+      "LAA": {
+        "price": 120,
+        "book": "betonlineag",
+        "consensus_prob": 0.439844,
+        "consensus_odds": 127.35
+      },
+      "SF": {
+        "price": -150,
+        "book": "bovada",
+        "consensus_prob": 0.560156,
+        "consensus_odds": -127.35
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "LAA": "betonlineag",
+      "SF": "bovada"
+    },
+    "spreads_1st_3_innings": {
+      "LAA0.0": {
+        "price": 116,
+        "book": "fanduel",
+        "consensus_prob": 0.441026,
+        "consensus_odds": 126.74
+      },
+      "SF0.0": {
+        "price": -142,
+        "book": "fanduel",
+        "consensus_prob": 0.558974,
+        "consensus_odds": -126.74
+      }
+    },
+    "spreads_1st_3_innings_source": {
+      "LAA0.0": "fanduel",
+      "SF0.0": "fanduel"
+    },
+    "spreads_1st_5_innings": {
+      "LAA+0.5": {
+        "price": -125,
+        "book": "betmgm",
+        "consensus_prob": 0.263949,
+        "consensus_odds": 278.86
+      },
+      "SF-0.5": {
+        "price": -106,
+        "book": "fanduel",
+        "consensus_prob": 0.243949,
+        "consensus_odds": 309.92
+      },
+      "LAA0.0": {
+        "price": 123,
+        "book": "pinnacle",
+        "consensus_prob": 0.214608,
+        "consensus_odds": 365.97
+      },
+      "SF-0.0": {
+        "price": -138,
+        "book": "pinnacle",
+        "consensus_prob": 0.277494,
+        "consensus_odds": 260.37
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "LAA+0.5": "betmgm",
+      "SF-0.5": "fanduel",
+      "LAA0.0": "pinnacle",
+      "SF-0.0": "pinnacle"
+    },
+    "spreads_1st_7_innings": {
+      "LAA+0.5": {
+        "price": -110,
+        "book": "fanduel",
+        "consensus_prob": 0.5,
+        "consensus_odds": -100.0
+      },
+      "SF-0.5": {
+        "price": -110,
+        "book": "fanduel",
+        "consensus_prob": 0.5,
+        "consensus_odds": -100.0
+      }
+    },
+    "spreads_1st_7_innings_source": {
+      "LAA+0.5": "fanduel",
+      "SF-0.5": "fanduel"
+    },
+    "team_totals": {
+      "Over 3.5": {
+        "price": -132,
+        "book": "fanduel",
+        "consensus_prob": 0.262467,
+        "consensus_odds": 281.0
+      },
+      "Under 3.5": {
+        "price": -110,
+        "book": "betonlineag",
+        "consensus_prob": 0.237349,
+        "consensus_odds": 321.32
+      },
+      "Over 4.5": {
+        "price": -130,
+        "book": "bovada",
+        "consensus_prob": 0.259052,
+        "consensus_odds": 286.02
+      },
+      "Under 4.5": {
+        "price": -115,
+        "book": "draftkings",
+        "consensus_prob": 0.241132,
+        "consensus_odds": 314.71
+      }
+    },
+    "team_totals_source": {
+      "Over 3.5": "fanduel",
+      "Under 3.5": "betonlineag",
+      "Over 4.5": "bovada",
+      "Under 4.5": "draftkings"
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": {
+        "price": -111,
+        "book": "fanduel",
+        "consensus_prob": 0.246326,
+        "consensus_odds": 305.97
+      },
+      "Under 0.5": {
+        "price": -120,
+        "book": "betonlineag",
+        "consensus_prob": 0.251765,
+        "consensus_odds": 297.2
+      },
+      "Over 1.5": {
+        "price": 230,
+        "book": "bovada",
+        "consensus_prob": 0.142819,
+        "consensus_odds": 600.19
+      },
+      "Under 1.5": {
+        "price": -320,
+        "book": "bovada",
+        "consensus_prob": 0.359089,
+        "consensus_odds": 178.48
+      }
+    },
+    "totals_1st_1_innings_source": {
+      "Over 0.5": "fanduel",
+      "Under 0.5": "betonlineag",
+      "Over 1.5": "bovada",
+      "Under 1.5": "bovada"
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": {
+        "price": -120,
+        "book": "fanduel",
+        "consensus_prob": 0.519281,
+        "consensus_odds": -108.02
+      },
+      "Under 2.5": {
+        "price": -102,
+        "book": "fanduel",
+        "consensus_prob": 0.480719,
+        "consensus_odds": 108.02
+      }
+    },
+    "totals_1st_3_innings_source": {
+      "Over 2.5": "fanduel",
+      "Under 2.5": "fanduel"
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": -125,
+        "book": "fanduel",
+        "consensus_prob": 0.512005,
+        "consensus_odds": -104.92
+      },
+      "Under 4.5": {
+        "price": -115,
+        "book": "betmgm",
+        "consensus_prob": 0.487995,
+        "consensus_odds": 104.92
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": "fanduel",
+      "Under 4.5": "betmgm"
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": -114,
+        "book": "fanduel",
+        "consensus_prob": 0.508664,
+        "consensus_odds": -103.53
+      },
+      "Under 6.5": {
+        "price": -106,
+        "book": "fanduel",
+        "consensus_prob": 0.491336,
+        "consensus_odds": 103.53
+      }
+    },
+    "totals_1st_7_innings_source": {
+      "Over 6.5": "fanduel",
+      "Under 6.5": "fanduel"
+    },
+    "alternate_spreads_1st_3_innings": {
+      "LAA+1.5": {
+        "price": -350,
+        "book": "betmgm",
+        "consensus_prob": 0.18197,
+        "consensus_odds": 449.54
+      },
+      "LAA+0.5": {
+        "price": -154,
+        "book": "draftkings",
+        "consensus_prob": 0.142799,
+        "consensus_odds": 600.29
+      },
+      "LAA-0.5": {
+        "price": 160,
+        "book": "draftkings",
+        "consensus_prob": 0.090587,
+        "consensus_odds": 1003.91
+      },
+      "LAA-1.5": {
+        "price": 310,
+        "book": "draftkings",
+        "consensus_prob": 0.057445,
+        "consensus_odds": 1640.8
+      },
+      "SF-1.5": {
+        "price": 250,
+        "book": "betmgm",
+        "consensus_prob": 0.068283,
+        "consensus_odds": 1364.49
+      },
+      "SF-0.5": {
+        "price": 120,
+        "book": "draftkings",
+        "consensus_prob": 0.107057,
+        "consensus_odds": 834.08
+      },
+      "SF+0.5": {
+        "price": -210,
+        "book": "draftkings",
+        "consensus_prob": 0.15955,
+        "consensus_odds": 526.76
+      },
+      "SF+1.5": {
+        "price": -445,
+        "book": "draftkings",
+        "consensus_prob": 0.19231,
+        "consensus_odds": 419.99
+      }
+    },
+    "alternate_spreads_1st_3_innings_source": {
+      "LAA+1.5": "betmgm",
+      "LAA+0.5": "draftkings",
+      "LAA-0.5": "draftkings",
+      "LAA-1.5": "draftkings",
+      "SF-1.5": "betmgm",
+      "SF-0.5": "draftkings",
+      "SF+0.5": "draftkings",
+      "SF+1.5": "draftkings"
+    },
+    "alternate_spreads_1st_7_innings": {
+      "LAA+1.5": {
+        "price": -180,
+        "book": "draftkings",
+        "consensus_prob": 0.149927,
+        "consensus_odds": 566.99
+      },
+      "LAA+0.5": {
+        "price": -115,
+        "book": "draftkings",
+        "consensus_prob": 0.124081,
+        "consensus_odds": 705.93
+      },
+      "LAA-0.5": {
+        "price": 140,
+        "book": "betmgm",
+        "consensus_prob": 0.098707,
+        "consensus_odds": 913.1
+      },
+      "LAA-1.5": {
+        "price": 210,
+        "book": "draftkings",
+        "consensus_prob": 0.075614,
+        "consensus_odds": 1222.51
+      },
+      "SF-1.5": {
+        "price": 140,
+        "book": "draftkings",
+        "consensus_prob": 0.099792,
+        "consensus_odds": 902.08
+      },
+      "SF-0.5": {
+        "price": -120,
+        "book": "betmgm",
+        "consensus_prob": 0.126618,
+        "consensus_odds": 689.78
+      },
+      "SF+0.5": {
+        "price": -190,
+        "book": "betmgm",
+        "consensus_prob": 0.151371,
+        "consensus_odds": 560.63
+      },
+      "SF+1.5": {
+        "price": -295,
+        "book": "betmgm",
+        "consensus_prob": 0.17389,
+        "consensus_odds": 475.08
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "LAA+1.5": "draftkings",
+      "LAA+0.5": "draftkings",
+      "LAA-0.5": "betmgm",
+      "LAA-1.5": "draftkings",
+      "SF-1.5": "draftkings",
+      "SF-0.5": "betmgm",
+      "SF+0.5": "betmgm",
+      "SF+1.5": "betmgm"
+    },
+    "alternate_totals_1st_1_innings": {
+      "Over 0.5": {
+        "price": -110,
+        "book": "draftkings",
+        "consensus_prob": 0.248184,
+        "consensus_odds": 302.93
+      },
+      "Over 1.5": {
+        "price": 230,
+        "book": "draftkings",
+        "consensus_prob": 0.143577,
+        "consensus_odds": 596.49
+      },
+      "Under 0.5": {
+        "price": -120,
+        "book": "draftkings",
+        "consensus_prob": 0.249994,
+        "consensus_odds": 300.01
+      },
+      "Under 1.5": {
+        "price": -310,
+        "book": "draftkings",
+        "consensus_prob": 0.358244,
+        "consensus_odds": 179.14
+      }
+    },
+    "alternate_totals_1st_1_innings_source": {
+      "Over 0.5": "draftkings",
+      "Over 1.5": "draftkings",
+      "Under 0.5": "draftkings",
+      "Under 1.5": "draftkings"
+    },
+    "alternate_totals_1st_3_innings": {
+      "Over 1.5": {
+        "price": -250,
+        "book": "draftkings",
+        "consensus_prob": 0.223559,
+        "consensus_odds": 347.31
+      },
+      "Over 2.5": {
+        "price": -120,
+        "book": "draftkings",
+        "consensus_prob": 0.170065,
+        "consensus_odds": 488.01
+      },
+      "Over 3.5": {
+        "price": 154,
+        "book": "draftkings",
+        "consensus_prob": 0.123222,
+        "consensus_odds": 711.54
+      },
+      "Under 1.5": {
+        "price": 190,
+        "book": "draftkings",
+        "consensus_prob": 0.108872,
+        "consensus_odds": 818.51
+      },
+      "Under 2.5": {
+        "price": -110,
+        "book": "draftkings",
+        "consensus_prob": 0.163944,
+        "consensus_odds": 509.96
+      },
+      "Under 3.5": {
+        "price": -210,
+        "book": "betmgm",
+        "consensus_prob": 0.210338,
+        "consensus_odds": 375.43
+      }
+    },
+    "alternate_totals_1st_3_innings_source": {
+      "Over 1.5": "draftkings",
+      "Over 2.5": "draftkings",
+      "Over 3.5": "draftkings",
+      "Under 1.5": "draftkings",
+      "Under 2.5": "draftkings",
+      "Under 3.5": "betmgm"
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 5.5": {
+        "price": -195,
+        "book": "draftkings",
+        "consensus_prob": 0.205828,
+        "consensus_odds": 385.84
+      },
+      "Over 6.5": {
+        "price": -125,
+        "book": "draftkings",
+        "consensus_prob": 0.171526,
+        "consensus_odds": 483.0
+      },
+      "Over 7.5": {
+        "price": 125,
+        "book": "betmgm",
+        "consensus_prob": 0.139316,
+        "consensus_odds": 617.79
+      },
+      "Under 5.5": {
+        "price": 150,
+        "book": "draftkings",
+        "consensus_prob": 0.127712,
+        "consensus_odds": 683.01
+      },
+      "Under 6.5": {
+        "price": -110,
+        "book": "betmgm",
+        "consensus_prob": 0.162012,
+        "consensus_odds": 517.24
+      },
+      "Under 7.5": {
+        "price": -165,
+        "book": "betmgm",
+        "consensus_prob": 0.193605,
+        "consensus_odds": 416.52
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 5.5": "draftkings",
+      "Over 6.5": "draftkings",
+      "Over 7.5": "betmgm",
+      "Under 5.5": "draftkings",
+      "Under 6.5": "betmgm",
+      "Under 7.5": "betmgm"
+    },
+    "h2h_1st_3_innings": {
+      "LAA": {
+        "price": 105,
+        "book": "draftkings",
+        "consensus_prob": 0.465549,
+        "consensus_odds": 114.8
+      },
+      "SF": {
+        "price": -135,
+        "book": "draftkings",
+        "consensus_prob": 0.534451,
+        "consensus_odds": -114.8
+      }
+    },
+    "h2h_1st_3_innings_source": {
+      "LAA": "draftkings",
+      "SF": "draftkings"
+    },
+    "h2h_1st_7_innings": {
+      "LAA": {
+        "price": 115,
+        "book": "betmgm",
+        "consensus_prob": 0.437321,
+        "consensus_odds": 128.66
+      },
+      "SF": {
+        "price": -155,
+        "book": "betmgm",
+        "consensus_prob": 0.562679,
+        "consensus_odds": -128.66
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "LAA": "betmgm",
+      "SF": "betmgm"
+    },
+    "spreads_1st_1_innings": {
+      "LAA0.0": {
+        "price": -106,
+        "book": "pinnacle",
+        "consensus_prob": 0.495547,
+        "consensus_odds": 101.8
+      },
+      "SF-0.0": {
+        "price": -110,
+        "book": "pinnacle",
+        "consensus_prob": 0.504453,
+        "consensus_odds": -101.8
+      }
+    },
+    "spreads_1st_1_innings_source": {
+      "LAA0.0": "pinnacle",
+      "SF-0.0": "pinnacle"
+    },
+    "h2h_1st_1_innings": {
+      "LAA": {
+        "price": -115,
+        "book": "bovada",
+        "consensus_prob": 0.5,
+        "consensus_odds": -100.0
+      },
+      "SF": {
+        "price": -115,
+        "book": "bovada",
+        "consensus_prob": 0.5,
+        "consensus_odds": -100.0
+      }
+    },
+    "h2h_1st_1_innings_source": {
+      "LAA": "bovada",
+      "SF": "bovada"
+    }
+  }
+}

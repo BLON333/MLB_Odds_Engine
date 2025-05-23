@@ -1,0 +1,13 @@
+{
+  "2025-04-14-BOS@TB": {
+    "start_time": "2025-04-14T23:05:24Z",
+    "spreads": {
+      "Boston Red Sox 13.5": 240,
+      "Tampa Bay Rays -13.5": -350
+    },
+    "totals": {
+      "Over 16.5": -122,
+      "Under 16.5": -108
+    }
+  }
+}

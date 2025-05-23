@@ -1,0 +1,723 @@
+{
+  "2025-04-23-Jays@Astros": {
+    "start_time": "2025-04-23T00:10:00Z",
+    "h2h": {
+      "Houston Astros": -102,
+      "Toronto Blue Jays": -116
+    },
+    "spreads": {
+      "Houston Astros 1.5": -178,
+      "Toronto Blue Jays -1.5": 146
+    },
+    "totals": {
+      "Over 8.0": -115,
+      "Under 8.0": -105
+    },
+    "alternate_spreads": {
+      "Houston Astros -3.5": 470,
+      "Houston Astros -2.5": 310,
+      "Houston Astros -1.5": 200,
+      "Houston Astros 1.5": -178,
+      "Houston Astros 2.5": -295,
+      "Houston Astros 3.5": -480,
+      "Toronto Blue Jays 3.5": -770,
+      "Toronto Blue Jays 2.5": -440,
+      "Toronto Blue Jays 1.5": -265,
+      "Toronto Blue Jays -1.5": 138,
+      "Toronto Blue Jays -2.5": 220,
+      "Toronto Blue Jays -3.5": 330
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Houston Astros -1.5": 790,
+      "Toronto Blue Jays 1.5": -1500
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Houston Astros -3.5": 630,
+      "Houston Astros -2.5": 390,
+      "Houston Astros -1.5": 230,
+      "Houston Astros -0.5": 132,
+      "Houston Astros 0.5": -154,
+      "Houston Astros 1.5": -290,
+      "Houston Astros 2.5": -580,
+      "Houston Astros 3.5": -1200,
+      "Toronto Blue Jays 3.5": -1400,
+      "Toronto Blue Jays 2.5": -650,
+      "Toronto Blue Jays 1.5": -330,
+      "Toronto Blue Jays 0.5": -178,
+      "Toronto Blue Jays -0.5": 116,
+      "Toronto Blue Jays -1.5": 205,
+      "Toronto Blue Jays -2.5": 360,
+      "Toronto Blue Jays -3.5": 580
+    },
+    "alternate_team_totals": {
+      "Over 1.5": -720,
+      "Over 2.5": -310,
+      "Over 3.5": -162,
+      "Over 4.5": 114,
+      "Over 5.5": 190,
+      "Over 6.5": 290,
+      "Over 7.5": 470,
+      "Under 1.5": 450,
+      "Under 2.5": 230,
+      "Under 3.5": 126,
+      "Under 4.5": -146,
+      "Under 5.5": -250,
+      "Under 6.5": -410,
+      "Under 7.5": -770,
+      "Over 8.5": 750
+    },
+    "alternate_totals": {
+      "Over 6.5": -245,
+      "Over 7.5": -142,
+      "Over 8.5": 100,
+      "Over 9.5": 162,
+      "Over 10.5": 220,
+      "Over 11.5": 330,
+      "Over 12.5": 420,
+      "Over 13.5": 600,
+      "Over 14.5": 800,
+      "Under 6.5": 186,
+      "Under 7.5": 112,
+      "Under 8.5": -128,
+      "Under 9.5": -210,
+      "Under 10.5": -295,
+      "Under 11.5": -480,
+      "Under 12.5": -650,
+      "Under 13.5": -1100,
+      "Under 14.5": -1800
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -400,
+      "Over 3.5": -200,
+      "Over 4.5": -108,
+      "Over 5.5": 152,
+      "Over 6.5": 235,
+      "Over 7.5": 360,
+      "Over 8.5": 550,
+      "Over 9.5": 750,
+      "Under 2.5": 270,
+      "Under 3.5": 148,
+      "Under 4.5": -122,
+      "Under 5.5": -205,
+      "Under 6.5": -330,
+      "Under 7.5": -580
+    },
+    "h2h_1st_5_innings": {
+      "Houston Astros": -104,
+      "Toronto Blue Jays": -120
+    },
+    "spreads_1st_3_innings": {
+      "Houston Astros 0.0": -106,
+      "Toronto Blue Jays 0.0": -116
+    },
+    "spreads_1st_5_innings": {
+      "Houston Astros 0.5": -152,
+      "Toronto Blue Jays -0.5": 116
+    },
+    "spreads_1st_7_innings": {
+      "Houston Astros 0.0": -106,
+      "Toronto Blue Jays 0.0": -114
+    },
+    "team_totals": {
+      "Over 3.5": -130,
+      "Under 3.5": 102,
+      "Over 4.5": 114,
+      "Under 4.5": -146
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": -104,
+      "Under 0.5": -122
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": -106,
+      "Under 2.5": -116
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": -108,
+      "Under 4.5": -120
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": 100,
+      "Under 6.5": -122
+    }
+  },
+  "2025-04-23-Pirates@Angels": {
+    "start_time": "2025-04-23T01:38:00Z",
+    "h2h": {
+      "Los Angeles Angels": -180,
+      "Pittsburgh Pirates": 152
+    },
+    "spreads": {
+      "Los Angeles Angels -1.5": 116,
+      "Pittsburgh Pirates 1.5": -140
+    },
+    "totals": {
+      "Over 8.5": -115,
+      "Under 8.5": -105
+    },
+    "alternate_spreads": {
+      "Los Angeles Angels -3.5": 260,
+      "Los Angeles Angels -2.5": 176,
+      "Los Angeles Angels -1.5": 110,
+      "Los Angeles Angels 1.5": -320,
+      "Los Angeles Angels 2.5": -520,
+      "Los Angeles Angels 3.5": -850,
+      "Pittsburgh Pirates 3.5": -360,
+      "Pittsburgh Pirates 2.5": -230,
+      "Pittsburgh Pirates 1.5": -140,
+      "Pittsburgh Pirates -1.5": 235,
+      "Pittsburgh Pirates -2.5": 350,
+      "Pittsburgh Pirates -3.5": 500
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Los Angeles Angels -1.5": 490,
+      "Pittsburgh Pirates 1.5": -750
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Los Angeles Angels -3.5": 360,
+      "Los Angeles Angels -2.5": 220,
+      "Los Angeles Angels -1.5": 128,
+      "Los Angeles Angels -0.5": -144,
+      "Los Angeles Angels 0.5": -280,
+      "Los Angeles Angels 1.5": -550,
+      "Los Angeles Angels 2.5": -1100,
+      "Los Angeles Angels 3.5": -2500,
+      "Pittsburgh Pirates 3.5": -580,
+      "Pittsburgh Pirates 2.5": -310,
+      "Pittsburgh Pirates 1.5": -172,
+      "Pittsburgh Pirates 0.5": 108,
+      "Pittsburgh Pirates -0.5": 200,
+      "Pittsburgh Pirates -1.5": 350,
+      "Pittsburgh Pirates -2.5": 550,
+      "Pittsburgh Pirates -3.5": 850
+    },
+    "alternate_team_totals": {
+      "Over 2.5": -215,
+      "Over 3.5": -113,
+      "Over 4.5": 148,
+      "Over 5.5": 240,
+      "Over 6.5": 360,
+      "Over 7.5": 560,
+      "Over 8.5": 870,
+      "Over 9.5": 900,
+      "Under 1.5": 330,
+      "Under 2.5": 164,
+      "Under 3.5": -113,
+      "Under 4.5": -192,
+      "Under 5.5": -330,
+      "Under 6.5": -530,
+      "Under 7.5": -1000,
+      "Under 8.5": -1100,
+      "Over 1.5": -480,
+      "Under 0.5": 870
+    },
+    "alternate_totals": {
+      "Over 6.5": -290,
+      "Over 7.5": -166,
+      "Over 8.5": -120,
+      "Over 9.5": 132,
+      "Over 10.5": 186,
+      "Over 11.5": 280,
+      "Over 12.5": 350,
+      "Over 13.5": 500,
+      "Over 14.5": 680,
+      "Under 6.5": 215,
+      "Under 7.5": 130,
+      "Under 8.5": -106,
+      "Under 9.5": -170,
+      "Under 10.5": -245,
+      "Under 11.5": -390,
+      "Under 12.5": -520,
+      "Under 13.5": -850,
+      "Under 14.5": -1400
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -470,
+      "Over 3.5": -230,
+      "Over 4.5": -130,
+      "Over 5.5": 130,
+      "Over 6.5": 198,
+      "Over 7.5": 310,
+      "Over 8.5": 470,
+      "Over 9.5": 700,
+      "Over 10.5": 920,
+      "Under 2.5": 310,
+      "Under 3.5": 168,
+      "Under 4.5": -102,
+      "Under 5.5": -174,
+      "Under 6.5": -280,
+      "Under 7.5": -470,
+      "Under 8.5": -850
+    },
+    "h2h_1st_5_innings": {
+      "Los Angeles Angels": -188,
+      "Pittsburgh Pirates": 148
+    },
+    "spreads_1st_3_innings": {
+      "Los Angeles Angels -0.5": -104,
+      "Pittsburgh Pirates 0.5": -118
+    },
+    "spreads_1st_5_innings": {
+      "Los Angeles Angels -0.5": -140,
+      "Pittsburgh Pirates 0.5": 108
+    },
+    "spreads_1st_7_innings": {
+      "Los Angeles Angels -1.0": -112,
+      "Pittsburgh Pirates 1.0": -108
+    },
+    "team_totals": {
+      "Over 4.5": -120,
+      "Under 4.5": -106,
+      "Over 3.5": -113,
+      "Under 3.5": -113
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": -115,
+      "Under 0.5": -111
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": -122,
+      "Under 2.5": 100
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": -128,
+      "Under 4.5": -102
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": -115,
+      "Under 6.5": -105
+    }
+  },
+  "2025-04-23-Rays@Diamondbacks": {
+    "start_time": "2025-04-23T01:40:00Z",
+    "h2h": {
+      "Arizona Diamondbacks": -178,
+      "Tampa Bay Rays": 150
+    },
+    "spreads": {
+      "Arizona Diamondbacks -1.5": 112,
+      "Tampa Bay Rays 1.5": -134
+    },
+    "totals": {
+      "Over 9.0": -114,
+      "Under 9.0": -106
+    },
+    "alternate_spreads": {
+      "Arizona Diamondbacks -3.5": 255,
+      "Arizona Diamondbacks -2.5": 176,
+      "Arizona Diamondbacks -1.5": 108,
+      "Arizona Diamondbacks 1.5": -310,
+      "Arizona Diamondbacks 2.5": -480,
+      "Arizona Diamondbacks 3.5": -800,
+      "Tampa Bay Rays 3.5": -350,
+      "Tampa Bay Rays 2.5": -225,
+      "Tampa Bay Rays 1.5": -138,
+      "Tampa Bay Rays -1.5": 230,
+      "Tampa Bay Rays -2.5": 330,
+      "Tampa Bay Rays -3.5": 480
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Arizona Diamondbacks -1.5": 610,
+      "Tampa Bay Rays 1.5": -1000
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Arizona Diamondbacks -3.5": 390,
+      "Arizona Diamondbacks -2.5": 235,
+      "Arizona Diamondbacks -1.5": 144,
+      "Arizona Diamondbacks -0.5": -128,
+      "Arizona Diamondbacks 0.5": -245,
+      "Arizona Diamondbacks 1.5": -450,
+      "Arizona Diamondbacks 2.5": -900,
+      "Arizona Diamondbacks 3.5": -2200,
+      "Tampa Bay Rays 3.5": -650,
+      "Tampa Bay Rays 2.5": -340,
+      "Tampa Bay Rays 1.5": -198,
+      "Tampa Bay Rays 0.5": -104,
+      "Tampa Bay Rays -0.5": 178,
+      "Tampa Bay Rays -1.5": 300,
+      "Tampa Bay Rays -2.5": 490,
+      "Tampa Bay Rays -3.5": 800
+    },
+    "alternate_team_totals": {
+      "Over 2.5": -280,
+      "Over 3.5": -140,
+      "Over 4.5": 126,
+      "Over 5.5": 210,
+      "Over 6.5": 320,
+      "Over 7.5": 500,
+      "Over 8.5": 750,
+      "Over 9.5": 700,
+      "Under 1.5": 420,
+      "Under 2.5": 210,
+      "Under 3.5": 110,
+      "Under 4.5": -162,
+      "Under 5.5": -280,
+      "Under 6.5": -460,
+      "Under 7.5": -850,
+      "Under 8.5": -770,
+      "Over 1.5": -650
+    },
+    "alternate_totals": {
+      "Over 6.5": -390,
+      "Over 7.5": -210,
+      "Over 8.5": -150,
+      "Over 9.5": 106,
+      "Over 10.5": 144,
+      "Over 11.5": 215,
+      "Over 12.5": 285,
+      "Over 13.5": 400,
+      "Over 14.5": 520,
+      "Under 6.5": 280,
+      "Under 7.5": 162,
+      "Under 8.5": 118,
+      "Under 9.5": -136,
+      "Under 10.5": -186,
+      "Under 11.5": -290,
+      "Under 12.5": -400,
+      "Under 13.5": -620,
+      "Under 14.5": -900
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -470,
+      "Over 3.5": -240,
+      "Over 4.5": -130,
+      "Over 5.5": 136,
+      "Over 6.5": 210,
+      "Over 7.5": 320,
+      "Over 8.5": 470,
+      "Over 9.5": 680,
+      "Over 10.5": 920,
+      "Under 2.5": 310,
+      "Under 3.5": 174,
+      "Under 4.5": -102,
+      "Under 5.5": -182,
+      "Under 6.5": -300,
+      "Under 7.5": -490,
+      "Under 8.5": -850
+    },
+    "h2h_1st_5_innings": {
+      "Arizona Diamondbacks": -166,
+      "Tampa Bay Rays": 132
+    },
+    "spreads_1st_3_innings": {
+      "Arizona Diamondbacks -0.5": 112,
+      "Tampa Bay Rays 0.5": -136
+    },
+    "spreads_1st_5_innings": {
+      "Arizona Diamondbacks -0.5": -125,
+      "Tampa Bay Rays 0.5": -104
+    },
+    "spreads_1st_7_innings": {
+      "Arizona Diamondbacks -1.0": -106,
+      "Tampa Bay Rays 1.0": -114
+    },
+    "team_totals": {
+      "Over 4.5": -138,
+      "Under 4.5": 108,
+      "Over 3.5": -140,
+      "Under 3.5": 110
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": -115,
+      "Under 0.5": -111
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": -118,
+      "Under 2.5": -104
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": -128,
+      "Under 4.5": -102
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": -134,
+      "Under 6.5": 110
+    }
+  },
+  "2025-04-23-Brewers@Giants": {
+    "start_time": "2025-04-23T01:45:00Z",
+    "h2h": {
+      "Milwaukee Brewers": 120,
+      "San Francisco Giants": -142
+    },
+    "spreads": {
+      "Milwaukee Brewers 1.5": -182,
+      "San Francisco Giants -1.5": 150
+    },
+    "totals": {
+      "Over 8.0": -108,
+      "Under 8.0": -112
+    },
+    "alternate_spreads": {
+      "Milwaukee Brewers 3.5": -520,
+      "Milwaukee Brewers 2.5": -330,
+      "Milwaukee Brewers 1.5": -188,
+      "Milwaukee Brewers -1.5": 190,
+      "Milwaukee Brewers -2.5": 290,
+      "Milwaukee Brewers -3.5": 440,
+      "San Francisco Giants -3.5": 350,
+      "San Francisco Giants -2.5": 240,
+      "San Francisco Giants -1.5": 146,
+      "San Francisco Giants 1.5": -250,
+      "San Francisco Giants 2.5": -410,
+      "San Francisco Giants 3.5": -700
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Milwaukee Brewers 1.5": -1250,
+      "San Francisco Giants -1.5": 710
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Milwaukee Brewers 3.5": -900,
+      "Milwaukee Brewers 2.5": -440,
+      "Milwaukee Brewers 1.5": -245,
+      "Milwaukee Brewers 0.5": -130,
+      "Milwaukee Brewers -0.5": 158,
+      "Milwaukee Brewers -1.5": 280,
+      "Milwaukee Brewers -2.5": 470,
+      "Milwaukee Brewers -3.5": 750,
+      "San Francisco Giants -3.5": 490,
+      "San Francisco Giants -2.5": 290,
+      "San Francisco Giants -1.5": 178,
+      "San Francisco Giants -0.5": -102,
+      "San Francisco Giants 0.5": -215,
+      "San Francisco Giants 1.5": -420,
+      "San Francisco Giants 2.5": -850,
+      "San Francisco Giants 3.5": -2000
+    },
+    "alternate_team_totals": {
+      "Over 1.5": -800,
+      "Over 2.5": -320,
+      "Over 3.5": -154,
+      "Over 4.5": 122,
+      "Over 5.5": 210,
+      "Over 6.5": 340,
+      "Over 7.5": 520,
+      "Over 8.5": 870,
+      "Under 0.5": 900,
+      "Under 1.5": 480,
+      "Under 2.5": 235,
+      "Under 3.5": 120,
+      "Under 4.5": -156,
+      "Under 5.5": -280,
+      "Under 6.5": -500,
+      "Under 7.5": -900
+    },
+    "alternate_totals": {
+      "Over 5.5": -330,
+      "Over 6.5": -225,
+      "Over 7.5": -132,
+      "Over 8.5": 110,
+      "Over 9.5": 168,
+      "Over 10.5": 230,
+      "Over 11.5": 340,
+      "Over 12.5": 450,
+      "Over 13.5": 630,
+      "Under 5.5": 240,
+      "Under 6.5": 172,
+      "Under 7.5": 104,
+      "Under 8.5": -140,
+      "Under 9.5": -220,
+      "Under 10.5": -310,
+      "Under 11.5": -500,
+      "Under 12.5": -720,
+      "Under 13.5": -1200
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -330,
+      "Over 3.5": -172,
+      "Over 4.5": 104,
+      "Over 5.5": 174,
+      "Over 6.5": 270,
+      "Over 7.5": 410,
+      "Over 8.5": 630,
+      "Over 9.5": 880,
+      "Under 2.5": 230,
+      "Under 3.5": 126,
+      "Under 4.5": -138,
+      "Under 5.5": -240,
+      "Under 6.5": -400,
+      "Under 7.5": -700
+    },
+    "h2h_1st_5_innings": {
+      "Milwaukee Brewers": 112,
+      "San Francisco Giants": -140
+    },
+    "spreads_1st_3_innings": {
+      "Milwaukee Brewers 0.0": 120,
+      "San Francisco Giants 0.0": -146
+    },
+    "spreads_1st_5_innings": {
+      "Milwaukee Brewers 0.5": -128,
+      "San Francisco Giants -0.5": -102
+    },
+    "spreads_1st_7_innings": {
+      "Milwaukee Brewers 0.5": -112,
+      "San Francisco Giants -0.5": -108
+    },
+    "team_totals": {
+      "Over 3.5": -154,
+      "Under 3.5": 120
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": 102,
+      "Under 0.5": -130
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": 104,
+      "Under 2.5": -126
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": 106,
+      "Under 4.5": -138
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": 112,
+      "Under 6.5": -138
+    }
+  },
+  "2025-04-23-Rangers@Athletics": {
+    "start_time": "2025-04-23T02:05:00Z",
+    "h2h": {
+      "Oakland Athletics": -122,
+      "Texas Rangers": 104
+    },
+    "spreads": {
+      "Oakland Athletics -1.5": 160,
+      "Texas Rangers 1.5": -194
+    },
+    "totals": {
+      "Over 10.0": -115,
+      "Under 10.0": -105
+    },
+    "alternate_spreads": {
+      "Oakland Athletics -3.5": 350,
+      "Oakland Athletics -2.5": 250,
+      "Oakland Athletics -1.5": 158,
+      "Oakland Athletics 1.5": -210,
+      "Oakland Athletics 2.5": -330,
+      "Oakland Athletics 3.5": -500,
+      "Texas Rangers 3.5": -520,
+      "Texas Rangers 2.5": -340,
+      "Texas Rangers 1.5": -205,
+      "Texas Rangers -1.5": 162,
+      "Texas Rangers -2.5": 240,
+      "Texas Rangers -3.5": 340
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Oakland Athletics -1.5": 520,
+      "Texas Rangers 1.5": -800
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Oakland Athletics -3.5": 370,
+      "Oakland Athletics -2.5": 235,
+      "Oakland Athletics -1.5": 152,
+      "Oakland Athletics -0.5": -112,
+      "Oakland Athletics 0.5": -200,
+      "Oakland Athletics 1.5": -330,
+      "Oakland Athletics 2.5": -600,
+      "Oakland Athletics 3.5": -1200,
+      "Texas Rangers 3.5": -600,
+      "Texas Rangers 2.5": -340,
+      "Texas Rangers 1.5": -205,
+      "Texas Rangers 0.5": -118,
+      "Texas Rangers -0.5": 148,
+      "Texas Rangers -1.5": 230,
+      "Texas Rangers -2.5": 370,
+      "Texas Rangers -3.5": 580
+    },
+    "alternate_team_totals": {
+      "Over 2.5": -460,
+      "Over 3.5": -235,
+      "Over 4.5": -136,
+      "Over 5.5": 124,
+      "Over 6.5": 196,
+      "Over 7.5": 285,
+      "Over 8.5": 430,
+      "Over 9.5": 600,
+      "Under 1.5": 630,
+      "Under 2.5": 320,
+      "Under 3.5": 180,
+      "Under 4.5": 106,
+      "Under 5.5": -160,
+      "Under 6.5": -260,
+      "Under 7.5": -400,
+      "Under 8.5": -670,
+      "Over 1.5": -1200,
+      "Under 9.5": -1100
+    },
+    "alternate_totals": {
+      "Over 7.5": -330,
+      "Over 8.5": -225,
+      "Over 9.5": -140,
+      "Over 10.5": 100,
+      "Over 11.5": 148,
+      "Over 12.5": 200,
+      "Over 13.5": 280,
+      "Over 14.5": 350,
+      "Over 15.5": 500,
+      "Under 7.5": 240,
+      "Under 8.5": 172,
+      "Under 9.5": 110,
+      "Under 10.5": -128,
+      "Under 11.5": -192,
+      "Under 12.5": -265,
+      "Under 13.5": -390,
+      "Under 14.5": -520,
+      "Under 15.5": -850
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": -420,
+      "Over 4.5": -230,
+      "Over 5.5": -136,
+      "Over 6.5": 118,
+      "Over 7.5": 182,
+      "Over 8.5": 270,
+      "Over 9.5": 390,
+      "Over 10.5": 550,
+      "Over 11.5": 750,
+      "Under 3.5": 280,
+      "Under 4.5": 168,
+      "Under 5.5": 102,
+      "Under 6.5": -158,
+      "Under 7.5": -250,
+      "Under 8.5": -400,
+      "Under 9.5": -650
+    },
+    "h2h_1st_5_innings": {
+      "Oakland Athletics": -142,
+      "Texas Rangers": 114
+    },
+    "spreads_1st_3_innings": {
+      "Oakland Athletics -0.5": 108,
+      "Texas Rangers 0.5": -132
+    },
+    "spreads_1st_5_innings": {
+      "Oakland Athletics -0.5": -113,
+      "Texas Rangers 0.5": -115
+    },
+    "spreads_1st_7_innings": {
+      "Oakland Athletics -0.5": -108,
+      "Texas Rangers 0.5": -112
+    },
+    "team_totals": {
+      "Over 4.5": -136,
+      "Under 4.5": 106
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": -158,
+      "Under 0.5": 124
+    },
+    "totals_1st_3_innings": {
+      "Over 3.5": -102,
+      "Under 3.5": -118
+    },
+    "totals_1st_5_innings": {
+      "Over 5.5": -132,
+      "Under 5.5": 102
+    },
+    "totals_1st_7_innings": {
+      "Over 8.5": 106,
+      "Under 8.5": -130
+    }
+  }
+}

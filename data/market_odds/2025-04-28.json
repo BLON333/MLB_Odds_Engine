@@ -1,0 +1,1577 @@
+{
+  "2025-04-28-MIA@LAD": {
+    "h2h": {
+      "Los Angeles Dodgers": {
+        "price": -800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "spreads": {
+      "Los Angeles Dodgers -3.5": {
+        "price": 120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +3.5": {
+        "price": 118,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -1.5": {
+        "price": -335,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +1.5": {
+        "price": 230,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -3.0": {
+        "price": -114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +3.0": {
+        "price": -110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -4.5": {
+        "price": 100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +4.5": {
+        "price": -143,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -5.5": {
+        "price": -101,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +5.5": {
+        "price": -116,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 10.5": {
+        "price": 108,
+        "consensus_prob": 0.499472,
+        "consensus_odds": 100.21
+      },
+      "Under 10.5": {
+        "price": 110,
+        "consensus_prob": 0.500528,
+        "consensus_odds": -100.21
+      },
+      "Over 11.0": {
+        "price": -110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 11.0": {
+        "price": -117,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 9.5": {
+        "price": -111,
+        "consensus_prob": 0.486368,
+        "consensus_odds": 105.61
+      },
+      "Under 9.5": {
+        "price": -125,
+        "consensus_prob": 0.513632,
+        "consensus_odds": -105.61
+      },
+      "Over 8.5": {
+        "price": 109,
+        "consensus_prob": 0.460123,
+        "consensus_odds": 117.33
+      },
+      "Under 8.5": {
+        "price": -128,
+        "consensus_prob": 0.539877,
+        "consensus_odds": -117.33
+      },
+      "Over 11.5": {
+        "price": 105,
+        "consensus_prob": 0.459209,
+        "consensus_odds": 117.77
+      },
+      "Under 11.5": {
+        "price": -120,
+        "consensus_prob": 0.540791,
+        "consensus_odds": -117.77
+      },
+      "Over 8.0": {
+        "price": -135,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 8.0": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads": {
+      "Los Angeles Dodgers -3.5": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -2.5": {
+        "price": -182,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -1.5": {
+        "price": -370,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers +1.5": {
+        "price": -3000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +3.5": {
+        "price": 215,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +2.5": {
+        "price": 359,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +1.5": {
+        "price": 320,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins -1.5": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -5.5": {
+        "price": 290,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -4.5": {
+        "price": 190,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +5.5": {
+        "price": -116,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +4.5": {
+        "price": 120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -8.5": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -8.0": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -7.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -7.0": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -6.5": {
+        "price": 475,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -4.0": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -3.0": {
+        "price": -142,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +8.5": {
+        "price": -1208,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +8.0": {
+        "price": -1108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +7.5": {
+        "price": -583,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +7.0": {
+        "price": -483,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +6.5": {
+        "price": -313,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +4.0": {
+        "price": 184,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +3.0": {
+        "price": 334,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers +1.0": {
+        "price": -2500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -1.0": {
+        "price": -1025,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -2.0": {
+        "price": -300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -5.0": {
+        "price": 260,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -6.0": {
+        "price": 425,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins -1.0": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +1.0": {
+        "price": 575,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +2.0": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +5.0": {
+        "price": 137,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +6.0": {
+        "price": -174,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "LAD 5.5": {
+        "price": 333,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAD 6.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAD 7.5": {
+        "price": 155,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAD 8.5": {
+        "price": 265,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAD 9.5": {
+        "price": 450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 2.5": {
+        "price": 182,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 3.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 4.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 5.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 6.5": {
+        "price": 520,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 7.5": {
+        "price": 800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 1.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 6.5": {
+        "price": -7000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 7.5": {
+        "price": -975,
+        "consensus_prob": 0.858794,
+        "consensus_odds": -608.19
+      },
+      "Over 8.5": {
+        "price": 109,
+        "consensus_prob": 0.680649,
+        "consensus_odds": -213.14
+      },
+      "Over 9.5": {
+        "price": -160,
+        "consensus_prob": 0.628463,
+        "consensus_odds": -169.15
+      },
+      "Over 10.5": {
+        "price": 100,
+        "consensus_prob": 0.530919,
+        "consensus_odds": -113.18
+      },
+      "Over 11.5": {
+        "price": 170,
+        "consensus_prob": 0.401093,
+        "consensus_odds": 149.32
+      },
+      "Over 12.5": {
+        "price": 210,
+        "consensus_prob": 0.320762,
+        "consensus_odds": 211.76
+      },
+      "Over 13.5": {
+        "price": 330,
+        "consensus_prob": 0.243999,
+        "consensus_odds": 309.84
+      },
+      "Over 14.5": {
+        "price": 410,
+        "consensus_prob": 0.190585,
+        "consensus_odds": 424.7
+      },
+      "Under 7.5": {
+        "price": 750,
+        "consensus_prob": 0.141206,
+        "consensus_odds": 608.19
+      },
+      "Under 8.5": {
+        "price": 330,
+        "consensus_prob": 0.319351,
+        "consensus_odds": 213.14
+      },
+      "Under 9.5": {
+        "price": 185,
+        "consensus_prob": 0.371537,
+        "consensus_odds": 169.15
+      },
+      "Under 10.5": {
+        "price": 140,
+        "consensus_prob": 0.469081,
+        "consensus_odds": 113.18
+      },
+      "Under 11.5": {
+        "price": -120,
+        "consensus_prob": 0.598907,
+        "consensus_odds": -149.32
+      },
+      "Under 12.5": {
+        "price": -170,
+        "consensus_prob": 0.679238,
+        "consensus_odds": -211.76
+      },
+      "Under 13.5": {
+        "price": -285,
+        "consensus_prob": 0.756001,
+        "consensus_odds": -309.84
+      },
+      "Under 14.5": {
+        "price": -400,
+        "consensus_prob": 0.809415,
+        "consensus_odds": -424.7
+      },
+      "Over 9.0": {
+        "price": 152,
+        "consensus_prob": 0.550566,
+        "consensus_odds": -122.5
+      },
+      "Over 10.0": {
+        "price": -154,
+        "consensus_prob": 0.590465,
+        "consensus_odds": -144.18
+      },
+      "Over 11.0": {
+        "price": 114,
+        "consensus_prob": 0.469388,
+        "consensus_odds": 113.04
+      },
+      "Over 12.0": {
+        "price": 180,
+        "consensus_prob": 0.368843,
+        "consensus_odds": 171.12
+      },
+      "Over 13.0": {
+        "price": 295,
+        "consensus_prob": 0.277062,
+        "consensus_odds": 260.93
+      },
+      "Under 9.0": {
+        "price": 230,
+        "consensus_prob": 0.449434,
+        "consensus_odds": 122.5
+      },
+      "Under 10.0": {
+        "price": 130,
+        "consensus_prob": 0.409535,
+        "consensus_odds": 144.18
+      },
+      "Under 11.0": {
+        "price": -130,
+        "consensus_prob": 0.530612,
+        "consensus_odds": -113.04
+      },
+      "Under 12.0": {
+        "price": -204,
+        "consensus_prob": 0.631157,
+        "consensus_odds": -171.12
+      },
+      "Under 13.0": {
+        "price": -330,
+        "consensus_prob": 0.722938,
+        "consensus_odds": -260.93
+      },
+      "Over 8.0": {
+        "price": -128,
+        "consensus_prob": 0.692979,
+        "consensus_odds": -225.71
+      },
+      "Over 14.0": {
+        "price": 350,
+        "consensus_prob": 0.209205,
+        "consensus_odds": 378.0
+      },
+      "Over 15.0": {
+        "price": 550,
+        "consensus_prob": 0.145025,
+        "consensus_odds": 589.54
+      },
+      "Over 15.5": {
+        "price": 575,
+        "consensus_prob": 0.13986,
+        "consensus_odds": 615.0
+      },
+      "Over 16.0": {
+        "price": 800,
+        "consensus_prob": 0.10559,
+        "consensus_odds": 847.06
+      },
+      "Under 8.0": {
+        "price": 500,
+        "consensus_prob": 0.307021,
+        "consensus_odds": 225.71
+      },
+      "Under 14.0": {
+        "price": -525,
+        "consensus_prob": 0.790795,
+        "consensus_odds": -378.0
+      },
+      "Under 15.0": {
+        "price": -975,
+        "consensus_prob": 0.854975,
+        "consensus_odds": -589.54
+      },
+      "Under 15.5": {
+        "price": -800,
+        "consensus_prob": 0.86014,
+        "consensus_odds": -615.0
+      },
+      "Under 16.0": {
+        "price": -1600,
+        "consensus_prob": 0.89441,
+        "consensus_odds": -847.06
+      },
+      "Over 16.5": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 16.5": {
+        "price": -1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "team_totals": {
+      "LAD 6.5": {
+        "price": 116,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIA 3.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAD 5.5": {
+        "price": -102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "Los Angeles Dodgers -2.5": {
+        "price": -275,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -3.5": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -4.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +2.5": {
+        "price": 190,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +3.5": {
+        "price": -102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +4.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 7.5": {
+        "price": -325,
+        "consensus_prob": 0.709898,
+        "consensus_odds": -244.71
+      },
+      "Over 8.5": {
+        "price": -155,
+        "consensus_prob": 0.560724,
+        "consensus_odds": -127.65
+      },
+      "Over 9.5": {
+        "price": 118,
+        "consensus_prob": 0.42707,
+        "consensus_odds": 134.15
+      },
+      "Under 7.5": {
+        "price": 220,
+        "consensus_prob": 0.290102,
+        "consensus_odds": 244.71
+      },
+      "Under 8.5": {
+        "price": 145,
+        "consensus_prob": 0.439276,
+        "consensus_odds": 127.65
+      },
+      "Under 9.5": {
+        "price": -125,
+        "consensus_prob": 0.57293,
+        "consensus_odds": -134.15
+      },
+      "Over 10.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 10.5": {
+        "price": -240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_lay": {
+      "Los Angeles Dodgers": {
+        "price": -200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins": {
+        "price": 1700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_7_innings": {
+      "Los Angeles Dodgers": {
+        "price": -1400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Los Angeles Dodgers +1.0": {
+        "price": -482,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers +0.5": {
+        "price": -281,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -0.5": {
+        "price": -152,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Dodgers -1.0": {
+        "price": -119,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins -1.0": {
+        "price": 351,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins -0.5": {
+        "price": 231,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +0.5": {
+        "price": 132,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins +1.0": {
+        "price": 102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": {
+        "price": -209,
+        "consensus_prob": 0.652,
+        "consensus_odds": -187.36
+      },
+      "Over 4.0": {
+        "price": -167,
+        "consensus_prob": 0.604139,
+        "consensus_odds": -152.61
+      },
+      "Over 5.0": {
+        "price": 107,
+        "consensus_prob": 0.467821,
+        "consensus_odds": 113.76
+      },
+      "Over 5.5": {
+        "price": 133,
+        "consensus_prob": 0.414477,
+        "consensus_odds": 141.27
+      },
+      "Under 3.5": {
+        "price": 177,
+        "consensus_prob": 0.348,
+        "consensus_odds": 187.36
+      },
+      "Under 4.0": {
+        "price": 144,
+        "consensus_prob": 0.395861,
+        "consensus_odds": 152.61
+      },
+      "Under 5.0": {
+        "price": -122,
+        "consensus_prob": 0.532179,
+        "consensus_odds": -113.76
+      },
+      "Under 5.5": {
+        "price": -154,
+        "consensus_prob": 0.585523,
+        "consensus_odds": -141.27
+      }
+    },
+    "spreads_1st_5_innings": {
+      "Los Angeles Dodgers 0.0": {
+        "price": -224,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Miami Marlins -0.0": {
+        "price": 193,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": -121,
+        "consensus_prob": 0.530047,
+        "consensus_odds": -112.79
+      },
+      "Under 4.5": {
+        "price": 106,
+        "consensus_prob": 0.469953,
+        "consensus_odds": 112.79
+      }
+    },
+    "h2h_source": {
+      "Los Angeles Dodgers": {
+        "fanduel": -3500,
+        "ballybet": -1250,
+        "betparx": -1250,
+        "unibet_eu": -1250,
+        "fliff": -1085,
+        "espnbet": -1800,
+        "mybookieag": -3333,
+        "winamax_fr": -1000,
+        "tipico_de": -1429,
+        "hardrockbet": -1200,
+        "nordicbet": -10000,
+        "williamhill_us": -1800,
+        "betfair_ex_eu": -1429,
+        "draftkings": -950,
+        "fanatics": -800,
+        "gtbets": -1230,
+        "coolbet": -1111
+      },
+      "Miami Marlins": {
+        "fanduel": 1060,
+        "ballybet": 650,
+        "betparx": 650,
+        "unibet_eu": 650,
+        "fliff": 590,
+        "espnbet": 700,
+        "mybookieag": 1025,
+        "winamax_fr": 600,
+        "tipico_de": 600,
+        "hardrockbet": 600,
+        "nordicbet": 1200,
+        "williamhill_us": 850,
+        "betfair_ex_eu": 200,
+        "draftkings": 575,
+        "fanatics": 475,
+        "gtbets": 699,
+        "coolbet": 650
+      }
+    },
+    "spreads_source": {
+      "Los Angeles Dodgers -3.5": {
+        "fanduel": -158,
+        "fliff": -105,
+        "espnbet": 100,
+        "hardrockbet": 100,
+        "betmgm": -102,
+        "williamhill_us": -125,
+        "draftkings": 120,
+        "fanatics": 110,
+        "gtbets": -108,
+        "coolbet": 105
+      },
+      "Miami Marlins +3.5": {
+        "fanduel": 118,
+        "fliff": -125,
+        "espnbet": -130,
+        "hardrockbet": -130,
+        "betmgm": -125,
+        "williamhill_us": -105,
+        "draftkings": -154,
+        "fanatics": -145,
+        "gtbets": -118,
+        "coolbet": -125
+      },
+      "Los Angeles Dodgers -1.5": {
+        "ballybet": -335,
+        "betparx": -335
+      },
+      "Miami Marlins +1.5": {
+        "ballybet": 230,
+        "betparx": 230
+      },
+      "Los Angeles Dodgers -3.0": {
+        "unibet_eu": -114
+      },
+      "Miami Marlins +3.0": {
+        "unibet_eu": -110
+      },
+      "Los Angeles Dodgers -4.5": {
+        "mybookieag": 100
+      },
+      "Miami Marlins +4.5": {
+        "mybookieag": -143
+      },
+      "Los Angeles Dodgers -5.5": {
+        "bovada": -105,
+        "pinnacle": -101
+      },
+      "Miami Marlins +5.5": {
+        "bovada": -125,
+        "pinnacle": -116
+      }
+    },
+    "totals_source": {
+      "Over 10.5": {
+        "fanduel": 108,
+        "sport888": -125,
+        "fliff": -140,
+        "espnbet": -130,
+        "hardrockbet": -125,
+        "betmgm": -140,
+        "williamhill_us": -105,
+        "gtbets": -113,
+        "coolbet": -125
+      },
+      "Under 10.5": {
+        "fanduel": -144,
+        "sport888": -118,
+        "fliff": 105,
+        "espnbet": 100,
+        "hardrockbet": -105,
+        "betmgm": 110,
+        "williamhill_us": -125,
+        "gtbets": -113,
+        "coolbet": 100
+      },
+      "Over 11.0": {
+        "ballybet": -110,
+        "betparx": -110
+      },
+      "Under 11.0": {
+        "ballybet": -117,
+        "betparx": -117
+      },
+      "Over 9.5": {
+        "mybookieag": -111
+      },
+      "Under 9.5": {
+        "mybookieag": -125
+      },
+      "Over 8.5": {
+        "tipico_de": -100000,
+        "pinnacle": 109
+      },
+      "Under 8.5": {
+        "tipico_de": -100000,
+        "pinnacle": -128
+      },
+      "Over 11.5": {
+        "draftkings": 105,
+        "fanatics": -110
+      },
+      "Under 11.5": {
+        "draftkings": -135,
+        "fanatics": -120
+      },
+      "Over 8.0": {
+        "bovada": -135
+      },
+      "Under 8.0": {
+        "bovada": 105
+      }
+    },
+    "alternate_spreads_source": {
+      "Los Angeles Dodgers -3.5": {
+        "fanduel": -108,
+        "fliff": -105,
+        "espnbet": -125,
+        "betmgm": -125,
+        "williamhill_us": -348,
+        "coolbet": 105
+      },
+      "Los Angeles Dodgers -2.5": {
+        "fanduel": -210,
+        "fliff": -195,
+        "espnbet": -250,
+        "hardrockbet": -190,
+        "betmgm": -235,
+        "williamhill_us": -708,
+        "draftkings": -188,
+        "coolbet": -182
+      },
+      "Los Angeles Dodgers -1.5": {
+        "fanduel": -440,
+        "fliff": -370,
+        "betmgm": -450,
+        "draftkings": -370
+      },
+      "Los Angeles Dodgers +1.5": {
+        "fanduel": -3500,
+        "draftkings": -3000
+      },
+      "Miami Marlins +3.5": {
+        "fanduel": -122,
+        "fliff": -125,
+        "espnbet": -105,
+        "betmgm": 100,
+        "williamhill_us": 215,
+        "coolbet": -125
+      },
+      "Miami Marlins +2.5": {
+        "fanduel": 154,
+        "fliff": 135,
+        "espnbet": 180,
+        "hardrockbet": 145,
+        "betmgm": 180,
+        "williamhill_us": 359,
+        "draftkings": 145,
+        "coolbet": 150
+      },
+      "Miami Marlins +1.5": {
+        "fanduel": 290,
+        "fliff": 245,
+        "betmgm": 320,
+        "draftkings": 260
+      },
+      "Miami Marlins -1.5": {
+        "fanduel": 920,
+        "draftkings": 1200
+      },
+      "Los Angeles Dodgers -5.5": {
+        "fliff": 280,
+        "betmgm": 290,
+        "draftkings": 290,
+        "pinnacle": -101
+      },
+      "Los Angeles Dodgers -4.5": {
+        "fliff": 165,
+        "espnbet": 150,
+        "hardrockbet": 180,
+        "betmgm": 160,
+        "williamhill_us": -178,
+        "draftkings": 176,
+        "coolbet": 190
+      },
+      "Miami Marlins +5.5": {
+        "fliff": -440,
+        "betmgm": -400,
+        "draftkings": -420,
+        "pinnacle": -116
+      },
+      "Miami Marlins +4.5": {
+        "fliff": -240,
+        "espnbet": -200,
+        "hardrockbet": -250,
+        "betmgm": -210,
+        "williamhill_us": 120,
+        "draftkings": -234,
+        "coolbet": -238
+      },
+      "Los Angeles Dodgers -8.5": {
+        "williamhill_us": 486,
+        "draftkings": 1200
+      },
+      "Los Angeles Dodgers -8.0": {
+        "williamhill_us": 465,
+        "draftkings": 1100
+      },
+      "Los Angeles Dodgers -7.5": {
+        "williamhill_us": 316,
+        "draftkings": 750
+      },
+      "Los Angeles Dodgers -7.0": {
+        "williamhill_us": 276,
+        "draftkings": 700
+      },
+      "Los Angeles Dodgers -6.5": {
+        "williamhill_us": 197,
+        "draftkings": 475
+      },
+      "Los Angeles Dodgers -4.0": {
+        "williamhill_us": -288,
+        "draftkings": 140
+      },
+      "Los Angeles Dodgers -3.0": {
+        "williamhill_us": -633,
+        "draftkings": -142
+      },
+      "Miami Marlins +8.5": {
+        "williamhill_us": -1208,
+        "draftkings": -3000
+      },
+      "Miami Marlins +8.0": {
+        "williamhill_us": -1108,
+        "draftkings": -2500
+      },
+      "Miami Marlins +7.5": {
+        "williamhill_us": -583,
+        "draftkings": -1450
+      },
+      "Miami Marlins +7.0": {
+        "williamhill_us": -483,
+        "draftkings": -1300
+      },
+      "Miami Marlins +6.5": {
+        "williamhill_us": -313,
+        "draftkings": -775
+      },
+      "Miami Marlins +4.0": {
+        "williamhill_us": 184,
+        "draftkings": -182
+      },
+      "Miami Marlins +3.0": {
+        "williamhill_us": 334,
+        "draftkings": 110
+      },
+      "Los Angeles Dodgers +1.0": {
+        "draftkings": -2500
+      },
+      "Los Angeles Dodgers -1.0": {
+        "draftkings": -1025
+      },
+      "Los Angeles Dodgers -2.0": {
+        "draftkings": -300
+      },
+      "Los Angeles Dodgers -5.0": {
+        "draftkings": 260,
+        "pinnacle": -163
+      },
+      "Los Angeles Dodgers -6.0": {
+        "draftkings": 425,
+        "pinnacle": 147
+      },
+      "Miami Marlins -1.0": {
+        "draftkings": 1100
+      },
+      "Miami Marlins +1.0": {
+        "draftkings": 575
+      },
+      "Miami Marlins +2.0": {
+        "draftkings": 220
+      },
+      "Miami Marlins +5.0": {
+        "draftkings": -370,
+        "pinnacle": 137
+      },
+      "Miami Marlins +6.0": {
+        "draftkings": -675,
+        "pinnacle": -174
+      }
+    },
+    "alternate_team_totals_source": {
+      "LAD 5.5": {
+        "fanduel": 280,
+        "hardrockbet": 260,
+        "betmgm": 333,
+        "fanatics": 330
+      },
+      "LAD 6.5": {
+        "fanduel": 116,
+        "hardrockbet": 110,
+        "betmgm": 125,
+        "fanatics": 140
+      },
+      "LAD 7.5": {
+        "fanduel": -188,
+        "hardrockbet": -200,
+        "fanatics": -165
+      },
+      "LAD 8.5": {
+        "fanduel": -390,
+        "fanatics": -325
+      },
+      "LAD 9.5": {
+        "fanduel": -800,
+        "fanatics": -630
+      },
+      "MIA 2.5": {
+        "fanduel": 182,
+        "hardrockbet": 130,
+        "betmgm": 160,
+        "fanatics": 165
+      },
+      "MIA 3.5": {
+        "fanduel": -130,
+        "hardrockbet": -170,
+        "betmgm": -140,
+        "fanatics": -115
+      },
+      "MIA 4.5": {
+        "fanduel": -260,
+        "hardrockbet": -325,
+        "betmgm": -275,
+        "fanatics": -225
+      },
+      "MIA 5.5": {
+        "fanduel": -470,
+        "fanatics": -375
+      },
+      "MIA 6.5": {
+        "fanduel": -1000
+      },
+      "MIA 7.5": {
+        "fanduel": 800
+      },
+      "MIA 1.5": {
+        "fanduel": 490,
+        "fanatics": 500
+      }
+    },
+    "alternate_totals_source": {
+      "Over 6.5": {
+        "fanduel": -7000
+      },
+      "Over 7.5": {
+        "fanduel": -1200,
+        "draftkings": -975,
+        "fanatics": -1400
+      },
+      "Over 8.5": {
+        "fanduel": -420,
+        "ballybet": -500,
+        "fliff": -415,
+        "betmgm": -400,
+        "draftkings": -385,
+        "fanatics": -500,
+        "bovada": -375,
+        "pinnacle": 109
+      },
+      "Over 9.5": {
+        "fanduel": -210,
+        "ballybet": -195,
+        "fliff": -215,
+        "espnbet": -160,
+        "hardrockbet": -195,
+        "betmgm": -200,
+        "draftkings": -198,
+        "fanatics": -250,
+        "bovada": -190
+      },
+      "Over 10.5": {
+        "fanduel": -136,
+        "ballybet": -120,
+        "fliff": -140,
+        "espnbet": 100,
+        "betmgm": -125,
+        "fanatics": -180,
+        "coolbet": -125
+      },
+      "Over 11.5": {
+        "fanduel": 132,
+        "ballybet": 143,
+        "fliff": 120,
+        "espnbet": 170,
+        "hardrockbet": 140,
+        "betmgm": 145,
+        "draftkings": 126,
+        "fanatics": -110,
+        "bovada": 140,
+        "coolbet": 140
+      },
+      "Over 12.5": {
+        "fanduel": 194,
+        "ballybet": 200,
+        "fliff": 165,
+        "betmgm": 210,
+        "draftkings": 176,
+        "fanatics": 130,
+        "bovada": 200
+      },
+      "Over 13.5": {
+        "fanduel": 300,
+        "ballybet": 330,
+        "draftkings": 270,
+        "fanatics": 210
+      },
+      "Over 14.5": {
+        "fanduel": 410,
+        "draftkings": 375,
+        "fanatics": 280
+      },
+      "Under 7.5": {
+        "fanduel": 580,
+        "draftkings": 550,
+        "fanatics": 750
+      },
+      "Under 8.5": {
+        "fanduel": 280,
+        "ballybet": 255,
+        "fliff": 265,
+        "betmgm": 290,
+        "draftkings": 270,
+        "fanatics": 330,
+        "bovada": 260,
+        "pinnacle": -128
+      },
+      "Under 9.5": {
+        "fanduel": 154,
+        "ballybet": 140,
+        "fliff": 150,
+        "espnbet": 125,
+        "hardrockbet": 150,
+        "betmgm": 154,
+        "draftkings": 150,
+        "fanatics": 185,
+        "bovada": 145
+      },
+      "Under 10.5": {
+        "fanduel": 102,
+        "ballybet": -107,
+        "fliff": 105,
+        "espnbet": -130,
+        "betmgm": -102,
+        "fanatics": 140,
+        "coolbet": 100
+      },
+      "Under 11.5": {
+        "fanduel": -178,
+        "ballybet": -200,
+        "fliff": -170,
+        "espnbet": -250,
+        "hardrockbet": -180,
+        "betmgm": -190,
+        "draftkings": -162,
+        "fanatics": -120,
+        "bovada": -185,
+        "coolbet": -175
+      },
+      "Under 12.5": {
+        "fanduel": -270,
+        "ballybet": -335,
+        "fliff": -240,
+        "betmgm": -285,
+        "draftkings": -234,
+        "fanatics": -170,
+        "bovada": -275
+      },
+      "Under 13.5": {
+        "fanduel": -450,
+        "ballybet": -835,
+        "draftkings": -385,
+        "fanatics": -285
+      },
+      "Under 14.5": {
+        "fanduel": -700,
+        "draftkings": -575,
+        "fanatics": -400
+      },
+      "Over 9.0": {
+        "ballybet": -360,
+        "draftkings": -320,
+        "bovada": -300,
+        "pinnacle": 152
+      },
+      "Over 10.0": {
+        "ballybet": -157,
+        "draftkings": -168,
+        "bovada": -155,
+        "coolbet": -154
+      },
+      "Over 11.0": {
+        "ballybet": 114,
+        "draftkings": 100,
+        "bovada": 110,
+        "coolbet": 110
+      },
+      "Over 12.0": {
+        "ballybet": 180,
+        "draftkings": 155,
+        "bovada": 180
+      },
+      "Over 13.0": {
+        "ballybet": 295,
+        "draftkings": 240
+      },
+      "Under 9.0": {
+        "ballybet": 210,
+        "draftkings": 230,
+        "bovada": 220,
+        "pinnacle": -180
+      },
+      "Under 10.0": {
+        "ballybet": 118,
+        "draftkings": 130,
+        "bovada": 120,
+        "coolbet": 130
+      },
+      "Under 11.0": {
+        "ballybet": -148,
+        "draftkings": -130,
+        "bovada": -145,
+        "coolbet": -133
+      },
+      "Under 12.0": {
+        "ballybet": -278,
+        "draftkings": -204,
+        "bovada": -240
+      },
+      "Under 13.0": {
+        "ballybet": -625,
+        "draftkings": -330
+      },
+      "Over 8.0": {
+        "draftkings": -850,
+        "pinnacle": -128
+      },
+      "Over 14.0": {
+        "draftkings": 350
+      },
+      "Over 15.0": {
+        "draftkings": 550
+      },
+      "Over 15.5": {
+        "draftkings": 575,
+        "fanatics": 475
+      },
+      "Over 16.0": {
+        "draftkings": 800
+      },
+      "Under 8.0": {
+        "draftkings": 500,
+        "pinnacle": 109
+      },
+      "Under 14.0": {
+        "draftkings": -525
+      },
+      "Under 15.0": {
+        "draftkings": -975
+      },
+      "Under 15.5": {
+        "draftkings": -1025,
+        "fanatics": -800
+      },
+      "Under 16.0": {
+        "draftkings": -1600
+      },
+      "Over 16.5": {
+        "fanatics": 700
+      },
+      "Under 16.5": {
+        "fanatics": -1300
+      }
+    },
+    "team_totals_source": {
+      "LAD 6.5": {
+        "fanduel": 116,
+        "ballybet": 107,
+        "fliff": 110,
+        "hardrockbet": 110,
+        "draftkings": 115,
+        "bovada": 115
+      },
+      "MIA 3.5": {
+        "fanduel": -130,
+        "ballybet": -136,
+        "fliff": -115,
+        "hardrockbet": -170,
+        "draftkings": -125,
+        "bovada": -130,
+        "pinnacle": -129
+      },
+      "LAD 5.5": {
+        "pinnacle": -114
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "Los Angeles Dodgers -2.5": {
+        "betmgm": -275
+      },
+      "Los Angeles Dodgers -3.5": {
+        "betmgm": -135,
+        "fanatics": -115
+      },
+      "Los Angeles Dodgers -4.5": {
+        "betmgm": 175
+      },
+      "Miami Marlins +2.5": {
+        "betmgm": 190
+      },
+      "Miami Marlins +3.5": {
+        "betmgm": -102,
+        "fanatics": -115
+      },
+      "Miami Marlins +4.5": {
+        "betmgm": -250
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 7.5": {
+        "betmgm": -325
+      },
+      "Over 8.5": {
+        "betmgm": -155,
+        "fanatics": -190
+      },
+      "Over 9.5": {
+        "betmgm": 118,
+        "fanatics": -105
+      },
+      "Under 7.5": {
+        "betmgm": 220
+      },
+      "Under 8.5": {
+        "betmgm": 110,
+        "fanatics": 145
+      },
+      "Under 9.5": {
+        "betmgm": -160,
+        "fanatics": -125
+      },
+      "Over 10.5": {
+        "fanatics": 175
+      },
+      "Under 10.5": {
+        "fanatics": -240
+      }
+    },
+    "h2h_lay_source": {
+      "Los Angeles Dodgers": {
+        "betfair_ex_eu": -200
+      },
+      "Miami Marlins": {
+        "betfair_ex_eu": 1700
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "Los Angeles Dodgers": {
+        "fanatics": -1400
+      },
+      "Miami Marlins": {
+        "fanatics": 750
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "Los Angeles Dodgers +1.0": {
+        "pinnacle": -482
+      },
+      "Los Angeles Dodgers +0.5": {
+        "pinnacle": -281
+      },
+      "Los Angeles Dodgers -0.5": {
+        "pinnacle": -152
+      },
+      "Los Angeles Dodgers -1.0": {
+        "pinnacle": -119
+      },
+      "Miami Marlins -1.0": {
+        "pinnacle": 351
+      },
+      "Miami Marlins -0.5": {
+        "pinnacle": 231
+      },
+      "Miami Marlins +0.5": {
+        "pinnacle": 132
+      },
+      "Miami Marlins +1.0": {
+        "pinnacle": 102
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 3.5": {
+        "pinnacle": -209
+      },
+      "Over 4.0": {
+        "pinnacle": -167
+      },
+      "Over 5.0": {
+        "pinnacle": 107
+      },
+      "Over 5.5": {
+        "pinnacle": 133
+      },
+      "Under 3.5": {
+        "pinnacle": 177
+      },
+      "Under 4.0": {
+        "pinnacle": 144
+      },
+      "Under 5.0": {
+        "pinnacle": -122
+      },
+      "Under 5.5": {
+        "pinnacle": -154
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "Los Angeles Dodgers 0.0": {
+        "pinnacle": -224
+      },
+      "Miami Marlins -0.0": {
+        "pinnacle": 193
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": {
+        "pinnacle": -121
+      },
+      "Under 4.5": {
+        "pinnacle": 106
+      }
+    },
+    "start_time": "2025-04-29T02:10:26+00:00"
+  }
+}

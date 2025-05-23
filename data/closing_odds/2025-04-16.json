@@ -1,0 +1,293 @@
+{
+  "2025-04-16-Cubs@Padres": {
+    "start_time": "2025-04-16T01:40:00Z",
+    "h2h": {
+      "Chicago Cubs": -156,
+      "San Diego Padres": 132
+    },
+    "spreads": {
+      "Chicago Cubs -1.5": 108,
+      "San Diego Padres 1.5": -130
+    },
+    "totals": {
+      "Over 8.0": -120,
+      "Under 8.0": -102
+    },
+    "alternate_spreads": {
+      "Chicago Cubs 3.5": -1400,
+      "Chicago Cubs 2.5": -700,
+      "Chicago Cubs 1.5": -390,
+      "Chicago Cubs -1.5": 106,
+      "Chicago Cubs -2.5": 164,
+      "Chicago Cubs -3.5": 255,
+      "San Diego Padres -3.5": 680,
+      "San Diego Padres -2.5": 440,
+      "San Diego Padres -1.5": 280,
+      "San Diego Padres 1.5": -136,
+      "San Diego Padres 2.5": -215,
+      "San Diego Padres 3.5": -350
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Chicago Cubs -1.5": 590,
+      "San Diego Padres 1.5": -950
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Chicago Cubs 3.5": -2500,
+      "Chicago Cubs 2.5": -1000,
+      "Chicago Cubs 1.5": -470,
+      "Chicago Cubs 0.5": -240,
+      "Chicago Cubs -0.5": -118,
+      "Chicago Cubs -1.5": 154,
+      "Chicago Cubs -2.5": 260,
+      "Chicago Cubs -3.5": 410,
+      "San Diego Padres -3.5": 850,
+      "San Diego Padres -2.5": 520,
+      "San Diego Padres -1.5": 310,
+      "San Diego Padres -0.5": 174,
+      "San Diego Padres 0.5": -112,
+      "San Diego Padres 1.5": -210,
+      "San Diego Padres 2.5": -380,
+      "San Diego Padres 3.5": -700
+    },
+    "alternate_team_totals": {
+      "Over 1.5": -520,
+      "Over 2.5": -215,
+      "Over 3.5": -104,
+      "Over 4.5": 176,
+      "Over 5.5": 290,
+      "Over 6.5": 480,
+      "Over 7.5": 800,
+      "Over 8.5": 540,
+      "Over 9.5": 800,
+      "Under 1.5": 350,
+      "Under 2.5": 164,
+      "Under 3.5": -120,
+      "Under 4.5": -230,
+      "Under 5.5": -410,
+      "Under 6.5": -800,
+      "Under 7.5": -520,
+      "Under 8.5": -950,
+      "Under 0.5": 900
+    },
+    "alternate_totals": {
+      "Over 5.5": -390,
+      "Over 6.5": -260,
+      "Over 7.5": -148,
+      "Over 8.5": -104,
+      "Over 9.5": 146,
+      "Over 10.5": 200,
+      "Over 11.5": 290,
+      "Over 12.5": 370,
+      "Over 13.5": 540,
+      "Under 5.5": 280,
+      "Under 6.5": 196,
+      "Under 7.5": 116,
+      "Under 8.5": -122,
+      "Under 9.5": -188,
+      "Under 10.5": -265,
+      "Under 11.5": -410,
+      "Under 12.5": -560,
+      "Under 13.5": -950
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -350,
+      "Over 3.5": -182,
+      "Over 4.5": -102,
+      "Over 5.5": 162,
+      "Over 6.5": 260,
+      "Over 7.5": 390,
+      "Over 8.5": 580,
+      "Over 9.5": 880,
+      "Under 2.5": 240,
+      "Under 3.5": 136,
+      "Under 4.5": -130,
+      "Under 5.5": -220,
+      "Under 6.5": -380,
+      "Under 7.5": -650
+    },
+    "h2h_1st_5_innings": {
+      "Chicago Cubs": -158,
+      "San Diego Padres": 126
+    },
+    "spreads_1st_3_innings": {
+      "Chicago Cubs -0.5": 120,
+      "San Diego Padres 0.5": -146
+    },
+    "spreads_1st_5_innings": {
+      "Chicago Cubs -0.5": -115,
+      "San Diego Padres 0.5": -113
+    },
+    "spreads_1st_7_innings": {
+      "Chicago Cubs -0.5": -122,
+      "San Diego Padres 0.5": 100
+    },
+    "team_totals": {
+      "Over 4.5": -115,
+      "Under 4.5": -111,
+      "Over 3.5": -104,
+      "Under 3.5": -120
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": 104,
+      "Under 0.5": -132
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": -102,
+      "Under 2.5": -120
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": 100,
+      "Under 4.5": -130
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": 104,
+      "Under 6.5": -128
+    }
+  },
+  "2025-04-16-Rockies@Dodgers": {
+    "start_time": "2025-04-16T02:10:00Z",
+    "h2h": {
+      "Colorado Rockies": 250,
+      "Los Angeles Dodgers": -310
+    },
+    "spreads": {
+      "Colorado Rockies 1.5": 120,
+      "Los Angeles Dodgers -1.5": -144
+    },
+    "totals": {
+      "Over 8.5": -105,
+      "Under 8.5": -115
+    },
+    "alternate_spreads": {
+      "Colorado Rockies 3.5": -230,
+      "Colorado Rockies 2.5": -146,
+      "Colorado Rockies 1.5": 116,
+      "Colorado Rockies -1.5": 340,
+      "Colorado Rockies -2.5": 500,
+      "Colorado Rockies -3.5": 750,
+      "Los Angeles Dodgers -3.5": 176,
+      "Los Angeles Dodgers -2.5": 114,
+      "Los Angeles Dodgers -1.5": -148,
+      "Los Angeles Dodgers 1.5": -500,
+      "Los Angeles Dodgers 2.5": -850,
+      "Los Angeles Dodgers 3.5": -1600
+    },
+    "alternate_spreads_1st_1_innings": {
+      "Colorado Rockies 1.5": -700,
+      "Los Angeles Dodgers -1.5": 470
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Colorado Rockies 3.5": -400,
+      "Colorado Rockies 2.5": -240,
+      "Colorado Rockies 1.5": -132,
+      "Colorado Rockies 0.5": 136,
+      "Colorado Rockies -0.5": 250,
+      "Colorado Rockies -1.5": 430,
+      "Colorado Rockies -2.5": 750,
+      "Colorado Rockies -3.5": 900,
+      "Los Angeles Dodgers -3.5": 270,
+      "Los Angeles Dodgers -2.5": 174,
+      "Los Angeles Dodgers -1.5": 100,
+      "Los Angeles Dodgers -0.5": -182,
+      "Los Angeles Dodgers 0.5": -360,
+      "Los Angeles Dodgers 1.5": -750,
+      "Los Angeles Dodgers 2.5": -2000,
+      "Los Angeles Dodgers 3.5": -5000
+    },
+    "alternate_team_totals": {
+      "Over 0.5": -1200,
+      "Over 1.5": -340,
+      "Over 2.5": -590,
+      "Over 3.5": -280,
+      "Over 4.5": -150,
+      "Over 5.5": 120,
+      "Over 6.5": 200,
+      "Over 7.5": 300,
+      "Under 0.5": 630,
+      "Under 1.5": 800,
+      "Under 2.5": 390,
+      "Under 3.5": 210,
+      "Under 4.5": 118,
+      "Under 5.5": -154,
+      "Under 6.5": -265,
+      "Over 8.5": 470,
+      "Over 9.5": 680,
+      "Under 7.5": -440,
+      "Under 8.5": -770
+    },
+    "alternate_totals": {
+      "Over 6.5": -265,
+      "Over 7.5": -154,
+      "Over 8.5": -108,
+      "Over 9.5": 146,
+      "Over 10.5": 200,
+      "Over 11.5": 290,
+      "Over 12.5": 400,
+      "Over 13.5": 560,
+      "Over 14.5": 750,
+      "Under 6.5": 200,
+      "Under 7.5": 120,
+      "Under 8.5": -118,
+      "Under 9.5": -188,
+      "Under 10.5": -265,
+      "Under 11.5": -410,
+      "Under 12.5": -620,
+      "Under 13.5": -1000,
+      "Under 14.5": -1600
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": -440,
+      "Over 3.5": -220,
+      "Over 4.5": -125,
+      "Over 5.5": 140,
+      "Over 6.5": 225,
+      "Over 7.5": 350,
+      "Over 8.5": 520,
+      "Over 9.5": 750,
+      "Under 2.5": 290,
+      "Under 3.5": 162,
+      "Under 4.5": -106,
+      "Under 5.5": -188,
+      "Under 6.5": -320,
+      "Under 7.5": -550
+    },
+    "h2h_1st_5_innings": {
+      "Colorado Rockies": 186,
+      "Los Angeles Dodgers": -240
+    },
+    "spreads_1st_3_innings": {
+      "Colorado Rockies 0.5": -102,
+      "Los Angeles Dodgers -0.5": -120
+    },
+    "spreads_1st_5_innings": {
+      "Colorado Rockies 1.5": -130,
+      "Los Angeles Dodgers -1.5": 100
+    },
+    "spreads_1st_7_innings": {
+      "Colorado Rockies 1.5": 100,
+      "Los Angeles Dodgers -1.5": -122
+    },
+    "team_totals": {
+      "Over 2.5": -156,
+      "Under 2.5": 122,
+      "Over 4.5": -150,
+      "Under 4.5": 118
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": -113,
+      "Under 0.5": -113
+    },
+    "totals_1st_3_innings": {
+      "Over 2.5": -116,
+      "Under 2.5": -106
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": -122,
+      "Under 4.5": -106
+    },
+    "totals_1st_7_innings": {
+      "Over 6.5": -110,
+      "Under 6.5": -110
+    }
+  }
+}

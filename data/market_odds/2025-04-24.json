@@ -1,0 +1,2596 @@
+{
+  "2025-04-24-PIT@LAA": {
+    "totals": {
+      "Over 7.5": {
+        "price": 830,
+        "consensus_prob": 0.135294,
+        "consensus_odds": 639.13
+      },
+      "Under 7.5": {
+        "price": -1050,
+        "consensus_prob": 0.864706,
+        "consensus_odds": -639.13
+      },
+      "Over 8.0": {
+        "price": -104,
+        "consensus_prob": 0.486002,
+        "consensus_odds": 105.76
+      },
+      "Under 8.0": {
+        "price": -117,
+        "consensus_prob": 0.513998,
+        "consensus_odds": -105.76
+      }
+    },
+    "alternate_spreads": {
+      "LAA+2.5": {
+        "price": -433,
+        "consensus_prob": 0.94392,
+        "consensus_odds": -1683.17
+      },
+      "PIT-2.5": {
+        "price": 1600,
+        "consensus_prob": 0.05608,
+        "consensus_odds": 1683.17
+      },
+      "LAA+1.5": {
+        "price": -278,
+        "consensus_prob": 0.803157,
+        "consensus_odds": -408.02
+      },
+      "PIT-1.5": {
+        "price": 1600,
+        "consensus_prob": 0.196843,
+        "consensus_odds": 408.02
+      },
+      "LAA-1.5": {
+        "price": 377,
+        "consensus_prob": 0.200124,
+        "consensus_odds": 399.69
+      },
+      "PIT+1.5": {
+        "price": -517,
+        "consensus_prob": 0.799876,
+        "consensus_odds": -399.69
+      },
+      "LAA+2.0": {
+        "price": -388,
+        "consensus_prob": 0.888913,
+        "consensus_odds": -800.2
+      },
+      "PIT-2.0": {
+        "price": 761,
+        "consensus_prob": 0.111087,
+        "consensus_odds": 800.2
+      },
+      "LAA-2.0": {
+        "price": 795,
+        "consensus_prob": 0.107115,
+        "consensus_odds": 833.58
+      },
+      "PIT+2.0": {
+        "price": -1357,
+        "consensus_prob": 0.892885,
+        "consensus_odds": -833.58
+      }
+    },
+    "alternate_totals": {
+      "Over 8.0": {
+        "price": 250,
+        "consensus_prob": 0.486002,
+        "consensus_odds": 105.76
+      },
+      "Under 8.0": {
+        "price": 127,
+        "consensus_prob": 0.513998,
+        "consensus_odds": -105.76
+      },
+      "Over 7.5": {
+        "price": -142,
+        "consensus_prob": 0.558974,
+        "consensus_odds": -126.74
+      },
+      "Under 7.5": {
+        "price": 145,
+        "consensus_prob": 0.441026,
+        "consensus_odds": 126.74
+      },
+      "Over 8.5": {
+        "price": 129,
+        "consensus_prob": 0.41625,
+        "consensus_odds": 140.24
+      },
+      "Under 8.5": {
+        "price": -158,
+        "consensus_prob": 0.58375,
+        "consensus_odds": -140.24
+      },
+      "Over 9.0": {
+        "price": 244,
+        "consensus_prob": 0.276022,
+        "consensus_odds": 262.29
+      },
+      "Under 9.0": {
+        "price": -321,
+        "consensus_prob": 0.723978,
+        "consensus_odds": -262.29
+      },
+      "Over 9.5": {
+        "price": 319,
+        "consensus_prob": 0.226183,
+        "consensus_odds": 342.12
+      },
+      "Under 9.5": {
+        "price": -445,
+        "consensus_prob": 0.773817,
+        "consensus_odds": -342.12
+      },
+      "Over 10.0": {
+        "price": 449,
+        "consensus_prob": 0.172935,
+        "consensus_odds": 478.25
+      },
+      "Under 10.0": {
+        "price": -170,
+        "consensus_prob": 0.827065,
+        "consensus_odds": -478.25
+      }
+    },
+    "spreads": {
+      "LAA+1.5": {
+        "price": -3000,
+        "consensus_prob": 0.917553,
+        "consensus_odds": -1112.9
+      },
+      "PIT-1.5": {
+        "price": 1600,
+        "consensus_prob": 0.082447,
+        "consensus_odds": 1112.9
+      },
+      "LAA-1.5": {
+        "price": 377,
+        "consensus_prob": 0.200124,
+        "consensus_odds": 399.69
+      },
+      "PIT+1.5": {
+        "price": -155,
+        "consensus_prob": 0.799876,
+        "consensus_odds": -399.69
+      }
+    },
+    "team_totals": {
+      "Over 4.5": {
+        "price": 325,
+        "consensus_prob": 0.366653,
+        "consensus_odds": 172.74
+      },
+      "Under 4.5": {
+        "price": -154,
+        "consensus_prob": 0.633347,
+        "consensus_odds": -172.74
+      },
+      "Over 3.5": {
+        "price": 285,
+        "consensus_prob": 0.563134,
+        "consensus_odds": -128.9
+      },
+      "Under 3.5": {
+        "price": 116,
+        "consensus_prob": 0.436866,
+        "consensus_odds": 128.9
+      }
+    },
+    "totals_source": {
+      "Over 7.5": {
+        "fanduel": 520,
+        "sport888": 750,
+        "draftkings": 600,
+        "fliff": 830,
+        "gtbets": 595
+      },
+      "Under 7.5": {
+        "fanduel": -1000,
+        "sport888": -2000,
+        "draftkings": -1050,
+        "fliff": -2025,
+        "gtbets": -1092
+      },
+      "Over 8.0": {
+        "pinnacle": -104
+      },
+      "Under 8.0": {
+        "pinnacle": -117
+      }
+    },
+    "alternate_spreads_source": {
+      "LAA+2.5": {
+        "betmgm": -10000,
+        "williamhill_us": -433
+      },
+      "PIT-2.5": {
+        "betmgm": 1600,
+        "williamhill_us": 255
+      },
+      "LAA+1.5": {
+        "hardrockbet": -10000,
+        "betmgm": -3000,
+        "pinnacle": -537,
+        "williamhill_us": -278,
+        "coolbet": -10000
+      },
+      "PIT-1.5": {
+        "fliff": 2105,
+        "hardrockbet": 1750,
+        "betmgm": 1000,
+        "pinnacle": 384,
+        "williamhill_us": 179,
+        "coolbet": 1600
+      },
+      "LAA-1.5": {
+        "espnbet": 750,
+        "pinnacle": 377
+      },
+      "PIT+1.5": {
+        "espnbet": -2500,
+        "pinnacle": -517
+      },
+      "LAA+2.0": {
+        "pinnacle": -1316,
+        "williamhill_us": -388
+      },
+      "PIT-2.0": {
+        "pinnacle": 761,
+        "williamhill_us": 234
+      },
+      "LAA-2.0": {
+        "pinnacle": 795
+      },
+      "PIT+2.0": {
+        "pinnacle": -1357
+      }
+    },
+    "alternate_totals_source": {
+      "Over 8.0": {
+        "pinnacle": -104,
+        "williamhill_us": -188,
+        "bovada": 250
+      },
+      "Under 8.0": {
+        "pinnacle": -117,
+        "williamhill_us": 127,
+        "bovada": -350
+      },
+      "Over 7.5": {
+        "espnbet": 290,
+        "pinnacle": -142,
+        "williamhill_us": -218
+      },
+      "Under 7.5": {
+        "espnbet": -450,
+        "pinnacle": 116,
+        "williamhill_us": 145
+      },
+      "Over 8.5": {
+        "espnbet": 290,
+        "fliff": 890,
+        "ballybet": 510,
+        "pinnacle": 129
+      },
+      "Under 8.5": {
+        "espnbet": -450,
+        "fliff": -2360,
+        "ballybet": -5000,
+        "pinnacle": -158
+      },
+      "Over 9.0": {
+        "pinnacle": 244
+      },
+      "Under 9.0": {
+        "pinnacle": -321
+      },
+      "Over 9.5": {
+        "espnbet": 600,
+        "pinnacle": 319
+      },
+      "Under 9.5": {
+        "espnbet": -1500,
+        "pinnacle": -445
+      },
+      "Over 10.0": {
+        "pinnacle": 449,
+        "williamhill_us": 115
+      },
+      "Under 10.0": {
+        "pinnacle": -676,
+        "williamhill_us": -170
+      }
+    },
+    "spreads_source": {
+      "LAA+1.5": {
+        "mybookieag": -10000,
+        "draftkings": -10000,
+        "gtbets": -2653,
+        "betmgm": -3000,
+        "coolbet": -10000
+      },
+      "PIT-1.5": {
+        "mybookieag": 1075,
+        "draftkings": 2200,
+        "gtbets": 888,
+        "betmgm": 1050,
+        "coolbet": 1600
+      },
+      "LAA-1.5": {
+        "pinnacle": 377,
+        "williamhill_us": 130
+      },
+      "PIT+1.5": {
+        "pinnacle": -517,
+        "williamhill_us": -155
+      }
+    },
+    "team_totals_source": {
+      "Over 4.5": {
+        "fliff": 365,
+        "hardrockbet": 300,
+        "ballybet": 370,
+        "pinnacle": 157,
+        "williamhill_us": 120,
+        "bovada": 325
+      },
+      "Under 4.5": {
+        "fliff": -555,
+        "hardrockbet": -450,
+        "ballybet": -670,
+        "pinnacle": -205,
+        "williamhill_us": -154,
+        "bovada": -500
+      },
+      "Over 3.5": {
+        "fliff": 330,
+        "hardrockbet": 275,
+        "ballybet": 260,
+        "pinnacle": -148,
+        "williamhill_us": -143,
+        "bovada": 285
+      },
+      "Under 3.5": {
+        "fliff": -490,
+        "hardrockbet": -425,
+        "ballybet": -400,
+        "pinnacle": 116,
+        "williamhill_us": 110,
+        "bovada": -425
+      }
+    },
+    "start_time": "2025-04-25T01:29:47+00:00"
+  },
+  "2025-04-24-TB@ARI": {
+    "spreads": {
+      "ARI-1.5": {
+        "price": 269,
+        "consensus_prob": 0.258643,
+        "consensus_odds": 286.63
+      },
+      "TB+1.5": {
+        "price": -250,
+        "consensus_prob": 0.741357,
+        "consensus_odds": -286.63
+      }
+    },
+    "totals": {
+      "Over 8.5": {
+        "price": -120,
+        "consensus_prob": 0.520501,
+        "consensus_odds": -108.55
+      },
+      "Under 8.5": {
+        "price": -101,
+        "consensus_prob": 0.479499,
+        "consensus_odds": 108.55
+      },
+      "Over 8.0": {
+        "price": -105,
+        "consensus_prob": 0.479695,
+        "consensus_odds": 108.47
+      },
+      "Under 8.0": {
+        "price": -125,
+        "consensus_prob": 0.520305,
+        "consensus_odds": -108.47
+      },
+      "Over 7.5": {
+        "price": 100,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Under 7.5": {
+        "price": 100,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      }
+    },
+    "alternate_spreads": {
+      "ARI-3.5": {
+        "price": 1000,
+        "consensus_prob": 0.086792,
+        "consensus_odds": 1052.18
+      },
+      "TB+3.5": {
+        "price": -483,
+        "consensus_prob": 0.913208,
+        "consensus_odds": -1052.18
+      },
+      "ARI-2.5": {
+        "price": 450,
+        "consensus_prob": 0.172043,
+        "consensus_odds": 481.25
+      },
+      "TB+2.5": {
+        "price": -298,
+        "consensus_prob": 0.827957,
+        "consensus_odds": -481.25
+      },
+      "ARI-1.5": {
+        "price": 269,
+        "consensus_prob": 0.258643,
+        "consensus_odds": 286.63
+      },
+      "TB+1.5": {
+        "price": -250,
+        "consensus_prob": 0.741357,
+        "consensus_odds": -286.63
+      },
+      "ARI+1.5": {
+        "price": -248,
+        "consensus_prob": 0.880492,
+        "consensus_odds": -736.76
+      },
+      "TB-1.5": {
+        "price": 701,
+        "consensus_prob": 0.119508,
+        "consensus_odds": 736.76
+      },
+      "ARI+2.5": {
+        "price": -408,
+        "consensus_prob": 0.954112,
+        "consensus_odds": -2079.22
+      },
+      "TB-2.5": {
+        "price": 2000,
+        "consensus_prob": 0.045888,
+        "consensus_odds": 2079.22
+      },
+      "ARI+3.5": {
+        "price": -658,
+        "consensus_prob": 0.97294,
+        "consensus_odds": -3595.49
+      },
+      "TB-3.5": {
+        "price": 3500,
+        "consensus_prob": 0.02706,
+        "consensus_odds": 3595.49
+      },
+      "ARI+3.0": {
+        "price": -608,
+        "consensus_prob": 0.97294,
+        "consensus_odds": -3595.49
+      },
+      "TB-3.0": {
+        "price": 3500,
+        "consensus_prob": 0.02706,
+        "consensus_odds": 3595.49
+      },
+      "ARI+2.0": {
+        "price": -368,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "TB-2.0": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "ARI+1.0": {
+        "price": -208,
+        "consensus_prob": 0.913208,
+        "consensus_odds": -1052.18
+      },
+      "TB-1.0": {
+        "price": 1000,
+        "consensus_prob": 0.086792,
+        "consensus_odds": 1052.18
+      },
+      "ARI-1.0": {
+        "price": -255,
+        "consensus_prob": 0.675651,
+        "consensus_odds": -208.31
+      },
+      "TB+1.0": {
+        "price": 190,
+        "consensus_prob": 0.324349,
+        "consensus_odds": 208.31
+      },
+      "ARI-2.0": {
+        "price": 515,
+        "consensus_prob": 0.155166,
+        "consensus_odds": 544.47
+      },
+      "TB+2.0": {
+        "price": -772,
+        "consensus_prob": 0.844834,
+        "consensus_odds": -544.47
+      },
+      "ARI-3.0": {
+        "price": 950,
+        "consensus_prob": 0.090909,
+        "consensus_odds": 1000.0
+      },
+      "TB+3.0": {
+        "price": -433,
+        "consensus_prob": 0.909091,
+        "consensus_odds": -1000.0
+      },
+      "ARI-4.0": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "TB+4.0": {
+        "price": -708,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "ARI-4.5": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "TB+4.5": {
+        "price": -758,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "ARI-5.0": {
+        "price": 3000,
+        "consensus_prob": 0.031311,
+        "consensus_odds": 3093.77
+      },
+      "TB+5.0": {
+        "price": -1208,
+        "consensus_prob": 0.968689,
+        "consensus_odds": -3093.77
+      },
+      "ARI-5.5": {
+        "price": 3000,
+        "consensus_prob": 0.031311,
+        "consensus_odds": 3093.77
+      },
+      "TB+5.5": {
+        "price": -1308,
+        "consensus_prob": 0.968689,
+        "consensus_odds": -3093.77
+      }
+    },
+    "alternate_totals": {
+      "Over 7.5": {
+        "price": -109,
+        "consensus_prob": 0.530612,
+        "consensus_odds": -113.04
+      },
+      "Under 7.5": {
+        "price": 115,
+        "consensus_prob": 0.469388,
+        "consensus_odds": 113.04
+      },
+      "Over 8.5": {
+        "price": 150,
+        "consensus_prob": 0.520501,
+        "consensus_odds": -108.55
+      },
+      "Under 8.5": {
+        "price": -101,
+        "consensus_prob": 0.479499,
+        "consensus_odds": 108.55
+      },
+      "Over 9.5": {
+        "price": 375,
+        "consensus_prob": 0.229645,
+        "consensus_odds": 335.45
+      },
+      "Under 9.5": {
+        "price": -188,
+        "consensus_prob": 0.770355,
+        "consensus_odds": -335.45
+      },
+      "Over 10.5": {
+        "price": 550,
+        "consensus_prob": 0.164649,
+        "consensus_odds": 507.35
+      },
+      "Under 10.5": {
+        "price": -258,
+        "consensus_prob": 0.835351,
+        "consensus_odds": -507.35
+      },
+      "Over 11.5": {
+        "price": 1000,
+        "consensus_prob": 0.101942,
+        "consensus_odds": 880.95
+      },
+      "Under 11.5": {
+        "price": -388,
+        "consensus_prob": 0.898058,
+        "consensus_odds": -880.95
+      },
+      "Over 12.5": {
+        "price": 1000,
+        "consensus_prob": 0.086792,
+        "consensus_odds": 1052.18
+      },
+      "Under 12.5": {
+        "price": -533,
+        "consensus_prob": 0.913208,
+        "consensus_odds": -1052.18
+      },
+      "Over 13.5": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "Under 13.5": {
+        "price": -908,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "Over 14.5": {
+        "price": 2200,
+        "consensus_prob": 0.041933,
+        "consensus_odds": 2284.76
+      },
+      "Under 14.5": {
+        "price": -1308,
+        "consensus_prob": 0.958067,
+        "consensus_odds": -2284.76
+      },
+      "Over 9.0": {
+        "price": 260,
+        "consensus_prob": 0.396687,
+        "consensus_odds": 152.09
+      },
+      "Under 9.0": {
+        "price": -173,
+        "consensus_prob": 0.603313,
+        "consensus_odds": -152.09
+      },
+      "Over 10.0": {
+        "price": 340,
+        "consensus_prob": 0.214286,
+        "consensus_odds": 366.67
+      },
+      "Under 10.0": {
+        "price": -228,
+        "consensus_prob": 0.785714,
+        "consensus_odds": -366.67
+      },
+      "Over 11.0": {
+        "price": 625,
+        "consensus_prob": 0.130378,
+        "consensus_odds": 667.0
+      },
+      "Under 11.0": {
+        "price": -348,
+        "consensus_prob": 0.869622,
+        "consensus_odds": -667.0
+      },
+      "Over 12.0": {
+        "price": 1000,
+        "consensus_prob": 0.086792,
+        "consensus_odds": 1052.18
+      },
+      "Under 12.0": {
+        "price": -508,
+        "consensus_prob": 0.913208,
+        "consensus_odds": -1052.18
+      },
+      "Over 13.0": {
+        "price": 1600,
+        "consensus_prob": 0.056604,
+        "consensus_odds": 1666.66
+      },
+      "Under 13.0": {
+        "price": -808,
+        "consensus_prob": 0.943396,
+        "consensus_odds": -1666.66
+      },
+      "Over 14.0": {
+        "price": 2200,
+        "consensus_prob": 0.041933,
+        "consensus_odds": 2284.76
+      },
+      "Under 14.0": {
+        "price": -1308,
+        "consensus_prob": 0.958067,
+        "consensus_odds": -2284.76
+      },
+      "Over 15.0": {
+        "price": 3500,
+        "consensus_prob": 0.02706,
+        "consensus_odds": 3595.49
+      },
+      "Under 15.0": {
+        "price": -80000,
+        "consensus_prob": 0.97294,
+        "consensus_odds": -3595.49
+      },
+      "Over 15.5": {
+        "price": 3500,
+        "consensus_prob": 0.02706,
+        "consensus_odds": 3595.49
+      },
+      "Under 15.5": {
+        "price": -80000,
+        "consensus_prob": 0.97294,
+        "consensus_odds": -3595.49
+      },
+      "Over 16.0": {
+        "price": 5000,
+        "consensus_prob": 0.01924,
+        "consensus_odds": 5097.51
+      },
+      "Under 16.0": {
+        "price": -200000,
+        "consensus_prob": 0.98076,
+        "consensus_odds": -5097.51
+      },
+      "Over 16.5": {
+        "price": 5000,
+        "consensus_prob": 0.01924,
+        "consensus_odds": 5097.51
+      },
+      "Under 16.5": {
+        "price": -200000,
+        "consensus_prob": 0.98076,
+        "consensus_odds": -5097.51
+      },
+      "Over 8.0": {
+        "price": 135,
+        "consensus_prob": 0.568756,
+        "consensus_odds": -131.89
+      },
+      "Under 8.0": {
+        "price": 121,
+        "consensus_prob": 0.431244,
+        "consensus_odds": 131.89
+      }
+    },
+    "team_totals": {
+      "Over 4.5": {
+        "price": 125,
+        "consensus_prob": 0.44819,
+        "consensus_odds": 123.12
+      },
+      "Under 4.5": {
+        "price": -134,
+        "consensus_prob": 0.55181,
+        "consensus_odds": -123.12
+      },
+      "Over 3.5": {
+        "price": 285,
+        "consensus_prob": 0.539021,
+        "consensus_odds": -116.93
+      },
+      "Under 3.5": {
+        "price": 109,
+        "consensus_prob": 0.460979,
+        "consensus_odds": 116.93
+      }
+    },
+    "alternate_team_totals": {
+      "Over 4.5": {
+        "price": 450,
+        "consensus_prob": 0.3125,
+        "consensus_odds": 220.0
+      },
+      "Under 4.5": {
+        "price": -275,
+        "consensus_prob": 0.6875,
+        "consensus_odds": -220.0
+      },
+      "Over 5.5": {
+        "price": 900,
+        "consensus_prob": 0.188312,
+        "consensus_odds": 431.03
+      },
+      "Under 5.5": {
+        "price": -625,
+        "consensus_prob": 0.811688,
+        "consensus_odds": -431.03
+      },
+      "Over 6.5": {
+        "price": 750,
+        "consensus_prob": 0.134021,
+        "consensus_odds": 646.15
+      },
+      "Under 6.5": {
+        "price": -1200,
+        "consensus_prob": 0.865979,
+        "consensus_odds": -646.15
+      },
+      "Over 3.5": {
+        "price": 240,
+        "consensus_prob": 0.476141,
+        "consensus_odds": 110.02
+      },
+      "Under 3.5": {
+        "price": -125,
+        "consensus_prob": 0.523859,
+        "consensus_odds": -110.02
+      }
+    },
+    "spreads_source": {
+      "ARI-1.5": {
+        "fanduel": 265,
+        "sport888": 188,
+        "espnbet": 215,
+        "mybookieag": 235,
+        "draftkings": 195,
+        "fliff": 185,
+        "hardrockbet": 185,
+        "gtbets": 169,
+        "betmgm": 175,
+        "ballybet": 240,
+        "betparx": 240,
+        "fanatics": 240,
+        "pinnacle": 269,
+        "williamhill_us": 215,
+        "bovada": 210,
+        "coolbet": 200
+      },
+      "TB+1.5": {
+        "fanduel": -390,
+        "sport888": -275,
+        "espnbet": -310,
+        "mybookieag": -333,
+        "draftkings": -260,
+        "fliff": -250,
+        "hardrockbet": -260,
+        "gtbets": -221,
+        "betmgm": -225,
+        "ballybet": -360,
+        "betparx": -360,
+        "fanatics": -325,
+        "pinnacle": -348,
+        "williamhill_us": -280,
+        "bovada": -285,
+        "coolbet": -250
+      }
+    },
+    "totals_source": {
+      "Over 8.5": {
+        "fanduel": -174,
+        "pinnacle": -120
+      },
+      "Under 8.5": {
+        "fanduel": 130,
+        "pinnacle": -101
+      },
+      "Over 8.0": {
+        "mybookieag": -105
+      },
+      "Under 8.0": {
+        "mybookieag": -125
+      },
+      "Over 7.5": {
+        "sport888": -120,
+        "espnbet": -105,
+        "draftkings": -115,
+        "fliff": -110,
+        "hardrockbet": -110,
+        "gtbets": -118,
+        "ballybet": -109,
+        "betparx": -109,
+        "fanatics": -115,
+        "williamhill_us": -130,
+        "tipico_de": -118,
+        "bovada": 100,
+        "coolbet": -111
+      },
+      "Under 7.5": {
+        "sport888": -120,
+        "espnbet": -125,
+        "draftkings": -115,
+        "fliff": -120,
+        "hardrockbet": -120,
+        "gtbets": -108,
+        "ballybet": -118,
+        "betparx": -118,
+        "fanatics": -115,
+        "williamhill_us": 100,
+        "tipico_de": -118,
+        "bovada": -130,
+        "coolbet": -111
+      }
+    },
+    "alternate_spreads_source": {
+      "ARI-3.5": {
+        "fanduel": 850,
+        "draftkings": 1000,
+        "hardrockbet": 850,
+        "williamhill_us": 276,
+        "coolbet": 850
+      },
+      "TB+3.5": {
+        "fanduel": -2500,
+        "draftkings": -2200,
+        "hardrockbet": -1800,
+        "williamhill_us": -483,
+        "coolbet": -1667
+      },
+      "ARI-2.5": {
+        "fanduel": 410,
+        "espnbet": 500,
+        "draftkings": 475,
+        "hardrockbet": 425,
+        "betmgm": 450,
+        "williamhill_us": 190,
+        "coolbet": 440
+      },
+      "TB+2.5": {
+        "fanduel": -700,
+        "espnbet": -1000,
+        "draftkings": -775,
+        "hardrockbet": -650,
+        "betmgm": -700,
+        "williamhill_us": -298,
+        "coolbet": -625
+      },
+      "ARI-1.5": {
+        "fanduel": 174,
+        "espnbet": 215,
+        "fliff": 200,
+        "betmgm": 175,
+        "pinnacle": 269,
+        "coolbet": 200
+      },
+      "TB+1.5": {
+        "fanduel": -245,
+        "espnbet": -310,
+        "fliff": -275,
+        "betmgm": -225,
+        "pinnacle": -348,
+        "coolbet": -250
+      },
+      "ARI+1.5": {
+        "fanduel": -1800,
+        "draftkings": -2500,
+        "betmgm": -5000,
+        "pinnacle": -1147,
+        "williamhill_us": -248
+      },
+      "TB-1.5": {
+        "fanduel": 700,
+        "draftkings": 1100,
+        "betmgm": 1150,
+        "pinnacle": 701,
+        "williamhill_us": 162
+      },
+      "ARI+2.5": {
+        "fanduel": -5000,
+        "draftkings": -10000,
+        "williamhill_us": -408
+      },
+      "TB-2.5": {
+        "fanduel": 1200,
+        "draftkings": 2000,
+        "williamhill_us": 244
+      },
+      "ARI+3.5": {
+        "draftkings": -80000,
+        "williamhill_us": -658
+      },
+      "TB-3.5": {
+        "draftkings": 3500,
+        "williamhill_us": 342
+      },
+      "ARI+3.0": {
+        "draftkings": -80000,
+        "williamhill_us": -608
+      },
+      "TB-3.0": {
+        "draftkings": 3500,
+        "williamhill_us": 325
+      },
+      "ARI+2.0": {
+        "draftkings": -7000,
+        "williamhill_us": -368
+      },
+      "TB-2.0": {
+        "draftkings": 1800,
+        "williamhill_us": 225
+      },
+      "ARI+1.0": {
+        "draftkings": -2200,
+        "williamhill_us": -208
+      },
+      "TB-1.0": {
+        "draftkings": 1000,
+        "williamhill_us": 139
+      },
+      "ARI-1.0": {
+        "draftkings": -255
+      },
+      "TB+1.0": {
+        "draftkings": 190
+      },
+      "ARI-2.0": {
+        "draftkings": 400,
+        "pinnacle": 515
+      },
+      "TB+2.0": {
+        "draftkings": -625,
+        "pinnacle": -772
+      },
+      "ARI-3.0": {
+        "draftkings": 950,
+        "williamhill_us": 255
+      },
+      "TB+3.0": {
+        "draftkings": -2000,
+        "williamhill_us": -433
+      },
+      "ARI-4.0": {
+        "draftkings": 1800,
+        "williamhill_us": 359
+      },
+      "TB+4.0": {
+        "draftkings": -7000,
+        "williamhill_us": -708
+      },
+      "ARI-4.5": {
+        "draftkings": 1800,
+        "williamhill_us": 375
+      },
+      "TB+4.5": {
+        "draftkings": -7000,
+        "williamhill_us": -758
+      },
+      "ARI-5.0": {
+        "draftkings": 3000,
+        "williamhill_us": 486
+      },
+      "TB+5.0": {
+        "draftkings": -50000,
+        "williamhill_us": -1208
+      },
+      "ARI-5.5": {
+        "draftkings": 3000,
+        "williamhill_us": 506
+      },
+      "TB+5.5": {
+        "draftkings": -50000,
+        "williamhill_us": -1308
+      }
+    },
+    "alternate_totals_source": {
+      "Over 7.5": {
+        "fanduel": -300,
+        "espnbet": -105,
+        "draftkings": -148,
+        "fliff": -110,
+        "betmgm": -130,
+        "ballybet": -109,
+        "fanatics": -115,
+        "williamhill_us": -170,
+        "coolbet": -111
+      },
+      "Under 7.5": {
+        "fanduel": 210,
+        "espnbet": -125,
+        "draftkings": 115,
+        "fliff": -120,
+        "betmgm": 100,
+        "ballybet": -118,
+        "fanatics": -115,
+        "williamhill_us": 115,
+        "coolbet": -111
+      },
+      "Over 8.5": {
+        "fanduel": -174,
+        "espnbet": 160,
+        "fliff": 150,
+        "hardrockbet": 145,
+        "betmgm": 135,
+        "ballybet": 160,
+        "fanatics": 160,
+        "pinnacle": -120,
+        "coolbet": 150
+      },
+      "Under 8.5": {
+        "fanduel": 130,
+        "espnbet": -230,
+        "fliff": -215,
+        "hardrockbet": -190,
+        "betmgm": -175,
+        "ballybet": -230,
+        "fanatics": -210,
+        "pinnacle": -101,
+        "coolbet": -192
+      },
+      "Over 9.5": {
+        "fanduel": 146,
+        "espnbet": 340,
+        "draftkings": 240,
+        "fliff": 330,
+        "hardrockbet": 300,
+        "betmgm": 310,
+        "fanatics": 375,
+        "williamhill_us": 127
+      },
+      "Under 9.5": {
+        "fanduel": -198,
+        "espnbet": -600,
+        "draftkings": -330,
+        "fliff": -545,
+        "hardrockbet": -450,
+        "betmgm": -450,
+        "fanatics": -575,
+        "williamhill_us": -188
+      },
+      "Over 10.5": {
+        "fanduel": 225,
+        "draftkings": 375,
+        "betmgm": 475,
+        "fanatics": 550,
+        "williamhill_us": 168
+      },
+      "Under 10.5": {
+        "fanduel": -320,
+        "draftkings": -575,
+        "betmgm": -750,
+        "fanatics": -1000,
+        "williamhill_us": -258
+      },
+      "Over 11.5": {
+        "fanduel": 400,
+        "draftkings": 700,
+        "betmgm": 825,
+        "fanatics": 1000,
+        "williamhill_us": 234
+      },
+      "Under 11.5": {
+        "fanduel": -670,
+        "draftkings": -1300,
+        "betmgm": -2000,
+        "fanatics": -2000,
+        "williamhill_us": -388
+      },
+      "Over 12.5": {
+        "fanduel": 580,
+        "draftkings": 1000,
+        "williamhill_us": 297
+      },
+      "Under 12.5": {
+        "fanduel": -1200,
+        "draftkings": -2200,
+        "williamhill_us": -533
+      },
+      "Over 13.5": {
+        "fanduel": 920,
+        "draftkings": 1800,
+        "williamhill_us": 417
+      },
+      "Under 13.5": {
+        "fanduel": -3500,
+        "draftkings": -7000,
+        "williamhill_us": -908
+      },
+      "Over 14.5": {
+        "fanduel": 1280,
+        "draftkings": 2200,
+        "williamhill_us": 506
+      },
+      "Under 14.5": {
+        "fanduel": -7000,
+        "draftkings": -15000,
+        "williamhill_us": -1308
+      },
+      "Over 9.0": {
+        "draftkings": 185,
+        "ballybet": 285,
+        "pinnacle": 140,
+        "coolbet": 260
+      },
+      "Under 9.0": {
+        "draftkings": -248,
+        "ballybet": -625,
+        "pinnacle": -173,
+        "coolbet": -333
+      },
+      "Over 10.0": {
+        "draftkings": 340,
+        "williamhill_us": 151
+      },
+      "Under 10.0": {
+        "draftkings": -500,
+        "williamhill_us": -228
+      },
+      "Over 11.0": {
+        "draftkings": 625,
+        "williamhill_us": 215
+      },
+      "Under 11.0": {
+        "draftkings": -1150,
+        "williamhill_us": -348
+      },
+      "Over 12.0": {
+        "draftkings": 1000,
+        "williamhill_us": 287
+      },
+      "Under 12.0": {
+        "draftkings": -2200,
+        "williamhill_us": -508
+      },
+      "Over 13.0": {
+        "draftkings": 1600,
+        "williamhill_us": 390
+      },
+      "Under 13.0": {
+        "draftkings": -5000,
+        "williamhill_us": -808
+      },
+      "Over 14.0": {
+        "draftkings": 2200,
+        "williamhill_us": 506
+      },
+      "Under 14.0": {
+        "draftkings": -15000,
+        "williamhill_us": -1308
+      },
+      "Over 15.0": {
+        "draftkings": 3500
+      },
+      "Under 15.0": {
+        "draftkings": -80000
+      },
+      "Over 15.5": {
+        "draftkings": 3500
+      },
+      "Under 15.5": {
+        "draftkings": -80000
+      },
+      "Over 16.0": {
+        "draftkings": 5000
+      },
+      "Under 16.0": {
+        "draftkings": -200000
+      },
+      "Over 16.5": {
+        "draftkings": 5000
+      },
+      "Under 16.5": {
+        "draftkings": -200000
+      },
+      "Over 8.0": {
+        "ballybet": 128,
+        "pinnacle": -148,
+        "bovada": 135,
+        "coolbet": 120
+      },
+      "Under 8.0": {
+        "ballybet": -167,
+        "pinnacle": 121,
+        "bovada": -175,
+        "coolbet": -154
+      }
+    },
+    "team_totals_source": {
+      "Over 4.5": {
+        "draftkings": -105,
+        "fliff": 110,
+        "hardrockbet": 115,
+        "ballybet": 120,
+        "pinnacle": 115,
+        "williamhill_us": 125,
+        "bovada": 125
+      },
+      "Under 4.5": {
+        "draftkings": -125,
+        "fliff": -145,
+        "hardrockbet": -150,
+        "ballybet": -167,
+        "pinnacle": -134,
+        "williamhill_us": -167,
+        "bovada": -165
+      },
+      "Over 3.5": {
+        "draftkings": 176,
+        "fliff": 250,
+        "hardrockbet": 260,
+        "ballybet": 245,
+        "pinnacle": -127,
+        "williamhill_us": -133,
+        "bovada": 285
+      },
+      "Under 3.5": {
+        "draftkings": -234,
+        "fliff": -350,
+        "hardrockbet": -400,
+        "ballybet": -375,
+        "pinnacle": 109,
+        "williamhill_us": 105,
+        "bovada": -425
+      }
+    },
+    "alternate_team_totals_source": {
+      "Over 4.5": {
+        "hardrockbet": 475,
+        "betmgm": 200,
+        "fanatics": 450
+      },
+      "Under 4.5": {
+        "hardrockbet": -800,
+        "betmgm": -275,
+        "fanatics": -750
+      },
+      "Over 5.5": {
+        "hardrockbet": 850,
+        "betmgm": 400,
+        "fanatics": 900
+      },
+      "Under 5.5": {
+        "hardrockbet": -1800,
+        "betmgm": -625,
+        "fanatics": -1700
+      },
+      "Over 6.5": {
+        "hardrockbet": 575,
+        "betmgm": 600,
+        "fanatics": 750
+      },
+      "Under 6.5": {
+        "hardrockbet": -1100,
+        "betmgm": -1200,
+        "fanatics": -1400
+      },
+      "Over 3.5": {
+        "hardrockbet": 260,
+        "betmgm": -102,
+        "fanatics": 240
+      },
+      "Under 3.5": {
+        "hardrockbet": -400,
+        "betmgm": -125,
+        "fanatics": -350
+      }
+    },
+    "start_time": "2025-04-25T01:40:00+00:00"
+  },
+  "2025-04-24-TEX@OAK": {
+    "spreads": {
+      "OAK+1.5": {
+        "price": -160,
+        "consensus_prob": 0.61967,
+        "consensus_odds": -162.93
+      },
+      "TEX-1.5": {
+        "price": 151,
+        "consensus_prob": 0.38033,
+        "consensus_odds": 162.93
+      }
+    },
+    "totals": {
+      "Over 8.5": {
+        "price": 100,
+        "consensus_prob": 0.469388,
+        "consensus_odds": 113.04
+      },
+      "Under 8.5": {
+        "price": -125,
+        "consensus_prob": 0.530612,
+        "consensus_odds": -113.04
+      },
+      "Over 9.5": {
+        "price": 103,
+        "consensus_prob": 0.469974,
+        "consensus_odds": 112.78
+      },
+      "Under 9.5": {
+        "price": -125,
+        "consensus_prob": 0.530026,
+        "consensus_odds": -112.78
+      }
+    },
+    "alternate_spreads": {
+      "OAK-3.5": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "TEX+3.5": {
+        "price": -858,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "OAK-2.5": {
+        "price": 579,
+        "consensus_prob": 0.14015,
+        "consensus_odds": 613.52
+      },
+      "TEX+2.5": {
+        "price": -508,
+        "consensus_prob": 0.85985,
+        "consensus_odds": -613.52
+      },
+      "OAK-1.5": {
+        "price": 326,
+        "consensus_prob": 0.22344,
+        "consensus_odds": 347.55
+      },
+      "TEX+1.5": {
+        "price": -298,
+        "consensus_prob": 0.77656,
+        "consensus_odds": -347.55
+      },
+      "OAK+1.5": {
+        "price": -182,
+        "consensus_prob": 0.61967,
+        "consensus_odds": -162.93
+      },
+      "TEX-1.5": {
+        "price": 151,
+        "consensus_prob": 0.38033,
+        "consensus_odds": 162.93
+      },
+      "OAK+2.5": {
+        "price": -238,
+        "consensus_prob": 0.748084,
+        "consensus_odds": -296.96
+      },
+      "TEX-2.5": {
+        "price": 295,
+        "consensus_prob": 0.251916,
+        "consensus_odds": 296.96
+      },
+      "OAK+3.5": {
+        "price": -368,
+        "consensus_prob": 0.838445,
+        "consensus_odds": -518.98
+      },
+      "TEX-3.5": {
+        "price": 525,
+        "consensus_prob": 0.161555,
+        "consensus_odds": 518.98
+      },
+      "OAK+6.5": {
+        "price": -20000,
+        "consensus_prob": 0.962785,
+        "consensus_odds": -2587.09
+      },
+      "TEX-6.5": {
+        "price": 2500,
+        "consensus_prob": 0.037215,
+        "consensus_odds": 2587.09
+      },
+      "OAK+6.0": {
+        "price": -20000,
+        "consensus_prob": 0.962785,
+        "consensus_odds": -2587.09
+      },
+      "TEX-6.0": {
+        "price": 2500,
+        "consensus_prob": 0.037215,
+        "consensus_odds": 2587.09
+      },
+      "OAK+5.5": {
+        "price": -908,
+        "consensus_prob": 0.939948,
+        "consensus_odds": -1565.22
+      },
+      "TEX-5.5": {
+        "price": 1500,
+        "consensus_prob": 0.060052,
+        "consensus_odds": 1565.22
+      },
+      "OAK+5.0": {
+        "price": -858,
+        "consensus_prob": 0.939948,
+        "consensus_odds": -1565.22
+      },
+      "TEX-5.0": {
+        "price": 1500,
+        "consensus_prob": 0.060052,
+        "consensus_odds": 1565.22
+      },
+      "OAK+4.5": {
+        "price": -558,
+        "consensus_prob": 0.899865,
+        "consensus_odds": -898.65
+      },
+      "TEX-4.5": {
+        "price": 850,
+        "consensus_prob": 0.100135,
+        "consensus_odds": 898.65
+      },
+      "OAK+4.0": {
+        "price": -508,
+        "consensus_prob": 0.89441,
+        "consensus_odds": -847.06
+      },
+      "TEX-4.0": {
+        "price": 800,
+        "consensus_prob": 0.10559,
+        "consensus_odds": 847.06
+      },
+      "OAK+3.0": {
+        "price": -328,
+        "consensus_prob": 0.824179,
+        "consensus_odds": -468.76
+      },
+      "TEX-3.0": {
+        "price": 440,
+        "consensus_prob": 0.175821,
+        "consensus_odds": 468.76
+      },
+      "OAK+2.0": {
+        "price": -298,
+        "consensus_prob": 0.713124,
+        "consensus_odds": -248.58
+      },
+      "TEX-2.0": {
+        "price": 232,
+        "consensus_prob": 0.286876,
+        "consensus_odds": 248.58
+      },
+      "OAK+1.0": {
+        "price": 105,
+        "consensus_prob": 0.459209,
+        "consensus_odds": 117.77
+      },
+      "TEX-1.0": {
+        "price": -135,
+        "consensus_prob": 0.540791,
+        "consensus_odds": -117.77
+      },
+      "OAK-1.0": {
+        "price": 360,
+        "consensus_prob": 0.204403,
+        "consensus_odds": 389.23
+      },
+      "TEX+1.0": {
+        "price": -238,
+        "consensus_prob": 0.795597,
+        "consensus_odds": -389.23
+      },
+      "OAK-2.0": {
+        "price": 532,
+        "consensus_prob": 0.150726,
+        "consensus_odds": 563.46
+      },
+      "TEX+2.0": {
+        "price": -458,
+        "consensus_prob": 0.849274,
+        "consensus_odds": -563.46
+      },
+      "OAK-3.0": {
+        "price": 1600,
+        "consensus_prob": 0.056604,
+        "consensus_odds": 1666.66
+      },
+      "TEX+3.0": {
+        "price": -808,
+        "consensus_prob": 0.943396,
+        "consensus_odds": -1666.66
+      }
+    },
+    "alternate_team_totals": {
+      "Over 2.5": {
+        "price": -225,
+        "consensus_prob": 0.662638,
+        "consensus_odds": -196.42
+      },
+      "Under 2.5": {
+        "price": 180,
+        "consensus_prob": 0.337362,
+        "consensus_odds": 196.42
+      },
+      "Over 3.5": {
+        "price": -275,
+        "consensus_prob": 0.696492,
+        "consensus_odds": -229.48
+      },
+      "Under 3.5": {
+        "price": 210,
+        "consensus_prob": 0.303508,
+        "consensus_odds": 229.48
+      },
+      "Over 4.5": {
+        "price": 100,
+        "consensus_prob": 0.491797,
+        "consensus_odds": 103.34
+      },
+      "Under 4.5": {
+        "price": -118,
+        "consensus_prob": 0.508203,
+        "consensus_odds": -103.34
+      },
+      "Over 5.5": {
+        "price": 210,
+        "consensus_prob": 0.3125,
+        "consensus_odds": 220.0
+      },
+      "Under 5.5": {
+        "price": -275,
+        "consensus_prob": 0.6875,
+        "consensus_odds": -220.0
+      },
+      "Over 6.5": {
+        "price": 390,
+        "consensus_prob": 0.190597,
+        "consensus_odds": 424.67
+      },
+      "Under 6.5": {
+        "price": -550,
+        "consensus_prob": 0.809403,
+        "consensus_odds": -424.67
+      }
+    },
+    "alternate_totals": {
+      "Over 6.5": {
+        "price": -313,
+        "consensus_prob": 0.800766,
+        "consensus_odds": -401.92
+      },
+      "Under 6.5": {
+        "price": 375,
+        "consensus_prob": 0.199234,
+        "consensus_odds": 401.92
+      },
+      "Over 7.5": {
+        "price": -143,
+        "consensus_prob": 0.731476,
+        "consensus_odds": -272.41
+      },
+      "Under 7.5": {
+        "price": 253,
+        "consensus_prob": 0.268524,
+        "consensus_odds": 272.41
+      },
+      "Over 8.5": {
+        "price": 110,
+        "consensus_prob": 0.634146,
+        "consensus_odds": -173.33
+      },
+      "Under 8.5": {
+        "price": 160,
+        "consensus_prob": 0.365854,
+        "consensus_odds": 173.33
+      },
+      "Over 9.5": {
+        "price": 225,
+        "consensus_prob": 0.469974,
+        "consensus_odds": 112.78
+      },
+      "Under 9.5": {
+        "price": -125,
+        "consensus_prob": 0.530026,
+        "consensus_odds": -112.78
+      },
+      "Over 10.5": {
+        "price": 156,
+        "consensus_prob": 0.379007,
+        "consensus_odds": 163.85
+      },
+      "Under 10.5": {
+        "price": -188,
+        "consensus_prob": 0.620993,
+        "consensus_odds": -163.85
+      },
+      "Over 11.5": {
+        "price": 259,
+        "consensus_prob": 0.26407,
+        "consensus_odds": 278.69
+      },
+      "Under 11.5": {
+        "price": -347,
+        "consensus_prob": 0.73593,
+        "consensus_odds": -278.69
+      },
+      "Over 12.5": {
+        "price": 750,
+        "consensus_prob": 0.111712,
+        "consensus_odds": 795.16
+      },
+      "Under 12.5": {
+        "price": -483,
+        "consensus_prob": 0.888288,
+        "consensus_odds": -795.16
+      },
+      "Over 13.5": {
+        "price": 1300,
+        "consensus_prob": 0.068441,
+        "consensus_odds": 1361.11
+      },
+      "Under 13.5": {
+        "price": -758,
+        "consensus_prob": 0.931559,
+        "consensus_odds": -1361.11
+      },
+      "Over 14.5": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "Under 14.5": {
+        "price": -1108,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "Over 5.5": {
+        "price": -483,
+        "consensus_prob": 0.849403,
+        "consensus_odds": -564.02
+      },
+      "Under 5.5": {
+        "price": 525,
+        "consensus_prob": 0.150597,
+        "consensus_odds": 564.02
+      },
+      "Over 6.0": {
+        "price": -433,
+        "consensus_prob": 0.835873,
+        "consensus_odds": -509.28
+      },
+      "Under 6.0": {
+        "price": 475,
+        "consensus_prob": 0.164127,
+        "consensus_odds": 509.28
+      },
+      "Over 7.0": {
+        "price": -258,
+        "consensus_prob": 0.715447,
+        "consensus_odds": -251.43
+      },
+      "Under 7.0": {
+        "price": 285,
+        "consensus_prob": 0.284553,
+        "consensus_odds": 251.43
+      },
+      "Over 9.0": {
+        "price": 175,
+        "consensus_prob": 0.562661,
+        "consensus_odds": -128.66
+      },
+      "Under 9.0": {
+        "price": 118,
+        "consensus_prob": 0.437339,
+        "consensus_odds": 128.66
+      },
+      "Over 10.0": {
+        "price": 290,
+        "consensus_prob": 0.41625,
+        "consensus_odds": 140.24
+      },
+      "Under 10.0": {
+        "price": -158,
+        "consensus_prob": 0.58375,
+        "consensus_odds": -140.24
+      },
+      "Over 11.0": {
+        "price": 219,
+        "consensus_prob": 0.297114,
+        "consensus_odds": 236.57
+      },
+      "Under 11.0": {
+        "price": -287,
+        "consensus_prob": 0.702886,
+        "consensus_odds": -236.57
+      },
+      "Over 12.0": {
+        "price": 750,
+        "consensus_prob": 0.111712,
+        "consensus_odds": 795.16
+      },
+      "Under 12.0": {
+        "price": -458,
+        "consensus_prob": 0.888288,
+        "consensus_odds": -795.16
+      },
+      "Over 13.0": {
+        "price": 1200,
+        "consensus_prob": 0.073634,
+        "consensus_odds": 1258.07
+      },
+      "Under 13.0": {
+        "price": -708,
+        "consensus_prob": 0.926366,
+        "consensus_odds": -1258.07
+      },
+      "Over 14.0": {
+        "price": 1800,
+        "consensus_prob": 0.050678,
+        "consensus_odds": 1873.24
+      },
+      "Under 14.0": {
+        "price": -1108,
+        "consensus_prob": 0.949322,
+        "consensus_odds": -1873.24
+      },
+      "Over 8.0": {
+        "price": -111,
+        "consensus_prob": 0.703726,
+        "consensus_odds": -237.53
+      },
+      "Under 8.0": {
+        "price": 220,
+        "consensus_prob": 0.296274,
+        "consensus_odds": 237.53
+      }
+    },
+    "team_totals": {
+      "Over 3.5": {
+        "price": -105,
+        "consensus_prob": 0.531016,
+        "consensus_odds": -113.23
+      },
+      "Under 3.5": {
+        "price": 145,
+        "consensus_prob": 0.468984,
+        "consensus_odds": 113.23
+      },
+      "Over 4.5": {
+        "price": 107,
+        "consensus_prob": 0.455253,
+        "consensus_odds": 119.66
+      },
+      "Under 4.5": {
+        "price": -110,
+        "consensus_prob": 0.544747,
+        "consensus_odds": -119.66
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "OAK+1.5": {
+        "price": -350,
+        "consensus_prob": 0.72561,
+        "consensus_odds": -264.44
+      },
+      "TEX-1.5": {
+        "price": 240,
+        "consensus_prob": 0.27439,
+        "consensus_odds": 264.44
+      },
+      "OAK-0.5": {
+        "price": 425,
+        "consensus_prob": 0.177546,
+        "consensus_odds": 463.23
+      },
+      "TEX+0.5": {
+        "price": -750,
+        "consensus_prob": 0.822454,
+        "consensus_odds": -463.23
+      },
+      "OAK+0.5": {
+        "price": 220,
+        "consensus_prob": 0.290102,
+        "consensus_odds": 244.71
+      },
+      "TEX-0.5": {
+        "price": -300,
+        "consensus_prob": 0.709898,
+        "consensus_odds": -244.71
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": 175,
+        "consensus_prob": 0.363224,
+        "consensus_odds": 175.31
+      },
+      "Under 6.5": {
+        "price": -220,
+        "consensus_prob": 0.636776,
+        "consensus_odds": -175.31
+      },
+      "Over 5.5": {
+        "price": -140,
+        "consensus_prob": 0.569536,
+        "consensus_odds": -132.31
+      },
+      "Under 5.5": {
+        "price": 115,
+        "consensus_prob": 0.430464,
+        "consensus_odds": 132.31
+      },
+      "Over 7.5": {
+        "price": 310,
+        "consensus_prob": 0.226415,
+        "consensus_odds": 341.67
+      },
+      "Under 7.5": {
+        "price": -500,
+        "consensus_prob": 0.773585,
+        "consensus_odds": -341.67
+      }
+    },
+    "spreads_source": {
+      "OAK+1.5": {
+        "fanduel": -205,
+        "sport888": -175,
+        "espnbet": -180,
+        "mybookieag": -222,
+        "draftkings": -166,
+        "fliff": -160,
+        "hardrockbet": -190,
+        "gtbets": -134,
+        "betmgm": -150,
+        "ballybet": -152,
+        "betparx": -152,
+        "fanatics": -165,
+        "pinnacle": -185,
+        "williamhill_us": -160,
+        "bovada": -165,
+        "coolbet": -182
+      },
+      "TEX-1.5": {
+        "fanduel": 152,
+        "sport888": 125,
+        "espnbet": 140,
+        "mybookieag": 160,
+        "draftkings": 130,
+        "fliff": 120,
+        "hardrockbet": 145,
+        "gtbets": 105,
+        "betmgm": 115,
+        "ballybet": 120,
+        "betparx": 120,
+        "fanatics": 125,
+        "pinnacle": 151,
+        "williamhill_us": 125,
+        "bovada": 125,
+        "coolbet": 145
+      }
+    },
+    "totals_source": {
+      "Over 8.5": {
+        "fanduel": -122,
+        "sport888": 100,
+        "mybookieag": -133,
+        "draftkings": 105,
+        "fliff": 100,
+        "gtbets": -113,
+        "betmgm": 100,
+        "ballybet": -103,
+        "betparx": -103,
+        "fanatics": 100
+      },
+      "Under 8.5": {
+        "fanduel": -108,
+        "sport888": -143,
+        "mybookieag": -111,
+        "draftkings": -135,
+        "fliff": -130,
+        "gtbets": -113,
+        "betmgm": -130,
+        "ballybet": -125,
+        "betparx": -125,
+        "fanatics": -130
+      },
+      "Over 9.5": {
+        "pinnacle": 103
+      },
+      "Under 9.5": {
+        "pinnacle": -125
+      }
+    },
+    "alternate_spreads_source": {
+      "OAK-3.5": {
+        "fanduel": 1280,
+        "draftkings": 1800,
+        "williamhill_us": 404
+      },
+      "TEX+3.5": {
+        "fanduel": -7000,
+        "draftkings": -7000,
+        "williamhill_us": -858
+      },
+      "OAK-2.5": {
+        "fanduel": 800,
+        "draftkings": 1000,
+        "betmgm": 950,
+        "pinnacle": 579,
+        "williamhill_us": 287
+      },
+      "TEX+2.5": {
+        "fanduel": -2200,
+        "draftkings": -2200,
+        "betmgm": -2500,
+        "pinnacle": -937,
+        "williamhill_us": -508
+      },
+      "OAK-1.5": {
+        "fanduel": 390,
+        "draftkings": 475,
+        "hardrockbet": 500,
+        "betmgm": 550,
+        "pinnacle": 326,
+        "williamhill_us": 190
+      },
+      "TEX+1.5": {
+        "fanduel": -650,
+        "draftkings": -775,
+        "hardrockbet": -850,
+        "betmgm": -1000,
+        "pinnacle": -443,
+        "williamhill_us": -298
+      },
+      "OAK+1.5": {
+        "fanduel": -205,
+        "espnbet": -180,
+        "fliff": -160,
+        "betmgm": -150,
+        "pinnacle": -185,
+        "coolbet": -182
+      },
+      "TEX-1.5": {
+        "fanduel": 152,
+        "espnbet": 140,
+        "fliff": 120,
+        "betmgm": 115,
+        "pinnacle": 151,
+        "coolbet": 145
+      },
+      "OAK+2.5": {
+        "fanduel": -450,
+        "espnbet": -425,
+        "draftkings": -370,
+        "fliff": -345,
+        "hardrockbet": -425,
+        "betmgm": -325,
+        "pinnacle": -371,
+        "williamhill_us": -238,
+        "coolbet": -400
+      },
+      "TEX-2.5": {
+        "fanduel": 300,
+        "espnbet": 275,
+        "draftkings": 260,
+        "fliff": 230,
+        "hardrockbet": 275,
+        "betmgm": 240,
+        "pinnacle": 277,
+        "williamhill_us": 156,
+        "coolbet": 295
+      },
+      "OAK+3.5": {
+        "fanduel": -1100,
+        "espnbet": -1200,
+        "draftkings": -850,
+        "fliff": -710,
+        "betmgm": -700,
+        "pinnacle": -752,
+        "williamhill_us": -368,
+        "coolbet": -833
+      },
+      "TEX-3.5": {
+        "fanduel": 550,
+        "espnbet": 525,
+        "draftkings": 500,
+        "fliff": 400,
+        "betmgm": 450,
+        "pinnacle": 488,
+        "williamhill_us": 225,
+        "coolbet": 525
+      },
+      "OAK+6.5": {
+        "draftkings": -20000
+      },
+      "TEX-6.5": {
+        "draftkings": 2500
+      },
+      "OAK+6.0": {
+        "draftkings": -20000
+      },
+      "TEX-6.0": {
+        "draftkings": 2500
+      },
+      "OAK+5.5": {
+        "draftkings": -4500,
+        "williamhill_us": -908
+      },
+      "TEX-5.5": {
+        "draftkings": 1500,
+        "williamhill_us": 417
+      },
+      "OAK+5.0": {
+        "draftkings": -4500,
+        "williamhill_us": -858
+      },
+      "TEX-5.0": {
+        "draftkings": 1500,
+        "williamhill_us": 404
+      },
+      "OAK+4.5": {
+        "draftkings": -1750,
+        "williamhill_us": -558
+      },
+      "TEX-4.5": {
+        "draftkings": 850,
+        "williamhill_us": 306
+      },
+      "OAK+4.0": {
+        "draftkings": -1600,
+        "williamhill_us": -508
+      },
+      "TEX-4.0": {
+        "draftkings": 800,
+        "williamhill_us": 287
+      },
+      "OAK+3.0": {
+        "draftkings": -725,
+        "pinnacle": -658,
+        "williamhill_us": -328
+      },
+      "TEX-3.0": {
+        "draftkings": 450,
+        "pinnacle": 440,
+        "williamhill_us": 205
+      },
+      "OAK+2.0": {
+        "draftkings": -285,
+        "pinnacle": -298
+      },
+      "TEX-2.0": {
+        "draftkings": 210,
+        "pinnacle": 232
+      },
+      "OAK+1.0": {
+        "draftkings": 105
+      },
+      "TEX-1.0": {
+        "draftkings": -135
+      },
+      "OAK-1.0": {
+        "draftkings": 360,
+        "williamhill_us": 156
+      },
+      "TEX+1.0": {
+        "draftkings": -550,
+        "williamhill_us": -238
+      },
+      "OAK-2.0": {
+        "draftkings": 950,
+        "pinnacle": 532,
+        "williamhill_us": 266
+      },
+      "TEX+2.0": {
+        "draftkings": -2000,
+        "pinnacle": -822,
+        "williamhill_us": -458
+      },
+      "OAK-3.0": {
+        "draftkings": 1600,
+        "williamhill_us": 390
+      },
+      "TEX+3.0": {
+        "draftkings": -5000,
+        "williamhill_us": -808
+      }
+    },
+    "alternate_team_totals_source": {
+      "Over 2.5": {
+        "fanduel": -340,
+        "hardrockbet": -210,
+        "betmgm": -235,
+        "fanatics": -225
+      },
+      "Under 2.5": {
+        "fanduel": 235,
+        "hardrockbet": 160,
+        "betmgm": 180,
+        "fanatics": 165
+      },
+      "Over 3.5": {
+        "fanduel": -270,
+        "hardrockbet": -230,
+        "betmgm": -285,
+        "fanatics": -275
+      },
+      "Under 3.5": {
+        "fanduel": 194,
+        "hardrockbet": 175,
+        "betmgm": 210,
+        "fanatics": 200
+      },
+      "Over 4.5": {
+        "fanduel": 100,
+        "hardrockbet": 110,
+        "betmgm": -110,
+        "fanatics": 100
+      },
+      "Under 4.5": {
+        "fanduel": -132,
+        "hardrockbet": -140,
+        "betmgm": -118,
+        "fanatics": -130
+      },
+      "Over 5.5": {
+        "fanduel": 205,
+        "hardrockbet": 220,
+        "betmgm": 200,
+        "fanatics": 210
+      },
+      "Under 5.5": {
+        "fanduel": -290,
+        "hardrockbet": -325,
+        "betmgm": -275,
+        "fanatics": -285
+      },
+      "Over 6.5": {
+        "fanduel": 390,
+        "fanatics": 350
+      },
+      "Under 6.5": {
+        "fanduel": -650,
+        "fanatics": -550
+      }
+    },
+    "alternate_totals_source": {
+      "Over 6.5": {
+        "fanduel": -750,
+        "draftkings": -455,
+        "fliff": -520,
+        "betmgm": -550,
+        "fanatics": -450,
+        "williamhill_us": -313,
+        "bovada": -475
+      },
+      "Under 6.5": {
+        "fanduel": 430,
+        "draftkings": 310,
+        "fliff": 320,
+        "betmgm": 375,
+        "fanatics": 310,
+        "williamhill_us": 197,
+        "bovada": 315
+      },
+      "Over 7.5": {
+        "fanduel": -210,
+        "espnbet": -145,
+        "draftkings": -154,
+        "fliff": -165,
+        "betmgm": -160,
+        "ballybet": -180,
+        "fanatics": -160,
+        "pinnacle": -338,
+        "williamhill_us": -178,
+        "bovada": -145,
+        "coolbet": -143
+      },
+      "Under 7.5": {
+        "fanduel": 154,
+        "espnbet": 110,
+        "draftkings": 120,
+        "fliff": 115,
+        "betmgm": 125,
+        "ballybet": 132,
+        "fanatics": 120,
+        "pinnacle": 253,
+        "williamhill_us": 120,
+        "bovada": 110,
+        "coolbet": 115
+      },
+      "Over 8.5": {
+        "fanduel": -122,
+        "espnbet": 115,
+        "fliff": 100,
+        "hardrockbet": 110,
+        "betmgm": 100,
+        "ballybet": -103,
+        "fanatics": 100,
+        "pinnacle": -200,
+        "bovada": 110,
+        "coolbet": 110
+      },
+      "Under 8.5": {
+        "fanduel": -108,
+        "espnbet": -150,
+        "fliff": -130,
+        "hardrockbet": -140,
+        "betmgm": -130,
+        "ballybet": -125,
+        "fanatics": -130,
+        "pinnacle": 160,
+        "bovada": -145,
+        "coolbet": -133
+      },
+      "Over 9.5": {
+        "fanduel": 168,
+        "espnbet": 225,
+        "draftkings": 200,
+        "fliff": 185,
+        "hardrockbet": 210,
+        "betmgm": 210,
+        "ballybet": 190,
+        "fanatics": 200,
+        "pinnacle": 103,
+        "williamhill_us": 115,
+        "bovada": 225
+      },
+      "Under 9.5": {
+        "fanduel": -230,
+        "espnbet": -340,
+        "draftkings": -270,
+        "fliff": -270,
+        "hardrockbet": -300,
+        "betmgm": -275,
+        "ballybet": -305,
+        "fanatics": -275,
+        "pinnacle": -125,
+        "williamhill_us": -170,
+        "bovada": -310
+      },
+      "Over 10.5": {
+        "fanduel": 250,
+        "draftkings": 300,
+        "fliff": 265,
+        "betmgm": 300,
+        "ballybet": 280,
+        "fanatics": 260,
+        "pinnacle": 151,
+        "williamhill_us": 156
+      },
+      "Under 10.5": {
+        "fanduel": -360,
+        "draftkings": -440,
+        "fliff": -415,
+        "betmgm": -425,
+        "ballybet": -590,
+        "fanatics": -375,
+        "pinnacle": -188,
+        "williamhill_us": -238
+      },
+      "Over 11.5": {
+        "fanduel": 430,
+        "draftkings": 525,
+        "fanatics": 500,
+        "pinnacle": 259,
+        "williamhill_us": 215
+      },
+      "Under 11.5": {
+        "fanduel": -750,
+        "draftkings": -925,
+        "fanatics": -900,
+        "pinnacle": -347,
+        "williamhill_us": -348
+      },
+      "Over 12.5": {
+        "fanduel": 630,
+        "draftkings": 750,
+        "fanatics": 600,
+        "williamhill_us": 276
+      },
+      "Under 12.5": {
+        "fanduel": -1400,
+        "draftkings": -1450,
+        "fanatics": -1100,
+        "williamhill_us": -483
+      },
+      "Over 13.5": {
+        "fanduel": 920,
+        "draftkings": 1300,
+        "fanatics": 1050,
+        "williamhill_us": 375
+      },
+      "Under 13.5": {
+        "fanduel": -3500,
+        "draftkings": -3500,
+        "fanatics": -2200,
+        "williamhill_us": -758
+      },
+      "Over 14.5": {
+        "fanduel": 1260,
+        "draftkings": 1800,
+        "williamhill_us": 465
+      },
+      "Under 14.5": {
+        "fanduel": -6000,
+        "draftkings": -7000,
+        "williamhill_us": -1108
+      },
+      "Over 5.5": {
+        "draftkings": -925,
+        "fanatics": -900,
+        "williamhill_us": -483
+      },
+      "Under 5.5": {
+        "draftkings": 525,
+        "fanatics": 500,
+        "williamhill_us": 276
+      },
+      "Over 6.0": {
+        "draftkings": -775,
+        "williamhill_us": -433,
+        "bovada": -800
+      },
+      "Under 6.0": {
+        "draftkings": 475,
+        "williamhill_us": 255,
+        "bovada": 475
+      },
+      "Over 7.0": {
+        "draftkings": -320,
+        "ballybet": -625,
+        "williamhill_us": -258,
+        "bovada": -325
+      },
+      "Under 7.0": {
+        "draftkings": 230,
+        "ballybet": 285,
+        "williamhill_us": 168,
+        "bovada": 230
+      },
+      "Over 9.0": {
+        "draftkings": 160,
+        "ballybet": 148,
+        "pinnacle": -144,
+        "bovada": 175,
+        "coolbet": 170
+      },
+      "Under 9.0": {
+        "draftkings": -212,
+        "ballybet": -210,
+        "pinnacle": 118,
+        "bovada": -230,
+        "coolbet": -213
+      },
+      "Over 10.0": {
+        "draftkings": 270,
+        "ballybet": 245,
+        "pinnacle": 129,
+        "williamhill_us": 139,
+        "bovada": 290
+      },
+      "Under 10.0": {
+        "draftkings": -385,
+        "ballybet": -480,
+        "pinnacle": -158,
+        "williamhill_us": -208,
+        "bovada": -435
+      },
+      "Over 11.0": {
+        "draftkings": 475,
+        "pinnacle": 219,
+        "williamhill_us": 197
+      },
+      "Under 11.0": {
+        "draftkings": -775,
+        "pinnacle": -287,
+        "williamhill_us": -313
+      },
+      "Over 12.0": {
+        "draftkings": 750,
+        "williamhill_us": 266
+      },
+      "Under 12.0": {
+        "draftkings": -1450,
+        "williamhill_us": -458
+      },
+      "Over 13.0": {
+        "draftkings": 1200,
+        "williamhill_us": 359
+      },
+      "Under 13.0": {
+        "draftkings": -3000,
+        "williamhill_us": -708
+      },
+      "Over 14.0": {
+        "draftkings": 1800,
+        "williamhill_us": 465
+      },
+      "Under 14.0": {
+        "draftkings": -7000,
+        "williamhill_us": -1108
+      },
+      "Over 8.0": {
+        "ballybet": -137,
+        "pinnacle": -288,
+        "coolbet": -111
+      },
+      "Under 8.0": {
+        "ballybet": 107,
+        "pinnacle": 220,
+        "coolbet": -111
+      }
+    },
+    "team_totals_source": {
+      "Over 3.5": {
+        "fanduel": -158,
+        "draftkings": -115,
+        "fliff": -125,
+        "hardrockbet": -105,
+        "ballybet": -124,
+        "pinnacle": -129,
+        "williamhill_us": -200,
+        "bovada": -105
+      },
+      "Under 3.5": {
+        "fanduel": 118,
+        "draftkings": -115,
+        "fliff": -110,
+        "hardrockbet": -125,
+        "ballybet": -112,
+        "pinnacle": 101,
+        "williamhill_us": 145,
+        "bovada": -125
+      },
+      "Over 4.5": {
+        "fanduel": 100,
+        "draftkings": 105,
+        "fliff": -115,
+        "hardrockbet": 110,
+        "ballybet": -113,
+        "pinnacle": 107,
+        "williamhill_us": -125,
+        "bovada": 105
+      },
+      "Under 4.5": {
+        "fanduel": -132,
+        "draftkings": -135,
+        "fliff": -120,
+        "hardrockbet": -140,
+        "ballybet": -124,
+        "pinnacle": -137,
+        "williamhill_us": -110,
+        "bovada": -135
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "OAK+1.5": {
+        "betmgm": -350
+      },
+      "TEX-1.5": {
+        "betmgm": 240
+      },
+      "OAK-0.5": {
+        "betmgm": 425
+      },
+      "TEX+0.5": {
+        "betmgm": -750
+      },
+      "OAK+0.5": {
+        "betmgm": 220,
+        "fanatics": 220
+      },
+      "TEX-0.5": {
+        "betmgm": -325,
+        "fanatics": -300
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 6.5": {
+        "betmgm": 155,
+        "fanatics": 175
+      },
+      "Under 6.5": {
+        "betmgm": -220,
+        "fanatics": -240
+      },
+      "Over 5.5": {
+        "betmgm": -160,
+        "fanatics": -140
+      },
+      "Under 5.5": {
+        "betmgm": 115,
+        "fanatics": 105
+      },
+      "Over 7.5": {
+        "betmgm": 310
+      },
+      "Under 7.5": {
+        "betmgm": -500
+      }
+    },
+    "start_time": "2025-04-25T02:05:36+00:00"
+  }
+}
