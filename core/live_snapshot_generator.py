@@ -53,9 +53,37 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     """Return a styled DataFrame with conditional formatting."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
 
+    def _apply_movement(col: str, move_col: str):
+        def inner(series):
+            colors = []
+            moves = df.get(move_col)
+            for mv in moves if moves is not None else []:
+                if mv == "better":
+                    colors.append("background-color: #d4edda")
+                elif mv == "worse":
+                    colors.append("background-color: #f8d7da")
+                else:
+                    colors.append("")
+            return colors
+        return inner
+
+    styled = df.style.set_caption(f"Generated: {timestamp}")
+    if "odds_movement" in df.columns:
+        styled = styled.apply(_apply_movement("Odds", "odds_movement"), subset=["Odds"])
+    if "fv_movement" in df.columns:
+        styled = styled.apply(_apply_movement("FV", "fv_movement"), subset=["FV"])
+    if "ev_movement" in df.columns:
+        styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
+    if "is_new" in df.columns:
+        styled = styled.apply(
+            lambda row: [
+                "background-color: #fff3cd" if row.get("is_new") else "" for _ in row
+            ],
+            axis=1,
+        )
+
     styled = (
-        df.style
-        .set_caption(f"Generated: {timestamp}")
+        styled
         .set_properties(subset=df.columns.tolist(), **{
             "text-align": "left",
             "font-family": "monospace",
@@ -78,6 +106,17 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.hide_index()
     except AttributeError:
         pass
+
+    # Hide movement metadata columns if present
+    hide_cols = [c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns]
+    if hide_cols:
+        try:
+            styled = styled.hide(axis="columns", subset=hide_cols)
+        except Exception:
+            try:
+                styled = styled.hide_columns(hide_cols)
+            except Exception:
+                pass
 
     return styled
 
@@ -196,6 +235,7 @@ def compare_and_flag_new_rows(
         prev = last_snapshot.get(key)
         entry["is_new"] = prev is None
         entry["odds_movement"] = _movement(market_odds, prev.get("market_odds") if prev else None)
+        entry["fv_movement"] = _movement(fair_odds, prev.get("fair_odds") if prev else None)
         entry["ev_movement"] = _movement(ev_pct, prev.get("ev_percent") if prev else None)
         flagged.append(entry)
 
@@ -314,7 +354,7 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
     return rows
 
 
-def format_for_display(rows: list) -> pd.DataFrame:
+def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     if df.empty:
         return df
@@ -342,6 +382,13 @@ def format_for_display(rows: list) -> pd.DataFrame:
     for col in required_cols:
         if col not in df.columns:
             df[col] = "N/A"
+
+    if include_movement:
+        movement_cols = []
+        for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"]:
+            if c in df.columns:
+                movement_cols.append(c)
+        return df[required_cols + movement_cols]
 
     return df[required_cols]
 
@@ -426,8 +473,10 @@ def main():
                 "ev_percent": ev_pct,
             }
 
-    df = format_for_display(rows)
-    export_market_snapshots(df, MARKET_SNAPSHOT_PATHS)
+    df = format_for_display(rows, include_movement=args.diff_highlight)
+
+    df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
+    export_market_snapshots(df_export, MARKET_SNAPSHOT_PATHS)
 
     if args.output_discord:
         for mkt, webhook in WEBHOOKS.items():
