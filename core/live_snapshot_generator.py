@@ -31,7 +31,9 @@ from utils import (
 DEBUG_LOG = []
 
 SNAPSHOT_DIR = "backtest"
-SNAPSHOT_PATH = os.path.join(SNAPSHOT_DIR, "last_table_snapshot.json")
+# NOTE: use a dedicated snapshot file to avoid collisions with
+# run_distribution_simulator.py which also writes "last_table_snapshot.json".
+SNAPSHOT_PATH = os.path.join(SNAPSHOT_DIR, "last_live_snapshot.json")
 # Additional JSON exports for each market type
 MARKET_SNAPSHOT_PATHS = {
     "spreads": os.path.join(SNAPSHOT_DIR, "last_spreads_snapshot.json"),
