@@ -70,7 +70,16 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
     styled = _style_dataframe(df)
 
     buf = io.BytesIO()
-    dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
+    try:
+        dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
+    except Exception:
+        try:
+            buf.seek(0)
+            buf.truncate(0)
+            dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
+        except Exception:
+            _send_table_text(df, market_type, webhook_url)
+            return
     buf.seek(0)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
