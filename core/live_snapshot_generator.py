@@ -144,7 +144,15 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
     except Exception as e:
         print(f"\u274c dfi.export failed: {e}")
-        return   
+        try:
+            buf.seek(0)
+            buf.truncate(0)
+            dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
+        except Exception as e2:
+            print(f"⚠️ Fallback export failed: {e2}")
+            buf.close()
+            _send_table_text(df, market_type, webhook_url)
+            return
     buf.seek(0)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
@@ -168,6 +176,24 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         print(f"❌ Failed to send snapshot for {market_type}: {e}")
     finally:
         buf.close()
+
+
+def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> None:
+    """Send the DataFrame as a Markdown code block to Discord."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
+    caption = f"📈 **Live Market Snapshot — {market_type}** (text fallback)"\
+        f"\n_Generated: {timestamp}_"
+
+    try:
+        table = df.to_markdown(index=False)
+    except Exception:
+        table = df.to_string(index=False)
+
+    message = f"{caption}\n```\n{table}\n```\n_(Not an official bet — informational only)_"
+    try:
+        requests.post(webhook_url, json={"content": message}, timeout=10)
+    except Exception as e:
+        print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 
 WEBHOOKS = {
     "h2h": os.getenv("DISCORD_H2H_WEBHOOK_URL"),
