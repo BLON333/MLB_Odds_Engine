@@ -30,8 +30,8 @@ This project is a modular, data-driven Monte Carlo simulation engine for modelin
 | `market_pricer.py` | Converts sim results to fair moneyline/total odds |
 | `stats_loader.py` | Loads and enriches player projections |
 | `summary_formatter.py` | Generates human-readable betting summaries |
-| `run_distribution_simulator.py` | PMF + distribution simulation for totals |
-| `run_full_slate.py` | Simulates all games on a slate/date |
+| `cli/run_distribution_simulator.py` | PMF + distribution simulation for totals |
+| `cli/run_full_slate_entry.py` | Simulates all games on a slate/date |
 | `noaa_weather.py` | Alternative NOAA wind/temperature fetcher |
 | `lineup_scraper_selenium.py` | Scrapes FantasyData lineups using Selenium |
 | `probable_pitchers.py` | Pulls MLB probable starters from StatsAPI |
@@ -69,10 +69,10 @@ python simulate_game_and_price_market.py 2025-04-04-TEX@HOU moneyline
 
 
 Simulate full distribution (PMF) of total runs:
-python run_distribution_simulator.py 2025-04-04-TEX@HOU
+python cli/run_distribution_simulator.py 2025-04-04-TEX@HOU
 
 Simulate and price entire slate:
-python run_full_slate.py 2025-04-04 --csv
+python cli/run_full_slate_entry.py 2025-04-04 --csv
 
 
 📈 Output Fields

@@ -44,8 +44,8 @@ def summarize_pmf(values):
     pmf = {}
     for k, v in counts.items():
         try:
-            key = int(k)  # ✅ force native Python int (not np.int64 or str)
-        except:
+            key = float(k)
+        except Exception:
             continue
         pmf[key] = float(v) / total
     return pmf
