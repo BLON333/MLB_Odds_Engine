@@ -804,13 +804,16 @@ def send_discord_notification(row):
 
     topup_note = f"🔁 Top-Up → Total Stake: `{full_stake:.2f}u`" if stake < full_stake else ""
 
+    segment_label = row.get("segment_label", "")
+    segment_tag = f" | 🏷 {segment_label}" if segment_label and segment_label != "derivative" else ""
+
     message = (
         f"{tag} {header}\n\n"
-        f"📅 {game_day_tag.replace('**', '').replace('*', '')} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
+        f"📅 {game_day_tag.replace('**', '').replace('*', '')} | {market_class_tag}{segment_tag}\n"
         f"🏟️ Game: {event_label} ({game_id})\n"
         f"🧾 Market: {market} — {side}\n"
         f"💰 Stake: {stake:.2f}u @ {odds} ({bet_label})\n"
-        f"{topup_note}\n\n"
+        f"{topup_note}\n\n" if topup_note else "\n"
         "---\n\n"
         "📈 Edge Overview\n"
         f"Sim Win Rate: {sim_prob:.1%},\n"
