@@ -31,7 +31,9 @@ from utils import (
 DEBUG_LOG = []
 
 SNAPSHOT_DIR = "backtest"
-SNAPSHOT_PATH = os.path.join(SNAPSHOT_DIR, "last_table_snapshot.json")
+# NOTE: use a dedicated snapshot file to avoid collisions with
+# run_distribution_simulator.py which also writes "last_table_snapshot.json".
+SNAPSHOT_PATH = os.path.join(SNAPSHOT_DIR, "last_live_snapshot.json")
 # Additional JSON exports for each market type
 MARKET_SNAPSHOT_PATHS = {
     "spreads": os.path.join(SNAPSHOT_DIR, "last_spreads_snapshot.json"),
@@ -74,6 +76,10 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.apply(_apply_movement("FV", "fv_movement"), subset=["FV"])
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
+    if "is_new" in df.columns:
+        def highlight_new(row):
+            return ["background-color: #e6ffe6" if row.get("is_new") else "" for _ in row]
+        styled = styled.apply(highlight_new, axis=1)
 
     styled = (
         styled
