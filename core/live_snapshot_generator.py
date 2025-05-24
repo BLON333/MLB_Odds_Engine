@@ -307,6 +307,18 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
                 hours_to_game = (dt - datetime.now(dt.tzinfo)).total_seconds() / 3600
             except Exception:
                 pass
+        if hours_to_game < 0:
+            print(
+                f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
+            )
+            debug_log.append(
+                {
+                    "game_id": game_id,
+                    "reason": "game_live",
+                    "hours_to_game": round(hours_to_game, 2),
+                }
+            )
+            continue
         for entry in markets:
             market = entry.get("market")
             side = entry.get("side")
