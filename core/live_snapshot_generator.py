@@ -25,7 +25,7 @@ from log_betting_evals import expand_snapshot_rows_with_kelly, get_theme
 from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
-    get_segment_from_market,
+    get_market_entry_with_alternate_fallback,
 )
 
 DEBUG_LOG = []
@@ -305,41 +305,36 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
             if market is None or side is None or sim_prob is None:
                 continue
 
-            market_block = odds.get(market, {})
-            if market == "h2h":
-
-                side_key = normalize_to_abbreviation(side.strip())
-                price_entry = market_block.get(side_key)
-                if price_entry is None:
-                    print(
-                        f"⚠️ H2H side not found: {side} → tried '{side_key}' in {list(market_block.keys())}"
-                    )
-            else:
-                price_entry = market_block.get(side)
-            if price_entry is None:
-                alt = convert_full_team_spread_to_odds_key(side)
-                price_entry = market_block.get(alt)
-            if price_entry is None:
+            lookup_side = normalize_to_abbreviation(side.strip()) if market == "h2h" else side
+            market_entry, _, matched_key, segment, price_source = get_market_entry_with_alternate_fallback(
+                odds, market, lookup_side
+            )
+            if not isinstance(market_entry, dict):
+                alt = convert_full_team_spread_to_odds_key(lookup_side)
+                market_entry, _, matched_key, segment, price_source = get_market_entry_with_alternate_fallback(
+                    odds, market, alt
+                )
+            if not isinstance(market_entry, dict):
                 continue
 
-            price = price_entry.get("price")
+            price = market_entry.get("price")
             if price is None:
                 continue
 
-            consensus_prob = price_entry.get("consensus_prob")
+            consensus_prob = market_entry.get("consensus_prob")
             p_blended, _, _, p_market = blend_prob(sim_prob, price, market, hours_to_game, consensus_prob)
             ev_pct = calculate_ev_from_prob(p_blended, price)
             stake = kelly_fraction(p_blended, price, fraction=0.25)
-            segment = get_segment_from_market(market)
-            market_class = "alternate" if market.startswith("alternate_") else "main"
+            market_clean = matched_key.replace("alternate_", "")
+            market_class = "alternate" if price_source == "alternate" else "main"
 
             print(
-                f"✓ {game_id} | {market} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {price_entry.get('pricing_method', 'book')}"
+                f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
             )
 
             row = {
                 "game_id": game_id,
-                "market": market,
+                "market": market_clean,
                 "side": side,
                 "sim_prob": round(sim_prob, 4),
                 "market_prob": round(p_market, 4),
@@ -351,14 +346,14 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
                 "full_stake": stake,
                 "segment": segment,
                 "market_class": market_class,
-                "_raw_sportsbook": price_entry.get("per_book", {}),
+                "_raw_sportsbook": market_entry.get("per_book", {}),
             }
             rows.append(row)
     return rows
 
 
 def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFrame:
-    df = pd.DataFrame(rows)␊
+    df = pd.DataFrame(rows)
     if df.empty:
         return df
 
