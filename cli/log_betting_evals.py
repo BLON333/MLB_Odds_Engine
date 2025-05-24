@@ -734,7 +734,13 @@ def send_discord_notification(row):
 
     best_book_data = row.get("best_book", {})
     if isinstance(best_book_data, dict):
-        best_book = max(best_book_data, key=lambda book: decimal_odds(best_book_data[book]))
+        best_book = max(best_book_data, key=lambda b: decimal_odds(best_book_data[b]))
+    elif isinstance(best_book_data, str) and best_book_data.strip().startswith("{"):
+        try:
+            tmp = json.loads(best_book_data.replace("'", '"'))
+            best_book = max(tmp, key=lambda b: decimal_odds(tmp[b]))
+        except Exception:
+            best_book = best_book_data
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
@@ -750,6 +756,11 @@ def send_discord_notification(row):
         all_odds_dict = row["consensus_books"]
     elif isinstance(row.get("sportsbook"), dict):
         all_odds_dict = row["sportsbook"]
+    elif isinstance(row.get("sportsbook"), str) and row["sportsbook"].strip().startswith("{"):
+        try:
+            all_odds_dict = json.loads(row["sportsbook"].replace("'", '"'))
+        except Exception:
+            all_odds_dict = {}
 
     best_book_name = best_book.lower() if isinstance(best_book, str) else ""
 
@@ -782,7 +793,7 @@ def send_discord_notification(row):
     # Only mention sportsbooks whose individual EV falls within the
     # notification range (5% - 20%). This prevents tagging every book
     # just because the best price qualifies.
-    tagged_roles = []
+    roles = set()
     for book, price in sorted_books:
         model_prob = sim_prob
         offered_decimal = to_decimal(price)
@@ -791,22 +802,23 @@ def send_discord_notification(row):
         if 5 <= ev_this_book <= 20:
             role_tag = BOOKMAKER_TO_ROLE.get(book.lower())
             if role_tag:
-                tagged_roles.append((ev_this_book, role_tag))
+                roles.add(role_tag)
 
-    if tagged_roles:
-        tagged_roles.sort(reverse=True)
-        roles_text = " ".join(role for ev, role in tagged_roles)
+    best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
+    if best_role:
+        roles.add(best_role)
+
+    if roles:
+        roles_text = "📣 " + " ".join(sorted(roles))
     else:
         roles_text = ""
 
-    if roles_text:
-        roles_text = f"📣 {roles_text}"
-
     topup_note = f"🔁 Top-Up → Total Stake: `{full_stake:.2f}u`" if stake < full_stake else ""
 
+    game_day_clean = game_day_tag.replace('**', '').replace('*', '')
     message = (
         f"{tag} {header}\n\n"
-        f"📅 {game_day_tag.replace('**', '').replace('*', '')} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
+        f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
         f"🏟️ Game: {event_label} ({game_id})\n"
         f"🧾 Market: {market} — {side}\n"
         f"💰 Stake: {stake:.2f}u @ {odds} ({bet_label})\n"
