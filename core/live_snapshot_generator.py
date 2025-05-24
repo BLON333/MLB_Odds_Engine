@@ -326,7 +326,7 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
             ev_pct = calculate_ev_from_prob(p_blended, price)
             stake = kelly_fraction(p_blended, price, fraction=0.25)
             market_clean = matched_key.replace("alternate_", "")
-            market_class = price_source
+            market_class = "alternate" if price_source == "alternate" else "main"
 
             print(
                 f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
