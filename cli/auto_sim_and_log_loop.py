@@ -38,7 +38,10 @@ def run_logger():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         print(f"\n📝 [{datetime.now()}] Launching log evals for {date_str}...")
-        cmd = f"python log_betting_evals.py --eval-folder backtest/sims/{date_str} --min-ev {MIN_EV}"
+        default_script = os.path.join("cli", "log_betting_evals.py")
+        if not os.path.exists(default_script):
+            default_script = "log_betting_evals.py"
+        cmd = f"python {default_script} --eval-folder backtest/sims/{date_str} --min-ev {MIN_EV}"
         subprocess.Popen(cmd, shell=True)
 
 
