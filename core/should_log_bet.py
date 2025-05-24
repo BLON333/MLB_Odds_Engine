@@ -46,7 +46,15 @@ def should_log_bet(new_bet: dict,
             return None
 
     # 🚧 Conflict check — reject if opposite side already logged
-    if "Over" in side:
+    opposite_exact = False
+    tokens = side.split()
+    # 🧠 Try to parse team total format: "Over 4.5 LAD" or "Under 4.5 BOS"
+    if len(tokens) >= 3 and tokens[0] in {"Over", "Under"}:
+        direction, value, *team_parts = tokens
+        team = " ".join(team_parts)
+        opposite = f"{'Under' if direction == 'Over' else 'Over'} {value} {team}"
+        opposite_exact = True
+    elif "Over" in side:
         opposite = "Under"
     elif "Under" in side:
         opposite = "Over"
@@ -62,11 +70,18 @@ def should_log_bet(new_bet: dict,
         opposite = None
 
     if opposite:
-        conflict = prior_bets_segment_filtered[
-            (prior_bets_segment_filtered["market"] == market) &
-            (prior_bets_segment_filtered["side"].astype(str).str.contains(opposite, case=False, na=False)) &
-            (prior_bets_segment_filtered["segment"].fillna("mainline") == segment)
-        ]
+        if opposite_exact:
+            conflict = prior_bets_segment_filtered[
+                (prior_bets_segment_filtered["market"] == market) &
+                (prior_bets_segment_filtered["side"].astype(str).str.lower() == opposite.lower()) &
+                (prior_bets_segment_filtered["segment"].fillna("mainline") == segment)
+            ]
+        else:
+            conflict = prior_bets_segment_filtered[
+                (prior_bets_segment_filtered["market"] == market) &
+                (prior_bets_segment_filtered["side"].astype(str).str.contains(opposite, case=False, na=False)) &
+                (prior_bets_segment_filtered["segment"].fillna("mainline") == segment)
+            ]
         if not conflict.empty:
             if verbose:
                 print(f"❌ should_log_bet: Rejected due to theme conflict with existing {opposite} bet in same market/segment")
