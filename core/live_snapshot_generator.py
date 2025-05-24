@@ -31,15 +31,22 @@ from utils import (
 DEBUG_LOG = []
 
 SNAPSHOT_DIR = "backtest"
-# NOTE: use a dedicated snapshot file to avoid collisions with
-# run_distribution_simulator.py which also writes "last_table_snapshot.json".
-SNAPSHOT_PATH = os.path.join(SNAPSHOT_DIR, "last_live_snapshot.json")
-# Additional JSON exports for each market type
-MARKET_SNAPSHOT_PATHS = {
-    "spreads": os.path.join(SNAPSHOT_DIR, "last_spreads_snapshot.json"),
-    "h2h": os.path.join(SNAPSHOT_DIR, "last_h2h_snapshot.json"),
-    "totals": os.path.join(SNAPSHOT_DIR, "last_totals_snapshot.json"),
-}
+
+
+def make_snapshot_path(date_key: str) -> str:
+    """Return the per-date snapshot path."""
+    safe = date_key.replace(",", "_")
+    return os.path.join(SNAPSHOT_DIR, f"last_live_snapshot_{safe}.json")
+
+
+def make_market_snapshot_paths(date_key: str) -> dict:
+    """Return per-date market snapshot paths."""
+    safe = date_key.replace(",", "_")
+    return {
+        "spreads": os.path.join(SNAPSHOT_DIR, f"last_spreads_snapshot_{safe}.json"),
+        "h2h": os.path.join(SNAPSHOT_DIR, f"last_h2h_snapshot_{safe}.json"),
+        "totals": os.path.join(SNAPSHOT_DIR, f"last_totals_snapshot_{safe}.json"),
+    }
 
 load_dotenv()
 
@@ -185,7 +192,7 @@ from typing import List, Dict, Tuple
 
 def compare_and_flag_new_rows(
     current_entries: List[dict],
-    snapshot_path: str = SNAPSHOT_PATH,
+    snapshot_path: str,
 ) -> Tuple[List[dict], Dict[str, dict]]:
     """Return entries annotated with new-row and movement flags.
 
@@ -197,8 +204,8 @@ def compare_and_flag_new_rows(
     ----------
     current_entries : List[dict]
         The list of market entries for the current run.
-    snapshot_path : str, optional
-        File path of the previous snapshot JSON.
+    snapshot_path : str
+        File path of the previous snapshot JSON for this date.
 
     Returns
     -------
@@ -418,8 +425,11 @@ def main():
     parser.set_defaults(output_discord=True)
     args = parser.parse_args()
 
-    if args.reset_snapshot and os.path.exists(SNAPSHOT_PATH):
-        os.remove(SNAPSHOT_PATH)
+    snapshot_path = make_snapshot_path(args.date)
+    market_snapshot_paths = make_market_snapshot_paths(args.date)
+
+    if args.reset_snapshot and os.path.exists(snapshot_path):
+        os.remove(snapshot_path)
 
     date_list = [d.strip() for d in str(args.date).split(',') if d.strip()]
     all_rows = []
@@ -457,7 +467,7 @@ def main():
         return
 
     if args.diff_highlight:
-        rows, snapshot_next = compare_and_flag_new_rows(rows, SNAPSHOT_PATH)
+        rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
     else:
         snapshot_next = {}
         for r in rows:
@@ -478,7 +488,7 @@ def main():
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
     df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
-    export_market_snapshots(df_export, MARKET_SNAPSHOT_PATHS)
+    export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
         for mkt, webhook in WEBHOOKS.items():
@@ -497,8 +507,8 @@ def main():
             print(df.to_string(index=False))
 
     # Save snapshot for next run
-    os.makedirs(os.path.dirname(SNAPSHOT_PATH), exist_ok=True)
-    with open(SNAPSHOT_PATH, "w") as f:
+    os.makedirs(os.path.dirname(snapshot_path), exist_ok=True)
+    with open(snapshot_path, "w") as f:
         json.dump(snapshot_next, f, indent=2)
 
     if args.debug_json:
