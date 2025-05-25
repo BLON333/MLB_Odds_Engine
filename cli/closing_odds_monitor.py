@@ -118,10 +118,21 @@ def get_market_data_with_alternates(consensus_odds, market_key):
     return consensus_odds.get(market_key) or consensus_odds.get(f"alternate_{market_key}")
 
 
-def monitor_loop(poll_interval=600):
+def monitor_loop(poll_interval=600, target_date=None):
+    """Continuously fetch closing odds for games on ``target_date``.
+
+    ``target_date`` defaults to today's date when the monitor is started and
+    remains constant for the entire runtime. This prevents late-night runs from
+    switching to the next calendar day mid-loop and inadvertently skipping the
+    remaining games of the original date.
+    """
+
+    if target_date is None:
+        target_date = now_eastern().strftime("%Y-%m-%d")
+
     while True:
         now_est = now_eastern()
-        today = now_est.strftime("%Y-%m-%d")  # Local Eastern Date
+        today = target_date  # Use a fixed date for the entire run
 
         loaded_bets = load_tracked_games()
         bets = [b for b in loaded_bets if b["game_id"].startswith(today)]
@@ -280,4 +291,14 @@ def monitor_loop(poll_interval=600):
         time.sleep(poll_interval)
 
 if __name__ == "__main__":
-    monitor_loop()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Monitor and capture MLB closing odds")
+    parser.add_argument(
+        "--date",
+        dest="date",
+        help="YYYY-MM-DD date to monitor (defaults to today's Eastern date)",
+    )
+    args = parser.parse_args()
+
+    monitor_loop(target_date=args.date)
