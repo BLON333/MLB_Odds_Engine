@@ -247,11 +247,17 @@ def get_paired_label(label, market_key, game_id, point=None):
     if market_key.startswith("h2h"):
         try:
             _, matchup = game_id.rsplit("-", 1)
-            away, home = matchup.split("@")
-            away_name = TEAM_ABBR_TO_NAME.get(away, away)
-            home_name = TEAM_ABBR_TO_NAME.get(home, home)
-            return normalize_label(home_name) if normalize_label(label) == normalize_label(away_name) else normalize_label(away_name)
-        except:
+            away_abbr, home_abbr = matchup.split("@")
+            away_name = TEAM_ABBR_TO_NAME.get(away_abbr, away_abbr)
+            home_name = TEAM_ABBR_TO_NAME.get(home_abbr, home_abbr)
+
+            label_norm = normalize_label(label)
+            if label_norm in {normalize_label(away_abbr), normalize_label(away_name)}:
+                return home_abbr
+            if label_norm in {normalize_label(home_abbr), normalize_label(home_name)}:
+                return away_abbr
+            return None
+        except Exception:
             return None
 
     if market_key.startswith("spreads") or market_key.startswith("alternate_spreads"):
