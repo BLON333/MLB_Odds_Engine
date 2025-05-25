@@ -749,18 +749,45 @@ def send_discord_notification(row):
     blended_prob = row["blended_prob"]
     fair_odds = row["blended_fv"]
 
+    def _parse_odds_dict(val):
+        """Return a clean {book: odds} dict from various input formats."""
+        if isinstance(val, dict):
+            # Handle nested dict serialized as the sole key
+            if len(val) == 1:
+                (k, v), = val.items()
+                if isinstance(k, str) and k.strip().startswith("{") and k.strip().endswith("}"):
+                    try:
+                        inner = json.loads(k.replace("'", '"'))
+                        return inner
+                    except Exception:
+                        pass
+            return val
+        if isinstance(val, str):
+            s = val.strip()
+            if s.startswith("{") and s.endswith("}"):
+                try:
+                    return json.loads(s.replace("'", '"'))
+                except Exception:
+                    pass
+            odds = {}
+            for piece in s.split(','):
+                if ':' not in piece:
+                    continue
+                book, price = piece.split(':', 1)
+                try:
+                    odds[book.strip()] = float(price)
+                except Exception:
+                    continue
+            if odds:
+                return odds
+        return {}
+
     all_odds_dict = {}
-    if isinstance(row.get("_raw_sportsbook"), dict):
-        all_odds_dict = row["_raw_sportsbook"]
-    elif isinstance(row.get("consensus_books"), dict):
-        all_odds_dict = row["consensus_books"]
-    elif isinstance(row.get("sportsbook"), dict):
-        all_odds_dict = row["sportsbook"]
-    elif isinstance(row.get("sportsbook"), str) and row["sportsbook"].strip().startswith("{"):
-        try:
-            all_odds_dict = json.loads(row["sportsbook"].replace("'", '"'))
-        except Exception:
-            all_odds_dict = {}
+    for key in ("_raw_sportsbook", "consensus_books", "sportsbook"):
+        parsed = _parse_odds_dict(row.get(key))
+        if parsed:
+            all_odds_dict = parsed
+            break
 
     best_book_name = best_book.lower() if isinstance(best_book, str) else ""
 
