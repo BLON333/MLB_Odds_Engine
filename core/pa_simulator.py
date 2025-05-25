@@ -16,15 +16,63 @@ def log_pa_outcome(team, outcome):
         PA_RECAP_LOG[team][outcome] += 1
 
 # === NEW: Beta sampling noise for probability variance ===
-def beta_noise(p, weight=30):
-    """Apply beta noise to a probability with optional smoothing weight."""
+def beta_noise(p, weight=30, rng=None):
+    """Return probability with Beta noise applied using ``rng``."""
     if p <= 0.0:
         return 0.0
     if p >= 1.0:
         return 1.0
     alpha = p * weight
     beta = (1 - p) * weight
-    return np.random.beta(alpha, beta)
+    rand = rng if rng is not None else np.random
+    return rand.beta(alpha, beta)
+
+
+def resolve_base_outcome(sample, k_prob, bb_prob):
+    """Resolve base outcome from random sample and probabilities."""
+    if sample < k_prob:
+        return "K"
+    if sample < k_prob + bb_prob:
+        return "BB"
+    return "Contact"
+
+
+def check_home_run(pitcher, weather_mult=1.0, rng=None):
+    """Return tuple of (is_hr, hr_prob) based on pitcher and weather."""
+    hr_prob = pitcher.get("hr_pa", {}).get("hr_pa_projected", 0.046) * weather_mult
+    rand = rng if rng is not None else np.random
+    return rand.random() < hr_prob, hr_prob
+
+
+def resolve_contact(batter, pitcher, debug=False, rng=None):
+    """Resolve a ball in play into hit type or out."""
+    rand = rng if rng is not None else np.random
+    bip_type = rand.choice(["GB", "LD", "FB", "POP"], p=[0.28, 0.32, 0.30, 0.10])
+    if debug:
+        print(f"DEBUG: BIP Type: {bip_type}")
+
+    is_hit = resolve_bip(
+        bip_type,
+        ev=pitcher.get("exit_velocity_avg"),
+        la=pitcher.get("launch_angle_avg"),
+        batter_speed=batter.get("speed", 50),
+        fielder_rating=pitcher.get("fielder_rating", 50)
+    )
+
+    if is_hit:
+        outcome = rand.choice(["1B", "2B", "3B"], p=[0.76, 0.22, 0.02])
+    else:
+        if rand.random() < 0.10:
+            outcome = rand.choice(["1B", "2B"], p=[0.92, 0.08])
+            if debug:
+                print(f"DEBUG: Infield single fallback triggered → {outcome}")
+        else:
+            outcome = "OUT"
+
+    if debug:
+        print(f"DEBUG: Hit? {is_hit} → Outcome: {outcome}")
+
+    return outcome
 
 
 def simulate_pa(
@@ -37,8 +85,13 @@ def simulate_pa(
     debug=False,
     return_probs=False,
     batting_team="HOME",
-    use_noise=False 
+    use_noise=False,
+    rng=None,
 ):
+    """Simulate a single plate appearance and return the outcome."""
+
+    rand = rng if rng is not None else np.random
+
     k_rate = (batter.get("k_rate", 0.22) + pitcher.get("k_rate", 0.22)) / 2
     bb_rate = (batter.get("bb_rate", 0.08) + pitcher.get("bb_rate", 0.08)) / 2
     contact_prob = 1 - k_rate - bb_rate
@@ -48,49 +101,23 @@ def simulate_pa(
         bb_rate *= umpire_modifiers.get("bb_mod", 1.0)
 
     # Normalize and optionally apply noise
-    k_prob = beta_noise(k_rate) if use_noise else k_rate
-    bb_prob = beta_noise(bb_rate) if use_noise else bb_rate
+    k_prob = beta_noise(k_rate, rng=rand) if use_noise else k_rate
+    bb_prob = beta_noise(bb_rate, rng=rand) if use_noise else bb_rate
     contact_prob = max(0.0, 1 - k_prob - bb_prob)
 
+    result = rand.random() if hasattr(rand, "random") else rand.rand()
 
-    result = np.random.rand()
+    base_outcome = resolve_base_outcome(result, k_prob, bb_prob)
 
-    # Always define this before the logic (important for return path)
-    effective_hr_pa = pitcher.get("hr_pa", {}).get("hr_pa_projected", 0.046) * weather_hr_mult
+    is_hr, effective_hr_pa = check_home_run(pitcher, weather_hr_mult, rng=rand)
 
-    if result < k_prob:
-        outcome = "K"
-    elif result < k_prob + bb_prob:
-        outcome = "BB"
-    else:
-        # HR check
-        if np.random.rand() < effective_hr_pa:
+    if base_outcome == "Contact":
+        if is_hr:
             outcome = "HR"
         else:
-            bip_type = np.random.choice(["GB", "LD", "FB", "POP"], p=[0.28, 0.32, 0.30, 0.10])
-            if debug:
-                print(f"DEBUG: BIP Type: {bip_type}")
-
-            is_hit = resolve_bip(
-                bip_type,
-                ev=pitcher.get("exit_velocity_avg"),
-                la=pitcher.get("launch_angle_avg"),
-                batter_speed=batter.get("speed", 50),
-                fielder_rating=pitcher.get("fielder_rating", 50)
-            )
-
-            if is_hit:
-                outcome = np.random.choice(["1B", "2B", "3B"], p=[0.76, 0.22, 0.02])
-            else:
-                if np.random.rand() < 0.10:
-                    outcome = np.random.choice(["1B", "2B"], p=[0.92, 0.08])
-                    if debug:
-                        print(f"DEBUG: Infield single fallback triggered → {outcome}")
-                else:
-                    outcome = "OUT"
-
-            if debug:
-                print(f"DEBUG: Hit? {is_hit} → Outcome: {outcome}")
+            outcome = resolve_contact(batter, pitcher, debug=debug, rng=rand)
+    else:
+        outcome = base_outcome
 
     log_pa_outcome(batting_team, outcome)
 
@@ -121,6 +148,13 @@ if __name__ == '__main__':
         "fielder_rating": 50
     }
 
-    outcome, pa_probs = simulate_pa(test_batter, test_pitcher, debug=True, return_probs=True, use_noise=True)
+    outcome, pa_probs = simulate_pa(
+        test_batter,
+        test_pitcher,
+        debug=True,
+        return_probs=True,
+        use_noise=True,
+        rng=np.random.default_rng(42),
+    )
     print(f"Outcome: {outcome}")
     print(f"Probabilities: {pa_probs}")

@@ -14,8 +14,10 @@ def simulate_half_inning(
     half="top",
     env=None,
     debug=False,
-    use_noise=True
+    use_noise=True,
+    rng=None
 ):
+    """Simulate a half inning and return run totals and events."""
     outs = 0
     runs = 0
     batter_idx = start_batter_index
@@ -45,7 +47,8 @@ def simulate_half_inning(
             debug=debug,
             return_probs=True,
             batting_team=team_key,
-            use_noise=use_noise  
+            use_noise=use_noise,
+            rng=rng
         )
 
         outcome = result[0] if isinstance(result, tuple) else result
@@ -147,5 +150,11 @@ if __name__ == '__main__':
         "fielder_rating": 50
     }
     dummy_pitcher_state = {"batters_faced": 0, "pitch_count": 75, "tto_count": 2}
-    hi = simulate_half_inning(dummy_lineup, dummy_pitcher, context={"umpire": {}, "weather_hr": 1.0}, debug=True)
+    hi = simulate_half_inning(
+        dummy_lineup,
+        dummy_pitcher,
+        context={"umpire": {}, "weather_hr": 1.0},
+        debug=True,
+        rng=np.random.default_rng(42)
+    )
     print("Simulated half inning outcomes:", hi)
