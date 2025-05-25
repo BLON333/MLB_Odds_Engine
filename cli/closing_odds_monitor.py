@@ -6,7 +6,8 @@ import csv
 import json
 import time
 import requests
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+from utils import now_eastern, to_eastern
 from dotenv import load_dotenv
 
 from core.odds_fetcher import fetch_consensus_for_single_game
@@ -108,8 +109,7 @@ def get_market_data_with_alternates(consensus_odds, market_key):
 
 def monitor_loop(poll_interval=600):
     while True:
-        now_utc = datetime.now(timezone.utc)
-        now_est = now_utc - timedelta(hours=4)
+        now_est = now_eastern()
         today = now_est.strftime("%Y-%m-%d")  # Local Eastern Date
 
         loaded_bets = load_tracked_games()
@@ -152,7 +152,7 @@ def monitor_loop(poll_interval=600):
 
             try:
                 game_time_utc = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
-                game_time = game_time_utc - timedelta(hours=4)
+                game_time = to_eastern(game_time_utc)
 
                 game_date = game_time.strftime("%Y-%m-%d")
                 if game_date != today:

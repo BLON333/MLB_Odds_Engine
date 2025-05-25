@@ -1,5 +1,21 @@
 from collections import defaultdict
-UNMATCHED_MARKET_LOOKUPS = defaultdict(list) 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
+
+# Timezone helpers
+EASTERN_TZ = ZoneInfo("US/Eastern")
+
+def now_eastern() -> datetime:
+    """Return the current time in US/Eastern timezone."""
+    return datetime.now(EASTERN_TZ)
+
+def to_eastern(dt: datetime) -> datetime:
+    """Convert an aware or naive UTC datetime to US/Eastern."""
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+    return dt.astimezone(EASTERN_TZ)
 
 TEAM_ABBR_FIXES = {
     "CHW": "CWS", "WSN": "WSH", "KCR": "KC", "TBD": "TB", "ATH": "OAK"
@@ -676,12 +692,9 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
 
 
 def extract_game_id_from_event(away_team, home_team, start_time_utc):
-    """
-    Constructs a game ID (YYYY-MM-DD-AWAY@HOME) using Eastern Time (UTC-4).
-    """
+    """Construct a game ID (YYYY-MM-DD-AWAY@HOME) using US/Eastern time."""
     try:
-        from datetime import timedelta
-        local_date = (start_time_utc - timedelta(hours=4)).strftime("%Y-%m-%d")
+        local_date = to_eastern(start_time_utc).strftime("%Y-%m-%d")
         away_abbr = TEAM_ABBR.get(away_team, away_team)
         home_abbr = TEAM_ABBR.get(home_team, home_team)
         return f"{local_date}-{away_abbr}@{home_abbr}"
