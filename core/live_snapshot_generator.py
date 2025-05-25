@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "c
 import json
 import argparse
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 from odds_fetcher import fetch_market_odds_from_api
@@ -303,10 +303,24 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
         hours_to_game = 8.0
         if start_str:
             try:
-                dt = datetime.fromisoformat(start_str)
-                hours_to_game = (dt - datetime.now(dt.tzinfo)).total_seconds() / 3600
+                normalized = start_str.replace("Z", "+00:00")
+                dt = datetime.fromisoformat(normalized)
+                now = datetime.now(dt.tzinfo or timezone.utc)
+                hours_to_game = (dt - now).total_seconds() / 3600
             except Exception:
                 pass
+        if hours_to_game < 0:
+            print(
+                f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
+            )
+            debug_log.append(
+                {
+                    "game_id": game_id,
+                    "reason": "game_live",
+                    "hours_to_game": round(hours_to_game, 2),
+                }
+            )
+            continue
         for entry in markets:
             market = entry.get("market")
             side = entry.get("side")
