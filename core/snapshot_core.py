@@ -162,8 +162,7 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
     caption = (
         f"📈 **Live Market Snapshot — {market_type}**\n"
-        f"_Generated: {timestamp}_\n"
-        f"_(Not an official bet — informational only)_"
+        f"_Generated: {timestamp}_"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
@@ -192,7 +191,7 @@ def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> No
     except Exception:
         table = df.to_string(index=False)
 
-    message = f"{caption}\n```\n{table}\n```\n_(Not an official bet — informational only)_"
+    message = f"{caption}\n```\n{table}\n```"
     try:
         requests.post(webhook_url, json={"content": message}, timeout=10)
     except Exception as e:
