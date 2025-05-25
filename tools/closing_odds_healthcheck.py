@@ -6,18 +6,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DISCORD_ALERT_WEBHOOK_URL = os.getenv("DISCORD_ALERT_WEBHOOK_URL")  # ⚠️ Add to .env
+# Allow healthcheck alerts to be sent to multiple Discord channels. Define
+# `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2`.
+DISCORD_ALERT_WEBHOOK_URLS = [
+    url
+    for url in [
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
+    ]
+    if url
+]
 CLOSING_ODDS_DIR = "data/closing_odds"
 
 def send_discord_alert(message):
-    if not DISCORD_ALERT_WEBHOOK_URL:
+    if not DISCORD_ALERT_WEBHOOK_URLS:
         print("❌ No Discord webhook configured for alerts.")
         return
-    try:
-        requests.post(DISCORD_ALERT_WEBHOOK_URL, json={"content": message})
-        print("✅ Alert sent to Discord.")
-    except Exception as e:
-        print(f"❌ Failed to send alert: {e}")
+    for url in DISCORD_ALERT_WEBHOOK_URLS:
+        try:
+            requests.post(url, json={"content": message})
+            print(f"✅ Alert sent to Discord webhook: {url}")
+        except Exception as e:
+            print(f"❌ Failed to send alert to {url}: {e}")
 
 def check_closing_odds():
     today = datetime.now().date()

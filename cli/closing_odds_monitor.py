@@ -16,7 +16,17 @@ from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 load_dotenv()
 
-DISCORD_ALERT_WEBHOOK_URL = os.getenv("DISCORD_ALERT_WEBHOOK_URL")
+# Support sending CLV alerts to multiple Discord channels. Users can define
+# `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2` in
+# their .env file. Any non-empty URLs will receive the same alert message.
+DISCORD_ALERT_WEBHOOK_URLS = [
+    url
+    for url in [
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
+    ]
+    if url
+]
 closing_odds_path = "data/closing_odds"
 os.makedirs(closing_odds_path, exist_ok=True)
 
@@ -24,14 +34,15 @@ fetched_games = set()
 debug_mode = True  # ✅ easy toggle for debug
 
 def send_discord_alert(message):
-    if not DISCORD_ALERT_WEBHOOK_URL:
+    if not DISCORD_ALERT_WEBHOOK_URLS:
         print("❌ No Discord webhook configured for alerts.")
         return
-    try:
-        requests.post(DISCORD_ALERT_WEBHOOK_URL, json={"content": message})
-        print("✅ CLV alert sent to Discord.")
-    except Exception as e:
-        print(f"❌ Failed to send Discord alert: {e}")
+    for url in DISCORD_ALERT_WEBHOOK_URLS:
+        try:
+            requests.post(url, json={"content": message})
+            print(f"✅ CLV alert sent to Discord webhook: {url}")
+        except Exception as e:
+            print(f"❌ Failed to send Discord alert to {url}: {e}")
 
 def load_tracked_games(csv_path="logs/market_evals.csv"):
     bets = []
