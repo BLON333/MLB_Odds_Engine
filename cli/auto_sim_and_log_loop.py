@@ -8,7 +8,8 @@ import time
 import subprocess
 
 
-from datetime import datetime, timedelta
+from datetime import timedelta
+from utils import now_eastern
 
 EDGE_THRESHOLD = 0.05
 MIN_EV = 0.05
@@ -21,7 +22,7 @@ last_log_time = 0
 last_snapshot_time = 0
 
 def get_date_strings():
-    now = datetime.now()
+    now = now_eastern()
     today_str = now.strftime("%Y-%m-%d")
     tomorrow_str = (now + timedelta(days=1)).strftime("%Y-%m-%d")
     return today_str, tomorrow_str
@@ -29,7 +30,7 @@ def get_date_strings():
 def run_simulation():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n🎯 [{datetime.now()}] Launching full slate simulation for {date_str}...")
+        print(f"\n🎯 [{now_eastern()}] Launching full slate simulation for {date_str}...")
         cmd = f"python cli/full_slate_runner.py {date_str} --export-folder=backtest/sims --edge-threshold={EDGE_THRESHOLD}"
         subprocess.Popen(cmd, shell=True)
 
@@ -37,7 +38,7 @@ def run_simulation():
 def run_logger():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📝 [{datetime.now()}] Launching log evals for {date_str}...")
+        print(f"\n📝 [{now_eastern()}] Launching log evals for {date_str}...")
         default_script = os.path.join("cli", "log_betting_evals.py")
         if not os.path.exists(default_script):
             default_script = "log_betting_evals.py"
@@ -48,7 +49,7 @@ def run_logger():
 def run_live_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📸 [{datetime.now()}] Running live snapshot generator for {date_str}...")
+        print(f"\n📸 [{now_eastern()}] Running live snapshot generator for {date_str}...")
         print("🔍 Diff highlighting enabled — comparing against last snapshot")
         # Determine the correct path for live_snapshot_generator
         default_script = os.path.join("core", "live_snapshot_generator.py")
@@ -61,7 +62,7 @@ def run_live_snapshot():
 def run_personal_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📣 [{datetime.now()}] Running personal snapshot generator for {date_str}...")
+        print(f"\n📣 [{now_eastern()}] Running personal snapshot generator for {date_str}...")
         default_script = os.path.join("core", "personal_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "personal_snapshot_generator.py"
@@ -72,7 +73,7 @@ def run_personal_snapshot():
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📚 [{datetime.now()}] Running best-book snapshot generator for {date_str}...")
+        print(f"\n📚 [{now_eastern()}] Running best-book snapshot generator for {date_str}...")
         default_script = os.path.join("core", "best_book_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "best_book_snapshot_generator.py"
