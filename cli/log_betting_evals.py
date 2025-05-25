@@ -967,7 +967,6 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
             f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
         )
         return 0
-
     full_stake = round(float(row.get("full_stake", 0)), 2)
     prev = existing.get(key, 0)
     delta = round(full_stake - prev, 2)
