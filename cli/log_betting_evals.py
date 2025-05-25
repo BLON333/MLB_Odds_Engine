@@ -21,7 +21,8 @@ DISCORD_SPREADS_WEBHOOK_URL = os.getenv("DISCORD_SPREADS_WEBHOOK_URL")
 OFFICIAL_PLAYS_WEBHOOK_URL = os.getenv("OFFICIAL_PLAYS_WEBHOOK_URL")
 
 # === Market Confirmation Tracker ===
-MARKET_CONF_TRACKER_PATH = "logs/market_conf_tracker.json"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MARKET_CONF_TRACKER_PATH = os.path.join(SCRIPT_DIR, "..", "logs", "market_conf_tracker.json")
 
 
 def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
@@ -946,22 +947,26 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
     """
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}:{row.get('best_book')}"
+
     new_conf = row.get("consensus_prob")
     try:
-        new_conf_val = float(new_conf) if new_conf is not None else 0.0
+        new_conf_val = float(new_conf) if new_conf is not None else None
     except Exception:
-        new_conf_val = 0.0
+        new_conf_val = None
 
-    prev_conf_val = 0.0
+    prev_conf_val = None
     if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
-        prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob", 0.0)
+        prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
 
-    if tracker_key in MARKET_CONF_TRACKER and new_conf_val <= prev_conf_val:
+    if new_conf_val is None:
+        print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
+        return 0
+
+    if prev_conf_val is not None and new_conf_val <= prev_conf_val:
         print(
             f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
         )
         return 0
-
     full_stake = round(float(row.get("full_stake", 0)), 2)
     prev = existing.get(key, 0)
     delta = round(full_stake - prev, 2)
