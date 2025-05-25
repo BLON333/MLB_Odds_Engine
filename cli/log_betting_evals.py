@@ -20,6 +20,35 @@ DISCORD_H2H_WEBHOOK_URL = os.getenv("DISCORD_H2H_WEBHOOK_URL")
 DISCORD_SPREADS_WEBHOOK_URL = os.getenv("DISCORD_SPREADS_WEBHOOK_URL")
 OFFICIAL_PLAYS_WEBHOOK_URL = os.getenv("OFFICIAL_PLAYS_WEBHOOK_URL")
 
+# === Market Confirmation Tracker ===
+MARKET_CONF_TRACKER_PATH = "logs/market_conf_tracker.json"
+
+
+def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
+    """Load last seen consensus probabilities for bets."""
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+            if isinstance(data, dict):
+                return data
+    except Exception:
+        print(f"⚠️ Could not load market confirmation tracker at {path}, starting fresh.")
+    return {}
+
+
+def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH):
+    """Atomically save tracker data to disk."""
+    tmp = f"{path}.tmp"
+    try:
+        with open(tmp, "w") as f:
+            json.dump(tracker, f, indent=2)
+        os.replace(tmp, path)
+    except Exception as e:
+        print(f"⚠️ Failed to save market confirmation tracker: {e}")
+
+
+MARKET_CONF_TRACKER = load_market_conf_tracker()
+
 # === Local Modules ===
 from core.market_pricer import implied_prob, decimal_odds, to_american_odds, kelly_fraction, blend_prob, calculate_ev_from_prob
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
@@ -916,6 +945,22 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
     It should only be called from process_theme_logged_bets().
     """
     key = (row["game_id"], row["market"], row["side"])
+    tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}:{row.get('best_book')}"
+    new_conf = row.get("consensus_prob")
+    try:
+        new_conf_val = float(new_conf) if new_conf is not None else 0.0
+    except Exception:
+        new_conf_val = 0.0
+
+    prev_conf_val = 0.0
+    if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
+        prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob", 0.0)
+
+    if tracker_key in MARKET_CONF_TRACKER and new_conf_val <= prev_conf_val:
+        print(
+            f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
+        )
+        return 0
 
     full_stake = round(float(row.get("full_stake", 0)), 2)
     prev = existing.get(key, 0)
@@ -966,6 +1011,13 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
 
         # ✅ Send full, untrimmed row to Discord for role tagging and odds display
         send_discord_notification(row)
+
+        # Update market confirmation tracker on successful log
+        MARKET_CONF_TRACKER[tracker_key] = {
+            "consensus_prob": new_conf_val,
+            "timestamp": datetime.now().isoformat(),
+        }
+        save_market_conf_tracker(MARKET_CONF_TRACKER)
 
     existing[key] = full_stake
 
