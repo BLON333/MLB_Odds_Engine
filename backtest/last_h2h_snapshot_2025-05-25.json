@@ -1,0 +1,44 @@
+[
+  {
+    "Date":"2025-05-25",
+    "Matchup":"PHI @ OAK",
+    "Market Class":"\ud83c\udfc6 Main",
+    "Market":"h2h_1st_5_innings",
+    "Bet":"OAK",
+    "Book":"hardrockbet",
+    "Odds":"+140",
+    "Sim %":"45.8%",
+    "Mkt %":"44.1%",
+    "FV":"126",
+    "EV":"+6.0%",
+    "Stake":"1.07u"
+  },
+  {
+    "Date":"2025-05-25",
+    "Matchup":"PHI @ OAK",
+    "Market Class":"\ud83c\udfc6 Main",
+    "Market":"h2h_1st_5_innings",
+    "Bet":"OAK",
+    "Book":"betrivers",
+    "Odds":"+140",
+    "Sim %":"45.8%",
+    "Mkt %":"44.1%",
+    "FV":"126",
+    "EV":"+6.0%",
+    "Stake":"1.07u"
+  },
+  {
+    "Date":"2025-05-25",
+    "Matchup":"PHI @ OAK",
+    "Market Class":"\ud83c\udfc6 Main",
+    "Market":"h2h_1st_5_innings",
+    "Bet":"OAK",
+    "Book":"ballybet",
+    "Odds":"+140",
+    "Sim %":"45.8%",
+    "Mkt %":"44.1%",
+    "FV":"126",
+    "EV":"+6.0%",
+    "Stake":"1.07u"
+  }
+]

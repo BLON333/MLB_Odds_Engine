@@ -1,0 +1,7100 @@
+{
+  "2025-05-24-PHI@OAK": {
+    "h2h": {
+      "OAK": {
+        "price": 208,
+        "per_book": {
+          "fanduel": -130,
+          "sport888": -175,
+          "espnbet": -160,
+          "mybookieag": -125,
+          "winamax_fr": -172,
+          "coolbet": -125,
+          "fliff": -165,
+          "betsson": -189,
+          "nordicbet": -149,
+          "betmgm": -140,
+          "williamhill_us": -150,
+          "fanatics": -160,
+          "hardrockbet": -130,
+          "draftkings": -154,
+          "tipico_de": -125,
+          "ballybet": -220,
+          "betparx": -220,
+          "unibet_eu": -220,
+          "gtbets": -160,
+          "matchbook": -108,
+          "betfair_ex_eu": -156,
+          "pinnacle": 208,
+          "bovada": 150
+        },
+        "consensus_prob": 0.498234,
+        "fair_odds": 100.71,
+        "bookwise_probs": {
+          "pinnacle": 0.309677,
+          "fanduel": 0.53309,
+          "betmgm": 0.550562,
+          "draftkings": 0.571525,
+          "mybookieag": 0.526316
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI": {
+        "price": 170,
+        "per_book": {
+          "fanduel": 102,
+          "sport888": 125,
+          "espnbet": 125,
+          "mybookieag": 100,
+          "winamax_fr": 115,
+          "coolbet": 105,
+          "fliff": 125,
+          "betsson": 140,
+          "nordicbet": 114,
+          "betmgm": 110,
+          "williamhill_us": 120,
+          "fanatics": 120,
+          "hardrockbet": 100,
+          "draftkings": 120,
+          "tipico_de": -111,
+          "ballybet": 170,
+          "betparx": 170,
+          "unibet_eu": 170,
+          "gtbets": 130,
+          "matchbook": -147,
+          "betfair_ex_eu": 118,
+          "pinnacle": -262,
+          "bovada": -200
+        },
+        "consensus_prob": 0.5,
+        "fair_odds": 100.0,
+        "bookwise_probs": {
+          "pinnacle": 0.5,
+          "fanduel": 0.5,
+          "betmgm": 0.5,
+          "draftkings": 0.5,
+          "mybookieag": 0.5
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "spreads": {
+      "OAK +1.5": {
+        "price": -102,
+        "per_book": {
+          "fanduel": -290,
+          "mybookieag": -286,
+          "coolbet": -270,
+          "hardrockbet": -300,
+          "pinnacle": -102,
+          "bovada": -165
+        },
+        "consensus_prob": 0.621794,
+        "fair_odds": -164.41,
+        "bookwise_probs": {
+          "pinnacle": 0.481672,
+          "fanduel": 0.693998,
+          "mybookieag": 0.689711
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -1.5": {
+        "price": 215,
+        "per_book": {
+          "fanduel": 205,
+          "mybookieag": 200,
+          "coolbet": 215,
+          "hardrockbet": 210,
+          "pinnacle": -119,
+          "bovada": 125
+        },
+        "consensus_prob": 0.378206,
+        "fair_odds": 164.41,
+        "bookwise_probs": {
+          "pinnacle": 0.518328,
+          "fanduel": 0.306002,
+          "mybookieag": 0.310289
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -1.5": {
+        "price": 195,
+        "per_book": {
+          "sport888": 150,
+          "espnbet": 180,
+          "fliff": 145,
+          "betmgm": 190,
+          "williamhill_us": 195,
+          "fanatics": 160,
+          "draftkings": 165,
+          "ballybet": 135,
+          "betparx": 135,
+          "gtbets": 158
+        },
+        "consensus_prob": 0.340807,
+        "fair_odds": 193.42,
+        "bookwise_probs": {
+          "betmgm": 0.325581,
+          "draftkings": 0.356033
+        },
+        "books_used": [
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +1.5": {
+        "price": -167,
+        "per_book": {
+          "sport888": -225,
+          "espnbet": -250,
+          "fliff": -195,
+          "betmgm": -250,
+          "williamhill_us": -250,
+          "fanatics": -210,
+          "draftkings": -215,
+          "ballybet": -167,
+          "betparx": -167,
+          "gtbets": -205
+        },
+        "consensus_prob": 0.659193,
+        "fair_odds": -193.42,
+        "bookwise_probs": {
+          "betmgm": 0.674419,
+          "draftkings": 0.643967
+        },
+        "books_used": [
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -1.0": {
+        "price": -130,
+        "per_book": {
+          "unibet_eu": -130
+        },
+        "consensus_prob": 0.459209,
+        "fair_odds": 117.77,
+        "bookwise_probs": {
+          "draftkings": 0.459209
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +1.0": {
+        "price": 104,
+        "per_book": {
+          "unibet_eu": 104
+        },
+        "consensus_prob": 0.540791,
+        "fair_odds": -117.77,
+        "bookwise_probs": {
+          "draftkings": 0.540791
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "totals": {
+      "Over 12.5": {
+        "price": 106,
+        "per_book": {
+          "fanduel": 106,
+          "sport888": -125,
+          "espnbet": -110,
+          "fliff": -125,
+          "betmgm": -118,
+          "williamhill_us": -110,
+          "fanatics": -140,
+          "draftkings": -120,
+          "ballybet": -114,
+          "betparx": -114,
+          "gtbets": -118
+        },
+        "consensus_prob": 0.490842,
+        "fair_odds": 103.73,
+        "bookwise_probs": {
+          "fanduel": 0.454201,
+          "betmgm": 0.508203,
+          "draftkings": 0.510121
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.5": {
+        "price": 105,
+        "per_book": {
+          "fanduel": -140,
+          "sport888": -118,
+          "espnbet": -120,
+          "fliff": -110,
+          "betmgm": -110,
+          "williamhill_us": -120,
+          "fanatics": 105,
+          "draftkings": -110,
+          "ballybet": -112,
+          "betparx": -112,
+          "gtbets": -108
+        },
+        "consensus_prob": 0.509158,
+        "fair_odds": -103.73,
+        "bookwise_probs": {
+          "fanduel": 0.545799,
+          "betmgm": 0.491797,
+          "draftkings": 0.489879
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.0": {
+        "price": -105,
+        "per_book": {
+          "mybookieag": -111,
+          "coolbet": -105
+        },
+        "consensus_prob": 0.486368,
+        "fair_odds": 105.61,
+        "bookwise_probs": {
+          "mybookieag": 0.486368
+        },
+        "books_used": [
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.0": {
+        "price": -118,
+        "per_book": {
+          "mybookieag": -125,
+          "coolbet": -118
+        },
+        "consensus_prob": 0.513632,
+        "fair_odds": -105.61,
+        "bookwise_probs": {
+          "mybookieag": 0.513632
+        },
+        "books_used": [
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 11.5": {
+        "price": -119,
+        "per_book": {
+          "hardrockbet": -130,
+          "pinnacle": -119
+        },
+        "consensus_prob": 0.519549,
+        "fair_odds": -108.14,
+        "bookwise_probs": {
+          "pinnacle": 0.519549
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 11.5": {
+        "price": 100,
+        "per_book": {
+          "hardrockbet": 100,
+          "pinnacle": -101
+        },
+        "consensus_prob": 0.480451,
+        "fair_odds": 108.14,
+        "bookwise_probs": {
+          "pinnacle": 0.480451
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 9.5": {
+        "price": -100000,
+        "per_book": {
+          "tipico_de": -100000
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Under 9.5": {
+        "price": -100000,
+        "per_book": {
+          "tipico_de": -100000
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Over 11.0": {
+        "price": -125,
+        "per_book": {
+          "bovada": -125
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Under 11.0": {
+        "price": -105,
+        "per_book": {
+          "bovada": -105
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      }
+    },
+    "alternate_spreads": {
+      "OAK -3.5": {
+        "price": 580,
+        "per_book": {
+          "fanduel": 580,
+          "betmgm": 500,
+          "draftkings": 500
+        },
+        "consensus_prob": 0.15078,
+        "fair_odds": 563.22,
+        "bookwise_probs": {
+          "fanduel": 0.137421,
+          "betmgm": 0.157895,
+          "draftkings": 0.157025
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -2.5": {
+        "price": 414,
+        "per_book": {
+          "fanduel": 350,
+          "espnbet": 320,
+          "betmgm": 300,
+          "williamhill_us": 414,
+          "draftkings": 290
+        },
+        "consensus_prob": 0.228306,
+        "fair_odds": 338.01,
+        "bookwise_probs": {
+          "fanduel": 0.208,
+          "betmgm": 0.235955,
+          "draftkings": 0.240964
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -1.5": {
+        "price": 552,
+        "per_book": {
+          "fanduel": 182,
+          "espnbet": 170,
+          "coolbet": 245,
+          "fliff": 210,
+          "betmgm": 180,
+          "williamhill_us": 219,
+          "hardrockbet": 240,
+          "pinnacle": 552
+        },
+        "consensus_prob": 0.271858,
+        "fair_odds": 267.84,
+        "bookwise_probs": {
+          "pinnacle": 0.146459,
+          "fanduel": 0.331754,
+          "betmgm": 0.337362
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +1.5": {
+        "price": -102,
+        "per_book": {
+          "fanduel": -350,
+          "espnbet": -375,
+          "coolbet": -270,
+          "fliff": -280,
+          "betmgm": -295,
+          "draftkings": -300,
+          "pinnacle": -102
+        },
+        "consensus_prob": 0.654542,
+        "fair_odds": -189.47,
+        "bookwise_probs": {
+          "pinnacle": 0.481672,
+          "fanduel": 0.72561,
+          "betmgm": 0.705004,
+          "draftkings": 0.705882
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +2.5": {
+        "price": -192,
+        "per_book": {
+          "fanduel": -750,
+          "coolbet": -556,
+          "fliff": -525,
+          "betmgm": -625,
+          "williamhill_us": -529,
+          "hardrockbet": -550,
+          "draftkings": -575,
+          "pinnacle": -192
+        },
+        "consensus_prob": 0.765711,
+        "fair_odds": -326.82,
+        "bookwise_probs": {
+          "pinnacle": 0.625487,
+          "fanduel": 0.823834,
+          "betmgm": 0.811688,
+          "draftkings": 0.801835
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +3.5": {
+        "price": -370,
+        "per_book": {
+          "fanduel": -1800,
+          "williamhill_us": -1104,
+          "draftkings": -1150,
+          "pinnacle": -370
+        },
+        "consensus_prob": 0.833175,
+        "fair_odds": -499.43,
+        "bookwise_probs": {
+          "pinnacle": 0.746467,
+          "fanduel": 0.883436,
+          "draftkings": 0.869622
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +3.5": {
+        "price": -800,
+        "per_book": {
+          "fanduel": -1200,
+          "betmgm": -800,
+          "draftkings": -850
+        },
+        "consensus_prob": 0.84922,
+        "fair_odds": -563.22,
+        "bookwise_probs": {
+          "fanduel": 0.862579,
+          "betmgm": 0.842105,
+          "draftkings": 0.842975
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +2.5": {
+        "price": -420,
+        "per_book": {
+          "fanduel": -550,
+          "espnbet": -525,
+          "betmgm": -425,
+          "williamhill_us": -754,
+          "draftkings": -420
+        },
+        "consensus_prob": 0.771694,
+        "fair_odds": -338.01,
+        "bookwise_probs": {
+          "fanduel": 0.792,
+          "betmgm": 0.764045,
+          "draftkings": 0.759036
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +1.5": {
+        "price": -235,
+        "per_book": {
+          "fanduel": -250,
+          "espnbet": -240,
+          "coolbet": -312,
+          "fliff": -315,
+          "betmgm": -235,
+          "williamhill_us": -324,
+          "hardrockbet": -350,
+          "pinnacle": -842
+        },
+        "consensus_prob": 0.728142,
+        "fair_odds": -267.84,
+        "bookwise_probs": {
+          "pinnacle": 0.853541,
+          "fanduel": 0.668246,
+          "betmgm": 0.662638
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -1.5": {
+        "price": 250,
+        "per_book": {
+          "fanduel": 240,
+          "espnbet": 250,
+          "coolbet": 215,
+          "fliff": 195,
+          "betmgm": 220,
+          "draftkings": 220,
+          "pinnacle": -119
+        },
+        "consensus_prob": 0.345458,
+        "fair_odds": 189.47,
+        "bookwise_probs": {
+          "pinnacle": 0.518328,
+          "fanduel": 0.27439,
+          "betmgm": 0.294996,
+          "draftkings": 0.294118
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -2.5": {
+        "price": 430,
+        "per_book": {
+          "fanduel": 430,
+          "coolbet": 390,
+          "fliff": 320,
+          "betmgm": 400,
+          "williamhill_us": 323,
+          "hardrockbet": 375,
+          "draftkings": 375,
+          "pinnacle": 154
+        },
+        "consensus_prob": 0.234289,
+        "fair_odds": 326.82,
+        "bookwise_probs": {
+          "pinnacle": 0.374513,
+          "fanduel": 0.176166,
+          "betmgm": 0.188312,
+          "draftkings": 0.198165
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -3.5": {
+        "price": 700,
+        "per_book": {
+          "fanduel": 700,
+          "williamhill_us": 522,
+          "draftkings": 625,
+          "pinnacle": 274
+        },
+        "consensus_prob": 0.166825,
+        "fair_odds": 499.43,
+        "bookwise_probs": {
+          "pinnacle": 0.253533,
+          "fanduel": 0.116564,
+          "draftkings": 0.130378
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -2.0": {
+        "price": 366,
+        "per_book": {
+          "williamhill_us": 366,
+          "draftkings": 250
+        },
+        "consensus_prob": 0.268657,
+        "fair_odds": 272.22,
+        "bookwise_probs": {
+          "draftkings": 0.268657
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -1.0": {
+        "price": 146,
+        "per_book": {
+          "williamhill_us": 146,
+          "draftkings": 105
+        },
+        "consensus_prob": 0.459209,
+        "fair_odds": 117.77,
+        "bookwise_probs": {
+          "draftkings": 0.459209
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +3.0": {
+        "price": -304,
+        "per_book": {
+          "williamhill_us": -954,
+          "draftkings": -1025,
+          "pinnacle": -304
+        },
+        "consensus_prob": 0.786523,
+        "fair_odds": -368.43,
+        "bookwise_probs": {
+          "pinnacle": 0.712905,
+          "draftkings": 0.86014
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +2.0": {
+        "price": -350,
+        "per_book": {
+          "williamhill_us": -629,
+          "draftkings": -350
+        },
+        "consensus_prob": 0.731343,
+        "fair_odds": -272.22,
+        "bookwise_probs": {
+          "draftkings": 0.731343
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +1.0": {
+        "price": -135,
+        "per_book": {
+          "williamhill_us": -204,
+          "draftkings": -135
+        },
+        "consensus_prob": 0.540791,
+        "fair_odds": -117.77,
+        "bookwise_probs": {
+          "draftkings": 0.540791
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -3.0": {
+        "price": 575,
+        "per_book": {
+          "williamhill_us": 480,
+          "draftkings": 575,
+          "pinnacle": 230
+        },
+        "consensus_prob": 0.213477,
+        "fair_odds": 368.43,
+        "bookwise_probs": {
+          "pinnacle": 0.287095,
+          "draftkings": 0.13986
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +4.5": {
+        "price": -2200,
+        "per_book": {
+          "draftkings": -2200
+        },
+        "consensus_prob": 0.913208,
+        "fair_odds": -1052.18,
+        "bookwise_probs": {
+          "draftkings": 0.913208
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +4.0": {
+        "price": -2200,
+        "per_book": {
+          "draftkings": -2200
+        },
+        "consensus_prob": 0.913208,
+        "fair_odds": -1052.18,
+        "bookwise_probs": {
+          "draftkings": 0.913208
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +2.0": {
+        "price": -144,
+        "per_book": {
+          "draftkings": -500,
+          "pinnacle": -144
+        },
+        "consensus_prob": 0.674187,
+        "fair_odds": -206.92,
+        "bookwise_probs": {
+          "pinnacle": 0.562661,
+          "draftkings": 0.785714
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +1.0": {
+        "price": -240,
+        "per_book": {
+          "draftkings": -240
+        },
+        "consensus_prob": 0.664032,
+        "fair_odds": -197.65,
+        "bookwise_probs": {
+          "draftkings": 0.664032
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -3.0": {
+        "price": 450,
+        "per_book": {
+          "draftkings": 450
+        },
+        "consensus_prob": 0.171429,
+        "fair_odds": 483.33,
+        "bookwise_probs": {
+          "draftkings": 0.171429
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -4.0": {
+        "price": 750,
+        "per_book": {
+          "draftkings": 750
+        },
+        "consensus_prob": 0.111712,
+        "fair_odds": 795.16,
+        "bookwise_probs": {
+          "draftkings": 0.111712
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -4.5": {
+        "price": 800,
+        "per_book": {
+          "draftkings": 800
+        },
+        "consensus_prob": 0.10559,
+        "fair_odds": 847.06,
+        "bookwise_probs": {
+          "draftkings": 0.10559
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -5.0": {
+        "price": 1300,
+        "per_book": {
+          "draftkings": 1300
+        },
+        "consensus_prob": 0.068441,
+        "fair_odds": 1361.11,
+        "bookwise_probs": {
+          "draftkings": 0.068441
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -5.5": {
+        "price": 1400,
+        "per_book": {
+          "draftkings": 1400
+        },
+        "consensus_prob": 0.063963,
+        "fair_odds": 1463.4,
+        "bookwise_probs": {
+          "draftkings": 0.063963
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -4.5": {
+        "price": 1000,
+        "per_book": {
+          "draftkings": 1000
+        },
+        "consensus_prob": 0.086792,
+        "fair_odds": 1052.18,
+        "bookwise_probs": {
+          "draftkings": 0.086792
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -4.0": {
+        "price": 1000,
+        "per_book": {
+          "draftkings": 1000
+        },
+        "consensus_prob": 0.086792,
+        "fair_odds": 1052.18,
+        "bookwise_probs": {
+          "draftkings": 0.086792
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -2.0": {
+        "price": 340,
+        "per_book": {
+          "draftkings": 340,
+          "pinnacle": 118
+        },
+        "consensus_prob": 0.325813,
+        "fair_odds": 206.92,
+        "bookwise_probs": {
+          "pinnacle": 0.437339,
+          "draftkings": 0.214286
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -1.0": {
+        "price": 180,
+        "per_book": {
+          "draftkings": 180
+        },
+        "consensus_prob": 0.335968,
+        "fair_odds": 197.65,
+        "bookwise_probs": {
+          "draftkings": 0.335968
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +3.0": {
+        "price": -725,
+        "per_book": {
+          "draftkings": -725
+        },
+        "consensus_prob": 0.828571,
+        "fair_odds": -483.33,
+        "bookwise_probs": {
+          "draftkings": 0.828571
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +4.0": {
+        "price": -1450,
+        "per_book": {
+          "draftkings": -1450
+        },
+        "consensus_prob": 0.888288,
+        "fair_odds": -795.16,
+        "bookwise_probs": {
+          "draftkings": 0.888288
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +4.5": {
+        "price": -1600,
+        "per_book": {
+          "draftkings": -1600
+        },
+        "consensus_prob": 0.89441,
+        "fair_odds": -847.06,
+        "bookwise_probs": {
+          "draftkings": 0.89441
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +5.0": {
+        "price": -3500,
+        "per_book": {
+          "draftkings": -3500
+        },
+        "consensus_prob": 0.931559,
+        "fair_odds": -1361.11,
+        "bookwise_probs": {
+          "draftkings": 0.931559
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +5.5": {
+        "price": -4000,
+        "per_book": {
+          "draftkings": -4000
+        },
+        "consensus_prob": 0.936037,
+        "fair_odds": -1463.4,
+        "bookwise_probs": {
+          "draftkings": 0.936037
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_team_totals": {
+      "OAK Over 4.5": {
+        "price": -700,
+        "per_book": {
+          "fanduel": -750,
+          "fanatics": -700
+        },
+        "consensus_prob": 0.823834,
+        "fair_odds": -467.65,
+        "bookwise_probs": {
+          "fanduel": 0.823834
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 5.5": {
+        "price": -190,
+        "per_book": {
+          "fanduel": -220,
+          "betmgm": -225,
+          "fanatics": -190,
+          "hardrockbet": -200
+        },
+        "consensus_prob": 0.647246,
+        "fair_odds": -183.48,
+        "bookwise_probs": {
+          "fanduel": 0.643017,
+          "betmgm": 0.651475
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 6.5": {
+        "price": 115,
+        "per_book": {
+          "fanduel": 108,
+          "betmgm": -105,
+          "fanatics": 115,
+          "hardrockbet": 105
+        },
+        "consensus_prob": 0.46431,
+        "fair_odds": 115.37,
+        "bookwise_probs": {
+          "fanduel": 0.448926,
+          "betmgm": 0.479695
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 7.5": {
+        "price": 210,
+        "per_book": {
+          "fanduel": 210,
+          "betmgm": 200,
+          "fanatics": 200,
+          "hardrockbet": 200
+        },
+        "consensus_prob": 0.306626,
+        "fair_odds": 226.13,
+        "bookwise_probs": {
+          "fanduel": 0.300752,
+          "betmgm": 0.3125
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 8.5": {
+        "price": 370,
+        "per_book": {
+          "fanduel": 370,
+          "betmgm": 360,
+          "fanatics": 350
+        },
+        "consensus_prob": 0.201634,
+        "fair_odds": 395.95,
+        "bookwise_probs": {
+          "fanduel": 0.198864,
+          "betmgm": 0.204403
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 9.5": {
+        "price": 640,
+        "per_book": {
+          "fanduel": 640
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "OAK Under 4.5": {
+        "price": 430,
+        "per_book": {
+          "fanduel": 430,
+          "fanatics": 425
+        },
+        "consensus_prob": 0.176166,
+        "fair_odds": 467.65,
+        "bookwise_probs": {
+          "fanduel": 0.176166
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 5.5": {
+        "price": 170,
+        "per_book": {
+          "fanduel": 162,
+          "betmgm": 170,
+          "fanatics": 145,
+          "hardrockbet": 155
+        },
+        "consensus_prob": 0.352754,
+        "fair_odds": 183.48,
+        "bookwise_probs": {
+          "fanduel": 0.356983,
+          "betmgm": 0.348525
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 6.5": {
+        "price": -125,
+        "per_book": {
+          "fanduel": -144,
+          "betmgm": -125,
+          "fanatics": -150,
+          "hardrockbet": -135
+        },
+        "consensus_prob": 0.535689,
+        "fair_odds": -115.37,
+        "bookwise_probs": {
+          "fanduel": 0.551074,
+          "betmgm": 0.520305
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 7.5": {
+        "price": -275,
+        "per_book": {
+          "fanduel": -300,
+          "betmgm": -275,
+          "fanatics": -275,
+          "hardrockbet": -275
+        },
+        "consensus_prob": 0.693374,
+        "fair_odds": -226.13,
+        "bookwise_probs": {
+          "fanduel": 0.699248,
+          "betmgm": 0.6875
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 8.5": {
+        "price": -550,
+        "per_book": {
+          "fanduel": -600,
+          "betmgm": -550,
+          "fanatics": -550
+        },
+        "consensus_prob": 0.798366,
+        "fair_odds": -395.95,
+        "bookwise_probs": {
+          "fanduel": 0.801136,
+          "betmgm": 0.795597
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 4.5": {
+        "price": -375,
+        "per_book": {
+          "fanduel": -390,
+          "betmgm": -375,
+          "fanatics": -400,
+          "hardrockbet": -375
+        },
+        "consensus_prob": 0.744445,
+        "fair_odds": -291.31,
+        "bookwise_probs": {
+          "fanduel": 0.743925,
+          "betmgm": 0.744966
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 5.5": {
+        "price": -135,
+        "per_book": {
+          "fanduel": -144,
+          "betmgm": -150,
+          "fanatics": -140,
+          "hardrockbet": -135
+        },
+        "consensus_prob": 0.557196,
+        "fair_odds": -125.83,
+        "bookwise_probs": {
+          "fanduel": 0.551074,
+          "betmgm": 0.563319
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 6.5": {
+        "price": 155,
+        "per_book": {
+          "fanduel": 146,
+          "betmgm": 130,
+          "fanatics": 125,
+          "hardrockbet": 155
+        },
+        "consensus_prob": 0.394026,
+        "fair_odds": 153.79,
+        "bookwise_probs": {
+          "fanduel": 0.379579,
+          "betmgm": 0.408472
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 7.5": {
+        "price": 250,
+        "per_book": {
+          "fanduel": 250,
+          "fanatics": 240
+        },
+        "consensus_prob": 0.267442,
+        "fair_odds": 273.91,
+        "bookwise_probs": {
+          "fanduel": 0.267442
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 8.5": {
+        "price": 430,
+        "per_book": {
+          "fanduel": 430
+        },
+        "consensus_prob": 0.176166,
+        "fair_odds": 467.65,
+        "bookwise_probs": {
+          "fanduel": 0.176166
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 9.5": {
+        "price": 700,
+        "per_book": {
+          "fanduel": 700
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "PHI Under 4.5": {
+        "price": 280,
+        "per_book": {
+          "fanduel": 265,
+          "betmgm": 270,
+          "fanatics": 280,
+          "hardrockbet": 250
+        },
+        "consensus_prob": 0.255555,
+        "fair_odds": 291.31,
+        "bookwise_probs": {
+          "fanduel": 0.256075,
+          "betmgm": 0.255034
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Under 5.5": {
+        "price": 115,
+        "per_book": {
+          "fanduel": 108,
+          "betmgm": 115,
+          "fanatics": 105,
+          "hardrockbet": 105
+        },
+        "consensus_prob": 0.442804,
+        "fair_odds": 125.83,
+        "bookwise_probs": {
+          "fanduel": 0.448926,
+          "betmgm": 0.436681
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Under 6.5": {
+        "price": -165,
+        "per_book": {
+          "fanduel": -198,
+          "betmgm": -170,
+          "fanatics": -165,
+          "hardrockbet": -200
+        },
+        "consensus_prob": 0.605975,
+        "fair_odds": -153.79,
+        "bookwise_probs": {
+          "fanduel": 0.620421,
+          "betmgm": 0.591528
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Under 7.5": {
+        "price": -300,
+        "per_book": {
+          "fanduel": -360,
+          "fanatics": -300
+        },
+        "consensus_prob": 0.732558,
+        "fair_odds": -273.91,
+        "bookwise_probs": {
+          "fanduel": 0.732558
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Under 8.5": {
+        "price": -750,
+        "per_book": {
+          "fanduel": -750
+        },
+        "consensus_prob": 0.823834,
+        "fair_odds": -467.65,
+        "bookwise_probs": {
+          "fanduel": 0.823834
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_totals": {
+      "Over 9.5": {
+        "price": -390,
+        "per_book": {
+          "fanduel": -1000,
+          "fliff": -665,
+          "fanatics": -900,
+          "draftkings": -850,
+          "pinnacle": -390
+        },
+        "consensus_prob": 0.815575,
+        "fair_odds": -442.23,
+        "bookwise_probs": {
+          "pinnacle": 0.754435,
+          "fanduel": 0.849315,
+          "draftkings": 0.842975
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 10.5": {
+        "price": -229,
+        "per_book": {
+          "fanduel": -420,
+          "fliff": -335,
+          "betmgm": -525,
+          "fanatics": -500,
+          "draftkings": -440,
+          "ballybet": -400,
+          "pinnacle": -229,
+          "bovada": -410
+        },
+        "consensus_prob": 0.742989,
+        "fair_odds": -289.09,
+        "bookwise_probs": {
+          "pinnacle": 0.661693,
+          "fanduel": 0.754253,
+          "betmgm": 0.790795,
+          "draftkings": 0.765217
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 11.5": {
+        "price": -119,
+        "per_book": {
+          "fanduel": -180,
+          "espnbet": -175,
+          "coolbet": -125,
+          "fliff": -145,
+          "betmgm": -200,
+          "fanatics": -210,
+          "draftkings": -188,
+          "ballybet": -141,
+          "pinnacle": -119,
+          "bovada": -175
+        },
+        "consensus_prob": 0.591287,
+        "fair_odds": -144.67,
+        "bookwise_probs": {
+          "pinnacle": 0.519549,
+          "fanduel": 0.600685,
+          "betmgm": 0.62963,
+          "draftkings": 0.615282
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.5": {
+        "price": 122,
+        "per_book": {
+          "fanduel": -114,
+          "espnbet": -110,
+          "coolbet": 115,
+          "fliff": 105,
+          "betmgm": -125,
+          "fanatics": -140,
+          "hardrockbet": 110,
+          "ballybet": 112,
+          "pinnacle": 122
+        },
+        "consensus_prob": 0.482678,
+        "fair_odds": 107.18,
+        "bookwise_probs": {
+          "pinnacle": 0.428167,
+          "fanduel": 0.496008,
+          "betmgm": 0.523859
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 13.5": {
+        "price": 205,
+        "per_book": {
+          "fanduel": 162,
+          "espnbet": 165,
+          "fliff": 180,
+          "betmgm": 154,
+          "fanatics": 125,
+          "hardrockbet": 200,
+          "draftkings": 150,
+          "ballybet": 190,
+          "pinnacle": 205,
+          "bovada": 155
+        },
+        "consensus_prob": 0.353735,
+        "fair_odds": 182.7,
+        "bookwise_probs": {
+          "pinnacle": 0.310881,
+          "fanduel": 0.356983,
+          "betmgm": 0.371287,
+          "draftkings": 0.375788
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 14.5": {
+        "price": 270,
+        "per_book": {
+          "fanduel": 225,
+          "betmgm": 220,
+          "fanatics": 175,
+          "draftkings": 210,
+          "ballybet": 270,
+          "bovada": 225
+        },
+        "consensus_prob": 0.295392,
+        "fair_odds": 238.53,
+        "bookwise_probs": {
+          "fanduel": 0.287671,
+          "betmgm": 0.294996,
+          "draftkings": 0.303508
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 15.5": {
+        "price": 360,
+        "per_book": {
+          "fanduel": 360,
+          "betmgm": 360,
+          "fanatics": 260,
+          "draftkings": 340
+        },
+        "consensus_prob": 0.207661,
+        "fair_odds": 381.55,
+        "bookwise_probs": {
+          "fanduel": 0.203106,
+          "betmgm": 0.205592,
+          "draftkings": 0.214286
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 9.5": {
+        "price": 520,
+        "per_book": {
+          "fanduel": 520,
+          "fliff": 380,
+          "fanatics": 500,
+          "draftkings": 500,
+          "pinnacle": 286
+        },
+        "consensus_prob": 0.184425,
+        "fair_odds": 442.23,
+        "bookwise_probs": {
+          "pinnacle": 0.245565,
+          "fanduel": 0.150685,
+          "draftkings": 0.157025
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 10.5": {
+        "price": 350,
+        "per_book": {
+          "fanduel": 280,
+          "fliff": 225,
+          "betmgm": 350,
+          "fanatics": 330,
+          "draftkings": 300,
+          "ballybet": 230,
+          "pinnacle": 181,
+          "bovada": 280
+        },
+        "consensus_prob": 0.257011,
+        "fair_odds": 289.09,
+        "bookwise_probs": {
+          "pinnacle": 0.338307,
+          "fanduel": 0.245747,
+          "betmgm": 0.209205,
+          "draftkings": 0.234783
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 11.5": {
+        "price": 160,
+        "per_book": {
+          "fanduel": 134,
+          "espnbet": 130,
+          "coolbet": 105,
+          "fliff": 105,
+          "betmgm": 155,
+          "fanatics": 160,
+          "draftkings": 145,
+          "ballybet": 110,
+          "pinnacle": -101,
+          "bovada": 135
+        },
+        "consensus_prob": 0.408714,
+        "fair_odds": 144.67,
+        "bookwise_probs": {
+          "pinnacle": 0.480451,
+          "fanduel": 0.399315,
+          "betmgm": 0.37037,
+          "draftkings": 0.384718
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.5": {
+        "price": 105,
+        "per_book": {
+          "fanduel": -118,
+          "espnbet": -120,
+          "coolbet": -143,
+          "fliff": -145,
+          "betmgm": -102,
+          "fanatics": 105,
+          "hardrockbet": -140,
+          "ballybet": -143,
+          "pinnacle": -151
+        },
+        "consensus_prob": 0.517322,
+        "fair_odds": -107.18,
+        "bookwise_probs": {
+          "pinnacle": 0.571833,
+          "fanduel": 0.503992,
+          "betmgm": 0.476141
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 13.5": {
+        "price": -165,
+        "per_book": {
+          "fanduel": -220,
+          "espnbet": -240,
+          "fliff": -265,
+          "betmgm": -200,
+          "fanatics": -165,
+          "hardrockbet": -275,
+          "draftkings": -198,
+          "ballybet": -305,
+          "pinnacle": -266,
+          "bovada": -205
+        },
+        "consensus_prob": 0.646265,
+        "fair_odds": -182.7,
+        "bookwise_probs": {
+          "pinnacle": 0.689119,
+          "fanduel": 0.643017,
+          "betmgm": 0.628713,
+          "draftkings": 0.624212
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 14.5": {
+        "price": -240,
+        "per_book": {
+          "fanduel": -320,
+          "betmgm": -295,
+          "fanatics": -240,
+          "draftkings": -285,
+          "ballybet": -560,
+          "bovada": -310
+        },
+        "consensus_prob": 0.704608,
+        "fair_odds": -238.53,
+        "bookwise_probs": {
+          "fanduel": 0.712329,
+          "betmgm": 0.705004,
+          "draftkings": 0.696492
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 15.5": {
+        "price": -375,
+        "per_book": {
+          "fanduel": -580,
+          "betmgm": -525,
+          "fanatics": -375,
+          "draftkings": -500
+        },
+        "consensus_prob": 0.792339,
+        "fair_odds": -381.55,
+        "bookwise_probs": {
+          "fanduel": 0.796894,
+          "betmgm": 0.794408,
+          "draftkings": 0.785714
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 13.0": {
+        "price": 170,
+        "per_book": {
+          "coolbet": 165,
+          "draftkings": 115,
+          "ballybet": 155,
+          "pinnacle": 170,
+          "bovada": 120
+        },
+        "consensus_prob": 0.394549,
+        "fair_odds": 153.45,
+        "bookwise_probs": {
+          "pinnacle": 0.351091,
+          "draftkings": 0.438008
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.0": {
+        "price": 102,
+        "per_book": {
+          "coolbet": -105,
+          "draftkings": -154,
+          "ballybet": -113,
+          "pinnacle": 102,
+          "bovada": -145
+        },
+        "consensus_prob": 0.521365,
+        "fair_odds": -108.93,
+        "bookwise_probs": {
+          "pinnacle": 0.471204,
+          "draftkings": 0.571525
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 13.0": {
+        "price": -148,
+        "per_book": {
+          "coolbet": -213,
+          "draftkings": -148,
+          "ballybet": -225,
+          "pinnacle": -217,
+          "bovada": -155
+        },
+        "consensus_prob": 0.605451,
+        "fair_odds": -153.45,
+        "bookwise_probs": {
+          "pinnacle": 0.648909,
+          "draftkings": 0.561992
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.0": {
+        "price": 120,
+        "per_book": {
+          "coolbet": -118,
+          "draftkings": 120,
+          "ballybet": -114,
+          "pinnacle": -125,
+          "bovada": 110
+        },
+        "consensus_prob": 0.478635,
+        "fair_odds": 108.93,
+        "bookwise_probs": {
+          "pinnacle": 0.528796,
+          "draftkings": 0.428475
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 16.5": {
+        "price": 475,
+        "per_book": {
+          "fanatics": 350,
+          "draftkings": 475
+        },
+        "consensus_prob": 0.164127,
+        "fair_odds": 509.28,
+        "bookwise_probs": {
+          "draftkings": 0.164127
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 17.5": {
+        "price": 750,
+        "per_book": {
+          "fanatics": 600,
+          "draftkings": 750
+        },
+        "consensus_prob": 0.111712,
+        "fair_odds": 795.16,
+        "bookwise_probs": {
+          "draftkings": 0.111712
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 18.5": {
+        "price": 800,
+        "per_book": {
+          "fanatics": 800
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Under 16.5": {
+        "price": -550,
+        "per_book": {
+          "fanatics": -550,
+          "draftkings": -775
+        },
+        "consensus_prob": 0.835873,
+        "fair_odds": -509.28,
+        "bookwise_probs": {
+          "draftkings": 0.835873
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 17.5": {
+        "price": -1100,
+        "per_book": {
+          "fanatics": -1100,
+          "draftkings": -1450
+        },
+        "consensus_prob": 0.888288,
+        "fair_odds": -795.16,
+        "bookwise_probs": {
+          "draftkings": 0.888288
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 18.5": {
+        "price": -1500,
+        "per_book": {
+          "fanatics": -1500
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Over 10.0": {
+        "price": -336,
+        "per_book": {
+          "draftkings": -775,
+          "pinnacle": -336
+        },
+        "consensus_prob": 0.783262,
+        "fair_odds": -361.39,
+        "bookwise_probs": {
+          "pinnacle": 0.730651,
+          "draftkings": 0.835873
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 11.0": {
+        "price": -175,
+        "per_book": {
+          "draftkings": -350,
+          "ballybet": -275,
+          "pinnacle": -175,
+          "bovada": -310
+        },
+        "consensus_prob": 0.668821,
+        "fair_odds": -201.95,
+        "bookwise_probs": {
+          "pinnacle": 0.606299,
+          "draftkings": 0.731343
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 14.0": {
+        "price": 245,
+        "per_book": {
+          "draftkings": 185,
+          "ballybet": 245,
+          "bovada": 200
+        },
+        "consensus_prob": 0.32992,
+        "fair_odds": 203.1,
+        "bookwise_probs": {
+          "draftkings": 0.32992
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 15.0": {
+        "price": 300,
+        "per_book": {
+          "draftkings": 300
+        },
+        "consensus_prob": 0.234783,
+        "fair_odds": 325.93,
+        "bookwise_probs": {
+          "draftkings": 0.234783
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 16.0": {
+        "price": 450,
+        "per_book": {
+          "draftkings": 450
+        },
+        "consensus_prob": 0.171429,
+        "fair_odds": 483.33,
+        "bookwise_probs": {
+          "draftkings": 0.171429
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 17.0": {
+        "price": 700,
+        "per_book": {
+          "draftkings": 700
+        },
+        "consensus_prob": 0.118644,
+        "fair_odds": 742.86,
+        "bookwise_probs": {
+          "draftkings": 0.118644
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 18.0": {
+        "price": 950,
+        "per_book": {
+          "draftkings": 950
+        },
+        "consensus_prob": 0.090909,
+        "fair_odds": 1000.0,
+        "bookwise_probs": {
+          "draftkings": 0.090909
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 10.0": {
+        "price": 475,
+        "per_book": {
+          "draftkings": 475,
+          "pinnacle": 252
+        },
+        "consensus_prob": 0.216738,
+        "fair_odds": 361.39,
+        "bookwise_probs": {
+          "pinnacle": 0.269349,
+          "draftkings": 0.164127
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 11.0": {
+        "price": 250,
+        "per_book": {
+          "draftkings": 250,
+          "ballybet": 175,
+          "pinnacle": 142,
+          "bovada": 225
+        },
+        "consensus_prob": 0.331179,
+        "fair_odds": 201.95,
+        "bookwise_probs": {
+          "pinnacle": 0.393701,
+          "draftkings": 0.268657
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 14.0": {
+        "price": -248,
+        "per_book": {
+          "draftkings": -248,
+          "ballybet": -455,
+          "bovada": -275
+        },
+        "consensus_prob": 0.67008,
+        "fair_odds": -203.1,
+        "bookwise_probs": {
+          "draftkings": 0.67008
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 15.0": {
+        "price": -440,
+        "per_book": {
+          "draftkings": -440
+        },
+        "consensus_prob": 0.765217,
+        "fair_odds": -325.93,
+        "bookwise_probs": {
+          "draftkings": 0.765217
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 16.0": {
+        "price": -725,
+        "per_book": {
+          "draftkings": -725
+        },
+        "consensus_prob": 0.828571,
+        "fair_odds": -483.33,
+        "bookwise_probs": {
+          "draftkings": 0.828571
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 17.0": {
+        "price": -1300,
+        "per_book": {
+          "draftkings": -1300
+        },
+        "consensus_prob": 0.881356,
+        "fair_odds": -742.86,
+        "bookwise_probs": {
+          "draftkings": 0.881356
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 18.0": {
+        "price": -2000,
+        "per_book": {
+          "draftkings": -2000
+        },
+        "consensus_prob": 0.909091,
+        "fair_odds": -1000.0,
+        "bookwise_probs": {
+          "draftkings": 0.909091
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "team_totals": {
+      "OAK Over 6.5": {
+        "price": 125,
+        "per_book": {
+          "fanduel": 108,
+          "hardrockbet": 105,
+          "draftkings": -105,
+          "ballybet": 125,
+          "bovada": 105
+        },
+        "consensus_prob": 0.46431,
+        "fair_odds": 115.37,
+        "bookwise_probs": {
+          "fanduel": 0.448926,
+          "draftkings": 0.479695
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 6.5": {
+        "price": -125,
+        "per_book": {
+          "fanduel": -144,
+          "hardrockbet": -135,
+          "draftkings": -125,
+          "ballybet": -180,
+          "bovada": -135
+        },
+        "consensus_prob": 0.535689,
+        "fair_odds": -115.37,
+        "bookwise_probs": {
+          "fanduel": 0.551074,
+          "draftkings": 0.520305
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Over 5.5": {
+        "price": -104,
+        "per_book": {
+          "fanduel": -144,
+          "fliff": -145,
+          "hardrockbet": -135,
+          "draftkings": -135,
+          "ballybet": -125,
+          "pinnacle": -104,
+          "bovada": -150
+        },
+        "consensus_prob": 0.527652,
+        "fair_odds": -111.71,
+        "bookwise_probs": {
+          "pinnacle": 0.491091,
+          "fanduel": 0.551074,
+          "draftkings": 0.540791
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI Under 5.5": {
+        "price": 115,
+        "per_book": {
+          "fanduel": 108,
+          "fliff": 110,
+          "hardrockbet": 105,
+          "draftkings": 105,
+          "ballybet": -112,
+          "pinnacle": -112,
+          "bovada": 115
+        },
+        "consensus_prob": 0.472348,
+        "fair_odds": 111.71,
+        "bookwise_probs": {
+          "pinnacle": 0.508909,
+          "fanduel": 0.448926,
+          "draftkings": 0.459209
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Over 5.5": {
+        "price": -170,
+        "per_book": {
+          "fliff": -170
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "OAK Under 5.5": {
+        "price": 130,
+        "per_book": {
+          "fliff": 130
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "OAK Over 4.5": {
+        "price": 115,
+        "per_book": {
+          "pinnacle": 115
+        },
+        "consensus_prob": 0.447406,
+        "fair_odds": 123.51,
+        "bookwise_probs": {
+          "pinnacle": 0.447406
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK Under 4.5": {
+        "price": -135,
+        "per_book": {
+          "pinnacle": -135
+        },
+        "consensus_prob": 0.552594,
+        "fair_odds": -123.51,
+        "bookwise_probs": {
+          "pinnacle": 0.552594
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "OAK -0.5": {
+        "price": 100,
+        "per_book": {
+          "betmgm": -105,
+          "fanatics": 100
+        },
+        "consensus_prob": 0.471347,
+        "fair_odds": 112.16,
+        "bookwise_probs": {
+          "betmgm": 0.471347
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK +0.5": {
+        "price": -425,
+        "per_book": {
+          "betmgm": -425
+        },
+        "consensus_prob": 0.749702,
+        "fair_odds": -299.52,
+        "bookwise_probs": {
+          "betmgm": 0.749702
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -2.5": {
+        "price": 325,
+        "per_book": {
+          "betmgm": 325
+        },
+        "consensus_prob": 0.218818,
+        "fair_odds": 357.0,
+        "bookwise_probs": {
+          "betmgm": 0.218818
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "OAK -1.5": {
+        "price": 190,
+        "per_book": {
+          "betmgm": 190
+        },
+        "consensus_prob": 0.319829,
+        "fair_odds": 212.67,
+        "bookwise_probs": {
+          "betmgm": 0.319829
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +0.5": {
+        "price": -130,
+        "per_book": {
+          "betmgm": -135,
+          "fanatics": -130
+        },
+        "consensus_prob": 0.528653,
+        "fair_odds": -112.16,
+        "bookwise_probs": {
+          "betmgm": 0.528653
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI -0.5": {
+        "price": 270,
+        "per_book": {
+          "betmgm": 270
+        },
+        "consensus_prob": 0.250298,
+        "fair_odds": 299.52,
+        "bookwise_probs": {
+          "betmgm": 0.250298
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +2.5": {
+        "price": -525,
+        "per_book": {
+          "betmgm": -525
+        },
+        "consensus_prob": 0.781182,
+        "fair_odds": -357.0,
+        "bookwise_probs": {
+          "betmgm": 0.781182
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI +1.5": {
+        "price": -275,
+        "per_book": {
+          "betmgm": -275
+        },
+        "consensus_prob": 0.680171,
+        "fair_odds": -212.67,
+        "bookwise_probs": {
+          "betmgm": 0.680171
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 8.5": {
+        "price": -325,
+        "per_book": {
+          "betmgm": -375,
+          "fanatics": -325
+        },
+        "consensus_prob": 0.734266,
+        "fair_odds": -276.32,
+        "bookwise_probs": {
+          "betmgm": 0.734266
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 9.5": {
+        "price": -130,
+        "per_book": {
+          "betmgm": -155,
+          "fanatics": -130
+        },
+        "consensus_prob": 0.560724,
+        "fair_odds": -127.65,
+        "bookwise_probs": {
+          "betmgm": 0.560724
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 10.5": {
+        "price": 150,
+        "per_book": {
+          "betmgm": 125,
+          "fanatics": 150
+        },
+        "consensus_prob": 0.411215,
+        "fair_odds": 143.18,
+        "bookwise_probs": {
+          "betmgm": 0.411215
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.5": {
+        "price": 400,
+        "per_book": {
+          "betmgm": 400
+        },
+        "consensus_prob": 0.186047,
+        "fair_odds": 437.5,
+        "bookwise_probs": {
+          "betmgm": 0.186047
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 8.5": {
+        "price": 250,
+        "per_book": {
+          "betmgm": 250,
+          "fanatics": 230
+        },
+        "consensus_prob": 0.265734,
+        "fair_odds": 276.32,
+        "bookwise_probs": {
+          "betmgm": 0.265734
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 9.5": {
+        "price": 110,
+        "per_book": {
+          "betmgm": 110,
+          "fanatics": 100
+        },
+        "consensus_prob": 0.439276,
+        "fair_odds": 127.65,
+        "bookwise_probs": {
+          "betmgm": 0.439276
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 10.5": {
+        "price": -175,
+        "per_book": {
+          "betmgm": -175,
+          "fanatics": -200
+        },
+        "consensus_prob": 0.588785,
+        "fair_odds": -143.18,
+        "bookwise_probs": {
+          "betmgm": 0.588785
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.5": {
+        "price": -700,
+        "per_book": {
+          "betmgm": -700
+        },
+        "consensus_prob": 0.813953,
+        "fair_odds": -437.5,
+        "bookwise_probs": {
+          "betmgm": 0.813953
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "h2h_1st_7_innings": {
+      "OAK": {
+        "price": -250,
+        "per_book": {
+          "betmgm": -250,
+          "fanatics": -260
+        },
+        "consensus_prob": 0.662651,
+        "fair_odds": -196.43,
+        "bookwise_probs": {
+          "betmgm": 0.662651
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "PHI": {
+        "price": 190,
+        "per_book": {
+          "betmgm": 175,
+          "fanatics": 190
+        },
+        "consensus_prob": 0.5,
+        "fair_odds": 100.0,
+        "bookwise_probs": {
+          "betmgm": 0.5
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "h2h_lay": {
+      "OAK": {
+        "price": 148,
+        "per_book": {
+          "matchbook": 148,
+          "betfair_ex_eu": -118
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "PHI": {
+        "price": 158,
+        "per_book": {
+          "matchbook": 108,
+          "betfair_ex_eu": 158
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      }
+    },
+    "h2h_source": {
+      "OAK": {
+        "fanduel": -130,
+        "sport888": -175,
+        "espnbet": -160,
+        "mybookieag": -125,
+        "winamax_fr": -172,
+        "coolbet": -125,
+        "fliff": -165,
+        "betsson": -189,
+        "nordicbet": -149,
+        "betmgm": -140,
+        "williamhill_us": -150,
+        "fanatics": -160,
+        "hardrockbet": -130,
+        "draftkings": -154,
+        "tipico_de": -125,
+        "ballybet": -220,
+        "betparx": -220,
+        "unibet_eu": -220,
+        "gtbets": -160,
+        "matchbook": -108,
+        "betfair_ex_eu": -156,
+        "pinnacle": 208,
+        "bovada": 150
+      },
+      "PHI": {
+        "fanduel": 102,
+        "sport888": 125,
+        "espnbet": 125,
+        "mybookieag": 100,
+        "winamax_fr": 115,
+        "coolbet": 105,
+        "fliff": 125,
+        "betsson": 140,
+        "nordicbet": 114,
+        "betmgm": 110,
+        "williamhill_us": 120,
+        "fanatics": 120,
+        "hardrockbet": 100,
+        "draftkings": 120,
+        "tipico_de": -111,
+        "ballybet": 170,
+        "betparx": 170,
+        "unibet_eu": 170,
+        "gtbets": 130,
+        "matchbook": -147,
+        "betfair_ex_eu": 118,
+        "pinnacle": -262,
+        "bovada": -200
+      }
+    },
+    "spreads_source": {
+      "OAK +1.5": {
+        "fanduel": -290,
+        "mybookieag": -286,
+        "coolbet": -270,
+        "hardrockbet": -300,
+        "pinnacle": -102,
+        "bovada": -165
+      },
+      "PHI -1.5": {
+        "fanduel": 205,
+        "mybookieag": 200,
+        "coolbet": 215,
+        "hardrockbet": 210,
+        "pinnacle": -119,
+        "bovada": 125
+      },
+      "OAK -1.5": {
+        "sport888": 150,
+        "espnbet": 180,
+        "fliff": 145,
+        "betmgm": 190,
+        "williamhill_us": 195,
+        "fanatics": 160,
+        "draftkings": 165,
+        "ballybet": 135,
+        "betparx": 135,
+        "gtbets": 158
+      },
+      "PHI +1.5": {
+        "sport888": -225,
+        "espnbet": -250,
+        "fliff": -195,
+        "betmgm": -250,
+        "williamhill_us": -250,
+        "fanatics": -210,
+        "draftkings": -215,
+        "ballybet": -167,
+        "betparx": -167,
+        "gtbets": -205
+      },
+      "OAK -1.0": {
+        "unibet_eu": -130
+      },
+      "PHI +1.0": {
+        "unibet_eu": 104
+      }
+    },
+    "totals_source": {
+      "Over 12.5": {
+        "fanduel": 106,
+        "sport888": -125,
+        "espnbet": -110,
+        "fliff": -125,
+        "betmgm": -118,
+        "williamhill_us": -110,
+        "fanatics": -140,
+        "draftkings": -120,
+        "ballybet": -114,
+        "betparx": -114,
+        "gtbets": -118
+      },
+      "Under 12.5": {
+        "fanduel": -140,
+        "sport888": -118,
+        "espnbet": -120,
+        "fliff": -110,
+        "betmgm": -110,
+        "williamhill_us": -120,
+        "fanatics": 105,
+        "draftkings": -110,
+        "ballybet": -112,
+        "betparx": -112,
+        "gtbets": -108
+      },
+      "Over 12.0": {
+        "mybookieag": -111,
+        "coolbet": -105
+      },
+      "Under 12.0": {
+        "mybookieag": -125,
+        "coolbet": -118
+      },
+      "Over 11.5": {
+        "hardrockbet": -130,
+        "pinnacle": -119
+      },
+      "Under 11.5": {
+        "hardrockbet": 100,
+        "pinnacle": -101
+      },
+      "Over 9.5": {
+        "tipico_de": -100000
+      },
+      "Under 9.5": {
+        "tipico_de": -100000
+      },
+      "Over 11.0": {
+        "bovada": -125
+      },
+      "Under 11.0": {
+        "bovada": -105
+      }
+    },
+    "alternate_spreads_source": {
+      "OAK -3.5": {
+        "fanduel": 580,
+        "betmgm": 500,
+        "draftkings": 500
+      },
+      "OAK -2.5": {
+        "fanduel": 350,
+        "espnbet": 320,
+        "betmgm": 300,
+        "williamhill_us": 414,
+        "draftkings": 290
+      },
+      "OAK -1.5": {
+        "fanduel": 182,
+        "espnbet": 170,
+        "coolbet": 245,
+        "fliff": 210,
+        "betmgm": 180,
+        "williamhill_us": 219,
+        "hardrockbet": 240,
+        "pinnacle": 552
+      },
+      "OAK +1.5": {
+        "fanduel": -350,
+        "espnbet": -375,
+        "coolbet": -270,
+        "fliff": -280,
+        "betmgm": -295,
+        "draftkings": -300,
+        "pinnacle": -102
+      },
+      "OAK +2.5": {
+        "fanduel": -750,
+        "coolbet": -556,
+        "fliff": -525,
+        "betmgm": -625,
+        "williamhill_us": -529,
+        "hardrockbet": -550,
+        "draftkings": -575,
+        "pinnacle": -192
+      },
+      "OAK +3.5": {
+        "fanduel": -1800,
+        "williamhill_us": -1104,
+        "draftkings": -1150,
+        "pinnacle": -370
+      },
+      "PHI +3.5": {
+        "fanduel": -1200,
+        "betmgm": -800,
+        "draftkings": -850
+      },
+      "PHI +2.5": {
+        "fanduel": -550,
+        "espnbet": -525,
+        "betmgm": -425,
+        "williamhill_us": -754,
+        "draftkings": -420
+      },
+      "PHI +1.5": {
+        "fanduel": -250,
+        "espnbet": -240,
+        "coolbet": -312,
+        "fliff": -315,
+        "betmgm": -235,
+        "williamhill_us": -324,
+        "hardrockbet": -350,
+        "pinnacle": -842
+      },
+      "PHI -1.5": {
+        "fanduel": 240,
+        "espnbet": 250,
+        "coolbet": 215,
+        "fliff": 195,
+        "betmgm": 220,
+        "draftkings": 220,
+        "pinnacle": -119
+      },
+      "PHI -2.5": {
+        "fanduel": 430,
+        "coolbet": 390,
+        "fliff": 320,
+        "betmgm": 400,
+        "williamhill_us": 323,
+        "hardrockbet": 375,
+        "draftkings": 375,
+        "pinnacle": 154
+      },
+      "PHI -3.5": {
+        "fanduel": 700,
+        "williamhill_us": 522,
+        "draftkings": 625,
+        "pinnacle": 274
+      },
+      "OAK -2.0": {
+        "williamhill_us": 366,
+        "draftkings": 250
+      },
+      "OAK -1.0": {
+        "williamhill_us": 146,
+        "draftkings": 105
+      },
+      "OAK +3.0": {
+        "williamhill_us": -954,
+        "draftkings": -1025,
+        "pinnacle": -304
+      },
+      "PHI +2.0": {
+        "williamhill_us": -629,
+        "draftkings": -350
+      },
+      "PHI +1.0": {
+        "williamhill_us": -204,
+        "draftkings": -135
+      },
+      "PHI -3.0": {
+        "williamhill_us": 480,
+        "draftkings": 575,
+        "pinnacle": 230
+      },
+      "OAK +4.5": {
+        "draftkings": -2200
+      },
+      "OAK +4.0": {
+        "draftkings": -2200
+      },
+      "OAK +2.0": {
+        "draftkings": -500,
+        "pinnacle": -144
+      },
+      "OAK +1.0": {
+        "draftkings": -240
+      },
+      "OAK -3.0": {
+        "draftkings": 450
+      },
+      "OAK -4.0": {
+        "draftkings": 750
+      },
+      "OAK -4.5": {
+        "draftkings": 800
+      },
+      "OAK -5.0": {
+        "draftkings": 1300
+      },
+      "OAK -5.5": {
+        "draftkings": 1400
+      },
+      "PHI -4.5": {
+        "draftkings": 1000
+      },
+      "PHI -4.0": {
+        "draftkings": 1000
+      },
+      "PHI -2.0": {
+        "draftkings": 340,
+        "pinnacle": 118
+      },
+      "PHI -1.0": {
+        "draftkings": 180
+      },
+      "PHI +3.0": {
+        "draftkings": -725
+      },
+      "PHI +4.0": {
+        "draftkings": -1450
+      },
+      "PHI +4.5": {
+        "draftkings": -1600
+      },
+      "PHI +5.0": {
+        "draftkings": -3500
+      },
+      "PHI +5.5": {
+        "draftkings": -4000
+      }
+    },
+    "alternate_team_totals_source": {
+      "OAK Over 4.5": {
+        "fanduel": -750,
+        "fanatics": -700
+      },
+      "OAK Over 5.5": {
+        "fanduel": -220,
+        "betmgm": -225,
+        "fanatics": -190,
+        "hardrockbet": -200
+      },
+      "OAK Over 6.5": {
+        "fanduel": 108,
+        "betmgm": -105,
+        "fanatics": 115,
+        "hardrockbet": 105
+      },
+      "OAK Over 7.5": {
+        "fanduel": 210,
+        "betmgm": 200,
+        "fanatics": 200,
+        "hardrockbet": 200
+      },
+      "OAK Over 8.5": {
+        "fanduel": 370,
+        "betmgm": 360,
+        "fanatics": 350
+      },
+      "OAK Over 9.5": {
+        "fanduel": 640
+      },
+      "OAK Under 4.5": {
+        "fanduel": 430,
+        "fanatics": 425
+      },
+      "OAK Under 5.5": {
+        "fanduel": 162,
+        "betmgm": 170,
+        "fanatics": 145,
+        "hardrockbet": 155
+      },
+      "OAK Under 6.5": {
+        "fanduel": -144,
+        "betmgm": -125,
+        "fanatics": -150,
+        "hardrockbet": -135
+      },
+      "OAK Under 7.5": {
+        "fanduel": -300,
+        "betmgm": -275,
+        "fanatics": -275,
+        "hardrockbet": -275
+      },
+      "OAK Under 8.5": {
+        "fanduel": -600,
+        "betmgm": -550,
+        "fanatics": -550
+      },
+      "PHI Over 4.5": {
+        "fanduel": -390,
+        "betmgm": -375,
+        "fanatics": -400,
+        "hardrockbet": -375
+      },
+      "PHI Over 5.5": {
+        "fanduel": -144,
+        "betmgm": -150,
+        "fanatics": -140,
+        "hardrockbet": -135
+      },
+      "PHI Over 6.5": {
+        "fanduel": 146,
+        "betmgm": 130,
+        "fanatics": 125,
+        "hardrockbet": 155
+      },
+      "PHI Over 7.5": {
+        "fanduel": 250,
+        "fanatics": 240
+      },
+      "PHI Over 8.5": {
+        "fanduel": 430
+      },
+      "PHI Over 9.5": {
+        "fanduel": 700
+      },
+      "PHI Under 4.5": {
+        "fanduel": 265,
+        "betmgm": 270,
+        "fanatics": 280,
+        "hardrockbet": 250
+      },
+      "PHI Under 5.5": {
+        "fanduel": 108,
+        "betmgm": 115,
+        "fanatics": 105,
+        "hardrockbet": 105
+      },
+      "PHI Under 6.5": {
+        "fanduel": -198,
+        "betmgm": -170,
+        "fanatics": -165,
+        "hardrockbet": -200
+      },
+      "PHI Under 7.5": {
+        "fanduel": -360,
+        "fanatics": -300
+      },
+      "PHI Under 8.5": {
+        "fanduel": -750
+      }
+    },
+    "alternate_totals_source": {
+      "Over 9.5": {
+        "fanduel": -1000,
+        "fliff": -665,
+        "fanatics": -900,
+        "draftkings": -850,
+        "pinnacle": -390
+      },
+      "Over 10.5": {
+        "fanduel": -420,
+        "fliff": -335,
+        "betmgm": -525,
+        "fanatics": -500,
+        "draftkings": -440,
+        "ballybet": -400,
+        "pinnacle": -229,
+        "bovada": -410
+      },
+      "Over 11.5": {
+        "fanduel": -180,
+        "espnbet": -175,
+        "coolbet": -125,
+        "fliff": -145,
+        "betmgm": -200,
+        "fanatics": -210,
+        "draftkings": -188,
+        "ballybet": -141,
+        "pinnacle": -119,
+        "bovada": -175
+      },
+      "Over 12.5": {
+        "fanduel": -114,
+        "espnbet": -110,
+        "coolbet": 115,
+        "fliff": 105,
+        "betmgm": -125,
+        "fanatics": -140,
+        "hardrockbet": 110,
+        "ballybet": 112,
+        "pinnacle": 122
+      },
+      "Over 13.5": {
+        "fanduel": 162,
+        "espnbet": 165,
+        "fliff": 180,
+        "betmgm": 154,
+        "fanatics": 125,
+        "hardrockbet": 200,
+        "draftkings": 150,
+        "ballybet": 190,
+        "pinnacle": 205,
+        "bovada": 155
+      },
+      "Over 14.5": {
+        "fanduel": 225,
+        "betmgm": 220,
+        "fanatics": 175,
+        "draftkings": 210,
+        "ballybet": 270,
+        "bovada": 225
+      },
+      "Over 15.5": {
+        "fanduel": 360,
+        "betmgm": 360,
+        "fanatics": 260,
+        "draftkings": 340
+      },
+      "Under 9.5": {
+        "fanduel": 520,
+        "fliff": 380,
+        "fanatics": 500,
+        "draftkings": 500,
+        "pinnacle": 286
+      },
+      "Under 10.5": {
+        "fanduel": 280,
+        "fliff": 225,
+        "betmgm": 350,
+        "fanatics": 330,
+        "draftkings": 300,
+        "ballybet": 230,
+        "pinnacle": 181,
+        "bovada": 280
+      },
+      "Under 11.5": {
+        "fanduel": 134,
+        "espnbet": 130,
+        "coolbet": 105,
+        "fliff": 105,
+        "betmgm": 155,
+        "fanatics": 160,
+        "draftkings": 145,
+        "ballybet": 110,
+        "pinnacle": -101,
+        "bovada": 135
+      },
+      "Under 12.5": {
+        "fanduel": -118,
+        "espnbet": -120,
+        "coolbet": -143,
+        "fliff": -145,
+        "betmgm": -102,
+        "fanatics": 105,
+        "hardrockbet": -140,
+        "ballybet": -143,
+        "pinnacle": -151
+      },
+      "Under 13.5": {
+        "fanduel": -220,
+        "espnbet": -240,
+        "fliff": -265,
+        "betmgm": -200,
+        "fanatics": -165,
+        "hardrockbet": -275,
+        "draftkings": -198,
+        "ballybet": -305,
+        "pinnacle": -266,
+        "bovada": -205
+      },
+      "Under 14.5": {
+        "fanduel": -320,
+        "betmgm": -295,
+        "fanatics": -240,
+        "draftkings": -285,
+        "ballybet": -560,
+        "bovada": -310
+      },
+      "Under 15.5": {
+        "fanduel": -580,
+        "betmgm": -525,
+        "fanatics": -375,
+        "draftkings": -500
+      },
+      "Over 13.0": {
+        "coolbet": 165,
+        "draftkings": 115,
+        "ballybet": 155,
+        "pinnacle": 170,
+        "bovada": 120
+      },
+      "Over 12.0": {
+        "coolbet": -105,
+        "draftkings": -154,
+        "ballybet": -113,
+        "pinnacle": 102,
+        "bovada": -145
+      },
+      "Under 13.0": {
+        "coolbet": -213,
+        "draftkings": -148,
+        "ballybet": -225,
+        "pinnacle": -217,
+        "bovada": -155
+      },
+      "Under 12.0": {
+        "coolbet": -118,
+        "draftkings": 120,
+        "ballybet": -114,
+        "pinnacle": -125,
+        "bovada": 110
+      },
+      "Over 16.5": {
+        "fanatics": 350,
+        "draftkings": 475
+      },
+      "Over 17.5": {
+        "fanatics": 600,
+        "draftkings": 750
+      },
+      "Over 18.5": {
+        "fanatics": 800
+      },
+      "Under 16.5": {
+        "fanatics": -550,
+        "draftkings": -775
+      },
+      "Under 17.5": {
+        "fanatics": -1100,
+        "draftkings": -1450
+      },
+      "Under 18.5": {
+        "fanatics": -1500
+      },
+      "Over 10.0": {
+        "draftkings": -775,
+        "pinnacle": -336
+      },
+      "Over 11.0": {
+        "draftkings": -350,
+        "ballybet": -275,
+        "pinnacle": -175,
+        "bovada": -310
+      },
+      "Over 14.0": {
+        "draftkings": 185,
+        "ballybet": 245,
+        "bovada": 200
+      },
+      "Over 15.0": {
+        "draftkings": 300
+      },
+      "Over 16.0": {
+        "draftkings": 450
+      },
+      "Over 17.0": {
+        "draftkings": 700
+      },
+      "Over 18.0": {
+        "draftkings": 950
+      },
+      "Under 10.0": {
+        "draftkings": 475,
+        "pinnacle": 252
+      },
+      "Under 11.0": {
+        "draftkings": 250,
+        "ballybet": 175,
+        "pinnacle": 142,
+        "bovada": 225
+      },
+      "Under 14.0": {
+        "draftkings": -248,
+        "ballybet": -455,
+        "bovada": -275
+      },
+      "Under 15.0": {
+        "draftkings": -440
+      },
+      "Under 16.0": {
+        "draftkings": -725
+      },
+      "Under 17.0": {
+        "draftkings": -1300
+      },
+      "Under 18.0": {
+        "draftkings": -2000
+      }
+    },
+    "team_totals_source": {
+      "OAK Over 6.5": {
+        "fanduel": 108,
+        "hardrockbet": 105,
+        "draftkings": -105,
+        "ballybet": 125,
+        "bovada": 105
+      },
+      "OAK Under 6.5": {
+        "fanduel": -144,
+        "hardrockbet": -135,
+        "draftkings": -125,
+        "ballybet": -180,
+        "bovada": -135
+      },
+      "PHI Over 5.5": {
+        "fanduel": -144,
+        "fliff": -145,
+        "hardrockbet": -135,
+        "draftkings": -135,
+        "ballybet": -125,
+        "pinnacle": -104,
+        "bovada": -150
+      },
+      "PHI Under 5.5": {
+        "fanduel": 108,
+        "fliff": 110,
+        "hardrockbet": 105,
+        "draftkings": 105,
+        "ballybet": -112,
+        "pinnacle": -112,
+        "bovada": 115
+      },
+      "OAK Over 5.5": {
+        "fliff": -170
+      },
+      "OAK Under 5.5": {
+        "fliff": 130
+      },
+      "OAK Over 4.5": {
+        "pinnacle": 115
+      },
+      "OAK Under 4.5": {
+        "pinnacle": -135
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "OAK -0.5": {
+        "betmgm": -105,
+        "fanatics": 100
+      },
+      "OAK +0.5": {
+        "betmgm": -425
+      },
+      "OAK -2.5": {
+        "betmgm": 325
+      },
+      "OAK -1.5": {
+        "betmgm": 190
+      },
+      "PHI +0.5": {
+        "betmgm": -135,
+        "fanatics": -130
+      },
+      "PHI -0.5": {
+        "betmgm": 270
+      },
+      "PHI +2.5": {
+        "betmgm": -525
+      },
+      "PHI +1.5": {
+        "betmgm": -275
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 8.5": {
+        "betmgm": -375,
+        "fanatics": -325
+      },
+      "Over 9.5": {
+        "betmgm": -155,
+        "fanatics": -130
+      },
+      "Over 10.5": {
+        "betmgm": 125,
+        "fanatics": 150
+      },
+      "Over 12.5": {
+        "betmgm": 400
+      },
+      "Under 8.5": {
+        "betmgm": 250,
+        "fanatics": 230
+      },
+      "Under 9.5": {
+        "betmgm": 110,
+        "fanatics": 100
+      },
+      "Under 10.5": {
+        "betmgm": -175,
+        "fanatics": -200
+      },
+      "Under 12.5": {
+        "betmgm": -700
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "OAK": {
+        "betmgm": -250,
+        "fanatics": -260
+      },
+      "PHI": {
+        "betmgm": 175,
+        "fanatics": 190
+      }
+    },
+    "h2h_lay_source": {
+      "OAK": {
+        "matchbook": 148,
+        "betfair_ex_eu": -118
+      },
+      "PHI": {
+        "matchbook": 108,
+        "betfair_ex_eu": 158
+      }
+    },
+    "start_time": "2025-05-25T02:06:00+00:00"
+  },
+  "2025-05-24-MIA@LAA": {
+    "h2h": {
+      "LAA": {
+        "price": 260,
+        "per_book": {
+          "fanduel": 240,
+          "sport888": 170,
+          "betsson": 235,
+          "nordicbet": 250,
+          "williamhill_us": 215,
+          "fliff": 260,
+          "draftkings": 220,
+          "winamax_fr": 205,
+          "espnbet": 225,
+          "gtbets": 199,
+          "coolbet": 225,
+          "betmgm": 210,
+          "bovada": 230,
+          "pinnacle": 247,
+          "ballybet": 240,
+          "betparx": 240,
+          "unibet_eu": 240,
+          "fanatics": 220,
+          "hardrockbet": 210,
+          "matchbook": 225,
+          "tipico_de": 190,
+          "betfair_ex_eu": 250,
+          "mybookieag": 220
+        },
+        "consensus_prob": 0.290219,
+        "fair_odds": 244.57,
+        "bookwise_probs": {
+          "pinnacle": 0.277418,
+          "fanduel": 0.277062,
+          "betmgm": 0.305499,
+          "draftkings": 0.294466,
+          "mybookieag": 0.296649
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA": {
+        "price": -250,
+        "per_book": {
+          "fanduel": -330,
+          "sport888": -250,
+          "betsson": -333,
+          "nordicbet": -357,
+          "williamhill_us": -280,
+          "fliff": -370,
+          "draftkings": -298,
+          "winamax_fr": -303,
+          "espnbet": -320,
+          "gtbets": -252,
+          "coolbet": -286,
+          "betmgm": -275,
+          "bovada": -325,
+          "pinnacle": -301,
+          "ballybet": -315,
+          "betparx": -315,
+          "unibet_eu": -315,
+          "fanatics": -300,
+          "hardrockbet": -300,
+          "matchbook": -417,
+          "tipico_de": -286,
+          "betfair_ex_eu": -312,
+          "mybookieag": -286
+        },
+        "consensus_prob": 0.5,
+        "fair_odds": 100.0,
+        "bookwise_probs": {
+          "pinnacle": 0.5,
+          "fanduel": 0.5,
+          "betmgm": 0.5,
+          "draftkings": 0.5,
+          "mybookieag": 0.5
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "spreads": {
+      "LAA +1.5": {
+        "price": 110,
+        "per_book": {
+          "fanduel": 110,
+          "sport888": -125,
+          "williamhill_us": -105,
+          "fliff": 110,
+          "draftkings": 100,
+          "espnbet": -105,
+          "gtbets": -108,
+          "coolbet": 100,
+          "betmgm": -110,
+          "ballybet": 102,
+          "betparx": 102,
+          "unibet_eu": 102,
+          "fanatics": 105,
+          "hardrockbet": -105,
+          "mybookieag": -105
+        },
+        "consensus_prob": 0.469822,
+        "fair_odds": 112.85,
+        "bookwise_probs": {
+          "fanduel": 0.445168,
+          "betmgm": 0.491797,
+          "draftkings": 0.469388,
+          "mybookieag": 0.472936
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -1.5": {
+        "price": -118,
+        "per_book": {
+          "fanduel": -146,
+          "sport888": -118,
+          "williamhill_us": -125,
+          "fliff": -145,
+          "draftkings": -130,
+          "espnbet": -125,
+          "gtbets": -118,
+          "coolbet": -125,
+          "betmgm": -118,
+          "ballybet": -129,
+          "betparx": -129,
+          "unibet_eu": -129,
+          "fanatics": -140,
+          "hardrockbet": -125,
+          "mybookieag": -133
+        },
+        "consensus_prob": 0.530178,
+        "fair_odds": -112.85,
+        "bookwise_probs": {
+          "fanduel": 0.554832,
+          "betmgm": 0.508203,
+          "draftkings": 0.530612,
+          "mybookieag": 0.527064
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +2.0": {
+        "price": -130,
+        "per_book": {
+          "bovada": -135,
+          "pinnacle": -130
+        },
+        "consensus_prob": 0.545095,
+        "fair_odds": -119.83,
+        "bookwise_probs": {
+          "pinnacle": 0.545095
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -2.0": {
+        "price": 112,
+        "per_book": {
+          "bovada": 105,
+          "pinnacle": 112
+        },
+        "consensus_prob": 0.454905,
+        "fair_odds": 119.83,
+        "bookwise_probs": {
+          "pinnacle": 0.454905
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "totals": {
+      "Over 7.5": {
+        "price": 135,
+        "per_book": {
+          "fanduel": 128,
+          "sport888": 100,
+          "williamhill_us": 135,
+          "fliff": 125,
+          "draftkings": 120,
+          "espnbet": 125,
+          "gtbets": 101,
+          "betmgm": 120,
+          "fanatics": 120,
+          "hardrockbet": 125
+        },
+        "consensus_prob": 0.421956,
+        "fair_odds": 136.99,
+        "bookwise_probs": {
+          "fanduel": 0.40954,
+          "betmgm": 0.427852,
+          "draftkings": 0.428475
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 7.5": {
+        "price": -129,
+        "per_book": {
+          "fanduel": -172,
+          "sport888": -143,
+          "williamhill_us": -170,
+          "fliff": -165,
+          "draftkings": -154,
+          "espnbet": -160,
+          "gtbets": -129,
+          "betmgm": -155,
+          "fanatics": -160,
+          "hardrockbet": -160
+        },
+        "consensus_prob": 0.578044,
+        "fair_odds": -136.99,
+        "bookwise_probs": {
+          "fanduel": 0.59046,
+          "betmgm": 0.572148,
+          "draftkings": 0.571525
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 7.0": {
+        "price": -120,
+        "per_book": {
+          "coolbet": -125,
+          "ballybet": -120,
+          "betparx": -120,
+          "mybookieag": -133
+        },
+        "consensus_prob": 0.527064,
+        "fair_odds": -111.45,
+        "bookwise_probs": {
+          "mybookieag": 0.527064
+        },
+        "books_used": [
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 7.0": {
+        "price": 100,
+        "per_book": {
+          "coolbet": 100,
+          "ballybet": -107,
+          "betparx": -107,
+          "mybookieag": -105
+        },
+        "consensus_prob": 0.472936,
+        "fair_odds": 111.45,
+        "bookwise_probs": {
+          "mybookieag": 0.472936
+        },
+        "books_used": [
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 8.0": {
+        "price": 102,
+        "per_book": {
+          "bovada": -105,
+          "pinnacle": 102
+        },
+        "consensus_prob": 0.47673,
+        "fair_odds": 109.76,
+        "bookwise_probs": {
+          "pinnacle": 0.47673
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 8.0": {
+        "price": -119,
+        "per_book": {
+          "bovada": -125,
+          "pinnacle": -119
+        },
+        "consensus_prob": 0.52327,
+        "fair_odds": -109.76,
+        "bookwise_probs": {
+          "pinnacle": 0.52327
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 6.5": {
+        "price": -222,
+        "per_book": {
+          "tipico_de": -222
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Under 6.5": {
+        "price": 155,
+        "per_book": {
+          "tipico_de": 155
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      }
+    },
+    "alternate_spreads": {
+      "LAA -3.5": {
+        "price": 2500,
+        "per_book": {
+          "fanduel": 1280,
+          "draftkings": 2500
+        },
+        "consensus_prob": 0.052841,
+        "fair_odds": 1792.47,
+        "bookwise_probs": {
+          "fanduel": 0.068467,
+          "draftkings": 0.037215
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -2.5": {
+        "price": 1300,
+        "per_book": {
+          "fanduel": 920,
+          "draftkings": 1300,
+          "betmgm": 1050
+        },
+        "consensus_prob": 0.08083,
+        "fair_odds": 1137.16,
+        "bookwise_probs": {
+          "fanduel": 0.091603,
+          "betmgm": 0.082447,
+          "draftkings": 0.068441
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -1.5": {
+        "price": 711,
+        "per_book": {
+          "fanduel": 550,
+          "draftkings": 600,
+          "betmgm": 600,
+          "pinnacle": 711
+        },
+        "consensus_prob": 0.133026,
+        "fair_odds": 651.73,
+        "bookwise_probs": {
+          "pinnacle": 0.118727,
+          "fanduel": 0.143713,
+          "betmgm": 0.134831,
+          "draftkings": 0.134831
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +1.5": {
+        "price": 117,
+        "per_book": {
+          "fanduel": 110,
+          "fliff": 110,
+          "espnbet": -105,
+          "coolbet": 100,
+          "betmgm": -110,
+          "pinnacle": 117
+        },
+        "consensus_prob": 0.45993,
+        "fair_odds": 117.42,
+        "bookwise_probs": {
+          "pinnacle": 0.442824,
+          "fanduel": 0.445168,
+          "betmgm": 0.491797
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +2.5": {
+        "price": -190,
+        "per_book": {
+          "fanduel": -270,
+          "fliff": -250,
+          "draftkings": -255,
+          "espnbet": -300,
+          "coolbet": -270,
+          "betmgm": -275,
+          "pinnacle": -190,
+          "hardrockbet": -275
+        },
+        "consensus_prob": 0.670583,
+        "fair_odds": -203.57,
+        "bookwise_probs": {
+          "pinnacle": 0.630102,
+          "fanduel": 0.682076,
+          "betmgm": 0.694501,
+          "draftkings": 0.675651
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +3.5": {
+        "price": -403,
+        "per_book": {
+          "fanduel": -600,
+          "fliff": -585,
+          "draftkings": -550,
+          "espnbet": -750,
+          "coolbet": -556,
+          "betmgm": -550,
+          "pinnacle": -403,
+          "hardrockbet": -600
+        },
+        "consensus_prob": 0.790921,
+        "fair_odds": -378.29,
+        "bookwise_probs": {
+          "pinnacle": 0.766185,
+          "fanduel": 0.801136,
+          "betmgm": 0.800766,
+          "draftkings": 0.795597
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +3.5": {
+        "price": -7000,
+        "per_book": {
+          "fanduel": -7000,
+          "draftkings": -20000
+        },
+        "consensus_prob": 0.947159,
+        "fair_odds": -1792.47,
+        "bookwise_probs": {
+          "fanduel": 0.931533,
+          "draftkings": 0.962785
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +2.5": {
+        "price": -3000,
+        "per_book": {
+          "fanduel": -3500,
+          "draftkings": -3500,
+          "betmgm": -3000
+        },
+        "consensus_prob": 0.91917,
+        "fair_odds": -1137.16,
+        "bookwise_probs": {
+          "fanduel": 0.908397,
+          "betmgm": 0.917553,
+          "draftkings": 0.931559
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +1.5": {
+        "price": -1080,
+        "per_book": {
+          "fanduel": -1100,
+          "draftkings": -1100,
+          "betmgm": -1100,
+          "pinnacle": -1080
+        },
+        "consensus_prob": 0.866974,
+        "fair_odds": -651.73,
+        "bookwise_probs": {
+          "pinnacle": 0.881273,
+          "fanduel": 0.856287,
+          "betmgm": 0.865169,
+          "draftkings": 0.865169
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -1.5": {
+        "price": -118,
+        "per_book": {
+          "fanduel": -146,
+          "fliff": -145,
+          "espnbet": -125,
+          "coolbet": -125,
+          "betmgm": -118,
+          "pinnacle": -138
+        },
+        "consensus_prob": 0.54007,
+        "fair_odds": -117.42,
+        "bookwise_probs": {
+          "pinnacle": 0.557176,
+          "fanduel": 0.554832,
+          "betmgm": 0.508203
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -2.5": {
+        "price": 210,
+        "per_book": {
+          "fanduel": 194,
+          "fliff": 175,
+          "draftkings": 190,
+          "espnbet": 210,
+          "coolbet": 210,
+          "betmgm": 210,
+          "pinnacle": 160,
+          "hardrockbet": 200
+        },
+        "consensus_prob": 0.329418,
+        "fair_odds": 203.57,
+        "bookwise_probs": {
+          "pinnacle": 0.369898,
+          "fanduel": 0.317924,
+          "betmgm": 0.305499,
+          "draftkings": 0.324349
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -3.5": {
+        "price": 410,
+        "per_book": {
+          "fanduel": 370,
+          "fliff": 345,
+          "draftkings": 360,
+          "espnbet": 400,
+          "coolbet": 410,
+          "betmgm": 375,
+          "pinnacle": 309,
+          "hardrockbet": 400
+        },
+        "consensus_prob": 0.209079,
+        "fair_odds": 378.29,
+        "bookwise_probs": {
+          "pinnacle": 0.233815,
+          "fanduel": 0.198864,
+          "betmgm": 0.199234,
+          "draftkings": 0.204403
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +6.5": {
+        "price": -10000,
+        "per_book": {
+          "draftkings": -10000
+        },
+        "consensus_prob": 0.954112,
+        "fair_odds": -2079.22,
+        "bookwise_probs": {
+          "draftkings": 0.954112
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +6.0": {
+        "price": -10000,
+        "per_book": {
+          "draftkings": -10000
+        },
+        "consensus_prob": 0.954112,
+        "fair_odds": -2079.22,
+        "bookwise_probs": {
+          "draftkings": 0.954112
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +5.5": {
+        "price": -3000,
+        "per_book": {
+          "draftkings": -3000
+        },
+        "consensus_prob": 0.926366,
+        "fair_odds": -1258.07,
+        "bookwise_probs": {
+          "draftkings": 0.926366
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +5.0": {
+        "price": -2500,
+        "per_book": {
+          "draftkings": -2500
+        },
+        "consensus_prob": 0.920245,
+        "fair_odds": -1153.84,
+        "bookwise_probs": {
+          "draftkings": 0.920245
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +4.5": {
+        "price": -1200,
+        "per_book": {
+          "draftkings": -1200
+        },
+        "consensus_prob": 0.873786,
+        "fair_odds": -692.31,
+        "bookwise_probs": {
+          "draftkings": 0.873786
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +4.0": {
+        "price": -725,
+        "per_book": {
+          "draftkings": -1150,
+          "pinnacle": -725
+        },
+        "consensus_prob": 0.855765,
+        "fair_odds": -593.31,
+        "bookwise_probs": {
+          "pinnacle": 0.841909,
+          "draftkings": 0.869622
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +3.0": {
+        "price": -322,
+        "per_book": {
+          "draftkings": -455,
+          "pinnacle": -322
+        },
+        "consensus_prob": 0.751092,
+        "fair_odds": -301.75,
+        "bookwise_probs": {
+          "pinnacle": 0.731474,
+          "draftkings": 0.770709
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +2.0": {
+        "price": -130,
+        "per_book": {
+          "draftkings": -168,
+          "pinnacle": -130
+        },
+        "consensus_prob": 0.56778,
+        "fair_odds": -131.36,
+        "bookwise_probs": {
+          "pinnacle": 0.545095,
+          "draftkings": 0.590465
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +1.0": {
+        "price": 165,
+        "per_book": {
+          "draftkings": 165
+        },
+        "consensus_prob": 0.35503,
+        "fair_odds": 181.67,
+        "bookwise_probs": {
+          "draftkings": 0.35503
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -1.0": {
+        "price": 500,
+        "per_book": {
+          "draftkings": 500
+        },
+        "consensus_prob": 0.157025,
+        "fair_odds": 536.84,
+        "bookwise_probs": {
+          "draftkings": 0.157025
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -2.0": {
+        "price": 1200,
+        "per_book": {
+          "draftkings": 1200
+        },
+        "consensus_prob": 0.073634,
+        "fair_odds": 1258.07,
+        "bookwise_probs": {
+          "draftkings": 0.073634
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -3.0": {
+        "price": 2500,
+        "per_book": {
+          "draftkings": 2500
+        },
+        "consensus_prob": 0.037215,
+        "fair_odds": 2587.09,
+        "bookwise_probs": {
+          "draftkings": 0.037215
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -6.5": {
+        "price": 2000,
+        "per_book": {
+          "draftkings": 2000
+        },
+        "consensus_prob": 0.045888,
+        "fair_odds": 2079.22,
+        "bookwise_probs": {
+          "draftkings": 0.045888
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -6.0": {
+        "price": 2000,
+        "per_book": {
+          "draftkings": 2000
+        },
+        "consensus_prob": 0.045888,
+        "fair_odds": 2079.22,
+        "bookwise_probs": {
+          "draftkings": 0.045888
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -5.5": {
+        "price": 1200,
+        "per_book": {
+          "draftkings": 1200
+        },
+        "consensus_prob": 0.073634,
+        "fair_odds": 1258.07,
+        "bookwise_probs": {
+          "draftkings": 0.073634
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -5.0": {
+        "price": 1100,
+        "per_book": {
+          "draftkings": 1100
+        },
+        "consensus_prob": 0.079755,
+        "fair_odds": 1153.84,
+        "bookwise_probs": {
+          "draftkings": 0.079755
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -4.5": {
+        "price": 650,
+        "per_book": {
+          "draftkings": 650
+        },
+        "consensus_prob": 0.126214,
+        "fair_odds": 692.31,
+        "bookwise_probs": {
+          "draftkings": 0.126214
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -4.0": {
+        "price": 625,
+        "per_book": {
+          "draftkings": 625,
+          "pinnacle": 506
+        },
+        "consensus_prob": 0.144234,
+        "fair_odds": 593.32,
+        "bookwise_probs": {
+          "pinnacle": 0.158091,
+          "draftkings": 0.130378
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -3.0": {
+        "price": 310,
+        "per_book": {
+          "draftkings": 310,
+          "pinnacle": 257
+        },
+        "consensus_prob": 0.248908,
+        "fair_odds": 301.75,
+        "bookwise_probs": {
+          "pinnacle": 0.268526,
+          "draftkings": 0.229291
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -2.0": {
+        "price": 130,
+        "per_book": {
+          "draftkings": 130,
+          "pinnacle": 112
+        },
+        "consensus_prob": 0.43222,
+        "fair_odds": 131.36,
+        "bookwise_probs": {
+          "pinnacle": 0.454905,
+          "draftkings": 0.409535
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -1.0": {
+        "price": -218,
+        "per_book": {
+          "draftkings": -218
+        },
+        "consensus_prob": 0.64497,
+        "fair_odds": -181.67,
+        "bookwise_probs": {
+          "draftkings": 0.64497
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +1.0": {
+        "price": -850,
+        "per_book": {
+          "draftkings": -850
+        },
+        "consensus_prob": 0.842975,
+        "fair_odds": -536.84,
+        "bookwise_probs": {
+          "draftkings": 0.842975
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +2.0": {
+        "price": -3000,
+        "per_book": {
+          "draftkings": -3000
+        },
+        "consensus_prob": 0.926366,
+        "fair_odds": -1258.07,
+        "bookwise_probs": {
+          "draftkings": 0.926366
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +3.0": {
+        "price": -20000,
+        "per_book": {
+          "draftkings": -20000
+        },
+        "consensus_prob": 0.962785,
+        "fair_odds": -2587.09,
+        "bookwise_probs": {
+          "draftkings": 0.962785
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_team_totals": {
+      "LAA Over 1.5": {
+        "price": -275,
+        "per_book": {
+          "fanduel": -290,
+          "fanatics": -275,
+          "hardrockbet": -300
+        },
+        "consensus_prob": 0.693998,
+        "fair_odds": -226.8,
+        "bookwise_probs": {
+          "fanduel": 0.693998
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Over 2.5": {
+        "price": -106,
+        "per_book": {
+          "fanduel": -106,
+          "betmgm": -118,
+          "fanatics": -115,
+          "hardrockbet": -115
+        },
+        "consensus_prob": 0.494525,
+        "fair_odds": 102.21,
+        "bookwise_probs": {
+          "fanduel": 0.480847,
+          "betmgm": 0.508203
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Over 3.5": {
+        "price": 154,
+        "per_book": {
+          "fanduel": 154,
+          "betmgm": 135,
+          "fanatics": 150,
+          "hardrockbet": 145
+        },
+        "consensus_prob": 0.382927,
+        "fair_odds": 161.15,
+        "bookwise_probs": {
+          "fanduel": 0.36756,
+          "betmgm": 0.398293
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Over 4.5": {
+        "price": 300,
+        "per_book": {
+          "fanduel": 300,
+          "betmgm": 280,
+          "fanatics": 280
+        },
+        "consensus_prob": 0.240784,
+        "fair_odds": 315.31,
+        "bookwise_probs": {
+          "fanduel": 0.234043,
+          "betmgm": 0.247525
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Over 5.5": {
+        "price": 580,
+        "per_book": {
+          "fanduel": 580
+        },
+        "consensus_prob": 0.137421,
+        "fair_odds": 627.69,
+        "bookwise_probs": {
+          "fanduel": 0.137421
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 1.5": {
+        "price": 210,
+        "per_book": {
+          "fanduel": 205,
+          "fanatics": 200,
+          "hardrockbet": 210
+        },
+        "consensus_prob": 0.306002,
+        "fair_odds": 226.8,
+        "bookwise_probs": {
+          "fanduel": 0.306002
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 2.5": {
+        "price": -110,
+        "per_book": {
+          "fanduel": -125,
+          "betmgm": -110,
+          "fanatics": -115,
+          "hardrockbet": -115
+        },
+        "consensus_prob": 0.505475,
+        "fair_odds": -102.21,
+        "bookwise_probs": {
+          "fanduel": 0.519153,
+          "betmgm": 0.491797
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 3.5": {
+        "price": -180,
+        "per_book": {
+          "fanduel": -210,
+          "betmgm": -180,
+          "fanatics": -200,
+          "hardrockbet": -190
+        },
+        "consensus_prob": 0.617074,
+        "fair_odds": -161.15,
+        "bookwise_probs": {
+          "fanduel": 0.63244,
+          "betmgm": 0.601707
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 4.5": {
+        "price": -400,
+        "per_book": {
+          "fanduel": -450,
+          "betmgm": -400,
+          "fanatics": -400
+        },
+        "consensus_prob": 0.759216,
+        "fair_odds": -315.31,
+        "bookwise_probs": {
+          "fanduel": 0.765957,
+          "betmgm": 0.752475
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 5.5": {
+        "price": -1200,
+        "per_book": {
+          "fanduel": -1200
+        },
+        "consensus_prob": 0.862579,
+        "fair_odds": -627.69,
+        "bookwise_probs": {
+          "fanduel": 0.862579
+        },
+        "books_used": [
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 3.5": {
+        "price": -180,
+        "per_book": {
+          "fanduel": -192,
+          "betmgm": -190,
+          "fanatics": -190,
+          "hardrockbet": -180
+        },
+        "consensus_prob": 0.615116,
+        "fair_odds": -159.82,
+        "bookwise_probs": {
+          "fanduel": 0.614083,
+          "betmgm": 0.616148
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 4.5": {
+        "price": 152,
+        "per_book": {
+          "fanduel": 152,
+          "betmgm": 145,
+          "fanatics": 150,
+          "hardrockbet": 145
+        },
+        "consensus_prob": 0.37754,
+        "fair_odds": 164.87,
+        "bookwise_probs": {
+          "fanduel": 0.371227,
+          "betmgm": 0.383852
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 5.5": {
+        "price": 320,
+        "per_book": {
+          "fanduel": 320,
+          "betmgm": 300,
+          "fanatics": 310,
+          "hardrockbet": 275
+        },
+        "consensus_prob": 0.228427,
+        "fair_odds": 337.78,
+        "bookwise_probs": {
+          "fanduel": 0.22281,
+          "betmgm": 0.234043
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 6.5": {
+        "price": 630,
+        "per_book": {
+          "fanduel": 630
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "MIA Under 3.5": {
+        "price": 145,
+        "per_book": {
+          "fanduel": 142,
+          "betmgm": 145,
+          "fanatics": 145,
+          "hardrockbet": 140
+        },
+        "consensus_prob": 0.384885,
+        "fair_odds": 159.82,
+        "bookwise_probs": {
+          "fanduel": 0.385917,
+          "betmgm": 0.383852
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Under 4.5": {
+        "price": -190,
+        "per_book": {
+          "fanduel": -205,
+          "betmgm": -190,
+          "fanatics": -200,
+          "hardrockbet": -190
+        },
+        "consensus_prob": 0.622461,
+        "fair_odds": -164.87,
+        "bookwise_probs": {
+          "fanduel": 0.628773,
+          "betmgm": 0.616148
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Under 5.5": {
+        "price": -425,
+        "per_book": {
+          "fanduel": -490,
+          "betmgm": -450,
+          "fanatics": -450,
+          "hardrockbet": -425
+        },
+        "consensus_prob": 0.771574,
+        "fair_odds": -337.78,
+        "bookwise_probs": {
+          "fanduel": 0.77719,
+          "betmgm": 0.765957
+        },
+        "books_used": [
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_totals": {
+      "Over 6.5": {
+        "price": -180,
+        "per_book": {
+          "fanduel": -192,
+          "fliff": -180,
+          "draftkings": -198,
+          "espnbet": -200,
+          "coolbet": -182,
+          "betmgm": -210,
+          "bovada": -200,
+          "pinnacle": -289,
+          "ballybet": -195,
+          "fanatics": -190,
+          "hardrockbet": -190
+        },
+        "consensus_prob": 0.646271,
+        "fair_odds": -182.7,
+        "bookwise_probs": {
+          "pinnacle": 0.710907,
+          "fanduel": 0.612115,
+          "betmgm": 0.63785,
+          "draftkings": 0.624212
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 7.5": {
+        "price": 128,
+        "per_book": {
+          "fanduel": 128,
+          "fliff": 125,
+          "espnbet": 125,
+          "coolbet": 125,
+          "betmgm": 120,
+          "bovada": 120,
+          "pinnacle": -122,
+          "ballybet": 128,
+          "fanatics": 120
+        },
+        "consensus_prob": 0.455311,
+        "fair_odds": 119.63,
+        "bookwise_probs": {
+          "pinnacle": 0.528542,
+          "fanduel": 0.40954,
+          "betmgm": 0.427852
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 8.5": {
+        "price": 198,
+        "per_book": {
+          "fanduel": 198,
+          "fliff": 185,
+          "draftkings": 176,
+          "espnbet": 185,
+          "betmgm": 185,
+          "bovada": 180,
+          "pinnacle": 124,
+          "ballybet": 190,
+          "fanatics": 175,
+          "hardrockbet": 180
+        },
+        "consensus_prob": 0.354379,
+        "fair_odds": 182.18,
+        "bookwise_probs": {
+          "pinnacle": 0.429289,
+          "fanduel": 0.313939,
+          "betmgm": 0.333416,
+          "draftkings": 0.340872
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 9.5": {
+        "price": 375,
+        "per_book": {
+          "fanduel": 360,
+          "fliff": 330,
+          "draftkings": 325,
+          "betmgm": 350,
+          "pinnacle": 226,
+          "fanatics": 375
+        },
+        "consensus_prob": 0.231839,
+        "fair_odds": 331.33,
+        "bookwise_probs": {
+          "pinnacle": 0.293356,
+          "fanduel": 0.203106,
+          "betmgm": 0.209205,
+          "draftkings": 0.221687
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 10.5": {
+        "price": 550,
+        "per_book": {
+          "fanduel": 520,
+          "draftkings": 450,
+          "fanatics": 550
+        },
+        "consensus_prob": 0.161057,
+        "fair_odds": 520.9,
+        "bookwise_probs": {
+          "fanduel": 0.150685,
+          "draftkings": 0.171429
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 11.5": {
+        "price": 880,
+        "per_book": {
+          "fanduel": 880,
+          "draftkings": 750,
+          "fanatics": 800
+        },
+        "consensus_prob": 0.103549,
+        "fair_odds": 865.73,
+        "bookwise_probs": {
+          "fanduel": 0.095385,
+          "draftkings": 0.111712
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.5": {
+        "price": 1200,
+        "per_book": {
+          "fanduel": 1200,
+          "draftkings": 1100,
+          "fanatics": 1100
+        },
+        "consensus_prob": 0.076254,
+        "fair_odds": 1211.41,
+        "bookwise_probs": {
+          "fanduel": 0.072753,
+          "draftkings": 0.079755
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 6.5": {
+        "price": 231,
+        "per_book": {
+          "fanduel": 140,
+          "fliff": 125,
+          "draftkings": 150,
+          "espnbet": 145,
+          "coolbet": 150,
+          "betmgm": 160,
+          "bovada": 150,
+          "pinnacle": 231,
+          "ballybet": 140,
+          "fanatics": 145,
+          "hardrockbet": 145
+        },
+        "consensus_prob": 0.353729,
+        "fair_odds": 182.7,
+        "bookwise_probs": {
+          "pinnacle": 0.289093,
+          "fanduel": 0.387885,
+          "betmgm": 0.36215,
+          "draftkings": 0.375788
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 7.5": {
+        "price": 104,
+        "per_book": {
+          "fanduel": -172,
+          "fliff": -165,
+          "espnbet": -160,
+          "coolbet": -154,
+          "betmgm": -155,
+          "bovada": -155,
+          "pinnacle": 104,
+          "ballybet": -175,
+          "fanatics": -160
+        },
+        "consensus_prob": 0.544689,
+        "fair_odds": -119.63,
+        "bookwise_probs": {
+          "pinnacle": 0.471458,
+          "fanduel": 0.59046,
+          "betmgm": 0.572148
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 8.5": {
+        "price": -146,
+        "per_book": {
+          "fanduel": -275,
+          "fliff": -265,
+          "draftkings": -234,
+          "espnbet": -280,
+          "betmgm": -235,
+          "bovada": -240,
+          "pinnacle": -146,
+          "ballybet": -305,
+          "fanatics": -240,
+          "hardrockbet": -250
+        },
+        "consensus_prob": 0.645621,
+        "fair_odds": -182.18,
+        "bookwise_probs": {
+          "pinnacle": 0.570711,
+          "fanduel": 0.686061,
+          "betmgm": 0.666584,
+          "draftkings": 0.659128
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 9.5": {
+        "price": -283,
+        "per_book": {
+          "fanduel": -580,
+          "fliff": -545,
+          "draftkings": -475,
+          "betmgm": -525,
+          "pinnacle": -283,
+          "fanatics": -575
+        },
+        "consensus_prob": 0.768162,
+        "fair_odds": -331.34,
+        "bookwise_probs": {
+          "pinnacle": 0.706644,
+          "fanduel": 0.796894,
+          "betmgm": 0.790795,
+          "draftkings": 0.778313
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 10.5": {
+        "price": -725,
+        "per_book": {
+          "fanduel": -1000,
+          "draftkings": -725,
+          "fanatics": -1000
+        },
+        "consensus_prob": 0.838943,
+        "fair_odds": -520.9,
+        "bookwise_probs": {
+          "fanduel": 0.849315,
+          "draftkings": 0.828571
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 11.5": {
+        "price": -1450,
+        "per_book": {
+          "fanduel": -3000,
+          "draftkings": -1450,
+          "fanatics": -1500
+        },
+        "consensus_prob": 0.896451,
+        "fair_odds": -865.73,
+        "bookwise_probs": {
+          "fanduel": 0.904615,
+          "draftkings": 0.888288
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.5": {
+        "price": -2500,
+        "per_book": {
+          "fanduel": -5000,
+          "draftkings": -2500,
+          "fanatics": -2500
+        },
+        "consensus_prob": 0.923746,
+        "fair_odds": -1211.41,
+        "bookwise_probs": {
+          "fanduel": 0.927247,
+          "draftkings": 0.920245
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 13.5": {
+        "price": -20000,
+        "per_book": {
+          "fanduel": -20000
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Under 14.5": {
+        "price": -50000,
+        "per_book": {
+          "fanduel": -50000
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "Over 5.5": {
+        "price": -275,
+        "per_book": {
+          "fliff": -275,
+          "draftkings": -320,
+          "betmgm": -350,
+          "bovada": -310,
+          "ballybet": -345,
+          "fanatics": -285
+        },
+        "consensus_prob": 0.726144,
+        "fair_odds": -265.16,
+        "bookwise_probs": {
+          "betmgm": 0.736842,
+          "draftkings": 0.715447
+        },
+        "books_used": [
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 5.5": {
+        "price": 260,
+        "per_book": {
+          "fliff": 190,
+          "draftkings": 230,
+          "betmgm": 260,
+          "bovada": 225,
+          "ballybet": 210,
+          "fanatics": 210
+        },
+        "consensus_prob": 0.273856,
+        "fair_odds": 265.16,
+        "bookwise_probs": {
+          "betmgm": 0.263158,
+          "draftkings": 0.284553
+        },
+        "books_used": [
+          "betmgm",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 4.5": {
+        "price": -800,
+        "per_book": {
+          "draftkings": -1025,
+          "fanatics": -800
+        },
+        "consensus_prob": 0.86014,
+        "fair_odds": -615.0,
+        "bookwise_probs": {
+          "draftkings": 0.86014
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 5.0": {
+        "price": -800,
+        "per_book": {
+          "draftkings": -850,
+          "bovada": -800
+        },
+        "consensus_prob": 0.842975,
+        "fair_odds": -536.84,
+        "bookwise_probs": {
+          "draftkings": 0.842975
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 6.0": {
+        "price": -270,
+        "per_book": {
+          "draftkings": -270,
+          "bovada": -275,
+          "pinnacle": -440,
+          "ballybet": -286
+        },
+        "consensus_prob": 0.732998,
+        "fair_odds": -274.53,
+        "bookwise_probs": {
+          "pinnacle": 0.779556,
+          "draftkings": 0.686441
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 7.0": {
+        "price": -120,
+        "per_book": {
+          "draftkings": -135,
+          "coolbet": -125,
+          "pinnacle": -209,
+          "ballybet": -120
+        },
+        "consensus_prob": 0.594323,
+        "fair_odds": -146.5,
+        "bookwise_probs": {
+          "pinnacle": 0.647855,
+          "draftkings": 0.540791
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 8.0": {
+        "price": 165,
+        "per_book": {
+          "draftkings": 150,
+          "coolbet": 160,
+          "bovada": 155,
+          "pinnacle": 102,
+          "ballybet": 165
+        },
+        "consensus_prob": 0.426259,
+        "fair_odds": 134.6,
+        "bookwise_probs": {
+          "pinnacle": 0.47673,
+          "draftkings": 0.375788
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 9.0": {
+        "price": 310,
+        "per_book": {
+          "draftkings": 270,
+          "bovada": 285,
+          "pinnacle": 183,
+          "ballybet": 310
+        },
+        "consensus_prob": 0.296268,
+        "fair_odds": 237.53,
+        "bookwise_probs": {
+          "pinnacle": 0.338542,
+          "draftkings": 0.253993
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 10.0": {
+        "price": 425,
+        "per_book": {
+          "draftkings": 425,
+          "pinnacle": 296
+        },
+        "consensus_prob": 0.210495,
+        "fair_odds": 375.07,
+        "bookwise_probs": {
+          "pinnacle": 0.241539,
+          "draftkings": 0.17945
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 11.0": {
+        "price": 700,
+        "per_book": {
+          "draftkings": 700
+        },
+        "consensus_prob": 0.118644,
+        "fair_odds": 742.86,
+        "bookwise_probs": {
+          "draftkings": 0.118644
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 12.0": {
+        "price": 1100,
+        "per_book": {
+          "draftkings": 1100
+        },
+        "consensus_prob": 0.079755,
+        "fair_odds": 1153.84,
+        "bookwise_probs": {
+          "draftkings": 0.079755
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 13.0": {
+        "price": 1600,
+        "per_book": {
+          "draftkings": 1600
+        },
+        "consensus_prob": 0.056604,
+        "fair_odds": 1666.66,
+        "bookwise_probs": {
+          "draftkings": 0.056604
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 4.5": {
+        "price": 575,
+        "per_book": {
+          "draftkings": 575,
+          "fanatics": 475
+        },
+        "consensus_prob": 0.13986,
+        "fair_odds": 615.0,
+        "bookwise_probs": {
+          "draftkings": 0.13986
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 5.0": {
+        "price": 500,
+        "per_book": {
+          "draftkings": 500,
+          "bovada": 475
+        },
+        "consensus_prob": 0.157025,
+        "fair_odds": 536.84,
+        "bookwise_probs": {
+          "draftkings": 0.157025
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 6.0": {
+        "price": 334,
+        "per_book": {
+          "draftkings": 200,
+          "bovada": 200,
+          "pinnacle": 334,
+          "ballybet": 180
+        },
+        "consensus_prob": 0.267002,
+        "fair_odds": 274.53,
+        "bookwise_probs": {
+          "pinnacle": 0.220444,
+          "draftkings": 0.313559
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 7.0": {
+        "price": 172,
+        "per_book": {
+          "draftkings": 105,
+          "coolbet": 100,
+          "pinnacle": 172,
+          "ballybet": -107
+        },
+        "consensus_prob": 0.405677,
+        "fair_odds": 146.5,
+        "bookwise_probs": {
+          "pinnacle": 0.352145,
+          "draftkings": 0.459209
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 8.0": {
+        "price": -119,
+        "per_book": {
+          "draftkings": -198,
+          "coolbet": -200,
+          "bovada": -205,
+          "pinnacle": -119,
+          "ballybet": -245
+        },
+        "consensus_prob": 0.573741,
+        "fair_odds": -134.6,
+        "bookwise_probs": {
+          "pinnacle": 0.52327,
+          "draftkings": 0.624212
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 9.0": {
+        "price": -223,
+        "per_book": {
+          "draftkings": -385,
+          "bovada": -425,
+          "pinnacle": -223,
+          "ballybet": -715
+        },
+        "consensus_prob": 0.703732,
+        "fair_odds": -237.53,
+        "bookwise_probs": {
+          "pinnacle": 0.661458,
+          "draftkings": 0.746007
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 10.0": {
+        "price": -383,
+        "per_book": {
+          "draftkings": -675,
+          "pinnacle": -383
+        },
+        "consensus_prob": 0.789505,
+        "fair_odds": -375.07,
+        "bookwise_probs": {
+          "pinnacle": 0.758461,
+          "draftkings": 0.82055
+        },
+        "books_used": [
+          "pinnacle",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 11.0": {
+        "price": -1300,
+        "per_book": {
+          "draftkings": -1300
+        },
+        "consensus_prob": 0.881356,
+        "fair_odds": -742.86,
+        "bookwise_probs": {
+          "draftkings": 0.881356
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 12.0": {
+        "price": -2500,
+        "per_book": {
+          "draftkings": -2500
+        },
+        "consensus_prob": 0.920245,
+        "fair_odds": -1153.84,
+        "bookwise_probs": {
+          "draftkings": 0.920245
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 13.0": {
+        "price": -5000,
+        "per_book": {
+          "draftkings": -5000
+        },
+        "consensus_prob": 0.943396,
+        "fair_odds": -1666.66,
+        "bookwise_probs": {
+          "draftkings": 0.943396
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "team_totals": {
+      "LAA Over 2.5": {
+        "price": -105,
+        "per_book": {
+          "fanduel": -106,
+          "fliff": -105,
+          "draftkings": -115,
+          "bovada": -115,
+          "ballybet": -114,
+          "hardrockbet": -115
+        },
+        "consensus_prob": 0.490424,
+        "fair_odds": 103.91,
+        "bookwise_probs": {
+          "fanduel": 0.480847,
+          "draftkings": 0.5
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 2.5": {
+        "price": -115,
+        "per_book": {
+          "fanduel": -125,
+          "fliff": -130,
+          "draftkings": -115,
+          "bovada": -115,
+          "ballybet": -122,
+          "hardrockbet": -115
+        },
+        "consensus_prob": 0.509576,
+        "fair_odds": -103.91,
+        "bookwise_probs": {
+          "fanduel": 0.519153,
+          "draftkings": 0.5
+        },
+        "books_used": [
+          "fanduel",
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 3.5": {
+        "price": -105,
+        "per_book": {
+          "fanduel": -192,
+          "pinnacle": -105,
+          "ballybet": -200,
+          "hardrockbet": -180
+        },
+        "consensus_prob": 0.553172,
+        "fair_odds": -123.8,
+        "bookwise_probs": {
+          "pinnacle": 0.49226,
+          "fanduel": 0.614083
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Under 3.5": {
+        "price": 142,
+        "per_book": {
+          "fanduel": 142,
+          "pinnacle": -112,
+          "ballybet": 140,
+          "hardrockbet": 140
+        },
+        "consensus_prob": 0.446828,
+        "fair_odds": 123.8,
+        "bookwise_probs": {
+          "pinnacle": 0.50774,
+          "fanduel": 0.385917
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Over 4.5": {
+        "price": 135,
+        "per_book": {
+          "fliff": 125,
+          "draftkings": 135,
+          "bovada": 130
+        },
+        "consensus_prob": 0.400729,
+        "fair_odds": 149.55,
+        "bookwise_probs": {
+          "draftkings": 0.400729
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA Under 4.5": {
+        "price": -165,
+        "per_book": {
+          "fliff": -165,
+          "draftkings": -175,
+          "bovada": -170
+        },
+        "consensus_prob": 0.599271,
+        "fair_odds": -149.55,
+        "bookwise_probs": {
+          "draftkings": 0.599271
+        },
+        "books_used": [
+          "draftkings"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Over 5.5": {
+        "price": 112,
+        "per_book": {
+          "pinnacle": 112
+        },
+        "consensus_prob": 0.454081,
+        "fair_odds": 120.23,
+        "bookwise_probs": {
+          "pinnacle": 0.454081
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA Under 5.5": {
+        "price": -131,
+        "per_book": {
+          "pinnacle": -131
+        },
+        "consensus_prob": 0.545919,
+        "fair_odds": -120.23,
+        "bookwise_probs": {
+          "pinnacle": 0.545919
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "LAA +0.5": {
+        "price": 300,
+        "per_book": {
+          "betmgm": 300
+        },
+        "consensus_prob": 0.230769,
+        "fair_odds": 333.33,
+        "bookwise_probs": {
+          "betmgm": 0.230769
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +1.5": {
+        "price": 165,
+        "per_book": {
+          "betmgm": 155,
+          "fanatics": 165
+        },
+        "consensus_prob": 0.363224,
+        "fair_odds": 175.31,
+        "bookwise_probs": {
+          "betmgm": 0.363224
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +2.5": {
+        "price": -550,
+        "per_book": {
+          "betmgm": -550
+        },
+        "consensus_prob": 0.785585,
+        "fair_odds": -366.39,
+        "bookwise_probs": {
+          "betmgm": 0.785585
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -0.5": {
+        "price": -500,
+        "per_book": {
+          "betmgm": -500
+        },
+        "consensus_prob": 0.769231,
+        "fair_odds": -333.33,
+        "bookwise_probs": {
+          "betmgm": 0.769231
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -1.5": {
+        "price": -220,
+        "per_book": {
+          "betmgm": -220,
+          "fanatics": -225
+        },
+        "consensus_prob": 0.636776,
+        "fair_odds": -175.31,
+        "bookwise_probs": {
+          "betmgm": 0.636776
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -2.5": {
+        "price": 333,
+        "per_book": {
+          "betmgm": 333
+        },
+        "consensus_prob": 0.214415,
+        "fair_odds": 366.39,
+        "bookwise_probs": {
+          "betmgm": 0.214415
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": 290,
+        "per_book": {
+          "betmgm": 290
+        },
+        "consensus_prob": 0.236869,
+        "fair_odds": 322.17,
+        "bookwise_probs": {
+          "betmgm": 0.236869
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 5.5": {
+        "price": 165,
+        "per_book": {
+          "betmgm": 140,
+          "fanatics": 165
+        },
+        "consensus_prob": 0.384615,
+        "fair_odds": 160.0,
+        "bookwise_probs": {
+          "betmgm": 0.384615
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 4.5": {
+        "price": -145,
+        "per_book": {
+          "betmgm": -165,
+          "fanatics": -145
+        },
+        "consensus_prob": 0.575796,
+        "fair_odds": -135.74,
+        "bookwise_probs": {
+          "betmgm": 0.575796
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 6.5": {
+        "price": -475,
+        "per_book": {
+          "betmgm": -475
+        },
+        "consensus_prob": 0.763131,
+        "fair_odds": -322.17,
+        "bookwise_probs": {
+          "betmgm": 0.763131
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 5.5": {
+        "price": -200,
+        "per_book": {
+          "betmgm": -200,
+          "fanatics": -225
+        },
+        "consensus_prob": 0.615385,
+        "fair_odds": -160.0,
+        "bookwise_probs": {
+          "betmgm": 0.615385
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 4.5": {
+        "price": 118,
+        "per_book": {
+          "betmgm": 118,
+          "fanatics": 110
+        },
+        "consensus_prob": 0.424204,
+        "fair_odds": 135.74,
+        "bookwise_probs": {
+          "betmgm": 0.424204
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "h2h_1st_7_innings": {
+      "LAA": {
+        "price": 600,
+        "per_book": {
+          "betmgm": 525,
+          "fanatics": 600
+        },
+        "consensus_prob": 0.148607,
+        "fair_odds": 572.92,
+        "bookwise_probs": {
+          "betmgm": 0.148607
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA": {
+        "price": -1100,
+        "per_book": {
+          "betmgm": -1100,
+          "fanatics": -1100
+        },
+        "consensus_prob": 0.5,
+        "fair_odds": 100.0,
+        "bookwise_probs": {
+          "betmgm": 0.5
+        },
+        "books_used": [
+          "betmgm"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_spreads_1st_5_innings": {
+      "LAA +1.0": {
+        "price": -435,
+        "per_book": {
+          "pinnacle": -435
+        },
+        "consensus_prob": 0.770539,
+        "fair_odds": -335.8,
+        "bookwise_probs": {
+          "pinnacle": 0.770539
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA +0.5": {
+        "price": -269,
+        "per_book": {
+          "pinnacle": -269
+        },
+        "consensus_prob": 0.697969,
+        "fair_odds": -231.09,
+        "bookwise_probs": {
+          "pinnacle": 0.697969
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -0.5": {
+        "price": -140,
+        "per_book": {
+          "pinnacle": -140
+        },
+        "consensus_prob": 0.562044,
+        "fair_odds": -128.33,
+        "bookwise_probs": {
+          "pinnacle": 0.562044
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "LAA -1.0": {
+        "price": -105,
+        "per_book": {
+          "pinnacle": -105
+        },
+        "consensus_prob": 0.491215,
+        "fair_odds": 103.58,
+        "bookwise_probs": {
+          "pinnacle": 0.491215
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -1.0": {
+        "price": 313,
+        "per_book": {
+          "pinnacle": 313
+        },
+        "consensus_prob": 0.229461,
+        "fair_odds": 335.8,
+        "bookwise_probs": {
+          "pinnacle": 0.229461
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA -0.5": {
+        "price": 217,
+        "per_book": {
+          "pinnacle": 217
+        },
+        "consensus_prob": 0.302031,
+        "fair_odds": 231.09,
+        "bookwise_probs": {
+          "pinnacle": 0.302031
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +0.5": {
+        "price": 120,
+        "per_book": {
+          "pinnacle": 120
+        },
+        "consensus_prob": 0.437956,
+        "fair_odds": 128.33,
+        "bookwise_probs": {
+          "pinnacle": 0.437956
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA +1.0": {
+        "price": -113,
+        "per_book": {
+          "pinnacle": -113
+        },
+        "consensus_prob": 0.508785,
+        "fair_odds": -103.58,
+        "bookwise_probs": {
+          "pinnacle": 0.508785
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": {
+        "price": -202,
+        "per_book": {
+          "pinnacle": -202
+        },
+        "consensus_prob": 0.644463,
+        "fair_odds": -181.26,
+        "bookwise_probs": {
+          "pinnacle": 0.644463
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 4.0": {
+        "price": -161,
+        "per_book": {
+          "pinnacle": -161
+        },
+        "consensus_prob": 0.595844,
+        "fair_odds": -147.43,
+        "bookwise_probs": {
+          "pinnacle": 0.595844
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 5.0": {
+        "price": 111,
+        "per_book": {
+          "pinnacle": 111
+        },
+        "consensus_prob": 0.458614,
+        "fair_odds": 118.05,
+        "bookwise_probs": {
+          "pinnacle": 0.458614
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Over 5.5": {
+        "price": 137,
+        "per_book": {
+          "pinnacle": 137
+        },
+        "consensus_prob": 0.407342,
+        "fair_odds": 145.49,
+        "bookwise_probs": {
+          "pinnacle": 0.407342
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 3.5": {
+        "price": 171,
+        "per_book": {
+          "pinnacle": 171
+        },
+        "consensus_prob": 0.355537,
+        "fair_odds": 181.26,
+        "bookwise_probs": {
+          "pinnacle": 0.355537
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 4.0": {
+        "price": 139,
+        "per_book": {
+          "pinnacle": 139
+        },
+        "consensus_prob": 0.404156,
+        "fair_odds": 147.43,
+        "bookwise_probs": {
+          "pinnacle": 0.404156
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 5.0": {
+        "price": -127,
+        "per_book": {
+          "pinnacle": -127
+        },
+        "consensus_prob": 0.541386,
+        "fair_odds": -118.05,
+        "bookwise_probs": {
+          "pinnacle": 0.541386
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 5.5": {
+        "price": -159,
+        "per_book": {
+          "pinnacle": -159
+        },
+        "consensus_prob": 0.592658,
+        "fair_odds": -145.49,
+        "bookwise_probs": {
+          "pinnacle": 0.592658
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "spreads_1st_5_innings": {
+      "LAA 0.0": {
+        "price": -210,
+        "per_book": {
+          "pinnacle": -210
+        },
+        "consensus_prob": 0.290219,
+        "fair_odds": 244.57,
+        "bookwise_probs": {
+          "pinnacle": 0.277418,
+          "fanduel": 0.277062,
+          "betmgm": 0.305499,
+          "draftkings": 0.294466,
+          "mybookieag": 0.296649
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      },
+      "MIA 0.0": {
+        "price": 178,
+        "per_book": {
+          "pinnacle": 178
+        },
+        "consensus_prob": 0.5,
+        "fair_odds": 100.0,
+        "bookwise_probs": {
+          "pinnacle": 0.5,
+          "fanduel": 0.5,
+          "betmgm": 0.5,
+          "draftkings": 0.5,
+          "mybookieag": 0.5
+        },
+        "books_used": [
+          "pinnacle",
+          "fanduel",
+          "betmgm",
+          "draftkings",
+          "mybookieag"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": -117,
+        "per_book": {
+          "pinnacle": -117
+        },
+        "consensus_prob": 0.521331,
+        "fair_odds": -108.91,
+        "bookwise_probs": {
+          "pinnacle": 0.521331
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      },
+      "Under 4.5": {
+        "price": 102,
+        "per_book": {
+          "pinnacle": 102
+        },
+        "consensus_prob": 0.478669,
+        "fair_odds": 108.91,
+        "bookwise_probs": {
+          "pinnacle": 0.478669
+        },
+        "books_used": [
+          "pinnacle"
+        ],
+        "pricing_method": "devig"
+      }
+    },
+    "h2h_lay": {
+      "LAA": {
+        "price": 410,
+        "per_book": {
+          "matchbook": 410,
+          "betfair_ex_eu": 320
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      },
+      "MIA": {
+        "price": -222,
+        "per_book": {
+          "matchbook": -222,
+          "betfair_ex_eu": -250
+        },
+        "consensus_prob": null,
+        "fair_odds": null,
+        "pricing_method": "sim_only"
+      }
+    },
+    "h2h_source": {
+      "LAA": {
+        "fanduel": 240,
+        "sport888": 170,
+        "betsson": 235,
+        "nordicbet": 250,
+        "williamhill_us": 215,
+        "fliff": 260,
+        "draftkings": 220,
+        "winamax_fr": 205,
+        "espnbet": 225,
+        "gtbets": 199,
+        "coolbet": 225,
+        "betmgm": 210,
+        "bovada": 230,
+        "pinnacle": 247,
+        "ballybet": 240,
+        "betparx": 240,
+        "unibet_eu": 240,
+        "fanatics": 220,
+        "hardrockbet": 210,
+        "matchbook": 225,
+        "tipico_de": 190,
+        "betfair_ex_eu": 250,
+        "mybookieag": 220
+      },
+      "MIA": {
+        "fanduel": -330,
+        "sport888": -250,
+        "betsson": -333,
+        "nordicbet": -357,
+        "williamhill_us": -280,
+        "fliff": -370,
+        "draftkings": -298,
+        "winamax_fr": -303,
+        "espnbet": -320,
+        "gtbets": -252,
+        "coolbet": -286,
+        "betmgm": -275,
+        "bovada": -325,
+        "pinnacle": -301,
+        "ballybet": -315,
+        "betparx": -315,
+        "unibet_eu": -315,
+        "fanatics": -300,
+        "hardrockbet": -300,
+        "matchbook": -417,
+        "tipico_de": -286,
+        "betfair_ex_eu": -312,
+        "mybookieag": -286
+      }
+    },
+    "spreads_source": {
+      "LAA +1.5": {
+        "fanduel": 110,
+        "sport888": -125,
+        "williamhill_us": -105,
+        "fliff": 110,
+        "draftkings": 100,
+        "espnbet": -105,
+        "gtbets": -108,
+        "coolbet": 100,
+        "betmgm": -110,
+        "ballybet": 102,
+        "betparx": 102,
+        "unibet_eu": 102,
+        "fanatics": 105,
+        "hardrockbet": -105,
+        "mybookieag": -105
+      },
+      "MIA -1.5": {
+        "fanduel": -146,
+        "sport888": -118,
+        "williamhill_us": -125,
+        "fliff": -145,
+        "draftkings": -130,
+        "espnbet": -125,
+        "gtbets": -118,
+        "coolbet": -125,
+        "betmgm": -118,
+        "ballybet": -129,
+        "betparx": -129,
+        "unibet_eu": -129,
+        "fanatics": -140,
+        "hardrockbet": -125,
+        "mybookieag": -133
+      },
+      "LAA +2.0": {
+        "bovada": -135,
+        "pinnacle": -130
+      },
+      "MIA -2.0": {
+        "bovada": 105,
+        "pinnacle": 112
+      }
+    },
+    "totals_source": {
+      "Over 7.5": {
+        "fanduel": 128,
+        "sport888": 100,
+        "williamhill_us": 135,
+        "fliff": 125,
+        "draftkings": 120,
+        "espnbet": 125,
+        "gtbets": 101,
+        "betmgm": 120,
+        "fanatics": 120,
+        "hardrockbet": 125
+      },
+      "Under 7.5": {
+        "fanduel": -172,
+        "sport888": -143,
+        "williamhill_us": -170,
+        "fliff": -165,
+        "draftkings": -154,
+        "espnbet": -160,
+        "gtbets": -129,
+        "betmgm": -155,
+        "fanatics": -160,
+        "hardrockbet": -160
+      },
+      "Over 7.0": {
+        "coolbet": -125,
+        "ballybet": -120,
+        "betparx": -120,
+        "mybookieag": -133
+      },
+      "Under 7.0": {
+        "coolbet": 100,
+        "ballybet": -107,
+        "betparx": -107,
+        "mybookieag": -105
+      },
+      "Over 8.0": {
+        "bovada": -105,
+        "pinnacle": 102
+      },
+      "Under 8.0": {
+        "bovada": -125,
+        "pinnacle": -119
+      },
+      "Over 6.5": {
+        "tipico_de": -222
+      },
+      "Under 6.5": {
+        "tipico_de": 155
+      }
+    },
+    "alternate_spreads_source": {
+      "LAA -3.5": {
+        "fanduel": 1280,
+        "draftkings": 2500
+      },
+      "LAA -2.5": {
+        "fanduel": 920,
+        "draftkings": 1300,
+        "betmgm": 1050
+      },
+      "LAA -1.5": {
+        "fanduel": 550,
+        "draftkings": 600,
+        "betmgm": 600,
+        "pinnacle": 711
+      },
+      "LAA +1.5": {
+        "fanduel": 110,
+        "fliff": 110,
+        "espnbet": -105,
+        "coolbet": 100,
+        "betmgm": -110,
+        "pinnacle": 117
+      },
+      "LAA +2.5": {
+        "fanduel": -270,
+        "fliff": -250,
+        "draftkings": -255,
+        "espnbet": -300,
+        "coolbet": -270,
+        "betmgm": -275,
+        "pinnacle": -190,
+        "hardrockbet": -275
+      },
+      "LAA +3.5": {
+        "fanduel": -600,
+        "fliff": -585,
+        "draftkings": -550,
+        "espnbet": -750,
+        "coolbet": -556,
+        "betmgm": -550,
+        "pinnacle": -403,
+        "hardrockbet": -600
+      },
+      "MIA +3.5": {
+        "fanduel": -7000,
+        "draftkings": -20000
+      },
+      "MIA +2.5": {
+        "fanduel": -3500,
+        "draftkings": -3500,
+        "betmgm": -3000
+      },
+      "MIA +1.5": {
+        "fanduel": -1100,
+        "draftkings": -1100,
+        "betmgm": -1100,
+        "pinnacle": -1080
+      },
+      "MIA -1.5": {
+        "fanduel": -146,
+        "fliff": -145,
+        "espnbet": -125,
+        "coolbet": -125,
+        "betmgm": -118,
+        "pinnacle": -138
+      },
+      "MIA -2.5": {
+        "fanduel": 194,
+        "fliff": 175,
+        "draftkings": 190,
+        "espnbet": 210,
+        "coolbet": 210,
+        "betmgm": 210,
+        "pinnacle": 160,
+        "hardrockbet": 200
+      },
+      "MIA -3.5": {
+        "fanduel": 370,
+        "fliff": 345,
+        "draftkings": 360,
+        "espnbet": 400,
+        "coolbet": 410,
+        "betmgm": 375,
+        "pinnacle": 309,
+        "hardrockbet": 400
+      },
+      "LAA +6.5": {
+        "draftkings": -10000
+      },
+      "LAA +6.0": {
+        "draftkings": -10000
+      },
+      "LAA +5.5": {
+        "draftkings": -3000
+      },
+      "LAA +5.0": {
+        "draftkings": -2500
+      },
+      "LAA +4.5": {
+        "draftkings": -1200
+      },
+      "LAA +4.0": {
+        "draftkings": -1150,
+        "pinnacle": -725
+      },
+      "LAA +3.0": {
+        "draftkings": -455,
+        "pinnacle": -322
+      },
+      "LAA +2.0": {
+        "draftkings": -168,
+        "pinnacle": -130
+      },
+      "LAA +1.0": {
+        "draftkings": 165
+      },
+      "LAA -1.0": {
+        "draftkings": 500
+      },
+      "LAA -2.0": {
+        "draftkings": 1200
+      },
+      "LAA -3.0": {
+        "draftkings": 2500
+      },
+      "MIA -6.5": {
+        "draftkings": 2000
+      },
+      "MIA -6.0": {
+        "draftkings": 2000
+      },
+      "MIA -5.5": {
+        "draftkings": 1200
+      },
+      "MIA -5.0": {
+        "draftkings": 1100
+      },
+      "MIA -4.5": {
+        "draftkings": 650
+      },
+      "MIA -4.0": {
+        "draftkings": 625,
+        "pinnacle": 506
+      },
+      "MIA -3.0": {
+        "draftkings": 310,
+        "pinnacle": 257
+      },
+      "MIA -2.0": {
+        "draftkings": 130,
+        "pinnacle": 112
+      },
+      "MIA -1.0": {
+        "draftkings": -218
+      },
+      "MIA +1.0": {
+        "draftkings": -850
+      },
+      "MIA +2.0": {
+        "draftkings": -3000
+      },
+      "MIA +3.0": {
+        "draftkings": -20000
+      }
+    },
+    "alternate_team_totals_source": {
+      "LAA Over 1.5": {
+        "fanduel": -290,
+        "fanatics": -275,
+        "hardrockbet": -300
+      },
+      "LAA Over 2.5": {
+        "fanduel": -106,
+        "betmgm": -118,
+        "fanatics": -115,
+        "hardrockbet": -115
+      },
+      "LAA Over 3.5": {
+        "fanduel": 154,
+        "betmgm": 135,
+        "fanatics": 150,
+        "hardrockbet": 145
+      },
+      "LAA Over 4.5": {
+        "fanduel": 300,
+        "betmgm": 280,
+        "fanatics": 280
+      },
+      "LAA Over 5.5": {
+        "fanduel": 580
+      },
+      "LAA Under 1.5": {
+        "fanduel": 205,
+        "fanatics": 200,
+        "hardrockbet": 210
+      },
+      "LAA Under 2.5": {
+        "fanduel": -125,
+        "betmgm": -110,
+        "fanatics": -115,
+        "hardrockbet": -115
+      },
+      "LAA Under 3.5": {
+        "fanduel": -210,
+        "betmgm": -180,
+        "fanatics": -200,
+        "hardrockbet": -190
+      },
+      "LAA Under 4.5": {
+        "fanduel": -450,
+        "betmgm": -400,
+        "fanatics": -400
+      },
+      "LAA Under 5.5": {
+        "fanduel": -1200
+      },
+      "MIA Over 3.5": {
+        "fanduel": -192,
+        "betmgm": -190,
+        "fanatics": -190,
+        "hardrockbet": -180
+      },
+      "MIA Over 4.5": {
+        "fanduel": 152,
+        "betmgm": 145,
+        "fanatics": 150,
+        "hardrockbet": 145
+      },
+      "MIA Over 5.5": {
+        "fanduel": 320,
+        "betmgm": 300,
+        "fanatics": 310,
+        "hardrockbet": 275
+      },
+      "MIA Over 6.5": {
+        "fanduel": 630
+      },
+      "MIA Under 3.5": {
+        "fanduel": 142,
+        "betmgm": 145,
+        "fanatics": 145,
+        "hardrockbet": 140
+      },
+      "MIA Under 4.5": {
+        "fanduel": -205,
+        "betmgm": -190,
+        "fanatics": -200,
+        "hardrockbet": -190
+      },
+      "MIA Under 5.5": {
+        "fanduel": -490,
+        "betmgm": -450,
+        "fanatics": -450,
+        "hardrockbet": -425
+      }
+    },
+    "alternate_totals_source": {
+      "Over 6.5": {
+        "fanduel": -192,
+        "fliff": -180,
+        "draftkings": -198,
+        "espnbet": -200,
+        "coolbet": -182,
+        "betmgm": -210,
+        "bovada": -200,
+        "pinnacle": -289,
+        "ballybet": -195,
+        "fanatics": -190,
+        "hardrockbet": -190
+      },
+      "Over 7.5": {
+        "fanduel": 128,
+        "fliff": 125,
+        "espnbet": 125,
+        "coolbet": 125,
+        "betmgm": 120,
+        "bovada": 120,
+        "pinnacle": -122,
+        "ballybet": 128,
+        "fanatics": 120
+      },
+      "Over 8.5": {
+        "fanduel": 198,
+        "fliff": 185,
+        "draftkings": 176,
+        "espnbet": 185,
+        "betmgm": 185,
+        "bovada": 180,
+        "pinnacle": 124,
+        "ballybet": 190,
+        "fanatics": 175,
+        "hardrockbet": 180
+      },
+      "Over 9.5": {
+        "fanduel": 360,
+        "fliff": 330,
+        "draftkings": 325,
+        "betmgm": 350,
+        "pinnacle": 226,
+        "fanatics": 375
+      },
+      "Over 10.5": {
+        "fanduel": 520,
+        "draftkings": 450,
+        "fanatics": 550
+      },
+      "Over 11.5": {
+        "fanduel": 880,
+        "draftkings": 750,
+        "fanatics": 800
+      },
+      "Over 12.5": {
+        "fanduel": 1200,
+        "draftkings": 1100,
+        "fanatics": 1100
+      },
+      "Under 6.5": {
+        "fanduel": 140,
+        "fliff": 125,
+        "draftkings": 150,
+        "espnbet": 145,
+        "coolbet": 150,
+        "betmgm": 160,
+        "bovada": 150,
+        "pinnacle": 231,
+        "ballybet": 140,
+        "fanatics": 145,
+        "hardrockbet": 145
+      },
+      "Under 7.5": {
+        "fanduel": -172,
+        "fliff": -165,
+        "espnbet": -160,
+        "coolbet": -154,
+        "betmgm": -155,
+        "bovada": -155,
+        "pinnacle": 104,
+        "ballybet": -175,
+        "fanatics": -160
+      },
+      "Under 8.5": {
+        "fanduel": -275,
+        "fliff": -265,
+        "draftkings": -234,
+        "espnbet": -280,
+        "betmgm": -235,
+        "bovada": -240,
+        "pinnacle": -146,
+        "ballybet": -305,
+        "fanatics": -240,
+        "hardrockbet": -250
+      },
+      "Under 9.5": {
+        "fanduel": -580,
+        "fliff": -545,
+        "draftkings": -475,
+        "betmgm": -525,
+        "pinnacle": -283,
+        "fanatics": -575
+      },
+      "Under 10.5": {
+        "fanduel": -1000,
+        "draftkings": -725,
+        "fanatics": -1000
+      },
+      "Under 11.5": {
+        "fanduel": -3000,
+        "draftkings": -1450,
+        "fanatics": -1500
+      },
+      "Under 12.5": {
+        "fanduel": -5000,
+        "draftkings": -2500,
+        "fanatics": -2500
+      },
+      "Under 13.5": {
+        "fanduel": -20000
+      },
+      "Under 14.5": {
+        "fanduel": -50000
+      },
+      "Over 5.5": {
+        "fliff": -275,
+        "draftkings": -320,
+        "betmgm": -350,
+        "bovada": -310,
+        "ballybet": -345,
+        "fanatics": -285
+      },
+      "Under 5.5": {
+        "fliff": 190,
+        "draftkings": 230,
+        "betmgm": 260,
+        "bovada": 225,
+        "ballybet": 210,
+        "fanatics": 210
+      },
+      "Over 4.5": {
+        "draftkings": -1025,
+        "fanatics": -800
+      },
+      "Over 5.0": {
+        "draftkings": -850,
+        "bovada": -800
+      },
+      "Over 6.0": {
+        "draftkings": -270,
+        "bovada": -275,
+        "pinnacle": -440,
+        "ballybet": -286
+      },
+      "Over 7.0": {
+        "draftkings": -135,
+        "coolbet": -125,
+        "pinnacle": -209,
+        "ballybet": -120
+      },
+      "Over 8.0": {
+        "draftkings": 150,
+        "coolbet": 160,
+        "bovada": 155,
+        "pinnacle": 102,
+        "ballybet": 165
+      },
+      "Over 9.0": {
+        "draftkings": 270,
+        "bovada": 285,
+        "pinnacle": 183,
+        "ballybet": 310
+      },
+      "Over 10.0": {
+        "draftkings": 425,
+        "pinnacle": 296
+      },
+      "Over 11.0": {
+        "draftkings": 700
+      },
+      "Over 12.0": {
+        "draftkings": 1100
+      },
+      "Over 13.0": {
+        "draftkings": 1600
+      },
+      "Under 4.5": {
+        "draftkings": 575,
+        "fanatics": 475
+      },
+      "Under 5.0": {
+        "draftkings": 500,
+        "bovada": 475
+      },
+      "Under 6.0": {
+        "draftkings": 200,
+        "bovada": 200,
+        "pinnacle": 334,
+        "ballybet": 180
+      },
+      "Under 7.0": {
+        "draftkings": 105,
+        "coolbet": 100,
+        "pinnacle": 172,
+        "ballybet": -107
+      },
+      "Under 8.0": {
+        "draftkings": -198,
+        "coolbet": -200,
+        "bovada": -205,
+        "pinnacle": -119,
+        "ballybet": -245
+      },
+      "Under 9.0": {
+        "draftkings": -385,
+        "bovada": -425,
+        "pinnacle": -223,
+        "ballybet": -715
+      },
+      "Under 10.0": {
+        "draftkings": -675,
+        "pinnacle": -383
+      },
+      "Under 11.0": {
+        "draftkings": -1300
+      },
+      "Under 12.0": {
+        "draftkings": -2500
+      },
+      "Under 13.0": {
+        "draftkings": -5000
+      }
+    },
+    "team_totals_source": {
+      "LAA Over 2.5": {
+        "fanduel": -106,
+        "fliff": -105,
+        "draftkings": -115,
+        "bovada": -115,
+        "ballybet": -114,
+        "hardrockbet": -115
+      },
+      "LAA Under 2.5": {
+        "fanduel": -125,
+        "fliff": -130,
+        "draftkings": -115,
+        "bovada": -115,
+        "ballybet": -122,
+        "hardrockbet": -115
+      },
+      "MIA Over 3.5": {
+        "fanduel": -192,
+        "pinnacle": -105,
+        "ballybet": -200,
+        "hardrockbet": -180
+      },
+      "MIA Under 3.5": {
+        "fanduel": 142,
+        "pinnacle": -112,
+        "ballybet": 140,
+        "hardrockbet": 140
+      },
+      "MIA Over 4.5": {
+        "fliff": 125,
+        "draftkings": 135,
+        "bovada": 130
+      },
+      "MIA Under 4.5": {
+        "fliff": -165,
+        "draftkings": -175,
+        "bovada": -170
+      },
+      "LAA Over 5.5": {
+        "pinnacle": 112
+      },
+      "LAA Under 5.5": {
+        "pinnacle": -131
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "LAA +0.5": {
+        "betmgm": 300
+      },
+      "LAA +1.5": {
+        "betmgm": 155,
+        "fanatics": 165
+      },
+      "LAA +2.5": {
+        "betmgm": -550
+      },
+      "MIA -0.5": {
+        "betmgm": -500
+      },
+      "MIA -1.5": {
+        "betmgm": -220,
+        "fanatics": -225
+      },
+      "MIA -2.5": {
+        "betmgm": 333
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 6.5": {
+        "betmgm": 290
+      },
+      "Over 5.5": {
+        "betmgm": 140,
+        "fanatics": 165
+      },
+      "Over 4.5": {
+        "betmgm": -165,
+        "fanatics": -145
+      },
+      "Under 6.5": {
+        "betmgm": -475
+      },
+      "Under 5.5": {
+        "betmgm": -200,
+        "fanatics": -225
+      },
+      "Under 4.5": {
+        "betmgm": 118,
+        "fanatics": 110
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "LAA": {
+        "betmgm": 525,
+        "fanatics": 600
+      },
+      "MIA": {
+        "betmgm": -1100,
+        "fanatics": -1100
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "LAA +1.0": {
+        "pinnacle": -435
+      },
+      "LAA +0.5": {
+        "pinnacle": -269
+      },
+      "LAA -0.5": {
+        "pinnacle": -140
+      },
+      "LAA -1.0": {
+        "pinnacle": -105
+      },
+      "MIA -1.0": {
+        "pinnacle": 313
+      },
+      "MIA -0.5": {
+        "pinnacle": 217
+      },
+      "MIA +0.5": {
+        "pinnacle": 120
+      },
+      "MIA +1.0": {
+        "pinnacle": -113
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 3.5": {
+        "pinnacle": -202
+      },
+      "Over 4.0": {
+        "pinnacle": -161
+      },
+      "Over 5.0": {
+        "pinnacle": 111
+      },
+      "Over 5.5": {
+        "pinnacle": 137
+      },
+      "Under 3.5": {
+        "pinnacle": 171
+      },
+      "Under 4.0": {
+        "pinnacle": 139
+      },
+      "Under 5.0": {
+        "pinnacle": -127
+      },
+      "Under 5.5": {
+        "pinnacle": -159
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "LAA 0.0": {
+        "pinnacle": -210
+      },
+      "MIA 0.0": {
+        "pinnacle": 178
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": {
+        "pinnacle": -117
+      },
+      "Under 4.5": {
+        "pinnacle": 102
+      }
+    },
+    "h2h_lay_source": {
+      "LAA": {
+        "matchbook": 410,
+        "betfair_ex_eu": 320
+      },
+      "MIA": {
+        "matchbook": -222,
+        "betfair_ex_eu": -250
+      }
+    },
+    "start_time": "2025-05-25T02:08:00+00:00"
+  }
+}

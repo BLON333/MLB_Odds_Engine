@@ -1,0 +1,30 @@
+[
+  {
+    "Date":"2025-05-24",
+    "Matchup":"MIA @ LAA",
+    "Market Class":"\ud83c\udfc6 Main",
+    "Market":"h2h_1st_3_innings",
+    "Bet":"MIA",
+    "Book":"ballybet",
+    "Odds":"+140",
+    "Sim %":"39.1%",
+    "Mkt %":"50.0%",
+    "FV":"100",
+    "EV":"+19.9%",
+    "Stake":"4.36u"
+  },
+  {
+    "Date":"2025-05-24",
+    "Matchup":"MIA @ LAA",
+    "Market Class":"\ud83c\udfc6 Main",
+    "Market":"h2h_1st_3_innings",
+    "Bet":"MIA",
+    "Book":"betrivers",
+    "Odds":"+140",
+    "Sim %":"39.1%",
+    "Mkt %":"50.0%",
+    "FV":"100",
+    "EV":"+19.9%",
+    "Stake":"4.36u"
+  }
+]

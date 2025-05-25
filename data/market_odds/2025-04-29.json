@@ -1,0 +1,8172 @@
+{
+  "2025-04-29-MIL@CWS": {
+    "spreads": {
+      "Chicago White Sox +4.5": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -4.5": {
+        "price": -450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Chicago White Sox +5.0": {
+        "price": 150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -5.0": {
+        "price": -108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 9.5": {
+        "price": 938,
+        "consensus_prob": 0.502165,
+        "consensus_odds": -100.87
+      },
+      "Under 9.5": {
+        "price": -109,
+        "consensus_prob": 0.497835,
+        "consensus_odds": 100.87
+      }
+    },
+    "alternate_spreads": {
+      "Chicago White Sox +4.5": {
+        "price": 1275,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -4.5": {
+        "price": -374,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Chicago White Sox +5.0": {
+        "price": -112,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Chicago White Sox +5.5": {
+        "price": -384,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -5.0": {
+        "price": -108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -5.5": {
+        "price": 289,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Chicago White Sox +3.5": {
+        "price": 1750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers -3.5": {
+        "price": -10000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h": {
+      "Chicago White Sox": {
+        "price": 10900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Milwaukee Brewers": {
+        "price": -2331,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 9.5": {
+        "price": 1305,
+        "consensus_prob": 0.502165,
+        "consensus_odds": -100.87
+      },
+      "Under 9.5": {
+        "price": -109,
+        "consensus_prob": 0.497835,
+        "consensus_odds": 100.87
+      },
+      "Over 10.0": {
+        "price": 166,
+        "consensus_prob": 0.357967,
+        "consensus_odds": 179.36
+      },
+      "Under 10.0": {
+        "price": -207,
+        "consensus_prob": 0.642033,
+        "consensus_odds": -179.36
+      }
+    },
+    "team_totals": {
+      "CWS 2.5": {
+        "price": 106,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIL 4.5": {
+        "price": 102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "spreads_source": {
+      "Chicago White Sox +4.5": {
+        "fanduel": 310,
+        "espnbet": 500,
+        "mybookieag": 325,
+        "fliff": 365,
+        "draftkings": 1100,
+        "gtbets": 373,
+        "hardrockbet": 900,
+        "fanatics": 650,
+        "betmgm": 1000,
+        "ballybet": 550,
+        "betparx": 550,
+        "unibet_eu": 550,
+        "williamhill_us": 320,
+        "coolbet": 1050
+      },
+      "Milwaukee Brewers -4.5": {
+        "fanduel": -470,
+        "espnbet": -1000,
+        "mybookieag": -556,
+        "fliff": -555,
+        "draftkings": -2500,
+        "gtbets": -561,
+        "hardrockbet": -2000,
+        "fanatics": -1200,
+        "betmgm": -3000,
+        "ballybet": -3335,
+        "betparx": -3335,
+        "unibet_eu": -3335,
+        "williamhill_us": -450,
+        "coolbet": -2500
+      },
+      "Chicago White Sox +5.0": {
+        "pinnacle": -112,
+        "bovada": 150
+      },
+      "Milwaukee Brewers -5.0": {
+        "pinnacle": -108,
+        "bovada": -200
+      }
+    },
+    "totals_source": {
+      "Over 9.5": {
+        "sport888": 900,
+        "fliff": 365,
+        "pinnacle": -111,
+        "gtbets": 938,
+        "bovada": 105,
+        "ballybet": 540,
+        "betparx": 540,
+        "williamhill_us": 320
+      },
+      "Under 9.5": {
+        "sport888": -3333,
+        "fliff": -550,
+        "pinnacle": -109,
+        "gtbets": -2653,
+        "bovada": -135,
+        "ballybet": -10000,
+        "betparx": -10000,
+        "williamhill_us": -450
+      }
+    },
+    "alternate_spreads_source": {
+      "Chicago White Sox +4.5": {
+        "espnbet": 500,
+        "fliff": 1275,
+        "pinnacle": 282,
+        "betmgm": 1000,
+        "coolbet": 1050
+      },
+      "Milwaukee Brewers -4.5": {
+        "espnbet": -1000,
+        "fliff": -7840,
+        "pinnacle": -374,
+        "betmgm": -3000,
+        "coolbet": -2500
+      },
+      "Chicago White Sox +5.0": {
+        "pinnacle": -112
+      },
+      "Chicago White Sox +5.5": {
+        "pinnacle": -384
+      },
+      "Milwaukee Brewers -5.0": {
+        "pinnacle": -108
+      },
+      "Milwaukee Brewers -5.5": {
+        "pinnacle": 289
+      },
+      "Chicago White Sox +3.5": {
+        "hardrockbet": 1750,
+        "coolbet": 1700
+      },
+      "Milwaukee Brewers -3.5": {
+        "hardrockbet": -10000,
+        "coolbet": -10000
+      }
+    },
+    "h2h_source": {
+      "Chicago White Sox": {
+        "winamax_fr": 9900,
+        "nordicbet": 10900,
+        "gtbets": 1094,
+        "tipico_de": 1900,
+        "coolbet": 1900
+      },
+      "Milwaukee Brewers": {
+        "winamax_fr": -100000,
+        "nordicbet": -100000,
+        "gtbets": -2331,
+        "tipico_de": -100000,
+        "coolbet": -100000
+      }
+    },
+    "alternate_totals_source": {
+      "Over 9.5": {
+        "fliff": 1305,
+        "pinnacle": -111,
+        "ballybet": 540
+      },
+      "Under 9.5": {
+        "fliff": -7775,
+        "pinnacle": -109,
+        "ballybet": -10000
+      },
+      "Over 10.0": {
+        "pinnacle": 166
+      },
+      "Under 10.0": {
+        "pinnacle": -207
+      }
+    },
+    "team_totals_source": {
+      "CWS 2.5": {
+        "pinnacle": 106
+      },
+      "MIL 4.5": {
+        "pinnacle": 102
+      }
+    },
+    "start_time": "2025-04-29T23:41:27+00:00"
+  },
+  "2025-04-29-DET@HOU": {
+    "h2h": {
+      "Detroit Tigers": {
+        "price": 2700,
+        "consensus_prob": 0.084194,
+        "consensus_odds": 1087.73
+      },
+      "Houston Astros": {
+        "price": -475,
+        "consensus_prob": 0.915806,
+        "consensus_odds": -1087.73
+      }
+    },
+    "spreads": {
+      "Detroit Tigers +2.5": {
+        "price": 240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -2.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +3.5": {
+        "price": 190,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -3.5": {
+        "price": -175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +1.5": {
+        "price": -182,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -1.5": {
+        "price": 160,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 8.5": {
+        "price": 130,
+        "consensus_prob": 0.509429,
+        "consensus_odds": -103.84
+      },
+      "Under 8.5": {
+        "price": 123,
+        "consensus_prob": 0.490571,
+        "consensus_odds": 103.84
+      },
+      "Over 9.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 9.5": {
+        "price": -188,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 8.0": {
+        "price": -118,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Under 8.0": {
+        "price": -118,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Over 7.0": {
+        "price": 108,
+        "consensus_prob": 0.463039,
+        "consensus_odds": 115.96
+      },
+      "Under 7.0": {
+        "price": -115,
+        "consensus_prob": 0.536961,
+        "consensus_odds": -115.96
+      },
+      "Over 9.0": {
+        "price": -113,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 9.0": {
+        "price": -114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 10.5": {
+        "price": 300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 10.5": {
+        "price": -500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads": {
+      "Detroit Tigers +3.5": {
+        "price": 240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +2.5": {
+        "price": 630,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers -1.5": {
+        "price": 1280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -3.5": {
+        "price": 737,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -2.5": {
+        "price": 353,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -1.5": {
+        "price": 155,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros +1.5": {
+        "price": -1292,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +4.5": {
+        "price": -455,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -4.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +1.5": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +2.0": {
+        "price": 1000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +3.0": {
+        "price": 400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -2.0": {
+        "price": 282,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -3.0": {
+        "price": 664,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +1.0": {
+        "price": 3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +4.0": {
+        "price": -162,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +5.0": {
+        "price": -1150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +5.5": {
+        "price": -1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +6.0": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +6.5": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +7.0": {
+        "price": -10000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Detroit Tigers +7.5": {
+        "price": -10000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -1.0": {
+        "price": -80000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -4.0": {
+        "price": 126,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -5.0": {
+        "price": 625,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -5.5": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -6.0": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -6.5": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -7.0": {
+        "price": 2000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros -7.5": {
+        "price": 2000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 8.5": {
+        "price": 257,
+        "consensus_prob": 0.502924,
+        "consensus_odds": -101.18
+      },
+      "Over 9.5": {
+        "price": 195,
+        "consensus_prob": 0.372442,
+        "consensus_odds": 168.5
+      },
+      "Over 10.5": {
+        "price": 400,
+        "consensus_prob": 0.230233,
+        "consensus_odds": 334.34
+      },
+      "Over 11.5": {
+        "price": 700,
+        "consensus_prob": 0.141766,
+        "consensus_odds": 605.39
+      },
+      "Over 12.5": {
+        "price": 1000,
+        "consensus_prob": 0.104326,
+        "consensus_odds": 858.53
+      },
+      "Under 8.5": {
+        "price": 178,
+        "consensus_prob": 0.497076,
+        "consensus_odds": 101.18
+      },
+      "Under 9.5": {
+        "price": -152,
+        "consensus_prob": 0.627558,
+        "consensus_odds": -168.5
+      },
+      "Under 10.5": {
+        "price": -320,
+        "consensus_prob": 0.769767,
+        "consensus_odds": -334.34
+      },
+      "Under 11.5": {
+        "price": -750,
+        "consensus_prob": 0.858234,
+        "consensus_odds": -605.39
+      },
+      "Under 12.5": {
+        "price": -1450,
+        "consensus_prob": 0.895674,
+        "consensus_odds": -858.53
+      },
+      "Under 13.5": {
+        "price": -4000,
+        "consensus_prob": 0.949069,
+        "consensus_odds": -1863.44
+      },
+      "Over 7.0": {
+        "price": 108,
+        "consensus_prob": 0.463039,
+        "consensus_odds": 115.96
+      },
+      "Over 5.5": {
+        "price": -271,
+        "consensus_prob": 0.699054,
+        "consensus_odds": -232.29
+      },
+      "Over 6.0": {
+        "price": -220,
+        "consensus_prob": 0.658921,
+        "consensus_odds": -193.19
+      },
+      "Over 6.5": {
+        "price": -151,
+        "consensus_prob": 0.57835,
+        "consensus_odds": -137.16
+      },
+      "Over 7.5": {
+        "price": 164,
+        "consensus_prob": 0.363887,
+        "consensus_odds": 174.81
+      },
+      "Over 8.0": {
+        "price": 225,
+        "consensus_prob": 0.294967,
+        "consensus_odds": 239.02
+      },
+      "Over 9.0": {
+        "price": 435,
+        "consensus_prob": 0.290733,
+        "consensus_odds": 243.96
+      },
+      "Under 7.0": {
+        "price": -126,
+        "consensus_prob": 0.536961,
+        "consensus_odds": -115.96
+      },
+      "Under 5.5": {
+        "price": 218,
+        "consensus_prob": 0.300946,
+        "consensus_odds": 232.29
+      },
+      "Under 6.0": {
+        "price": 181,
+        "consensus_prob": 0.341079,
+        "consensus_odds": 193.19
+      },
+      "Under 6.5": {
+        "price": 128,
+        "consensus_prob": 0.42165,
+        "consensus_odds": 137.16
+      },
+      "Under 7.5": {
+        "price": -196,
+        "consensus_prob": 0.636113,
+        "consensus_odds": -174.81
+      },
+      "Under 8.0": {
+        "price": -278,
+        "consensus_prob": 0.705033,
+        "consensus_odds": -239.02
+      },
+      "Under 9.0": {
+        "price": -114,
+        "consensus_prob": 0.709267,
+        "consensus_odds": -243.96
+      },
+      "Over 10.0": {
+        "price": 340,
+        "consensus_prob": 0.214286,
+        "consensus_odds": 366.67
+      },
+      "Over 11.0": {
+        "price": 650,
+        "consensus_prob": 0.126214,
+        "consensus_odds": 692.31
+      },
+      "Over 12.0": {
+        "price": 1000,
+        "consensus_prob": 0.086792,
+        "consensus_odds": 1052.18
+      },
+      "Over 13.0": {
+        "price": 1600,
+        "consensus_prob": 0.056604,
+        "consensus_odds": 1666.66
+      },
+      "Over 13.5": {
+        "price": 1800,
+        "consensus_prob": 0.050931,
+        "consensus_odds": 1863.44
+      },
+      "Over 14.0": {
+        "price": 2500,
+        "consensus_prob": 0.037215,
+        "consensus_odds": 2587.09
+      },
+      "Over 14.5": {
+        "price": 2500,
+        "consensus_prob": 0.037215,
+        "consensus_odds": 2587.09
+      },
+      "Over 15.0": {
+        "price": 4000,
+        "consensus_prob": 0.023833,
+        "consensus_odds": 4095.86
+      },
+      "Over 15.5": {
+        "price": 4000,
+        "consensus_prob": 0.023833,
+        "consensus_odds": 4095.86
+      },
+      "Under 10.0": {
+        "price": -435,
+        "consensus_prob": 0.785714,
+        "consensus_odds": -366.67
+      },
+      "Under 11.0": {
+        "price": -1200,
+        "consensus_prob": 0.873786,
+        "consensus_odds": -692.31
+      },
+      "Under 12.0": {
+        "price": -2200,
+        "consensus_prob": 0.913208,
+        "consensus_odds": -1052.18
+      },
+      "Under 13.0": {
+        "price": -5000,
+        "consensus_prob": 0.943396,
+        "consensus_odds": -1666.66
+      },
+      "Under 14.0": {
+        "price": -20000,
+        "consensus_prob": 0.962785,
+        "consensus_odds": -2587.09
+      },
+      "Under 14.5": {
+        "price": -20000,
+        "consensus_prob": 0.962785,
+        "consensus_odds": -2587.09
+      },
+      "Under 15.0": {
+        "price": -100000,
+        "consensus_prob": 0.976167,
+        "consensus_odds": -4095.86
+      },
+      "Under 15.5": {
+        "price": -100000,
+        "consensus_prob": 0.976167,
+        "consensus_odds": -4095.86
+      }
+    },
+    "team_totals": {
+      "DET 2.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "HOU 6.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "DET 3.5": {
+        "price": 111,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "HOU 3.5": {
+        "price": 109,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "DET 2.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "DET 3.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "DET 4.5": {
+        "price": 650,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "HOU 6.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "HOU 7.5": {
+        "price": 525,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "HOU 8.5": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_lay": {
+      "Detroit Tigers": {
+        "price": 5400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Houston Astros": {
+        "price": -2000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_source": {
+      "Detroit Tigers": {
+        "fanduel": 1400,
+        "sport888": 1600,
+        "espnbet": 1800,
+        "winamax_fr": 2000,
+        "mybookieag": 1000,
+        "pinnacle": 401,
+        "draftkings": 2500,
+        "gtbets": 751,
+        "hardrockbet": 1500,
+        "nordicbet": 2700,
+        "betmgm": 2200,
+        "fanatics": 2500,
+        "bovada": 315,
+        "williamhill_us": 2200,
+        "tipico_de": 1400,
+        "betfair_ex_eu": 2000,
+        "coolbet": 1500
+      },
+      "Houston Astros": {
+        "fanduel": -6000,
+        "sport888": -50000,
+        "espnbet": -10000,
+        "winamax_fr": -5000,
+        "mybookieag": -3333,
+        "pinnacle": -519,
+        "draftkings": -15000,
+        "gtbets": -1381,
+        "hardrockbet": -7000,
+        "nordicbet": -100000,
+        "betmgm": -10000,
+        "fanatics": -13000,
+        "bovada": -475,
+        "williamhill_us": -10000,
+        "tipico_de": -100000,
+        "betfair_ex_eu": -10000,
+        "coolbet": -10000
+      }
+    },
+    "spreads_source": {
+      "Detroit Tigers +2.5": {
+        "fanduel": 240,
+        "mybookieag": 170
+      },
+      "Houston Astros -2.5": {
+        "fanduel": -350,
+        "mybookieag": -250
+      },
+      "Detroit Tigers +3.5": {
+        "sport888": 140,
+        "espnbet": 155,
+        "fliff": 155,
+        "draftkings": 190,
+        "gtbets": 158,
+        "hardrockbet": 155,
+        "betmgm": 170,
+        "fanatics": 150,
+        "ballybet": 135,
+        "betparx": 135,
+        "unibet_eu": 135,
+        "williamhill_us": 150,
+        "coolbet": 160
+      },
+      "Houston Astros -3.5": {
+        "sport888": -200,
+        "espnbet": -210,
+        "fliff": -205,
+        "draftkings": -250,
+        "gtbets": -205,
+        "hardrockbet": -200,
+        "betmgm": -220,
+        "fanatics": -200,
+        "ballybet": -175,
+        "betparx": -175,
+        "unibet_eu": -175,
+        "williamhill_us": -190,
+        "coolbet": -200
+      },
+      "Detroit Tigers +1.5": {
+        "pinnacle": -182,
+        "bovada": -210
+      },
+      "Houston Astros -1.5": {
+        "pinnacle": 155,
+        "bovada": 160
+      }
+    },
+    "totals_source": {
+      "Over 8.5": {
+        "fanduel": 130,
+        "espnbet": -140,
+        "fliff": -150,
+        "draftkings": -140,
+        "gtbets": -158,
+        "hardrockbet": -135,
+        "betmgm": -155,
+        "fanatics": -160,
+        "williamhill_us": -145,
+        "coolbet": -133
+      },
+      "Under 8.5": {
+        "fanduel": -174,
+        "espnbet": 105,
+        "fliff": 115,
+        "draftkings": 110,
+        "gtbets": 123,
+        "hardrockbet": 105,
+        "betmgm": 120,
+        "fanatics": 120,
+        "williamhill_us": 115,
+        "coolbet": 110
+      },
+      "Over 9.5": {
+        "sport888": 130
+      },
+      "Under 9.5": {
+        "sport888": -188
+      },
+      "Over 8.0": {
+        "mybookieag": -118
+      },
+      "Under 8.0": {
+        "mybookieag": -118
+      },
+      "Over 7.0": {
+        "pinnacle": 108,
+        "bovada": -115
+      },
+      "Under 7.0": {
+        "pinnacle": -126,
+        "bovada": -115
+      },
+      "Over 9.0": {
+        "ballybet": -113,
+        "betparx": -113
+      },
+      "Under 9.0": {
+        "ballybet": -114,
+        "betparx": -114
+      },
+      "Over 10.5": {
+        "tipico_de": 300
+      },
+      "Under 10.5": {
+        "tipico_de": -500
+      }
+    },
+    "alternate_spreads_source": {
+      "Detroit Tigers +3.5": {
+        "fanduel": 240,
+        "espnbet": 155,
+        "fliff": 165,
+        "pinnacle": -1162,
+        "betmgm": 170,
+        "coolbet": 160
+      },
+      "Detroit Tigers +2.5": {
+        "fanduel": 630,
+        "espnbet": 350,
+        "fliff": 365,
+        "pinnacle": -462,
+        "draftkings": 500,
+        "hardrockbet": 375,
+        "betmgm": 400,
+        "williamhill_us": 179,
+        "coolbet": 370
+      },
+      "Detroit Tigers -1.5": {
+        "fanduel": 1280,
+        "pinnacle": 836
+      },
+      "Houston Astros -3.5": {
+        "fanduel": -350,
+        "espnbet": -210,
+        "fliff": -220,
+        "pinnacle": 737,
+        "betmgm": -220,
+        "coolbet": -200
+      },
+      "Houston Astros -2.5": {
+        "fanduel": -1400,
+        "espnbet": -600,
+        "fliff": -620,
+        "pinnacle": 353,
+        "draftkings": -850,
+        "hardrockbet": -550,
+        "betmgm": -625,
+        "williamhill_us": -278,
+        "coolbet": -500
+      },
+      "Houston Astros -1.5": {
+        "fanduel": -8000,
+        "pinnacle": 155,
+        "draftkings": -3000,
+        "betmgm": -2000,
+        "williamhill_us": -808
+      },
+      "Houston Astros +1.5": {
+        "fanduel": -8000,
+        "pinnacle": -1292
+      },
+      "Detroit Tigers +4.5": {
+        "espnbet": -1000,
+        "fliff": -570,
+        "draftkings": -455,
+        "hardrockbet": -700,
+        "betmgm": -500,
+        "williamhill_us": -708,
+        "coolbet": -667
+      },
+      "Houston Astros -4.5": {
+        "espnbet": 500,
+        "fliff": 340,
+        "draftkings": 310,
+        "hardrockbet": 450,
+        "betmgm": 333,
+        "williamhill_us": 359,
+        "coolbet": 460
+      },
+      "Detroit Tigers +1.5": {
+        "pinnacle": -182,
+        "draftkings": 1200,
+        "betmgm": 825,
+        "williamhill_us": 390
+      },
+      "Detroit Tigers +2.0": {
+        "pinnacle": -353,
+        "draftkings": 1000,
+        "williamhill_us": 334
+      },
+      "Detroit Tigers +3.0": {
+        "pinnacle": -1016,
+        "draftkings": 400
+      },
+      "Houston Astros -2.0": {
+        "pinnacle": 282,
+        "draftkings": -2200,
+        "williamhill_us": -633
+      },
+      "Houston Astros -3.0": {
+        "pinnacle": 664,
+        "draftkings": -625
+      },
+      "Detroit Tigers +1.0": {
+        "draftkings": 3500
+      },
+      "Detroit Tigers +4.0": {
+        "draftkings": -162
+      },
+      "Detroit Tigers +5.0": {
+        "draftkings": -1150
+      },
+      "Detroit Tigers +5.5": {
+        "draftkings": -1200,
+        "betmgm": -1400
+      },
+      "Detroit Tigers +6.0": {
+        "draftkings": -3500
+      },
+      "Detroit Tigers +6.5": {
+        "draftkings": -3500
+      },
+      "Detroit Tigers +7.0": {
+        "draftkings": -10000
+      },
+      "Detroit Tigers +7.5": {
+        "draftkings": -10000
+      },
+      "Houston Astros -1.0": {
+        "draftkings": -80000
+      },
+      "Houston Astros -4.0": {
+        "draftkings": 126
+      },
+      "Houston Astros -5.0": {
+        "draftkings": 625
+      },
+      "Houston Astros -5.5": {
+        "draftkings": 650,
+        "betmgm": 700
+      },
+      "Houston Astros -6.0": {
+        "draftkings": 1300
+      },
+      "Houston Astros -6.5": {
+        "draftkings": 1300
+      },
+      "Houston Astros -7.0": {
+        "draftkings": 2000
+      },
+      "Houston Astros -7.5": {
+        "draftkings": 2000
+      }
+    },
+    "alternate_totals_source": {
+      "Over 8.5": {
+        "fanduel": -245,
+        "espnbet": -145,
+        "fliff": -145,
+        "pinnacle": 257,
+        "betmgm": -155,
+        "fanatics": -160,
+        "bovada": -175,
+        "ballybet": -200,
+        "coolbet": -133
+      },
+      "Over 9.5": {
+        "fanduel": 114,
+        "espnbet": 185,
+        "fliff": 170,
+        "draftkings": 195,
+        "hardrockbet": 185,
+        "betmgm": 160,
+        "fanatics": 165,
+        "bovada": 155,
+        "ballybet": 140,
+        "coolbet": 195
+      },
+      "Over 10.5": {
+        "fanduel": 225,
+        "espnbet": 380,
+        "fliff": 355,
+        "draftkings": 400,
+        "hardrockbet": 375,
+        "betmgm": 340,
+        "fanatics": 350,
+        "ballybet": 300
+      },
+      "Over 11.5": {
+        "fanduel": 430,
+        "draftkings": 700,
+        "betmgm": 625,
+        "fanatics": 600
+      },
+      "Over 12.5": {
+        "fanduel": 640,
+        "draftkings": 1000,
+        "betmgm": 850,
+        "fanatics": 850
+      },
+      "Under 8.5": {
+        "fanduel": 178,
+        "espnbet": 110,
+        "fliff": 110,
+        "pinnacle": -326,
+        "betmgm": 120,
+        "fanatics": 120,
+        "bovada": 135,
+        "ballybet": 143,
+        "coolbet": 110
+      },
+      "Under 9.5": {
+        "fanduel": -152,
+        "espnbet": -280,
+        "fliff": -245,
+        "draftkings": -265,
+        "hardrockbet": -260,
+        "betmgm": -210,
+        "fanatics": -225,
+        "bovada": -205,
+        "ballybet": -200,
+        "coolbet": -238
+      },
+      "Under 10.5": {
+        "fanduel": -320,
+        "espnbet": -700,
+        "fliff": -605,
+        "draftkings": -625,
+        "hardrockbet": -550,
+        "betmgm": -500,
+        "fanatics": -550,
+        "ballybet": -670
+      },
+      "Under 11.5": {
+        "fanduel": -750,
+        "draftkings": -1300,
+        "betmgm": -1200,
+        "fanatics": -1100
+      },
+      "Under 12.5": {
+        "fanduel": -1450,
+        "draftkings": -2200,
+        "betmgm": -2000,
+        "fanatics": -1700
+      },
+      "Under 13.5": {
+        "fanduel": -4000,
+        "draftkings": -7000
+      },
+      "Over 7.0": {
+        "pinnacle": 108
+      },
+      "Over 5.5": {
+        "pinnacle": -271
+      },
+      "Over 6.0": {
+        "pinnacle": -220
+      },
+      "Over 6.5": {
+        "pinnacle": -151
+      },
+      "Over 7.5": {
+        "pinnacle": 164
+      },
+      "Over 8.0": {
+        "pinnacle": 225
+      },
+      "Over 9.0": {
+        "pinnacle": 435,
+        "draftkings": 135,
+        "ballybet": -113,
+        "coolbet": 130
+      },
+      "Under 7.0": {
+        "pinnacle": -126
+      },
+      "Under 5.5": {
+        "pinnacle": 218
+      },
+      "Under 6.0": {
+        "pinnacle": 181
+      },
+      "Under 6.5": {
+        "pinnacle": 128
+      },
+      "Under 7.5": {
+        "pinnacle": -196
+      },
+      "Under 8.0": {
+        "pinnacle": -278
+      },
+      "Under 9.0": {
+        "pinnacle": -603,
+        "draftkings": -175,
+        "ballybet": -114,
+        "coolbet": -154
+      },
+      "Over 10.0": {
+        "draftkings": 340,
+        "ballybet": 240,
+        "coolbet": 330
+      },
+      "Over 11.0": {
+        "draftkings": 650
+      },
+      "Over 12.0": {
+        "draftkings": 1000
+      },
+      "Over 13.0": {
+        "draftkings": 1600
+      },
+      "Over 13.5": {
+        "draftkings": 1800
+      },
+      "Over 14.0": {
+        "draftkings": 2500
+      },
+      "Over 14.5": {
+        "draftkings": 2500
+      },
+      "Over 15.0": {
+        "draftkings": 4000
+      },
+      "Over 15.5": {
+        "draftkings": 4000
+      },
+      "Under 10.0": {
+        "draftkings": -500,
+        "ballybet": -435,
+        "coolbet": -455
+      },
+      "Under 11.0": {
+        "draftkings": -1200
+      },
+      "Under 12.0": {
+        "draftkings": -2200
+      },
+      "Under 13.0": {
+        "draftkings": -5000
+      },
+      "Under 14.0": {
+        "draftkings": -20000
+      },
+      "Under 14.5": {
+        "draftkings": -20000
+      },
+      "Under 15.0": {
+        "draftkings": -100000
+      },
+      "Under 15.5": {
+        "draftkings": -100000
+      }
+    },
+    "team_totals_source": {
+      "DET 2.5": {
+        "fliff": -170,
+        "draftkings": -168,
+        "hardrockbet": -150,
+        "bovada": -135,
+        "ballybet": -129
+      },
+      "HOU 6.5": {
+        "fliff": -285,
+        "draftkings": -300,
+        "hardrockbet": -325,
+        "bovada": -275,
+        "ballybet": -305
+      },
+      "DET 3.5": {
+        "pinnacle": 111
+      },
+      "HOU 3.5": {
+        "pinnacle": 109
+      }
+    },
+    "alternate_team_totals_source": {
+      "DET 2.5": {
+        "hardrockbet": -150,
+        "betmgm": -160
+      },
+      "DET 3.5": {
+        "hardrockbet": -400,
+        "betmgm": -450
+      },
+      "DET 4.5": {
+        "hardrockbet": -1000,
+        "betmgm": -1400
+      },
+      "HOU 6.5": {
+        "hardrockbet": -325,
+        "betmgm": -275
+      },
+      "HOU 7.5": {
+        "hardrockbet": -900,
+        "betmgm": -800
+      },
+      "HOU 8.5": {
+        "hardrockbet": -3000,
+        "betmgm": -2500
+      }
+    },
+    "h2h_lay_source": {
+      "Detroit Tigers": {
+        "betfair_ex_eu": 5400
+      },
+      "Houston Astros": {
+        "betfair_ex_eu": -2000
+      }
+    },
+    "start_time": "2025-04-30T00:10:41+00:00"
+  },
+  "2025-04-29-ATL@COL": {
+    "h2h": {
+      "Atlanta Braves": {
+        "price": -2101,
+        "consensus_prob": 0.944824,
+        "consensus_odds": -1712.38
+      },
+      "Colorado Rockies": {
+        "price": 4400,
+        "consensus_prob": 0.055176,
+        "consensus_odds": 1712.38
+      }
+    },
+    "totals": {
+      "Over 10.5": {
+        "price": -140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 10.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 11.5": {
+        "price": 120,
+        "consensus_prob": 0.452166,
+        "consensus_odds": 121.16
+      },
+      "Under 11.5": {
+        "price": -114,
+        "consensus_prob": 0.547834,
+        "consensus_odds": -121.16
+      },
+      "Over 12.0": {
+        "price": -118,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Under 12.0": {
+        "price": 105,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Over 11.0": {
+        "price": -108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 11.0": {
+        "price": -120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 13.0": {
+        "price": -102,
+        "consensus_prob": 0.47526,
+        "consensus_odds": 110.41
+      },
+      "Under 13.0": {
+        "price": -126,
+        "consensus_prob": 0.52474,
+        "consensus_odds": -110.41
+      }
+    },
+    "spreads": {
+      "Atlanta Braves -5.5": {
+        "price": 137,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +5.5": {
+        "price": -111,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -4.5": {
+        "price": -154,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +4.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -5.0": {
+        "price": -150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +5.0": {
+        "price": 118,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads": {
+      "Atlanta Braves -1.5": {
+        "price": -8000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -2.5": {
+        "price": -2200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -3.5": {
+        "price": -708,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +2.5": {
+        "price": 1000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +3.5": {
+        "price": 525,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -4.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -5.5": {
+        "price": 115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -6.5": {
+        "price": 235,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -7.5": {
+        "price": 390,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +4.5": {
+        "price": 240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +5.5": {
+        "price": -111,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +6.5": {
+        "price": -285,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +7.5": {
+        "price": -575,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -4.0": {
+        "price": -583,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -7.0": {
+        "price": 342,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +4.0": {
+        "price": 450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +7.0": {
+        "price": -500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -10.5": {
+        "price": 1800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -10.0": {
+        "price": 1600,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -9.5": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -9.0": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -8.5": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -8.0": {
+        "price": 625,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -6.0": {
+        "price": 165,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -5.0": {
+        "price": -162,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -3.0": {
+        "price": -2000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Atlanta Braves -2.0": {
+        "price": -7000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +10.5": {
+        "price": -7000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +10.0": {
+        "price": -5000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +9.5": {
+        "price": -2500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +9.0": {
+        "price": -2500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +8.5": {
+        "price": -1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +8.0": {
+        "price": -1150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +6.0": {
+        "price": -157,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +5.0": {
+        "price": 150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +3.0": {
+        "price": 950,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +2.0": {
+        "price": 1800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "ATL 7.5": {
+        "price": 174,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "ATL 8.5": {
+        "price": 145,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "ATL 9.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 2.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 3.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 4.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 5.5": {
+        "price": 550,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 6.5": {
+        "price": 880,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 9.5": {
+        "price": -425,
+        "consensus_prob": 0.778631,
+        "consensus_odds": -351.73
+      },
+      "Over 10.5": {
+        "price": -150,
+        "consensus_prob": 0.609723,
+        "consensus_odds": -156.23
+      },
+      "Over 11.5": {
+        "price": 145,
+        "consensus_prob": 0.424424,
+        "consensus_odds": 135.61
+      },
+      "Over 12.5": {
+        "price": 260,
+        "consensus_prob": 0.352627,
+        "consensus_odds": 183.59
+      },
+      "Over 13.5": {
+        "price": 425,
+        "consensus_prob": 0.268319,
+        "consensus_odds": 272.69
+      },
+      "Over 14.5": {
+        "price": 625,
+        "consensus_prob": 0.13392,
+        "consensus_odds": 646.71
+      },
+      "Over 15.5": {
+        "price": 1050,
+        "consensus_prob": 0.093991,
+        "consensus_odds": 963.93
+      },
+      "Over 16.5": {
+        "price": 1400,
+        "consensus_prob": 0.068389,
+        "consensus_odds": 1362.22
+      },
+      "Under 9.5": {
+        "price": 350,
+        "consensus_prob": 0.221369,
+        "consensus_odds": 351.73
+      },
+      "Under 10.5": {
+        "price": 160,
+        "consensus_prob": 0.390277,
+        "consensus_odds": 156.23
+      },
+      "Under 11.5": {
+        "price": -125,
+        "consensus_prob": 0.575576,
+        "consensus_odds": -135.61
+      },
+      "Under 12.5": {
+        "price": 104,
+        "consensus_prob": 0.647373,
+        "consensus_odds": -183.59
+      },
+      "Under 13.5": {
+        "price": -162,
+        "consensus_prob": 0.731681,
+        "consensus_odds": -272.69
+      },
+      "Under 14.5": {
+        "price": -1000,
+        "consensus_prob": 0.86608,
+        "consensus_odds": -646.71
+      },
+      "Under 15.5": {
+        "price": -2200,
+        "consensus_prob": 0.906009,
+        "consensus_odds": -963.93
+      },
+      "Under 16.5": {
+        "price": -4000,
+        "consensus_prob": 0.931611,
+        "consensus_odds": -1362.22
+      },
+      "Over 10.0": {
+        "price": -300,
+        "consensus_prob": 0.705882,
+        "consensus_odds": -240.0
+      },
+      "Over 12.0": {
+        "price": 200,
+        "consensus_prob": 0.324349,
+        "consensus_odds": 208.31
+      },
+      "Over 13.0": {
+        "price": 360,
+        "consensus_prob": 0.339763,
+        "consensus_odds": 194.32
+      },
+      "Over 14.0": {
+        "price": 575,
+        "consensus_prob": 0.13986,
+        "consensus_odds": 615.0
+      },
+      "Over 15.0": {
+        "price": 950,
+        "consensus_prob": 0.090909,
+        "consensus_odds": 1000.0
+      },
+      "Over 16.0": {
+        "price": 1400,
+        "consensus_prob": 0.063963,
+        "consensus_odds": 1463.4
+      },
+      "Over 17.0": {
+        "price": 2200,
+        "consensus_prob": 0.041933,
+        "consensus_odds": 2284.76
+      },
+      "Over 17.5": {
+        "price": 2200,
+        "consensus_prob": 0.041933,
+        "consensus_odds": 2284.76
+      },
+      "Over 18.0": {
+        "price": 3000,
+        "consensus_prob": 0.031311,
+        "consensus_odds": 3093.77
+      },
+      "Over 18.5": {
+        "price": 3000,
+        "consensus_prob": 0.031311,
+        "consensus_odds": 3093.77
+      },
+      "Under 10.0": {
+        "price": 240,
+        "consensus_prob": 0.294118,
+        "consensus_odds": 240.0
+      },
+      "Under 12.0": {
+        "price": -192,
+        "consensus_prob": 0.675651,
+        "consensus_odds": -208.31
+      },
+      "Under 13.0": {
+        "price": -126,
+        "consensus_prob": 0.660237,
+        "consensus_odds": -194.32
+      },
+      "Under 14.0": {
+        "price": -1025,
+        "consensus_prob": 0.86014,
+        "consensus_odds": -615.0
+      },
+      "Under 15.0": {
+        "price": -2000,
+        "consensus_prob": 0.909091,
+        "consensus_odds": -1000.0
+      },
+      "Under 16.0": {
+        "price": -4000,
+        "consensus_prob": 0.936037,
+        "consensus_odds": -1463.4
+      },
+      "Under 17.0": {
+        "price": -15000,
+        "consensus_prob": 0.958067,
+        "consensus_odds": -2284.76
+      },
+      "Under 17.5": {
+        "price": -15000,
+        "consensus_prob": 0.958067,
+        "consensus_odds": -2284.76
+      },
+      "Under 18.0": {
+        "price": -50000,
+        "consensus_prob": 0.968689,
+        "consensus_odds": -3093.77
+      },
+      "Under 18.5": {
+        "price": -50000,
+        "consensus_prob": 0.968689,
+        "consensus_odds": -3093.77
+      },
+      "Over 11.0": {
+        "price": -108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 11.0": {
+        "price": 115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "team_totals": {
+      "ATL 8.5": {
+        "price": 126,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 2.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "ATL 7.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "ATL 6.5": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "COL 4.5": {
+        "price": 104,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "Atlanta Braves -4.5": {
+        "price": -375,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Colorado Rockies +4.5": {
+        "price": 260,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 9.5": {
+        "price": 150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 10.5": {
+        "price": 330,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 9.5": {
+        "price": -200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 10.5": {
+        "price": -500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_source": {
+      "Atlanta Braves": {
+        "nordicbet": -100000,
+        "espnbet": -20000,
+        "winamax_fr": -10000,
+        "mybookieag": -3333,
+        "fanatics": -13000,
+        "tipico_de": -100000,
+        "betmgm": -10000,
+        "gtbets": -2101,
+        "coolbet": -10000
+      },
+      "Colorado Rockies": {
+        "nordicbet": 4400,
+        "espnbet": 2500,
+        "winamax_fr": 3100,
+        "mybookieag": 1075,
+        "fanatics": 2500,
+        "tipico_de": 1400,
+        "betmgm": 3300,
+        "gtbets": 998,
+        "coolbet": 1700
+      }
+    },
+    "totals_source": {
+      "Over 10.5": {
+        "sport888": -175,
+        "fanatics": -150,
+        "gtbets": -140
+      },
+      "Under 10.5": {
+        "sport888": 125,
+        "fanatics": 115,
+        "gtbets": 110
+      },
+      "Over 11.5": {
+        "fanduel": -114,
+        "fliff": 115,
+        "espnbet": 105,
+        "hardrockbet": 100,
+        "williamhill_us": 120,
+        "tipico_de": 120,
+        "betmgm": 120,
+        "draftkings": 120,
+        "coolbet": 105
+      },
+      "Under 11.5": {
+        "fanduel": -114,
+        "fliff": -155,
+        "espnbet": -140,
+        "hardrockbet": -130,
+        "williamhill_us": -150,
+        "tipico_de": -167,
+        "betmgm": -155,
+        "draftkings": -154,
+        "coolbet": -125
+      },
+      "Over 12.0": {
+        "mybookieag": -118,
+        "bovada": -135
+      },
+      "Under 12.0": {
+        "mybookieag": -118,
+        "bovada": 105
+      },
+      "Over 11.0": {
+        "ballybet": -108,
+        "betparx": -108
+      },
+      "Under 11.0": {
+        "ballybet": -120,
+        "betparx": -120
+      },
+      "Over 13.0": {
+        "pinnacle": -102
+      },
+      "Under 13.0": {
+        "pinnacle": -126
+      }
+    },
+    "spreads_source": {
+      "Atlanta Braves -5.5": {
+        "fanduel": 134,
+        "fliff": 110,
+        "espnbet": 115,
+        "hardrockbet": 110,
+        "fanatics": 115,
+        "williamhill_us": 120,
+        "betmgm": 105,
+        "draftkings": 105,
+        "bovada": -110,
+        "gtbets": 137,
+        "coolbet": 115,
+        "pinnacle": -115
+      },
+      "Colorado Rockies +5.5": {
+        "fanduel": -180,
+        "fliff": -145,
+        "espnbet": -150,
+        "hardrockbet": -140,
+        "fanatics": -150,
+        "williamhill_us": -150,
+        "betmgm": -135,
+        "draftkings": -135,
+        "bovada": -120,
+        "gtbets": -176,
+        "coolbet": -143,
+        "pinnacle": -111
+      },
+      "Atlanta Braves -4.5": {
+        "mybookieag": -154
+      },
+      "Colorado Rockies +4.5": {
+        "mybookieag": 110
+      },
+      "Atlanta Braves -5.0": {
+        "ballybet": -150,
+        "betparx": -150,
+        "unibet_eu": -150
+      },
+      "Colorado Rockies +5.0": {
+        "ballybet": 118,
+        "betparx": 118,
+        "unibet_eu": 118
+      }
+    },
+    "alternate_spreads_source": {
+      "Atlanta Braves -1.5": {
+        "fanduel": -8000
+      },
+      "Atlanta Braves -2.5": {
+        "fanduel": -2500,
+        "draftkings": -2200
+      },
+      "Atlanta Braves -3.5": {
+        "fanduel": -750,
+        "williamhill_us": -708,
+        "draftkings": -925
+      },
+      "Colorado Rockies +2.5": {
+        "fanduel": 850,
+        "draftkings": 1000
+      },
+      "Colorado Rockies +3.5": {
+        "fanduel": 430,
+        "williamhill_us": 359,
+        "draftkings": 525
+      },
+      "Atlanta Braves -4.5": {
+        "fliff": -325,
+        "espnbet": -300,
+        "hardrockbet": -275,
+        "williamhill_us": -288,
+        "betmgm": -325,
+        "draftkings": -330,
+        "coolbet": -250
+      },
+      "Atlanta Braves -5.5": {
+        "fliff": 110,
+        "espnbet": 115,
+        "betmgm": 105,
+        "coolbet": 115,
+        "pinnacle": -115
+      },
+      "Atlanta Braves -6.5": {
+        "fliff": 210,
+        "espnbet": 230,
+        "hardrockbet": 220,
+        "williamhill_us": 215,
+        "betmgm": 225,
+        "draftkings": 210,
+        "coolbet": 235
+      },
+      "Atlanta Braves -7.5": {
+        "fliff": 370,
+        "williamhill_us": 390,
+        "draftkings": 375
+      },
+      "Colorado Rockies +4.5": {
+        "fliff": 215,
+        "espnbet": 210,
+        "hardrockbet": 200,
+        "williamhill_us": 184,
+        "betmgm": 240,
+        "draftkings": 240,
+        "coolbet": 205
+      },
+      "Colorado Rockies +5.5": {
+        "fliff": -145,
+        "espnbet": -150,
+        "betmgm": -135,
+        "coolbet": -143,
+        "pinnacle": -111
+      },
+      "Colorado Rockies +6.5": {
+        "fliff": -310,
+        "espnbet": -350,
+        "hardrockbet": -325,
+        "williamhill_us": -348,
+        "betmgm": -300,
+        "draftkings": -285,
+        "coolbet": -312
+      },
+      "Colorado Rockies +7.5": {
+        "fliff": -640,
+        "williamhill_us": -808,
+        "draftkings": -575
+      },
+      "Atlanta Braves -4.0": {
+        "williamhill_us": -583,
+        "draftkings": -725
+      },
+      "Atlanta Braves -7.0": {
+        "williamhill_us": 342,
+        "draftkings": 340
+      },
+      "Colorado Rockies +4.0": {
+        "williamhill_us": 316,
+        "draftkings": 450
+      },
+      "Colorado Rockies +7.0": {
+        "williamhill_us": -658,
+        "draftkings": -500
+      },
+      "Atlanta Braves -10.5": {
+        "draftkings": 1800
+      },
+      "Atlanta Braves -10.0": {
+        "draftkings": 1600
+      },
+      "Atlanta Braves -9.5": {
+        "draftkings": 1100
+      },
+      "Atlanta Braves -9.0": {
+        "draftkings": 1100
+      },
+      "Atlanta Braves -8.5": {
+        "draftkings": 700
+      },
+      "Atlanta Braves -8.0": {
+        "draftkings": 625
+      },
+      "Atlanta Braves -6.0": {
+        "draftkings": 165,
+        "pinnacle": 121
+      },
+      "Atlanta Braves -5.0": {
+        "draftkings": -198,
+        "pinnacle": -162
+      },
+      "Atlanta Braves -3.0": {
+        "draftkings": -2000
+      },
+      "Atlanta Braves -2.0": {
+        "draftkings": -7000
+      },
+      "Colorado Rockies +10.5": {
+        "draftkings": -7000
+      },
+      "Colorado Rockies +10.0": {
+        "draftkings": -5000
+      },
+      "Colorado Rockies +9.5": {
+        "draftkings": -2500
+      },
+      "Colorado Rockies +9.0": {
+        "draftkings": -2500
+      },
+      "Colorado Rockies +8.5": {
+        "draftkings": -1300
+      },
+      "Colorado Rockies +8.0": {
+        "draftkings": -1150
+      },
+      "Colorado Rockies +6.0": {
+        "draftkings": -218,
+        "pinnacle": -157
+      },
+      "Colorado Rockies +5.0": {
+        "draftkings": 150,
+        "pinnacle": 125
+      },
+      "Colorado Rockies +3.0": {
+        "draftkings": 950
+      },
+      "Colorado Rockies +2.0": {
+        "draftkings": 1800
+      }
+    },
+    "alternate_team_totals_source": {
+      "ATL 7.5": {
+        "fanduel": 174,
+        "hardrockbet": 160,
+        "fanatics": 125
+      },
+      "ATL 8.5": {
+        "fanduel": -138,
+        "hardrockbet": -160,
+        "fanatics": -190,
+        "betmgm": -175
+      },
+      "ATL 9.5": {
+        "fanduel": -290,
+        "hardrockbet": -400,
+        "fanatics": -400
+      },
+      "COL 2.5": {
+        "fanduel": 140,
+        "hardrockbet": 100,
+        "fanatics": -130,
+        "betmgm": -110
+      },
+      "COL 3.5": {
+        "fanduel": -198,
+        "hardrockbet": -260,
+        "fanatics": -400
+      },
+      "COL 4.5": {
+        "fanduel": -440,
+        "hardrockbet": -650,
+        "fanatics": -900
+      },
+      "COL 5.5": {
+        "fanduel": -1100
+      },
+      "COL 6.5": {
+        "fanduel": 880
+      }
+    },
+    "alternate_totals_source": {
+      "Over 9.5": {
+        "fanduel": -550,
+        "fliff": -490,
+        "fanatics": -425,
+        "draftkings": -440,
+        "ballybet": -770
+      },
+      "Over 10.5": {
+        "fanduel": -188,
+        "fliff": -165,
+        "espnbet": -230,
+        "hardrockbet": -210,
+        "fanatics": -150,
+        "betmgm": -185,
+        "bovada": -200,
+        "ballybet": -165,
+        "coolbet": -200
+      },
+      "Over 11.5": {
+        "fanduel": 118,
+        "fliff": 120,
+        "espnbet": 105,
+        "fanatics": 145,
+        "betmgm": 120,
+        "draftkings": 126,
+        "bovada": 110,
+        "ballybet": 132,
+        "coolbet": 105
+      },
+      "Over 12.5": {
+        "fanduel": 220,
+        "fliff": 215,
+        "espnbet": 195,
+        "hardrockbet": 185,
+        "fanatics": 260,
+        "betmgm": 220,
+        "draftkings": 230,
+        "ballybet": 240,
+        "pinnacle": -134
+      },
+      "Over 13.5": {
+        "fanduel": 370,
+        "fanatics": 425,
+        "draftkings": 400,
+        "pinnacle": 125
+      },
+      "Over 14.5": {
+        "fanduel": 580,
+        "fanatics": 550,
+        "draftkings": 625
+      },
+      "Over 15.5": {
+        "fanduel": 850,
+        "fanatics": 1050,
+        "betmgm": 875,
+        "draftkings": 1000
+      },
+      "Over 16.5": {
+        "fanduel": 1200,
+        "draftkings": 1400
+      },
+      "Under 9.5": {
+        "fanduel": 350,
+        "fliff": 305,
+        "fanatics": 300,
+        "draftkings": 300,
+        "ballybet": 320
+      },
+      "Under 10.5": {
+        "fanduel": 140,
+        "fliff": 125,
+        "espnbet": 160,
+        "hardrockbet": 160,
+        "fanatics": 115,
+        "betmgm": 140,
+        "bovada": 150,
+        "ballybet": 123,
+        "coolbet": 160
+      },
+      "Under 11.5": {
+        "fanduel": -158,
+        "fliff": -170,
+        "espnbet": -140,
+        "fanatics": -190,
+        "betmgm": -155,
+        "draftkings": -162,
+        "bovada": -145,
+        "ballybet": -180,
+        "coolbet": -125
+      },
+      "Under 12.5": {
+        "fanduel": -310,
+        "fliff": -320,
+        "espnbet": -290,
+        "hardrockbet": -260,
+        "fanatics": -375,
+        "betmgm": -295,
+        "draftkings": -320,
+        "ballybet": -455,
+        "pinnacle": 104
+      },
+      "Under 13.5": {
+        "fanduel": -600,
+        "fanatics": -700,
+        "draftkings": -625,
+        "pinnacle": -162
+      },
+      "Under 14.5": {
+        "fanduel": -1200,
+        "fanatics": -1000,
+        "draftkings": -1150
+      },
+      "Under 15.5": {
+        "fanduel": -2500,
+        "fanatics": -2200,
+        "betmgm": -2500,
+        "draftkings": -2200
+      },
+      "Under 16.5": {
+        "fanduel": -5000,
+        "draftkings": -4000
+      },
+      "Over 10.0": {
+        "draftkings": -300,
+        "ballybet": -435
+      },
+      "Over 12.0": {
+        "draftkings": 190,
+        "ballybet": 200,
+        "coolbet": 155
+      },
+      "Over 13.0": {
+        "draftkings": 360,
+        "pinnacle": -102
+      },
+      "Over 14.0": {
+        "draftkings": 575
+      },
+      "Over 15.0": {
+        "draftkings": 950
+      },
+      "Over 16.0": {
+        "draftkings": 1400
+      },
+      "Over 17.0": {
+        "draftkings": 2200
+      },
+      "Over 17.5": {
+        "draftkings": 2200
+      },
+      "Over 18.0": {
+        "draftkings": 3000
+      },
+      "Over 18.5": {
+        "draftkings": 3000
+      },
+      "Under 10.0": {
+        "draftkings": 220,
+        "ballybet": 240
+      },
+      "Under 12.0": {
+        "draftkings": -255,
+        "ballybet": -315,
+        "coolbet": -192
+      },
+      "Under 13.0": {
+        "draftkings": -550,
+        "pinnacle": -126
+      },
+      "Under 14.0": {
+        "draftkings": -1025
+      },
+      "Under 15.0": {
+        "draftkings": -2000
+      },
+      "Under 16.0": {
+        "draftkings": -4000
+      },
+      "Under 17.0": {
+        "draftkings": -15000
+      },
+      "Under 17.5": {
+        "draftkings": -15000
+      },
+      "Under 18.0": {
+        "draftkings": -50000
+      },
+      "Under 18.5": {
+        "draftkings": -50000
+      },
+      "Over 11.0": {
+        "ballybet": -108,
+        "coolbet": -143
+      },
+      "Under 11.0": {
+        "ballybet": -120,
+        "coolbet": 115
+      }
+    },
+    "team_totals_source": {
+      "ATL 8.5": {
+        "fanduel": -138,
+        "hardrockbet": -160,
+        "draftkings": -162,
+        "bovada": -165
+      },
+      "COL 2.5": {
+        "fanduel": 140,
+        "fliff": -120,
+        "hardrockbet": 100,
+        "draftkings": -130,
+        "bovada": 100,
+        "ballybet": -112
+      },
+      "ATL 7.5": {
+        "fliff": 125,
+        "ballybet": 118
+      },
+      "ATL 6.5": {
+        "pinnacle": -123
+      },
+      "COL 4.5": {
+        "pinnacle": -122
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "Atlanta Braves -4.5": {
+        "fanatics": -375
+      },
+      "Colorado Rockies +4.5": {
+        "fanatics": 260
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 9.5": {
+        "fanatics": 150
+      },
+      "Over 10.5": {
+        "fanatics": 330
+      },
+      "Under 9.5": {
+        "fanatics": -200
+      },
+      "Under 10.5": {
+        "fanatics": -500
+      }
+    },
+    "start_time": "2025-04-30T00:40:28+00:00"
+  },
+  "2025-04-29-MIN@CLE": {
+    "h2h": {
+      "Cleveland Guardians": {
+        "price": -111,
+        "consensus_prob": 0.532064,
+        "consensus_odds": -113.7
+      },
+      "Minnesota Twins": {
+        "price": 325,
+        "consensus_prob": 0.467936,
+        "consensus_odds": 113.7
+      }
+    },
+    "spreads": {
+      "Cleveland Guardians +1.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -1.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -1.5": {
+        "price": 230,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.5": {
+        "price": -285,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -2.0": {
+        "price": -120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +2.0": {
+        "price": -110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -1.0": {
+        "price": 145,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.0": {
+        "price": -182,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 6.5": {
+        "price": 110,
+        "consensus_prob": 0.445168,
+        "consensus_odds": 124.63
+      },
+      "Under 6.5": {
+        "price": -120,
+        "consensus_prob": 0.554832,
+        "consensus_odds": -124.63
+      },
+      "Over 5.5": {
+        "price": -140,
+        "consensus_prob": 0.552358,
+        "consensus_odds": -123.39
+      },
+      "Under 5.5": {
+        "price": 110,
+        "consensus_prob": 0.447642,
+        "consensus_odds": 123.39
+      },
+      "Over 6.0": {
+        "price": -110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 6.0": {
+        "price": -111,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads": {
+      "Cleveland Guardians -3.5": {
+        "price": 850,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -2.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -1.5": {
+        "price": 265,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +1.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +2.5": {
+        "price": -500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +3.5": {
+        "price": -975,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +3.5": {
+        "price": -1600,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +2.5": {
+        "price": -775,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.5": {
+        "price": -330,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -1.5": {
+        "price": 225,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -2.5": {
+        "price": 410,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -3.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +5.5": {
+        "price": -4500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +5.0": {
+        "price": -4500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +4.5": {
+        "price": -2000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +4.0": {
+        "price": -1850,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +3.0": {
+        "price": -850,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +2.0": {
+        "price": -420,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +1.0": {
+        "price": -198,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -1.0": {
+        "price": 160,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -2.0": {
+        "price": 400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -3.0": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -4.0": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -4.5": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -5.5": {
+        "price": 1500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -5.0": {
+        "price": 1500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -4.5": {
+        "price": 950,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -4.0": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -3.0": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -2.0": {
+        "price": 290,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -1.0": {
+        "price": 150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.0": {
+        "price": -212,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +2.0": {
+        "price": -625,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +3.0": {
+        "price": -1450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +4.0": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +4.5": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "CLE 1.5": {
+        "price": 350,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 2.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 3.5": {
+        "price": 154,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 4.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 5.5": {
+        "price": 580,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 6.5": {
+        "price": 920,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 1.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 2.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 3.5": {
+        "price": 152,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 4.5": {
+        "price": 290,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 5.5": {
+        "price": 550,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 6.5": {
+        "price": 880,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 5.5": {
+        "price": -133,
+        "consensus_prob": 0.563118,
+        "consensus_odds": -128.89
+      },
+      "Over 6.5": {
+        "price": 125,
+        "consensus_prob": 0.442951,
+        "consensus_odds": 125.76
+      },
+      "Over 7.5": {
+        "price": 230,
+        "consensus_prob": 0.311365,
+        "consensus_odds": 221.17
+      },
+      "Over 8.5": {
+        "price": 310,
+        "consensus_prob": 0.239397,
+        "consensus_odds": 317.72
+      },
+      "Over 9.5": {
+        "price": 550,
+        "consensus_prob": 0.161505,
+        "consensus_odds": 519.18
+      },
+      "Over 10.5": {
+        "price": 750,
+        "consensus_prob": 0.124828,
+        "consensus_odds": 701.1
+      },
+      "Over 11.5": {
+        "price": 1100,
+        "consensus_prob": 0.086875,
+        "consensus_odds": 1051.08
+      },
+      "Under 5.5": {
+        "price": 130,
+        "consensus_prob": 0.436882,
+        "consensus_odds": 128.89
+      },
+      "Under 6.5": {
+        "price": -120,
+        "consensus_prob": 0.557049,
+        "consensus_odds": -125.76
+      },
+      "Under 7.5": {
+        "price": -248,
+        "consensus_prob": 0.688635,
+        "consensus_odds": -221.17
+      },
+      "Under 8.5": {
+        "price": -385,
+        "consensus_prob": 0.760603,
+        "consensus_odds": -317.72
+      },
+      "Under 9.5": {
+        "price": -675,
+        "consensus_prob": 0.838495,
+        "consensus_odds": -519.18
+      },
+      "Under 10.5": {
+        "price": -1025,
+        "consensus_prob": 0.875172,
+        "consensus_odds": -701.1
+      },
+      "Under 11.5": {
+        "price": -1700,
+        "consensus_prob": 0.913125,
+        "consensus_odds": -1051.08
+      },
+      "Under 12.5": {
+        "price": -8000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 13.5": {
+        "price": -50000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 4.5": {
+        "price": -325,
+        "consensus_prob": 0.754745,
+        "consensus_odds": -307.74
+      },
+      "Under 4.5": {
+        "price": 310,
+        "consensus_prob": 0.245255,
+        "consensus_odds": 307.74
+      },
+      "Over 3.5": {
+        "price": -630,
+        "consensus_prob": 0.828571,
+        "consensus_odds": -483.33
+      },
+      "Over 4.0": {
+        "price": -550,
+        "consensus_prob": 0.811688,
+        "consensus_odds": -431.03
+      },
+      "Over 5.0": {
+        "price": -230,
+        "consensus_prob": 0.686441,
+        "consensus_odds": -218.92
+      },
+      "Over 6.0": {
+        "price": 100,
+        "consensus_prob": 0.520305,
+        "consensus_odds": -108.47
+      },
+      "Over 7.0": {
+        "price": 185,
+        "consensus_prob": 0.384718,
+        "consensus_odds": 159.93
+      },
+      "Over 8.0": {
+        "price": 240,
+        "consensus_prob": 0.277062,
+        "consensus_odds": 260.93
+      },
+      "Over 9.0": {
+        "price": 390,
+        "consensus_prob": 0.192308,
+        "consensus_odds": 420.0
+      },
+      "Over 10.0": {
+        "price": 550,
+        "consensus_prob": 0.145025,
+        "consensus_odds": 589.54
+      },
+      "Over 11.0": {
+        "price": 900,
+        "consensus_prob": 0.095355,
+        "consensus_odds": 948.71
+      },
+      "Over 12.0": {
+        "price": 1200,
+        "consensus_prob": 0.073634,
+        "consensus_odds": 1258.07
+      },
+      "Under 3.5": {
+        "price": 450,
+        "consensus_prob": 0.171429,
+        "consensus_odds": 483.33
+      },
+      "Under 4.0": {
+        "price": 400,
+        "consensus_prob": 0.188312,
+        "consensus_odds": 431.03
+      },
+      "Under 5.0": {
+        "price": 230,
+        "consensus_prob": 0.313559,
+        "consensus_odds": 218.92
+      },
+      "Under 6.0": {
+        "price": 108,
+        "consensus_prob": 0.479695,
+        "consensus_odds": 108.47
+      },
+      "Under 7.0": {
+        "price": -182,
+        "consensus_prob": 0.615282,
+        "consensus_odds": -159.93
+      },
+      "Under 8.0": {
+        "price": -330,
+        "consensus_prob": 0.722938,
+        "consensus_odds": -260.93
+      },
+      "Under 9.0": {
+        "price": -600,
+        "consensus_prob": 0.807692,
+        "consensus_odds": -420.0
+      },
+      "Under 10.0": {
+        "price": -975,
+        "consensus_prob": 0.854975,
+        "consensus_odds": -589.54
+      },
+      "Under 11.0": {
+        "price": -1850,
+        "consensus_prob": 0.904645,
+        "consensus_odds": -948.71
+      },
+      "Under 12.0": {
+        "price": -3000,
+        "consensus_prob": 0.926366,
+        "consensus_odds": -1258.07
+      }
+    },
+    "team_totals": {
+      "CLE 2.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "MIN 2.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "CLE 3.5": {
+        "price": 120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_5_innings": {
+      "Over 2.5": {
+        "price": 110,
+        "consensus_prob": 0.575163,
+        "consensus_odds": -135.38
+      },
+      "Under 2.5": {
+        "price": 120,
+        "consensus_prob": 0.424837,
+        "consensus_odds": 135.38
+      }
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Cleveland Guardians -0.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +0.5": {
+        "price": -375,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -2.5": {
+        "price": -135,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -3.5": {
+        "price": 145,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -4.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +2.5": {
+        "price": 100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +3.5": {
+        "price": -200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +4.5": {
+        "price": -425,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -1.5": {
+        "price": 133,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.5": {
+        "price": -180,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 2.5": {
+        "price": 180,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 2.5": {
+        "price": -130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 4.5": {
+        "price": 170,
+        "consensus_prob": 0.345539,
+        "consensus_odds": 189.4
+      },
+      "Over 3.5": {
+        "price": 310,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Under 4.5": {
+        "price": -235,
+        "consensus_prob": 0.654461,
+        "consensus_odds": -189.4
+      },
+      "Under 3.5": {
+        "price": -115,
+        "consensus_prob": 0.5,
+        "consensus_odds": 100.0
+      },
+      "Over 1.5": {
+        "price": -175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 1.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_5_innings": {
+      "Cleveland Guardians": {
+        "price": -160,
+        "consensus_prob": 0.936914,
+        "consensus_odds": -1485.14
+      },
+      "Minnesota Twins": {
+        "price": 1400,
+        "consensus_prob": 0.063086,
+        "consensus_odds": 1485.14
+      }
+    },
+    "spreads_1st_5_innings": {
+      "Cleveland Guardians -0.5": {
+        "price": 260,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +0.5": {
+        "price": -370,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -4.5": {
+        "price": 3300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +4.5": {
+        "price": -10000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "Cleveland Guardians -1.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -0.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians +0.5": {
+        "price": -210,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Cleveland Guardians -4.5": {
+        "price": 1250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +1.5": {
+        "price": -450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +0.5": {
+        "price": -160,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins -0.5": {
+        "price": 145,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins +4.5": {
+        "price": -10000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 5.5": {
+        "price": 210,
+        "consensus_prob": 0.319829,
+        "consensus_odds": 212.67
+      },
+      "Over 4.5": {
+        "price": 105,
+        "consensus_prob": 0.461538,
+        "consensus_odds": 116.67
+      },
+      "Over 3.5": {
+        "price": -180,
+        "consensus_prob": 0.636776,
+        "consensus_odds": -175.31
+      },
+      "Under 5.5": {
+        "price": -275,
+        "consensus_prob": 0.680171,
+        "consensus_odds": -212.67
+      },
+      "Under 4.5": {
+        "price": -140,
+        "consensus_prob": 0.538462,
+        "consensus_odds": -116.67
+      },
+      "Under 3.5": {
+        "price": 155,
+        "consensus_prob": 0.363224,
+        "consensus_odds": 175.31
+      }
+    },
+    "h2h_1st_7_innings": {
+      "Cleveland Guardians": {
+        "price": -120,
+        "consensus_prob": 0.504892,
+        "consensus_odds": -101.98
+      },
+      "Minnesota Twins": {
+        "price": 105,
+        "consensus_prob": 0.495108,
+        "consensus_odds": 101.98
+      }
+    },
+    "h2h_lay": {
+      "Cleveland Guardians": {
+        "price": 114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Minnesota Twins": {
+        "price": 114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_source": {
+      "Cleveland Guardians": {
+        "fanduel": -120,
+        "sport888": -143,
+        "nordicbet": -132,
+        "fliff": -135,
+        "draftkings": -135,
+        "gtbets": -143,
+        "betmgm": -135,
+        "fanatics": -130,
+        "bovada": -500,
+        "ballybet": -134,
+        "betparx": -134,
+        "unibet_eu": -134,
+        "williamhill_us": -125,
+        "tipico_de": -143,
+        "betfair_ex_eu": -114,
+        "coolbet": -111
+      },
+      "Minnesota Twins": {
+        "fanduel": -106,
+        "sport888": 100,
+        "nordicbet": 102,
+        "fliff": 100,
+        "draftkings": 105,
+        "gtbets": 116,
+        "betmgm": 105,
+        "fanatics": 100,
+        "bovada": 325,
+        "ballybet": 107,
+        "betparx": 107,
+        "unibet_eu": 107,
+        "williamhill_us": -105,
+        "tipico_de": 100,
+        "betfair_ex_eu": -114,
+        "coolbet": -111
+      }
+    },
+    "spreads_source": {
+      "Cleveland Guardians +1.5": {
+        "fanduel": -300,
+        "sport888": -300,
+        "fliff": -270,
+        "gtbets": -294,
+        "betmgm": -295,
+        "ballybet": -315,
+        "betparx": -315,
+        "williamhill_us": -250,
+        "coolbet": -250
+      },
+      "Minnesota Twins -1.5": {
+        "fanduel": 210,
+        "sport888": 200,
+        "fliff": 195,
+        "gtbets": 219,
+        "betmgm": 220,
+        "ballybet": 220,
+        "betparx": 220,
+        "williamhill_us": 195,
+        "coolbet": 195
+      },
+      "Cleveland Guardians -1.5": {
+        "draftkings": 230,
+        "fanatics": 210
+      },
+      "Minnesota Twins +1.5": {
+        "draftkings": -315,
+        "fanatics": -285
+      },
+      "Cleveland Guardians -2.0": {
+        "bovada": -120
+      },
+      "Minnesota Twins +2.0": {
+        "bovada": -110
+      },
+      "Cleveland Guardians -1.0": {
+        "unibet_eu": 145
+      },
+      "Minnesota Twins +1.0": {
+        "unibet_eu": -182
+      }
+    },
+    "totals_source": {
+      "Over 6.5": {
+        "fanduel": 110,
+        "sport888": -105,
+        "fliff": 105,
+        "gtbets": 101,
+        "ballybet": -108,
+        "betparx": -108,
+        "williamhill_us": 100,
+        "tipico_de": -105
+      },
+      "Under 6.5": {
+        "fanduel": -146,
+        "sport888": -138,
+        "fliff": -135,
+        "gtbets": -129,
+        "ballybet": -120,
+        "betparx": -120,
+        "williamhill_us": -130,
+        "tipico_de": -133
+      },
+      "Over 5.5": {
+        "draftkings": -140,
+        "betmgm": -145,
+        "fanatics": -140
+      },
+      "Under 5.5": {
+        "draftkings": 110,
+        "betmgm": 110,
+        "fanatics": 105
+      },
+      "Over 6.0": {
+        "bovada": -110,
+        "coolbet": -111
+      },
+      "Under 6.0": {
+        "bovada": -120,
+        "coolbet": -111
+      }
+    },
+    "alternate_spreads_source": {
+      "Cleveland Guardians -3.5": {
+        "fanduel": 850,
+        "draftkings": 800
+      },
+      "Cleveland Guardians -2.5": {
+        "fanduel": 490,
+        "draftkings": 475,
+        "betmgm": 500
+      },
+      "Cleveland Guardians -1.5": {
+        "fanduel": 240,
+        "fliff": 225,
+        "draftkings": 240,
+        "betmgm": 260,
+        "coolbet": 265
+      },
+      "Cleveland Guardians +1.5": {
+        "fanduel": -320,
+        "fliff": -270,
+        "betmgm": -275,
+        "coolbet": -250
+      },
+      "Cleveland Guardians +2.5": {
+        "fanduel": -700,
+        "fliff": -580,
+        "draftkings": -500,
+        "betmgm": -550,
+        "coolbet": -500
+      },
+      "Cleveland Guardians +3.5": {
+        "fanduel": -2000,
+        "draftkings": -975,
+        "betmgm": -1200
+      },
+      "Minnesota Twins +3.5": {
+        "fanduel": -2500,
+        "draftkings": -1600
+      },
+      "Minnesota Twins +2.5": {
+        "fanduel": -900,
+        "draftkings": -775,
+        "betmgm": -800
+      },
+      "Minnesota Twins +1.5": {
+        "fanduel": -350,
+        "fliff": -335,
+        "draftkings": -330,
+        "betmgm": -350,
+        "coolbet": -333
+      },
+      "Minnesota Twins -1.5": {
+        "fanduel": 225,
+        "fliff": 195,
+        "betmgm": 210,
+        "coolbet": 195
+      },
+      "Minnesota Twins -2.5": {
+        "fanduel": 410,
+        "fliff": 345,
+        "draftkings": 340,
+        "betmgm": 375,
+        "coolbet": 355
+      },
+      "Minnesota Twins -3.5": {
+        "fanduel": 750,
+        "draftkings": 550,
+        "betmgm": 625
+      },
+      "Cleveland Guardians +5.5": {
+        "draftkings": -4500
+      },
+      "Cleveland Guardians +5.0": {
+        "draftkings": -4500
+      },
+      "Cleveland Guardians +4.5": {
+        "draftkings": -2000
+      },
+      "Cleveland Guardians +4.0": {
+        "draftkings": -1850
+      },
+      "Cleveland Guardians +3.0": {
+        "draftkings": -850
+      },
+      "Cleveland Guardians +2.0": {
+        "draftkings": -420
+      },
+      "Cleveland Guardians +1.0": {
+        "draftkings": -198
+      },
+      "Cleveland Guardians -1.0": {
+        "draftkings": 160
+      },
+      "Cleveland Guardians -2.0": {
+        "draftkings": 400
+      },
+      "Cleveland Guardians -3.0": {
+        "draftkings": 750
+      },
+      "Cleveland Guardians -4.0": {
+        "draftkings": 1300
+      },
+      "Cleveland Guardians -4.5": {
+        "draftkings": 1300
+      },
+      "Minnesota Twins -5.5": {
+        "draftkings": 1500
+      },
+      "Minnesota Twins -5.0": {
+        "draftkings": 1500
+      },
+      "Minnesota Twins -4.5": {
+        "draftkings": 950
+      },
+      "Minnesota Twins -4.0": {
+        "draftkings": 900
+      },
+      "Minnesota Twins -3.0": {
+        "draftkings": 500
+      },
+      "Minnesota Twins -2.0": {
+        "draftkings": 290
+      },
+      "Minnesota Twins -1.0": {
+        "draftkings": 150
+      },
+      "Minnesota Twins +1.0": {
+        "draftkings": -212
+      },
+      "Minnesota Twins +2.0": {
+        "draftkings": -625
+      },
+      "Minnesota Twins +3.0": {
+        "draftkings": -1450
+      },
+      "Minnesota Twins +4.0": {
+        "draftkings": -3500
+      },
+      "Minnesota Twins +4.5": {
+        "draftkings": -3500
+      }
+    },
+    "alternate_team_totals_source": {
+      "CLE 1.5": {
+        "fanduel": 350,
+        "fanatics": 350
+      },
+      "CLE 2.5": {
+        "fanduel": 120,
+        "betmgm": 125,
+        "fanatics": 120
+      },
+      "CLE 3.5": {
+        "fanduel": -210,
+        "fanatics": -190
+      },
+      "CLE 4.5": {
+        "fanduel": -470,
+        "betmgm": -450,
+        "fanatics": -425
+      },
+      "CLE 5.5": {
+        "fanduel": -1200
+      },
+      "CLE 6.5": {
+        "fanduel": 920,
+        "betmgm": -2500
+      },
+      "MIN 1.5": {
+        "fanduel": 310,
+        "fanatics": 280
+      },
+      "MIN 2.5": {
+        "fanduel": 116,
+        "betmgm": 125,
+        "fanatics": 105
+      },
+      "MIN 3.5": {
+        "fanduel": -205,
+        "betmgm": -175,
+        "fanatics": -200
+      },
+      "MIN 4.5": {
+        "fanduel": -440,
+        "betmgm": -375,
+        "fanatics": -350
+      },
+      "MIN 5.5": {
+        "fanduel": -1100
+      },
+      "MIN 6.5": {
+        "fanduel": 880
+      }
+    },
+    "alternate_totals_source": {
+      "Over 5.5": {
+        "fanduel": -140,
+        "fliff": -150,
+        "draftkings": -154,
+        "betmgm": -155,
+        "fanatics": -140,
+        "ballybet": -177,
+        "coolbet": -133
+      },
+      "Over 6.5": {
+        "fanduel": 114,
+        "fliff": 105,
+        "betmgm": 110,
+        "fanatics": 110,
+        "bovada": 125,
+        "ballybet": -108,
+        "coolbet": 110
+      },
+      "Over 7.5": {
+        "fanduel": 210,
+        "fliff": 180,
+        "draftkings": 185,
+        "betmgm": 210,
+        "fanatics": 200,
+        "bovada": 230,
+        "ballybet": 170
+      },
+      "Over 8.5": {
+        "fanduel": 310,
+        "fliff": 260,
+        "draftkings": 270,
+        "betmgm": 300,
+        "fanatics": 280,
+        "ballybet": 245
+      },
+      "Over 9.5": {
+        "fanduel": 550,
+        "draftkings": 425,
+        "fanatics": 425
+      },
+      "Over 10.5": {
+        "fanduel": 750,
+        "draftkings": 575,
+        "fanatics": 600
+      },
+      "Over 11.5": {
+        "fanduel": 1100,
+        "draftkings": 900,
+        "fanatics": 900
+      },
+      "Under 5.5": {
+        "fanduel": 106,
+        "fliff": 105,
+        "draftkings": 120,
+        "betmgm": 120,
+        "fanatics": 105,
+        "ballybet": 130,
+        "coolbet": 110
+      },
+      "Under 6.5": {
+        "fanduel": -152,
+        "fliff": -135,
+        "betmgm": -140,
+        "fanatics": -145,
+        "bovada": -165,
+        "ballybet": -120,
+        "coolbet": -133
+      },
+      "Under 7.5": {
+        "fanduel": -300,
+        "fliff": -265,
+        "draftkings": -248,
+        "betmgm": -285,
+        "fanatics": -275,
+        "bovada": -325,
+        "ballybet": -250
+      },
+      "Under 8.5": {
+        "fanduel": -470,
+        "fliff": -400,
+        "draftkings": -385,
+        "betmgm": -425,
+        "fanatics": -400,
+        "ballybet": -455
+      },
+      "Under 9.5": {
+        "fanduel": -1100,
+        "draftkings": -675,
+        "fanatics": -700
+      },
+      "Under 10.5": {
+        "fanduel": -2000,
+        "draftkings": -1025,
+        "fanatics": -1100
+      },
+      "Under 11.5": {
+        "fanduel": -4500,
+        "draftkings": -1850,
+        "fanatics": -1700
+      },
+      "Under 12.5": {
+        "fanduel": -8000
+      },
+      "Under 13.5": {
+        "fanduel": -50000
+      },
+      "Over 4.5": {
+        "fliff": -375,
+        "draftkings": -370,
+        "betmgm": -450,
+        "fanatics": -350,
+        "bovada": -325,
+        "ballybet": -670
+      },
+      "Under 4.5": {
+        "fliff": 245,
+        "draftkings": 260,
+        "betmgm": 310,
+        "fanatics": 250,
+        "bovada": 230,
+        "ballybet": 295
+      },
+      "Over 3.5": {
+        "draftkings": -725,
+        "fanatics": -630,
+        "bovada": -650
+      },
+      "Over 4.0": {
+        "draftkings": -625,
+        "bovada": -550
+      },
+      "Over 5.0": {
+        "draftkings": -270,
+        "bovada": -230,
+        "ballybet": -400
+      },
+      "Over 6.0": {
+        "draftkings": -125,
+        "bovada": 100,
+        "ballybet": -137,
+        "coolbet": -111
+      },
+      "Over 7.0": {
+        "draftkings": 145,
+        "bovada": 185,
+        "ballybet": 133,
+        "coolbet": 165
+      },
+      "Over 8.0": {
+        "draftkings": 240,
+        "ballybet": 220
+      },
+      "Over 9.0": {
+        "draftkings": 390
+      },
+      "Over 10.0": {
+        "draftkings": 550
+      },
+      "Over 11.0": {
+        "draftkings": 900
+      },
+      "Over 12.0": {
+        "draftkings": 1200
+      },
+      "Under 3.5": {
+        "draftkings": 450,
+        "fanatics": 400,
+        "bovada": 400
+      },
+      "Under 4.0": {
+        "draftkings": 400,
+        "bovada": 350
+      },
+      "Under 5.0": {
+        "draftkings": 200,
+        "bovada": 175,
+        "ballybet": 230
+      },
+      "Under 6.0": {
+        "draftkings": -105,
+        "bovada": -130,
+        "ballybet": 108,
+        "coolbet": -111
+      },
+      "Under 7.0": {
+        "draftkings": -188,
+        "bovada": -250,
+        "ballybet": -182,
+        "coolbet": -200
+      },
+      "Under 8.0": {
+        "draftkings": -330,
+        "ballybet": -385
+      },
+      "Under 9.0": {
+        "draftkings": -600
+      },
+      "Under 10.0": {
+        "draftkings": -975
+      },
+      "Under 11.0": {
+        "draftkings": -1850
+      },
+      "Under 12.0": {
+        "draftkings": -3000
+      }
+    },
+    "team_totals_source": {
+      "CLE 2.5": {
+        "fanduel": 120,
+        "fliff": 125,
+        "draftkings": 130,
+        "bovada": 110
+      },
+      "MIN 2.5": {
+        "fanduel": 116,
+        "fliff": 125,
+        "draftkings": 120,
+        "bovada": 110,
+        "ballybet": 120
+      },
+      "CLE 3.5": {
+        "ballybet": -175
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 2.5": {
+        "fanduel": -160,
+        "fliff": 110
+      },
+      "Under 2.5": {
+        "fanduel": 120,
+        "fliff": -145
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "Cleveland Guardians -0.5": {
+        "fliff": 265,
+        "fanatics": 280
+      },
+      "Minnesota Twins +0.5": {
+        "fliff": -375,
+        "fanatics": -400
+      },
+      "Cleveland Guardians -2.5": {
+        "betmgm": -135
+      },
+      "Cleveland Guardians -3.5": {
+        "betmgm": 145
+      },
+      "Cleveland Guardians -4.5": {
+        "betmgm": 280
+      },
+      "Minnesota Twins +2.5": {
+        "betmgm": 100
+      },
+      "Minnesota Twins +3.5": {
+        "betmgm": -200
+      },
+      "Minnesota Twins +4.5": {
+        "betmgm": -425
+      },
+      "Cleveland Guardians -1.5": {
+        "ballybet": 133
+      },
+      "Minnesota Twins +1.5": {
+        "ballybet": -180
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 2.5": {
+        "fliff": -105,
+        "fanatics": 150,
+        "ballybet": 180
+      },
+      "Under 2.5": {
+        "fliff": -130,
+        "fanatics": -200,
+        "ballybet": -245
+      },
+      "Over 4.5": {
+        "betmgm": 170
+      },
+      "Over 3.5": {
+        "betmgm": -115,
+        "fanatics": 310
+      },
+      "Under 4.5": {
+        "betmgm": -235
+      },
+      "Under 3.5": {
+        "betmgm": -115,
+        "fanatics": -450
+      },
+      "Over 1.5": {
+        "ballybet": -175
+      },
+      "Under 1.5": {
+        "ballybet": 130
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "Cleveland Guardians": {
+        "fliff": -160,
+        "betmgm": -10000,
+        "fanatics": -175,
+        "ballybet": -10000
+      },
+      "Minnesota Twins": {
+        "fliff": 115,
+        "betmgm": 1400,
+        "fanatics": 135,
+        "ballybet": 1100
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "Cleveland Guardians -0.5": {
+        "fliff": 260
+      },
+      "Minnesota Twins +0.5": {
+        "fliff": -370
+      },
+      "Cleveland Guardians -4.5": {
+        "betmgm": 3300
+      },
+      "Minnesota Twins +4.5": {
+        "betmgm": -10000
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "Cleveland Guardians -1.5": {
+        "betmgm": 280
+      },
+      "Cleveland Guardians -0.5": {
+        "betmgm": 140,
+        "fanatics": 120
+      },
+      "Cleveland Guardians +0.5": {
+        "betmgm": -210
+      },
+      "Cleveland Guardians -4.5": {
+        "betmgm": 1250
+      },
+      "Minnesota Twins +1.5": {
+        "betmgm": -450
+      },
+      "Minnesota Twins +0.5": {
+        "betmgm": -200,
+        "fanatics": -160
+      },
+      "Minnesota Twins -0.5": {
+        "betmgm": 145
+      },
+      "Minnesota Twins +4.5": {
+        "betmgm": -10000
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 5.5": {
+        "betmgm": 190,
+        "fanatics": 210
+      },
+      "Over 4.5": {
+        "betmgm": 100,
+        "fanatics": 105
+      },
+      "Over 3.5": {
+        "betmgm": -220,
+        "fanatics": -180
+      },
+      "Under 5.5": {
+        "betmgm": -275,
+        "fanatics": -285
+      },
+      "Under 4.5": {
+        "betmgm": -140,
+        "fanatics": -140
+      },
+      "Under 3.5": {
+        "betmgm": 155,
+        "fanatics": 140
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "Cleveland Guardians": {
+        "betmgm": -120,
+        "fanatics": -140
+      },
+      "Minnesota Twins": {
+        "betmgm": -115,
+        "fanatics": 105
+      }
+    },
+    "h2h_lay_source": {
+      "Cleveland Guardians": {
+        "betfair_ex_eu": 114
+      },
+      "Minnesota Twins": {
+        "betfair_ex_eu": 114
+      }
+    },
+    "start_time": "2025-04-30T01:20:00+00:00"
+  },
+  "2025-04-29-LAA@SEA": {
+    "h2h": {
+      "Los Angeles Angels": {
+        "price": 900,
+        "consensus_prob": 0.149284,
+        "consensus_odds": 569.86
+      },
+      "Seattle Mariners": {
+        "price": -220,
+        "consensus_prob": 0.850716,
+        "consensus_odds": -569.86
+      }
+    },
+    "spreads": {
+      "Los Angeles Angels +3.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.5": {
+        "price": -102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +1.5": {
+        "price": 300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.5": {
+        "price": -103,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 8.5": {
+        "price": 100,
+        "consensus_prob": 0.467742,
+        "consensus_odds": 113.79
+      },
+      "Under 8.5": {
+        "price": -110,
+        "consensus_prob": 0.532258,
+        "consensus_odds": -113.79
+      },
+      "Over 7.5": {
+        "price": -105,
+        "consensus_prob": 0.485738,
+        "consensus_odds": 105.87
+      },
+      "Under 7.5": {
+        "price": -105,
+        "consensus_prob": 0.514262,
+        "consensus_odds": -105.87
+      },
+      "Over 8.0": {
+        "price": -111,
+        "consensus_prob": 0.492871,
+        "consensus_odds": 102.89
+      },
+      "Under 8.0": {
+        "price": -118,
+        "consensus_prob": 0.507129,
+        "consensus_odds": -102.89
+      },
+      "Over 6.5": {
+        "price": -105,
+        "consensus_prob": 0.489166,
+        "consensus_odds": 104.43
+      },
+      "Under 6.5": {
+        "price": 155,
+        "consensus_prob": 0.510834,
+        "consensus_odds": -104.43
+      }
+    },
+    "alternate_spreads": {
+      "Los Angeles Angels +3.5": {
+        "price": 100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +2.5": {
+        "price": 185,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +1.5": {
+        "price": 290,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -1.5": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.5": {
+        "price": 258,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -2.5": {
+        "price": 162,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.5": {
+        "price": -103,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +1.5": {
+        "price": -517,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +4.5": {
+        "price": -175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -4.5": {
+        "price": 180,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +6.5": {
+        "price": -605,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +5.5": {
+        "price": -340,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -6.5": {
+        "price": 425,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -5.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -2.5": {
+        "price": 613,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -2.0": {
+        "price": 574,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +2.0": {
+        "price": 250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +3.0": {
+        "price": 120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +2.5": {
+        "price": -1011,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +2.0": {
+        "price": -906,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -2.0": {
+        "price": 131,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.0": {
+        "price": 224,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -1.0": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +1.0": {
+        "price": 625,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +4.0": {
+        "price": -168,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +5.0": {
+        "price": -288,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +6.0": {
+        "price": -558,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +7.0": {
+        "price": -1108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +7.5": {
+        "price": -1208,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +8.0": {
+        "price": -2200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +8.5": {
+        "price": -2500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +1.0": {
+        "price": -3000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.0": {
+        "price": -1150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -4.0": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -5.0": {
+        "price": 240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -6.0": {
+        "price": 400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -7.0": {
+        "price": 650,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -7.5": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -8.0": {
+        "price": 1000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -8.5": {
+        "price": 1100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_5_innings": {
+      "Los Angeles Angels +3.5": {
+        "price": -125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +2.5": {
+        "price": 320,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +1.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +0.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -0.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -1.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -2.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -3.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.5": {
+        "price": 135,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -2.5": {
+        "price": -350,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.5": {
+        "price": -1350,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -0.5": {
+        "price": -134,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +0.5": {
+        "price": -257,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +4.5": {
+        "price": -400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -4.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -1.0": {
+        "price": 317,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +1.0": {
+        "price": -117,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners +1.0": {
+        "price": -425,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.0": {
+        "price": 100,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "LAA 0.5": {
+        "price": 320,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 1.5": {
+        "price": 114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 2.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 3.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 4.5": {
+        "price": 490,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 5.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 3.5": {
+        "price": 430,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 4.5": {
+        "price": 185,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 5.5": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 6.5": {
+        "price": 200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 7.5": {
+        "price": 320,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 8.5": {
+        "price": 575,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 9.5": {
+        "price": 800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 5.5": {
+        "price": -154,
+        "consensus_prob": 0.699083,
+        "consensus_odds": -232.32
+      },
+      "Over 6.5": {
+        "price": -105,
+        "consensus_prob": 0.599898,
+        "consensus_odds": -149.94
+      },
+      "Over 7.5": {
+        "price": 155,
+        "consensus_prob": 0.457291,
+        "consensus_odds": 118.68
+      },
+      "Over 8.5": {
+        "price": 214,
+        "consensus_prob": 0.373053,
+        "consensus_odds": 168.06
+      },
+      "Over 9.5": {
+        "price": 240,
+        "consensus_prob": 0.290929,
+        "consensus_odds": 243.73
+      },
+      "Over 10.5": {
+        "price": 325,
+        "consensus_prob": 0.227884,
+        "consensus_odds": 338.82
+      },
+      "Over 11.5": {
+        "price": 500,
+        "consensus_prob": 0.160494,
+        "consensus_odds": 523.08
+      },
+      "Over 12.5": {
+        "price": 750,
+        "consensus_prob": 0.119026,
+        "consensus_odds": 740.15
+      },
+      "Over 13.5": {
+        "price": 880,
+        "consensus_prob": 0.095385,
+        "consensus_odds": 948.38
+      },
+      "Under 5.5": {
+        "price": 275,
+        "consensus_prob": 0.300917,
+        "consensus_odds": 232.32
+      },
+      "Under 6.5": {
+        "price": 235,
+        "consensus_prob": 0.400102,
+        "consensus_odds": 149.94
+      },
+      "Under 7.5": {
+        "price": 130,
+        "consensus_prob": 0.542709,
+        "consensus_odds": -118.68
+      },
+      "Under 8.5": {
+        "price": -110,
+        "consensus_prob": 0.626947,
+        "consensus_odds": -168.06
+      },
+      "Under 9.5": {
+        "price": -190,
+        "consensus_prob": 0.709071,
+        "consensus_odds": -243.73
+      },
+      "Under 10.5": {
+        "price": -280,
+        "consensus_prob": 0.772116,
+        "consensus_odds": -338.82
+      },
+      "Under 11.5": {
+        "price": -750,
+        "consensus_prob": 0.839506,
+        "consensus_odds": -523.08
+      },
+      "Under 12.5": {
+        "price": -1000,
+        "consensus_prob": 0.880974,
+        "consensus_odds": -740.15
+      },
+      "Under 13.5": {
+        "price": -3000,
+        "consensus_prob": 0.904615,
+        "consensus_odds": -948.38
+      },
+      "Over 4.5": {
+        "price": -299,
+        "consensus_prob": 0.776774,
+        "consensus_odds": -347.98
+      },
+      "Over 5.0": {
+        "price": -237,
+        "consensus_prob": 0.744112,
+        "consensus_odds": -290.8
+      },
+      "Over 6.0": {
+        "price": -129,
+        "consensus_prob": 0.612291,
+        "consensus_odds": -157.93
+      },
+      "Over 7.0": {
+        "price": 126,
+        "consensus_prob": 0.492021,
+        "consensus_odds": 103.24
+      },
+      "Over 8.0": {
+        "price": 193,
+        "consensus_prob": 0.381133,
+        "consensus_odds": 162.38
+      },
+      "Under 4.5": {
+        "price": 550,
+        "consensus_prob": 0.223226,
+        "consensus_odds": 347.98
+      },
+      "Under 5.0": {
+        "price": 425,
+        "consensus_prob": 0.255888,
+        "consensus_odds": 290.8
+      },
+      "Under 6.0": {
+        "price": 235,
+        "consensus_prob": 0.387709,
+        "consensus_odds": 157.93
+      },
+      "Under 7.0": {
+        "price": 130,
+        "consensus_prob": 0.507979,
+        "consensus_odds": -103.24
+      },
+      "Under 8.0": {
+        "price": -133,
+        "consensus_prob": 0.618867,
+        "consensus_odds": -162.38
+      },
+      "Over 9.0": {
+        "price": 200,
+        "consensus_prob": 0.324349,
+        "consensus_odds": 208.31
+      },
+      "Over 10.0": {
+        "price": 300,
+        "consensus_prob": 0.234783,
+        "consensus_odds": 325.93
+      },
+      "Over 11.0": {
+        "price": 475,
+        "consensus_prob": 0.164127,
+        "consensus_odds": 509.28
+      },
+      "Over 12.0": {
+        "price": 700,
+        "consensus_prob": 0.118644,
+        "consensus_odds": 742.86
+      },
+      "Over 13.0": {
+        "price": 1100,
+        "consensus_prob": 0.079755,
+        "consensus_odds": 1153.84
+      },
+      "Under 9.0": {
+        "price": -255,
+        "consensus_prob": 0.675651,
+        "consensus_odds": -208.31
+      },
+      "Under 10.0": {
+        "price": -440,
+        "consensus_prob": 0.765217,
+        "consensus_odds": -325.93
+      },
+      "Under 11.0": {
+        "price": -775,
+        "consensus_prob": 0.835873,
+        "consensus_odds": -509.28
+      },
+      "Under 12.0": {
+        "price": -1300,
+        "consensus_prob": 0.881356,
+        "consensus_odds": -742.86
+      },
+      "Under 13.0": {
+        "price": -2500,
+        "consensus_prob": 0.920245,
+        "consensus_odds": -1153.84
+      }
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": {
+        "price": -170,
+        "consensus_prob": 0.695656,
+        "consensus_odds": -228.58
+      },
+      "Over 4.5": {
+        "price": 100,
+        "consensus_prob": 0.530296,
+        "consensus_odds": -112.9
+      },
+      "Over 5.5": {
+        "price": 220,
+        "consensus_prob": 0.360872,
+        "consensus_odds": 177.11
+      },
+      "Over 6.5": {
+        "price": 250,
+        "consensus_prob": 0.264151,
+        "consensus_odds": 278.57
+      },
+      "Over 7.5": {
+        "price": 480,
+        "consensus_prob": 0.163462,
+        "consensus_odds": 511.76
+      },
+      "Over 8.5": {
+        "price": 900,
+        "consensus_prob": 0.098347,
+        "consensus_odds": 916.81
+      },
+      "Under 3.5": {
+        "price": 320,
+        "consensus_prob": 0.304344,
+        "consensus_odds": 228.58
+      },
+      "Under 4.5": {
+        "price": 110,
+        "consensus_prob": 0.469704,
+        "consensus_odds": 112.9
+      },
+      "Under 5.5": {
+        "price": -135,
+        "consensus_prob": 0.639128,
+        "consensus_odds": -177.11
+      },
+      "Under 6.5": {
+        "price": -390,
+        "consensus_prob": 0.735849,
+        "consensus_odds": -278.57
+      },
+      "Under 7.5": {
+        "price": -750,
+        "consensus_prob": 0.836538,
+        "consensus_odds": -511.76
+      },
+      "Over 4.0": {
+        "price": -134,
+        "consensus_prob": 0.552957,
+        "consensus_odds": -123.69
+      },
+      "Over 5.0": {
+        "price": 160,
+        "consensus_prob": 0.417827,
+        "consensus_odds": 139.33
+      },
+      "Under 4.0": {
+        "price": 145,
+        "consensus_prob": 0.447043,
+        "consensus_odds": 123.69
+      },
+      "Under 5.0": {
+        "price": -152,
+        "consensus_prob": 0.582173,
+        "consensus_odds": -139.33
+      },
+      "Under 8.5": {
+        "price": -3000,
+        "consensus_prob": 0.901653,
+        "consensus_odds": -916.81
+      },
+      "Over 6.0": {
+        "price": 340,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 6.0": {
+        "price": -526,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_5_innings": {
+      "Los Angeles Angels": {
+        "price": 2500,
+        "consensus_prob": 0.068763,
+        "consensus_odds": 1354.27
+      },
+      "Seattle Mariners": {
+        "price": -315,
+        "consensus_prob": 0.931237,
+        "consensus_odds": -1354.27
+      }
+    },
+    "spreads_1st_5_innings": {
+      "Los Angeles Angels +3.5": {
+        "price": -112,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.5": {
+        "price": 130,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels -0.0": {
+        "price": 173,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners 0.0": {
+        "price": -200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "team_totals": {
+      "LAA 1.5": {
+        "price": 114,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 5.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 2.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "LAA 3.5": {
+        "price": 125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SEA 4.5": {
+        "price": 102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": 100,
+        "consensus_prob": 0.480225,
+        "consensus_odds": 108.24
+      },
+      "Under 4.5": {
+        "price": -115,
+        "consensus_prob": 0.519775,
+        "consensus_odds": -108.24
+      },
+      "Over 5.5": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 5.5": {
+        "price": -120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_3_innings": {
+      "Los Angeles Angels +1.5": {
+        "price": -325,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -1.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +2.5": {
+        "price": 375,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -2.5": {
+        "price": -575,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "Los Angeles Angels +2.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +3.5": {
+        "price": -105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Los Angeles Angels +4.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -2.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -3.5": {
+        "price": -110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -4.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_3_innings": {
+      "Over 2.5": {
+        "price": 250,
+        "consensus_prob": 0.265734,
+        "consensus_odds": 276.32
+      },
+      "Over 0.5": {
+        "price": -185,
+        "consensus_prob": 0.598874,
+        "consensus_odds": -149.3
+      },
+      "Under 2.5": {
+        "price": -375,
+        "consensus_prob": 0.734266,
+        "consensus_odds": -276.32
+      },
+      "Under 0.5": {
+        "price": 130,
+        "consensus_prob": 0.401126,
+        "consensus_odds": 149.3
+      },
+      "Over 3.5": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 4.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 3.5": {
+        "price": -140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 4.5": {
+        "price": -400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": 110,
+        "consensus_prob": 0.439276,
+        "consensus_odds": 127.65
+      },
+      "Over 5.5": {
+        "price": -160,
+        "consensus_prob": 0.588785,
+        "consensus_odds": -143.18
+      },
+      "Over 7.5": {
+        "price": 190,
+        "consensus_prob": 0.319829,
+        "consensus_odds": 212.67
+      },
+      "Under 6.5": {
+        "price": -140,
+        "consensus_prob": 0.560724,
+        "consensus_odds": -127.65
+      },
+      "Under 5.5": {
+        "price": 125,
+        "consensus_prob": 0.411215,
+        "consensus_odds": 143.18
+      },
+      "Under 7.5": {
+        "price": -240,
+        "consensus_prob": 0.680171,
+        "consensus_odds": -212.67
+      }
+    },
+    "h2h_1st_3_innings": {
+      "Los Angeles Angels": {
+        "price": 2200,
+        "consensus_prob": 0.236869,
+        "consensus_odds": 322.17
+      },
+      "Seattle Mariners": {
+        "price": -435,
+        "consensus_prob": 0.763131,
+        "consensus_odds": -322.17
+      }
+    },
+    "h2h_1st_7_innings": {
+      "Los Angeles Angels": {
+        "price": 1400,
+        "consensus_prob": 0.098101,
+        "consensus_odds": 919.36
+      },
+      "Seattle Mariners": {
+        "price": -3000,
+        "consensus_prob": 0.901899,
+        "consensus_odds": -919.36
+      }
+    },
+    "spreads_1st_3_innings": {
+      "Los Angeles Angels +0.5": {
+        "price": -148,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners -0.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_3_innings": {
+      "Over 3.5": {
+        "price": 265,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 3.5": {
+        "price": -385,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_lay": {
+      "Los Angeles Angels": {
+        "price": 2500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Seattle Mariners": {
+        "price": -714,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_source": {
+      "Los Angeles Angels": {
+        "fanduel": 900,
+        "sport888": 600,
+        "espnbet": 800,
+        "winamax_fr": 700,
+        "mybookieag": 750,
+        "fliff": 780,
+        "williamhill": 190,
+        "pinnacle": 213,
+        "draftkings": 700,
+        "gtbets": 751,
+        "hardrockbet": 700,
+        "nordicbet": 825,
+        "betmgm": 700,
+        "bovada": 700,
+        "ballybet": 850,
+        "betparx": 850,
+        "unibet_eu": 850,
+        "fanatics": 850,
+        "williamhill_us": 700,
+        "tipico_de": 600,
+        "betfair_ex_eu": 700,
+        "coolbet": 750
+      },
+      "Seattle Mariners": {
+        "fanduel": -2500,
+        "sport888": -1613,
+        "espnbet": -2500,
+        "winamax_fr": -1250,
+        "mybookieag": -1667,
+        "fliff": -1780,
+        "williamhill": -220,
+        "pinnacle": -269,
+        "draftkings": -1300,
+        "gtbets": -1381,
+        "hardrockbet": -1400,
+        "nordicbet": -2000,
+        "betmgm": -1200,
+        "bovada": -1400,
+        "ballybet": -2000,
+        "betparx": -2000,
+        "unibet_eu": -2000,
+        "fanatics": -1700,
+        "williamhill_us": -1300,
+        "tipico_de": -1429,
+        "betfair_ex_eu": -2500,
+        "coolbet": -1429
+      }
+    },
+    "spreads_source": {
+      "Los Angeles Angels +3.5": {
+        "fanduel": 106,
+        "sport888": -125,
+        "espnbet": 100,
+        "mybookieag": 110,
+        "fliff": -120,
+        "draftkings": -120,
+        "gtbets": -123,
+        "hardrockbet": -105,
+        "betmgm": -125,
+        "bovada": -105,
+        "unibet_eu": -114,
+        "fanatics": -115,
+        "williamhill_us": -110,
+        "coolbet": 100
+      },
+      "Seattle Mariners -3.5": {
+        "fanduel": -140,
+        "sport888": -118,
+        "espnbet": -130,
+        "mybookieag": -154,
+        "fliff": -110,
+        "draftkings": -110,
+        "gtbets": -103,
+        "hardrockbet": -125,
+        "betmgm": -102,
+        "bovada": -125,
+        "unibet_eu": -109,
+        "fanatics": -115,
+        "williamhill_us": -120,
+        "coolbet": -125
+      },
+      "Los Angeles Angels +1.5": {
+        "pinnacle": -118,
+        "ballybet": 300,
+        "betparx": 300
+      },
+      "Seattle Mariners -1.5": {
+        "pinnacle": -103,
+        "ballybet": -530,
+        "betparx": -530
+      }
+    },
+    "totals_source": {
+      "Over 8.5": {
+        "fanduel": 100,
+        "bovada": -120
+      },
+      "Under 8.5": {
+        "fanduel": -132,
+        "bovada": -110
+      },
+      "Over 7.5": {
+        "sport888": -120,
+        "espnbet": -120,
+        "fliff": -115,
+        "draftkings": -105,
+        "gtbets": -113,
+        "hardrockbet": -120,
+        "betmgm": -110,
+        "ballybet": -118,
+        "betparx": -118,
+        "fanatics": -105,
+        "williamhill_us": -110,
+        "coolbet": -118
+      },
+      "Under 7.5": {
+        "sport888": -120,
+        "espnbet": -110,
+        "fliff": -115,
+        "draftkings": -125,
+        "gtbets": -113,
+        "hardrockbet": -110,
+        "betmgm": -118,
+        "ballybet": -108,
+        "betparx": -108,
+        "fanatics": -125,
+        "williamhill_us": -120,
+        "coolbet": -105
+      },
+      "Over 8.0": {
+        "mybookieag": -111
+      },
+      "Under 8.0": {
+        "mybookieag": -118
+      },
+      "Over 6.5": {
+        "pinnacle": -105,
+        "tipico_de": -222
+      },
+      "Under 6.5": {
+        "pinnacle": -115,
+        "tipico_de": 155
+      }
+    },
+    "alternate_spreads_source": {
+      "Los Angeles Angels +3.5": {
+        "fanduel": -132,
+        "espnbet": 100,
+        "fliff": -115,
+        "pinnacle": -346,
+        "betmgm": -125,
+        "coolbet": 100
+      },
+      "Los Angeles Angels +2.5": {
+        "fanduel": 154,
+        "espnbet": 180,
+        "fliff": 150,
+        "pinnacle": -203,
+        "draftkings": 160,
+        "hardrockbet": 180,
+        "betmgm": 155,
+        "williamhill_us": 162,
+        "coolbet": 185
+      },
+      "Los Angeles Angels +1.5": {
+        "fanduel": 290,
+        "fliff": 265,
+        "pinnacle": -118,
+        "draftkings": 290,
+        "betmgm": 290,
+        "williamhill_us": 276
+      },
+      "Los Angeles Angels -1.5": {
+        "fanduel": 1200,
+        "pinnacle": 372,
+        "draftkings": 1200
+      },
+      "Seattle Mariners -3.5": {
+        "fanduel": 100,
+        "espnbet": -130,
+        "fliff": -115,
+        "pinnacle": 258,
+        "betmgm": -102,
+        "coolbet": -125
+      },
+      "Seattle Mariners -2.5": {
+        "fanduel": -210,
+        "espnbet": -250,
+        "fliff": -220,
+        "pinnacle": 162,
+        "draftkings": -212,
+        "hardrockbet": -250,
+        "betmgm": -200,
+        "williamhill_us": -248,
+        "coolbet": -238
+      },
+      "Seattle Mariners -1.5": {
+        "fanduel": -440,
+        "fliff": -415,
+        "pinnacle": -103,
+        "draftkings": -420,
+        "betmgm": -400,
+        "williamhill_us": -483
+      },
+      "Seattle Mariners +1.5": {
+        "fanduel": -5000,
+        "pinnacle": -517,
+        "draftkings": -3000
+      },
+      "Los Angeles Angels +4.5": {
+        "espnbet": -180,
+        "fliff": -200,
+        "draftkings": -212,
+        "hardrockbet": -180,
+        "betmgm": -235,
+        "williamhill_us": -198,
+        "coolbet": -175
+      },
+      "Seattle Mariners -4.5": {
+        "espnbet": 140,
+        "fliff": 140,
+        "draftkings": 160,
+        "hardrockbet": 140,
+        "betmgm": 180,
+        "williamhill_us": 133,
+        "coolbet": 140
+      },
+      "Los Angeles Angels +6.5": {
+        "fliff": -605,
+        "draftkings": -675,
+        "williamhill_us": -633
+      },
+      "Los Angeles Angels +5.5": {
+        "fliff": -340,
+        "draftkings": -400,
+        "betmgm": -450,
+        "williamhill_us": -348
+      },
+      "Seattle Mariners -6.5": {
+        "fliff": 355,
+        "draftkings": 425,
+        "williamhill_us": 334
+      },
+      "Seattle Mariners -5.5": {
+        "fliff": 225,
+        "draftkings": 280,
+        "betmgm": 310,
+        "williamhill_us": 215
+      },
+      "Los Angeles Angels -2.5": {
+        "pinnacle": 613
+      },
+      "Los Angeles Angels -2.0": {
+        "pinnacle": 574
+      },
+      "Los Angeles Angels +2.0": {
+        "pinnacle": -161,
+        "draftkings": 250,
+        "williamhill_us": 244
+      },
+      "Los Angeles Angels +3.0": {
+        "pinnacle": -294,
+        "draftkings": 120
+      },
+      "Seattle Mariners +2.5": {
+        "pinnacle": -1011
+      },
+      "Seattle Mariners +2.0": {
+        "pinnacle": -906
+      },
+      "Seattle Mariners -2.0": {
+        "pinnacle": 131,
+        "draftkings": -350,
+        "williamhill_us": -408
+      },
+      "Seattle Mariners -3.0": {
+        "pinnacle": 224,
+        "draftkings": -154
+      },
+      "Los Angeles Angels -1.0": {
+        "draftkings": 1200
+      },
+      "Los Angeles Angels +1.0": {
+        "draftkings": 625
+      },
+      "Los Angeles Angels +4.0": {
+        "draftkings": -168
+      },
+      "Los Angeles Angels +5.0": {
+        "draftkings": -330,
+        "williamhill_us": -288
+      },
+      "Los Angeles Angels +6.0": {
+        "draftkings": -625,
+        "williamhill_us": -558
+      },
+      "Los Angeles Angels +7.0": {
+        "draftkings": -1200,
+        "williamhill_us": -1108
+      },
+      "Los Angeles Angels +7.5": {
+        "draftkings": -1300,
+        "williamhill_us": -1208
+      },
+      "Los Angeles Angels +8.0": {
+        "draftkings": -2200
+      },
+      "Los Angeles Angels +8.5": {
+        "draftkings": -2500
+      },
+      "Seattle Mariners +1.0": {
+        "draftkings": -3000
+      },
+      "Seattle Mariners -1.0": {
+        "draftkings": -1150
+      },
+      "Seattle Mariners -4.0": {
+        "draftkings": 130
+      },
+      "Seattle Mariners -5.0": {
+        "draftkings": 240,
+        "williamhill_us": 184
+      },
+      "Seattle Mariners -6.0": {
+        "draftkings": 400,
+        "williamhill_us": 306
+      },
+      "Seattle Mariners -7.0": {
+        "draftkings": 650,
+        "williamhill_us": 465
+      },
+      "Seattle Mariners -7.5": {
+        "draftkings": 700,
+        "williamhill_us": 486
+      },
+      "Seattle Mariners -8.0": {
+        "draftkings": 1000
+      },
+      "Seattle Mariners -8.5": {
+        "draftkings": 1100
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "Los Angeles Angels +3.5": {
+        "fanduel": -125,
+        "espnbet": -165,
+        "fliff": -130,
+        "hardrockbet": -160,
+        "betmgm": -175,
+        "ballybet": -182,
+        "fanatics": -160
+      },
+      "Los Angeles Angels +2.5": {
+        "fanduel": 320,
+        "espnbet": 260,
+        "hardrockbet": 275,
+        "betmgm": 250
+      },
+      "Los Angeles Angels +1.5": {
+        "fanduel": 750
+      },
+      "Los Angeles Angels +0.5": {
+        "fanduel": 900,
+        "pinnacle": 117
+      },
+      "Los Angeles Angels -0.5": {
+        "fanduel": 900,
+        "pinnacle": 214
+      },
+      "Los Angeles Angels -1.5": {
+        "fanduel": 900
+      },
+      "Los Angeles Angels -2.5": {
+        "fanduel": 900
+      },
+      "Los Angeles Angels -3.5": {
+        "fanduel": 900
+      },
+      "Seattle Mariners -3.5": {
+        "fanduel": -130,
+        "espnbet": 125,
+        "fliff": 100,
+        "hardrockbet": 125,
+        "betmgm": 130,
+        "ballybet": 135,
+        "fanatics": 120
+      },
+      "Seattle Mariners -2.5": {
+        "fanduel": -490,
+        "espnbet": -425,
+        "hardrockbet": -425,
+        "betmgm": -350
+      },
+      "Seattle Mariners -1.5": {
+        "fanduel": -1350
+      },
+      "Seattle Mariners -0.5": {
+        "fanduel": -5000,
+        "pinnacle": -134
+      },
+      "Seattle Mariners +0.5": {
+        "fanduel": -20000,
+        "pinnacle": -257
+      },
+      "Los Angeles Angels +4.5": {
+        "espnbet": -400,
+        "hardrockbet": -400,
+        "betmgm": -425
+      },
+      "Seattle Mariners -4.5": {
+        "espnbet": 250,
+        "hardrockbet": 260,
+        "betmgm": 280
+      },
+      "Los Angeles Angels -1.0": {
+        "pinnacle": 317
+      },
+      "Los Angeles Angels +1.0": {
+        "pinnacle": -117
+      },
+      "Seattle Mariners +1.0": {
+        "pinnacle": -425
+      },
+      "Seattle Mariners -1.0": {
+        "pinnacle": 100
+      }
+    },
+    "alternate_team_totals_source": {
+      "LAA 0.5": {
+        "fanduel": 320,
+        "hardrockbet": 240,
+        "fanatics": 260
+      },
+      "LAA 1.5": {
+        "fanduel": 114,
+        "hardrockbet": -110,
+        "fanatics": -105
+      },
+      "LAA 2.5": {
+        "fanduel": -215,
+        "hardrockbet": -230,
+        "betmgm": -210,
+        "fanatics": -240
+      },
+      "LAA 3.5": {
+        "fanduel": -420,
+        "betmgm": -400,
+        "fanatics": -450
+      },
+      "LAA 4.5": {
+        "fanduel": -900,
+        "betmgm": -750
+      },
+      "LAA 5.5": {
+        "fanduel": 750,
+        "betmgm": -1600
+      },
+      "SEA 3.5": {
+        "fanduel": 430,
+        "fanatics": 400
+      },
+      "SEA 4.5": {
+        "fanduel": 168,
+        "hardrockbet": 185,
+        "betmgm": 165,
+        "fanatics": 165
+      },
+      "SEA 5.5": {
+        "fanduel": -132,
+        "hardrockbet": -115,
+        "betmgm": -140,
+        "fanatics": -125
+      },
+      "SEA 6.5": {
+        "fanduel": -250,
+        "hardrockbet": -210,
+        "betmgm": -275,
+        "fanatics": -225
+      },
+      "SEA 7.5": {
+        "fanduel": -490,
+        "fanatics": -450
+      },
+      "SEA 8.5": {
+        "fanduel": -1000,
+        "betmgm": -1100
+      },
+      "SEA 9.5": {
+        "fanduel": 800
+      }
+    },
+    "alternate_totals_source": {
+      "Over 5.5": {
+        "fanduel": -400,
+        "pinnacle": -154,
+        "draftkings": -330,
+        "betmgm": -375,
+        "bovada": -350,
+        "ballybet": -560,
+        "fanatics": -350
+      },
+      "Over 6.5": {
+        "fanduel": -225,
+        "espnbet": -240,
+        "fliff": -355,
+        "pinnacle": -105,
+        "draftkings": -198,
+        "hardrockbet": -210,
+        "betmgm": -210,
+        "bovada": -200,
+        "ballybet": -245,
+        "fanatics": -200
+      },
+      "Over 7.5": {
+        "fanduel": -118,
+        "espnbet": -120,
+        "fliff": -185,
+        "pinnacle": 155,
+        "betmgm": -110,
+        "ballybet": -118,
+        "fanatics": -105,
+        "coolbet": -118
+      },
+      "Over 8.5": {
+        "fanduel": 130,
+        "espnbet": 130,
+        "fliff": -120,
+        "pinnacle": 214,
+        "draftkings": 140,
+        "hardrockbet": 130,
+        "betmgm": 140,
+        "bovada": 145,
+        "ballybet": 128,
+        "fanatics": 140,
+        "coolbet": 130
+      },
+      "Over 9.5": {
+        "fanduel": 210,
+        "fliff": 135,
+        "draftkings": 220,
+        "betmgm": 240,
+        "bovada": 230,
+        "ballybet": 210,
+        "fanatics": 210
+      },
+      "Over 10.5": {
+        "fanduel": 300,
+        "fliff": 190,
+        "draftkings": 325,
+        "ballybet": 300,
+        "fanatics": 310
+      },
+      "Over 11.5": {
+        "fanduel": 470,
+        "draftkings": 500,
+        "fanatics": 450
+      },
+      "Over 12.5": {
+        "fanduel": 640,
+        "draftkings": 750,
+        "fanatics": 550
+      },
+      "Over 13.5": {
+        "fanduel": 880
+      },
+      "Under 5.5": {
+        "fanduel": 270,
+        "pinnacle": 125,
+        "draftkings": 240,
+        "betmgm": 275,
+        "bovada": 250,
+        "ballybet": 275,
+        "fanatics": 240
+      },
+      "Under 6.5": {
+        "fanduel": 164,
+        "espnbet": 165,
+        "fliff": 235,
+        "pinnacle": -115,
+        "draftkings": 150,
+        "hardrockbet": 160,
+        "betmgm": 160,
+        "bovada": 150,
+        "ballybet": 165,
+        "fanatics": 150
+      },
+      "Under 7.5": {
+        "fanduel": -112,
+        "espnbet": -110,
+        "fliff": 130,
+        "pinnacle": -194,
+        "betmgm": -118,
+        "ballybet": -108,
+        "fanatics": -125,
+        "coolbet": -105
+      },
+      "Under 8.5": {
+        "fanduel": -174,
+        "espnbet": -175,
+        "fliff": -110,
+        "pinnacle": -280,
+        "draftkings": -182,
+        "hardrockbet": -170,
+        "betmgm": -185,
+        "bovada": -190,
+        "ballybet": -175,
+        "fanatics": -180,
+        "coolbet": -167
+      },
+      "Under 9.5": {
+        "fanduel": -300,
+        "fliff": -190,
+        "draftkings": -300,
+        "betmgm": -325,
+        "bovada": -325,
+        "ballybet": -345,
+        "fanatics": -285
+      },
+      "Under 10.5": {
+        "fanduel": -450,
+        "fliff": -280,
+        "draftkings": -475,
+        "ballybet": -670,
+        "fanatics": -450
+      },
+      "Under 11.5": {
+        "fanduel": -850,
+        "draftkings": -850,
+        "fanatics": -750
+      },
+      "Under 12.5": {
+        "fanduel": -1450,
+        "draftkings": -1450,
+        "fanatics": -1000
+      },
+      "Under 13.5": {
+        "fanduel": -3000
+      },
+      "Over 4.5": {
+        "pinnacle": -299,
+        "draftkings": -850,
+        "fanatics": -1000
+      },
+      "Over 5.0": {
+        "pinnacle": -237,
+        "draftkings": -675
+      },
+      "Over 6.0": {
+        "pinnacle": -129,
+        "draftkings": -270,
+        "bovada": -300,
+        "ballybet": -435
+      },
+      "Over 7.0": {
+        "pinnacle": 126,
+        "draftkings": -148,
+        "bovada": -150,
+        "ballybet": -180,
+        "coolbet": -167
+      },
+      "Over 8.0": {
+        "pinnacle": 193,
+        "draftkings": 115,
+        "bovada": 120,
+        "ballybet": 107,
+        "coolbet": 110
+      },
+      "Under 4.5": {
+        "pinnacle": 227,
+        "draftkings": 500,
+        "fanatics": 550
+      },
+      "Under 5.0": {
+        "pinnacle": 185,
+        "draftkings": 425
+      },
+      "Under 6.0": {
+        "pinnacle": 106,
+        "draftkings": 200,
+        "bovada": 220,
+        "ballybet": 235
+      },
+      "Under 7.0": {
+        "pinnacle": -155,
+        "draftkings": 115,
+        "bovada": 115,
+        "ballybet": 130,
+        "coolbet": 130
+      },
+      "Under 8.0": {
+        "pinnacle": -248,
+        "draftkings": -148,
+        "bovada": -155,
+        "ballybet": -137,
+        "coolbet": -133
+      },
+      "Over 9.0": {
+        "draftkings": 190,
+        "bovada": 200,
+        "ballybet": 175
+      },
+      "Over 10.0": {
+        "draftkings": 300,
+        "ballybet": 275
+      },
+      "Over 11.0": {
+        "draftkings": 475
+      },
+      "Over 12.0": {
+        "draftkings": 700
+      },
+      "Over 13.0": {
+        "draftkings": 1100
+      },
+      "Under 9.0": {
+        "draftkings": -255,
+        "bovada": -275,
+        "ballybet": -275
+      },
+      "Under 10.0": {
+        "draftkings": -440,
+        "ballybet": -560
+      },
+      "Under 11.0": {
+        "draftkings": -775
+      },
+      "Under 12.0": {
+        "draftkings": -1300
+      },
+      "Under 13.0": {
+        "draftkings": -2500
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 3.5": {
+        "fanduel": -490,
+        "espnbet": -275,
+        "pinnacle": -170,
+        "hardrockbet": -275,
+        "betmgm": -295,
+        "bovada": -300,
+        "ballybet": -315,
+        "fanatics": -275
+      },
+      "Over 4.5": {
+        "fanduel": -170,
+        "espnbet": -105,
+        "hardrockbet": 100,
+        "betmgm": -110,
+        "ballybet": -103,
+        "fanatics": -110
+      },
+      "Over 5.5": {
+        "fanduel": 130,
+        "espnbet": 200,
+        "fliff": 100,
+        "pinnacle": 160,
+        "hardrockbet": 200,
+        "betmgm": 195,
+        "bovada": 210,
+        "ballybet": 220,
+        "fanatics": 210
+      },
+      "Over 6.5": {
+        "fanduel": 250
+      },
+      "Over 7.5": {
+        "fanduel": 480
+      },
+      "Over 8.5": {
+        "fanduel": 800,
+        "betmgm": 900
+      },
+      "Under 3.5": {
+        "fanduel": 320,
+        "espnbet": 190,
+        "pinnacle": 147,
+        "hardrockbet": 200,
+        "betmgm": 210,
+        "bovada": 220,
+        "ballybet": 220,
+        "fanatics": 200
+      },
+      "Under 4.5": {
+        "fanduel": 110,
+        "espnbet": -130,
+        "hardrockbet": -130,
+        "betmgm": -120,
+        "ballybet": -130,
+        "fanatics": -120
+      },
+      "Under 5.5": {
+        "fanduel": -200,
+        "espnbet": -285,
+        "fliff": -135,
+        "pinnacle": -187,
+        "hardrockbet": -275,
+        "betmgm": -275,
+        "bovada": -285,
+        "ballybet": -315,
+        "fanatics": -285
+      },
+      "Under 6.5": {
+        "fanduel": -390
+      },
+      "Under 7.5": {
+        "fanduel": -750
+      },
+      "Over 4.0": {
+        "pinnacle": -134,
+        "bovada": -190
+      },
+      "Over 5.0": {
+        "pinnacle": 131,
+        "bovada": 160
+      },
+      "Under 4.0": {
+        "pinnacle": 116,
+        "bovada": 145
+      },
+      "Under 5.0": {
+        "pinnacle": -152,
+        "bovada": -210
+      },
+      "Under 8.5": {
+        "betmgm": -3000
+      },
+      "Over 6.0": {
+        "bovada": 340
+      },
+      "Under 6.0": {
+        "bovada": -526
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "Los Angeles Angels": {
+        "fanduel": 1300,
+        "fliff": 1160,
+        "betmgm": 1250,
+        "ballybet": 225,
+        "fanatics": 2500
+      },
+      "Seattle Mariners": {
+        "fanduel": -5000,
+        "fliff": -5110,
+        "betmgm": -10000,
+        "ballybet": -315,
+        "fanatics": -13000
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "Los Angeles Angels +3.5": {
+        "fanduel": -112,
+        "fliff": -140,
+        "betmgm": -175,
+        "bovada": -170
+      },
+      "Seattle Mariners -3.5": {
+        "fanduel": -118,
+        "fliff": 105,
+        "betmgm": 130,
+        "bovada": 130
+      },
+      "Los Angeles Angels -0.0": {
+        "pinnacle": 173
+      },
+      "Seattle Mariners 0.0": {
+        "pinnacle": -200
+      }
+    },
+    "team_totals_source": {
+      "LAA 1.5": {
+        "fanduel": 114,
+        "draftkings": 100,
+        "hardrockbet": -110,
+        "bovada": 100,
+        "ballybet": 106
+      },
+      "SEA 5.5": {
+        "fanduel": -132,
+        "fliff": 110,
+        "draftkings": -130,
+        "hardrockbet": -115,
+        "bovada": -135,
+        "ballybet": -127
+      },
+      "LAA 2.5": {
+        "fliff": -145
+      },
+      "LAA 3.5": {
+        "pinnacle": -147
+      },
+      "SEA 4.5": {
+        "pinnacle": -119
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": {
+        "fanduel": 100,
+        "pinnacle": 100,
+        "betmgm": -110,
+        "bovada": 100
+      },
+      "Under 4.5": {
+        "fanduel": -132,
+        "pinnacle": -115,
+        "betmgm": -120,
+        "bovada": -130
+      },
+      "Over 5.5": {
+        "fliff": -115
+      },
+      "Under 5.5": {
+        "fliff": -120
+      }
+    },
+    "alternate_spreads_1st_3_innings_source": {
+      "Los Angeles Angels +1.5": {
+        "betmgm": -325
+      },
+      "Seattle Mariners -1.5": {
+        "betmgm": 220
+      },
+      "Los Angeles Angels +2.5": {
+        "fanatics": 375
+      },
+      "Seattle Mariners -2.5": {
+        "fanatics": -575
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "Los Angeles Angels +2.5": {
+        "betmgm": 175
+      },
+      "Los Angeles Angels +3.5": {
+        "betmgm": -125,
+        "fanatics": -105
+      },
+      "Los Angeles Angels +4.5": {
+        "betmgm": -250
+      },
+      "Seattle Mariners -2.5": {
+        "betmgm": -250
+      },
+      "Seattle Mariners -3.5": {
+        "betmgm": -110,
+        "fanatics": -125
+      },
+      "Seattle Mariners -4.5": {
+        "betmgm": 175
+      }
+    },
+    "alternate_totals_1st_3_innings_source": {
+      "Over 2.5": {
+        "betmgm": 250
+      },
+      "Over 0.5": {
+        "betmgm": -185
+      },
+      "Under 2.5": {
+        "betmgm": -375
+      },
+      "Under 0.5": {
+        "betmgm": 130
+      },
+      "Over 3.5": {
+        "fanatics": 105
+      },
+      "Over 4.5": {
+        "fanatics": 280
+      },
+      "Under 3.5": {
+        "fanatics": -140
+      },
+      "Under 4.5": {
+        "fanatics": -400
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 6.5": {
+        "betmgm": 110,
+        "fanatics": 105
+      },
+      "Over 5.5": {
+        "betmgm": -175,
+        "fanatics": -160
+      },
+      "Over 7.5": {
+        "betmgm": 190,
+        "fanatics": 175
+      },
+      "Under 6.5": {
+        "betmgm": -155,
+        "fanatics": -140
+      },
+      "Under 5.5": {
+        "betmgm": 125,
+        "fanatics": 120
+      },
+      "Under 7.5": {
+        "betmgm": -275,
+        "fanatics": -240
+      }
+    },
+    "h2h_1st_3_innings_source": {
+      "Los Angeles Angels": {
+        "betmgm": 290,
+        "ballybet": 290,
+        "fanatics": 2200
+      },
+      "Seattle Mariners": {
+        "betmgm": -475,
+        "ballybet": -435,
+        "fanatics": -10000
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "Los Angeles Angels": {
+        "betmgm": 850,
+        "fanatics": 1400
+      },
+      "Seattle Mariners": {
+        "betmgm": -3000,
+        "fanatics": -4000
+      }
+    },
+    "spreads_1st_3_innings_source": {
+      "Los Angeles Angels +0.5": {
+        "ballybet": -148
+      },
+      "Seattle Mariners -0.5": {
+        "ballybet": 110
+      }
+    },
+    "totals_1st_3_innings_source": {
+      "Over 3.5": {
+        "ballybet": 265
+      },
+      "Under 3.5": {
+        "ballybet": -385
+      }
+    },
+    "h2h_lay_source": {
+      "Los Angeles Angels": {
+        "betfair_ex_eu": 2500
+      },
+      "Seattle Mariners": {
+        "betfair_ex_eu": -714
+      }
+    },
+    "start_time": "2025-04-30T01:40:43+00:00"
+  },
+  "2025-04-29-SF@SD": {
+    "h2h": {
+      "San Diego Padres": {
+        "price": 100,
+        "consensus_prob": 0.818863,
+        "consensus_odds": -452.07
+      },
+      "San Francisco Giants": {
+        "price": 600,
+        "consensus_prob": 0.181137,
+        "consensus_odds": 452.07
+      }
+    },
+    "spreads": {
+      "San Diego Padres -2.5": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": 116,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -3.0": {
+        "price": -102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.0": {
+        "price": -119,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.5": {
+        "price": -125,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.5": {
+        "price": 106,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals": {
+      "Over 7.5": {
+        "price": 120,
+        "consensus_prob": 0.432974,
+        "consensus_odds": 130.96
+      },
+      "Under 7.5": {
+        "price": -134,
+        "consensus_prob": 0.567026,
+        "consensus_odds": -130.96
+      },
+      "Over 7.0": {
+        "price": -111,
+        "consensus_prob": 0.513632,
+        "consensus_odds": -105.61
+      },
+      "Under 7.0": {
+        "price": -111,
+        "consensus_prob": 0.486368,
+        "consensus_odds": 105.61
+      },
+      "Over 9.0": {
+        "price": -117,
+        "consensus_prob": 0.513998,
+        "consensus_odds": -105.76
+      },
+      "Under 9.0": {
+        "price": -104,
+        "consensus_prob": 0.486002,
+        "consensus_odds": 105.76
+      },
+      "Over 6.5": {
+        "price": -154,
+        "consensus_prob": 0.571525,
+        "consensus_odds": -133.39
+      },
+      "Under 6.5": {
+        "price": 120,
+        "consensus_prob": 0.428475,
+        "consensus_odds": 133.39
+      },
+      "Over 8.5": {
+        "price": -105,
+        "consensus_prob": 0.484277,
+        "consensus_odds": 106.49
+      },
+      "Under 8.5": {
+        "price": -120,
+        "consensus_prob": 0.515723,
+        "consensus_odds": -106.49
+      },
+      "Over 8.0": {
+        "price": -122,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 8.0": {
+        "price": -105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 5.5": {
+        "price": -100000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 5.5": {
+        "price": -100000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads": {
+      "San Diego Padres -3.5": {
+        "price": 265,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -2.5": {
+        "price": 145,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.5": {
+        "price": -150,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +1.5": {
+        "price": -900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +2.5": {
+        "price": -3000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +3.5": {
+        "price": -7000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.5": {
+        "price": -156,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": 111,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.5": {
+        "price": 210,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -1.5": {
+        "price": 800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -2.5": {
+        "price": 1400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -3.5": {
+        "price": 1280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -4.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +4.5": {
+        "price": -270,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -3.0": {
+        "price": 105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -2.0": {
+        "price": -193,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -4.0": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -5.0": {
+        "price": 400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.0": {
+        "price": -119,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.0": {
+        "price": 160,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +4.0": {
+        "price": -221,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +5.0": {
+        "price": -405,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +2.0": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +1.0": {
+        "price": -1600,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.0": {
+        "price": -625,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -5.5": {
+        "price": 450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -6.0": {
+        "price": 700,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -6.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -7.0": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -7.5": {
+        "price": 1200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -2.0": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -1.0": {
+        "price": 800,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.0": {
+        "price": 400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +5.5": {
+        "price": -725,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +6.0": {
+        "price": -1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +6.5": {
+        "price": -1450,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +7.0": {
+        "price": -3000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +7.5": {
+        "price": -3000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_5_innings": {
+      "San Diego Padres -3.5": {
+        "price": 425,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -2.5": {
+        "price": 205,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.5": {
+        "price": -285,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -0.5": {
+        "price": 151,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +0.5": {
+        "price": -140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +1.5": {
+        "price": -20000,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +0.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -0.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -1.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -2.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -3.5": {
+        "price": 900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres +1.0": {
+        "price": -223,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.0": {
+        "price": 232,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -1.0": {
+        "price": 184,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.0": {
+        "price": -292,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_team_totals": {
+      "SD 3.5": {
+        "price": 310,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 4.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 5.5": {
+        "price": 175,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 6.5": {
+        "price": 330,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 7.5": {
+        "price": 580,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 8.5": {
+        "price": 920,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 1.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 2.5": {
+        "price": 140,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 3.5": {
+        "price": 230,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 4.5": {
+        "price": 270,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 5.5": {
+        "price": 470,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 6.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 0.5": {
+        "price": 280,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals": {
+      "Over 4.5": {
+        "price": -575,
+        "consensus_prob": 0.858258,
+        "consensus_odds": -605.51
+      },
+      "Over 5.5": {
+        "price": -265,
+        "consensus_prob": 0.74156,
+        "consensus_odds": -286.94
+      },
+      "Over 6.5": {
+        "price": -154,
+        "consensus_prob": 0.673567,
+        "consensus_odds": -206.34
+      },
+      "Over 7.5": {
+        "price": 120,
+        "consensus_prob": 0.598925,
+        "consensus_odds": -149.33
+      },
+      "Over 8.5": {
+        "price": 170,
+        "consensus_prob": 0.463782,
+        "consensus_odds": 115.62
+      },
+      "Over 9.5": {
+        "price": 280,
+        "consensus_prob": 0.3454,
+        "consensus_odds": 189.52
+      },
+      "Over 10.5": {
+        "price": 400,
+        "consensus_prob": 0.275501,
+        "consensus_odds": 262.98
+      },
+      "Over 11.5": {
+        "price": 625,
+        "consensus_prob": 0.144505,
+        "consensus_odds": 592.02
+      },
+      "Over 12.5": {
+        "price": 900,
+        "consensus_prob": 0.107741,
+        "consensus_odds": 828.15
+      },
+      "Under 4.5": {
+        "price": 920,
+        "consensus_prob": 0.141742,
+        "consensus_odds": 605.51
+      },
+      "Under 5.5": {
+        "price": 370,
+        "consensus_prob": 0.25844,
+        "consensus_odds": 286.94
+      },
+      "Under 6.5": {
+        "price": 260,
+        "consensus_prob": 0.326433,
+        "consensus_odds": 206.34
+      },
+      "Under 7.5": {
+        "price": 176,
+        "consensus_prob": 0.401075,
+        "consensus_odds": 149.33
+      },
+      "Under 8.5": {
+        "price": 122,
+        "consensus_prob": 0.536218,
+        "consensus_odds": -115.62
+      },
+      "Under 9.5": {
+        "price": -134,
+        "consensus_prob": 0.6546,
+        "consensus_odds": -189.52
+      },
+      "Under 10.5": {
+        "price": -192,
+        "consensus_prob": 0.724499,
+        "consensus_odds": -262.98
+      },
+      "Under 11.5": {
+        "price": -900,
+        "consensus_prob": 0.855495,
+        "consensus_odds": -592.02
+      },
+      "Under 12.5": {
+        "price": -1500,
+        "consensus_prob": 0.892259,
+        "consensus_odds": -828.15
+      },
+      "Over 9.0": {
+        "price": 250,
+        "consensus_prob": 0.390484,
+        "consensus_odds": 156.09
+      },
+      "Over 7.0": {
+        "price": -111,
+        "consensus_prob": 0.74313,
+        "consensus_odds": -289.3
+      },
+      "Over 8.0": {
+        "price": 155,
+        "consensus_prob": 0.499492,
+        "consensus_odds": 100.2
+      },
+      "Over 10.0": {
+        "price": 375,
+        "consensus_prob": 0.302578,
+        "consensus_odds": 230.49
+      },
+      "Over 11.0": {
+        "price": 575,
+        "consensus_prob": 0.225659,
+        "consensus_odds": 343.15
+      },
+      "Under 9.0": {
+        "price": -104,
+        "consensus_prob": 0.609516,
+        "consensus_odds": -156.09
+      },
+      "Under 7.0": {
+        "price": 269,
+        "consensus_prob": 0.25687,
+        "consensus_odds": 289.3
+      },
+      "Under 8.0": {
+        "price": 153,
+        "consensus_prob": 0.500508,
+        "consensus_odds": -100.2
+      },
+      "Under 10.0": {
+        "price": -165,
+        "consensus_prob": 0.697422,
+        "consensus_odds": -230.49
+      },
+      "Under 11.0": {
+        "price": -265,
+        "consensus_prob": 0.774341,
+        "consensus_odds": -343.15
+      },
+      "Over 3.5": {
+        "price": -2200,
+        "consensus_prob": 0.920245,
+        "consensus_odds": -1153.84
+      },
+      "Over 4.0": {
+        "price": -2000,
+        "consensus_prob": 0.909091,
+        "consensus_odds": -1000.0
+      },
+      "Over 5.0": {
+        "price": -500,
+        "consensus_prob": 0.785714,
+        "consensus_odds": -366.67
+      },
+      "Over 6.0": {
+        "price": -218,
+        "consensus_prob": 0.64497,
+        "consensus_odds": -181.67
+      },
+      "Over 12.0": {
+        "price": 850,
+        "consensus_prob": 0.100135,
+        "consensus_odds": 898.65
+      },
+      "Under 3.5": {
+        "price": 1100,
+        "consensus_prob": 0.079755,
+        "consensus_odds": 1153.84
+      },
+      "Under 4.0": {
+        "price": 950,
+        "consensus_prob": 0.090909,
+        "consensus_odds": 1000.0
+      },
+      "Under 5.0": {
+        "price": 340,
+        "consensus_prob": 0.214286,
+        "consensus_odds": 366.67
+      },
+      "Under 6.0": {
+        "price": 350,
+        "consensus_prob": 0.35503,
+        "consensus_odds": 181.67
+      },
+      "Under 12.0": {
+        "price": -1750,
+        "consensus_prob": 0.899865,
+        "consensus_odds": -898.65
+      }
+    },
+    "alternate_totals_1st_5_innings": {
+      "Over 3.5": {
+        "price": -190,
+        "consensus_prob": 0.627474,
+        "consensus_odds": -168.44
+      },
+      "Over 4.5": {
+        "price": 170,
+        "consensus_prob": 0.466767,
+        "consensus_odds": 114.24
+      },
+      "Over 5.5": {
+        "price": 300,
+        "consensus_prob": 0.356303,
+        "consensus_odds": 180.66
+      },
+      "Over 6.5": {
+        "price": 650,
+        "consensus_prob": 0.261569,
+        "consensus_odds": 282.31
+      },
+      "Under 3.5": {
+        "price": 145,
+        "consensus_prob": 0.372526,
+        "consensus_odds": 168.44
+      },
+      "Under 4.5": {
+        "price": 165,
+        "consensus_prob": 0.533233,
+        "consensus_odds": -114.24
+      },
+      "Under 5.5": {
+        "price": -125,
+        "consensus_prob": 0.643697,
+        "consensus_odds": -180.66
+      },
+      "Under 6.5": {
+        "price": -235,
+        "consensus_prob": 0.738431,
+        "consensus_odds": -282.31
+      },
+      "Over 2.5": {
+        "price": -191,
+        "consensus_prob": 0.633192,
+        "consensus_odds": -172.62
+      },
+      "Over 3.0": {
+        "price": -142,
+        "consensus_prob": 0.566821,
+        "consensus_odds": -130.85
+      },
+      "Over 4.0": {
+        "price": 138,
+        "consensus_prob": 0.405743,
+        "consensus_odds": 146.46
+      },
+      "Under 2.5": {
+        "price": 163,
+        "consensus_prob": 0.366808,
+        "consensus_odds": 172.62
+      },
+      "Under 3.0": {
+        "price": 123,
+        "consensus_prob": 0.433179,
+        "consensus_odds": 130.85
+      },
+      "Under 4.0": {
+        "price": -160,
+        "consensus_prob": 0.594257,
+        "consensus_odds": -146.46
+      },
+      "Over 6.0": {
+        "price": 260,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 6.0": {
+        "price": -375,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_5_innings": {
+      "San Diego Padres": {
+        "price": -1400,
+        "consensus_prob": 0.903345,
+        "consensus_odds": -934.61
+      },
+      "San Francisco Giants": {
+        "price": 1700,
+        "consensus_prob": 0.096655,
+        "consensus_odds": 934.61
+      }
+    },
+    "spreads_1st_5_innings": {
+      "San Diego Padres -3.5": {
+        "price": 210,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.5": {
+        "price": -260,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres 0.0": {
+        "price": 108,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -0.0": {
+        "price": -122,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -1.5": {
+        "price": -250,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.5": {
+        "price": 180,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -2.0": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.0": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "team_totals": {
+      "SD 4.5": {
+        "price": 110,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 2.5": {
+        "price": 116,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 1.5": {
+        "price": 120,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SD 2.5": {
+        "price": 123,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "SF 3.5": {
+        "price": 102,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_5_innings": {
+      "Over 4.5": {
+        "price": 135,
+        "consensus_prob": 0.593592,
+        "consensus_odds": -146.06
+      },
+      "Under 4.5": {
+        "price": 130,
+        "consensus_prob": 0.406408,
+        "consensus_odds": 146.06
+      },
+      "Over 3.5": {
+        "price": 102,
+        "consensus_prob": 0.478669,
+        "consensus_odds": 108.91
+      },
+      "Under 3.5": {
+        "price": -117,
+        "consensus_prob": 0.521331,
+        "consensus_odds": -108.91
+      },
+      "Over 5.5": {
+        "price": 105,
+        "consensus_prob": 0.455408,
+        "consensus_odds": 119.58
+      },
+      "Under 5.5": {
+        "price": -140,
+        "consensus_prob": 0.544592,
+        "consensus_odds": -119.58
+      },
+      "Over 5.0": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 5.0": {
+        "price": -115,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "spreads_1st_1_innings": {
+      "San Diego Padres 0.0": {
+        "price": -113,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants -0.0": {
+        "price": -103,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_1_innings": {
+      "Over 0.5": {
+        "price": 134,
+        "consensus_prob": 0.411011,
+        "consensus_odds": 143.3
+      },
+      "Under 0.5": {
+        "price": -158,
+        "consensus_prob": 0.588989,
+        "consensus_odds": -143.3
+      }
+    },
+    "alternate_spreads_1st_7_innings": {
+      "San Diego Padres -1.5": {
+        "price": -235,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -2.5": {
+        "price": -135,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Diego Padres -3.5": {
+        "price": 155,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +1.5": {
+        "price": 165,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": -105,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +3.5": {
+        "price": -180,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_7_innings": {
+      "Over 6.5": {
+        "price": 150,
+        "consensus_prob": 0.560724,
+        "consensus_odds": -127.65
+      },
+      "Over 5.5": {
+        "price": -130,
+        "consensus_prob": 0.691406,
+        "consensus_odds": -224.05
+      },
+      "Over 7.5": {
+        "price": 115,
+        "consensus_prob": 0.430464,
+        "consensus_odds": 132.31
+      },
+      "Under 6.5": {
+        "price": 110,
+        "consensus_prob": 0.439276,
+        "consensus_odds": 127.65
+      },
+      "Under 5.5": {
+        "price": 200,
+        "consensus_prob": 0.308594,
+        "consensus_odds": 224.05
+      },
+      "Under 7.5": {
+        "price": -160,
+        "consensus_prob": 0.569536,
+        "consensus_odds": -132.31
+      },
+      "Over 4.5": {
+        "price": -275,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 4.5": {
+        "price": 200,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_7_innings": {
+      "San Diego Padres": {
+        "price": -750,
+        "consensus_prob": 0.822454,
+        "consensus_odds": -463.23
+      },
+      "San Francisco Giants": {
+        "price": 750,
+        "consensus_prob": 0.177546,
+        "consensus_odds": 463.23
+      }
+    },
+    "spreads_1st_3_innings": {
+      "San Diego Padres -2.5": {
+        "price": -286,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": 205,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "totals_1st_3_innings": {
+      "Over 3.5": {
+        "price": 220,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 3.5": {
+        "price": -315,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_spreads_1st_3_innings": {
+      "San Diego Padres -2.5": {
+        "price": -1400,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants +2.5": {
+        "price": 750,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "alternate_totals_1st_3_innings": {
+      "Over 3.5": {
+        "price": 240,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Over 4.5": {
+        "price": 500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 3.5": {
+        "price": -350,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "Under 4.5": {
+        "price": -900,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_1st_3_innings": {
+      "San Diego Padres": {
+        "price": -3500,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants": {
+        "price": 1300,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_lay": {
+      "San Diego Padres": {
+        "price": -455,
+        "consensus_prob": null,
+        "consensus_odds": null
+      },
+      "San Francisco Giants": {
+        "price": 950,
+        "consensus_prob": null,
+        "consensus_odds": null
+      }
+    },
+    "h2h_source": {
+      "San Diego Padres": {
+        "fanduel": -1100,
+        "espnbet": -1000,
+        "winamax_fr": -400,
+        "mybookieag": -714,
+        "nordicbet": -909,
+        "fliff": -740,
+        "williamhill": 100,
+        "pinnacle": -585,
+        "draftkings": -810,
+        "gtbets": -665,
+        "hardrockbet": -800,
+        "betmgm": -350,
+        "bovada": -600,
+        "ballybet": -435,
+        "betparx": -435,
+        "unibet_eu": -435,
+        "williamhill_us": -800,
+        "fanatics": -700,
+        "tipico_de": -667,
+        "betfair_ex_eu": -909,
+        "coolbet": -667
+      },
+      "San Francisco Giants": {
+        "fanduel": 600,
+        "espnbet": 475,
+        "winamax_fr": 265,
+        "mybookieag": 450,
+        "nordicbet": 515,
+        "fliff": 455,
+        "williamhill": -120,
+        "pinnacle": 418,
+        "draftkings": 500,
+        "gtbets": 454,
+        "hardrockbet": 475,
+        "betmgm": 270,
+        "bovada": 375,
+        "ballybet": 320,
+        "betparx": 320,
+        "unibet_eu": 320,
+        "williamhill_us": 500,
+        "fanatics": 425,
+        "tipico_de": 370,
+        "betfair_ex_eu": 450,
+        "coolbet": 460
+      }
+    },
+    "spreads_source": {
+      "San Diego Padres -2.5": {
+        "fanduel": -154,
+        "espnbet": -150,
+        "mybookieag": -143,
+        "fliff": -130,
+        "draftkings": -140,
+        "gtbets": -129,
+        "hardrockbet": -150,
+        "bovada": -115,
+        "williamhill_us": -140,
+        "fanatics": -140,
+        "coolbet": -133
+      },
+      "San Francisco Giants +2.5": {
+        "fanduel": 116,
+        "espnbet": 115,
+        "mybookieag": 105,
+        "fliff": 100,
+        "draftkings": 110,
+        "gtbets": 101,
+        "hardrockbet": 115,
+        "bovada": -115,
+        "williamhill_us": 110,
+        "fanatics": 105,
+        "coolbet": 110
+      },
+      "San Diego Padres -3.0": {
+        "pinnacle": -102
+      },
+      "San Francisco Giants +3.0": {
+        "pinnacle": -119
+      },
+      "San Diego Padres -1.5": {
+        "betmgm": -125,
+        "ballybet": -134,
+        "betparx": -134,
+        "unibet_eu": -134
+      },
+      "San Francisco Giants +1.5": {
+        "betmgm": -102,
+        "ballybet": 106,
+        "betparx": 106,
+        "unibet_eu": 106
+      }
+    },
+    "totals_source": {
+      "Over 7.5": {
+        "fanduel": 116,
+        "sport888": 100,
+        "espnbet": 120,
+        "fliff": 110,
+        "gtbets": 105,
+        "hardrockbet": 115,
+        "williamhill_us": 110,
+        "fanatics": 110
+      },
+      "Under 7.5": {
+        "fanduel": -154,
+        "sport888": -143,
+        "espnbet": -155,
+        "fliff": -145,
+        "gtbets": -134,
+        "hardrockbet": -150,
+        "williamhill_us": -140,
+        "fanatics": -145
+      },
+      "Over 7.0": {
+        "mybookieag": -125,
+        "coolbet": -111
+      },
+      "Under 7.0": {
+        "mybookieag": -111,
+        "coolbet": -111
+      },
+      "Over 9.0": {
+        "pinnacle": -117
+      },
+      "Under 9.0": {
+        "pinnacle": -104
+      },
+      "Over 6.5": {
+        "draftkings": -154
+      },
+      "Under 6.5": {
+        "draftkings": 120
+      },
+      "Over 8.5": {
+        "betmgm": -105
+      },
+      "Under 8.5": {
+        "betmgm": -120
+      },
+      "Over 8.0": {
+        "bovada": -125,
+        "ballybet": -122,
+        "betparx": -122
+      },
+      "Under 8.0": {
+        "bovada": -105,
+        "ballybet": -106,
+        "betparx": -106
+      },
+      "Over 5.5": {
+        "tipico_de": -100000
+      },
+      "Under 5.5": {
+        "tipico_de": -100000
+      }
+    },
+    "alternate_spreads_source": {
+      "San Diego Padres -3.5": {
+        "fanduel": 265,
+        "espnbet": 260,
+        "fliff": 150,
+        "pinnacle": 127,
+        "draftkings": 145,
+        "hardrockbet": 140,
+        "betmgm": 180,
+        "williamhill_us": 133,
+        "coolbet": 150
+      },
+      "San Diego Padres -2.5": {
+        "fanduel": 142,
+        "espnbet": 145,
+        "fliff": -130,
+        "pinnacle": -136,
+        "betmgm": 105,
+        "coolbet": -133
+      },
+      "San Diego Padres -1.5": {
+        "fanduel": -160,
+        "espnbet": -150,
+        "fliff": -255,
+        "pinnacle": -242,
+        "draftkings": -285,
+        "hardrockbet": -300,
+        "betmgm": -180,
+        "williamhill_us": -288,
+        "coolbet": -250
+      },
+      "San Diego Padres +1.5": {
+        "fanduel": -1200,
+        "pinnacle": -1148,
+        "draftkings": -1600,
+        "betmgm": -900
+      },
+      "San Diego Padres +2.5": {
+        "fanduel": -3000,
+        "draftkings": -4000
+      },
+      "San Diego Padres +3.5": {
+        "fanduel": -7000
+      },
+      "San Francisco Giants +3.5": {
+        "fanduel": -390,
+        "espnbet": -400,
+        "fliff": -215,
+        "pinnacle": -156,
+        "draftkings": -188,
+        "hardrockbet": -180,
+        "betmgm": -235,
+        "williamhill_us": -198,
+        "coolbet": -182
+      },
+      "San Francisco Giants +2.5": {
+        "fanduel": -192,
+        "espnbet": -190,
+        "fliff": 100,
+        "pinnacle": 111,
+        "betmgm": -135,
+        "coolbet": 110
+      },
+      "San Francisco Giants +1.5": {
+        "fanduel": 120,
+        "espnbet": 115,
+        "fliff": 175,
+        "pinnacle": 188,
+        "draftkings": 210,
+        "hardrockbet": 210,
+        "betmgm": 140,
+        "williamhill_us": 184,
+        "coolbet": 205
+      },
+      "San Francisco Giants -1.5": {
+        "fanduel": 580,
+        "pinnacle": 674,
+        "draftkings": 800,
+        "betmgm": 525
+      },
+      "San Francisco Giants -2.5": {
+        "fanduel": 880,
+        "draftkings": 1400
+      },
+      "San Francisco Giants -3.5": {
+        "fanduel": 1280
+      },
+      "San Diego Padres -4.5": {
+        "fliff": 275,
+        "pinnacle": 208,
+        "draftkings": 270,
+        "betmgm": 310,
+        "williamhill_us": 234
+      },
+      "San Francisco Giants +4.5": {
+        "fliff": -430,
+        "pinnacle": -270,
+        "draftkings": -385,
+        "betmgm": -450,
+        "williamhill_us": -388
+      },
+      "San Diego Padres -3.0": {
+        "pinnacle": -102,
+        "draftkings": 105
+      },
+      "San Diego Padres -2.0": {
+        "pinnacle": -193,
+        "draftkings": -212
+      },
+      "San Diego Padres -4.0": {
+        "pinnacle": 175,
+        "draftkings": 220,
+        "williamhill_us": 197
+      },
+      "San Diego Padres -5.0": {
+        "pinnacle": 295,
+        "draftkings": 400,
+        "williamhill_us": 342
+      },
+      "San Francisco Giants +3.0": {
+        "pinnacle": -119,
+        "draftkings": -135
+      },
+      "San Francisco Giants +2.0": {
+        "pinnacle": 154,
+        "draftkings": 160
+      },
+      "San Francisco Giants +4.0": {
+        "pinnacle": -221,
+        "draftkings": -300,
+        "williamhill_us": -313
+      },
+      "San Francisco Giants +5.0": {
+        "pinnacle": -405,
+        "draftkings": -625,
+        "williamhill_us": -658
+      },
+      "San Diego Padres +2.0": {
+        "draftkings": -3500
+      },
+      "San Diego Padres +1.0": {
+        "draftkings": -1600
+      },
+      "San Diego Padres -1.0": {
+        "draftkings": -625,
+        "williamhill_us": -658
+      },
+      "San Diego Padres -5.5": {
+        "draftkings": 450,
+        "williamhill_us": 375
+      },
+      "San Diego Padres -6.0": {
+        "draftkings": 700
+      },
+      "San Diego Padres -6.5": {
+        "draftkings": 750
+      },
+      "San Diego Padres -7.0": {
+        "draftkings": 1200
+      },
+      "San Diego Padres -7.5": {
+        "draftkings": 1200
+      },
+      "San Francisco Giants -2.0": {
+        "draftkings": 1300
+      },
+      "San Francisco Giants -1.0": {
+        "draftkings": 800
+      },
+      "San Francisco Giants +1.0": {
+        "draftkings": 400,
+        "williamhill_us": 342
+      },
+      "San Francisco Giants +5.5": {
+        "draftkings": -725,
+        "williamhill_us": -758
+      },
+      "San Francisco Giants +6.0": {
+        "draftkings": -1300
+      },
+      "San Francisco Giants +6.5": {
+        "draftkings": -1450
+      },
+      "San Francisco Giants +7.0": {
+        "draftkings": -3000
+      },
+      "San Francisco Giants +7.5": {
+        "draftkings": -3000
+      }
+    },
+    "alternate_spreads_1st_5_innings_source": {
+      "San Diego Padres -3.5": {
+        "fanduel": 200,
+        "espnbet": 380,
+        "hardrockbet": 425,
+        "betmgm": 185
+      },
+      "San Diego Padres -2.5": {
+        "fanduel": -330,
+        "espnbet": 185,
+        "fliff": -270,
+        "hardrockbet": 185,
+        "betmgm": -150,
+        "ballybet": 205,
+        "fanatics": -285
+      },
+      "San Diego Padres -1.5": {
+        "fanduel": -850,
+        "espnbet": -285,
+        "hardrockbet": -300,
+        "betmgm": -295,
+        "ballybet": -315
+      },
+      "San Diego Padres -0.5": {
+        "fanduel": -2300,
+        "pinnacle": 151
+      },
+      "San Diego Padres +0.5": {
+        "fanduel": -9000,
+        "pinnacle": -140
+      },
+      "San Diego Padres +1.5": {
+        "fanduel": -20000
+      },
+      "San Francisco Giants +3.5": {
+        "fanduel": -310,
+        "espnbet": -750,
+        "hardrockbet": -650,
+        "betmgm": -250
+      },
+      "San Francisco Giants +2.5": {
+        "fanduel": 210,
+        "espnbet": -260,
+        "fliff": 200,
+        "hardrockbet": -260,
+        "betmgm": 110,
+        "ballybet": -286,
+        "fanatics": 220
+      },
+      "San Francisco Giants +1.5": {
+        "fanduel": 500,
+        "espnbet": 200,
+        "hardrockbet": 210,
+        "betmgm": 210,
+        "ballybet": 220
+      },
+      "San Francisco Giants +0.5": {
+        "fanduel": 900,
+        "pinnacle": -176
+      },
+      "San Francisco Giants -0.5": {
+        "fanduel": 900,
+        "pinnacle": 121
+      },
+      "San Francisco Giants -1.5": {
+        "fanduel": 900
+      },
+      "San Francisco Giants -2.5": {
+        "fanduel": 900
+      },
+      "San Francisco Giants -3.5": {
+        "fanduel": 900
+      },
+      "San Diego Padres +1.0": {
+        "pinnacle": -223
+      },
+      "San Diego Padres -1.0": {
+        "pinnacle": 232
+      },
+      "San Francisco Giants -1.0": {
+        "pinnacle": 184
+      },
+      "San Francisco Giants +1.0": {
+        "pinnacle": -292
+      }
+    },
+    "alternate_team_totals_source": {
+      "SD 3.5": {
+        "fanduel": 310,
+        "fanatics": 260
+      },
+      "SD 4.5": {
+        "fanduel": 108,
+        "hardrockbet": 110,
+        "betmgm": 140,
+        "fanatics": -105
+      },
+      "SD 5.5": {
+        "fanduel": -235,
+        "hardrockbet": -200,
+        "betmgm": -155,
+        "fanatics": -240
+      },
+      "SD 6.5": {
+        "fanduel": -500,
+        "hardrockbet": -450,
+        "fanatics": -500
+      },
+      "SD 7.5": {
+        "fanduel": -1200
+      },
+      "SD 8.5": {
+        "fanduel": 920
+      },
+      "SF 1.5": {
+        "fanduel": 280,
+        "fanatics": 105
+      },
+      "SF 2.5": {
+        "fanduel": 100,
+        "hardrockbet": 105,
+        "betmgm": 110,
+        "fanatics": -180
+      },
+      "SF 3.5": {
+        "fanduel": -205,
+        "hardrockbet": -175,
+        "betmgm": -175,
+        "fanatics": -325
+      },
+      "SF 4.5": {
+        "fanduel": -400,
+        "hardrockbet": -325
+      },
+      "SF 5.5": {
+        "fanduel": -850
+      },
+      "SF 6.5": {
+        "fanduel": 750
+      },
+      "SF 0.5": {
+        "fanatics": 280
+      }
+    },
+    "alternate_totals_source": {
+      "Over 4.5": {
+        "fanduel": -3500,
+        "draftkings": -600,
+        "fanatics": -575
+      },
+      "Over 5.5": {
+        "fanduel": -600,
+        "fliff": -275,
+        "draftkings": -265,
+        "fanatics": -275
+      },
+      "Over 6.5": {
+        "fanduel": -320,
+        "fliff": -170,
+        "draftkings": -154,
+        "hardrockbet": -155,
+        "betmgm": -350,
+        "bovada": -335,
+        "ballybet": -455,
+        "fanatics": -165,
+        "coolbet": -154
+      },
+      "Over 7.5": {
+        "fanduel": -138,
+        "espnbet": -155,
+        "fliff": 105,
+        "pinnacle": -225,
+        "betmgm": -175,
+        "bovada": -150,
+        "ballybet": -155,
+        "fanatics": 110,
+        "coolbet": 120
+      },
+      "Over 8.5": {
+        "fanduel": 114,
+        "espnbet": 100,
+        "fliff": 150,
+        "pinnacle": -149,
+        "draftkings": 165,
+        "hardrockbet": 170,
+        "betmgm": -110,
+        "bovada": 100,
+        "ballybet": 104,
+        "fanatics": 160
+      },
+      "Over 9.5": {
+        "fanduel": 200,
+        "espnbet": 175,
+        "fliff": 255,
+        "pinnacle": 110,
+        "draftkings": 280,
+        "betmgm": 155,
+        "bovada": 175,
+        "ballybet": 188,
+        "fanatics": 280
+      },
+      "Over 10.5": {
+        "fanduel": 290,
+        "pinnacle": 152,
+        "draftkings": 390,
+        "betmgm": 220,
+        "ballybet": 270,
+        "fanatics": 400
+      },
+      "Over 11.5": {
+        "fanduel": 490,
+        "draftkings": 625,
+        "fanatics": 550
+      },
+      "Over 12.5": {
+        "fanduel": 680,
+        "draftkings": 900,
+        "fanatics": 800
+      },
+      "Under 4.5": {
+        "fanduel": 920,
+        "draftkings": 390,
+        "fanatics": 375
+      },
+      "Under 5.5": {
+        "fanduel": 370,
+        "fliff": 190,
+        "draftkings": 195,
+        "fanatics": 200
+      },
+      "Under 6.5": {
+        "fanduel": 225,
+        "fliff": 120,
+        "draftkings": 120,
+        "hardrockbet": 120,
+        "betmgm": 260,
+        "bovada": 240,
+        "ballybet": 245,
+        "fanatics": 125,
+        "coolbet": 125
+      },
+      "Under 7.5": {
+        "fanduel": 104,
+        "espnbet": 120,
+        "fliff": -140,
+        "pinnacle": 176,
+        "betmgm": 135,
+        "bovada": 115,
+        "ballybet": 117,
+        "fanatics": -145,
+        "coolbet": -154
+      },
+      "Under 8.5": {
+        "fanduel": -152,
+        "espnbet": -130,
+        "fliff": -215,
+        "pinnacle": 122,
+        "draftkings": -218,
+        "hardrockbet": -225,
+        "betmgm": -115,
+        "bovada": -130,
+        "ballybet": -132,
+        "fanatics": -210
+      },
+      "Under 9.5": {
+        "fanduel": -280,
+        "espnbet": -260,
+        "fliff": -390,
+        "pinnacle": -134,
+        "draftkings": -400,
+        "betmgm": -200,
+        "bovada": -230,
+        "ballybet": -295,
+        "fanatics": -400
+      },
+      "Under 10.5": {
+        "fanduel": -440,
+        "pinnacle": -192,
+        "draftkings": -600,
+        "betmgm": -295,
+        "ballybet": -560,
+        "fanatics": -630
+      },
+      "Under 11.5": {
+        "fanduel": -900,
+        "draftkings": -1150,
+        "fanatics": -1000
+      },
+      "Under 12.5": {
+        "fanduel": -1600,
+        "draftkings": -1850,
+        "fanatics": -1500
+      },
+      "Over 9.0": {
+        "pinnacle": -117,
+        "draftkings": 250,
+        "bovada": 140,
+        "ballybet": 148
+      },
+      "Over 7.0": {
+        "pinnacle": -363,
+        "bovada": -250,
+        "ballybet": -305,
+        "coolbet": -111
+      },
+      "Over 8.0": {
+        "pinnacle": -192,
+        "draftkings": 150,
+        "ballybet": -122,
+        "coolbet": 155
+      },
+      "Over 10.0": {
+        "pinnacle": 133,
+        "draftkings": 375,
+        "bovada": 220,
+        "ballybet": 245
+      },
+      "Over 11.0": {
+        "pinnacle": 204,
+        "draftkings": 575
+      },
+      "Under 9.0": {
+        "pinnacle": -104,
+        "draftkings": -350,
+        "bovada": -185,
+        "ballybet": -215
+      },
+      "Under 7.0": {
+        "pinnacle": 269,
+        "bovada": 185,
+        "ballybet": 190,
+        "coolbet": -111
+      },
+      "Under 8.0": {
+        "pinnacle": 153,
+        "draftkings": -198,
+        "ballybet": -106,
+        "coolbet": -192
+      },
+      "Under 10.0": {
+        "pinnacle": -165,
+        "draftkings": -575,
+        "bovada": -300,
+        "ballybet": -455
+      },
+      "Under 11.0": {
+        "pinnacle": -265,
+        "draftkings": -1025
+      },
+      "Over 3.5": {
+        "draftkings": -2500,
+        "fanatics": -2200
+      },
+      "Over 4.0": {
+        "draftkings": -2000
+      },
+      "Over 5.0": {
+        "draftkings": -500
+      },
+      "Over 6.0": {
+        "draftkings": -218,
+        "bovada": -550
+      },
+      "Over 12.0": {
+        "draftkings": 850
+      },
+      "Under 3.5": {
+        "draftkings": 1100,
+        "fanatics": 1050
+      },
+      "Under 4.0": {
+        "draftkings": 950
+      },
+      "Under 5.0": {
+        "draftkings": 340
+      },
+      "Under 6.0": {
+        "draftkings": 165,
+        "bovada": 350
+      },
+      "Under 12.0": {
+        "draftkings": -1750
+      }
+    },
+    "alternate_totals_1st_5_innings_source": {
+      "Over 3.5": {
+        "fanduel": -220,
+        "fanatics": -190
+      },
+      "Over 4.5": {
+        "fanduel": 130,
+        "espnbet": -220,
+        "fliff": -105,
+        "pinnacle": 170,
+        "hardrockbet": -220,
+        "betmgm": -225,
+        "bovada": -205,
+        "ballybet": -230,
+        "fanatics": 145
+      },
+      "Over 5.5": {
+        "fanduel": 300,
+        "espnbet": 115,
+        "hardrockbet": 125,
+        "betmgm": -105,
+        "bovada": 150,
+        "ballybet": 135
+      },
+      "Over 6.5": {
+        "fanduel": 650,
+        "espnbet": 230,
+        "hardrockbet": 250,
+        "betmgm": 175,
+        "bovada": 315
+      },
+      "Under 3.5": {
+        "fanduel": 145,
+        "fanatics": 145
+      },
+      "Under 4.5": {
+        "fanduel": -200,
+        "espnbet": 150,
+        "fliff": -125,
+        "pinnacle": -200,
+        "hardrockbet": 165,
+        "betmgm": 165,
+        "bovada": 155,
+        "ballybet": 165,
+        "fanatics": -190
+      },
+      "Under 5.5": {
+        "fanduel": -460,
+        "espnbet": -160,
+        "hardrockbet": -160,
+        "betmgm": -125,
+        "bovada": -200,
+        "ballybet": -180
+      },
+      "Under 6.5": {
+        "espnbet": -400,
+        "hardrockbet": -375,
+        "betmgm": -235,
+        "bovada": -475
+      },
+      "Over 2.5": {
+        "pinnacle": -191
+      },
+      "Over 3.0": {
+        "pinnacle": -142
+      },
+      "Over 4.0": {
+        "pinnacle": 138
+      },
+      "Under 2.5": {
+        "pinnacle": 163
+      },
+      "Under 3.0": {
+        "pinnacle": 123
+      },
+      "Under 4.0": {
+        "pinnacle": -160
+      },
+      "Over 6.0": {
+        "bovada": 260
+      },
+      "Under 6.0": {
+        "bovada": -375
+      }
+    },
+    "h2h_1st_5_innings_source": {
+      "San Diego Padres": {
+        "fanduel": -5000,
+        "fliff": -41570,
+        "betmgm": -1400,
+        "ballybet": -10000,
+        "fanatics": -6000
+      },
+      "San Francisco Giants": {
+        "fanduel": 1300,
+        "fliff": 1500,
+        "betmgm": 650,
+        "ballybet": 1150,
+        "fanatics": 1700
+      }
+    },
+    "spreads_1st_5_innings_source": {
+      "San Diego Padres -3.5": {
+        "fanduel": 210,
+        "fliff": 190
+      },
+      "San Francisco Giants +3.5": {
+        "fanduel": -300,
+        "fliff": -260
+      },
+      "San Diego Padres 0.0": {
+        "pinnacle": 108
+      },
+      "San Francisco Giants -0.0": {
+        "pinnacle": -122
+      },
+      "San Diego Padres -1.5": {
+        "betmgm": -250
+      },
+      "San Francisco Giants +1.5": {
+        "betmgm": 180
+      },
+      "San Diego Padres -2.0": {
+        "bovada": -115
+      },
+      "San Francisco Giants +2.0": {
+        "bovada": -115
+      }
+    },
+    "team_totals_source": {
+      "SD 4.5": {
+        "fanduel": 108,
+        "fliff": 100,
+        "draftkings": 105,
+        "hardrockbet": 110,
+        "bovada": 110,
+        "ballybet": 108
+      },
+      "SF 2.5": {
+        "fanduel": 100,
+        "hardrockbet": 105,
+        "bovada": 110,
+        "ballybet": 116
+      },
+      "SF 1.5": {
+        "fliff": 120,
+        "draftkings": 110
+      },
+      "SD 2.5": {
+        "pinnacle": 123
+      },
+      "SF 3.5": {
+        "pinnacle": -118
+      }
+    },
+    "totals_1st_5_innings_source": {
+      "Over 4.5": {
+        "fanduel": -174,
+        "fliff": 135
+      },
+      "Under 4.5": {
+        "fanduel": 130,
+        "fliff": -180
+      },
+      "Over 3.5": {
+        "pinnacle": 102
+      },
+      "Under 3.5": {
+        "pinnacle": -117
+      },
+      "Over 5.5": {
+        "betmgm": 105
+      },
+      "Under 5.5": {
+        "betmgm": -140
+      },
+      "Over 5.0": {
+        "bovada": -115
+      },
+      "Under 5.0": {
+        "bovada": -115
+      }
+    },
+    "spreads_1st_1_innings_source": {
+      "San Diego Padres 0.0": {
+        "pinnacle": -113
+      },
+      "San Francisco Giants -0.0": {
+        "pinnacle": -103
+      }
+    },
+    "totals_1st_1_innings_source": {
+      "Over 0.5": {
+        "pinnacle": 134
+      },
+      "Under 0.5": {
+        "pinnacle": -158
+      }
+    },
+    "alternate_spreads_1st_7_innings_source": {
+      "San Diego Padres -1.5": {
+        "betmgm": -235
+      },
+      "San Diego Padres -2.5": {
+        "betmgm": -135
+      },
+      "San Diego Padres -3.5": {
+        "betmgm": 155,
+        "fanatics": 140
+      },
+      "San Francisco Giants +1.5": {
+        "betmgm": 165
+      },
+      "San Francisco Giants +2.5": {
+        "betmgm": -105
+      },
+      "San Francisco Giants +3.5": {
+        "betmgm": -220,
+        "fanatics": -180
+      }
+    },
+    "alternate_totals_1st_7_innings_source": {
+      "Over 6.5": {
+        "betmgm": -155,
+        "fanatics": 150
+      },
+      "Over 5.5": {
+        "betmgm": -295,
+        "fanatics": -130
+      },
+      "Over 7.5": {
+        "betmgm": 115
+      },
+      "Under 6.5": {
+        "betmgm": 110,
+        "fanatics": -200
+      },
+      "Under 5.5": {
+        "betmgm": 200,
+        "fanatics": 100
+      },
+      "Under 7.5": {
+        "betmgm": -160
+      },
+      "Over 4.5": {
+        "fanatics": -275
+      },
+      "Under 4.5": {
+        "fanatics": 200
+      }
+    },
+    "h2h_1st_7_innings_source": {
+      "San Diego Padres": {
+        "betmgm": -750,
+        "fanatics": -1400
+      },
+      "San Francisco Giants": {
+        "betmgm": 425,
+        "fanatics": 750
+      }
+    },
+    "spreads_1st_3_innings_source": {
+      "San Diego Padres -2.5": {
+        "ballybet": -286
+      },
+      "San Francisco Giants +2.5": {
+        "ballybet": 205
+      }
+    },
+    "totals_1st_3_innings_source": {
+      "Over 3.5": {
+        "ballybet": 220
+      },
+      "Under 3.5": {
+        "ballybet": -315
+      }
+    },
+    "alternate_spreads_1st_3_innings_source": {
+      "San Diego Padres -2.5": {
+        "fanatics": -1400
+      },
+      "San Francisco Giants +2.5": {
+        "fanatics": 750
+      }
+    },
+    "alternate_totals_1st_3_innings_source": {
+      "Over 3.5": {
+        "fanatics": 240
+      },
+      "Over 4.5": {
+        "fanatics": 500
+      },
+      "Under 3.5": {
+        "fanatics": -350
+      },
+      "Under 4.5": {
+        "fanatics": -900
+      }
+    },
+    "h2h_1st_3_innings_source": {
+      "San Diego Padres": {
+        "fanatics": -3500
+      },
+      "San Francisco Giants": {
+        "fanatics": 1300
+      }
+    },
+    "h2h_lay_source": {
+      "San Diego Padres": {
+        "betfair_ex_eu": -455
+      },
+      "San Francisco Giants": {
+        "betfair_ex_eu": 950
+      }
+    },
+    "start_time": "2025-04-30T01:41:06+00:00"
+  }
+}

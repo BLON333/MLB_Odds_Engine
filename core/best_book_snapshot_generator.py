@@ -22,37 +22,79 @@ from live_snapshot_generator import (
     format_for_display,
     format_table_with_highlights,
     export_market_snapshots,
+    send_bet_snapshot_to_discord,
 )
-# send_bet_snapshot_to_discord was previously provided by a separate
-# module (discord_snapshots.py) which has since been removed. The
-# function now lives in live_snapshot_generator.py, so import it from
-# there to restore Discord image functionality.
-from live_snapshot_generator import send_bet_snapshot_to_discord
 
 load_dotenv()
 
-CUSTOM_BOOKMAKERS = ["pinnacle", "betonlineag", "fanduel", "bovada"]
-odds_fetcher.BOOKMAKERS = CUSTOM_BOOKMAKERS
-print("📊 Using custom bookmakers:", odds_fetcher.BOOKMAKERS)
+# Sportsbooks considered popular for best-book selection
+POPULAR_BOOKS = [
+    "fanduel",
+    "draftkings",
+    "betmgm",
+    "williamhill_us",
+    "espnbet",
+    "hardrockbet",
+    "fliff",
+    "mybookieag",
+    "lowvig",
+    "betonlineag",
+    "betrivers",
+    "fanatics",
+    "pinnacle",
+]
 
 SNAPSHOT_DIR = "backtest"
 
 
 def make_snapshot_path(date_key: str) -> str:
     safe = date_key.replace(",", "_")
-    return os.path.join(SNAPSHOT_DIR, f"personal_snapshot_{safe}.json")
+    return os.path.join(SNAPSHOT_DIR, f"best_book_snapshot_{safe}.json")
 
 
 def make_market_snapshot_paths(date_key: str) -> dict:
     safe = date_key.replace(",", "_")
-    return {"all": os.path.join(SNAPSHOT_DIR, f"last_personal_snapshot_{safe}.json")}
+    return {"main": os.path.join(SNAPSHOT_DIR, f"last_best_book_snapshot_{safe}.json")}
 
-PERSONAL_WEBHOOK_URL = "https://discord.com/api/webhooks/1368408687559053332/2uhUud0fgdonV0xdIDorXX02HGQ1AWsEO_lQHMDqWLh-4THpMEe3mXb7u88JSvssSRtM"
 
-DEBUG_LOG = []
+# Utility --------------------------------------------------------------------
+from typing import List, Dict
+from core.market_pricer import decimal_odds
+
+
+def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = None) -> List[dict]:
+    """Return best-priced row per (game_id, market, side)."""
+    groups: Dict[tuple, dict] = {}
+    fallbacks: Dict[tuple, dict] = {}
+
+    for r in rows:
+        key = (r.get("game_id"), r.get("market"), r.get("side"))
+        odds = r.get("market_odds")
+        try:
+            dec = decimal_odds(float(odds))
+        except Exception:
+            dec = -1.0
+
+        if preferred_books and r.get("best_book") not in preferred_books:
+            current = fallbacks.get(key)
+            if not current or dec > decimal_odds(float(current.get("market_odds", 0))):
+                fallbacks[key] = r
+            continue
+
+        current = groups.get(key)
+        if not current or dec > decimal_odds(float(current.get("market_odds", 0))):
+            groups[key] = r
+
+    for key, fb in fallbacks.items():
+        groups.setdefault(key, fb)
+
+    return list(groups.values())
+
+
+# Main -----------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate personal live market snapshot")
+    parser = argparse.ArgumentParser(description="Generate best-book market snapshot")
     parser.add_argument("--date", default=datetime.today().strftime("%Y-%m-%d"), help="Comma-separated list of dates")
     parser.add_argument("--min-ev", type=float, default=0.05)
     parser.add_argument("--max-ev", type=float, default=0.20)
@@ -60,7 +102,7 @@ def main():
     parser.add_argument("--no-output-discord", dest="output_discord", action="store_false")
     parser.add_argument("--diff-highlight", action="store_true", help="Highlight new rows and odds movements")
     parser.add_argument("--reset-snapshot", action="store_true", help="Clear stored snapshot before running")
-    parser.set_defaults(output_discord=True)
+    parser.set_defaults(output_discord=False)
     args = parser.parse_args()
 
     snapshot_path = make_snapshot_path(args.date)
@@ -83,13 +125,15 @@ def main():
             print(f"❌ Failed to fetch market odds for {date_str}.")
             continue
 
-        all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, DEBUG_LOG))
+        all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, []))
 
     rows = expand_snapshot_rows_with_kelly(
         all_rows,
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
+
+    rows = select_best_book_rows(rows, POPULAR_BOOKS)
 
     if not rows:
         print("⚠️ No qualifying bets found.")
@@ -120,7 +164,7 @@ def main():
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
-        send_bet_snapshot_to_discord(df, "MLB Markets", PERSONAL_WEBHOOK_URL)
+        send_bet_snapshot_to_discord(df, "Best Book", os.getenv("DISCORD_BEST_BOOK_WEBHOOK_URL", ""))
     else:
         if args.diff_highlight:
             print(format_table_with_highlights(rows))
@@ -130,6 +174,7 @@ def main():
     os.makedirs(os.path.dirname(snapshot_path), exist_ok=True)
     with open(snapshot_path, "w") as f:
         json.dump(snapshot_next, f, indent=2)
+
 
 if __name__ == "__main__":
     main()

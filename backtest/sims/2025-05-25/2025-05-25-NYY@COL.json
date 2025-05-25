@@ -1,0 +1,1640 @@
+{
+  "home_score": 4.3311,
+  "away_score": 5.4799,
+  "run_distribution": {
+    "5.0": 0.0494,
+    "4.0": 0.0714,
+    "10.0": 0.0707,
+    "8.0": 0.0728,
+    "16.0": 0.0365,
+    "11.0": 0.0788,
+    "0.0": 0.0085,
+    "19.0": 0.0113,
+    "18.0": 0.021,
+    "2.0": 0.0348,
+    "15.0": 0.0351,
+    "14.0": 0.0539,
+    "9.0": 0.0872,
+    "17.0": 0.0192,
+    "6.0": 0.086,
+    "13.0": 0.0485,
+    "7.0": 0.0729,
+    "12.0": 0.0548,
+    "1.0": 0.0126,
+    "20.0": 0.0138,
+    "3.0": 0.0328,
+    "23.0": 0.0046,
+    "21.0": 0.0069,
+    "26.0": 0.0019,
+    "27.0": 0.0011,
+    "29.0": 0.0004,
+    "22.0": 0.0068,
+    "24.0": 0.0026,
+    "28.0": 0.0005,
+    "25.0": 0.0022,
+    "31.0": 0.0002,
+    "30.0": 0.0006,
+    "34.0": 0.0001,
+    "32.0": 0.0001
+  },
+  "run_distribution_raw": {
+    "5.1000000000000005": 0.0114,
+    "4.1": 0.0152,
+    "9.5": 0.0118,
+    "7.5": 0.0186,
+    "10.299999999999999": 0.0015,
+    "15.799999999999999": 0.0076,
+    "11.4": 0.0129,
+    "-0.30000000000000004": 0.004,
+    "19.3": 0.0021,
+    "18.1": 0.0034,
+    "7.9": 0.0164,
+    "2.1": 0.0131,
+    "10.7": 0.0098,
+    "15.3": 0.0063,
+    "17.9": 0.0036,
+    "14.399999999999999": 0.0072,
+    "18.5": 0.0025,
+    "8.8": 0.0197,
+    "17.1": 0.0016,
+    "14.7": 0.0082,
+    "6.5": 0.0234,
+    "8.3": 0.0073,
+    "13.6": 0.0128,
+    "9.899999999999999": 0.0152,
+    "9.1": 0.0116,
+    "4.4": 0.0217,
+    "11.2": 0.0171,
+    "13.3": 0.0112,
+    "13.2": 0.0095,
+    "5.7": 0.0168,
+    "18.200000000000003": 0.0021,
+    "16.6": 0.0008,
+    "7.1": 0.0038,
+    "14.3": 0.0064,
+    "4.300000000000001": 0.0217,
+    "12.2": 0.0107,
+    "16.0": 0.0062,
+    "15.4": 0.0064,
+    "11.0": 0.0167,
+    "8.5": 0.0129,
+    "8.1": 0.0089,
+    "0.7": 0.0063,
+    "10.6": 0.0101,
+    "7.0": 0.0058,
+    "6.7": 0.0229,
+    "3.9999999999999996": 0.0084,
+    "7.2": 0.0118,
+    "8.600000000000001": 0.0178,
+    "5.3": 0.0178,
+    "15.7": 0.0069,
+    "10.2": 0.0133,
+    "11.600000000000001": 0.004,
+    "11.7": 0.0073,
+    "19.9": 0.0015,
+    "12.5": 0.0127,
+    "4.6": 0.0097,
+    "5.0": 0.0067,
+    "18.6": 0.0019,
+    "12.9": 0.0052,
+    "9.299999999999999": 0.0056,
+    "1.7999999999999998": 0.0059,
+    "13.700000000000001": 0.0095,
+    "2.3": 0.0057,
+    "6.4": 0.0185,
+    "13.0": 0.0101,
+    "16.7": 0.0053,
+    "16.5": 0.0042,
+    "2.9000000000000004": 0.0076,
+    "3.3000000000000003": 0.0104,
+    "12.1": 0.0008,
+    "8.200000000000001": 0.0041,
+    "2.0": 0.0101,
+    "15.8": 0.0009,
+    "6.8": 0.0132,
+    "12.4": 0.001,
+    "9.3": 0.0063,
+    "16.4": 0.0042,
+    "22.8": 0.0007,
+    "18.8": 0.0012,
+    "17.8": 0.003,
+    "8.9": 0.0237,
+    "4.699999999999999": 0.0038,
+    "17.5": 0.0033,
+    "10.4": 0.0048,
+    "11.8": 0.0033,
+    "6.199999999999999": 0.0111,
+    "1.0": 0.0063,
+    "12.0": 0.0104,
+    "15.5": 0.0003,
+    "7.4": 0.0154,
+    "5.8": 0.0085,
+    "10.9": 0.0115,
+    "6.0": 0.0024,
+    "9.6": 0.0115,
+    "15.100000000000001": 0.0041,
+    "11.899999999999999": 0.0015,
+    "10.3": 0.0078,
+    "18.9": 0.0031,
+    "13.899999999999999": 0.0075,
+    "6.1": 0.0053,
+    "14.1": 0.0053,
+    "20.6": 0.0011,
+    "16.2": 0.0024,
+    "3.6": 0.0044,
+    "21.1": 0.0006,
+    "18.3": 0.001,
+    "26.0": 0.0002,
+    "22.6": 0.0006,
+    "15.1": 0.0026,
+    "27.4": 0.0003,
+    "3.0": 0.0148,
+    "16.1": 0.0023,
+    "28.9": 0.0001,
+    "21.799999999999997": 0.0006,
+    "21.6": 0.0011,
+    "18.4": 0.0014,
+    "20.4": 0.0005,
+    "8.2": 0.0024,
+    "17.2": 0.0035,
+    "17.4": 0.0028,
+    "-0.1": 0.0045,
+    "19.6": 0.0017,
+    "20.5": 0.0009,
+    "20.7": 0.0007,
+    "8.4": 0.0022,
+    "17.0": 0.0037,
+    "12.7": 0.0033,
+    "12.6": 0.0061,
+    "18.7": 0.0009,
+    "23.0": 0.0004,
+    "14.799999999999999": 0.0015,
+    "25.700000000000003": 0.0004,
+    "23.6": 0.0005,
+    "27.5": 0.0002,
+    "19.8": 0.0008,
+    "23.9": 0.001,
+    "14.0": 0.0031,
+    "22.1": 0.0004,
+    "14.9": 0.0029,
+    "25.299999999999997": 0.0002,
+    "20.0": 0.0013,
+    "19.5": 0.0022,
+    "20.200000000000003": 0.0018,
+    "14.2": 0.0015,
+    "22.7": 0.0004,
+    "10.5": 0.004,
+    "18.900000000000002": 0.0002,
+    "21.2": 0.0022,
+    "24.0": 0.0003,
+    "23.2": 0.0008,
+    "27.200000000000003": 0.0001,
+    "12.8": 0.0025,
+    "19.299999999999997": 0.0009,
+    "21.9": 0.0007,
+    "16.3": 0.0012,
+    "11.6": 0.0031,
+    "20.299999999999997": 0.0027,
+    "17.7": 0.0006,
+    "15.0": 0.0031,
+    "11.3": 0.0007,
+    "26.4": 0.0003,
+    "24.700000000000003": 0.0004,
+    "9.200000000000001": 0.0025,
+    "26.1": 0.0002,
+    "19.0": 0.0002,
+    "25.4": 0.0003,
+    "16.9": 0.0008,
+    "23.3": 0.0006,
+    "30.8": 0.0001,
+    "26.8": 0.0001,
+    "13.399999999999999": 0.0006,
+    "21.7": 0.0007,
+    "30.0": 0.0001,
+    "14.5": 0.0004,
+    "9.600000000000001": 0.0008,
+    "15.600000000000001": 0.0003,
+    "22.3": 0.0006,
+    "22.9": 0.0009,
+    "24.9": 0.0006,
+    "20.8": 0.0003,
+    "26.7": 0.0003,
+    "24.8": 0.0001,
+    "21.0": 0.0007,
+    "20.9": 0.0009,
+    "22.0": 0.0009,
+    "19.2": 0.0007,
+    "22.4": 0.0001,
+    "29.6": 0.0002,
+    "22.2": 0.0003,
+    "20.3": 0.0003,
+    "26.200000000000003": 0.0002,
+    "25.0": 0.0003,
+    "25.5": 0.0002,
+    "25.7": 0.0001,
+    "30.6": 0.0001,
+    "24.2": 0.0001,
+    "29.5": 0.0001,
+    "26.299999999999997": 0.0001,
+    "21.3": 0.0003,
+    "22.5": 0.0009,
+    "16.8": 0.0007,
+    "23.7": 0.0003,
+    "34.0": 0.0001,
+    "22.400000000000002": 0.0002,
+    "23.1": 0.0001,
+    "21.8": 0.0001,
+    "21.4": 0.0001,
+    "21.5": 0.0002,
+    "24.6": 0.0003,
+    "27.1": 0.0002,
+    "27.0": 0.0001,
+    "20.1": 0.0001,
+    "24.4": 0.0003,
+    "32.0": 0.0001,
+    "30.3": 0.0001,
+    "28.1": 0.0001,
+    "14.299999999999999": 0.0002,
+    "23.4": 0.0001,
+    "19.1": 0.0001,
+    "17.6": 0.0001,
+    "28.6": 0.0001,
+    "28.5": 0.0001,
+    "28.0": 0.0001,
+    "25.6": 0.0001,
+    "28.700000000000003": 0.0001,
+    "24.1": 0.0001,
+    "29.1": 0.0001,
+    "25.799999999999997": 0.0001,
+    "29.599999999999998": 0.0001
+  },
+  "run_diff_distribution": {
+    "-3.0": 0.0995,
+    "6.0": 0.0192,
+    "-2.0": 0.1328,
+    "-8.0": 0.0101,
+    "2.0": 0.1013,
+    "3.0": 0.0646,
+    "0.0": 0.0878,
+    "-1.0": 0.1184,
+    "-5.0": 0.0494,
+    "-7.0": 0.0199,
+    "1.0": 0.1114,
+    "9.0": 0.0026,
+    "-6.0": 0.029,
+    "-4.0": 0.07,
+    "4.0": 0.0368,
+    "7.0": 0.0073,
+    "5.0": 0.0215,
+    "-9.0": 0.0044,
+    "-11.0": 0.0012,
+    "-12.0": 0.0008,
+    "8.0": 0.006,
+    "10.0": 0.0015,
+    "-10.0": 0.0022,
+    "15.0": 0.0001,
+    "12.0": 0.0006,
+    "-13.0": 0.0002,
+    "16.0": 0.0002,
+    "11.0": 0.0008,
+    "-14.0": 0.0001,
+    "-15.0": 0.0001,
+    "13.0": 0.0002
+  },
+  "markets": [
+    {
+      "market": "h2h",
+      "side": "NYY",
+      "sim_prob": 0.5806,
+      "fair_odds": -138.44,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h",
+      "side": "COL",
+      "sim_prob": 0.4194,
+      "fair_odds": 138.44,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY -2.5",
+      "sim_prob": 0.2869,
+      "fair_odds": 248.55,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY -1.5",
+      "sim_prob": 0.4197,
+      "fair_odds": 138.27,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY -0.5",
+      "sim_prob": 0.5381,
+      "fair_odds": -116.5,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY +0.5",
+      "sim_prob": 0.6259,
+      "fair_odds": -167.31,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY +1.5",
+      "sim_prob": 0.7373,
+      "fair_odds": -280.66,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "NYY +2.5",
+      "sim_prob": 0.8386,
+      "fair_odds": -519.58,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL -2.5",
+      "sim_prob": 0.1614,
+      "fair_odds": 519.58,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL -1.5",
+      "sim_prob": 0.2627,
+      "fair_odds": 280.66,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL -0.5",
+      "sim_prob": 0.3741,
+      "fair_odds": 167.31,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL +0.5",
+      "sim_prob": 0.4619,
+      "fair_odds": 116.5,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL +1.5",
+      "sim_prob": 0.5803,
+      "fair_odds": -138.27,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "COL +2.5",
+      "sim_prob": 0.7131,
+      "fair_odds": -248.55,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 6.5",
+      "sim_prob": 0.7045,
+      "fair_odds": -238.41,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 6.5",
+      "sim_prob": 0.2955,
+      "fair_odds": 238.41,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 7.0",
+      "sim_prob": 0.6813,
+      "fair_odds": -213.74,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 7.0",
+      "sim_prob": 0.3187,
+      "fair_odds": 213.74,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 7.5",
+      "sim_prob": 0.6316,
+      "fair_odds": -171.44,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 7.5",
+      "sim_prob": 0.3684,
+      "fair_odds": 171.44,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 8.0",
+      "sim_prob": 0.6027,
+      "fair_odds": -151.68,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 8.0",
+      "sim_prob": 0.3973,
+      "fair_odds": 151.68,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 8.5",
+      "sim_prob": 0.5588,
+      "fair_odds": -126.65,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 8.5",
+      "sim_prob": 0.4412,
+      "fair_odds": 126.65,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 9.0",
+      "sim_prob": 0.5167,
+      "fair_odds": -106.89,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 9.0",
+      "sim_prob": 0.4833,
+      "fair_odds": 106.89,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 9.5",
+      "sim_prob": 0.4716,
+      "fair_odds": 112.04,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 9.5",
+      "sim_prob": 0.5284,
+      "fair_odds": -112.04,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 10.0",
+      "sim_prob": 0.4314,
+      "fair_odds": 131.8,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 10.0",
+      "sim_prob": 0.5686,
+      "fair_odds": -131.8,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 10.5",
+      "sim_prob": 0.4009,
+      "fair_odds": 149.44,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 10.5",
+      "sim_prob": 0.5991,
+      "fair_odds": -149.44,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 11.0",
+      "sim_prob": 0.3497,
+      "fair_odds": 186.0,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 11.0",
+      "sim_prob": 0.6503,
+      "fair_odds": -186.0,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 11.5",
+      "sim_prob": 0.3221,
+      "fair_odds": 210.46,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 11.5",
+      "sim_prob": 0.6779,
+      "fair_odds": -210.46,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 12.0",
+      "sim_prob": 0.2828,
+      "fair_odds": 253.61,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 12.0",
+      "sim_prob": 0.7172,
+      "fair_odds": -253.61,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 12.5",
+      "sim_prob": 0.2673,
+      "fair_odds": 274.11,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 12.5",
+      "sim_prob": 0.7327,
+      "fair_odds": -274.11,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 1.5",
+      "sim_prob": 0.841,
+      "fair_odds": -528.93,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 1.5",
+      "sim_prob": 0.159,
+      "fair_odds": 528.93,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 1.5",
+      "sim_prob": 0.9151,
+      "fair_odds": -1077.86,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 1.5",
+      "sim_prob": 0.0849,
+      "fair_odds": 1077.86,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 2.5",
+      "sim_prob": 0.7001,
+      "fair_odds": -233.44,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 2.5",
+      "sim_prob": 0.2999,
+      "fair_odds": 233.44,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 2.5",
+      "sim_prob": 0.805,
+      "fair_odds": -412.82,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 2.5",
+      "sim_prob": 0.195,
+      "fair_odds": 412.82,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 3.5",
+      "sim_prob": 0.5689,
+      "fair_odds": -131.96,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 3.5",
+      "sim_prob": 0.4311,
+      "fair_odds": 131.96,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 3.5",
+      "sim_prob": 0.6658,
+      "fair_odds": -199.22,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 3.5",
+      "sim_prob": 0.3342,
+      "fair_odds": 199.22,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 4.5",
+      "sim_prob": 0.4409,
+      "fair_odds": 126.81,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 4.5",
+      "sim_prob": 0.5591,
+      "fair_odds": -126.81,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 4.5",
+      "sim_prob": 0.5192,
+      "fair_odds": -107.99,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 4.5",
+      "sim_prob": 0.4808,
+      "fair_odds": 107.99,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 5.5",
+      "sim_prob": 0.3387,
+      "fair_odds": 195.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 5.5",
+      "sim_prob": 0.6613,
+      "fair_odds": -195.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 5.5",
+      "sim_prob": 0.401,
+      "fair_odds": 149.38,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 5.5",
+      "sim_prob": 0.599,
+      "fair_odds": -149.38,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Over 6.5",
+      "sim_prob": 0.2417,
+      "fair_odds": 313.74,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "COL Under 6.5",
+      "sim_prob": 0.7583,
+      "fair_odds": -313.74,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Over 6.5",
+      "sim_prob": 0.2894,
+      "fair_odds": 245.54,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "NYY Under 6.5",
+      "sim_prob": 0.7106,
+      "fair_odds": -245.54,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_1_innings",
+      "side": "Over 0.5",
+      "sim_prob": 0.5246,
+      "fair_odds": -110.35,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_1_innings",
+      "side": "Under 0.5",
+      "sim_prob": 0.4754,
+      "fair_odds": 110.35,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 2.5",
+      "sim_prob": 0.6036,
+      "fair_odds": -152.27,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 2.5",
+      "sim_prob": 0.3964,
+      "fair_odds": 152.27,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 3.5",
+      "sim_prob": 0.4526,
+      "fair_odds": 120.95,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 3.5",
+      "sim_prob": 0.5474,
+      "fair_odds": -120.95,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 4.5",
+      "sim_prob": 0.3238,
+      "fair_odds": 208.83,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 4.5",
+      "sim_prob": 0.6762,
+      "fair_odds": -208.83,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_3_innings",
+      "side": "COL",
+      "sim_prob": 0.348,
+      "fair_odds": 187.36,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_3_innings",
+      "side": "NYY",
+      "sim_prob": 0.452,
+      "fair_odds": 121.24,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL -0.5",
+      "sim_prob": 0.3481,
+      "fair_odds": 187.27,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY +0.5",
+      "sim_prob": 0.6519,
+      "fair_odds": -187.27,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY -0.5",
+      "sim_prob": 0.4519,
+      "fair_odds": 121.29,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL +0.5",
+      "sim_prob": 0.5481,
+      "fair_odds": -121.29,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL -1.5",
+      "sim_prob": 0.2163,
+      "fair_odds": 362.32,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY +1.5",
+      "sim_prob": 0.7837,
+      "fair_odds": -362.32,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY -1.5",
+      "sim_prob": 0.3049,
+      "fair_odds": 227.98,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL +1.5",
+      "sim_prob": 0.6951,
+      "fair_odds": -227.98,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL -2.5",
+      "sim_prob": 0.1314,
+      "fair_odds": 661.04,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY +2.5",
+      "sim_prob": 0.8686,
+      "fair_odds": -661.04,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "NYY -2.5",
+      "sim_prob": 0.1942,
+      "fair_odds": 414.93,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "COL +2.5",
+      "sim_prob": 0.8058,
+      "fair_odds": -414.93,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Over 0.5",
+      "sim_prob": 0.6335,
+      "fair_odds": -172.85,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Under 0.5",
+      "sim_prob": 0.3665,
+      "fair_odds": 172.85,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Over 0.5",
+      "sim_prob": 0.7088,
+      "fair_odds": -243.41,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Under 0.5",
+      "sim_prob": 0.2912,
+      "fair_odds": 243.41,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Over 1.5",
+      "sim_prob": 0.4216,
+      "fair_odds": 137.19,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Under 1.5",
+      "sim_prob": 0.5784,
+      "fair_odds": -137.19,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Over 1.5",
+      "sim_prob": 0.5036,
+      "fair_odds": -101.45,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Under 1.5",
+      "sim_prob": 0.4964,
+      "fair_odds": 101.45,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Over 2.5",
+      "sim_prob": 0.2563,
+      "fair_odds": 290.17,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Under 2.5",
+      "sim_prob": 0.7437,
+      "fair_odds": -290.17,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Over 2.5",
+      "sim_prob": 0.3223,
+      "fair_odds": 210.27,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Under 2.5",
+      "sim_prob": 0.6777,
+      "fair_odds": -210.27,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Over 3.5",
+      "sim_prob": 0.1494,
+      "fair_odds": 569.34,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "COL Under 3.5",
+      "sim_prob": 0.8506,
+      "fair_odds": -569.34,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Over 3.5",
+      "sim_prob": 0.2038,
+      "fair_odds": 390.68,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "NYY Under 3.5",
+      "sim_prob": 0.7962,
+      "fair_odds": -390.68,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 3.5",
+      "sim_prob": 0.7396,
+      "fair_odds": -284.02,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 3.5",
+      "sim_prob": 0.2604,
+      "fair_odds": 284.02,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 4.5",
+      "sim_prob": 0.4924,
+      "fair_odds": 103.09,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 4.5",
+      "sim_prob": 0.5076,
+      "fair_odds": -103.09,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 5.5",
+      "sim_prob": 0.3874,
+      "fair_odds": 158.13,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 5.5",
+      "sim_prob": 0.6126,
+      "fair_odds": -158.13,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 6.5",
+      "sim_prob": 0.2923,
+      "fair_odds": 242.11,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 6.5",
+      "sim_prob": 0.7077,
+      "fair_odds": -242.11,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_5_innings",
+      "side": "COL",
+      "sim_prob": 0.372,
+      "fair_odds": 168.82,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_5_innings",
+      "side": "NYY",
+      "sim_prob": 0.5,
+      "fair_odds": 100.0,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL -0.5",
+      "sim_prob": 0.3721,
+      "fair_odds": 168.74,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY +0.5",
+      "sim_prob": 0.6279,
+      "fair_odds": -168.74,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY -0.5",
+      "sim_prob": 0.5003,
+      "fair_odds": -100.12,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL +0.5",
+      "sim_prob": 0.4997,
+      "fair_odds": 100.12,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL -1.5",
+      "sim_prob": 0.2616,
+      "fair_odds": 282.26,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY +1.5",
+      "sim_prob": 0.7384,
+      "fair_odds": -282.26,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY -1.5",
+      "sim_prob": 0.3793,
+      "fair_odds": 163.64,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL +1.5",
+      "sim_prob": 0.6207,
+      "fair_odds": -163.64,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL -2.5",
+      "sim_prob": 0.1743,
+      "fair_odds": 473.72,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY +2.5",
+      "sim_prob": 0.8257,
+      "fair_odds": -473.72,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "NYY -2.5",
+      "sim_prob": 0.274,
+      "fair_odds": 264.96,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "COL +2.5",
+      "sim_prob": 0.726,
+      "fair_odds": -264.96,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Over 1.5",
+      "sim_prob": 0.636,
+      "fair_odds": -174.73,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Under 1.5",
+      "sim_prob": 0.364,
+      "fair_odds": 174.73,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Over 1.5",
+      "sim_prob": 0.7157,
+      "fair_odds": -251.74,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Under 1.5",
+      "sim_prob": 0.2843,
+      "fair_odds": 251.74,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Over 2.5",
+      "sim_prob": 0.4531,
+      "fair_odds": 120.7,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Under 2.5",
+      "sim_prob": 0.5469,
+      "fair_odds": -120.7,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Over 2.5",
+      "sim_prob": 0.5419,
+      "fair_odds": -118.29,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Under 2.5",
+      "sim_prob": 0.4581,
+      "fair_odds": 118.29,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Over 3.5",
+      "sim_prob": 0.3049,
+      "fair_odds": 227.98,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Under 3.5",
+      "sim_prob": 0.6951,
+      "fair_odds": -227.98,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Over 3.5",
+      "sim_prob": 0.3954,
+      "fair_odds": 152.91,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Under 3.5",
+      "sim_prob": 0.6046,
+      "fair_odds": -152.91,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Over 4.5",
+      "sim_prob": 0.1941,
+      "fair_odds": 415.2,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Under 4.5",
+      "sim_prob": 0.8059,
+      "fair_odds": -415.2,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Over 4.5",
+      "sim_prob": 0.2759,
+      "fair_odds": 262.45,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Under 4.5",
+      "sim_prob": 0.7241,
+      "fair_odds": -262.45,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Over 5.5",
+      "sim_prob": 0.1941,
+      "fair_odds": 415.2,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "COL Under 5.5",
+      "sim_prob": 0.8059,
+      "fair_odds": -415.2,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Over 5.5",
+      "sim_prob": 0.1778,
+      "fair_odds": 462.43,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "NYY Under 5.5",
+      "sim_prob": 0.8222,
+      "fair_odds": -462.43,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 5.5",
+      "sim_prob": 0.5957,
+      "fair_odds": -147.34,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 5.5",
+      "sim_prob": 0.4043,
+      "fair_odds": 147.34,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 6.5",
+      "sim_prob": 0.4947,
+      "fair_odds": 102.14,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 6.5",
+      "sim_prob": 0.5053,
+      "fair_odds": -102.14,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 7.5",
+      "sim_prob": 0.3996,
+      "fair_odds": 150.25,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 7.5",
+      "sim_prob": 0.6004,
+      "fair_odds": -150.25,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 8.5",
+      "sim_prob": 0.314,
+      "fair_odds": 218.47,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 8.5",
+      "sim_prob": 0.686,
+      "fair_odds": -218.47,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_7_innings",
+      "side": "COL",
+      "sim_prob": 0.371,
+      "fair_odds": 169.54,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_7_innings",
+      "side": "NYY",
+      "sim_prob": 0.524,
+      "fair_odds": -110.08,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL -0.5",
+      "sim_prob": 0.371,
+      "fair_odds": 169.54,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY +0.5",
+      "sim_prob": 0.629,
+      "fair_odds": -169.54,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY -0.5",
+      "sim_prob": 0.5244,
+      "fair_odds": -110.26,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL +0.5",
+      "sim_prob": 0.4756,
+      "fair_odds": 110.26,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL -1.5",
+      "sim_prob": 0.2787,
+      "fair_odds": 258.81,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY +1.5",
+      "sim_prob": 0.7213,
+      "fair_odds": -258.81,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY -1.5",
+      "sim_prob": 0.4201,
+      "fair_odds": 138.04,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL +1.5",
+      "sim_prob": 0.5799,
+      "fair_odds": -138.04,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL -2.5",
+      "sim_prob": 0.1974,
+      "fair_odds": 406.59,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY +2.5",
+      "sim_prob": 0.8026,
+      "fair_odds": -406.59,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "NYY -2.5",
+      "sim_prob": 0.3221,
+      "fair_odds": 210.46,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "COL +2.5",
+      "sim_prob": 0.6779,
+      "fair_odds": -210.46,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Over 2.5",
+      "sim_prob": 0.5889,
+      "fair_odds": -143.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Under 2.5",
+      "sim_prob": 0.4111,
+      "fair_odds": 143.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Over 2.5",
+      "sim_prob": 0.6945,
+      "fair_odds": -227.33,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Under 2.5",
+      "sim_prob": 0.3055,
+      "fair_odds": 227.33,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Over 3.5",
+      "sim_prob": 0.4403,
+      "fair_odds": 127.12,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Under 3.5",
+      "sim_prob": 0.5597,
+      "fair_odds": -127.12,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Over 3.5",
+      "sim_prob": 0.5527,
+      "fair_odds": -123.56,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Under 3.5",
+      "sim_prob": 0.4473,
+      "fair_odds": 123.56,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Over 4.5",
+      "sim_prob": 0.3133,
+      "fair_odds": 219.18,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Under 4.5",
+      "sim_prob": 0.6867,
+      "fair_odds": -219.18,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Over 4.5",
+      "sim_prob": 0.4216,
+      "fair_odds": 137.19,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Under 4.5",
+      "sim_prob": 0.5784,
+      "fair_odds": -137.19,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Over 5.5",
+      "sim_prob": 0.3133,
+      "fair_odds": 219.18,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Under 5.5",
+      "sim_prob": 0.6867,
+      "fair_odds": -219.18,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Over 5.5",
+      "sim_prob": 0.3053,
+      "fair_odds": 227.55,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Under 5.5",
+      "sim_prob": 0.6947,
+      "fair_odds": -227.55,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Over 6.5",
+      "sim_prob": 0.2094,
+      "fair_odds": 377.55,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "COL Under 6.5",
+      "sim_prob": 0.7906,
+      "fair_odds": -377.55,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Over 6.5",
+      "sim_prob": 0.2127,
+      "fair_odds": 370.15,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "NYY Under 6.5",
+      "sim_prob": 0.7873,
+      "fair_odds": -370.15,
+      "source": "simulator"
+    }
+  ],
+  "summary_metrics": {
+    "full_game": {
+      "mean_total": 9.811,
+      "std_total": 4.440954739692806,
+      "mean_diff": -1.1488,
+      "std_diff": 4.417426689827461
+    },
+    "f1": {
+      "mean_total": 1.23757375,
+      "std_total": 1.7940410414581782,
+      "mean_diff": -0.05193534999999993,
+      "std_diff": 1.7898219794772978
+    },
+    "f3": {
+      "mean_total": 3.6885284,
+      "std_total": 3.0667205565564184,
+      "mean_diff": -0.19471975999999996,
+      "std_diff": 3.0981688419784663
+    },
+    "f5": {
+      "mean_total": 5.9765301399999995,
+      "std_total": 3.780741594953463,
+      "mean_diff": -0.2807912599999999,
+      "std_diff": 3.8366241803505536
+    },
+    "f7": {
+      "mean_total": 7.92797607,
+      "std_total": 4.328921330163776,
+      "mean_diff": -0.3770743100000002,
+      "std_diff": 4.412345532664509
+    }
+  }
+}

@@ -144,7 +144,15 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
     except Exception as e:
         print(f"\u274c dfi.export failed: {e}")
-        return   
+        try:
+            buf.seek(0)
+            buf.truncate(0)
+            dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
+        except Exception as e2:
+            print(f"⚠️ Fallback export failed: {e2}")
+            buf.close()
+            _send_table_text(df, market_type, webhook_url)
+            return
     buf.seek(0)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
@@ -168,6 +176,24 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         print(f"❌ Failed to send snapshot for {market_type}: {e}")
     finally:
         buf.close()
+
+
+def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> None:
+    """Send the DataFrame as a Markdown code block to Discord."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
+    caption = f"📈 **Live Market Snapshot — {market_type}** (text fallback)"\
+        f"\n_Generated: {timestamp}_"
+
+    try:
+        table = df.to_markdown(index=False)
+    except Exception:
+        table = df.to_string(index=False)
+
+    message = f"{caption}\n```\n{table}\n```\n_(Not an official bet — informational only)_"
+    try:
+        requests.post(webhook_url, json={"content": message}, timeout=10)
+    except Exception as e:
+        print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 
 WEBHOOKS = {
     "h2h": os.getenv("DISCORD_H2H_WEBHOOK_URL"),
@@ -417,8 +443,9 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 def export_market_snapshots(df: pd.DataFrame, snapshot_paths: dict) -> None:
     """Write full market tables to JSON files."""
     os.makedirs(os.path.dirname(list(snapshot_paths.values())[0]), exist_ok=True)
+    print(df.head())
     for market, path in snapshot_paths.items():
-        subset = df[df["Market"].str.contains(market, case=False, na=False)]
+        subset = df[df["Market"].str.lower().str.startswith(market.lower(), na=False)]
         try:
             subset.to_json(path, orient="records", indent=2)
         except Exception as e:
@@ -461,20 +488,12 @@ def main():
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, DEBUG_LOG))
 
-    # Filter expanded rows based on EV% and a minimum 1u Kelly stake
+    # Expand rows and apply EV/stake filtering
     rows = expand_snapshot_rows_with_kelly(
         all_rows,
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
-    rows = [
-        r
-        for r in rows
-        if (
-            args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
-            and r.get("stake", 0) >= 1.0
-        )
-    ]
 
     if not rows:
         print("⚠️ No qualifying bets found.")
@@ -505,10 +524,11 @@ def main():
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
+        print(df.head())
         for mkt, webhook in WEBHOOKS.items():
             if not webhook:
                 continue
-            subset = df[df["Market"].str.contains(mkt, case=False, na=False)]
+            subset = df[df["Market"].str.lower().str.startswith(mkt.lower(), na=False)]
             print(f"📡 Evaluating snapshot for: {mkt} → {subset.shape[0]} rows")
             if subset.empty:
                 print(f"⚠️ No bets for {mkt}")
