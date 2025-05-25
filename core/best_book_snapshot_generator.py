@@ -132,13 +132,6 @@ def main():
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
-    rows = [
-        r for r in rows
-        if (
-            args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
-            and r.get("stake", 0) >= 1.0
-        )
-    ]
 
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
 
