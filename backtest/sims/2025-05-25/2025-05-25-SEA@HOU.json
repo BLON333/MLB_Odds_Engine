@@ -1,0 +1,1652 @@
+{
+  "home_score": 5.1584,
+  "away_score": 4.1879,
+  "run_distribution": {
+    "11.0": 0.0754,
+    "6.0": 0.0888,
+    "23.0": 0.0046,
+    "4.0": 0.0876,
+    "2.0": 0.0461,
+    "14.0": 0.049,
+    "0.0": 0.0143,
+    "13.0": 0.0399,
+    "16.0": 0.0373,
+    "7.0": 0.0773,
+    "12.0": 0.055,
+    "20.0": 0.014,
+    "1.0": 0.0181,
+    "3.0": 0.0358,
+    "5.0": 0.0385,
+    "9.0": 0.0793,
+    "10.0": 0.0652,
+    "28.0": 0.0014,
+    "8.0": 0.0743,
+    "15.0": 0.0263,
+    "18.0": 0.0195,
+    "22.0": 0.0061,
+    "37.0": 0.0002,
+    "17.0": 0.0169,
+    "21.0": 0.0076,
+    "19.0": 0.0099,
+    "24.0": 0.0033,
+    "25.0": 0.0029,
+    "27.0": 0.0016,
+    "26.0": 0.0019,
+    "32.0": 0.0003,
+    "29.0": 0.0005,
+    "31.0": 0.0004,
+    "30.0": 0.0005,
+    "34.0": 0.0002
+  },
+  "run_distribution_raw": {
+    "10.899999999999999": 0.0104,
+    "6.5": 0.0202,
+    "5.6": 0.0223,
+    "22.7": 0.0001,
+    "5.8": 0.0148,
+    "4.5": 0.017,
+    "2.0999999999999996": 0.0153,
+    "13.5": 0.0107,
+    "-0.09999999999999998": 0.0076,
+    "13.0": 0.0089,
+    "15.6": 0.0065,
+    "6.6": 0.0283,
+    "22.6": 0.0013,
+    "11.7": 0.0087,
+    "14.4": 0.0019,
+    "19.9": 0.0017,
+    "1.0999999999999999": 0.0122,
+    "3.4": 0.0187,
+    "2.8": 0.005,
+    "5.3": 0.0167,
+    "20.5": 0.002,
+    "5.9": 0.008,
+    "9.2": 0.0142,
+    "5.1": 0.0099,
+    "10.2": 0.0153,
+    "14.1": 0.0062,
+    "3.0": 0.0121,
+    "28.1": 0.0003,
+    "10.6": 0.0121,
+    "4.2": 0.0181,
+    "8.100000000000001": 0.0156,
+    "13.8": 0.0069,
+    "2.3": 0.0113,
+    "15.399999999999999": 0.0016,
+    "10.3": 0.0127,
+    "13.4": 0.0091,
+    "14.2": 0.0046,
+    "18.4": 0.0024,
+    "6.9": 0.0192,
+    "22.4": 0.0017,
+    "12.4": 0.0134,
+    "37.3": 0.0001,
+    "7.6": 0.0153,
+    "15.1": 0.0074,
+    "10.7": 0.0051,
+    "12.7": 0.0082,
+    "16.299999999999997": 0.0013,
+    "2.0": 0.0137,
+    "11.399999999999999": 0.0115,
+    "9.3": 0.012,
+    "6.0": 0.0031,
+    "9.0": 0.0267,
+    "20.3": 0.002,
+    "11.3": 0.0171,
+    "6.3": 0.0133,
+    "11.6": 0.0087,
+    "8.8": 0.0167,
+    "7.4": 0.0089,
+    "12.0": 0.0073,
+    "7.9": 0.019,
+    "4.4": 0.0288,
+    "8.6": 0.0097,
+    "21.8": 0.0003,
+    "-0.29999999999999993": 0.0067,
+    "9.899999999999999": 0.0118,
+    "3.5": 0.0095,
+    "14.899999999999999": 0.0064,
+    "17.6": 0.0011,
+    "11.1": 0.0124,
+    "14.8": 0.0068,
+    "7.0": 0.0099,
+    "9.6": 0.0088,
+    "17.2": 0.003,
+    "9.5": 0.0075,
+    "8.2": 0.0089,
+    "14.0": 0.0041,
+    "23.0": 0.0004,
+    "8.5": 0.0104,
+    "21.6": 0.0011,
+    "15.9": 0.0052,
+    "21.3": 0.002,
+    "18.1": 0.004,
+    "0.7": 0.0059,
+    "9.7": 0.0073,
+    "7.199999999999999": 0.0046,
+    "16.2": 0.0044,
+    "4.800000000000001": 0.0089,
+    "15.8": 0.0058,
+    "16.5": 0.0052,
+    "10.700000000000001": 0.0052,
+    "17.7": 0.0017,
+    "17.4": 0.0029,
+    "28.2": 0.0001,
+    "19.6": 0.0013,
+    "15.3": 0.0017,
+    "21.1": 0.0006,
+    "12.1": 0.0089,
+    "17.9": 0.0024,
+    "19.8": 0.0019,
+    "19.3": 0.0024,
+    "23.5": 0.0001,
+    "13.100000000000001": 0.0023,
+    "4.1": 0.0107,
+    "25.3": 0.0003,
+    "6.199999999999999": 0.0071,
+    "12.799999999999999": 0.0044,
+    "23.4": 0.0008,
+    "17.0": 0.0013,
+    "15.5": 0.0042,
+    "13.7": 0.0082,
+    "17.1": 0.0043,
+    "20.9": 0.0017,
+    "8.3": 0.0039,
+    "17.8": 0.0009,
+    "13.2": 0.0046,
+    "4.8999999999999995": 0.003,
+    "14.399999999999999": 0.0038,
+    "12.8": 0.0019,
+    "16.6": 0.0037,
+    "16.1": 0.0034,
+    "27.0": 0.0002,
+    "8.1": 0.0012,
+    "20.7": 0.0011,
+    "7.2": 0.0064,
+    "21.200000000000003": 0.0003,
+    "11.9": 0.0033,
+    "26.8": 0.0001,
+    "19.0": 0.0015,
+    "18.6": 0.0017,
+    "15.700000000000001": 0.0007,
+    "18.9": 0.0008,
+    "11.299999999999999": 0.0004,
+    "13.3": 0.0005,
+    "1.8": 0.0058,
+    "16.8": 0.0008,
+    "11.4": 0.0012,
+    "24.4": 0.0008,
+    "10.399999999999999": 0.0018,
+    "13.9": 0.0014,
+    "3.9": 0.0035,
+    "19.5": 0.0015,
+    "14.5": 0.0012,
+    "16.9": 0.0001,
+    "14.6": 0.0003,
+    "11.8": 0.0041,
+    "15.200000000000001": 0.0021,
+    "23.1": 0.0004,
+    "20.700000000000003": 0.0005,
+    "20.2": 0.0019,
+    "24.7": 0.0005,
+    "19.7": 0.0004,
+    "17.5": 0.0018,
+    "22.799999999999997": 0.0009,
+    "25.1": 0.0008,
+    "22.700000000000003": 0.0001,
+    "23.299999999999997": 0.0002,
+    "26.799999999999997": 0.0001,
+    "17.799999999999997": 0.002,
+    "26.0": 0.0002,
+    "26.1": 0.0003,
+    "18.8": 0.0018,
+    "12.5": 0.0006,
+    "22.299999999999997": 0.0004,
+    "18.799999999999997": 0.0009,
+    "18.2": 0.0022,
+    "21.5": 0.0001,
+    "27.4": 0.0004,
+    "25.8": 0.0003,
+    "19.1": 0.0002,
+    "16.7": 0.0008,
+    "23.799999999999997": 0.0003,
+    "32.0": 0.0002,
+    "29.299999999999997": 0.0002,
+    "21.9": 0.0007,
+    "22.0": 0.0007,
+    "23.599999999999998": 0.0001,
+    "30.700000000000003": 0.0001,
+    "21.0": 0.0008,
+    "27.3": 0.0001,
+    "27.5": 0.0002,
+    "26.200000000000003": 0.0001,
+    "20.0": 0.0006,
+    "30.3": 0.0002,
+    "23.8": 0.0005,
+    "19.2": 0.0005,
+    "33.5": 0.0001,
+    "18.0": 0.0002,
+    "25.2": 0.0001,
+    "24.5": 0.0005,
+    "31.0": 0.0002,
+    "18.5": 0.0003,
+    "27.1": 0.0003,
+    "22.3": 0.0001,
+    "25.400000000000002": 0.0003,
+    "27.9": 0.0002,
+    "28.8": 0.0001,
+    "34.4": 0.0001,
+    "28.6": 0.0001,
+    "16.0": 0.0004,
+    "26.5": 0.0001,
+    "31.6": 0.0001,
+    "19.400000000000002": 0.0001,
+    "24.1": 0.0005,
+    "22.1": 0.0003,
+    "25.700000000000003": 0.0004,
+    "27.7": 0.0002,
+    "24.0": 0.0005,
+    "29.599999999999998": 0.0001,
+    "26.7": 0.0002,
+    "23.200000000000003": 0.0003,
+    "27.6": 0.0001,
+    "18.099999999999998": 0.0004,
+    "24.9": 0.0004,
+    "29.2": 0.0001,
+    "15.7": 0.0002,
+    "28.4": 0.0001,
+    "30.2": 0.0001,
+    "24.700000000000003": 0.0003,
+    "28.5": 0.0001,
+    "25.6": 0.0003,
+    "24.8": 0.0001,
+    "30.099999999999998": 0.0001,
+    "25.5": 0.0001,
+    "20.6": 0.0006,
+    "20.299999999999997": 0.0005,
+    "37.2": 0.0001,
+    "31.1": 0.0001,
+    "21.700000000000003": 0.0006,
+    "26.3": 0.0001,
+    "27.200000000000003": 0.0001,
+    "21.7": 0.0001,
+    "20.4": 0.0002,
+    "18.3": 0.0001,
+    "22.9": 0.0001,
+    "26.6": 0.0001,
+    "25.0": 0.0001,
+    "27.8": 0.0001
+  },
+  "run_diff_distribution": {
+    "-1.0": 0.1156,
+    "0.0": 0.0863,
+    "2.0": 0.138,
+    "14.0": 0.001,
+    "3.0": 0.1022,
+    "1.0": 0.123,
+    "-3.0": 0.0516,
+    "6.0": 0.0382,
+    "10.0": 0.0066,
+    "4.0": 0.0869,
+    "5.0": 0.0503,
+    "11.0": 0.0049,
+    "9.0": 0.0094,
+    "-2.0": 0.0708,
+    "-4.0": 0.0308,
+    "-5.0": 0.0156,
+    "7.0": 0.0268,
+    "-6.0": 0.0077,
+    "8.0": 0.0201,
+    "13.0": 0.0014,
+    "18.0": 0.0001,
+    "-8.0": 0.0023,
+    "-9.0": 0.0014,
+    "-11.0": 0.0003,
+    "12.0": 0.0031,
+    "-7.0": 0.0037,
+    "17.0": 0.0001,
+    "-10.0": 0.0004,
+    "15.0": 0.0005,
+    "-14.0": 0.0001,
+    "16.0": 0.0004,
+    "20.0": 0.0001,
+    "-12.0": 0.0001,
+    "19.0": 0.0002
+  },
+  "markets": [
+    {
+      "market": "h2h",
+      "side": "SEA",
+      "sim_prob": 0.3549,
+      "fair_odds": 181.77,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h",
+      "side": "HOU",
+      "sim_prob": 0.6451,
+      "fair_odds": -181.77,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA -2.5",
+      "sim_prob": 0.114,
+      "fair_odds": 777.19,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA -1.5",
+      "sim_prob": 0.1848,
+      "fair_odds": 441.13,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA -0.5",
+      "sim_prob": 0.3004,
+      "fair_odds": 232.89,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA +0.5",
+      "sim_prob": 0.3867,
+      "fair_odds": 158.6,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA +1.5",
+      "sim_prob": 0.5097,
+      "fair_odds": -103.96,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "SEA +2.5",
+      "sim_prob": 0.6477,
+      "fair_odds": -183.85,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU -2.5",
+      "sim_prob": 0.3523,
+      "fair_odds": 183.85,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU -1.5",
+      "sim_prob": 0.4903,
+      "fair_odds": 103.96,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU -0.5",
+      "sim_prob": 0.6133,
+      "fair_odds": -158.6,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU +0.5",
+      "sim_prob": 0.6996,
+      "fair_odds": -232.89,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU +1.5",
+      "sim_prob": 0.8152,
+      "fair_odds": -441.13,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads",
+      "side": "HOU +2.5",
+      "sim_prob": 0.886,
+      "fair_odds": -777.19,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 6.5",
+      "sim_prob": 0.6708,
+      "fair_odds": -203.77,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 6.5",
+      "sim_prob": 0.3292,
+      "fair_odds": 203.77,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 7.0",
+      "sim_prob": 0.6432,
+      "fair_odds": -180.29,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 7.0",
+      "sim_prob": 0.3568,
+      "fair_odds": 180.29,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 7.5",
+      "sim_prob": 0.5935,
+      "fair_odds": -146.0,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 7.5",
+      "sim_prob": 0.4065,
+      "fair_odds": 146.0,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 8.0",
+      "sim_prob": 0.5609,
+      "fair_odds": -127.72,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 8.0",
+      "sim_prob": 0.4391,
+      "fair_odds": 127.72,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 8.5",
+      "sim_prob": 0.5192,
+      "fair_odds": -107.99,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 8.5",
+      "sim_prob": 0.4808,
+      "fair_odds": 107.99,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 9.0",
+      "sim_prob": 0.4778,
+      "fair_odds": 109.3,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 9.0",
+      "sim_prob": 0.5222,
+      "fair_odds": -109.3,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 9.5",
+      "sim_prob": 0.4399,
+      "fair_odds": 127.32,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 9.5",
+      "sim_prob": 0.5601,
+      "fair_odds": -127.32,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 10.0",
+      "sim_prob": 0.4008,
+      "fair_odds": 149.48,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 10.0",
+      "sim_prob": 0.5992,
+      "fair_odds": -149.48,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 10.5",
+      "sim_prob": 0.3747,
+      "fair_odds": 166.88,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 10.5",
+      "sim_prob": 0.6253,
+      "fair_odds": -166.88,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 11.0",
+      "sim_prob": 0.3237,
+      "fair_odds": 208.92,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 11.0",
+      "sim_prob": 0.6763,
+      "fair_odds": -208.92,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 11.5",
+      "sim_prob": 0.2993,
+      "fair_odds": 234.11,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 11.5",
+      "sim_prob": 0.7007,
+      "fair_odds": -234.11,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 12.0",
+      "sim_prob": 0.2585,
+      "fair_odds": 286.82,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 12.0",
+      "sim_prob": 0.7415,
+      "fair_odds": -286.82,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Over 12.5",
+      "sim_prob": 0.2443,
+      "fair_odds": 309.33,
+      "source": "simulator"
+    },
+    {
+      "market": "totals",
+      "side": "Under 12.5",
+      "sim_prob": 0.7557,
+      "fair_odds": -309.33,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 1.5",
+      "sim_prob": 0.8743,
+      "fair_odds": -695.54,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 1.5",
+      "sim_prob": 0.1257,
+      "fair_odds": 695.54,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 1.5",
+      "sim_prob": 0.8148,
+      "fair_odds": -439.96,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 1.5",
+      "sim_prob": 0.1852,
+      "fair_odds": 439.96,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 2.5",
+      "sim_prob": 0.7727,
+      "fair_odds": -339.95,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 2.5",
+      "sim_prob": 0.2273,
+      "fair_odds": 339.95,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 2.5",
+      "sim_prob": 0.6587,
+      "fair_odds": -193.0,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 2.5",
+      "sim_prob": 0.3413,
+      "fair_odds": 193.0,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 3.5",
+      "sim_prob": 0.6534,
+      "fair_odds": -188.52,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 3.5",
+      "sim_prob": 0.3466,
+      "fair_odds": 188.52,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 3.5",
+      "sim_prob": 0.4949,
+      "fair_odds": 102.06,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 3.5",
+      "sim_prob": 0.5051,
+      "fair_odds": -102.06,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 4.5",
+      "sim_prob": 0.5558,
+      "fair_odds": -125.12,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 4.5",
+      "sim_prob": 0.4442,
+      "fair_odds": 125.12,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 4.5",
+      "sim_prob": 0.352,
+      "fair_odds": 184.09,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 4.5",
+      "sim_prob": 0.648,
+      "fair_odds": -184.09,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 5.5",
+      "sim_prob": 0.4334,
+      "fair_odds": 130.73,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 5.5",
+      "sim_prob": 0.5666,
+      "fair_odds": -130.73,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 5.5",
+      "sim_prob": 0.2351,
+      "fair_odds": 325.35,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 5.5",
+      "sim_prob": 0.7649,
+      "fair_odds": -325.35,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Over 6.5",
+      "sim_prob": 0.3197,
+      "fair_odds": 212.79,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "HOU Under 6.5",
+      "sim_prob": 0.6803,
+      "fair_odds": -212.79,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Over 6.5",
+      "sim_prob": 0.152,
+      "fair_odds": 557.89,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals",
+      "side": "SEA Under 6.5",
+      "sim_prob": 0.848,
+      "fair_odds": -557.89,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_1_innings",
+      "side": "Over 0.5",
+      "sim_prob": 0.4985,
+      "fair_odds": 100.6,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_1_innings",
+      "side": "Under 0.5",
+      "sim_prob": 0.5015,
+      "fair_odds": -100.6,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 2.5",
+      "sim_prob": 0.5665,
+      "fair_odds": -130.68,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 2.5",
+      "sim_prob": 0.4335,
+      "fair_odds": 130.68,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 3.5",
+      "sim_prob": 0.4236,
+      "fair_odds": 136.07,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 3.5",
+      "sim_prob": 0.5764,
+      "fair_odds": -136.07,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Over 4.5",
+      "sim_prob": 0.3071,
+      "fair_odds": 225.63,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_3_innings",
+      "side": "Under 4.5",
+      "sim_prob": 0.6929,
+      "fair_odds": -225.63,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_3_innings",
+      "side": "HOU",
+      "sim_prob": 0.477,
+      "fair_odds": 109.64,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_3_innings",
+      "side": "SEA",
+      "sim_prob": 0.312,
+      "fair_odds": 220.51,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU -0.5",
+      "sim_prob": 0.477,
+      "fair_odds": 109.64,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA +0.5",
+      "sim_prob": 0.523,
+      "fair_odds": -109.64,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA -0.5",
+      "sim_prob": 0.3119,
+      "fair_odds": 220.62,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU +0.5",
+      "sim_prob": 0.6881,
+      "fair_odds": -220.62,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU -1.5",
+      "sim_prob": 0.3281,
+      "fair_odds": 204.79,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA +1.5",
+      "sim_prob": 0.6719,
+      "fair_odds": -204.79,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA -1.5",
+      "sim_prob": 0.1898,
+      "fair_odds": 426.87,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU +1.5",
+      "sim_prob": 0.8102,
+      "fair_odds": -426.87,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU -2.5",
+      "sim_prob": 0.2137,
+      "fair_odds": 367.95,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA +2.5",
+      "sim_prob": 0.7863,
+      "fair_odds": -367.95,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "SEA -2.5",
+      "sim_prob": 0.1088,
+      "fair_odds": 819.12,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_3_innings",
+      "side": "HOU +2.5",
+      "sim_prob": 0.8912,
+      "fair_odds": -819.12,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Over 0.5",
+      "sim_prob": 0.6972,
+      "fair_odds": -230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Under 0.5",
+      "sim_prob": 0.3028,
+      "fair_odds": 230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Over 0.5",
+      "sim_prob": 0.5873,
+      "fair_odds": -142.31,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Under 0.5",
+      "sim_prob": 0.4127,
+      "fair_odds": 142.31,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Over 1.5",
+      "sim_prob": 0.4953,
+      "fair_odds": 101.9,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Under 1.5",
+      "sim_prob": 0.5047,
+      "fair_odds": -101.9,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Over 1.5",
+      "sim_prob": 0.3737,
+      "fair_odds": 167.59,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Under 1.5",
+      "sim_prob": 0.6263,
+      "fair_odds": -167.59,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Over 2.5",
+      "sim_prob": 0.3295,
+      "fair_odds": 203.49,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Under 2.5",
+      "sim_prob": 0.6705,
+      "fair_odds": -203.49,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Over 2.5",
+      "sim_prob": 0.2203,
+      "fair_odds": 353.93,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Under 2.5",
+      "sim_prob": 0.7797,
+      "fair_odds": -353.93,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Over 3.5",
+      "sim_prob": 0.2162,
+      "fair_odds": 362.53,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "HOU Under 3.5",
+      "sim_prob": 0.7838,
+      "fair_odds": -362.53,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Over 3.5",
+      "sim_prob": 0.1228,
+      "fair_odds": 714.33,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_3_innings",
+      "side": "SEA Under 3.5",
+      "sim_prob": 0.8772,
+      "fair_odds": -714.33,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 3.5",
+      "sim_prob": 0.7024,
+      "fair_odds": -236.02,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 3.5",
+      "sim_prob": 0.2976,
+      "fair_odds": 236.02,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 4.5",
+      "sim_prob": 0.5815,
+      "fair_odds": -138.95,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 4.5",
+      "sim_prob": 0.4185,
+      "fair_odds": 138.95,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 5.5",
+      "sim_prob": 0.467,
+      "fair_odds": 114.13,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 5.5",
+      "sim_prob": 0.533,
+      "fair_odds": -114.13,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Over 6.5",
+      "sim_prob": 0.3638,
+      "fair_odds": 174.88,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_5_innings",
+      "side": "Under 6.5",
+      "sim_prob": 0.6362,
+      "fair_odds": -174.88,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_5_innings",
+      "side": "HOU",
+      "sim_prob": 0.53,
+      "fair_odds": -112.77,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_5_innings",
+      "side": "SEA",
+      "sim_prob": 0.337,
+      "fair_odds": 196.74,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU -0.5",
+      "sim_prob": 0.5298,
+      "fair_odds": -112.68,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA +0.5",
+      "sim_prob": 0.4702,
+      "fair_odds": 112.68,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA -0.5",
+      "sim_prob": 0.3369,
+      "fair_odds": 196.82,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU +0.5",
+      "sim_prob": 0.6631,
+      "fair_odds": -196.82,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU -1.5",
+      "sim_prob": 0.4056,
+      "fair_odds": 146.55,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA +1.5",
+      "sim_prob": 0.5944,
+      "fair_odds": -146.55,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA -1.5",
+      "sim_prob": 0.229,
+      "fair_odds": 336.68,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU +1.5",
+      "sim_prob": 0.771,
+      "fair_odds": -336.68,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU -2.5",
+      "sim_prob": 0.2988,
+      "fair_odds": 234.67,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA +2.5",
+      "sim_prob": 0.7012,
+      "fair_odds": -234.67,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "SEA -2.5",
+      "sim_prob": 0.1509,
+      "fair_odds": 562.69,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_5_innings",
+      "side": "HOU +2.5",
+      "sim_prob": 0.8491,
+      "fair_odds": -562.69,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Over 1.5",
+      "sim_prob": 0.7046,
+      "fair_odds": -238.52,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Under 1.5",
+      "sim_prob": 0.2954,
+      "fair_odds": 238.52,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Over 1.5",
+      "sim_prob": 0.5793,
+      "fair_odds": -137.7,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Under 1.5",
+      "sim_prob": 0.4207,
+      "fair_odds": 137.7,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Over 2.5",
+      "sim_prob": 0.5398,
+      "fair_odds": -117.3,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Under 2.5",
+      "sim_prob": 0.4602,
+      "fair_odds": 117.3,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Over 2.5",
+      "sim_prob": 0.3942,
+      "fair_odds": 153.68,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Under 2.5",
+      "sim_prob": 0.6058,
+      "fair_odds": -153.68,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Over 3.5",
+      "sim_prob": 0.3976,
+      "fair_odds": 151.51,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Under 3.5",
+      "sim_prob": 0.6024,
+      "fair_odds": -151.51,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Over 3.5",
+      "sim_prob": 0.2634,
+      "fair_odds": 279.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Under 3.5",
+      "sim_prob": 0.7366,
+      "fair_odds": -279.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Over 4.5",
+      "sim_prob": 0.2796,
+      "fair_odds": 257.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Under 4.5",
+      "sim_prob": 0.7204,
+      "fair_odds": -257.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Over 4.5",
+      "sim_prob": 0.1659,
+      "fair_odds": 502.77,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Under 4.5",
+      "sim_prob": 0.8341,
+      "fair_odds": -502.77,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Over 5.5",
+      "sim_prob": 0.2796,
+      "fair_odds": 257.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "HOU Under 5.5",
+      "sim_prob": 0.7204,
+      "fair_odds": -257.65,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Over 5.5",
+      "sim_prob": 0.1013,
+      "fair_odds": 887.17,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_5_innings",
+      "side": "SEA Under 5.5",
+      "sim_prob": 0.8987,
+      "fair_odds": -887.17,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 5.5",
+      "sim_prob": 0.6588,
+      "fair_odds": -193.08,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 5.5",
+      "sim_prob": 0.3412,
+      "fair_odds": 193.08,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 6.5",
+      "sim_prob": 0.5577,
+      "fair_odds": -126.09,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 6.5",
+      "sim_prob": 0.4423,
+      "fair_odds": 126.09,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 7.5",
+      "sim_prob": 0.4601,
+      "fair_odds": 117.34,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 7.5",
+      "sim_prob": 0.5399,
+      "fair_odds": -117.34,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Over 8.5",
+      "sim_prob": 0.3671,
+      "fair_odds": 172.41,
+      "source": "simulator"
+    },
+    {
+      "market": "totals_1st_7_innings",
+      "side": "Under 8.5",
+      "sim_prob": 0.6329,
+      "fair_odds": -172.41,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_7_innings",
+      "side": "HOU",
+      "sim_prob": 0.547,
+      "fair_odds": -120.75,
+      "source": "simulator"
+    },
+    {
+      "market": "h2h_1st_7_innings",
+      "side": "SEA",
+      "sim_prob": 0.347,
+      "fair_odds": 188.18,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU -0.5",
+      "sim_prob": 0.5467,
+      "fair_odds": -120.6,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA +0.5",
+      "sim_prob": 0.4533,
+      "fair_odds": 120.6,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA -0.5",
+      "sim_prob": 0.3468,
+      "fair_odds": 188.35,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU +0.5",
+      "sim_prob": 0.6532,
+      "fair_odds": -188.35,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU -1.5",
+      "sim_prob": 0.4383,
+      "fair_odds": 128.15,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA +1.5",
+      "sim_prob": 0.5617,
+      "fair_odds": -128.15,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA -1.5",
+      "sim_prob": 0.2521,
+      "fair_odds": 296.67,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU +1.5",
+      "sim_prob": 0.7479,
+      "fair_odds": -296.67,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU -2.5",
+      "sim_prob": 0.3361,
+      "fair_odds": 197.53,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA +2.5",
+      "sim_prob": 0.6639,
+      "fair_odds": -197.53,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "SEA -2.5",
+      "sim_prob": 0.1754,
+      "fair_odds": 470.13,
+      "source": "simulator"
+    },
+    {
+      "market": "spreads_1st_7_innings",
+      "side": "HOU +2.5",
+      "sim_prob": 0.8246,
+      "fair_odds": -470.13,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Over 2.5",
+      "sim_prob": 0.6772,
+      "fair_odds": -209.79,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Under 2.5",
+      "sim_prob": 0.3228,
+      "fair_odds": 209.79,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Over 2.5",
+      "sim_prob": 0.537,
+      "fair_odds": -115.98,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Under 2.5",
+      "sim_prob": 0.463,
+      "fair_odds": 115.98,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Over 3.5",
+      "sim_prob": 0.5352,
+      "fair_odds": -115.15,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Under 3.5",
+      "sim_prob": 0.4648,
+      "fair_odds": 115.15,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Over 3.5",
+      "sim_prob": 0.3966,
+      "fair_odds": 152.14,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Under 3.5",
+      "sim_prob": 0.6034,
+      "fair_odds": -152.14,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Over 4.5",
+      "sim_prob": 0.4101,
+      "fair_odds": 143.84,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Under 4.5",
+      "sim_prob": 0.5899,
+      "fair_odds": -143.84,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Over 4.5",
+      "sim_prob": 0.2745,
+      "fair_odds": 264.3,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Under 4.5",
+      "sim_prob": 0.7255,
+      "fair_odds": -264.3,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Over 5.5",
+      "sim_prob": 0.3028,
+      "fair_odds": 230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Under 5.5",
+      "sim_prob": 0.6972,
+      "fair_odds": -230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Over 5.5",
+      "sim_prob": 0.1807,
+      "fair_odds": 453.4,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Under 5.5",
+      "sim_prob": 0.8193,
+      "fair_odds": -453.4,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Over 6.5",
+      "sim_prob": 0.3028,
+      "fair_odds": 230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "HOU Under 6.5",
+      "sim_prob": 0.6972,
+      "fair_odds": -230.25,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Over 6.5",
+      "sim_prob": 0.1206,
+      "fair_odds": 729.19,
+      "source": "simulator"
+    },
+    {
+      "market": "team_totals_1st_7_innings",
+      "side": "SEA Under 6.5",
+      "sim_prob": 0.8794,
+      "fair_odds": -729.19,
+      "source": "simulator"
+    }
+  ],
+  "summary_metrics": {
+    "full_game": {
+      "mean_total": 9.3463,
+      "std_total": 4.5612910792888455,
+      "mean_diff": 0.9705,
+      "std_diff": 4.37429191412736
+    },
+    "f1": {
+      "mean_total": 1.22795427,
+      "std_total": 1.9596236234726159,
+      "mean_diff": 0.29403997000000004,
+      "std_diff": 1.9419957157470147
+    },
+    "f3": {
+      "mean_total": 3.6268680400000006,
+      "std_total": 3.320750073576706,
+      "mean_diff": 0.8471108400000003,
+      "std_diff": 3.2739149829878826
+    },
+    "f5": {
+      "mean_total": 5.8681084,
+      "std_total": 4.098544862558708,
+      "mean_diff": 1.22319912,
+      "std_diff": 4.044053327287459
+    },
+    "f7": {
+      "mean_total": 7.762079579999999,
+      "std_total": 4.6589734106161504,
+      "mean_diff": 1.4680516199999998,
+      "std_diff": 4.608300547378476
+    }
+  }
+}
