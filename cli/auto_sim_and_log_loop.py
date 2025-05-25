@@ -54,7 +54,7 @@ def run_live_snapshot():
         default_script = os.path.join("core", "live_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "live_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight"
+        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
         subprocess.Popen(cmd, shell=True)
 
 
@@ -65,7 +65,7 @@ def run_personal_snapshot():
         default_script = os.path.join("core", "personal_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "personal_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight"
+        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
         subprocess.Popen(cmd, shell=True)
 
 
@@ -76,7 +76,7 @@ def run_best_book_snapshot():
         default_script = os.path.join("core", "best_book_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "best_book_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight"
+        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
         subprocess.Popen(cmd, shell=True)
 
 
