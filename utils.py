@@ -208,6 +208,12 @@ def get_segment_from_market(market: str) -> str:
     return "full_game"  # ✅ renamed from 'mainline'
 
 
+def extract_segment_suffix(market_key: str) -> str:
+    """Return the segment portion of a market key."""
+    parts = market_key.split("_")
+    return "_".join(parts[1:]) if len(parts) > 1 else ""
+
+
 def get_segment_label(market_key: str, side: str) -> str:
     """Return high level segment label for routing and summaries."""
     m = market_key.lower()
@@ -638,53 +644,55 @@ def get_contributing_books(market_odds, market_key, lookup_side):
 
 
 def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_side, debug=False):
+    """Lookup a market entry with alternate-line fallback.
+
+    Returns a tuple of ``(price, source_tag, matched_key, segment, source_type)``.
+    Only markets belonging to the same segment family (e.g. ``1st_5_innings``)
+    are searched to avoid mismatches.
     """
-    Safe odds matcher: Only looks in the correct segment (e.g., F5 vs F3), and allows
-    lookup in both main and alternate versions of the specified segment.
-    Prevents accidental mismatches across derivative types (e.g., F3 vs full game).
-    """
-    print("\n🧠 [MATCHER] Starting lookup for:")
-    print(f"   • Market Key   : {market_key}")
-    print(f"   • Raw Side     : {lookup_side}")
+
+    def log(msg: str) -> None:
+        if debug:
+            print(msg)
+
+    if not isinstance(market_odds, dict):
+        log(f"[MATCHER] invalid market_odds type: {type(market_odds)}")
+        return None, "unknown", "❌", "❌", "❌"
 
     normalized = lookup_side.strip()
-    print(f"   • Normalized   : {normalized}")
-
-    # ✅ Add this line here:
     segment = classify_market_segment(market_key)
-    print(f"   • Segment      : {segment}")
 
-    # Enforce segment isolation (e.g., 'totals_1st_5_innings' stays within its family)
-    def extract_segment_suffix(market_key):
-        parts = market_key.split("_")
-        return "_".join(parts[1:]) if len(parts) > 1 else ""
+    log(f"\n🧠 [MATCHER] Lookup {market_key} | side: {lookup_side} → {normalized}")
+    log(f"   • Segment      : {segment}")
 
-    segment_suffix = extract_segment_suffix(market_key)
-    base_prefix = market_key.split("_")[0]
+    suffix = extract_segment_suffix(market_key)
+    prefix = market_key.split("_")[0]
 
-    # Build list of keys we're allowed to check
     search_keys = []
-    for key in market_odds.keys():
-        if key == market_key or key == f"alternate_{market_key}":
+    for key in (market_key, f"alternate_{market_key}"):
+        if key in market_odds:
             search_keys.append(key)
-        elif key.startswith(base_prefix) and extract_segment_suffix(key) == segment_suffix:
+
+    for key in market_odds.keys():
+        if key.startswith(prefix) and extract_segment_suffix(key) == suffix and key not in search_keys:
             search_keys.append(key)
 
     for key in search_keys:
-        market_block = market_odds.get(key, {})
-        if normalized in market_block:
+        block = market_odds.get(key, {})
+        if normalized in block:
+            source_type = "alternate" if key.startswith("alternate_") else "mainline"
             source_map = market_odds.get(f"{key}_source", {})
-            print(f"✅ Found in {key}")
-            source_tag = "alternate" if key.startswith("alternate_") else "mainline"
+            source_tag = source_map.get(normalized, source_type)
+            log(f"✅ Found '{normalized}' in {key}")
             return (
-                market_block[normalized],
-                source_map.get(normalized, source_tag),
+                block[normalized],
+                source_tag,
                 key,
                 get_segment_from_market(key),
-                source_tag
+                source_type,
             )
 
-    print(f"❌ No match for '{normalized}' in: {search_keys}")
+    log(f"❌ No match for '{normalized}' in: {search_keys}")
     return None, "unknown", "❌", "❌", "❌"
 
 
