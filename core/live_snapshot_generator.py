@@ -493,6 +493,13 @@ def main():
         min_stake=1.0,
     )
 
+    # Filter rows within EV bounds and sort by EV descending
+    rows = [
+        r for r in rows
+        if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
+    ]
+    rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
+
     if not rows:
         print("⚠️ No qualifying bets found.")
         return

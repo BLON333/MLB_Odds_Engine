@@ -135,6 +135,13 @@ def main():
 
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
 
+    # Filter rows within EV bounds and sort descending by EV percentage
+    rows = [
+        r for r in rows
+        if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
+    ]
+    rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
+
     if not rows:
         print("⚠️ No qualifying bets found.")
         return
