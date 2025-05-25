@@ -74,6 +74,30 @@ python cli/run_distribution_simulator.py 2025-04-04-TEX@HOU
 Simulate and price entire slate:
 python cli/run_full_slate_entry.py 2025-04-04 --csv
 
+Track closing line value:
+python cli/closing_odds_monitor.py
+
+Run the full automation loop (which also launches the monitor):
+python cli/auto_sim_and_log_loop.py
+
+Windows users can start just the monitor via `launch_closing_odds_monitor.bat`.
+
+## Closing Odds & CLV Tracking
+
+These tools help measure closing line value (CLV) for your logged bets.
+
+* **closing_odds_monitor.py** – runs continuously and checks the Odds API for
+  games starting within 15 minutes. When closing odds are found it saves a
+  snapshot under `data/closing_odds/` and posts a Discord alert summarizing the
+  expected value of any logged bets for that game. Set `DISCORD_ALERT_WEBHOOK_URL`
+  in your `.env` to enable alerts.
+* **closing_odds_fetcher.py** – fetches closing odds for every game ID in your
+  `logs/market_evals.csv` and writes a JSON file for the day. Useful after games
+  finish if the monitor was not running.
+* **update_clv_column.py** – merges the saved closing odds back into
+  `market_evals.csv`, calculating `clv_percent`, `model_clv_percent` and a
+  `clv_class` label for quick filtering.
+
 
 📈 Output Fields
 Moneyline Pricing Example:
