@@ -90,7 +90,9 @@ These tools help measure closing line value (CLV) for your logged bets.
   games starting within 15 minutes. When closing odds are found it saves a
   snapshot under `data/closing_odds/` and posts a Discord alert summarizing the
   expected value of any logged bets for that game. Set `DISCORD_ALERT_WEBHOOK_URL`
-  in your `.env` to enable alerts.
+  in your `.env` to enable alerts. You can also define
+  `DISCORD_ALERT_WEBHOOK_URL_2` to send the same CLV notifications to a second
+  Discord channel.
 * **closing_odds_fetcher.py** – fetches closing odds for every game ID in your
   `logs/market_evals.csv` and writes a JSON file for the day. Useful after games
   finish if the monitor was not running.
