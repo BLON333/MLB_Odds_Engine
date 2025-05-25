@@ -23,7 +23,11 @@ from live_snapshot_generator import (
     format_table_with_highlights,
     export_market_snapshots,
 )
-from discord_snapshots import send_bet_snapshot_to_discord
+# send_bet_snapshot_to_discord was previously provided by a separate
+# module (discord_snapshots.py) which has since been removed. The
+# function now lives in live_snapshot_generator.py, so import it from
+# there to restore Discord image functionality.
+from live_snapshot_generator import send_bet_snapshot_to_discord
 
 load_dotenv()
 
