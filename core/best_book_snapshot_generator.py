@@ -28,7 +28,7 @@ from snapshot_core import (
 load_dotenv()
 
 # Allow best-book snapshots to be routed to separate Discord channels for
-# main lines and alternate lines. Only these webhooks are supported now.
+# main lines and alternate lines.
 WEBHOOK_MAIN = os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
 WEBHOOK_ALT = os.getenv("DISCORD_BEST_BOOK_ALT_WEBHOOK_URL")
 
