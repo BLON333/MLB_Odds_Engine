@@ -6,7 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
 
 import json
-import argparse
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -15,7 +14,8 @@ import pandas as pd
 import odds_fetcher
 from odds_fetcher import fetch_market_odds_from_api
 from log_betting_evals import expand_snapshot_rows_with_kelly
-from live_snapshot_generator import (
+from snapshot_core import (
+    build_argument_parser,
     load_simulations,
     build_snapshot_rows,
     compare_and_flag_new_rows,
@@ -94,15 +94,10 @@ def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = 
 # Main -----------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate best-book market snapshot")
-    parser.add_argument("--date", default=datetime.today().strftime("%Y-%m-%d"), help="Comma-separated list of dates")
-    parser.add_argument("--min-ev", type=float, default=0.05)
-    parser.add_argument("--max-ev", type=float, default=0.20)
-    parser.add_argument("--output-discord", dest="output_discord", action="store_true")
-    parser.add_argument("--no-output-discord", dest="output_discord", action="store_false")
-    parser.add_argument("--diff-highlight", action="store_true", help="Highlight new rows and odds movements")
-    parser.add_argument("--reset-snapshot", action="store_true", help="Clear stored snapshot before running")
-    parser.set_defaults(output_discord=False)
+    parser = build_argument_parser(
+        "Generate best-book market snapshot",
+        output_discord_default=False,
+    )
     args = parser.parse_args()
 
     snapshot_path = make_snapshot_path(args.date)
