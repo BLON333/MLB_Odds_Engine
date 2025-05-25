@@ -21,6 +21,19 @@ last_sim_time = 0
 last_log_time = 0
 last_snapshot_time = 0
 
+# Track the closing odds monitor subprocess so we can restart if it exits
+closing_monitor_proc = None
+
+def ensure_closing_monitor_running():
+    """Launch closing_odds_monitor.py if not already running."""
+    global closing_monitor_proc
+    if closing_monitor_proc is None or closing_monitor_proc.poll() is not None:
+        script_path = os.path.join("cli", "closing_odds_monitor.py")
+        if not os.path.exists(script_path):
+            script_path = "closing_odds_monitor.py"
+        print(f"\n🎯 [{now_eastern()}] Starting closing odds monitor...")
+        closing_monitor_proc = subprocess.Popen(f"python {script_path}", shell=True)
+
 def get_date_strings():
     now = now_eastern()
     today_str = now.strftime("%Y-%m-%d")
@@ -86,8 +99,11 @@ print(
     "(Sim: 30 min | Log & Snapshots (live, personal, best-book): 5 min, for today and tomorrow)"
 )
 
+ensure_closing_monitor_running()
+
 while True:
     now = time.time()
+    ensure_closing_monitor_running()
 
     if now - last_sim_time > SIM_INTERVAL:
         run_simulation()
