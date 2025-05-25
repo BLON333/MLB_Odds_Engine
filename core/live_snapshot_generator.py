@@ -27,6 +27,7 @@ from utils import (
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,
 )
+from discord_snapshots import send_bet_snapshot_to_discord
 
 DEBUG_LOG = []
 
@@ -49,14 +50,6 @@ def make_market_snapshot_paths(date_key: str) -> dict:
     }
 
 load_dotenv()
-
-import requests
-import io
-
-try:
-    import dataframe_image as dfi
-except ImportError:
-    dfi = None
 
 def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     """Return a styled DataFrame with conditional formatting."""
@@ -126,74 +119,6 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
     return styled
 
-def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url: str):
-    """Render a styled image and send it to a Discord webhook."""
-    if df is None or df.empty:
-        print(f"⚠️ No snapshot rows to send for {market_type}.")
-        return
-
-    if dfi is None:
-        print("⚠️ dataframe_image is not available. Skipping image send.")
-        return
-
-    df = df.sort_values(by="EV", ascending=False)
-    styled = _style_dataframe(df)
-
-    buf = io.BytesIO()
-    try:
-        dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
-    except Exception as e:
-        print(f"\u274c dfi.export failed: {e}")
-        try:
-            buf.seek(0)
-            buf.truncate(0)
-            dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
-        except Exception as e2:
-            print(f"⚠️ Fallback export failed: {e2}")
-            buf.close()
-            _send_table_text(df, market_type, webhook_url)
-            return
-    buf.seek(0)
-
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
-    caption = (
-        f"📈 **Live Market Snapshot — {market_type}**\n"
-        f"_Generated: {timestamp}_\n"
-        f"_(Not an official bet — informational only)_"
-    )
-
-    files = {"file": ("snapshot.png", buf, "image/png")}
-    try:
-        resp = requests.post(
-            webhook_url,
-            data={"payload_json": json.dumps({"content": caption})},
-            files=files,
-            timeout=10,
-        )
-        resp.raise_for_status()
-        print(f"✅ Snapshot sent for {market_type}.")
-    except Exception as e:
-        print(f"❌ Failed to send snapshot for {market_type}: {e}")
-    finally:
-        buf.close()
-
-
-def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> None:
-    """Send the DataFrame as a Markdown code block to Discord."""
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
-    caption = f"📈 **Live Market Snapshot — {market_type}** (text fallback)"\
-        f"\n_Generated: {timestamp}_"
-
-    try:
-        table = df.to_markdown(index=False)
-    except Exception:
-        table = df.to_string(index=False)
-
-    message = f"{caption}\n```\n{table}\n```\n_(Not an official bet — informational only)_"
-    try:
-        requests.post(webhook_url, json={"content": message}, timeout=10)
-    except Exception as e:
-        print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 
 WEBHOOKS = {
     "h2h": os.getenv("DISCORD_H2H_WEBHOOK_URL"),

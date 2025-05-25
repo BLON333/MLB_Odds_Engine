@@ -62,7 +62,7 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         return
 
     if dfi is None:
-        # dataframe_image not available -> fallback to plain text
+        print("⚠️ dataframe_image not installed. Sending text snapshot.")
         _send_table_text(df, market_type, webhook_url)
         return
 
@@ -71,13 +71,16 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
 
     buf = io.BytesIO()
     try:
-        dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
-    except Exception:
+        dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
+    except Exception as e:
+        print(f"❌ matplotlib export failed: {e}")
         try:
             buf.seek(0)
             buf.truncate(0)
-            dfi.export(styled, buf, table_conversion="matplotlib", max_rows=-1)
-        except Exception:
+            dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
+        except Exception as e2:
+            print(f"⚠️ Chrome export failed: {e2}")
+            buf.close()
             _send_table_text(df, market_type, webhook_url)
             return
     buf.seek(0)
