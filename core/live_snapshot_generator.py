@@ -136,7 +136,15 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         print("⚠️ dataframe_image is not available. Skipping image send.")
         return
 
-    df = df.sort_values(by="EV", ascending=False)
+    if "EV" in df.columns:
+        sort_tmp = df["EV"].str.replace("%", "", regex=False)
+        try:
+            sort_vals = sort_tmp.astype(float)
+            df = df.assign(_ev_sort=sort_vals).sort_values("_ev_sort", ascending=False).drop(columns="_ev_sort")
+        except Exception:
+            df = df.sort_values(by="EV", ascending=False)
+    else:
+        df = df.sort_values(by="ev_percent", ascending=False)
     styled = _style_dataframe(df)
 
     buf = io.BytesIO()
@@ -492,6 +500,13 @@ def main():
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
+
+    # Filter rows within EV bounds and sort by EV descending
+    rows = [
+        r for r in rows
+        if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
+    ]
+    rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
 
     if not rows:
         print("⚠️ No qualifying bets found.")
