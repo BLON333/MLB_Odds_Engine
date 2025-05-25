@@ -27,6 +27,11 @@ from snapshot_core import (
 
 load_dotenv()
 
+# Allow best-book snapshots to be routed to separate Discord channels for
+# main lines and alternate lines.
+WEBHOOK_MAIN = os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
+WEBHOOK_ALT = os.getenv("DISCORD_BEST_BOOK_ALT_WEBHOOK_URL")
+
 # Sportsbooks considered popular for best-book selection
 POPULAR_BOOKS = [
     "fanduel",
@@ -166,7 +171,23 @@ def main():
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
-        send_bet_snapshot_to_discord(df, "Best Book", os.getenv("DISCORD_BEST_BOOK_WEBHOOK_URL", ""))
+        if WEBHOOK_MAIN or WEBHOOK_ALT:
+            if WEBHOOK_MAIN:
+                subset = df[df["market_class"] == "main"]
+                print(f"📡 Evaluating snapshot for: main → {subset.shape[0]} rows")
+                if not subset.empty:
+                    send_bet_snapshot_to_discord(subset, "Best Book (Main)", WEBHOOK_MAIN)
+                else:
+                    print("⚠️ No bets for main")
+            if WEBHOOK_ALT:
+                subset = df[df["market_class"] == "alternate"]
+                print(f"📡 Evaluating snapshot for: alternate → {subset.shape[0]} rows")
+                if not subset.empty:
+                    send_bet_snapshot_to_discord(subset, "Best Book (Alt)", WEBHOOK_ALT)
+                else:
+                    print("⚠️ No bets for alternate")
+        else:
+            print("❌ No Discord webhook configured for best-book snapshots.")
     else:
         if args.diff_highlight:
             print(format_table_with_highlights(rows))
