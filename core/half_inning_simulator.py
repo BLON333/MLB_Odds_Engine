@@ -4,6 +4,94 @@ import random
 from core.pa_simulator import simulate_pa
 from core.fatigue_modeling import apply_fatigue_modifiers
 
+
+def _advance_bases(base_state, transitions, batter=None):
+    """Return new base state and runs scored after applying transitions."""
+    new_state = [None, None, None]
+    runs = 0
+
+    for i in range(3):
+        runner = base_state[i]
+        dest = transitions.get(i, i)
+        if runner:
+            if dest == "home":
+                runs += 1
+            else:
+                new_state[dest] = runner
+
+    if "batter" in transitions:
+        dest = transitions["batter"]
+        if dest == "home":
+            runs += 1
+        else:
+            new_state[dest] = batter
+
+    return new_state, runs
+
+
+def _handle_out(base_state, outs, rng=None, debug=False):
+    """Handle strikeouts and generic outs."""
+    rand = rng if rng is not None else random
+    if base_state[0] and outs < 2 and rand.random() < 0.11:
+        if debug:
+            print("     Double play chance triggered")
+        new_state = base_state.copy()
+        new_state[0] = None
+        return new_state, 0, 2
+    return base_state, 0, 1
+
+
+def _handle_walk(base_state, batter, rng=None, debug=False):
+    mapping = {}
+    if all(base_state):
+        mapping[2] = "home"
+    if base_state[1]:
+        mapping[1] = 2
+    if base_state[0]:
+        mapping[0] = 1
+    mapping["batter"] = 0
+    new_state, runs = _advance_bases(base_state, mapping, batter)
+    return new_state, runs, 0
+
+
+def _handle_single(base_state, batter, rng=None, debug=False):
+    rand = rng if rng is not None else random
+    mapping = {}
+    if base_state[2]:
+        mapping[2] = "home"
+    if base_state[1]:
+        mapping[1] = "home" if rand.random() < 0.6 else 2
+    if base_state[0]:
+        mapping[0] = 2 if rand.random() < 0.4 else 1
+    mapping["batter"] = 0
+    new_state, runs = _advance_bases(base_state, mapping, batter)
+    return new_state, runs, 0
+
+
+def _handle_double(base_state, batter, rng=None, debug=False):
+    rand = rng if rng is not None else random
+    mapping = {}
+    if base_state[2]:
+        mapping[2] = "home"
+    if base_state[1]:
+        mapping[1] = "home"
+    if base_state[0]:
+        mapping[0] = "home" if rand.random() < 0.6 else 2
+    mapping["batter"] = 1
+    new_state, runs = _advance_bases(base_state, mapping, batter)
+    return new_state, runs, 0
+
+
+def _handle_triple(base_state, batter, rng=None, debug=False):
+    mapping = {0: "home", 1: "home", 2: "home", "batter": 2}
+    new_state, runs = _advance_bases(base_state, mapping, batter)
+    return new_state, runs, 0
+
+
+def _handle_home_run(base_state, batter, rng=None, debug=False):
+    runs = sum(1 for b in base_state if b) + 1
+    return [None, None, None], runs, 0
+
 def simulate_half_inning(
     lineup,
     pitcher,
@@ -29,6 +117,16 @@ def simulate_half_inning(
     pa_count = 0
     team_key = "AWAY" if half == "top" else "HOME"
 
+    outcome_handlers = {
+        "K": _handle_out,
+        "OUT": _handle_out,
+        "BB": _handle_walk,
+        "1B": _handle_single,
+        "2B": _handle_double,
+        "3B": _handle_triple,
+        "HR": _handle_home_run,
+    }
+
     while outs < 3 and pa_count < max_pa:
         batter = lineup[batter_idx % len(lineup)]
 
@@ -48,51 +146,22 @@ def simulate_half_inning(
             return_probs=True,
             batting_team=team_key,
             use_noise=use_noise,
-            rng=rng
+            rng=rng,
         )
 
         outcome = result[0] if isinstance(result, tuple) else result
-        runs_this_play = 0
 
         if debug:
             print(f"⚾ {half.upper()} {inning} | Batter: {batter['name']} → {outcome}")
             print(f"     Bases before PA: {base_state}")
 
-        if outcome in ["K", "OUT"]:
-            if base_state[0] and outs < 2 and random.random() < 0.11:
-                outs += 2
-                base_state[0] = None
-            else:
-                outs += 1
+        handler = outcome_handlers.get(outcome, _handle_out)
 
-        elif outcome == "BB":
-            if all(base_state):
-                runs_this_play += 1
-            if base_state[1]:
-                base_state[2] = base_state[1]
-            if base_state[0]:
-                base_state[1] = base_state[0]
-            base_state[0] = batter
-
-        elif outcome == "1B":
-            if base_state[2]: runs_this_play += 1
-            if base_state[1] and random.random() < 0.6: runs_this_play += 1
-            third = base_state[0] if base_state[0] and random.random() < 0.4 else None
-            base_state = [batter, third, base_state[2]]
-
-        elif outcome == "2B":
-            if base_state[2]: runs_this_play += 1
-            if base_state[1]: runs_this_play += 1
-            if base_state[0] and random.random() < 0.6: runs_this_play += 1
-            base_state = [None, batter, None]
-
-        elif outcome == "3B":
-            runs_this_play += sum(1 for b in base_state if b)
-            base_state = [None, None, batter]
-
-        elif outcome == "HR":
-            runs_this_play += 1 + sum(1 for b in base_state if b)
-            base_state = [None, None, None]
+        if outcome in ("K", "OUT"):
+            base_state, runs_this_play, outs_added = handler(base_state, outs, rng=rng, debug=debug)
+        else:
+            base_state, runs_this_play, outs_added = handler(base_state, batter, rng=rng, debug=debug)
+        outs += outs_added
 
         if outs >= 3:
             runs_this_play = 0
@@ -103,14 +172,16 @@ def simulate_half_inning(
         batter_idx += 1
         pa_count += 1
 
-        events.append({
-            "inning": inning,
-            "half": half,
-            "batter": batter["name"],
-            "pitcher": pitcher["name"],
-            "outcome": outcome,
-            "runs_scored": runs_this_play
-        })
+        events.append(
+            {
+                "inning": inning,
+                "half": half,
+                "batter": batter["name"],
+                "pitcher": pitcher["name"],
+                "outcome": outcome,
+                "runs_scored": runs_this_play,
+            }
+        )
 
         if debug:
             print(f"     Runs scored this play: {runs_this_play}")
@@ -125,7 +196,7 @@ def simulate_half_inning(
         "outs": outs,
         "events": events,
         "next_batter_index": batter_idx % len(lineup),
-        "pitcher_state": pitcher_state
+        "pitcher_state": pitcher_state,
     }
 
 
