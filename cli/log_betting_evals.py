@@ -74,6 +74,7 @@ from utils import (
 
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
+from core.market_eval_tracker import load_tracker, save_tracker
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -1603,6 +1604,8 @@ def run_batch_logging(eval_folder, market_odds_file, min_ev, dry_run=False, debu
     else:
         market_evals_df = pd.DataFrame()
 
+    market_eval_tracker = load_tracker()
+
 
     # ✅ Ensure all required columns exist for downstream filters like should_log_bet
     required_cols = [
@@ -1938,6 +1941,7 @@ def process_theme_logged_bets(
         else:
             print(f"⚠️ No bets met criteria for image summary (stake_mode: '{stake_mode}', EV ≥ 5%, stake ≥ 1.0u).")
 
+    save_tracker(market_eval_tracker)
 
 
 if __name__ == "__main__":
