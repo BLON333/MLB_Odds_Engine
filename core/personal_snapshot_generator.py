@@ -19,6 +19,7 @@ from snapshot_core import (
     load_simulations,
     build_snapshot_rows,
     compare_and_flag_new_rows,
+    build_display_block,
     format_for_display,
     format_table_with_highlights,
     export_market_snapshots,
@@ -98,18 +99,19 @@ def main():
     else:
         snapshot_next = {}
         for r in rows:
-            fair_odds = r.get("blended_fv")
+            blended_fv = r.get("blended_fv", r.get("fair_odds"))
             market_odds = r.get("market_odds")
             ev_pct = r.get("ev_percent")
-            if fair_odds is None or ev_pct is None or market_odds is None:
+            if blended_fv is None or ev_pct is None or market_odds is None:
                 continue
             game_id = r.get("game_id", "")
             book = r.get("best_book", "")
             key = f"{game_id}:{r['market']}:{r['side']}:{book}"
             snapshot_next[key] = {
-                "fair_odds": fair_odds,
+                "blended_fv": blended_fv,
                 "market_odds": market_odds,
                 "ev_percent": ev_pct,
+                "display": build_display_block(r),
             }
 
     df = format_for_display(rows, include_movement=args.diff_highlight)

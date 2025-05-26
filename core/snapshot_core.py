@@ -215,17 +215,18 @@ def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -
         game_id = entry.get("game_id", "")
         book = entry.get("best_book", "")
         key = f"{game_id}:{entry.get('market')}:{entry.get('side')}:{book}"
-        fair_odds = entry.get("blended_fv", entry.get("fair_odds"))
+        blended_fv = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
         ev_pct = entry.get("ev_percent")
 
-        if fair_odds is None or ev_pct is None or market_odds is None:
+        if blended_fv is None or ev_pct is None or market_odds is None:
             continue
 
         next_snapshot[key] = {
-            "fair_odds": fair_odds,
+            "blended_fv": blended_fv,
             "market_odds": market_odds,
             "ev_percent": ev_pct,
+            "display": build_display_block(entry),
         }
 
         j = json.dumps(entry, sort_keys=True)
@@ -235,7 +236,7 @@ def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -
 
         prev = last_snapshot.get(key)
         movement = detect_market_movement(
-            {"blended_fv": fair_odds, "market_odds": market_odds, "ev_percent": ev_pct},
+            {"blended_fv": blended_fv, "market_odds": market_odds, "ev_percent": ev_pct},
             prev,
         )
         entry.update(movement)
@@ -398,6 +399,55 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
                 movement_cols.append(c)
         return df[required_cols + movement_cols]
     return df[required_cols]
+
+
+def build_display_block(row: dict) -> Dict[str, str]:
+    """Return formatted display fields for a snapshot row."""
+    game_id = str(row.get("game_id", ""))
+    date = "-".join(game_id.split("-")[:3]) if game_id else ""
+    matchup = game_id.split("-")[-1].replace("@", " @ ") if game_id else ""
+
+    market_class_key = row.get("market_class", "main")
+    market_class = {
+        "alternate": "📐 Alt Line",
+        "main": "🏆 Main",
+    }.get(market_class_key, "❓")
+
+    odds = row.get("market_odds")
+    if isinstance(odds, (int, float)):
+        odds_str = f"{odds:+}"
+    else:
+        odds_str = str(odds) if odds is not None else "N/A"
+
+    sim_prob = row.get("sim_prob")
+    sim_str = f"{sim_prob * 100:.1f}%" if sim_prob is not None else "N/A"
+
+    mkt_prob = row.get("market_prob")
+    mkt_str = f"{mkt_prob * 100:.1f}%" if mkt_prob is not None else "N/A"
+
+    fv = row.get("blended_fv", row.get("fair_odds"))
+    fv_str = f"{round(fv)}" if isinstance(fv, (int, float)) else "N/A"
+
+    ev = row.get("ev_percent")
+    ev_str = f"{ev:+.1f}%" if ev is not None else "N/A"
+
+    stake = row.get("stake")
+    stake_str = f"{stake:.2f}u" if stake is not None else "N/A"
+
+    return {
+        "Date": date,
+        "Matchup": matchup,
+        "Market Class": market_class,
+        "Market": row.get("market", ""),
+        "Bet": row.get("side", ""),
+        "Book": row.get("best_book", ""),
+        "Odds": odds_str,
+        "Sim %": sim_str,
+        "Mkt %": mkt_str,
+        "FV": fv_str,
+        "EV": ev_str,
+        "Stake": stake_str,
+    }
 
 
 def export_market_snapshots(df: pd.DataFrame, snapshot_paths: Dict[str, str]) -> None:
