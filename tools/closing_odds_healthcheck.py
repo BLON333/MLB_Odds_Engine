@@ -4,7 +4,10 @@ import requests
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-load_dotenv()
+dotenv_file = os.path.join(os.path.dirname(__file__), "..", ".env")
+load_dotenv(dotenv_file)
+loaded_hooks = [v for v in [os.getenv("DISCORD_ALERT_WEBHOOK_URL"), os.getenv("DISCORD_ALERT_WEBHOOK_URL_2")] if v]
+print(f"🔧 Loaded {len(loaded_hooks)} Discord webhook(s) from {dotenv_file}")
 
 # Allow healthcheck alerts to be sent to multiple Discord channels. Define
 # `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2`.
@@ -24,8 +27,13 @@ def send_discord_alert(message):
         return
     for url in DISCORD_ALERT_WEBHOOK_URLS:
         try:
-            requests.post(url, json={"content": message})
-            print(f"✅ Alert sent to Discord webhook: {url}")
+            resp = requests.post(url, json={"content": message}, timeout=10)
+            if resp.status_code in (200, 204):
+                print(f"✅ Alert sent to Discord webhook: {url}")
+            else:
+                print(
+                    f"❌ Discord webhook {url} returned {resp.status_code}: {resp.text}"
+                )
         except Exception as e:
             print(f"❌ Failed to send alert to {url}: {e}")
 
