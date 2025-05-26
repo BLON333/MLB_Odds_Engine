@@ -49,6 +49,7 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
 
 
 MARKET_CONF_TRACKER = load_market_conf_tracker()
+MARKET_EVAL_TRACKER = load_tracker()
 
 # === Local Modules ===
 from core.market_pricer import implied_prob, decimal_odds, to_american_odds, kelly_fraction, blend_prob, calculate_ev_from_prob
@@ -1030,6 +1031,14 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
         }
         save_market_conf_tracker(MARKET_CONF_TRACKER)
 
+        global MARKET_EVAL_TRACKER
+        MARKET_EVAL_TRACKER[tracker_key] = {
+            "ev_percent": row["ev_percent"],
+            "blended_fv": row.get("blended_fv", row.get("fair_odds")),
+            "market_odds": row["market_odds"],
+            "date_simulated": row["date_simulated"],
+        }
+
     existing[key] = full_stake
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
@@ -1609,7 +1618,8 @@ def run_batch_logging(eval_folder, market_odds_file, min_ev, dry_run=False, debu
     else:
         market_evals_df = pd.DataFrame()
 
-    market_eval_tracker = load_tracker()
+    global MARKET_EVAL_TRACKER
+    MARKET_EVAL_TRACKER = load_tracker()
 
 
     # ✅ Ensure all required columns exist for downstream filters like should_log_bet
@@ -1946,7 +1956,7 @@ def process_theme_logged_bets(
         else:
             print(f"⚠️ No bets met criteria for image summary (stake_mode: '{stake_mode}', EV ≥ 5%, stake ≥ 1.0u).")
 
-    save_tracker(market_eval_tracker)
+    save_tracker(MARKET_EVAL_TRACKER)
 
 
 if __name__ == "__main__":
