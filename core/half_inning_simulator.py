@@ -5,7 +5,7 @@ from core.pa_simulator import simulate_pa
 from core.fatigue_modeling import apply_fatigue_modifiers
 
 
-def _advance_bases(base_state, transitions, batter=None):
+def _advance_bases(base_state, transitions, batter=None, debug=False):
     """Return new base state and runs scored after applying transitions."""
     new_state = [None, None, None]
     runs = 0
@@ -16,30 +16,36 @@ def _advance_bases(base_state, transitions, batter=None):
         if runner:
             if dest == "home":
                 runs += 1
+                if debug:
+                    print(f"     Runner from base {i+1} scores")
             else:
                 new_state[dest] = runner
+                if debug and dest != i:
+                    print(f"     Runner from base {i+1} -> base {dest+1}")
 
     if "batter" in transitions:
         dest = transitions["batter"]
         if dest == "home":
             runs += 1
+            if debug:
+                print("     Batter scores")
         else:
             new_state[dest] = batter
+            if debug:
+                print(f"     Batter -> base {dest+1}")
 
     return new_state, runs
-
 
 def _handle_out(base_state, outs, rng=None, debug=False):
     """Handle strikeouts and generic outs."""
     rand = rng if rng is not None else random
-    if base_state[0] and outs < 2 and rand.random() < 0.11:
+    if base_state[0] and outs < 2 and rand.random() < 0.14:
         if debug:
             print("     Double play chance triggered")
         new_state = base_state.copy()
         new_state[0] = None
         return new_state, 0, 2
     return base_state, 0, 1
-
 
 def _handle_walk(base_state, batter, rng=None, debug=False):
     mapping = {}
@@ -50,7 +56,7 @@ def _handle_walk(base_state, batter, rng=None, debug=False):
     if base_state[0]:
         mapping[0] = 1
     mapping["batter"] = 0
-    new_state, runs = _advance_bases(base_state, mapping, batter)
+    new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
     return new_state, runs, 0
 
 
@@ -60,11 +66,11 @@ def _handle_single(base_state, batter, rng=None, debug=False):
     if base_state[2]:
         mapping[2] = "home"
     if base_state[1]:
-        mapping[1] = "home" if rand.random() < 0.6 else 2
+        mapping[1] = "home" if rand.random() < 0.4 else 2
     if base_state[0]:
-        mapping[0] = 2 if rand.random() < 0.4 else 1
+        mapping[0] = 1 if rand.random() < 0.8 else 0
     mapping["batter"] = 0
-    new_state, runs = _advance_bases(base_state, mapping, batter)
+    new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
     return new_state, runs, 0
 
 
@@ -76,20 +82,22 @@ def _handle_double(base_state, batter, rng=None, debug=False):
     if base_state[1]:
         mapping[1] = "home"
     if base_state[0]:
-        mapping[0] = "home" if rand.random() < 0.6 else 2
+        mapping[0] = "home" if rand.random() < 0.4 else 2
     mapping["batter"] = 1
-    new_state, runs = _advance_bases(base_state, mapping, batter)
+    new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
     return new_state, runs, 0
 
 
 def _handle_triple(base_state, batter, rng=None, debug=False):
     mapping = {0: "home", 1: "home", 2: "home", "batter": 2}
-    new_state, runs = _advance_bases(base_state, mapping, batter)
+    new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
     return new_state, runs, 0
 
 
 def _handle_home_run(base_state, batter, rng=None, debug=False):
     runs = sum(1 for b in base_state if b) + 1
+    if debug:
+        print(f"     Home run! {runs} run(s) score")
     return [None, None, None], runs, 0
 
 def simulate_half_inning(

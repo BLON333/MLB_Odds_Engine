@@ -56,7 +56,8 @@ def resolve_contact(batter, pitcher, debug=False, rng=None):
         ev=pitcher.get("exit_velocity_avg"),
         la=pitcher.get("launch_angle_avg"),
         batter_speed=batter.get("speed", 50),
-        fielder_rating=pitcher.get("fielder_rating", 50)
+        fielder_rating=pitcher.get("fielder_rating", 50),
+        debug=debug,
     )
 
     if is_hit:
@@ -70,7 +71,7 @@ def resolve_contact(batter, pitcher, debug=False, rng=None):
             outcome = "OUT"
 
     if debug:
-        print(f"DEBUG: Hit? {is_hit} → Outcome: {outcome}")
+        print(f"DEBUG: Hit? {is_hit} → {bip_type} → {outcome}")
 
     return outcome
 
