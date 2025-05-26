@@ -102,6 +102,12 @@ def main():
     snapshot_path = make_snapshot_path(args.date)
     market_snapshot_paths = make_market_snapshot_paths(args.date)
 
+    print(f"[DEBUG] Snapshot path: {snapshot_path}")
+    if os.path.exists(snapshot_path):
+        print("[DEBUG] Previous snapshot found, loading for comparison")
+    else:
+        print("[DEBUG] No previous snapshot found — all rows considered new")
+
     if args.reset_snapshot and os.path.exists(snapshot_path):
         os.remove(snapshot_path)
 
@@ -121,17 +127,29 @@ def main():
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, []))
 
+    print(f"[DEBUG] Raw snapshot rows: {len(all_rows)}")
+
     rows = expand_snapshot_rows_with_kelly(
         all_rows,
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
 
+    print(f"[DEBUG] Rows after expansion: {len(rows)}")
+
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
+
+    print(f"[DEBUG] Rows after best-book selection: {len(rows)}")
 
     rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
 
+    from collections import Counter
+    movement_counts = Counter(r.get("fv_movement") for r in rows)
+    print(f"[DEBUG] FV movement counts: {dict(movement_counts)}")
+
     rows = [r for r in rows if r.get("fv_movement") == "worse"]
+
+    print(f"[DEBUG] Rows with decreased FV: {len(rows)}")
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
@@ -139,6 +157,8 @@ def main():
         if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
     ]
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
+
+    print(f"[DEBUG] Rows after EV filter: {len(rows)}")
 
     if not rows:
         print("⚠️ No bets with decreased FV found.")
@@ -148,8 +168,11 @@ def main():
     df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
     export_market_snapshots(df_export, market_snapshot_paths)
 
-    if args.output_discord and WEBHOOK_URL:
-        send_bet_snapshot_to_discord(df, "FV Drop", WEBHOOK_URL)
+    if args.output_discord:
+        if WEBHOOK_URL:
+            send_bet_snapshot_to_discord(df, "FV Drop", WEBHOOK_URL)
+        else:
+            print("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
     else:
         print(format_table_with_highlights(rows))
 
@@ -160,3 +183,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
