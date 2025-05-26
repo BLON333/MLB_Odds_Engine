@@ -1,6 +1,8 @@
 import pandas as pd
 from typing import Optional
 
+from core.market_movement_tracker import detect_market_movement
+
 from utils import (
     normalize_to_abbreviation,
     get_normalized_lookup_side,
@@ -126,6 +128,40 @@ def should_log_bet(
             print(
                 f"⛔ should_log_bet: Rejected due to EV/stake threshold → EV: {ev:.2f}%, Stake: {stake:.2f}u"
             )
+        return None
+
+    prior_entry = None
+    if isinstance(market_evals, pd.DataFrame) and not market_evals.empty:
+        try:
+            mask = (
+                (market_evals["game_id"] == game_id)
+                & (market_evals["market"] == market)
+                & (market_evals["side"] == side)
+            )
+            prev_rows = market_evals[mask]
+            if not prev_rows.empty:
+                try:
+                    prev_rows = prev_rows.sort_values("date_simulated")
+                except Exception:
+                    pass
+                prior_row = prev_rows.iloc[-1].to_dict()
+                prior_entry = {
+                    "blended_fv": prior_row.get("blended_fv", prior_row.get("fair_odds")),
+                    "market_odds": prior_row.get("market_odds"),
+                    "ev_percent": prior_row.get("ev_percent"),
+                }
+        except Exception:
+            pass
+
+    movement = detect_market_movement(new_bet, prior_entry)
+    new_bet.update(movement)
+    if prior_entry is not None and not (
+        movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
+    ):
+        _log_verbose(
+            f"⛔ should_log_bet: Market not confirmed (EV {movement['ev_movement']}, FV {movement['fv_movement']})",
+            verbose,
+        )
         return None
 
     base_market = market.replace("alternate_", "")
