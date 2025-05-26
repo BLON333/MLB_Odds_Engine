@@ -16,7 +16,11 @@ from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 from dotenv import load_dotenv
 from pathlib import Path
-load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
+dotenv_file = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=dotenv_file)
+
+loaded_hooks = [v for v in [os.getenv("DISCORD_ALERT_WEBHOOK_URL"), os.getenv("DISCORD_ALERT_WEBHOOK_URL_2")] if v]
+print(f"🔧 Loaded {len(loaded_hooks)} Discord webhook(s) from {dotenv_file}")
 
 # Support sending CLV alerts to multiple Discord channels. Users can define
 # `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2` in
@@ -41,8 +45,13 @@ def send_discord_alert(message):
         return
     for url in DISCORD_ALERT_WEBHOOK_URLS:
         try:
-            requests.post(url, json={"content": message})
-            print(f"✅ CLV alert sent to Discord webhook: {url}")
+            resp = requests.post(url, json={"content": message}, timeout=10)
+            if resp.status_code in (200, 204):
+                print(f"✅ CLV alert sent to Discord webhook: {url}")
+            else:
+                print(
+                    f"❌ Discord webhook {url} returned {resp.status_code}: {resp.text}"
+                )
         except Exception as e:
             print(f"❌ Failed to send Discord alert to {url}: {e}")
 
