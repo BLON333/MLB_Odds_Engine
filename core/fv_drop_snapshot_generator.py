@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "c
 import json
 from datetime import datetime
 from dotenv import load_dotenv
+import requests
 
 import pandas as pd
 
@@ -137,8 +138,12 @@ def main():
     mv_counts = Counter(r.get("fv_movement") for r in rows)
     print(f"[DEBUG] FV movement counts: {dict(mv_counts)}")
 
-    rows = [r for r in rows if r.get("fv_movement") == "worse"]
-    print(f"[DEBUG] Rows with decreased FV: {len(rows)}")
+    rows = [
+        r
+        for r in rows
+        if r.get("fv_movement") == "worse" and r.get("ev_movement") == "better"
+    ]
+    print(f"[DEBUG] Rows with confirmed FV drop: {len(rows)}")
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
@@ -150,6 +155,19 @@ def main():
 
     if not rows:
         print("⚠️ No bets with decreased FV found.")
+        if args.output_discord:
+            if WEBHOOK_URL:
+                msg = (
+                    f"\U0001F4C9 No bets qualified for FV drop snapshot today "
+                    f"(min EV {args.min_ev*100:.1f}%)."
+                )
+                try:
+                    requests.post(WEBHOOK_URL, json={"content": msg}, timeout=10)
+                    print("✅ Sent no-drop message to Discord.")
+                except Exception as e:
+                    print(f"❌ Failed to send no-drop message: {e}")
+            else:
+                print("⚠️ Discord webhook is not configured for FV drop snapshots.")
         return
 
     df = format_for_display(rows, include_movement=True)
