@@ -37,8 +37,6 @@ def send_discord_alert(message):
                 )
         except Exception as e:
             print(f"❌ Failed to send alert to {url}: {e}")
-
-
 def check_closing_odds():
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)

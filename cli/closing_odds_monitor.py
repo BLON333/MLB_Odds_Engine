@@ -17,13 +17,7 @@ from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 from dotenv import load_dotenv
 from pathlib import Path
-
 dotenv_file = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=dotenv_file, override=True)
-
-loaded_hooks = [
-    v.strip()
-    for v in [
         os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
         os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
     ]
@@ -41,13 +35,13 @@ os.makedirs(closing_odds_path, exist_ok=True)
 fetched_games = set()
 debug_mode = True  # ✅ easy toggle for debug
 
-
 def send_discord_alert(message):
     if not DISCORD_ALERT_WEBHOOK_URLS:
         print("❌ No Discord webhook configured for alerts.")
         return
     for url in DISCORD_ALERT_WEBHOOK_URLS:
         try:
+
             resp = requests.post(url, json={"content": message}, timeout=10)
             if resp.status_code in (200, 204):
                 print(f"✅ CLV alert sent to Discord webhook: {url}")
