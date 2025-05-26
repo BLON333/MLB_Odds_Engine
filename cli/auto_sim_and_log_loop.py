@@ -104,7 +104,6 @@ def run_fv_drop_snapshot():
         cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
         subprocess.Popen(cmd, shell=True)
 
-
 print(
     "🔄 Starting auto loop... "
     "(Sim: 30 min | Log & Snapshots (live, personal, best-book, fv-drop): 5 min, for today and tomorrow)"
