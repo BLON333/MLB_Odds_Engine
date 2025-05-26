@@ -94,9 +94,20 @@ def run_best_book_snapshot():
         subprocess.Popen(cmd, shell=True)
 
 
+def run_fv_drop_snapshot():
+    today_str, tomorrow_str = get_date_strings()
+    for date_str in [today_str, tomorrow_str]:
+        print(f"\n🔻 [{now_eastern()}] Running FV drop snapshot generator for {date_str}...")
+        default_script = os.path.join("core", "fv_drop_snapshot_generator.py")
+        if not os.path.exists(default_script):
+            default_script = "fv_drop_snapshot_generator.py"
+        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
+        subprocess.Popen(cmd, shell=True)
+
+
 print(
     "🔄 Starting auto loop... "
-    "(Sim: 30 min | Log & Snapshots (live, personal, best-book): 5 min, for today and tomorrow)"
+    "(Sim: 30 min | Log & Snapshots (live, personal, best-book, FV drop): 5 min, for today and tomorrow)"
 )
 
 ensure_closing_monitor_running()
@@ -119,6 +130,7 @@ while True:
             run_live_snapshot()
             run_personal_snapshot()
             run_best_book_snapshot()
+            run_fv_drop_snapshot()
         except Exception as e:
             print(f"❌ Live snapshot failed: {e}")
         last_snapshot_time = now
