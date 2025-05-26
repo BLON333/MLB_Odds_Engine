@@ -33,25 +33,38 @@ def build_argument_parser(
     output_discord_default: bool = True,
     include_stake_mode: bool = False,
     include_debug_json: bool = False,
-) -> 'argparse.ArgumentParser':
+) -> "argparse.ArgumentParser":
     """Return a parser with common snapshot CLI options."""
     import argparse
 
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument("--date", default=datetime.today().strftime("%Y-%m-%d"),
-                        help="Comma-separated list of dates")
+    parser.add_argument(
+        "--date",
+        default=datetime.today().strftime("%Y-%m-%d"),
+        help="Comma-separated list of dates",
+    )
     parser.add_argument("--min-ev", type=float, default=0.05)
     parser.add_argument("--max-ev", type=float, default=0.20)
     if include_stake_mode:
         parser.add_argument("--stake-mode", default="model")
     parser.add_argument("--output-discord", dest="output_discord", action="store_true")
-    parser.add_argument("--no-output-discord", dest="output_discord", action="store_false")
+    parser.add_argument(
+        "--no-output-discord", dest="output_discord", action="store_false"
+    )
     if include_debug_json:
-        parser.add_argument("--debug-json", default=None, help="Path to write debug output")
-    parser.add_argument("--diff-highlight", action="store_true",
-                        help="Highlight new rows and odds movements")
-    parser.add_argument("--reset-snapshot", action="store_true",
-                        help="Clear stored snapshot before running")
+        parser.add_argument(
+            "--debug-json", default=None, help="Path to write debug output"
+        )
+    parser.add_argument(
+        "--diff-highlight",
+        action="store_true",
+        help="Highlight new rows and odds movements",
+    )
+    parser.add_argument(
+        "--reset-snapshot",
+        action="store_true",
+        help="Clear stored snapshot before running",
+    )
     parser.set_defaults(output_discord=output_discord_default)
     return parser
 
@@ -72,6 +85,7 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
                 else:
                     colors.append("")
             return colors
+
         return inner
 
     styled = df.style.set_caption(f"Generated: {timestamp}")
@@ -82,18 +96,23 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
     if "is_new" in df.columns:
+
         def highlight_new(row):
-            return ["background-color: #e6ffe6" if row.get("is_new") else "" for _ in row]
+            return [
+                "background-color: #e6ffe6" if row.get("is_new") else "" for _ in row
+            ]
+
         styled = styled.apply(highlight_new, axis=1)
 
-    styled = (
-        styled
-        .set_properties(subset=df.columns.tolist(), **{
+    styled = styled.set_properties(
+        subset=df.columns.tolist(),
+        **{
             "text-align": "left",
             "font-family": "monospace",
             "font-size": "10pt",
-        })
-        .set_table_styles([
+        },
+    ).set_table_styles(
+        [
             {
                 "selector": "th",
                 "props": [
@@ -103,7 +122,7 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
                     ("text-align", "center"),
                 ],
             }
-        ])
+        ]
     )
 
     try:
@@ -111,7 +130,17 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     except AttributeError:
         pass
 
-    hide_cols = [c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns]
+    hide_cols = [
+        c
+        for c in [
+            "odds_movement",
+            "fv_movement",
+            "ev_movement",
+            "is_new",
+            "market_class",
+        ]
+        if c in df.columns
+    ]
     if hide_cols:
         try:
             styled = styled.hide(axis="columns", subset=hide_cols)
@@ -124,7 +153,9 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     return styled
 
 
-def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url: str) -> None:
+def send_bet_snapshot_to_discord(
+    df: pd.DataFrame, market_type: str, webhook_url: str
+) -> None:
     """Render a styled image and send it to a Discord webhook."""
     if df is None or df.empty:
         print(f"⚠️ No snapshot rows to send for {market_type}.")
@@ -137,7 +168,11 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
         sort_tmp = df["EV"].str.replace("%", "", regex=False)
         try:
             sort_vals = sort_tmp.astype(float)
-            df = df.assign(_ev_sort=sort_vals).sort_values("_ev_sort", ascending=False).drop(columns="_ev_sort")
+            df = (
+                df.assign(_ev_sort=sort_vals)
+                .sort_values("_ev_sort", ascending=False)
+                .drop(columns="_ev_sort")
+            )
         except Exception:
             df = df.sort_values(by="EV", ascending=False)
     else:
@@ -162,8 +197,7 @@ def send_bet_snapshot_to_discord(df: pd.DataFrame, market_type: str, webhook_url
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
     caption = (
-        f"📈 **Live Market Snapshot — {market_type}**\n"
-        f"_Generated: {timestamp}_"
+        f"📈 **Live Market Snapshot — {market_type}**\n" f"_Generated: {timestamp}_"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
@@ -199,7 +233,9 @@ def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> No
         print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 
 
-def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -> Tuple[List[dict], Dict[str, dict]]:
+def compare_and_flag_new_rows(
+    current_entries: List[dict], snapshot_path: str
+) -> Tuple[List[dict], Dict[str, dict]]:
     """Return entries annotated with new-row and movement flags."""
     try:
         with open(snapshot_path) as f:
@@ -223,9 +259,18 @@ def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -
             continue
 
         next_snapshot[key] = {
+            "game_id": game_id,
+            "market": entry.get("market"),
+            "side": entry.get("side"),
+            "best_book": book,
             "blended_fv": blended_fv,
             "market_odds": market_odds,
             "ev_percent": ev_pct,
+            "sim_prob": entry.get("sim_prob"),
+            "market_prob": entry.get("market_prob"),
+            "segment": entry.get("segment"),
+            "stake": entry.get("stake"),
+            "market_class": entry.get("market_class"),
             "display": build_display_block(entry),
         }
 
@@ -236,7 +281,11 @@ def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -
 
         prev = last_snapshot.get(key)
         movement = detect_market_movement(
-            {"blended_fv": blended_fv, "market_odds": market_odds, "ev_percent": ev_pct},
+            {
+                "blended_fv": blended_fv,
+                "market_odds": market_odds,
+                "ev_percent": ev_pct,
+            },
             prev,
         )
         entry.update(movement)
@@ -250,8 +299,12 @@ def format_table_with_highlights(entries: List[dict]) -> str:
     lines = []
     for e in entries:
         new_sym = "🟢" if e.get("is_new") else " "
-        odds_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(e.get("odds_movement"), "")
-        ev_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(e.get("ev_movement"), "")
+        odds_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(
+            e.get("odds_movement"), ""
+        )
+        ev_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(
+            e.get("ev_movement"), ""
+        )
         fair = e.get("blended_fv", e.get("fair_odds"))
         if isinstance(fair, (int, float)):
             fair_str = f"{fair:+}"
@@ -280,7 +333,9 @@ def load_simulations(sim_dir: str) -> dict:
     return sims
 
 
-def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_log=None) -> list:
+def build_snapshot_rows(
+    sim_data: dict, odds_data: dict, min_ev: float, debug_log=None
+) -> list:
     if debug_log is None:
         debug_log = []
     rows = []
@@ -317,14 +372,16 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
             if market is None or side is None or sim_prob is None:
                 continue
 
-            lookup_side = normalize_to_abbreviation(side.strip()) if market == "h2h" else side
-            market_entry, _, matched_key, segment, price_source = get_market_entry_with_alternate_fallback(
-                odds, market, lookup_side
+            lookup_side = (
+                normalize_to_abbreviation(side.strip()) if market == "h2h" else side
+            )
+            market_entry, _, matched_key, segment, price_source = (
+                get_market_entry_with_alternate_fallback(odds, market, lookup_side)
             )
             if not isinstance(market_entry, dict):
                 alt = convert_full_team_spread_to_odds_key(lookup_side)
-                market_entry, _, matched_key, segment, price_source = get_market_entry_with_alternate_fallback(
-                    odds, market, alt
+                market_entry, _, matched_key, segment, price_source = (
+                    get_market_entry_with_alternate_fallback(odds, market, alt)
                 )
             if not isinstance(market_entry, dict):
                 continue
@@ -334,7 +391,9 @@ def build_snapshot_rows(sim_data: dict, odds_data: dict, min_ev: float, debug_lo
                 continue
 
             consensus_prob = market_entry.get("consensus_prob")
-            p_blended, _, _, p_market = blend_prob(sim_prob, price, market, hours_to_game, consensus_prob)
+            p_blended, _, _, p_market = blend_prob(
+                sim_prob, price, market, hours_to_game, consensus_prob
+            )
             ev_pct = calculate_ev_from_prob(p_blended, price)
             stake = kelly_fraction(p_blended, price, fraction=0.25)
             market_clean = matched_key.replace("alternate_", "")
@@ -373,21 +432,42 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
     if "market_class" not in df.columns:
         df["market_class"] = "main"
-    df["Market Class"] = df["market_class"].map({"alternate": "📐 Alt Line", "main": "🏆 Main"}).fillna("❓")
+    df["Market Class"] = (
+        df["market_class"]
+        .map({"alternate": "📐 Alt Line", "main": "🏆 Main"})
+        .fillna("❓")
+    )
     df["Market"] = df["market"]
     df["Bet"] = df["side"]
     if "best_book" in df.columns:
         df["Book"] = df["best_book"]
     else:
         df["Book"] = ""
-    df["Odds"] = df["market_odds"].apply(lambda x: f"{x:+}" if isinstance(x, (int, float)) else x)
+    df["Odds"] = df["market_odds"].apply(
+        lambda x: f"{x:+}" if isinstance(x, (int, float)) else x
+    )
     df["Sim %"] = (df["sim_prob"] * 100).map("{:.1f}%".format)
     df["Mkt %"] = (df["market_prob"] * 100).map("{:.1f}%".format)
-    df["FV"] = df["blended_fv"].apply(lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A")
+    df["FV"] = df["blended_fv"].apply(
+        lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
+    )
     df["EV"] = df["ev_percent"].map("{:+.1f}%".format)
     df["Stake"] = df["stake"].map("{:.2f}u".format)
 
-    required_cols = ["Date", "Matchup", "Market Class", "Market", "Bet", "Book", "Odds", "Sim %", "Mkt %", "FV", "EV", "Stake"]
+    required_cols = [
+        "Date",
+        "Matchup",
+        "Market Class",
+        "Market",
+        "Bet",
+        "Book",
+        "Odds",
+        "Sim %",
+        "Mkt %",
+        "FV",
+        "EV",
+        "Stake",
+    ]
     for col in required_cols:
         if col not in df.columns:
             df[col] = "N/A"
@@ -397,8 +477,8 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"]:
             if c in df.columns:
                 movement_cols.append(c)
-        return df[required_cols + movement_cols]
-    return df[required_cols]
+        return df[required_cols + movement_cols + ["market_class"]]
+    return df[required_cols + ["market_class"]]
 
 
 def build_display_block(row: dict) -> Dict[str, str]:
