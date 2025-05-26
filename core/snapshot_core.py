@@ -24,6 +24,7 @@ from market_pricer import (
     kelly_fraction,
     blend_prob,
     calculate_ev_from_prob,
+    decimal_odds,
 )
 from core.market_movement_tracker import detect_market_movement
 
@@ -256,6 +257,9 @@ def compare_and_flag_new_rows(
         ev_pct = entry.get("ev_percent")
 
         if blended_fv is None or ev_pct is None or market_odds is None:
+            print(
+                f"⛔ Skipping {game_id} — missing required fields (FV:{blended_fv}, EV:{ev_pct}, Odds:{market_odds})"
+            )
             continue
 
         next_snapshot[key] = {
@@ -263,14 +267,15 @@ def compare_and_flag_new_rows(
             "market": entry.get("market"),
             "side": entry.get("side"),
             "best_book": book,
+            "sim_prob": entry.get("sim_prob"),
+            "market_prob": entry.get("market_prob"),
             "blended_fv": blended_fv,
             "market_odds": market_odds,
             "ev_percent": ev_pct,
-            "sim_prob": entry.get("sim_prob"),
-            "market_prob": entry.get("market_prob"),
             "segment": entry.get("segment"),
             "stake": entry.get("stake"),
             "market_class": entry.get("market_class"),
+            "date_simulated": entry.get("date_simulated"),
             "display": build_display_block(entry),
         }
 
@@ -384,10 +389,16 @@ def build_snapshot_rows(
                     get_market_entry_with_alternate_fallback(odds, market, alt)
                 )
             if not isinstance(market_entry, dict):
+                print(
+                    f"   ⛔ Skipping {game_id} | {market} | {side} — no valid market entry"
+                )
                 continue
 
             price = market_entry.get("price")
             if price is None:
+                print(
+                    f"   ⛔ Skipping {game_id} | {matched_key} | {side} — missing price"
+                )
                 continue
 
             consensus_prob = market_entry.get("consensus_prob")
@@ -403,6 +414,16 @@ def build_snapshot_rows(
                 f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
             )
 
+            sportsbook_odds = market_entry.get("per_book", {})
+            best_book = None
+            if isinstance(sportsbook_odds, dict) and sportsbook_odds:
+                try:
+                    best_book = max(
+                        sportsbook_odds, key=lambda b: decimal_odds(sportsbook_odds[b])
+                    )
+                except Exception:
+                    best_book = None
+
             row = {
                 "game_id": game_id,
                 "market": market_clean,
@@ -417,7 +438,9 @@ def build_snapshot_rows(
                 "full_stake": stake,
                 "segment": segment,
                 "market_class": market_class,
-                "_raw_sportsbook": market_entry.get("per_book", {}),
+                "best_book": best_book,
+                "_raw_sportsbook": sportsbook_odds,
+                "date_simulated": datetime.now().isoformat(),
             }
             rows.append(row)
     return rows

@@ -31,6 +31,8 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
     """Save tracker data atomically."""
     tmp = f"{path}.tmp"
     try:
+        if not tracker:
+            print("⚠️ Tracker is empty, saving 0 entries")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(tmp, 'w') as f:
             sorted_data = dict(sorted(tracker.items()))
