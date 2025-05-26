@@ -6,7 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
 
 import json
-import argparse
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -15,19 +14,16 @@ import pandas as pd
 import odds_fetcher
 from odds_fetcher import fetch_market_odds_from_api
 from log_betting_evals import expand_snapshot_rows_with_kelly
-from live_snapshot_generator import (
+from snapshot_core import (
+    build_argument_parser,
     load_simulations,
     build_snapshot_rows,
     compare_and_flag_new_rows,
     format_for_display,
     format_table_with_highlights,
     export_market_snapshots,
+    send_bet_snapshot_to_discord,
 )
-# send_bet_snapshot_to_discord was previously provided by a separate
-# module (discord_snapshots.py) which has since been removed. The
-# function now lives in live_snapshot_generator.py, so import it from
-# there to restore Discord image functionality.
-from live_snapshot_generator import send_bet_snapshot_to_discord
 
 load_dotenv()
 
@@ -52,15 +48,10 @@ PERSONAL_WEBHOOK_URL = "https://discord.com/api/webhooks/1368408687559053332/2uh
 DEBUG_LOG = []
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate personal live market snapshot")
-    parser.add_argument("--date", default=datetime.today().strftime("%Y-%m-%d"), help="Comma-separated list of dates")
-    parser.add_argument("--min-ev", type=float, default=0.05)
-    parser.add_argument("--max-ev", type=float, default=0.20)
-    parser.add_argument("--output-discord", dest="output_discord", action="store_true")
-    parser.add_argument("--no-output-discord", dest="output_discord", action="store_false")
-    parser.add_argument("--diff-highlight", action="store_true", help="Highlight new rows and odds movements")
-    parser.add_argument("--reset-snapshot", action="store_true", help="Clear stored snapshot before running")
-    parser.set_defaults(output_discord=True)
+    parser = build_argument_parser(
+        "Generate personal live market snapshot",
+        output_discord_default=True,
+    )
     args = parser.parse_args()
 
     snapshot_path = make_snapshot_path(args.date)

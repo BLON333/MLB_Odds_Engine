@@ -27,12 +27,21 @@ from snapshot_core import (
 
 load_dotenv()
 
-# Allow best-book snapshots to be routed to separate Discord channels for
-# main lines and alternate lines.
-WEBHOOK_MAIN = os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
-WEBHOOK_ALT = os.getenv("DISCORD_BEST_BOOK_ALT_WEBHOOK_URL")
+WEBHOOK_URL = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
 
-# Sportsbooks considered popular for best-book selection
+SNAPSHOT_DIR = "backtest"
+
+
+def make_snapshot_path(date_key: str) -> str:
+    safe = date_key.replace(",", "_")
+    return os.path.join(SNAPSHOT_DIR, f"fv_drop_snapshot_{safe}.json")
+
+
+def make_market_snapshot_paths(date_key: str) -> dict:
+    safe = date_key.replace(",", "_")
+    return {"all": os.path.join(SNAPSHOT_DIR, f"last_fv_drop_snapshot_{safe}.json")}
+
+
 POPULAR_BOOKS = [
     "fanduel",
     "draftkings",
@@ -49,20 +58,7 @@ POPULAR_BOOKS = [
     "pinnacle",
 ]
 
-SNAPSHOT_DIR = "backtest"
 
-
-def make_snapshot_path(date_key: str) -> str:
-    safe = date_key.replace(",", "_")
-    return os.path.join(SNAPSHOT_DIR, f"best_book_snapshot_{safe}.json")
-
-
-def make_market_snapshot_paths(date_key: str) -> dict:
-    safe = date_key.replace(",", "_")
-    return {"main": os.path.join(SNAPSHOT_DIR, f"last_best_book_snapshot_{safe}.json")}
-
-
-# Utility --------------------------------------------------------------------
 from typing import List, Dict
 from core.market_pricer import decimal_odds
 
@@ -96,17 +92,21 @@ def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = 
     return list(groups.values())
 
 
-# Main -----------------------------------------------------------------------
-
 def main():
     parser = build_argument_parser(
-        "Generate best-book market snapshot",
+        "Generate snapshot of bets with decreased fair value",
         output_discord_default=False,
     )
     args = parser.parse_args()
 
     snapshot_path = make_snapshot_path(args.date)
     market_snapshot_paths = make_market_snapshot_paths(args.date)
+
+    print(f"[DEBUG] Snapshot path: {snapshot_path}")
+    if os.path.exists(snapshot_path):
+        print("[DEBUG] Previous snapshot found, loading for comparison")
+    else:
+        print("[DEBUG] No previous snapshot found — all rows considered new")
 
     if args.reset_snapshot and os.path.exists(snapshot_path):
         os.remove(snapshot_path)
@@ -127,13 +127,29 @@ def main():
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, []))
 
+    print(f"[DEBUG] Raw snapshot rows: {len(all_rows)}")
+
     rows = expand_snapshot_rows_with_kelly(
         all_rows,
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
 
+    print(f"[DEBUG] Rows after expansion: {len(rows)}")
+
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
+
+    print(f"[DEBUG] Rows after best-book selection: {len(rows)}")
+
+    rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
+
+    from collections import Counter
+    movement_counts = Counter(r.get("fv_movement") for r in rows)
+    print(f"[DEBUG] FV movement counts: {dict(movement_counts)}")
+
+    rows = [r for r in rows if r.get("fv_movement") == "worse"]
+
+    print(f"[DEBUG] Rows with decreased FV: {len(rows)}")
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
@@ -142,57 +158,23 @@ def main():
     ]
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
 
+    print(f"[DEBUG] Rows after EV filter: {len(rows)}")
+
     if not rows:
-        print("⚠️ No qualifying bets found.")
+        print("⚠️ No bets with decreased FV found.")
         return
 
-    if args.diff_highlight:
-        rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
-    else:
-        snapshot_next = {}
-        for r in rows:
-            fair_odds = r.get("blended_fv")
-            market_odds = r.get("market_odds")
-            ev_pct = r.get("ev_percent")
-            if fair_odds is None or ev_pct is None or market_odds is None:
-                continue
-            game_id = r.get("game_id", "")
-            book = r.get("best_book", "")
-            key = f"{game_id}:{r['market']}:{r['side']}:{book}"
-            snapshot_next[key] = {
-                "fair_odds": fair_odds,
-                "market_odds": market_odds,
-                "ev_percent": ev_pct,
-            }
-
-    df = format_for_display(rows, include_movement=args.diff_highlight)
-
+    df = format_for_display(rows, include_movement=True)
     df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
-        if WEBHOOK_MAIN or WEBHOOK_ALT:
-            if WEBHOOK_MAIN:
-                subset = df[df["market_class"] == "main"]
-                print(f"📡 Evaluating snapshot for: main → {subset.shape[0]} rows")
-                if not subset.empty:
-                    send_bet_snapshot_to_discord(subset, "Best Book (Main)", WEBHOOK_MAIN)
-                else:
-                    print("⚠️ No bets for main")
-            if WEBHOOK_ALT:
-                subset = df[df["market_class"] == "alternate"]
-                print(f"📡 Evaluating snapshot for: alternate → {subset.shape[0]} rows")
-                if not subset.empty:
-                    send_bet_snapshot_to_discord(subset, "Best Book (Alt)", WEBHOOK_ALT)
-                else:
-                    print("⚠️ No bets for alternate")
+        if WEBHOOK_URL:
+            send_bet_snapshot_to_discord(df, "FV Drop", WEBHOOK_URL)
         else:
-            print("❌ No Discord webhook configured for best-book snapshots.")
+            print("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
     else:
-        if args.diff_highlight:
-            print(format_table_with_highlights(rows))
-        else:
-            print(df.to_string(index=False))
+        print(format_table_with_highlights(rows))
 
     os.makedirs(os.path.dirname(snapshot_path), exist_ok=True)
     with open(snapshot_path, "w") as f:
@@ -201,3 +183,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

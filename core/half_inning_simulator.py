@@ -36,7 +36,6 @@ def _advance_bases(base_state, transitions, batter=None, debug=False):
 
     return new_state, runs
 
-
 def _handle_out(base_state, outs, rng=None, debug=False):
     """Handle strikeouts and generic outs."""
     rand = rng if rng is not None else random
@@ -47,7 +46,6 @@ def _handle_out(base_state, outs, rng=None, debug=False):
         new_state[0] = None
         return new_state, 0, 2
     return base_state, 0, 1
-
 
 def _handle_walk(base_state, batter, rng=None, debug=False):
     mapping = {}
