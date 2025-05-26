@@ -251,7 +251,7 @@ def compare_and_flag_new_rows(
     for entry in current_entries:
         game_id = entry.get("game_id", "")
         book = entry.get("best_book", "")
-        key = f"{game_id}:{entry.get('market')}:{entry.get('side')}:{book}"
+        key = f"{game_id}:{entry.get('market')}:{entry.get('side')}"
         blended_fv = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
         ev_pct = entry.get("ev_percent")
