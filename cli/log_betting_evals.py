@@ -1861,7 +1861,6 @@ def process_theme_logged_bets(
 
                 seen_keys.add(key)
                 seen_lines.add(line_key)
-                existing_theme_stakes[exposure_key] = theme_total + delta
                 row["entry_type"] = "top-up" if not is_initial_bet else "first"
                 row["stake"] = delta
                 row["segment"] = segment
@@ -1871,11 +1870,12 @@ def process_theme_logged_bets(
                 if row.get("segment") == "derivative" and "_" not in row.get("market", ""):
                     print(f"❌ [BUG] Derivative market improperly named: {row['market']} — should be something like totals_1st_5_innings")
 
-                evaluated = should_log_bet(row_copy, market_evals_df, market_eval_tracker)
+                evaluated = should_log_bet(row_copy, market_evals_df, existing_theme_stakes)
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     write_to_csv(evaluated, "logs/market_evals.csv", existing, session_exposure, dry_run=dry_run)
                     game_summary[game_id].append(evaluated)
+                    existing_theme_stakes[exposure_key] = theme_total + delta
                     if should_include_in_summary(evaluated):
                         ensure_consensus_books(evaluated)
                         skipped_bets.append(evaluated)
