@@ -103,14 +103,14 @@ def project_hr_pa(pitcher_data):
         + 0.005 * norm_FIP
     )
 
-    model_estimate_hr_pa *= 1.10
+    model_estimate_hr_pa *= 1.15
 
     if TBF >= 900:
         model_estimate_hr_pa *= 0.87
     elif TBF >= 700:
         model_estimate_hr_pa *= 0.93
     elif TBF >= 500:
-        model_estimate_hr_pa *= 0.96
+        model_estimate_hr_pa *= 0.97  # slightly less shrinkage
 
     model_estimate_hr_pa = min(max(model_estimate_hr_pa, 0.005), 0.07)
 
