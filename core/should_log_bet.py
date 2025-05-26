@@ -58,6 +58,7 @@ from utils import (
 def parse_team_total_side(side: str) -> tuple[str, str]:
     """Return team abbreviation and direction from a team total label."""
     tokens = side.split()
+
     direction = "Over" if "Over" in tokens else "Under" if "Under" in tokens else ""
 
     team_abbr = None
