@@ -54,7 +54,8 @@ def get_weather_hr_mult(weather_profile):
     speed = weather_profile.get("wind_speed", 0)
 
     if direction == "out":
-        return 1.0 + min(speed * 0.01, 0.20)
+        # allow a bit more juice for extreme out-blowing winds
+        return 1.0 + min(speed * 0.01, 0.25)  # before: cap at 0.20
     elif direction == "in":
         return max(1.0 - speed * 0.01, 0.80)
     else:
@@ -138,7 +139,8 @@ def compute_weather_multipliers(weather, hitter_side="R", park_orientation="cent
         wind_angle_mult = 1.0
 
     adi_mult = temp_mult * humidity_mult * wind_angle_mult
-    adi_mult = max(0.85, min(adi_mult, 1.20))
+    # widen allowable range slightly for extreme conditions
+    adi_mult = max(0.85, min(adi_mult, 1.25))  # before: capped at 1.20
 
     return {
         "temp_mult": round(temp_mult, 4),
