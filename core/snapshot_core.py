@@ -271,6 +271,7 @@ def compare_and_flag_new_rows(
             "segment": entry.get("segment"),
             "stake": entry.get("stake"),
             "market_class": entry.get("market_class"),
+            "date_simulated": datetime.now().strftime("%Y-%m-%d %H:%M"),
             "display": build_display_block(entry),
         }
 

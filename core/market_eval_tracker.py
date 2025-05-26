@@ -36,5 +36,6 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
             sorted_data = dict(sorted(tracker.items()))
             json.dump(sorted_data, f, indent=2)
         os.replace(tmp, path)
+        print(f"💾 Saving {len(tracker)} entries to market_eval_tracker.json")
     except Exception as e:
         print(f"⚠️ Failed to save market eval tracker: {e}")
