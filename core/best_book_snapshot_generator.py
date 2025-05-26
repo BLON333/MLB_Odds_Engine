@@ -68,7 +68,9 @@ from typing import List, Dict
 from core.market_pricer import decimal_odds
 
 
-def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = None) -> List[dict]:
+def select_best_book_rows(
+    rows: List[dict], preferred_books: List[str] | None = None
+) -> List[dict]:
     """Return best-priced row per (game_id, market, side)."""
     groups: Dict[tuple, dict] = {}
     fallbacks: Dict[tuple, dict] = {}
@@ -99,6 +101,7 @@ def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = 
 
 # Main -----------------------------------------------------------------------
 
+
 def main():
     parser = build_argument_parser(
         "Generate best-book market snapshot",
@@ -112,7 +115,7 @@ def main():
     if args.reset_snapshot and os.path.exists(snapshot_path):
         os.remove(snapshot_path)
 
-    date_list = [d.strip() for d in str(args.date).split(',') if d.strip()]
+    date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
     all_rows = []
     for date_str in date_list:
         sim_dir = os.path.join("backtest", "sims", date_str)
@@ -138,7 +141,8 @@ def main():
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
-        r for r in rows
+        r
+        for r in rows
         if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
     ]
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
@@ -151,20 +155,42 @@ def main():
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
-    df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
+    df_export = df.drop(
+        columns=[
+            c
+            for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"]
+            if c in df.columns
+        ]
+    )
     export_market_snapshots(df_export, market_snapshot_paths)
+
+    print(f"[DEBUG] df columns: {df.columns.tolist()}, shape: {df.shape}")
 
     if args.output_discord:
         if WEBHOOK_MAIN or WEBHOOK_ALT:
             if WEBHOOK_MAIN:
-                subset = df[df["market_class"] == "main"]
+                subset = df[df["Market Class"] == "🏆 Main"]
+                if subset.empty:
+                    subset = df[
+                        df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
                 print(f"📡 Evaluating snapshot for: main → {subset.shape[0]} rows")
                 if not subset.empty:
-                    send_bet_snapshot_to_discord(subset, "Best Book (Main)", WEBHOOK_MAIN)
+                    send_bet_snapshot_to_discord(
+                        subset, "Best Book (Main)", WEBHOOK_MAIN
+                    )
                 else:
                     print("⚠️ No bets for main")
             if WEBHOOK_ALT:
-                subset = df[df["market_class"] == "alternate"]
+                subset = df[df["Market Class"] == "📐 Alt Line"]
+                if subset.empty:
+                    subset = df[
+                        ~df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
                 print(f"📡 Evaluating snapshot for: alternate → {subset.shape[0]} rows")
                 if not subset.empty:
                     send_bet_snapshot_to_discord(subset, "Best Book (Alt)", WEBHOOK_ALT)
