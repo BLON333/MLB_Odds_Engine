@@ -75,6 +75,7 @@ from utils import (
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
 from core.market_eval_tracker import load_tracker, save_tracker
+from core.market_movement_tracker import detect_market_movement
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -762,6 +763,15 @@ def send_discord_notification(row):
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
+    tracker = load_tracker()
+    tracker_key = f"{game_id}:{market}:{side}:{best_book}"
+    prior = tracker.get(tracker_key)
+    movement = detect_market_movement(row, prior)
+    row.update(movement)
+    prev_fv = None
+    if isinstance(prior, dict):
+        prev_fv = prior.get("blended_fv", prior.get("fair_odds"))
+
     sim_prob = row["sim_prob"]
     consensus_prob = row["market_prob"]
     blended_prob = row["blended_prob"]
@@ -862,6 +872,12 @@ def send_discord_notification(row):
     if entry_type == "top-up" and stake < full_stake:
         topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
+    fv_display = f"{prev_fv} --> {fair_odds}" if prev_fv is not None else str(fair_odds)
+    movement_note = (
+        f"📊 Movement → EV: {movement['ev_movement']}, "
+        f"FV: {movement['fv_movement']}, Odds: {movement['odds_movement']}"
+    )
+
     game_day_clean = game_day_tag.replace('**', '').replace('*', '')
     message = (
         f"{tag} {header}\n\n"
@@ -869,14 +885,14 @@ def send_discord_notification(row):
         f"🏟️ Game: {event_label} ({game_id})\n"
         f"🧾 Market: {market} — {side}\n"
         f"💰 Stake: {stake:.2f}u @ {odds} → {bet_label}\n"
-        f"{topup_note}\n\n"
+        f"{topup_note}\n{movement_note}\n\n"
         "---\n\n"
         "📈 Edge Overview\n"
         f"Sim Win Rate: {sim_prob:.1%},\n"
         f"Consensus Probability: {consensus_prob:.1%},\n"
         f"Blended Model: {blended_prob:.1%},\n"
         f"📊 EV: {ev:+.2f}%,\n"
-        f"💸 Fair Odds: {fair_odds},\n\n"
+        f"💸 Fair Odds: {fv_display},\n\n"
         "---\n\n"
         f"🏦 Best Book: {best_book}\n"
         f"📉 Market Odds:\n{all_odds_str}\n\n"

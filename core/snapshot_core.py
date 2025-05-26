@@ -25,6 +25,7 @@ from market_pricer import (
     blend_prob,
     calculate_ev_from_prob,
 )
+from core.market_movement_tracker import detect_market_movement
 
 
 def build_argument_parser(
@@ -198,16 +199,6 @@ def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> No
         print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 
 
-def _movement(curr, prev):
-    if prev is None:
-        return "same"
-    if curr > prev:
-        return "better"
-    if curr < prev:
-        return "worse"
-    return "same"
-
-
 def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -> Tuple[List[dict], Dict[str, dict]]:
     """Return entries annotated with new-row and movement flags."""
     try:
@@ -243,10 +234,11 @@ def compare_and_flag_new_rows(current_entries: List[dict], snapshot_path: str) -
         seen.add(j)
 
         prev = last_snapshot.get(key)
-        entry["is_new"] = prev is None
-        entry["odds_movement"] = _movement(market_odds, prev.get("market_odds") if prev else None)
-        entry["fv_movement"] = _movement(fair_odds, prev.get("fair_odds") if prev else None)
-        entry["ev_movement"] = _movement(ev_pct, prev.get("ev_percent") if prev else None)
+        movement = detect_market_movement(
+            {"blended_fv": fair_odds, "market_odds": market_odds, "ev_percent": ev_pct},
+            prev,
+        )
+        entry.update(movement)
         flagged.append(entry)
 
     return flagged, next_snapshot
