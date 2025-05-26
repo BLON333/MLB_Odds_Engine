@@ -10,9 +10,15 @@ def safe_float(val, fallback=0.0):
         if isinstance(val, list):
             print(f"⚠️ safe_float received list: {val} → using first item")
             val = val[0] if val else fallback
-        return float(val) if pd.notna(val) else fallback
+        result = float(val) if pd.notna(val) else fallback
     except Exception:
-        return fallback
+        result = fallback
+
+    # clamp derived hardhit fallback to prevent extreme values
+    if fallback == 0.35:
+        result = max(0.3, min(result, 0.5))
+
+    return result
 
 
 # === Pitcher Stats Loader ===
@@ -106,10 +112,14 @@ def load_pitcher_stats(pitcher_file, stuff_file, statcast_file, patch_hrfb=False
 
     for _, row in merged.iterrows():
         n = row["norm_name"]
+        hr_fb_val = safe_float(row.get("HR_FB_pct"), 0.115)
+        if hr_fb_val is not None and hr_fb_val > 0.5:
+            print(f"[⚠️] Suspicious HR/FB rate for {n}: {hr_fb_val:.2%}")
+
         pitcher_stats[n] = {
             "k_rate": safe_float(row.get("K_pct"), 0.225),
             "bb_rate": safe_float(row.get("BB_pct"), 0.082),
-            "hr_fb_rate": safe_float(row.get("HR_FB_pct"), 0.115),
+            "hr_fb_rate": hr_fb_val,
             "gb_rate": safe_float(row.get("GB_pct"), 40.0),
             "fb_rate": safe_float(row.get("FB_pct"), 40.0),
             "iso_allowed": safe_float(row.get("ISO"), 0.14),
@@ -145,7 +155,7 @@ def load_pitcher_stats(pitcher_file, stuff_file, statcast_file, patch_hrfb=False
             if verbose:
                 missing = [k for k in ("HR", "TBF", "IP", "exit_velocity_avg", "launch_angle_avg") if stats.get(k) is None or pd.isna(stats.get(k))]
                 print(f"[⚠️] {name} missing: {missing} → enriched=False")
-                print(f"[❌] HR/PA projection failed for {name}: {e}")
+                print(f"[❌] HR/PA projection failed for {name} → check input completeness")
 
     # ✅ MOVE THIS INSIDE FUNCTION
     if verbose:

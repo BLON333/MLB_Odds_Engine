@@ -35,7 +35,8 @@ def build_bullpen_for_team(team_abbr, pitcher_stats, reliever_depth_chart=None, 
 
     mapped_team = normalize_team_abbr_to_name(team_abbr)
 
-    if reliever_depth_chart and mapped_team in reliever_depth_chart:
+    using_chart = reliever_depth_chart and mapped_team in reliever_depth_chart
+    if using_chart:
         reliever_entries = reliever_depth_chart[mapped_team]
     else:
         # Use all pitchers for this team if depth chart is unavailable
@@ -49,6 +50,8 @@ def build_bullpen_for_team(team_abbr, pitcher_stats, reliever_depth_chart=None, 
         reliever_name = entry["name"]
         norm_name = normalize_name(reliever_name)
         stats = pitcher_stats.get(norm_name)
+        if using_chart and entry.get("role") in (None, "SP"):
+            continue
         if norm_name in used_names:
             continue
 
@@ -102,10 +105,11 @@ def build_bullpen_for_team(team_abbr, pitcher_stats, reliever_depth_chart=None, 
 
 RELIEVER_USAGE_COUNTS = {"home": {}, "away": {}}  # optional: track usage across sims
 
-def simulate_reliever_chain(bullpen, num_needed=1, side="home", sim_index=None, debug=False):
+def simulate_reliever_chain(bullpen, num_needed=1, side="home", sim_index=None, debug=False, max_uses_per_reliever=3):
     """
     Selects relievers using IP-weighted probability with optional fatigue suppression.
     Logs reliever weights and picks if debug is enabled.
+    Relievers already used `max_uses_per_reliever` times in this sim are skipped.
     """
     if not bullpen or num_needed <= 0:
         return []
@@ -117,7 +121,9 @@ def simulate_reliever_chain(bullpen, num_needed=1, side="home", sim_index=None, 
         weights = []
         names = []
 
-        for rp in available:
+        usable = [r for r in available if RELIEVER_USAGE_COUNTS[side].get(r.get("name", "Unknown"), 0) < max_uses_per_reliever]
+
+        for rp in usable:
             ip = rp.get("IP", 1)
             name = rp.get("name", "Unknown")
             usage_count = RELIEVER_USAGE_COUNTS[side].get(name, 0)
@@ -132,10 +138,12 @@ def simulate_reliever_chain(bullpen, num_needed=1, side="home", sim_index=None, 
             for n, w in zip(names, weights):
                 print(f"    - {n:20} | Weight (IP x fatigue): {w:.2f}")
 
-        if sum(weights) == 0:
+        if not usable:
             pick = random.choice(available)
+        elif sum(weights) == 0:
+            pick = random.choice(usable)
         else:
-            pick = random.choices(available, weights=weights, k=1)[0]
+            pick = random.choices(usable, weights=weights, k=1)[0]
 
         selected.append(pick)
         available = [r for r in available if r["name"] != pick["name"]]
