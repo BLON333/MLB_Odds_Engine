@@ -155,11 +155,11 @@ def should_log_bet(
 
     movement = detect_market_movement(new_bet, prior_entry)
     new_bet.update(movement)
-    if prior_entry is not None and not (
+    if not (
         movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):
         _log_verbose(
-            f"⛔ should_log_bet: Market not confirmed (EV {movement['ev_movement']}, FV {movement['fv_movement']})",
+            f"⛔ should_log_bet: Market not confirmed (EV: {movement['ev_movement']}, FV: {movement['fv_movement']})",
             verbose,
         )
         return None
