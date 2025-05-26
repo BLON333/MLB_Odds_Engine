@@ -1234,6 +1234,8 @@ def log_bets(
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
 
+    global MARKET_EVAL_TRACKER
+
     markets = sim_results.get("markets", [])
     if not markets:
         print(f"⚠️ No 'markets' array found in {game_id}")
@@ -1375,6 +1377,16 @@ def log_bets(
         if isinstance(book_prices, dict):
             row["_raw_sportsbook"] = book_prices.copy()
 
+        # 📝 Track every evaluated bet before applying stake/EV filters
+        tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+        MARKET_EVAL_TRACKER[tracker_key] = {
+            "ev_percent": row["ev_percent"],
+            "blended_fv": row["blended_fv"],
+            "market_odds": row["market_odds"],
+            "date_simulated": row["date_simulated"],
+            "best_book": row.get("best_book"),
+        }
+
         print(
             f"📦 Matched: {matched_key} | Price Source: {price_source} | Segment: {segment}"
         )
@@ -1442,6 +1454,8 @@ def log_derivative_bets(
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
+
+    global MARKET_EVAL_TRACKER
 
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
@@ -1677,6 +1691,15 @@ def log_derivative_bets(
 
                 print(f"📦 Books stored in row: {book_prices}")
                 print(f"🏦 Best Book Selected: {row['best_book']}")
+                # 📝 Track every evaluated bet before applying stake/EV filters
+                tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+                MARKET_EVAL_TRACKER[tracker_key] = {
+                    "ev_percent": row["ev_percent"],
+                    "blended_fv": row["blended_fv"],
+                    "market_odds": row["market_odds"],
+                    "date_simulated": row["date_simulated"],
+                    "best_book": row.get("best_book"),
+                }
                 row["full_stake"] = stake
                 row["price_source"] = price_source
                 row["segment"] = segment

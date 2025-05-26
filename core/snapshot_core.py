@@ -27,6 +27,10 @@ from market_pricer import (
     decimal_odds,
 )
 from core.market_movement_tracker import detect_market_movement
+from core.market_eval_tracker import load_tracker, save_tracker
+
+# Load tracker once for snapshot utilities
+MARKET_EVAL_TRACKER = load_tracker()
 
 
 def build_argument_parser(
@@ -279,6 +283,15 @@ def compare_and_flag_new_rows(
             "display": build_display_block(entry),
         }
 
+        # 📝 Track every evaluated bet regardless of filters
+        MARKET_EVAL_TRACKER[key] = {
+            "ev_percent": ev_pct,
+            "blended_fv": blended_fv,
+            "market_odds": market_odds,
+            "date_simulated": entry.get("date_simulated"),
+            "best_book": book,
+        }
+
         j = json.dumps(entry, sort_keys=True)
         if j in seen:
             continue
@@ -296,6 +309,8 @@ def compare_and_flag_new_rows(
         entry.update(movement)
         flagged.append(entry)
 
+    # Persist tracker updates
+    save_tracker(MARKET_EVAL_TRACKER)
     return flagged, next_snapshot
 
 
@@ -442,7 +457,18 @@ def build_snapshot_rows(
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
             }
+            # 📝 Track every evaluated bet regardless of filters
+            tracker_key = f"{game_id}:{market_clean}:{side}"
+            MARKET_EVAL_TRACKER[tracker_key] = {
+                "ev_percent": row["ev_percent"],
+                "blended_fv": row["blended_fv"],
+                "market_odds": row["market_odds"],
+                "date_simulated": row["date_simulated"],
+                "best_book": row.get("best_book"),
+            }
             rows.append(row)
+    # Persist tracker after processing simulations
+    save_tracker(MARKET_EVAL_TRACKER)
     return rows
 
 
