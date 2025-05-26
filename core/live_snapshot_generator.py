@@ -110,25 +110,7 @@ def main():
         print("⚠️ No qualifying bets found.")
         return
 
-    if args.diff_highlight:
-        rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
-    else:
-        snapshot_next = {}
-        for r in rows:
-            blended_fv = r.get("blended_fv", r.get("fair_odds"))
-            market_odds = r.get("market_odds")
-            ev_pct = r.get("ev_percent")
-            if blended_fv is None or ev_pct is None or market_odds is None:
-                continue
-            game_id = r.get("game_id", "")
-            book = r.get("best_book", "")
-            key = f"{game_id}:{r['market']}:{r['side']}:{book}"
-            snapshot_next[key] = {
-                "blended_fv": blended_fv,
-                "market_odds": market_odds,
-                "ev_percent": ev_pct,
-                "display": build_display_block(r),
-            }
+    rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
 

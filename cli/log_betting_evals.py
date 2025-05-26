@@ -1888,7 +1888,12 @@ def process_theme_logged_bets(
                 if row.get("segment") == "derivative" and "_" not in row.get("market", ""):
                     print(f"❌ [BUG] Derivative market improperly named: {row['market']} — should be something like totals_1st_5_innings")
 
-                evaluated = should_log_bet(row_copy, market_evals_df, existing_theme_stakes)
+                evaluated = should_log_bet(
+                    row_copy,
+                    market_evals_df,
+                    existing_theme_stakes,
+                    eval_tracker=MARKET_EVAL_TRACKER,
+                )
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     write_to_csv(evaluated, "logs/market_evals.csv", existing, session_exposure, dry_run=dry_run)
