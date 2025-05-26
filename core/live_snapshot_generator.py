@@ -139,6 +139,8 @@ def main():
             if not webhook:
                 continue
             subset = df[df["Market"].str.lower().str.startswith(mkt.lower(), na=False)]
+            # Ensure main and alternate lines stay together.  We never split on
+            # the "Market Class" column for live snapshots.
             print(f"📡 Evaluating snapshot for: {mkt} → {subset.shape[0]} rows")
             if subset.empty:
                 print(f"⚠️ No bets for {mkt}")
