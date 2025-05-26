@@ -97,13 +97,12 @@ def run_best_book_snapshot():
 def run_fv_drop_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📉 [{now_eastern()}] Running FV-drop snapshot generator for {date_str}...")
+        print(f"\n🔻 [{now_eastern()}] Running FV drop snapshot generator for {date_str}...")
         default_script = os.path.join("core", "fv_drop_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "fv_drop_snapshot_generator.py"
         cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
         subprocess.Popen(cmd, shell=True)
-
 
 print(
     "🔄 Starting auto loop... "
