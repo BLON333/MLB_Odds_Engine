@@ -20,6 +20,7 @@ from snapshot_core import (
     load_simulations,
     build_snapshot_rows,
     compare_and_flag_new_rows,
+    build_display_block,
     format_for_display,
     format_table_with_highlights,
     export_market_snapshots,
@@ -171,6 +172,26 @@ def main():
         return
 
     df = format_for_display(rows, include_movement=True)
+
+    # Build final snapshot with display metadata for the filtered rows
+    final_snapshot = {}
+    for r in rows:
+        blended_fv = r.get("blended_fv", r.get("fair_odds"))
+        market_odds = r.get("market_odds")
+        ev_pct = r.get("ev_percent")
+        if blended_fv is None or ev_pct is None or market_odds is None:
+            continue
+        game_id = r.get("game_id", "")
+        book = r.get("best_book", "")
+        key = f"{game_id}:{r['market']}:{r['side']}:{book}"
+        final_snapshot[key] = {
+            "blended_fv": blended_fv,
+            "market_odds": market_odds,
+            "ev_percent": ev_pct,
+            "display": build_display_block(r),
+        }
+
+    snapshot_next = final_snapshot
     df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
     export_market_snapshots(df_export, market_snapshot_paths)
 
