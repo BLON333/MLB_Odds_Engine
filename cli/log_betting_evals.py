@@ -711,14 +711,19 @@ def send_discord_notification(row):
     full_stake = round(float(row.get("full_stake", stake)), 2)
     entry_type = row.get("entry_type", "first")
     print(f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}")
-    bet_label = "🔁 Top-Up" if entry_type == "top-up" else "🟢 First Bet"
+    if entry_type == "top-up":
+        bet_label = "🔁 Top-Up"
+    elif row.get("market_class") == "alternate":
+        bet_label = "🟢 First Bet (⅛ Kelly)"
+    else:
+        bet_label = "🟢 First Bet"
 
 
     # Treat as top-up only if full_stake > stake AND stake was previously logged
     if full_stake > stake and full_stake - stake >= 0.5:
         tag = "🔁"
         header = "**Top-Up Bet Logged**"
-        topup_note = f"🔁 Top-Up → Total Stake: `{full_stake:.2f}u`"
+        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
     else:
         tag = "🟢" if ev >= 10 else "🟡" if ev >= 5 else "⚪"
         header = "**New Bet Logged**"
@@ -871,7 +876,9 @@ def send_discord_notification(row):
     else:
         roles_text = ""
 
-    topup_note = f"🔁 Top-Up → Total Stake: `{full_stake:.2f}u`" if stake < full_stake else ""
+    topup_note = ""
+    if entry_type == "top-up" and stake < full_stake:
+        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
     game_day_clean = game_day_tag.replace('**', '').replace('*', '')
     message = (
@@ -879,7 +886,7 @@ def send_discord_notification(row):
         f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
         f"🏟️ Game: {event_label} ({game_id})\n"
         f"🧾 Market: {market} — {side}\n"
-        f"💰 Stake: {stake:.2f}u @ {odds} ({bet_label})\n"
+        f"💰 Stake: {stake:.2f}u @ {odds} → {bet_label}\n"
         f"{topup_note}\n\n"
         "---\n\n"
         "📈 Edge Overview\n"
