@@ -5,21 +5,22 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
 dotenv_file = os.path.join(os.path.dirname(__file__), "..", ".env")
-load_dotenv(dotenv_file)
-loaded_hooks = [v for v in [os.getenv("DISCORD_ALERT_WEBHOOK_URL"), os.getenv("DISCORD_ALERT_WEBHOOK_URL_2")] if v]
+load_dotenv(dotenv_file, override=True)
+loaded_hooks = [
+    v.strip()
+    for v in [
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
+        os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
+    ]
+    if v and v.strip()
+]
 print(f"🔧 Loaded {len(loaded_hooks)} Discord webhook(s) from {dotenv_file}")
 
 # Allow healthcheck alerts to be sent to multiple Discord channels. Define
 # `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2`.
-DISCORD_ALERT_WEBHOOK_URLS = [
-    url
-    for url in [
-        os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
-        os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
-    ]
-    if url
-]
+DISCORD_ALERT_WEBHOOK_URLS = loaded_hooks
 CLOSING_ODDS_DIR = "data/closing_odds"
+
 
 def send_discord_alert(message):
     if not DISCORD_ALERT_WEBHOOK_URLS:
@@ -36,7 +37,6 @@ def send_discord_alert(message):
                 )
         except Exception as e:
             print(f"❌ Failed to send alert to {url}: {e}")
-
 def check_closing_odds():
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
@@ -59,7 +59,10 @@ def check_closing_odds():
         print(msg)
         send_discord_alert(msg)
     else:
-        print(f"✅ Closing odds file for {date_str} looks good: {len(data.keys())} games recorded.")
+        print(
+            f"✅ Closing odds file for {date_str} looks good: {len(data.keys())} games recorded."
+        )
+
 
 if __name__ == "__main__":
     check_closing_odds()
