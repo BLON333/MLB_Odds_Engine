@@ -915,12 +915,11 @@ def send_discord_notification(row):
                 return odds
         return {}
 
-    all_odds_dict = {}
-    for key in ("_raw_sportsbook", "consensus_books", "sportsbook"):
-        parsed = _parse_odds_dict(row.get(key))
-        if parsed:
-            all_odds_dict = parsed
-            break
+    all_odds_dict = (
+        _parse_odds_dict(row.get("_raw_sportsbook"))
+        or _parse_odds_dict(row.get("consensus_books"))
+        or _parse_odds_dict(row.get("sportsbook"))
+    )
 
     best_book_name = best_book.lower() if isinstance(best_book, str) else ""
 
@@ -971,6 +970,9 @@ def send_discord_notification(row):
     best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
     if best_role:
         roles.add(best_role)
+
+    if len(roles) > 1:
+        print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
 
     if roles:
         roles_text = "📣 " + " ".join(sorted(roles))
