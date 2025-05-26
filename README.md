@@ -97,6 +97,7 @@ These tools help measure closing line value (CLV) for your logged bets.
   sportsbooks. Set `DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL` and
   `DISCORD_BEST_BOOK_ALT_WEBHOOK_URL` in your `.env` to route main-line and
   alternate-line snapshots to separate Discord channels.
+* **fv_drop_snapshot_generator.py** – highlights bets where the computed fair value decreases compared to the previous snapshot. Set `DISCORD_FV_DROP_WEBHOOK_URL` to send these alerts to Discord.
 * **closing_odds_fetcher.py** – fetches closing odds for every game ID in your
   `logs/market_evals.csv` and writes a JSON file for the day. Useful after games
   finish if the monitor was not running.
