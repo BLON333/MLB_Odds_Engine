@@ -160,8 +160,7 @@ def should_log_bet(
             pass
 
     if eval_tracker is not None and prior_entry is None:
-        book = new_bet.get("best_book", "")
-        t_key = f"{game_id}:{market}:{side}:{book}"
+        t_key = f"{game_id}:{market}:{side}"
         tracker_entry = eval_tracker.get(t_key)
         if isinstance(tracker_entry, dict):
             prior_entry = tracker_entry

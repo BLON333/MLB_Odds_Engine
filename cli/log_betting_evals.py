@@ -865,10 +865,17 @@ def send_discord_notification(row):
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
     tracker = load_tracker()
-    tracker_key = f"{game_id}:{market}:{side}:{best_book}"
+    tracker_key = f"{game_id}:{market}:{side}"
     prior = tracker.get(tracker_key)
     movement = detect_market_movement(row, prior)
     row.update(movement)
+    if not (
+        movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
+    ):
+        print(
+            f"⛔ Discord notification aborted due to movement → EV: {movement['ev_movement']}, FV: {movement['fv_movement']}"
+        )
+        return
     prev_fv = None
     if isinstance(prior, dict):
         prev_fv = prior.get("blended_fv", prior.get("fair_odds"))
@@ -1066,7 +1073,7 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
     """
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
-        f"{row['game_id']}:{row['market']}:{row['side']}:{row.get('best_book')}"
+        f"{row['game_id']}:{row['market']}:{row['side']}"
     )
 
     new_conf = row.get("consensus_prob")
@@ -1172,6 +1179,7 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
             "blended_fv": row.get("blended_fv", row.get("fair_odds")),
             "market_odds": row["market_odds"],
             "date_simulated": row["date_simulated"],
+            "best_book": row.get("best_book"),
         }
 
     existing[key] = full_stake
@@ -2192,6 +2200,16 @@ def process_theme_logged_bets(
                     existing_theme_stakes,
                     eval_tracker=MARKET_EVAL_TRACKER,
                 )
+
+                # 📝 Update tracker for every evaluated bet
+                t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
+                MARKET_EVAL_TRACKER[t_key] = {
+                    "ev_percent": row_copy.get("ev_percent"),
+                    "blended_fv": row_copy.get("blended_fv", row_copy.get("fair_odds")),
+                    "market_odds": row_copy.get("market_odds"),
+                    "date_simulated": row_copy.get("date_simulated"),
+                    "best_book": row_copy.get("best_book"),
+                }
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     write_to_csv(
@@ -2304,6 +2322,8 @@ def process_theme_logged_bets(
             )
 
     save_tracker(MARKET_EVAL_TRACKER)
+    if not MARKET_EVAL_TRACKER:
+        print("⚠️ market_eval_tracker.json not updated — 0 entries saved")
 
 
 if __name__ == "__main__":

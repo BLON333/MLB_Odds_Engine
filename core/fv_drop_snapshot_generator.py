@@ -183,7 +183,7 @@ def main():
             continue
         game_id = r.get("game_id", "")
         book = r.get("best_book", "")
-        key = f"{game_id}:{r['market']}:{r['side']}:{book}"
+        key = f"{game_id}:{r['market']}:{r['side']}"
         final_snapshot[key] = {
             "blended_fv": blended_fv,
             "market_odds": market_odds,
