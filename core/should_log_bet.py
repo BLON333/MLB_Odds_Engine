@@ -111,8 +111,14 @@ def should_log_bet(
     verbose: bool = True,
     min_ev: float = 0.05,
     min_stake: float = 1.0,
+    eval_tracker: dict | None = None,
 ) -> Optional[dict]:
-    """Return updated bet dict if it should be logged based on staking rules."""
+    """Return updated bet dict if staking and movement criteria are met.
+
+    The optional ``eval_tracker`` should contain previous market evaluations
+    keyed by ``game_id:market:side:book`` so line movement can be enforced for
+    first-time entries.
+    """
 
     game_id = new_bet["game_id"]
     market = new_bet["market"]
@@ -152,6 +158,13 @@ def should_log_bet(
                 }
         except Exception:
             pass
+
+    if eval_tracker is not None and prior_entry is None:
+        book = new_bet.get("best_book", "")
+        t_key = f"{game_id}:{market}:{side}:{book}"
+        tracker_entry = eval_tracker.get(t_key)
+        if isinstance(tracker_entry, dict):
+            prior_entry = tracker_entry
 
     movement = detect_market_movement(new_bet, prior_entry)
     new_bet.update(movement)
