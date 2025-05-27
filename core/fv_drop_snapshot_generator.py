@@ -12,10 +12,10 @@ import requests
 
 import pandas as pd
 
-import odds_fetcher
-from odds_fetcher import fetch_market_odds_from_api
-from log_betting_evals import expand_snapshot_rows_with_kelly
-from snapshot_core import (
+from core import odds_fetcher
+from core.odds_fetcher import fetch_market_odds_from_api
+from cli.log_betting_evals import expand_snapshot_rows_with_kelly
+from core.snapshot_core import (
     build_argument_parser,
     load_simulations,
     build_snapshot_rows,
