@@ -31,6 +31,30 @@ last_snapshot_time = 0
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
 
+
+def run_command(cmd):
+    """Run a command synchronously and echo its output."""
+    try:
+        proc = subprocess.run(
+            cmd,
+            cwd=ROOT_DIR,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        if proc.stdout:
+            print(proc.stdout.strip())
+        if proc.stderr:
+            print(proc.stderr.strip())
+        return proc.returncode
+    except subprocess.CalledProcessError as e:
+        if e.stdout:
+            print(e.stdout.strip())
+        if e.stderr:
+            print(e.stderr.strip())
+        print(f"❌ Command {' '.join(cmd)} exited with code {e.returncode}")
+        return e.returncode
+
 def ensure_closing_monitor_running():
     """Launch closing_odds_monitor.py if not already running."""
     global closing_monitor_proc
@@ -60,7 +84,7 @@ def run_simulation():
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
         ]
-        subprocess.run(cmd, cwd=ROOT_DIR, check=True)
+        subprocess.run(cmd, cwd=ROOT_DIR, check=True
 
 
 
@@ -119,7 +143,6 @@ def run_personal_snapshot():
             "--output-discord",
         ]
         subprocess.Popen(cmd, cwd=ROOT_DIR)
-
 
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
