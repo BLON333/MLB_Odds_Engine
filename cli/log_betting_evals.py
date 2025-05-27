@@ -53,7 +53,7 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
         print(f"⚠️ Failed to save market confirmation tracker: {e}")
 
 
-MARKET_CONF_TRACKER = load_market_conf_tracker()
+# MARKET_CONF_TRACKER = load_market_conf_tracker()
 MARKET_EVAL_TRACKER = load_tracker()
 
 # === Local Modules ===
@@ -1094,18 +1094,18 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
         new_conf_val = None
 
     prev_conf_val = None
-    if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
-        prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
+    # if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
+    #     prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
 
     if new_conf_val is None:
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
         return 0
 
-    if prev_conf_val is not None and new_conf_val <= prev_conf_val:
-        print(
-            f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
-        )
-        return 0
+    # if prev_conf_val is not None and new_conf_val <= prev_conf_val:
+    #     print(
+    #         f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
+    #     )
+    #     return 0
     full_stake = round(float(row.get("full_stake", 0)), 2)
     prev = existing.get(key, 0)
     delta = round(full_stake - prev, 2)
@@ -1178,11 +1178,11 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
         send_discord_notification(row)
 
         # Update market confirmation tracker on successful log
-        MARKET_CONF_TRACKER[tracker_key] = {
-            "consensus_prob": new_conf_val,
-            "timestamp": datetime.now().isoformat(),
-        }
-        save_market_conf_tracker(MARKET_CONF_TRACKER)
+        # MARKET_CONF_TRACKER[tracker_key] = {
+        #     "consensus_prob": new_conf_val,
+        #     "timestamp": datetime.now().isoformat(),
+        # }
+        # save_market_conf_tracker(MARKET_CONF_TRACKER)
 
         global MARKET_EVAL_TRACKER
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
