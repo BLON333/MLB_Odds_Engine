@@ -212,6 +212,12 @@ def should_log_bet(
         stake_amt = stake * 0.5 if is_alt_line else stake
         new_bet["stake"] = round(stake_amt, 2)
         new_bet["entry_type"] = "first"
+        if new_bet["stake"] < 1.0:
+            _log_verbose(
+                f"⛔ Skipping bet — scaled stake {new_bet['stake']}u is below 1.0u minimum",
+                verbose,
+            )
+            return None
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake_amt:.2f}u | EV: {ev:.2f}%",
             verbose,
@@ -222,6 +228,12 @@ def should_log_bet(
     if delta >= 0.5:
         new_bet["stake"] = round(delta, 2)
         new_bet["entry_type"] = "top-up"
+        if new_bet["stake"] < 1.0:
+            _log_verbose(
+                f"⛔ Skipping top-up — delta stake {new_bet['stake']}u is below 1.0u minimum",
+                verbose,
+            )
+            return None
         _log_verbose(
             f"🔼 should_log_bet: Top-up accepted → {side} | {theme_key} [{segment}] | Δ {delta:.2f}u",
             verbose,
