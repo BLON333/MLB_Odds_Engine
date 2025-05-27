@@ -2098,6 +2098,8 @@ def process_theme_logged_bets(
 
     for game_id in theme_logged:
         print(f"\n🔍 Game: {game_id}")
+        # 🔄 Refresh theme exposure from the latest CSV before evaluating bets
+        existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
 
         print("\n📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
