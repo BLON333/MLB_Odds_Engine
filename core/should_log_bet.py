@@ -165,8 +165,14 @@ def should_log_bet(
         if isinstance(tracker_entry, dict):
             prior_entry = tracker_entry
 
+    tracker_key = f"{game_id}:{market}:{side}"
     movement = detect_market_movement(new_bet, prior_entry)
     new_bet.update(movement)
+    if movement.get("is_new"):
+        _log_verbose(
+            f"🟡 First-time seen bet → {tracker_key} — tracked only",
+            verbose,
+        )
     if not (
         movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):
@@ -175,6 +181,10 @@ def should_log_bet(
             verbose,
         )
         return None
+    _log_verbose(
+        f"✅ Market-confirmed bet → {tracker_key} — should be logged and posted",
+        verbose,
+    )
 
     base_market = market.replace("alternate_", "")
     segment = get_segment_group(market)

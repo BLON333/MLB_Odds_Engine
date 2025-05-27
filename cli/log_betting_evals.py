@@ -870,6 +870,8 @@ def send_discord_notification(row):
     prior = tracker.get(tracker_key)
     movement = detect_market_movement(row, prior)
     row.update(movement)
+    if movement.get("is_new"):
+        print(f"🟡 First-time seen bet → {tracker_key} — tracked only")
     if not (
         movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):
@@ -877,6 +879,7 @@ def send_discord_notification(row):
             f"⛔ Discord notification aborted due to movement → EV: {movement['ev_movement']}, FV: {movement['fv_movement']}"
         )
         return
+    print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
     prev_fv = None
     if isinstance(prior, dict):
         prev_fv = prior.get("blended_fv", prior.get("fair_odds"))
