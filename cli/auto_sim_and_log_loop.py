@@ -1,5 +1,10 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import sys
+import os
+
+# Ensure project root is on the path regardless of where this script is invoked
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(ROOT_DIR)
+PYTHON = sys.executable
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -24,6 +29,30 @@ last_snapshot_time = 0
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
 
+
+def run_command(cmd):
+    """Run a command synchronously and echo its output."""
+    try:
+        proc = subprocess.run(
+            cmd,
+            cwd=ROOT_DIR,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        if proc.stdout:
+            print(proc.stdout.strip())
+        if proc.stderr:
+            print(proc.stderr.strip())
+        return proc.returncode
+    except subprocess.CalledProcessError as e:
+        if e.stdout:
+            print(e.stdout.strip())
+        if e.stderr:
+            print(e.stderr.strip())
+        print(f"❌ Command {' '.join(cmd)} exited with code {e.returncode}")
+        return e.returncode
+
 def ensure_closing_monitor_running():
     """Launch closing_odds_monitor.py if not already running."""
     global closing_monitor_proc
@@ -32,7 +61,9 @@ def ensure_closing_monitor_running():
         if not os.path.exists(script_path):
             script_path = "closing_odds_monitor.py"
         print(f"\n🎯 [{now_eastern()}] Starting closing odds monitor...")
-        closing_monitor_proc = subprocess.Popen(f"python {script_path}", shell=True)
+        closing_monitor_proc = subprocess.Popen(
+            [PYTHON, script_path], cwd=ROOT_DIR
+        )
 
 def get_date_strings():
     now = now_eastern()
@@ -44,8 +75,14 @@ def run_simulation():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         print(f"\n🎯 [{now_eastern()}] Launching full slate simulation for {date_str}...")
-        cmd = f"python cli/full_slate_runner.py {date_str} --export-folder=backtest/sims --edge-threshold={EDGE_THRESHOLD}"
-        subprocess.run(cmd, shell=True, check=True)
+        cmd = [
+            PYTHON,
+            os.path.join("cli", "full_slate_runner.py"),
+            date_str,
+            "--export-folder=backtest/sims",
+            f"--edge-threshold={EDGE_THRESHOLD}",
+        ]
+        run_command(cmd)
 
 
 
@@ -56,8 +93,15 @@ def run_logger():
         default_script = os.path.join("cli", "log_betting_evals.py")
         if not os.path.exists(default_script):
             default_script = "log_betting_evals.py"
-        cmd = f"python {default_script} --eval-folder backtest/sims/{date_str} --min-ev {MIN_EV}"
-        subprocess.Popen(cmd, shell=True)
+        cmd = [
+            PYTHON,
+            default_script,
+            "--eval-folder",
+            f"backtest/sims/{date_str}",
+            "--min-ev",
+            str(MIN_EV),
+        ]
+        run_command(cmd)
 
 
 def run_live_snapshot():
@@ -69,8 +113,15 @@ def run_live_snapshot():
         default_script = os.path.join("core", "live_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "live_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
-        subprocess.Popen(cmd, shell=True)
+        cmd = [
+            PYTHON,
+            default_script,
+            f"--date={date_str}",
+            f"--min-ev={MIN_EV}",
+            "--diff-highlight",
+            "--output-discord",
+        ]
+        run_command(cmd)
 
 
 
@@ -81,8 +132,15 @@ def run_personal_snapshot():
         default_script = os.path.join("core", "personal_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "personal_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
-        subprocess.Popen(cmd, shell=True)
+        cmd = [
+            PYTHON,
+            default_script,
+            f"--date={date_str}",
+            f"--min-ev={MIN_EV}",
+            "--diff-highlight",
+            "--output-discord",
+        ]
+        run_command(cmd)
 
 
 def run_best_book_snapshot():
@@ -92,8 +150,15 @@ def run_best_book_snapshot():
         default_script = os.path.join("core", "best_book_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "best_book_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
-        subprocess.Popen(cmd, shell=True)
+        cmd = [
+            PYTHON,
+            default_script,
+            f"--date={date_str}",
+            f"--min-ev={MIN_EV}",
+            "--diff-highlight",
+            "--output-discord",
+        ]
+        run_command(cmd)
 
 
 def run_fv_drop_snapshot():
@@ -103,8 +168,15 @@ def run_fv_drop_snapshot():
         default_script = os.path.join("core", "fv_drop_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "fv_drop_snapshot_generator.py"
-        cmd = f"python {default_script} --date={date_str} --min-ev={MIN_EV} --diff-highlight --output-discord"
-        subprocess.Popen(cmd, shell=True)
+        cmd = [
+            PYTHON,
+            default_script,
+            f"--date={date_str}",
+            f"--min-ev={MIN_EV}",
+            "--diff-highlight",
+            "--output-discord",
+        ]
+        run_command(cmd)
 
 
 print(
