@@ -1178,6 +1178,12 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
         save_market_conf_tracker(MARKET_CONF_TRACKER)
 
         global MARKET_EVAL_TRACKER
+        prior = MARKET_EVAL_TRACKER.get(tracker_key)
+        movement = detect_market_movement(row, prior)
+        row.update(movement)
+        print(
+            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+        )
         MARKET_EVAL_TRACKER[tracker_key] = {
             "ev_percent": row["ev_percent"],
             "blended_fv": row.get("blended_fv", row.get("fair_odds")),
@@ -1383,6 +1389,12 @@ def log_bets(
 
         # 📝 Track every evaluated bet before applying stake/EV filters
         tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+        prior = MARKET_EVAL_TRACKER.get(tracker_key)
+        movement = detect_market_movement(row, prior)
+        row.update(movement)
+        print(
+            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+        )
         MARKET_EVAL_TRACKER[tracker_key] = {
             "ev_percent": row["ev_percent"],
             "blended_fv": row["blended_fv"],
@@ -1697,6 +1709,12 @@ def log_derivative_bets(
                 print(f"🏦 Best Book Selected: {row['best_book']}")
                 # 📝 Track every evaluated bet before applying stake/EV filters
                 tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+                prior = MARKET_EVAL_TRACKER.get(tracker_key)
+                movement = detect_market_movement(row, prior)
+                row.update(movement)
+                print(
+                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                )
                 MARKET_EVAL_TRACKER[tracker_key] = {
                     "ev_percent": row["ev_percent"],
                     "blended_fv": row["blended_fv"],
@@ -2230,6 +2248,12 @@ def process_theme_logged_bets(
 
                 # 📝 Update tracker for every evaluated bet
                 t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
+                prior = MARKET_EVAL_TRACKER.get(t_key)
+                movement = detect_market_movement(row_copy, prior)
+                row_copy.update(movement)
+                print(
+                    f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                )
                 MARKET_EVAL_TRACKER[t_key] = {
                     "ev_percent": row_copy.get("ev_percent"),
                     "blended_fv": row_copy.get("blended_fv", row_copy.get("fair_odds")),
