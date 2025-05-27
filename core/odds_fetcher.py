@@ -36,7 +36,7 @@ BOOKMAKERS = [
     "nordicbet", "pinnacle", "suprabets", "tipico_de", "unibet_eu", "williamhill",
     "winamax_de", "winamax_fr"
 ]
-from .logger import get_logger
+from core.logger import get_logger
 
 logger = get_logger(__name__)
 

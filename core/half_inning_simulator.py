@@ -3,7 +3,7 @@ import numpy as np
 import random
 from core.pa_simulator import simulate_pa
 from core.fatigue_modeling import apply_fatigue_modifiers
-from .logger import get_logger
+from core.logger import get_logger
 
 logger = get_logger(__name__)
 
