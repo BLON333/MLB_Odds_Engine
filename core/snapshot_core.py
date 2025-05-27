@@ -25,6 +25,7 @@ from market_pricer import (
     blend_prob,
     calculate_ev_from_prob,
     decimal_odds,
+    extract_best_book,
 )
 from core.market_movement_tracker import detect_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
@@ -430,14 +431,7 @@ def build_snapshot_rows(
             )
 
             sportsbook_odds = market_entry.get("per_book", {})
-            best_book = None
-            if isinstance(sportsbook_odds, dict) and sportsbook_odds:
-                try:
-                    best_book = max(
-                        sportsbook_odds, key=lambda b: decimal_odds(sportsbook_odds[b])
-                    )
-                except Exception:
-                    best_book = None
+            best_book = extract_best_book(sportsbook_odds)
 
             row = {
                 "game_id": game_id,

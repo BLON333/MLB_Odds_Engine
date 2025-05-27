@@ -64,6 +64,7 @@ from core.market_pricer import (
     kelly_fraction,
     blend_prob,
     calculate_ev_from_prob,
+    extract_best_book,
 )
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
 from utils import (
@@ -854,11 +855,11 @@ def send_discord_notification(row):
 
     best_book_data = row.get("best_book", {})
     if isinstance(best_book_data, dict):
-        best_book = max(best_book_data, key=lambda b: decimal_odds(best_book_data[b]))
+        best_book = extract_best_book(best_book_data)
     elif isinstance(best_book_data, str) and best_book_data.strip().startswith("{"):
         try:
             tmp = json.loads(best_book_data.replace("'", '"'))
-            best_book = max(tmp, key=lambda b: decimal_odds(tmp[b]))
+            best_book = extract_best_book(tmp) or best_book_data
         except Exception:
             best_book = best_book_data
     else:
@@ -1366,8 +1367,8 @@ def log_bets(
             "price_source": price_source,
             "sportsbook": book_prices,
             "best_book": (
-                max(book_prices, key=lambda b: decimal_odds(book_prices[b]))
-                if isinstance(book_prices, dict) and book_prices
+                extract_best_book(book_prices)
+                if isinstance(book_prices, dict)
                 else best_book
             ),
             "date_simulated": date_sim,
@@ -1678,8 +1679,8 @@ def log_derivative_bets(
                         else {sportsbook_source: market_price}
                     ),
                     "best_book": (
-                        max(book_prices, key=lambda b: decimal_odds(book_prices[b]))
-                        if isinstance(book_prices, dict) and book_prices
+                        extract_best_book(book_prices)
+                        if isinstance(book_prices, dict)
                         else sportsbook_source
                     ),
                     "date_simulated": date_sim,
