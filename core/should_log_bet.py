@@ -28,6 +28,13 @@ def get_theme(bet: dict) -> str:
         return "Under"
 
     if "h2h" in market or "spreads" in market or "runline" in market:
+        tokens = side.split()
+        if tokens:
+            first = tokens[0]
+            if first.upper() in TEAM_ABBR_TO_NAME:
+                return first.upper()
+            if first.title() in TEAM_NAME_TO_ABBR:
+                return TEAM_NAME_TO_ABBR[first.title()]
         for name in TEAM_NAME_TO_ABBR:
             if side.startswith(name):
                 return name
@@ -197,10 +204,12 @@ def should_log_bet(
     theme_key = get_theme_key(base_market, theme)
     exposure_key = (game_id, theme_key, segment)
     theme_total = existing_theme_stakes.get(exposure_key, 0.0)
-    is_alt_line = market.startswith("alternate_")
+    # Alternate lines (identified by market prefix or class) should use half of
+    # the normal full_stake amount for the initial entry (⅛ Kelly).
+    is_alt_line = market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
 
     if theme_total == 0:
-        stake_amt = stake * 0.125 if is_alt_line else stake
+        stake_amt = stake * 0.5 if is_alt_line else stake
         new_bet["stake"] = round(stake_amt, 2)
         new_bet["entry_type"] = "first"
         _log_verbose(

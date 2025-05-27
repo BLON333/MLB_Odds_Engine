@@ -149,10 +149,8 @@ def normalize_lookup_side(side):
 
 
 def get_theme_key(market: str, theme: str) -> str:
-    if "spreads" in market:
+    if "spreads" in market or "h2h" in market or "runline" in market:
         return f"{theme}_spread"
-    elif "h2h" in market:
-        return f"{theme}_h2h"
     elif "totals" in market:
         return f"{theme}_total"
     else:
@@ -752,10 +750,8 @@ def load_existing_theme_stakes(csv_path):
 
                 # Identify theme category
                 theme = get_theme({"side": side, "market": market})
-                if "spreads" in market:
+                if "spreads" in market or "h2h" in market or "runline" in market:
                     theme_key = f"{theme}_spread"
-                elif "h2h" in market:
-                    theme_key = f"{theme}_h2h"
                 elif "totals" in market:
                     theme_key = f"{theme}_total"
                 else:
@@ -1046,10 +1042,8 @@ def get_exposure_key(row):
 
     if "totals" in market:
         market_type = "total"
-    elif "spreads" in market:
+    elif "spreads" in market or "h2h" in market or "runline" in market:
         market_type = "spread"
-    elif "h2h" in market:
-        market_type = "h2h"
     else:
         market_type = "other"
 
@@ -1070,8 +1064,8 @@ def get_exposure_key(row):
         else:
             theme = "Other"
 
-    theme_key = f"{theme}_{market_type}_{segment}"
-    return (game_id, theme_key)
+    theme_key = f"{theme}_{market_type}"
+    return (game_id, theme_key, segment)
 
 
 def write_to_csv(row, path, existing, session_exposure, dry_run=False):
@@ -1964,10 +1958,8 @@ def run_batch_logging(
         game_id = row["game_id"]
         market = row["market"]
 
-        if "spreads" in market:
+        if "spreads" in market or "h2h" in market or "runline" in market:
             theme_key = f"{theme}_spread"
-        elif "h2h" in market:
-            theme_key = f"{theme}_h2h"
         elif "totals" in market:
             theme_key = f"{theme}_total"
         else:
@@ -1989,7 +1981,11 @@ def run_batch_logging(
     for (gid, market, side), stake in existing.items():
         if stake >= 1.00:
             theme = get_theme({"side": side, "market": market})
-            if market.startswith("spreads") or market.startswith("h2h"):
+            if (
+                market.startswith("spreads")
+                or market.startswith("h2h")
+                or market.startswith("runline")
+            ):
                 theme_key = f"{theme}_spread"
             elif market.startswith("totals"):
                 theme_key = f"{theme}_total"
