@@ -111,6 +111,18 @@ def kelly_fraction(prob_win, american_odds, fraction=0.25):
     return max(0, round(kelly * 100 * fraction, 4))  # ✅ convert directly to units
 
 
+def extract_best_book(per_book: dict) -> str | None:
+    """Return the sportsbook name offering the best (highest payout) price."""
+    if isinstance(per_book, dict) and per_book:
+        try:
+            best = max(per_book, key=lambda b: decimal_odds(per_book[b]))
+            print(f"✅ Best book resolved: {best}")
+            return best
+        except Exception:
+            return None
+    return None
+
+
 
 
 def prob_to_moneyline(prob):
