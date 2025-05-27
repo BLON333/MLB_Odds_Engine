@@ -284,6 +284,19 @@ def compare_and_flag_new_rows(
             "display": build_display_block(entry),
         }
 
+        prior = MARKET_EVAL_TRACKER.get(key)
+        movement = detect_market_movement(
+            {
+                "blended_fv": blended_fv,
+                "market_odds": market_odds,
+                "ev_percent": ev_pct,
+            },
+            prior,
+        )
+        entry.update(movement)
+        print(
+            f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+        )
         # 📝 Track every evaluated bet regardless of filters
         MARKET_EVAL_TRACKER[key] = {
             "ev_percent": ev_pct,
@@ -297,17 +310,6 @@ def compare_and_flag_new_rows(
         if j in seen:
             continue
         seen.add(j)
-
-        prev = last_snapshot.get(key)
-        movement = detect_market_movement(
-            {
-                "blended_fv": blended_fv,
-                "market_odds": market_odds,
-                "ev_percent": ev_pct,
-            },
-            prev,
-        )
-        entry.update(movement)
         flagged.append(entry)
 
     # Persist tracker updates
@@ -453,6 +455,12 @@ def build_snapshot_rows(
             }
             # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean}:{side}"
+            prior = MARKET_EVAL_TRACKER.get(tracker_key)
+            movement = detect_market_movement(row, prior)
+            row.update(movement)
+            print(
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+            )
             MARKET_EVAL_TRACKER[tracker_key] = {
                 "ev_percent": row["ev_percent"],
                 "blended_fv": row["blended_fv"],
