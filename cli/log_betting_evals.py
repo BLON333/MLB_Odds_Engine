@@ -791,7 +791,11 @@ def send_discord_notification(row):
     if ev > 20.0 or ev < 5.0:
         return
 
-    stake = round(float(row.get("stake", 0)), 2)
+    stake = float(row.get("stake", 0))
+    if stake < 0.5:
+        print(f"⛔ Skipping Discord notification — stake too small ({stake:.2f}u)")
+        return
+    stake = round(stake, 2)
     full_stake = round(float(row.get("full_stake", stake)), 2)
     entry_type = row.get("entry_type", "first")
     print(

@@ -219,5 +219,6 @@ def should_log_bet(
         )
         return new_bet
 
+    new_bet["entry_type"] = "none"
     _log_verbose("⛔ Rejected — top-up delta too small (< 0.5u)", verbose)
     return None
