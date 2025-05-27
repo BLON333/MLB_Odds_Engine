@@ -27,6 +27,8 @@ from core.snapshot_core import (
 )
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 # Allow best-book snapshots to be routed to separate Discord channels for
 # main lines and alternate lines.

@@ -14,6 +14,9 @@ try:
 except Exception:  # pragma: no cover - optional dep
     dfi = None
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,

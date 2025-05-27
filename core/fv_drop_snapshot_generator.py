@@ -28,6 +28,8 @@ from snapshot_core import (
 )
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 WEBHOOK_URL = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
 

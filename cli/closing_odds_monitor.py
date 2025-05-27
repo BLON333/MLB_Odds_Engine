@@ -3,6 +3,9 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 import csv
 import json
 import time
@@ -17,7 +20,12 @@ from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 from dotenv import load_dotenv
 from pathlib import Path
+
 dotenv_file = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_file)
+loaded_hooks = [
+    v
+    for v in [
         os.getenv("DISCORD_ALERT_WEBHOOK_URL"),
         os.getenv("DISCORD_ALERT_WEBHOOK_URL_2"),
     ]

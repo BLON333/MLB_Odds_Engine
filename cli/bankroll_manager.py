@@ -4,6 +4,9 @@ import argparse
 from collections import defaultdict
 from datetime import datetime, timedelta
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 def decimal_odds(american):
     return 100 / abs(american) + 1 if american < 0 else american / 100 + 1
 

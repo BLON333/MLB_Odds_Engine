@@ -15,6 +15,8 @@ from dotenv import load_dotenv
 from core.market_eval_tracker import load_tracker, save_tracker
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 DISCORD_TOTALS_WEBHOOK_URL = os.getenv("DISCORD_TOTALS_WEBHOOK_URL")
 DISCORD_H2H_WEBHOOK_URL = os.getenv("DISCORD_H2H_WEBHOOK_URL")
