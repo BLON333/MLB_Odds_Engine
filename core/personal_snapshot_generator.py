@@ -27,6 +27,8 @@ from core.snapshot_core import  (
 )
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 CUSTOM_BOOKMAKERS = ["betonlineag", "bovada"]
 odds_fetcher.BOOKMAKERS = CUSTOM_BOOKMAKERS

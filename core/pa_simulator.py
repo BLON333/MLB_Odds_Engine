@@ -1,6 +1,9 @@
 import numpy as np
 import random
 from core.bip_resolution import resolve_bip
+from core.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Global outcome log for plate appearances
 PA_RECAP_LOG = {

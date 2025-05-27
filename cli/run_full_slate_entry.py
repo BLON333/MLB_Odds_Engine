@@ -6,6 +6,9 @@ from datetime import date
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 from assets.probable_pitchers import fetch_probable_pitchers
 from run_distribution_simulator import simulate_distribution
 from utils import normalize_game_id

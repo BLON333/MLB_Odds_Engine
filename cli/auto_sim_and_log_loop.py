@@ -8,6 +8,8 @@ PYTHON = sys.executable
 
 from dotenv import load_dotenv
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 import time
 import subprocess
@@ -82,7 +84,7 @@ def run_simulation():
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
         ]
-        run_command(cmd)
+        subprocess.run(cmd, cwd=ROOT_DIR, check=True
 
 
 
@@ -101,7 +103,7 @@ def run_logger():
             "--min-ev",
             str(MIN_EV),
         ]
-        run_command(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR)
 
 
 def run_live_snapshot():
@@ -121,7 +123,7 @@ def run_live_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_command(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR)
 
 
 
@@ -140,8 +142,7 @@ def run_personal_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_command(cmd)
-
+        subprocess.Popen(cmd, cwd=ROOT_DIR)
 
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
@@ -158,7 +159,7 @@ def run_best_book_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_command(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR)
 
 
 def run_fv_drop_snapshot():
@@ -176,7 +177,7 @@ def run_fv_drop_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_command(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR)
 
 
 print(

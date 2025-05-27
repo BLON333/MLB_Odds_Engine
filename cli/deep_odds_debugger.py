@@ -9,6 +9,8 @@ from utils import normalize_label, TEAM_ABBR_TO_NAME
 from core.market_pricer import implied_prob
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 SPORT = "baseball_mlb"

@@ -16,6 +16,9 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 from core.game_simulator import simulate_game
 from core.pricing_engine import MLBPricingEngine
 

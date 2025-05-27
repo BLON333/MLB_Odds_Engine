@@ -52,6 +52,8 @@ def make_market_snapshot_paths(date_key: str) -> dict:
     }
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 WEBHOOKS = {
     "h2h": os.getenv("DISCORD_H2H_WEBHOOK_URL"),

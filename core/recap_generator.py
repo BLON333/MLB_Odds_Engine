@@ -2,6 +2,9 @@ import csv
 from collections import defaultdict
 import argparse
 
+from core.logger import get_logger
+logger = get_logger(__name__)
+
 SEGMENTS = ["mainline", "alt_line", "team_total", "derivative", "pk_equiv"]
 
 def generate_recap(csv_path):

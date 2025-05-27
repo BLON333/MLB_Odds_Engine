@@ -8,6 +8,8 @@ from collections import defaultdict
 from dotenv import load_dotenv
 
 load_dotenv()
+from core.logger import get_logger
+logger = get_logger(__name__)
 
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 SPORT = "baseball_mlb"

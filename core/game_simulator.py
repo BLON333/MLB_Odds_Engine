@@ -1,5 +1,8 @@
 from core.half_inning_simulator import simulate_half_inning
 from assets.bullpen_utils import simulate_reliever_chain
+from core.logger import get_logger
+
+logger = get_logger(__name__)
 
 def should_replace_pitcher(pitcher_state, pitch_limit=90, tto_limit=3):
     return (
