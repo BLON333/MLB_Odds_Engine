@@ -788,12 +788,16 @@ def send_discord_notification(row):
         return
 
     stake = float(row.get("stake", 0))
-    if stake < 0.5:
-        print(f"⛔ Skipping Discord notification — stake too small ({stake:.2f}u)")
+    entry_type = row.get("entry_type", "first")
+    if (entry_type == "first" and stake < 1.0) or (
+        entry_type == "top-up" and stake < 0.5
+    ):
+        print(
+            f"⛔ Skipping Discord notification — stake below threshold ({stake:.2f}u)"
+        )
         return
     stake = round(stake, 2)
     full_stake = round(float(row.get("full_stake", stake)), 2)
-    entry_type = row.get("entry_type", "first")
     print(
         f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}"
     )
@@ -1068,7 +1072,7 @@ def get_exposure_key(row):
     return (game_id, theme_key, segment)
 
 
-def write_to_csv(row, path, existing, session_exposure, dry_run=False):
+def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, dry_run=False):
     """
     Final write function for fully approved bets only.
 
@@ -1079,6 +1083,12 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
     - Segment tagging
 
     It should only be called from process_theme_logged_bets().
+
+    Parameters
+    ----------
+    existing_theme_stakes : dict
+        Mapping used to track current theme exposure in-memory. Updated on
+        successful writes.
     """
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
@@ -1109,12 +1119,19 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
     delta = round(full_stake - prev, 2)
 
     if prev >= full_stake:
-        print(
-            f"  ⛔ Already logged stake ({prev:.2f}u) ≥ proposed ({full_stake:.2f}u) for {key} — skipping."
-        )
+        print(f"  ⛔ Already logged full stake for {key}, skipping.")
         return 0
 
-    row["stake"] = delta
+    entry_type = row.get("entry_type", "first")
+    stake_to_log = delta
+    if entry_type == "first" and stake_to_log < 1.0:
+        print(f"  ⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping")
+        return 0
+    if entry_type == "top-up" and stake_to_log < 0.5:
+        print(f"  ⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping")
+        return 0
+
+    row["stake"] = stake_to_log
     row["result"] = ""
 
     if dry_run:
@@ -1198,6 +1215,11 @@ def write_to_csv(row, path, existing, session_exposure, dry_run=False):
         }
 
     existing[key] = full_stake
+    if existing_theme_stakes is not None:
+        exposure_key = get_exposure_key(row)
+        existing_theme_stakes[exposure_key] = (
+            existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
+        )
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
@@ -2003,6 +2025,9 @@ def run_batch_logging(
         if not fname.endswith(".json"):
             continue
 
+        # 🔄 Reload exposure from file before evaluating each game
+        existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
+
         raw_game_id = fname.replace(".json", "")
         game_id = normalize_game_id(raw_game_id)
         sim_path = os.path.join(eval_folder, fname)
@@ -2291,6 +2316,7 @@ def process_theme_logged_bets(
                         "logs/market_evals.csv",
                         existing,
                         session_exposure,
+                        existing_theme_stakes,
                         dry_run=dry_run,
                     )
                     game_summary[game_id].append(evaluated)
