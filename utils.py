@@ -141,9 +141,11 @@ def find_sim_entry(sim_markets: list, target_market_key: str, side_label: str, a
         return strict_matches[0]
 
     if allow_fallback and loose_matches:
-        print(f"⚠️ Fallback: Sim value for '{side_label}' found in other segments:")
+        from core.logger import get_logger
+        logger = get_logger(__name__)
+        logger.debug("⚠️ Fallback: Sim value for '%s' found in other segments:", side_label)
         for fallback_entry, seg in loose_matches:
-            print(f"   → {fallback_entry['market']} | P={fallback_entry['sim_prob']:.4f} | Segment={seg}")
+            logger.debug("   → %s | P=%.4f | Segment=%s", fallback_entry['market'], fallback_entry['sim_prob'], seg)
         return [e for e, _ in loose_matches]  # return list for inspection
 
     return None
@@ -181,10 +183,26 @@ def assert_segment_match(sim_market_key: str, matched_market_key: str) -> bool:
     book_segment = classify_market_segment(matched_market_key)
 
     if sim_segment != book_segment:
-        print(f"❌ [SEGMENT MISMATCH] Sim: {sim_segment} ({sim_market_key}) ≠ Book: {book_segment} ({matched_market_key})")
+        from core.logger import get_logger
+        logger = get_logger(__name__)
+        logger.debug(
+            "❌ [SEGMENT MISMATCH] Sim: %s (%s) ≠ Book: %s (%s)",
+            sim_segment,
+            sim_market_key,
+            book_segment,
+            matched_market_key,
+        )
         return False
 
-    print(f"✅ Segment match: {sim_segment} ({sim_market_key}) == {book_segment} ({matched_market_key})")
+    from core.logger import get_logger
+    logger = get_logger(__name__)
+    logger.debug(
+        "✅ Segment match: %s (%s) == %s (%s)",
+        sim_segment,
+        sim_market_key,
+        book_segment,
+        matched_market_key,
+    )
     return True
 
 
@@ -337,13 +355,13 @@ def fallback_source(label, price):
 
 
 def print_market_debug(market_key, label, price, books):
-    """
-    Logs a formatted debug message when consensus pairing fails but a fallback is used.
-    """
-    print(f"⚠️ No consensus match for {market_key} | {label}")
-    print(f"   ➤ Using fallback price: {price}")
+    """Logs formatted debug message when consensus pairing fails."""
+    from core.logger import get_logger
+    logger = get_logger(__name__)
+    logger.debug("⚠️ No consensus match for %s | %s", market_key, label)
+    logger.debug("   ➤ Using fallback price: %s", price)
     if books:
-        print(f"   🏦 Books considered: {', '.join(books)}")
+        logger.debug("   🏦 Books considered: %s", ", ".join(books))
 
 
 def get_contributing_books(market_odds, market_key, lookup_side):
@@ -651,9 +669,12 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
     are searched to avoid mismatches.
     """
 
+    from core.logger import get_logger
+    logger = get_logger(__name__)
+
     def log(msg: str) -> None:
         if debug:
-            print(msg)
+            logger.debug(msg)
 
     if not isinstance(market_odds, dict):
         log(f"[MATCHER] invalid market_odds type: {type(market_odds)}")
@@ -707,7 +728,8 @@ def extract_game_id_from_event(away_team, home_team, start_time_utc):
         home_abbr = TEAM_ABBR.get(home_team, home_team)
         return f"{local_date}-{away_abbr}@{home_abbr}"
     except Exception as e:
-        print(f"[DEBUG] extract_game_id_from_event error: {e}")
+        from core.logger import get_logger
+        get_logger(__name__).debug("[DEBUG] extract_game_id_from_event error: %s", e)
         return None
 
 
@@ -723,7 +745,8 @@ def normalize_game_id(game_id):
         home = TEAM_ABBR_FIXES.get(home.upper(), home.upper())
         return f"{date_part}-{away}@{home}"
     except Exception as e:
-        print(f"[DEBUG] normalize_game_id error: {e} | Returning raw game_id")
+        from core.logger import get_logger
+        get_logger(__name__).debug("[DEBUG] normalize_game_id error: %s | Returning raw game_id", e)
         return game_id
 
 

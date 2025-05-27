@@ -36,7 +36,11 @@ BOOKMAKERS = [
     "nordicbet", "pinnacle", "suprabets", "tipico_de", "unibet_eu", "williamhill",
     "winamax_de", "winamax_fr"
 ]
-print("📊 Using bookmakers:", BOOKMAKERS) 
+from .logger import get_logger
+
+logger = get_logger(__name__)
+
+logger.info("📊 Using bookmakers: %s", BOOKMAKERS)
 
 MARKET_KEYS = [
     "h2h", "spreads", "totals",
@@ -94,12 +98,12 @@ def fetch_consensus_for_single_game(game_id):
     """
     Pulls odds from API for a single game and returns de-vigged consensus odds.
     """
-    print(f"🔎 Fetching consensus odds for {game_id}")
+    logger.debug(f"🔎 Fetching consensus odds for {game_id}")
 
     # Step 1: Pull events
     resp = requests.get(EVENTS_URL, params={"apiKey": ODDS_API_KEY})
     if resp.status_code != 200:
-        print(f"❌ Failed to fetch events.")
+        logger.debug(f"❌ Failed to fetch events.")
         return None
 
     events = resp.json()
@@ -118,7 +122,7 @@ def fetch_consensus_for_single_game(game_id):
             break
 
     if not event_id:
-        print(f"⚠️ No event found for {game_id}")
+        logger.debug(f"⚠️ No event found for {game_id}")
         return None
 
     # Step 3: Fetch odds for event
@@ -133,12 +137,12 @@ def fetch_consensus_for_single_game(game_id):
         }
     )
     if odds_resp.status_code != 200:
-        print(f"❌ Failed to fetch odds for {event_id}")
+        logger.debug(f"❌ Failed to fetch odds for {event_id}")
         return None
 
     event_data = odds_resp.json()
     if not event_data:
-        print(f"⚠️ No odds data found for {game_id}")
+        logger.debug(f"⚠️ No odds data found for {game_id}")
         return None
 
     # Step 4: Normalize using your already existing `normalize_odds`
@@ -167,16 +171,16 @@ def fetch_consensus_for_single_game(game_id):
 
 
 def fetch_market_odds_from_api(game_ids):
-    print(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
-    print(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
+    logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
+    logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
     resp = requests.get(EVENTS_URL, params={"apiKey": ODDS_API_KEY})
     if resp.status_code != 200:
-        print(f"❌ Failed to fetch events: {resp.text}")
+        logger.debug(f"❌ Failed to fetch events: {resp.text}")
         return {}
 
     events = resp.json()
-    print(f"[DEBUG] Received {len(events)} events from Odds API")
+    logger.debug(f"[DEBUG] Received {len(events)} events from Odds API")
 
     odds_data = {}
 
@@ -190,7 +194,7 @@ def fetch_market_odds_from_api(game_ids):
             if game_id not in game_ids:
                 continue
 
-            print(f"\n🧪 Scanned event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}")
+            logger.debug(f"\n🧪 Scanned event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}")
 
             event_id = event["id"]
             odds_resp = requests.get(
@@ -205,7 +209,7 @@ def fetch_market_odds_from_api(game_ids):
             )
 
             if odds_resp.status_code != 200:
-                print(f"⚠️ Failed to fetch odds for {game_id}: {odds_resp.text}")
+                logger.debug(f"⚠️ Failed to fetch odds for {game_id}: {odds_resp.text}")
                 continue
 
             offers_raw = odds_resp.json()
@@ -213,18 +217,18 @@ def fetch_market_odds_from_api(game_ids):
             os.makedirs(os.path.dirname(debug_path), exist_ok=True)
             with open(debug_path, "w") as f:
                 json.dump(offers_raw, f, indent=2)
-            print(f"📄 Saved raw odds snapshot to {debug_path}")
+            logger.debug(f"📄 Saved raw odds snapshot to {debug_path}")
 
             if not offers_raw or not isinstance(offers_raw, dict):
-                print(f"⚠️ Odds API returned unexpected format for {game_id}: {type(offers_raw)}")
+                logger.debug(f"⚠️ Odds API returned unexpected format for {game_id}: {type(offers_raw)}")
                 continue
 
             bookmakers_data = offers_raw.get("bookmakers", [])
             if not bookmakers_data or not isinstance(bookmakers_data, list):
-                print(f"⚠️ No bookmakers array in odds data for {game_id}")
+                logger.debug(f"⚠️ No bookmakers array in odds data for {game_id}")
                 continue
 
-            print(f"📦 Odds markets received from {len(bookmakers_data)} bookmakers for {game_id}")
+            logger.debug(f"📦 Odds markets received from {len(bookmakers_data)} bookmakers for {game_id}")
 
             offers = {}
 
@@ -238,7 +242,7 @@ def fetch_market_odds_from_api(game_ids):
                     market_type = market.get("key")
                     outcomes = market.get("outcomes", [])
 
-                    print(f"   ➤ {market_type} | {len(outcomes)} outcomes")
+                    logger.debug(f"   ➤ {market_type} | {len(outcomes)} outcomes")
 
                     if not market_type or not outcomes:
                         continue
@@ -268,10 +272,10 @@ def fetch_market_odds_from_api(game_ids):
                             "point": point
                         }
 
-            print(f"🔎 Offers collected for {game_id}: {list(offers.keys())}")
+            logger.debug(f"🔎 Offers collected for {game_id}: {list(offers.keys())}")
 
             if not offers:
-                print(f"❌ No valid odds found for {game_id} — skipping normalization.")
+                logger.debug(f"❌ No valid odds found for {game_id} — skipping normalization.")
                 odds_data[game_id] = None
                 continue
 
@@ -304,12 +308,12 @@ def fetch_market_odds_from_api(game_ids):
             odds_data[game_id] = normalized
 
             if normalized:
-                print(f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored")
+                logger.debug(f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored")
             else:
-                print(f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds.")
+                logger.debug(f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds.")
 
         except Exception as e:
-            print(f"💥 Exception while processing {game_id if 'game_id' in locals() else 'event'}: {e}")
+            logger.debug(f"💥 Exception while processing {game_id if 'game_id' in locals() else 'event'}: {e}")
 
     return odds_data
 
@@ -319,7 +323,7 @@ def normalize_odds(game_id: str, offers: dict) -> dict:
     from core.market_pricer import best_price
     from utils import normalize_label, build_full_label, fallback_source
 
-    print(f"\n🔍 Normalizing odds for: {game_id}")
+    logger.debug(f"\n🔍 Normalizing odds for: {game_id}")
 
     consensus = {}
     sources = {}
@@ -381,7 +385,7 @@ def extract_per_book_odds(bookmakers_list, target_market_key=None, debug=False):
                     label = build_full_label(base, mkey, point)
                     result[mkey][label][book] = price
                     if debug:
-                        print(f"✅ Stored {book}: {mkey} → {label} @ {price}")
+                        logger.debug(f"✅ Stored {book}: {mkey} → {label} @ {price}")
     return result
 
 
@@ -392,5 +396,5 @@ def save_market_odds_to_file(odds_data, date_tag):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
         json.dump(odds_data, f, indent=2)
-    print(f"✅ Saved market odds to {path}")
+    logger.debug(f"✅ Saved market odds to {path}")
     return path

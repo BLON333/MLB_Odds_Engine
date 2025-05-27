@@ -1,5 +1,8 @@
 import numpy as np
 import math
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 # === Core Odds Logic ===
 def to_american_odds(prob):
@@ -80,7 +83,7 @@ def best_price(odds_list, side):
 def adjust_for_push(p_win, p_loss):
     p_push = max(0.0, 1.0 - (p_win + p_loss))
     denom = max(1.0 - p_push, 1e-8)
-    print(f"🔧 Adjusting for push: win={p_win:.4f}, loss={p_loss:.4f}, push={p_push:.4f}, denom={denom:.4f}")
+    logger.debug(f"🔧 Adjusting for push: win={p_win:.4f}, loss={p_loss:.4f}, push={p_push:.4f}, denom={denom:.4f}")
     return p_win / denom, p_loss / denom
 
 
@@ -116,7 +119,7 @@ def extract_best_book(per_book: dict) -> str | None:
     if isinstance(per_book, dict) and per_book:
         try:
             best = max(per_book, key=lambda b: decimal_odds(per_book[b]))
-            print(f"✅ Best book resolved: {best}")
+            logger.debug(f"✅ Best book resolved: {best}")
             return best
         except Exception:
             return None
@@ -180,7 +183,7 @@ def get_market_price(market_dict, market, side):
 
     # ✅ Optional: Log the segment (for debugging)
     segment = classify_market_segment(market)
-    print(f"[PRICE MATCH] Looking in segment: {segment} → market_key: {market}, side: {normalized_side}")
+    logger.debug(f"[PRICE MATCH] Looking in segment: {segment} → market_key: {market}, side: {normalized_side}")
 
     if "team_totals" in market:
         normalized_side = side.replace(" Over", "Over").replace(" Under", "Under")
@@ -197,7 +200,7 @@ def get_market_price(market_dict, market, side):
         if normalized_side in market_block:
             return market_block[normalized_side]
 
-    print(f"❌ No market price found for: {normalized_side} in segment: {segment}")
+    logger.debug(f"❌ No market price found for: {normalized_side} in segment: {segment}")
     return None
 
 
@@ -232,7 +235,8 @@ def print_market_summary(
     """
     Print formatted console output summarizing market simulation results.
     """
-    print(f"""
+    logger.info(
+        f"""
 ====================
 🧮 Market Simulation Summary
 ====================

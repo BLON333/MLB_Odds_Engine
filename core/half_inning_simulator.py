@@ -3,6 +3,9 @@ import numpy as np
 import random
 from core.pa_simulator import simulate_pa
 from core.fatigue_modeling import apply_fatigue_modifiers
+from .logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def _advance_bases(base_state, transitions, batter=None, debug=False):
@@ -17,22 +20,22 @@ def _advance_bases(base_state, transitions, batter=None, debug=False):
             if dest == "home":
                 runs += 1
                 if debug:
-                    print(f"     Runner from base {i+1} scores")
+                    logger.debug(f"     Runner from base {i+1} scores")
             else:
                 new_state[dest] = runner
                 if debug and dest != i:
-                    print(f"     Runner from base {i+1} -> base {dest+1}")
+                    logger.debug(f"     Runner from base {i+1} -> base {dest+1}")
 
     if "batter" in transitions:
         dest = transitions["batter"]
         if dest == "home":
             runs += 1
             if debug:
-                print("     Batter scores")
+                logger.debug("     Batter scores")
         else:
             new_state[dest] = batter
             if debug:
-                print(f"     Batter -> base {dest+1}")
+                logger.debug(f"     Batter -> base {dest+1}")
 
     return new_state, runs
 
@@ -41,7 +44,7 @@ def _handle_out(base_state, outs, rng=None, debug=False):
     rand = rng if rng is not None else random
     if base_state[0] and outs < 2 and rand.random() < 0.14:
         if debug:
-            print("     Double play chance triggered")
+            logger.debug("     Double play chance triggered")
         new_state = base_state.copy()
         new_state[0] = None
         return new_state, 0, 2
@@ -97,7 +100,7 @@ def _handle_triple(base_state, batter, rng=None, debug=False):
 def _handle_home_run(base_state, batter, rng=None, debug=False):
     runs = sum(1 for b in base_state if b) + 1
     if debug:
-        print(f"     Home run! {runs} run(s) score")
+        logger.debug(f"     Home run! {runs} run(s) score")
     return [None, None, None], runs, 0
 
 def simulate_half_inning(
@@ -160,8 +163,8 @@ def simulate_half_inning(
         outcome = result[0] if isinstance(result, tuple) else result
 
         if debug:
-            print(f"⚾ {half.upper()} {inning} | Batter: {batter['name']} → {outcome}")
-            print(f"     Bases before PA: {base_state}")
+            logger.debug(f"⚾ {half.upper()} {inning} | Batter: {batter['name']} → {outcome}")
+            logger.debug(f"     Bases before PA: {base_state}")
 
         handler = outcome_handlers.get(outcome, _handle_out)
 
@@ -192,12 +195,12 @@ def simulate_half_inning(
         )
 
         if debug:
-            print(f"     Runs scored this play: {runs_this_play}")
-            print(f"     Bases after PA: {[bool(base_state[i]) for i in range(3)]}")
-            print(f"     Total outs: {outs}, Total runs: {runs}\n")
+            logger.debug(f"     Runs scored this play: {runs_this_play}")
+            logger.debug(f"     Bases after PA: {[bool(base_state[i]) for i in range(3)]}")
+            logger.debug(f"     Total outs: {outs}, Total runs: {runs}\n")
 
     if pa_count >= max_pa:
-        print(f"⚠️ Max PA cap reached ({pa_count}) — potential infinite loop in {half} of inning {inning}")
+        logger.debug(f"⚠️ Max PA cap reached ({pa_count}) — potential infinite loop in {half} of inning {inning}")
 
     return {
         "runs_scored": runs,
@@ -236,4 +239,4 @@ if __name__ == '__main__':
         debug=True,
         rng=np.random.default_rng(42)
     )
-    print("Simulated half inning outcomes:", hi)
+    logger.debug("Simulated half inning outcomes: %s", hi)
