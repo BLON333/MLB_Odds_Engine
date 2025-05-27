@@ -2294,7 +2294,11 @@ def process_theme_logged_bets(
                         dry_run=dry_run,
                     )
                     game_summary[game_id].append(evaluated)
-                    existing_theme_stakes[exposure_key] = theme_total + delta
+                    logged_stake = evaluated["stake"]
+                    exposure_key = get_exposure_key(evaluated)
+                    existing_theme_stakes[exposure_key] = (
+                        existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
+                    )
                     if should_include_in_summary(evaluated):
                         ensure_consensus_books(evaluated)
                         skipped_bets.append(evaluated)

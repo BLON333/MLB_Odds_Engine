@@ -167,7 +167,8 @@ def send_bet_snapshot_to_discord(
         print(f"⚠️ No snapshot rows to send for {market_type}.")
         return
     if dfi is None:
-        print("⚠️ dataframe_image is not available. Skipping image send.")
+        print("⚠️ dataframe_image is not available. Sending text fallback.")
+        _send_table_text(df, market_type, webhook_url)
         return
 
     if "EV" in df.columns:
