@@ -169,10 +169,15 @@ def should_log_bet(
     movement = detect_market_movement(new_bet, prior_entry)
     new_bet.update(movement)
     if movement.get("is_new"):
-        _log_verbose(
-            f"🟡 First-time seen bet → {tracker_key} — tracked only",
-            verbose,
-        )
+        _log_verbose(f"🟡 First-time seen → {tracker_key}", verbose)
+    else:
+        try:
+            _log_verbose(
+                f"🧠 Prior FV: {prior_entry.get('blended_fv')} → New FV: {new_bet.get('blended_fv')}",
+                verbose,
+            )
+        except Exception:
+            pass
     if not (
         movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):

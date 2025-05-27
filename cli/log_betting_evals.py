@@ -871,7 +871,14 @@ def send_discord_notification(row):
     movement = detect_market_movement(row, prior)
     row.update(movement)
     if movement.get("is_new"):
-        print(f"🟡 First-time seen bet → {tracker_key} — tracked only")
+        print(f"🟡 First-time seen → {tracker_key}")
+    else:
+        try:
+            print(
+                f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
+            )
+        except Exception:
+            pass
     if not (
         movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):
@@ -1395,13 +1402,15 @@ def log_bets(
         print(
             f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
         )
-        MARKET_EVAL_TRACKER[tracker_key] = {
-            "ev_percent": row["ev_percent"],
-            "blended_fv": row["blended_fv"],
-            "market_odds": row["market_odds"],
-            "date_simulated": row["date_simulated"],
-            "best_book": row.get("best_book"),
-        }
+        if movement.get("is_new"):
+            print(f"🟡 First-time seen → {tracker_key}")
+        else:
+            try:
+                print(
+                    f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
+                )
+            except Exception:
+                pass
 
         print(
             f"📦 Matched: {matched_key} | Price Source: {price_source} | Segment: {segment}"
@@ -1715,13 +1724,16 @@ def log_derivative_bets(
                 print(
                     f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
                 )
-                MARKET_EVAL_TRACKER[tracker_key] = {
-                    "ev_percent": row["ev_percent"],
-                    "blended_fv": row["blended_fv"],
-                    "market_odds": row["market_odds"],
-                    "date_simulated": row["date_simulated"],
-                    "best_book": row.get("best_book"),
-                }
+                if movement.get("is_new"):
+                    print(f"🟡 First-time seen → {tracker_key}")
+                else:
+                    try:
+                        print(
+                            f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
+                        )
+                    except Exception:
+                        pass
+                # Tracker update moved below evaluation to preserve prior state
                 row["full_stake"] = stake
                 row["price_source"] = price_source
                 row["segment"] = segment
@@ -2254,6 +2266,15 @@ def process_theme_logged_bets(
                 print(
                     f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
                 )
+                if movement.get("is_new"):
+                    print(f"🟡 First-time seen → {t_key}")
+                else:
+                    try:
+                        print(
+                            f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row_copy.get('blended_fv')}"
+                        )
+                    except Exception:
+                        pass
                 MARKET_EVAL_TRACKER[t_key] = {
                     "ev_percent": row_copy.get("ev_percent"),
                     "blended_fv": row_copy.get("blended_fv", row_copy.get("fair_odds")),
