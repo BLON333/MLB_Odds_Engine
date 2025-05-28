@@ -2290,7 +2290,6 @@ def process_theme_logged_bets(
 
                 evaluated = should_log_bet(
                     row_copy,
-                    market_evals_df,
                     existing_theme_stakes,
                     eval_tracker=MARKET_EVAL_TRACKER,
                 )
