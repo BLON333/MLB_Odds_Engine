@@ -77,7 +77,9 @@ def main():
             logger.warning("❌ No simulation files found for %s.", date_str)
             continue
 
-        odds = fetch_market_odds_from_api(list(sims.keys()))
+        odds = fetch_market_odds_from_api(
+            list(sims.keys()), filter_bookmakers=odds_fetcher.BOOKMAKERS
+        )
         if not odds:
             logger.warning("❌ Failed to fetch market odds for %s.", date_str)
             continue
