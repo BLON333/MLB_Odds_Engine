@@ -206,7 +206,21 @@ def main():
         }
 
     snapshot_next = final_snapshot
-    df_export = df.drop(columns=[c for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"] if c in df.columns])
+    df_export = df.drop(
+        columns=[
+            c
+            for c in [
+                "odds_movement",
+                "fv_movement",
+                "ev_movement",
+                "stake_movement",
+                "sim_movement",
+                "mkt_movement",
+                "is_new",
+            ]
+            if c in df.columns
+        ]
+    )
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord and WEBHOOK_URL:
