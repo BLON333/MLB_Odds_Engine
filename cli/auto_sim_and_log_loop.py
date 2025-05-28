@@ -178,107 +178,51 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
     logger.info("🚀 Started log bets subprocess for %s", eval_folder)
 
 
-def run_live_snapshot(odds_path: str | None = None):
-    today_str, tomorrow_str = get_date_strings()
-    for date_str in [today_str, tomorrow_str]:
-        logger.info("\n📸 [%s] Running live snapshot generator for %s...", now_eastern(), date_str)
-        logger.info("🔍 Diff highlighting enabled — comparing against last snapshot")
-        # Determine the correct path for live_snapshot_generator
-        default_script = os.path.join("core", "live_snapshot_generator.py")
-        if not os.path.exists(default_script):
-            default_script = "live_snapshot_generator.py"
-        cmd = [
-            PYTHON,
-            default_script,
-            f"--date={date_str}",
-            f"--min-ev={MIN_EV}",
-            "--diff-highlight",
-            "--output-discord",
-        ]
-        if odds_path:
-            cmd.append(f"--odds-path={odds_path}")
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started live snapshot subprocess for %s", date_str)
+def run_unified_snapshot_and_dispatch(odds_path: str):
+    """Generate a unified snapshot then dispatch filtered alerts."""
+    timestamp = now_eastern().strftime("%Y%m%dT%H%M")
+    snapshot_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
 
+    subprocess.run(
+        [PYTHON, "core/unified_snapshot_generator.py", "--odds-path", odds_path],
+        cwd=ROOT_DIR,
+        env=os.environ,
+        check=True,
+    )
 
-
-def run_personal_snapshot(odds_path: str | None = None):
-    today_str, tomorrow_str = get_date_strings()
-    for date_str in [today_str, tomorrow_str]:
-        logger.info("\n📣 [%s] Running personal snapshot generator for %s...", now_eastern(), date_str)
-        default_script = os.path.join("core", "personal_snapshot_generator.py")
-        if not os.path.exists(default_script):
-            default_script = "personal_snapshot_generator.py"
-        cmd = [
-            PYTHON,
-            default_script,
-            f"--date={date_str}",
-            f"--min-ev={MIN_EV}",
-            "--diff-highlight",
-            "--output-discord",
-        ]
-        if odds_path:
-            cmd.append(f"--odds-path={odds_path}")
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started personal snapshot subprocess for %s", date_str)
-
-def run_best_book_snapshot(odds_path: str | None = None):
-    today_str, tomorrow_str = get_date_strings()
-    for date_str in [today_str, tomorrow_str]:
-        logger.info("\n📚 [%s] Running best-book snapshot generator for %s...", now_eastern(), date_str)
-        default_script = os.path.join("core", "best_book_snapshot_generator.py")
-        if not os.path.exists(default_script):
-            default_script = "best_book_snapshot_generator.py"
-        cmd = [
-            PYTHON,
-            default_script,
-            f"--date={date_str}",
-            f"--min-ev={MIN_EV}",
-            "--diff-highlight",
-            "--output-discord",
-        ]
-        if odds_path:
-            cmd.append(f"--odds-path={odds_path}")
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started best-book snapshot subprocess for %s", date_str)
-
-
-def run_fv_drop_snapshot(odds_path: str | None = None):
-    today_str, tomorrow_str = get_date_strings()
-    for date_str in [today_str, tomorrow_str]:
-        logger.info("\n🔻 [%s] Running FV drop snapshot generator for %s...", now_eastern(), date_str)
-        default_script = os.path.join("core", "fv_drop_snapshot_generator.py")
-        if not os.path.exists(default_script):
-            default_script = "fv_drop_snapshot_generator.py"
-        cmd = [
-            PYTHON,
-            default_script,
-            f"--date={date_str}",
-            f"--min-ev={MIN_EV}",
-            "--diff-highlight",
-            "--output-discord",
-        ]
-        if odds_path:
-            cmd.append(f"--odds-path={odds_path}")
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started FV drop snapshot subprocess for %s", date_str)
+    for script in [
+        "dispatch_live_snapshot.py",
+        "dispatch_fv_drop_snapshot.py",
+        "dispatch_best_book_snapshot.py",
+        "dispatch_personal_snapshot.py",
+    ]:
+        subprocess.Popen(
+            [
+                PYTHON,
+                f"core/{script}",
+                "--snapshot-path",
+                snapshot_path,
+                "--output-discord",
+                "--diff-highlight",
+            ],
+            cwd=ROOT_DIR,
+            env=os.environ,
+        )
 
 
 logger.info(
     "🔄 Starting auto loop... "
-    "(Sim: 30 min | Log & Snapshots (live, personal, best-book, FV drop): 5 min, for today and tomorrow)"
+    "(Sim: 30 min | Log & Snapshot Dispatch: 5 min, for today and tomorrow)"
 )
 
 ensure_closing_monitor_running()
 
-logger.info("🟢 First-time launch → triggering run_logger and all snapshots immediately")
+logger.info("🟢 First-time launch → triggering run_logger and snapshot dispatch immediately")
 run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
 log_bets_with_snapshot_odds(initial_odds)
-run_live_snapshot(initial_odds)
-run_personal_snapshot(initial_odds)
-run_best_book_snapshot(initial_odds)
-run_fv_drop_snapshot(initial_odds)
+if initial_odds:
+    run_unified_snapshot_and_dispatch(initial_odds)
 
 while True:
     now = time.time()
@@ -305,10 +249,8 @@ while True:
         logger.info("🟢 Triggering snapshot scripts")
         odds_file = fetch_and_cache_odds_snapshot()
         log_bets_with_snapshot_odds(odds_file)
-        run_live_snapshot(odds_file)
-        run_personal_snapshot(odds_file)
-        run_best_book_snapshot(odds_file)
-        run_fv_drop_snapshot(odds_file)
+        if odds_file:
+            run_unified_snapshot_and_dispatch(odds_file)
         last_snapshot_time = now
 
     time.sleep(10)
