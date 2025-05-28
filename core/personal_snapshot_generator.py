@@ -103,6 +103,13 @@ def main():
         logger.warning("⚠️ No qualifying bets found.")
         return
 
+    # Reload market eval tracker to ensure latest bet logs are included
+    from core.market_eval_tracker import load_tracker
+    from core.snapshot_core import MARKET_EVAL_TRACKER
+
+    MARKET_EVAL_TRACKER.clear()
+    MARKET_EVAL_TRACKER.update(load_tracker())
+
     rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
