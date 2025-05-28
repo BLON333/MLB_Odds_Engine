@@ -110,7 +110,7 @@ def main():
 
     snapshot_path = make_snapshot_path(args.date)
     market_snapshot_paths = make_market_snapshot_paths(args.date)
-    print(f"[DEBUG] Using snapshot file: {snapshot_path}")
+    logger.debug("Using snapshot file: %s", snapshot_path)
 
     if args.reset_snapshot and os.path.exists(snapshot_path):
         os.remove(snapshot_path)
@@ -121,12 +121,12 @@ def main():
         sim_dir = os.path.join("backtest", "sims", date_str)
         sims = load_simulations(sim_dir)
         if not sims:
-            print(f"❌ No simulation files found for {date_str}.")
+            logger.warning("❌ No simulation files found for %s.", date_str)
             continue
 
         odds = fetch_market_odds_from_api(list(sims.keys()))
         if not odds:
-            print(f"❌ Failed to fetch market odds for {date_str}.")
+            logger.warning("❌ Failed to fetch market odds for %s.", date_str)
             continue
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, []))
@@ -136,33 +136,33 @@ def main():
         min_ev=args.min_ev * 100,
         min_stake=1.0,
     )
-    print(f"[DEBUG] Rows after expansion: {len(rows)}")
+    logger.debug("Rows after expansion: %s", len(rows))
 
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
-    print(f"[DEBUG] Rows after best-book selection: {len(rows)}")
+    logger.debug("Rows after best-book selection: %s", len(rows))
 
     rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
     from collections import Counter
     mv_counts = Counter(r.get("fv_movement") for r in rows)
-    print(f"[DEBUG] FV movement counts: {dict(mv_counts)}")
+    logger.debug("FV movement counts: %s", dict(mv_counts))
 
     rows = [
         r
         for r in rows
         if r.get("fv_movement") == "worse" and r.get("ev_movement") == "better"
     ]
-    print(f"[DEBUG] Rows with confirmed FV drop: {len(rows)}")
+    logger.debug("Rows with confirmed FV drop: %s", len(rows))
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
         r for r in rows
         if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
     ]
-    print(f"[DEBUG] Rows after EV filter: {len(rows)}")
+    logger.debug("Rows after EV filter: %s", len(rows))
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
 
     if not rows:
-        print("⚠️ No bets with decreased FV found.")
+        logger.warning("⚠️ No bets with decreased FV found.")
         if args.output_discord:
             if WEBHOOK_URL:
                 msg = (
@@ -171,11 +171,11 @@ def main():
                 )
                 try:
                     requests.post(WEBHOOK_URL, json={"content": msg}, timeout=10)
-                    print("✅ Sent no-drop message to Discord.")
+                    logger.info("✅ Sent no-drop message to Discord.")
                 except Exception as e:
-                    print(f"❌ Failed to send no-drop message: {e}")
+                    logger.error("❌ Failed to send no-drop message: %s", e)
             else:
-                print("⚠️ Discord webhook is not configured for FV drop snapshots.")
+                logger.warning("⚠️ Discord webhook is not configured for FV drop snapshots.")
         return
 
     df = format_for_display(rows, include_movement=True)
@@ -207,7 +207,7 @@ def main():
     else:
         print(format_table_with_highlights(rows))
         if args.output_discord and not WEBHOOK_URL:
-            print("⚠️ Discord webhook is not configured for FV drop snapshots.")
+            logger.warning("⚠️ Discord webhook is not configured for FV drop snapshots.")
 
     os.makedirs(os.path.dirname(snapshot_path), exist_ok=True)
     with open(snapshot_path, "w") as f:
