@@ -257,14 +257,38 @@ def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> No
 
 
 def compare_and_flag_new_rows(
-    current_entries: List[dict], snapshot_path: str
+    current_entries: List[dict],
+    snapshot_path: str,
+    prior_snapshot: str | Dict[str, dict] | None = None,
 ) -> Tuple[List[dict], Dict[str, dict]]:
-    """Return entries annotated with new-row and movement flags."""
+    """Return entries annotated with new-row and movement flags.
+
+    Parameters
+    ----------
+    current_entries : List[dict]
+        List of rows from the current evaluation.
+    snapshot_path : str
+        Path to write the updated snapshot for the next run.
+    prior_snapshot : str | Dict[str, dict] | None, optional
+        Previous snapshot data (or path) to use for movement detection when the
+        tracker lacks a prior entry.  This enables highlighting bets that now
+        qualify after being below the EV filter in the previous run.
+    """
     try:
         with open(snapshot_path) as f:
             last_snapshot = json.load(f)
     except Exception:
         last_snapshot = {}
+
+    prior_data: Dict[str, dict] = {}
+    if isinstance(prior_snapshot, str):
+        try:
+            with open(prior_snapshot) as f:
+                prior_data = json.load(f)
+        except Exception:
+            prior_data = {}
+    elif isinstance(prior_snapshot, dict):
+        prior_data = prior_snapshot
 
     seen = set()
     flagged = []
@@ -304,6 +328,9 @@ def compare_and_flag_new_rows(
         }
 
         prior = MARKET_EVAL_TRACKER.get(key)
+        if prior is None:
+            prior = prior_data.get(key)
+
         movement = detect_market_movement(
             {
                 "blended_fv": blended_fv,

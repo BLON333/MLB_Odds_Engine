@@ -148,14 +148,18 @@ def main():
     MARKET_EVAL_TRACKER.clear()
     MARKET_EVAL_TRACKER.update(load_tracker())
 
-    rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
+    flagged_rows, snapshot_next = compare_and_flag_new_rows(
+        rows,
+        snapshot_path,
+        prior_snapshot=market_snapshot_paths.get("all"),
+    )
     from collections import Counter
-    mv_counts = Counter(r.get("fv_movement") for r in rows)
+    mv_counts = Counter(r.get("fv_movement") for r in flagged_rows)
     logger.debug("FV movement counts: %s", dict(mv_counts))
 
     rows = [
         r
-        for r in rows
+        for r in flagged_rows
         if r.get("fv_movement") == "worse" and r.get("ev_movement") == "better"
     ]
     logger.debug("Rows with confirmed FV drop: %s", len(rows))
@@ -187,26 +191,8 @@ def main():
 
     df = format_for_display(rows, include_movement=True)
 
-    # Build final snapshot with display metadata for the filtered rows
-    final_snapshot = {}
-    for r in rows:
-        blended_fv = r.get("blended_fv", r.get("fair_odds"))
-        market_odds = r.get("market_odds")
-        ev_pct = r.get("ev_percent")
-        if blended_fv is None or ev_pct is None or market_odds is None:
-            continue
-        game_id = r.get("game_id", "")
-        book = r.get("best_book", "")
-        key = f"{game_id}:{r['market']}:{r['side']}"
-        final_snapshot[key] = {
-            "blended_fv": blended_fv,
-            "market_odds": market_odds,
-            "ev_percent": ev_pct,
-            "display": build_display_block(r),
-        }
-
-    snapshot_next = final_snapshot
-    df_export = df.drop(
+    df_all_export = format_for_display(flagged_rows, include_movement=False)
+    df_all_export = df_all_export.drop(
         columns=[
             c
             for c in [
@@ -218,10 +204,10 @@ def main():
                 "mkt_movement",
                 "is_new",
             ]
-            if c in df.columns
+            if c in df_all_export.columns
         ]
     )
-    export_market_snapshots(df_export, market_snapshot_paths)
+    export_market_snapshots(df_all_export, market_snapshot_paths)
 
     if args.output_discord and WEBHOOK_URL:
         send_bet_snapshot_to_discord(df, "FV Drop", WEBHOOK_URL)
