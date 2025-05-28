@@ -2,6 +2,36 @@
 
 from typing import Dict, Optional
 
+from core.market_pricer import decimal_odds
+
+
+def _move_odds(curr, prev, threshold: float = 0.01) -> str:
+    """Return bettor-facing movement based on decimal payout value."""
+
+    if curr is None or prev is None:
+        return "same"
+    try:
+        dec_curr = decimal_odds(float(curr))
+        dec_prev = decimal_odds(float(prev))
+    except Exception:
+        return "same"
+
+    if abs(dec_curr - dec_prev) < threshold:
+        return "same"
+
+    return "better" if dec_curr > dec_prev else "worse"
+
+
+def _move_fv(curr, prev, threshold: float = 0.01) -> str:
+    """Return market-confirmation movement (inverse of :func:`_move_odds`)."""
+
+    base = _move_odds(curr, prev, threshold)
+    if base == "better":
+        return "worse"
+    if base == "worse":
+        return "better"
+    return base
+
 
 def detect_market_movement(
     current: Dict,
@@ -58,9 +88,9 @@ def detect_market_movement(
 
     return {
         "is_new": prior is None,
-        "fv_movement": _move(fv_curr, fv_prev, fv_threshold),
+        "fv_movement": _move_fv(fv_curr, fv_prev, fv_threshold),
         "ev_movement": _move(ev_curr, ev_prev, ev_threshold),
-        "odds_movement": _move(odds_curr, odds_prev, odds_threshold),
+        "odds_movement": _move_odds(odds_curr, odds_prev, odds_threshold),
         "stake_movement": _move(stake_curr, stake_prev, stake_threshold),
         "sim_movement": _move(sim_curr, sim_prev, sim_threshold),
         "mkt_movement": _move(mkt_curr, mkt_prev, mkt_threshold),
