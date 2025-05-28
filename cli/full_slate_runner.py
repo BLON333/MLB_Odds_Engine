@@ -5,6 +5,11 @@ import json
 import re
 from datetime import date
 
+import sys
+if sys.version_info >= (3, 7):
+    import os
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
