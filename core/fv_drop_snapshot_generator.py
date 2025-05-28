@@ -141,6 +141,13 @@ def main():
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
     logger.debug("Rows after best-book selection: %s", len(rows))
 
+    # Ensure tracker reflects latest logged evaluations
+    from core.market_eval_tracker import load_tracker
+    from core.snapshot_core import MARKET_EVAL_TRACKER
+
+    MARKET_EVAL_TRACKER.clear()
+    MARKET_EVAL_TRACKER.update(load_tracker())
+
     rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
     from collections import Counter
     mv_counts = Counter(r.get("fv_movement") for r in rows)
