@@ -1,4 +1,3 @@
-import pandas as pd
 from typing import Optional
 
 from core.market_movement_tracker import detect_market_movement
@@ -113,7 +112,6 @@ def orientation_key(bet: dict) -> str:
 
 def should_log_bet(
     new_bet: dict,
-    market_evals: pd.DataFrame,
     existing_theme_stakes: dict,
     verbose: bool = True,
     min_ev: float = 0.05,
@@ -144,27 +142,6 @@ def should_log_bet(
         return None
 
     prior_entry = None
-    if isinstance(market_evals, pd.DataFrame) and not market_evals.empty:
-        try:
-            mask = (
-                (market_evals["game_id"] == game_id)
-                & (market_evals["market"] == market)
-                & (market_evals["side"] == side)
-            )
-            prev_rows = market_evals[mask]
-            if not prev_rows.empty:
-                try:
-                    prev_rows = prev_rows.sort_values("date_simulated")
-                except Exception:
-                    pass
-                prior_row = prev_rows.iloc[-1].to_dict()
-                prior_entry = {
-                    "blended_fv": prior_row.get("blended_fv", prior_row.get("fair_odds")),
-                    "market_odds": prior_row.get("market_odds"),
-                    "ev_percent": prior_row.get("ev_percent"),
-                }
-        except Exception:
-            pass
 
     if eval_tracker is not None and prior_entry is None:
         t_key = f"{game_id}:{market}:{side}"
