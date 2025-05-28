@@ -785,7 +785,10 @@ def get_discord_webhook_for_market(market: str) -> str:
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
 
 
-def send_discord_notification(row):
+def send_discord_notification(row, eval_tracker=None):
+    if eval_tracker is None:
+        eval_tracker = MARKET_EVAL_TRACKER
+
     webhook_url = get_discord_webhook_for_market(row.get("market", ""))
     if not webhook_url:
         return
@@ -876,7 +879,7 @@ def send_discord_notification(row):
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
-    tracker = load_tracker()
+    tracker = eval_tracker
     tracker_key = f"{game_id}:{market}:{side}"
     prior = tracker.get(tracker_key)
     movement = detect_market_movement(row, prior)
@@ -1197,7 +1200,7 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         writer.writerow(row_to_write)
 
         # ✅ Send full, untrimmed row to Discord for role tagging and odds display
-        send_discord_notification(row)
+        send_discord_notification(row, MARKET_EVAL_TRACKER)
 
         # Update market confirmation tracker on successful log
         # MARKET_CONF_TRACKER[tracker_key] = {
