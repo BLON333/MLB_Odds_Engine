@@ -22,6 +22,7 @@ import subprocess
 
 from datetime import timedelta
 from utils import now_eastern
+from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
 
 EDGE_THRESHOLD = 0.05
 MIN_EV = 0.05
@@ -95,6 +96,30 @@ def get_date_strings():
     tomorrow_str = (now + timedelta(days=1)).strftime("%Y-%m-%d")
     return today_str, tomorrow_str
 
+
+def fetch_and_cache_odds_snapshot() -> str | None:
+    """Fetch market odds once per loop and save to a timestamped file."""
+    today_str, tomorrow_str = get_date_strings()
+    game_ids = []
+    for date_str in [today_str, tomorrow_str]:
+        sim_dir = os.path.join("backtest", "sims", date_str)
+        if os.path.isdir(sim_dir):
+            for f in os.listdir(sim_dir):
+                if f.endswith(".json"):
+                    game_ids.append(f.replace(".json", ""))
+
+    if not game_ids:
+        logger.warning("⚠️ No game IDs found for odds fetch.")
+        return None
+
+    logger.info("\n📡 Fetching market odds for %s games...", len(game_ids))
+    odds = fetch_market_odds_from_api(game_ids)
+    timestamp = now_eastern().strftime("%Y%m%dT%H%M")
+    tag = f"market_odds_{timestamp}"
+    odds_path = save_market_odds_to_file(odds, tag)
+    logger.info("✅ Saved shared odds snapshot: %s", odds_path)
+    return odds_path
+
 def run_simulation():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
@@ -130,7 +155,7 @@ def run_logger():
         logger.info("🚀 Started log eval subprocess for %s", date_str)
 
 
-def run_live_snapshot():
+def run_live_snapshot(odds_path: str | None = None):
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         logger.info("\n📸 [%s] Running live snapshot generator for %s...", now_eastern(), date_str)
@@ -147,12 +172,14 @@ def run_live_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
+        if odds_path:
+            cmd.append(f"--odds-path={odds_path}")
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started live snapshot subprocess for %s", date_str)
 
 
 
-def run_personal_snapshot():
+def run_personal_snapshot(odds_path: str | None = None):
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         logger.info("\n📣 [%s] Running personal snapshot generator for %s...", now_eastern(), date_str)
@@ -167,10 +194,12 @@ def run_personal_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
+        if odds_path:
+            cmd.append(f"--odds-path={odds_path}")
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started personal snapshot subprocess for %s", date_str)
 
-def run_best_book_snapshot():
+def run_best_book_snapshot(odds_path: str | None = None):
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         logger.info("\n📚 [%s] Running best-book snapshot generator for %s...", now_eastern(), date_str)
@@ -185,11 +214,13 @@ def run_best_book_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
+        if odds_path:
+            cmd.append(f"--odds-path={odds_path}")
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started best-book snapshot subprocess for %s", date_str)
 
 
-def run_fv_drop_snapshot():
+def run_fv_drop_snapshot(odds_path: str | None = None):
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
         logger.info("\n🔻 [%s] Running FV drop snapshot generator for %s...", now_eastern(), date_str)
@@ -204,6 +235,8 @@ def run_fv_drop_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
+        if odds_path:
+            cmd.append(f"--odds-path={odds_path}")
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started FV drop snapshot subprocess for %s", date_str)
 
@@ -217,10 +250,11 @@ ensure_closing_monitor_running()
 
 logger.info("🟢 First-time launch → triggering run_logger and all snapshots immediately")
 run_logger()
-run_live_snapshot()
-run_personal_snapshot()
-run_best_book_snapshot()
-run_fv_drop_snapshot()
+initial_odds = fetch_and_cache_odds_snapshot()
+run_live_snapshot(initial_odds)
+run_personal_snapshot(initial_odds)
+run_best_book_snapshot(initial_odds)
+run_fv_drop_snapshot(initial_odds)
 
 while True:
     now = time.time()
@@ -245,10 +279,11 @@ while True:
 
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
         logger.info("🟢 Triggering snapshot scripts")
-        run_live_snapshot()
-        run_personal_snapshot()
-        run_best_book_snapshot()
-        run_fv_drop_snapshot()
+        odds_file = fetch_and_cache_odds_snapshot()
+        run_live_snapshot(odds_file)
+        run_personal_snapshot(odds_file)
+        run_best_book_snapshot(odds_file)
+        run_fv_drop_snapshot(odds_file)
         last_snapshot_time = now
 
     time.sleep(10)

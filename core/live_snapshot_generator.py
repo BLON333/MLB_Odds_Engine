@@ -75,6 +75,7 @@ def main():
         include_stake_mode=True,
         include_debug_json=True,
     )
+    parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
     args = parser.parse_args()
 
     snapshot_path = make_snapshot_path(args.date)
@@ -85,6 +86,16 @@ def main():
 
     date_list = [d.strip() for d in str(args.date).split(',') if d.strip()]
     all_rows = []
+
+    odds_cache = None
+    if args.odds_path:
+        try:
+            with open(args.odds_path) as fh:
+                odds_cache = json.load(fh)
+            logger.info("📥 Loaded odds from %s", args.odds_path)
+        except Exception as e:
+            logger.error("❌ Failed to load odds file %s: %s", args.odds_path, e)
+
     for date_str in date_list:
         sim_dir = os.path.join("backtest", "sims", date_str)
         sims = load_simulations(sim_dir)
@@ -92,7 +103,10 @@ def main():
             logger.warning("❌ No simulation files found for %s.", date_str)
             continue
 
-        odds = fetch_market_odds_from_api(list(sims.keys()))
+        if odds_cache is not None:
+            odds = {gid: odds_cache.get(gid) for gid in sims.keys()}
+        else:
+            odds = fetch_market_odds_from_api(list(sims.keys()))
         if not odds:
             logger.warning("❌ Failed to fetch market odds for %s.", date_str)
             continue
