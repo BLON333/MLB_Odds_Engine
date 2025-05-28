@@ -506,8 +506,16 @@ def expand_snapshot_rows_with_kelly(
             "segment_label": bet.get("segment_label"),
         }
 
-        # 🧠 Copy any prior movement metadata (EV, FV, Odds movement, is_new)
-        for field in ["ev_movement", "fv_movement", "odds_movement", "is_new"]:
+        # 🧠 Copy any prior movement metadata (EV, FV, Odds movement, etc.)
+        for field in [
+            "ev_movement",
+            "fv_movement",
+            "odds_movement",
+            "stake_movement",
+            "sim_movement",
+            "mkt_movement",
+            "is_new",
+        ]:
             if field in bet:
                 base_fields[field] = bet[field]
 
@@ -533,19 +541,29 @@ def expand_snapshot_rows_with_kelly(
                     print(f"🔍 {book}: EV={ev:.2f}%, Odds={odds}, Stake={stake:.2f}u")
 
                 if ev >= min_ev and stake >= min_stake:
-                    expanded_rows.append(
-                        {
-                            **base_fields,
-                            "best_book": book,
-                            "market_odds": odds,
-                            "market_class": bet.get("market_class", "main"),
-                            "segment": bet.get("segment"),
-                            "segment_label": bet.get("segment_label"),
-                            "ev_percent": round(ev, 2),
-                            "stake": stake,
-                            "full_stake": stake,
-                        }
-                    )
+                    expanded_row = {
+                        **base_fields,
+                        "best_book": book,
+                        "market_odds": odds,
+                        "market_class": bet.get("market_class", "main"),
+                        "segment": bet.get("segment"),
+                        "segment_label": bet.get("segment_label"),
+                        "ev_percent": round(ev, 2),
+                        "stake": stake,
+                        "full_stake": stake,
+                    }
+                    for field in [
+                        "ev_movement",
+                        "fv_movement",
+                        "odds_movement",
+                        "stake_movement",
+                        "sim_movement",
+                        "mkt_movement",
+                        "is_new",
+                    ]:
+                        if field in base_fields:
+                            expanded_row[field] = base_fields[field]
+                    expanded_rows.append(expanded_row)
                 else:
                     if ev < min_ev:
                         print("   ⛔ Skipped: EV too low")
