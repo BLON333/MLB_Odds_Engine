@@ -32,8 +32,9 @@ last_snapshot_time = 0
 closing_monitor_proc = None
 
 
-def run_command(cmd):
-    """Run a command synchronously and echo its output."""
+def run_subprocess(cmd):
+    """Run a subprocess synchronously and log output."""
+    print(f"\n⚙️  [{now_eastern()}] Starting subprocess: {' '.join(cmd)}")
     try:
         proc = subprocess.run(
             cmd,
@@ -84,7 +85,7 @@ def run_simulation():
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
         ]
-        subprocess.run(cmd, cwd=ROOT_DIR, check=True
+        run_subprocess(cmd)
 
 
 
@@ -103,7 +104,7 @@ def run_logger():
             "--min-ev",
             str(MIN_EV),
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR)
+        run_subprocess(cmd)
 
 
 def run_live_snapshot():
@@ -123,7 +124,7 @@ def run_live_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR)
+        run_subprocess(cmd)
 
 
 
@@ -142,7 +143,7 @@ def run_personal_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR)
+        run_subprocess(cmd)
 
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
@@ -159,7 +160,7 @@ def run_best_book_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR)
+        run_subprocess(cmd)
 
 
 def run_fv_drop_snapshot():
@@ -177,7 +178,7 @@ def run_fv_drop_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR)
+        run_subprocess(cmd)
 
 
 print(
