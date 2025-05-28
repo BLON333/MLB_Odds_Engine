@@ -506,6 +506,11 @@ def expand_snapshot_rows_with_kelly(
             "segment_label": bet.get("segment_label"),
         }
 
+        # 🧠 Copy any prior movement metadata (EV, FV, Odds movement, is_new)
+        for field in ["ev_movement", "fv_movement", "odds_movement", "is_new"]:
+            if field in bet:
+                base_fields[field] = bet[field]
+
         # ✅ If no per-book expansion is available, just keep the original
         if not isinstance(bet.get("_raw_sportsbook", None), dict):
             print(
