@@ -82,15 +82,19 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     """Return a styled DataFrame with conditional formatting."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
 
-    def _apply_movement(col: str, move_col: str):
+    def _apply_movement(col: str, move_col: str, invert: bool = False):
         def inner(series):
             colors = []
             moves = df.get(move_col)
             for mv in moves if moves is not None else []:
                 if mv == "better":
-                    colors.append("background-color: #d4edda")
+                    colors.append(
+                        "background-color: #f8d7da" if invert else "background-color: #d4edda"
+                    )
                 elif mv == "worse":
-                    colors.append("background-color: #f8d7da")
+                    colors.append(
+                        "background-color: #d4edda" if invert else "background-color: #f8d7da"
+                    )
                 else:
                     colors.append("")
             return colors
@@ -99,11 +103,17 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
     styled = df.style.set_caption(f"Generated: {timestamp}")
     if "odds_movement" in df.columns:
-        styled = styled.apply(_apply_movement("Odds", "odds_movement"), subset=["Odds"])
+        styled = styled.apply(_apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"])
     if "fv_movement" in df.columns:
-        styled = styled.apply(_apply_movement("FV", "fv_movement"), subset=["FV"])
+        styled = styled.apply(_apply_movement("FV", "fv_movement", invert=True), subset=["FV"])
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
+    if "stake_movement" in df.columns:
+        styled = styled.apply(_apply_movement("Stake", "stake_movement"), subset=["Stake"])
+    if "sim_movement" in df.columns:
+        styled = styled.apply(_apply_movement("Sim %", "sim_movement"), subset=["Sim %"])
+    if "mkt_movement" in df.columns:
+        styled = styled.apply(_apply_movement("Mkt %", "mkt_movement"), subset=["Mkt %"])
     if "is_new" in df.columns:
 
         def highlight_new(row):
@@ -145,6 +155,9 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             "odds_movement",
             "fv_movement",
             "ev_movement",
+            "stake_movement",
+            "sim_movement",
+            "mkt_movement",
             "is_new",
             "market_class",
         ]
@@ -260,7 +273,9 @@ def compare_and_flag_new_rows(
     for entry in current_entries:
         game_id = entry.get("game_id", "")
         book = entry.get("best_book", "")
-        key = f"{game_id}:{entry.get('market')}:{entry.get('side')}"
+        market = str(entry.get("market", "")).strip()
+        side = str(entry.get("side", "")).strip()
+        key = f"{game_id}:{market}:{side}"
         blended_fv = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
         ev_pct = entry.get("ev_percent")
@@ -294,6 +309,9 @@ def compare_and_flag_new_rows(
                 "blended_fv": blended_fv,
                 "market_odds": market_odds,
                 "ev_percent": ev_pct,
+                "stake": entry.get("stake"),
+                "sim_prob": entry.get("sim_prob"),
+                "market_prob": entry.get("market_prob"),
             },
             prior,
         )
@@ -306,6 +324,9 @@ def compare_and_flag_new_rows(
             "ev_percent": ev_pct,
             "blended_fv": blended_fv,
             "market_odds": market_odds,
+            "stake": entry.get("stake"),
+            "sim_prob": entry.get("sim_prob"),
+            "market_prob": entry.get("market_prob"),
             "date_simulated": entry.get("date_simulated"),
             "best_book": book,
         }
@@ -458,7 +479,7 @@ def build_snapshot_rows(
                 "date_simulated": datetime.now().isoformat(),
             }
             # 📝 Track every evaluated bet regardless of filters
-            tracker_key = f"{game_id}:{market_clean}:{side}"
+            tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior = MARKET_EVAL_TRACKER.get(tracker_key)
             movement = detect_market_movement(row, prior)
             row.update(movement)
@@ -469,6 +490,9 @@ def build_snapshot_rows(
                 "ev_percent": row["ev_percent"],
                 "blended_fv": row["blended_fv"],
                 "market_odds": row["market_odds"],
+                "stake": row.get("stake"),
+                "sim_prob": row.get("sim_prob"),
+                "market_prob": row.get("market_prob"),
                 "date_simulated": row["date_simulated"],
                 "best_book": row.get("best_book"),
             }
@@ -529,7 +553,15 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 
     if include_movement:
         movement_cols = []
-        for c in ["odds_movement", "fv_movement", "ev_movement", "is_new"]:
+        for c in [
+            "odds_movement",
+            "fv_movement",
+            "ev_movement",
+            "stake_movement",
+            "sim_movement",
+            "mkt_movement",
+            "is_new",
+        ]:
             if c in df.columns:
                 movement_cols.append(c)
         return df[required_cols + movement_cols + ["market_class"]]
