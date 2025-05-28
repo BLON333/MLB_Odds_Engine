@@ -106,7 +106,8 @@ def run_simulation():
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started simulation subprocess for %s", date_str)
 
 
 
@@ -125,7 +126,8 @@ def run_logger():
             "--min-ev",
             str(MIN_EV),
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started log eval subprocess for %s", date_str)
 
 
 def run_live_snapshot():
@@ -145,7 +147,8 @@ def run_live_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started live snapshot subprocess for %s", date_str)
 
 
 
@@ -164,7 +167,8 @@ def run_personal_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started personal snapshot subprocess for %s", date_str)
 
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
@@ -181,7 +185,8 @@ def run_best_book_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started best-book snapshot subprocess for %s", date_str)
 
 
 def run_fv_drop_snapshot():
@@ -199,7 +204,8 @@ def run_fv_drop_snapshot():
             "--diff-highlight",
             "--output-discord",
         ]
-        run_subprocess(cmd)
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started FV drop snapshot subprocess for %s", date_str)
 
 
 logger.info(
