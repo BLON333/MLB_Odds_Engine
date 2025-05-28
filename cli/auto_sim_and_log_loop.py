@@ -96,6 +96,10 @@ def get_date_strings():
     tomorrow_str = (now + timedelta(days=1)).strftime("%Y-%m-%d")
     return today_str, tomorrow_str
 
+def get_today_str() -> str:
+    """Return today's date as YYYY-MM-DD."""
+    return now_eastern().strftime("%Y-%m-%d")
+
 
 def fetch_and_cache_odds_snapshot() -> str | None:
     """Fetch market odds once per loop and save to a timestamped file."""
@@ -153,6 +157,25 @@ def run_logger():
         ]
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started log eval subprocess for %s", date_str)
+
+
+def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
+    """Launch log_betting_evals.py using the provided odds snapshot."""
+    eval_folder = os.path.join(sim_dir, get_today_str())
+    default_script = os.path.join("cli", "log_betting_evals.py")
+    if not os.path.exists(default_script):
+        default_script = "log_betting_evals.py"
+    cmd = [
+        PYTHON,
+        default_script,
+        f"--eval-folder={eval_folder}",
+        f"--odds-path={odds_path}",
+        f"--min-ev={MIN_EV}",
+        "--debug",
+        "--output-dir=logs",
+    ]
+    subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+    logger.info("🚀 Started log bets subprocess for %s", eval_folder)
 
 
 def run_live_snapshot(odds_path: str | None = None):
@@ -251,6 +274,7 @@ ensure_closing_monitor_running()
 logger.info("🟢 First-time launch → triggering run_logger and all snapshots immediately")
 run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
+log_bets_with_snapshot_odds(initial_odds)
 run_live_snapshot(initial_odds)
 run_personal_snapshot(initial_odds)
 run_best_book_snapshot(initial_odds)
@@ -280,6 +304,7 @@ while True:
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
         logger.info("🟢 Triggering snapshot scripts")
         odds_file = fetch_and_cache_odds_snapshot()
+        log_bets_with_snapshot_odds(odds_file)
         run_live_snapshot(odds_file)
         run_personal_snapshot(odds_file)
         run_best_book_snapshot(odds_file)
