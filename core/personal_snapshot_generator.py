@@ -2,6 +2,11 @@
 import os
 import sys
 
+import sys
+if sys.version_info >= (3, 7):
+    import os
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
 

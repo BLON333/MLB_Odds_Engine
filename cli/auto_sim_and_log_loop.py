@@ -1,6 +1,11 @@
 import sys
 import os
 
+import sys
+if sys.version_info >= (3, 7):
+    import os
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+
 # Ensure project root is on the path regardless of where this script is invoked
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(ROOT_DIR)
@@ -42,6 +47,7 @@ def run_subprocess(cmd):
             capture_output=True,
             text=True,
             check=True,
+            env=os.environ,
         )
         if proc.stdout:
             print(proc.stdout.strip())
@@ -65,7 +71,7 @@ def ensure_closing_monitor_running():
             script_path = "closing_odds_monitor.py"
         print(f"\n🎯 [{now_eastern()}] Starting closing odds monitor...")
         closing_monitor_proc = subprocess.Popen(
-            [PYTHON, script_path], cwd=ROOT_DIR
+            [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
         )
 
 def get_date_strings():
