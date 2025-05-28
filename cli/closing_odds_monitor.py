@@ -31,7 +31,7 @@ loaded_hooks = [
     ]
     if v and v.strip()
 ]
-print(f"🔧 Loaded {len(loaded_hooks)} Discord webhook(s) from {dotenv_file}")
+logger.info("🔧 Loaded %s Discord webhook(s) from %s", len(loaded_hooks), dotenv_file)
 
 # Support sending CLV alerts to multiple Discord channels. Users can define
 # `DISCORD_ALERT_WEBHOOK_URL` and optionally `DISCORD_ALERT_WEBHOOK_URL_2` in
@@ -41,24 +41,24 @@ closing_odds_path = "data/closing_odds"
 os.makedirs(closing_odds_path, exist_ok=True)
 
 fetched_games = set()
-debug_mode = True  # ✅ easy toggle for debug
+debug_mode = False  # ✅ easy toggle for debug
 
 def send_discord_alert(message):
     if not DISCORD_ALERT_WEBHOOK_URLS:
-        print("❌ No Discord webhook configured for alerts.")
+        logger.error("❌ No Discord webhook configured for alerts.")
         return
     for url in DISCORD_ALERT_WEBHOOK_URLS:
         try:
 
             resp = requests.post(url, json={"content": message}, timeout=10)
             if resp.status_code in (200, 204):
-                print(f"✅ CLV alert sent to Discord webhook: {url}")
+                logger.info("✅ CLV alert sent to Discord webhook: %s", url)
             else:
-                print(
-                    f"❌ Discord webhook {url} returned {resp.status_code}: {resp.text}"
+                logger.error(
+                    "❌ Discord webhook %s returned %s: %s", url, resp.status_code, resp.text
                 )
         except Exception as e:
-            print(f"❌ Failed to send Discord alert to {url}: {e}")
+            logger.error("❌ Failed to send Discord alert to %s: %s", url, e)
 
 
 def load_tracked_games(csv_path="logs/market_evals.csv"):
@@ -91,13 +91,13 @@ def fuzzy_match_side(side, market_data):
     # ✅ Try exact normalized match
     for key in market_data.keys():
         if clean(key) == side_clean:
-            print(f"🧠 Fuzzy match: Exact normalized match for '{side}' → '{key}'")
+            logger.debug("🧠 Fuzzy match: Exact normalized match for '%s' → '%s'", side, key)
             return key
 
     # ✅ Try partial substring or reverse match
     for key in market_data.keys():
         if side_clean in clean(key) or clean(key) in side_clean:
-            print(f"🧠 Fuzzy match: Partial match for '{side}' → '{key}'")
+            logger.debug("🧠 Fuzzy match: Partial match for '%s' → '%s'", side, key)
             return key
 
     # ✅ Try Full Team Name → Abbreviation (e.g., "San Diego Padres" → "SD")
@@ -105,7 +105,7 @@ def fuzzy_match_side(side, market_data):
         abbr = TEAM_NAME_TO_ABBR[side]
         for key in market_data.keys():
             if clean(key) == clean(abbr):
-                print(f"🧠 Fuzzy match: Abbreviation '{abbr}' for '{side}' → '{key}'")
+                logger.debug("🧠 Fuzzy match: Abbreviation '%s' for '%s' → '%s'", abbr, side, key)
                 return key
 
     # ✅ NEW: Try Abbreviation → Full Team Name (e.g., "SD" → "San Diego Padres")
@@ -113,8 +113,11 @@ def fuzzy_match_side(side, market_data):
         if side.lower() == full_name.lower():
             for key in market_data:
                 if clean(key) == clean(abbr):
-                    print(
-                        f"🧠 Fuzzy match: Full name '{full_name}' → abbr '{abbr}' → key '{key}'"
+                    logger.debug(
+                        "🧠 Fuzzy match: Full name '%s' → abbr '%s' → key '%s'",
+                        full_name,
+                        abbr,
+                        key,
                     )
                     return key
 
@@ -128,12 +131,14 @@ def fuzzy_match_side(side, market_data):
         side_compact = f"{prefix}{number}".lower()
         for key in market_data.keys():
             if clean(key) == clean(side_compact):
-                print(f"🧠 Fuzzy match: Over/Under compact '{side}' → '{key}'")
+                logger.debug("🧠 Fuzzy match: Over/Under compact '%s' → '%s'", side, key)
                 return key
 
     # ❌ Nothing worked
-    print(
-        f"⚠️ Fuzzy match failed for '{side}' — tried keys: {list(market_data.keys())[:5]}"
+    logger.debug(
+        "⚠️ Fuzzy match failed for '%s' — tried keys: %s",
+        side,
+        list(market_data.keys())[:5],
     )
     return None
 
@@ -167,8 +172,11 @@ def monitor_loop(poll_interval=600, target_date=None):
         bets = [b for b in loaded_bets if b["game_id"].startswith(today)]
         tracked_games = set(b["game_id"] for b in bets)
 
-        print(f"🔁 Checking games as of {now_est.strftime('%Y-%m-%d %H:%M:%S EST')}...")
-        print(f"🔎 Monitoring {len(tracked_games)} games with bets placed...")
+        logger.info(
+            "🔁 Checking games as of %s...",
+            now_est.strftime("%Y-%m-%d %H:%M:%S EST"),
+        )
+        logger.info("🔎 Monitoring %s games with bets placed...", len(tracked_games))
 
         file_path = os.path.join(closing_odds_path, f"{today}.json")
         if os.path.exists(file_path):
@@ -176,8 +184,9 @@ def monitor_loop(poll_interval=600, target_date=None):
                 with open(file_path, "r") as f:
                     existing = json.load(f)
             except:
-                print(
-                    f"⚠️ Warning: Corrupt closing odds file for {today}. Starting fresh."
+                logger.warning(
+                    "⚠️ Warning: Corrupt closing odds file for %s. Starting fresh.",
+                    today,
                 )
                 existing = {}
         else:
@@ -189,12 +198,12 @@ def monitor_loop(poll_interval=600, target_date=None):
                 params={"apiKey": os.getenv("ODDS_API_KEY")},
             )
             if resp.status_code != 200:
-                print("❌ Error fetching events:", resp.text)
+                logger.error("❌ Error fetching events: %s", resp.text)
                 time.sleep(poll_interval)
                 continue
             events = resp.json()
         except Exception as e:
-            print(f"❌ Failed to fetch events: {e}")
+            logger.error("❌ Failed to fetch events: %s", e)
             time.sleep(poll_interval)
             continue
 
@@ -212,8 +221,12 @@ def monitor_loop(poll_interval=600, target_date=None):
                 game_date = game_time.strftime("%Y-%m-%d")
                 if game_date != today:
                     if debug_mode:
-                        print(
-                            f"⏩ Skipping {event['away_team']}@{event['home_team']} because game date {game_date} != today {today}"
+                        logger.debug(
+                            "⏩ Skipping %s@%s because game date %s != today %s",
+                            event['away_team'],
+                            event['home_team'],
+                            game_date,
+                            today,
                         )
                     continue
 
@@ -226,52 +239,55 @@ def monitor_loop(poll_interval=600, target_date=None):
 
                 time_to_game = (game_time - now_est).total_seconds()
                 if debug_mode:
-                    print(f"DEBUG: {gid} | time_to_game={time_to_game:.2f}s")
+                    logger.debug("DEBUG: %s | time_to_game=%.2fs", gid, time_to_game)
 
                 if gid not in tracked_games:
                     continue
                 if gid in fetched_games:
                     continue
                 if gid in existing:
-                    print(f"🛑 {gid} already captured. Skipping re-fetch.")
+                    logger.info("🛑 %s already captured. Skipping re-fetch.", gid)
                     fetched_games.add(gid)
                     continue
 
                 if 0 <= time_to_game <= 1000000:
-                    print(f"📡 Fetching consensus odds for {gid}...")
+                    logger.info("📡 Fetching consensus odds for %s...", gid)
 
                     consensus_odds = None
                     for attempt in range(2):
                         consensus_odds = fetch_consensus_for_single_game(gid)
 
                         if debug_mode:
-                            print(
-                                f"📡 [DEBUG] Attempt {attempt+1}: consensus odds fetched: {bool(consensus_odds)} for {gid}"
+                            logger.debug(
+                                "📡 [DEBUG] Attempt %s: consensus odds fetched: %s for %s",
+                                attempt + 1,
+                                bool(consensus_odds),
+                                gid,
                             )
 
                         if consensus_odds:
                             break
 
                         if attempt == 0:
-                            print(f"⚠️ No consensus odds found for {gid} — retrying...")
+                            logger.warning("⚠️ No consensus odds found for %s — retrying...", gid)
                             time.sleep(10)
 
                     if not consensus_odds:
-                        print(f"⚠️ No consensus odds found for {gid} after retry.")
+                        logger.warning("⚠️ No consensus odds found for %s after retry.", gid)
                         continue
 
                     existing[gid] = consensus_odds
                     with open(file_path, "w") as f:
                         json.dump(existing, f, indent=2)
-                    print(f"✅ Saved closing odds snapshot for {gid}")
+                    logger.info("✅ Saved closing odds snapshot for %s", gid)
 
                     matching_bets = [b for b in bets if b["game_id"] == gid]
                     if not matching_bets:
-                        print(f"ℹ️ No matching bets for {gid}.")
+                        logger.info("ℹ️ No matching bets for %s.", gid)
                         fetched_games.add(gid)
                         continue
 
-                    print(f"✅ Found {len(matching_bets)} matching bets for {gid}")
+                    logger.info("✅ Found %s matching bets for %s", len(matching_bets), gid)
                     alert_lines = []
 
                     for bet in matching_bets:
@@ -283,27 +299,34 @@ def monitor_loop(poll_interval=600, target_date=None):
                             consensus_odds, market
                         )
                         if not market_data:
-                            print(
-                                f"⚠️ Market '{market}' not found in consensus odds for {gid}. Available markets: {list(consensus_odds.keys())}"
+                            logger.warning(
+                                "⚠️ Market '%s' not found in consensus odds for %s. Available markets: %s",
+                                market,
+                                gid,
+                                list(consensus_odds.keys()),
                             )
                             continue
 
                         if debug_mode:
-                            print(
-                                f"   Available sides for market '{market}': {list(market_data.keys())}"
+                            logger.debug(
+                                "   Available sides for market '%s': %s",
+                                market,
+                                list(market_data.keys()),
                             )
-                            print(f"   Attempting to match bet side: '{side}'")
+                            logger.debug("   Attempting to match bet side: '%s'", side)
 
                         closing_data = market_data.get(side)
                         if not closing_data:
-                            print(f"🔍 Attempting fuzzy match for: '{side}'")
+                            logger.debug("🔍 Attempting fuzzy match for: '%s'", side)
                             fuzzy_key = fuzzy_match_side(side, market_data)
                             if fuzzy_key:
                                 closing_data = market_data[fuzzy_key]
 
                         if not closing_data:
-                            print(
-                                f"⚠️ No match found for bet side '{side}' in market '{market}'"
+                            logger.warning(
+                                "⚠️ No match found for bet side '%s' in market '%s'",
+                                side,
+                                market,
                             )
                             continue
 
@@ -326,9 +349,10 @@ def monitor_loop(poll_interval=600, target_date=None):
                         alert_lines.append(line)
 
                     if alert_lines:
-                        print(
-                            f"📣 Will send Discord alert with {len(alert_lines)} line(s):\n"
-                            + "\n".join(alert_lines)
+                        logger.info(
+                            "📣 Will send Discord alert with %s line(s):\n%s",
+                            len(alert_lines),
+                            "\n".join(alert_lines),
                         )
                         message = f"📊 **CLV Check - {gid}**\n" + "\n".join(alert_lines)
                         send_discord_alert(message)
@@ -336,9 +360,9 @@ def monitor_loop(poll_interval=600, target_date=None):
                     fetched_games.add(gid)
 
             except Exception as e:
-                print(f"⚠️ Error processing event: {e}")
+                logger.error("⚠️ Error processing event: %s", e)
 
-        print(f"⏱ Sleeping for {poll_interval // 60} minutes...\n")
+        logger.info("⏱ Sleeping for %s minutes...\n", poll_interval // 60)
         time.sleep(poll_interval)
 
 

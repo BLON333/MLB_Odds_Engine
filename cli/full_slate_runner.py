@@ -100,14 +100,14 @@ def parse_args():
 # ----------------------------
 def main():
     date_str, debug, no_weather, edge_threshold, line, days_ahead, export_folder = parse_args()
-    print(f"\n📅 Running full slate distribution for {date_str}...\n")
+    logger.info("\n📅 Running full slate distribution for %s...\n", date_str)
 
     # Fetch all games for the specified window
     matchups = fetch_probable_pitchers(days_ahead=days_ahead)
     game_ids = sorted(gid for gid in matchups if gid.startswith(date_str))
 
     if not game_ids:
-        print(f"❌ No games found for {date_str}")
+        logger.error("❌ No games found for %s", date_str)
         sys.exit(1)
 
     # Loop through each game and delegate to the distribution simulator
@@ -132,12 +132,12 @@ def main():
                 n_simulations=10000
             )
             if export_json and debug:
-                print(f"💾 Exported simulation JSON to {export_json}")
+                logger.debug("💾 Exported simulation JSON to %s", export_json)
         except Exception as e:
-            print(f"[ERROR] Simulation failed for {normalized_id} (orig {gid}): {e}")
+            logger.error("[ERROR] Simulation failed for %s (orig %s): %s", normalized_id, gid, e)
 
     # Summary
-    print(f"\n✅ Simulated {len(game_ids)} games for {date_str}.")
+    logger.info("\n✅ Simulated %s games for %s.", len(game_ids), date_str)
 
 if __name__ == "__main__":
     main()

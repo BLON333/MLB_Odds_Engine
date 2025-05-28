@@ -38,12 +38,12 @@ closing_monitor_proc = None
 
 
 def run_subprocess(cmd):
-    """Run a subprocess synchronously and log output line-by-line."""
+    """Run a subprocess synchronously and log output."""
     timestamp = now_eastern()
-    print(f"\n{'═'*60}")
-    print(f"⚙️  [{timestamp}] Starting subprocess:")
-    print(f"👉 {' '.join(cmd)}")
-    print(f"{'═'*60}\n")
+    logger.info("\n%s", "═" * 60)
+    logger.info("⚙️  [%s] Starting subprocess:", timestamp)
+    logger.info("👉 %s", " ".join(cmd))
+    logger.info("%s\n", "═" * 60)
 
     try:
         proc = subprocess.run(
@@ -58,26 +58,22 @@ def run_subprocess(cmd):
 
 
         if proc.stdout:
-            print("📤 STDOUT:")
-            print(proc.stdout)
+            logger.debug("📤 STDOUT:\n%s", proc.stdout)
 
         if proc.stderr:
-            print("⚠️ STDERR:")
-            print(proc.stderr)
+            logger.debug("⚠️ STDERR:\n%s", proc.stderr)
 
-        print(f"\n✅ Subprocess completed with exit code {proc.returncode}")
+        logger.info("\n✅ Subprocess completed with exit code %s", proc.returncode)
         return proc.returncode
 
     except subprocess.CalledProcessError as e:
         if e.stdout:
-            print("📤 STDOUT (on error):")
-            print(e.stdout)
+            logger.debug("📤 STDOUT (on error):\n%s", e.stdout)
 
         if e.stderr:
-            print("⚠️ STDERR (on error):")
-            print(e.stderr)
+            logger.debug("⚠️ STDERR (on error):\n%s", e.stderr)
 
-        print(f"\n❌ Command {' '.join(cmd)} exited with code {e.returncode}")
+        logger.error("\n❌ Command %s exited with code %s", " ".join(cmd), e.returncode)
         return e.returncode
 
 
@@ -88,7 +84,7 @@ def ensure_closing_monitor_running():
         script_path = os.path.join("cli", "closing_odds_monitor.py")
         if not os.path.exists(script_path):
             script_path = "closing_odds_monitor.py"
-        print(f"\n🎯 [{now_eastern()}] Starting closing odds monitor...")
+        logger.info("\n🎯 [%s] Starting closing odds monitor...", now_eastern())
         closing_monitor_proc = subprocess.Popen(
             [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
         )
@@ -102,7 +98,7 @@ def get_date_strings():
 def run_simulation():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n🎯 [{now_eastern()}] Launching full slate simulation for {date_str}...")
+        logger.info("\n🎯 [%s] Launching full slate simulation for %s...", now_eastern(), date_str)
         cmd = [
             PYTHON,
             os.path.join("cli", "full_slate_runner.py"),
@@ -117,7 +113,7 @@ def run_simulation():
 def run_logger():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📝 [{now_eastern()}] Launching log evals for {date_str}...")
+        logger.info("\n📝 [%s] Launching log evals for %s...", now_eastern(), date_str)
         default_script = os.path.join("cli", "log_betting_evals.py")
         if not os.path.exists(default_script):
             default_script = "log_betting_evals.py"
@@ -135,8 +131,8 @@ def run_logger():
 def run_live_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📸 [{now_eastern()}] Running live snapshot generator for {date_str}...")
-        print("🔍 Diff highlighting enabled — comparing against last snapshot")
+        logger.info("\n📸 [%s] Running live snapshot generator for %s...", now_eastern(), date_str)
+        logger.info("🔍 Diff highlighting enabled — comparing against last snapshot")
         # Determine the correct path for live_snapshot_generator
         default_script = os.path.join("core", "live_snapshot_generator.py")
         if not os.path.exists(default_script):
@@ -156,7 +152,7 @@ def run_live_snapshot():
 def run_personal_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📣 [{now_eastern()}] Running personal snapshot generator for {date_str}...")
+        logger.info("\n📣 [%s] Running personal snapshot generator for %s...", now_eastern(), date_str)
         default_script = os.path.join("core", "personal_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "personal_snapshot_generator.py"
@@ -173,7 +169,7 @@ def run_personal_snapshot():
 def run_best_book_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n📚 [{now_eastern()}] Running best-book snapshot generator for {date_str}...")
+        logger.info("\n📚 [%s] Running best-book snapshot generator for %s...", now_eastern(), date_str)
         default_script = os.path.join("core", "best_book_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "best_book_snapshot_generator.py"
@@ -191,7 +187,7 @@ def run_best_book_snapshot():
 def run_fv_drop_snapshot():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        print(f"\n🔻 [{now_eastern()}] Running FV drop snapshot generator for {date_str}...")
+        logger.info("\n🔻 [%s] Running FV drop snapshot generator for %s...", now_eastern(), date_str)
         default_script = os.path.join("core", "fv_drop_snapshot_generator.py")
         if not os.path.exists(default_script):
             default_script = "fv_drop_snapshot_generator.py"
@@ -206,14 +202,14 @@ def run_fv_drop_snapshot():
         run_subprocess(cmd)
 
 
-print(
+logger.info(
     "🔄 Starting auto loop... "
     "(Sim: 30 min | Log & Snapshots (live, personal, best-book, FV drop): 5 min, for today and tomorrow)"
 )
 
 ensure_closing_monitor_running()
 
-print("🟢 First-time launch → triggering run_logger and all snapshots immediately")
+logger.info("🟢 First-time launch → triggering run_logger and all snapshots immediately")
 run_logger()
 run_live_snapshot()
 run_personal_snapshot()
@@ -223,7 +219,12 @@ run_fv_drop_snapshot()
 while True:
     now = time.time()
 
-    print(f"[DEBUG] Loop tick → now: {now}, log Δ: {now - last_log_time:.1f}, snap Δ: {now - last_snapshot_time:.1f}")
+    logger.debug(
+        "Loop tick → now: %s, log Δ: %.1f, snap Δ: %.1f",
+        now,
+        now - last_log_time,
+        now - last_snapshot_time,
+    )
 
     ensure_closing_monitor_running()
 
@@ -232,12 +233,12 @@ while True:
         last_sim_time = now
 
     if now - last_log_time > LOG_INTERVAL:
-        print("🟢 Triggering run_logger()")
+        logger.info("🟢 Triggering run_logger()")
         run_logger()
         last_log_time = now
 
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
-        print("🟢 Triggering snapshot scripts")
+        logger.info("🟢 Triggering snapshot scripts")
         run_live_snapshot()
         run_personal_snapshot()
         run_best_book_snapshot()

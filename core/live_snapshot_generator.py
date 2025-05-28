@@ -89,12 +89,12 @@ def main():
         sim_dir = os.path.join("backtest", "sims", date_str)
         sims = load_simulations(sim_dir)
         if not sims:
-            print(f"❌ No simulation files found for {date_str}.")
+            logger.warning("❌ No simulation files found for %s.", date_str)
             continue
 
         odds = fetch_market_odds_from_api(list(sims.keys()))
         if not odds:
-            print(f"❌ Failed to fetch market odds for {date_str}.")
+            logger.warning("❌ Failed to fetch market odds for %s.", date_str)
             continue
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, DEBUG_LOG))
@@ -114,7 +114,7 @@ def main():
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
 
     if not rows:
-        print("⚠️ No qualifying bets found.")
+        logger.warning("⚠️ No qualifying bets found.")
         return
 
     rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
@@ -125,16 +125,16 @@ def main():
     export_market_snapshots(df_export, market_snapshot_paths)
 
     if args.output_discord:
-        print(df.head())
+        logger.debug(df.head())
         for mkt, webhook in WEBHOOKS.items():
             if not webhook:
                 continue
             subset = df[df["Market"].str.lower().str.startswith(mkt.lower(), na=False)]
             # Ensure main and alternate lines stay together.  We never split on
             # the "Market Class" column for live snapshots.
-            print(f"📡 Evaluating snapshot for: {mkt} → {subset.shape[0]} rows")
+            logger.info("📡 Evaluating snapshot for: %s → %s rows", mkt, subset.shape[0])
             if subset.empty:
-                print(f"⚠️ No bets for {mkt}")
+                logger.warning("⚠️ No bets for %s", mkt)
                 continue
             send_bet_snapshot_to_discord(subset, mkt, webhook)
     else:
@@ -152,9 +152,9 @@ def main():
         try:
             with open(args.debug_json, "w") as fh:
                 json.dump(DEBUG_LOG, fh, indent=2)
-            print(f"📝 Debug info written to {args.debug_json}")
+            logger.info("📝 Debug info written to %s", args.debug_json)
         except Exception as e:
-            print(f"❌ Failed to write debug file: {e}")
+            logger.error("❌ Failed to write debug file: %s", e)
 
 
 if __name__ == "__main__":
