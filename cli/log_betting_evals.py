@@ -506,6 +506,11 @@ def expand_snapshot_rows_with_kelly(
             "segment_label": bet.get("segment_label"),
         }
 
+        # 🧠 Copy any prior movement metadata (EV, FV, Odds movement, is_new)
+        for field in ["ev_movement", "fv_movement", "odds_movement", "is_new"]:
+            if field in bet:
+                base_fields[field] = bet[field]
+
         # ✅ If no per-book expansion is available, just keep the original
         if not isinstance(bet.get("_raw_sportsbook", None), dict):
             print(
@@ -1209,7 +1214,6 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         # }
         # save_market_conf_tracker(MARKET_CONF_TRACKER)
 
-        global MARKET_EVAL_TRACKER
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
         movement = detect_market_movement(row, prior)
         row.update(movement)
@@ -1280,8 +1284,6 @@ def log_bets(
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
-
-    global MARKET_EVAL_TRACKER
 
     markets = sim_results.get("markets", [])
     if not markets:
@@ -1509,8 +1511,6 @@ def log_derivative_bets(
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
-
-    global MARKET_EVAL_TRACKER
 
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
@@ -1948,8 +1948,8 @@ def run_batch_logging(
     else:
         market_evals_df = pd.DataFrame()
 
-    global MARKET_EVAL_TRACKER
-    MARKET_EVAL_TRACKER = load_tracker()
+    MARKET_EVAL_TRACKER.clear()
+    MARKET_EVAL_TRACKER.update(load_tracker())
 
     # ✅ Ensure all required columns exist for downstream filters like should_log_bet
     required_cols = [
