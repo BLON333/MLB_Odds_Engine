@@ -4,9 +4,21 @@ from typing import Dict, Optional
 
 
 def detect_market_movement(
-    current: Dict, prior: Optional[Dict], threshold: float = 0.1
+    current: Dict,
+    prior: Optional[Dict],
+    *,
+    fv_threshold: float = 0.01,
+    ev_threshold: float = 0.001,
+    odds_threshold: float = 0.01,
+    stake_threshold: float = 0.001,
+    sim_threshold: float = 0.001,
+    mkt_threshold: float = 0.001,
 ) -> Dict[str, object]:
-    """Return movement info for FV, EV, odds and stake compared to a prior entry."""
+    """Return movement info for FV, EV, odds and stake compared to a prior entry.
+
+    The function now uses per-field thresholds so even small changes can be
+    detected.  Thresholds can be overridden via keyword arguments if desired.
+    """
 
     def _get(d: Dict, *keys):
         for k in keys:
@@ -46,10 +58,10 @@ def detect_market_movement(
 
     return {
         "is_new": prior is None,
-        "fv_movement": _move(fv_curr, fv_prev, threshold),
-        "ev_movement": _move(ev_curr, ev_prev, threshold),
-        "odds_movement": _move(odds_curr, odds_prev, threshold),
-        "stake_movement": _move(stake_curr, stake_prev, threshold),
-        "sim_movement": _move(sim_curr, sim_prev, threshold),
-        "mkt_movement": _move(mkt_curr, mkt_prev, threshold),
+        "fv_movement": _move(fv_curr, fv_prev, fv_threshold),
+        "ev_movement": _move(ev_curr, ev_prev, ev_threshold),
+        "odds_movement": _move(odds_curr, odds_prev, odds_threshold),
+        "stake_movement": _move(stake_curr, stake_prev, stake_threshold),
+        "sim_movement": _move(sim_curr, sim_prev, sim_threshold),
+        "mkt_movement": _move(mkt_curr, mkt_prev, mkt_threshold),
     }
