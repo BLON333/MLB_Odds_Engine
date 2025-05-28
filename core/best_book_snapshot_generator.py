@@ -146,10 +146,23 @@ def main():
 
     rows = select_best_book_rows(rows, POPULAR_BOOKS)
 
+    # Reload market eval tracker from disk before flagging new rows
+    from core.market_eval_tracker import load_tracker
+    from core.snapshot_core import MARKET_EVAL_TRACKER
+
+    MARKET_EVAL_TRACKER.clear()
+    MARKET_EVAL_TRACKER.update(load_tracker())
+
+    flagged_rows, snapshot_next = compare_and_flag_new_rows(
+        rows,
+        snapshot_path,
+        prior_snapshot=market_snapshot_paths.get("main"),
+    )
+
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
         r
-        for r in rows
+        for r in flagged_rows
         if args.min_ev * 100 <= r.get("ev_percent", 0) <= args.max_ev * 100
     ]
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
@@ -158,18 +171,10 @@ def main():
         logger.warning("⚠️ No qualifying bets found.")
         return
 
-    # Reload market eval tracker from disk before flagging new rows
-    from core.market_eval_tracker import load_tracker
-    from core.snapshot_core import MARKET_EVAL_TRACKER
-
-    MARKET_EVAL_TRACKER.clear()
-    MARKET_EVAL_TRACKER.update(load_tracker())
-
-    rows, snapshot_next = compare_and_flag_new_rows(rows, snapshot_path)
-
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
-    df_export = df.drop(
+    df_all_export = format_for_display(flagged_rows, include_movement=False)
+    df_all_export = df_all_export.drop(
         columns=[
             c
             for c in [
@@ -181,10 +186,10 @@ def main():
                 "mkt_movement",
                 "is_new",
             ]
-            if c in df.columns
+            if c in df_all_export.columns
         ]
     )
-    export_market_snapshots(df_export, market_snapshot_paths)
+    export_market_snapshots(df_all_export, market_snapshot_paths)
 
     logger.debug("df columns: %s, shape: %s", df.columns.tolist(), df.shape)
 
