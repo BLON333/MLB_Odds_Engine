@@ -1903,7 +1903,7 @@ def send_summary_to_discord(skipped_bets, webhook_url):
 
 def run_batch_logging(
     eval_folder,
-    market_odds_file,
+    market_odds,
     min_ev,
     dry_run=False,
     debug=False,
@@ -1919,8 +1919,11 @@ def run_batch_logging(
     DISCORD_SUMMARY_WEBHOOK_URL = os.getenv("DISCORD_SUMMARY_WEBHOOK_URL")
     summary_candidates = []
 
-    with open(market_odds_file) as f:
-        all_market_odds = json.load(f)
+    if isinstance(market_odds, str):
+        with open(market_odds) as f:
+            all_market_odds = json.load(f)
+    else:
+        all_market_odds = market_odds
 
     TEAM_FIXES = {"ATH": "OAK", "WSN": "WSH", "CHW": "CWS", "KCR": "KC", "TBD": "TB"}
 
@@ -2462,9 +2465,7 @@ if __name__ == "__main__":
     p.add_argument(
         "--eval-folder", required=True, help="Folder containing simulation JSON files"
     )
-    p.add_argument(
-        "--market-odds", help="Path to pre-fetched market odds JSON (optional)"
-    )
+    p.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
     p.add_argument(
         "--min-ev", type=float, default=0.05, help="Minimum EV% threshold for bets"
     )
@@ -2489,8 +2490,10 @@ if __name__ == "__main__":
         print(f"⚠️ Skipping log run — folder does not exist: {args.eval_folder}")
         sys.exit(0)
 
-    if args.market_odds:
-        odds_file = args.market_odds
+    if args.odds_path:
+        with open(args.odds_path) as fh:
+            odds = json.load(fh)
+        odds_file = args.odds_path
     else:
         games = [
             f.replace(".json", "")
@@ -2498,12 +2501,12 @@ if __name__ == "__main__":
             if f.endswith(".json")
         ]
         print(f"📡 Fetching market odds for {len(games)} games on {date_tag}...")
-        md = fetch_market_odds_from_api(games)
-        odds_file = save_market_odds_to_file(md, date_tag)
+        odds = fetch_market_odds_from_api(games)
+        odds_file = save_market_odds_to_file(odds, date_tag)
 
     run_batch_logging(
         eval_folder=args.eval_folder,
-        market_odds_file=odds_file,
+        market_odds=odds,
         min_ev=args.min_ev,
         dry_run=args.dry_run,
         debug=args.debug,  # ✅ New debug toggle wired up!
