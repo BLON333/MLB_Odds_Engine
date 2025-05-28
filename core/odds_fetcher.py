@@ -170,7 +170,7 @@ def fetch_consensus_for_single_game(game_id):
     return normalized
 
 
-def fetch_market_odds_from_api(game_ids):
+def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
     logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
     logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
@@ -228,7 +228,14 @@ def fetch_market_odds_from_api(game_ids):
                 logger.debug(f"⚠️ No bookmakers array in odds data for {game_id}")
                 continue
 
-            logger.debug(f"📦 Odds markets received from {len(bookmakers_data)} bookmakers for {game_id}")
+            if filter_bookmakers:
+                before = len(bookmakers_data)
+                bookmakers_data = [bm for bm in bookmakers_data if bm.get("key") in filter_bookmakers]
+                logger.debug(
+                    f"📦 Odds markets received from {before} bookmakers, filtered to {len(bookmakers_data)} for {game_id}"
+                )
+            else:
+                logger.debug(f"📦 Odds markets received from {len(bookmakers_data)} bookmakers for {game_id}")
 
             offers = {}
 
