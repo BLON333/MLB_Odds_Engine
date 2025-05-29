@@ -118,7 +118,11 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     if "odds_movement" in df.columns:
         styled = styled.apply(_apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"])
     if "fv_movement" in df.columns:
-        styled = styled.apply(_apply_movement("FV", "fv_movement", invert=True), subset=["FV"])
+        # Invert the FV coloring so drops (market confirmation) appear green
+        styled = styled.apply(
+            _apply_movement("Fair Value", "fv_movement", invert=True),
+            subset=["FV"],
+        )
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
     if "stake_movement" in df.columns:
@@ -233,7 +237,9 @@ def send_bet_snapshot_to_discord(
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
     caption = (
-        f"📈 **Live Market Snapshot — {market_type}**\n" f"_Generated: {timestamp}_"
+        f"📈 **Live Market Snapshot — {market_type}**\n"
+        f"_Generated: {timestamp}_\n"
+        "🟩 FV worse = market confirmation | 🟥 FV better = market drifted"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
