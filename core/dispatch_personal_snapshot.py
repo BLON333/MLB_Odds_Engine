@@ -4,7 +4,6 @@
 import os
 import sys
 import json
-import glob
 import argparse
 from dotenv import load_dotenv
 
@@ -26,9 +25,12 @@ PERSONAL_WEBHOOK_URL = os.getenv(
 )
 
 
-def latest_snapshot_path() -> str | None:
-    files = sorted(glob.glob(os.path.join("backtest", "market_snapshot_*.json")))
-    return files[-1] if files else None
+def latest_snapshot_path(folder="backtest") -> str | None:
+    files = sorted(
+        [f for f in os.listdir(folder) if f.startswith("market_snapshot_") and f.endswith(".json")],
+        reverse=True,
+    )
+    return os.path.join(folder, files[0]) if files else None
 
 
 def load_rows(path: str) -> list:
