@@ -22,6 +22,36 @@ from core.market_eval_tracker import load_tracker, save_tracker
 load_dotenv()
 from core.logger import get_logger
 logger = get_logger(__name__)
+
+# === Console Output Controls ===
+SEGMENT_SKIP_LIMIT = 5
+segment_skip_count = 0
+MOVEMENT_LOG_LIMIT = 5
+movement_log_count = 0
+VERBOSE = False
+SHOW_SKIPPED = False
+
+def log_segment_mismatch(sim_segment: str, book_segment: str) -> None:
+    """Print a segment mismatch message with truncation after a limit."""
+    global segment_skip_count
+    segment_skip_count += 1
+    if segment_skip_count <= SEGMENT_SKIP_LIMIT:
+        print(
+            f"🔒 Skipping due to segment mismatch → Sim: {sim_segment} | Book: {book_segment}"
+        )
+    elif segment_skip_count == SEGMENT_SKIP_LIMIT + 1:
+        print("🔒 ... (truncated additional segment mismatch skips)")
+
+
+def should_log_movement() -> bool:
+    """Return True if movement details should be printed."""
+    global movement_log_count
+    movement_log_count += 1
+    if movement_log_count <= MOVEMENT_LOG_LIMIT:
+        return True
+    if movement_log_count == MOVEMENT_LOG_LIMIT + 1:
+        print("🧠 ... (truncated additional movement logs)")
+    return False
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 DISCORD_TOTALS_WEBHOOK_URL = os.getenv("DISCORD_TOTALS_WEBHOOK_URL")
 DISCORD_H2H_WEBHOOK_URL = os.getenv("DISCORD_H2H_WEBHOOK_URL")
@@ -565,10 +595,11 @@ def expand_snapshot_rows_with_kelly(
                             expanded_row[field] = base_fields[field]
                     expanded_rows.append(expanded_row)
                 else:
-                    if ev < min_ev:
-                        print("   ⛔ Skipped: EV too low")
-                    if stake < min_stake:
-                        print("   ⛔ Skipped: Stake too low")
+                    if VERBOSE:
+                        if ev < min_ev:
+                            print("   ⛔ Skipped: EV too low")
+                        if stake < min_stake:
+                            print("   ⛔ Skipped: Stake too low")
 
             except Exception as e:
                 print(f"⚠️ Error processing {book}: {e}")
@@ -1232,9 +1263,10 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         # save_market_conf_tracker(MARKET_CONF_TRACKER)
 
         movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
-        print(
-            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-        )
+        if should_log_movement():
+            print(
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+            )
 
     existing[key] = full_stake
     if existing_theme_stakes is not None:
@@ -1345,9 +1377,7 @@ def log_bets(
             )
         )
         if not assert_segment_match(market_key, matched_key):
-            print(
-                f"🔒 Skipping due to segment mismatch → Sim: {market_key} | Book: {matched_key}"
-            )
+            log_segment_mismatch(market_key, matched_key)
             continue
 
         if not isinstance(market_entry, dict):
@@ -1439,23 +1469,24 @@ def log_bets(
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
 
         movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
-        print(
-            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-        )
-        if movement.get("is_new"):
-            print(f"🟡 First-time seen → {tracker_key}")
-        else:
-            try:
-                print(
-                    f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
-                )
-            except Exception:
-                pass
+        if should_log_movement():
+            print(
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+            )
+            if movement.get("is_new"):
+                print(f"🟡 First-time seen → {tracker_key}")
+            else:
+                try:
+                    print(
+                        f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
+                    )
+                except Exception:
+                    pass
 
-        print(
-            f"📦 Matched: {matched_key} | Price Source: {price_source} | Segment: {segment}"
-        )
-        print(f"📊 Odds: {market_price} | Stake: {stake:.2f}u | EV: {ev_calc:.2f}%")
+            print(
+                f"📦 Matched: {matched_key} | Price Source: {price_source} | Segment: {segment}"
+            )
+            print(f"📊 Odds: {market_price} | Stake: {stake:.2f}u | EV: {ev_calc:.2f}%")
 
         # Continue with staking filters, logging, top-up checks...
 
@@ -1610,9 +1641,7 @@ def log_derivative_bets(
                     book_segment = classify_market_segment(matched_key)
 
                     if sim_segment != book_segment:
-                        print(
-                            f"⛔ Segment mismatch → Sim: {sim_segment} vs Book: {book_segment} — skipping derivative bet"
-                        )
+                        log_segment_mismatch(sim_segment, book_segment)
                         continue
 
                     if not isinstance(market_entry, dict):
@@ -1758,18 +1787,19 @@ def log_derivative_bets(
                 tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
                 prior = MARKET_EVAL_TRACKER.get(tracker_key)
                 movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
-                print(
-                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-                )
-                if movement.get("is_new"):
-                    print(f"🟡 First-time seen → {tracker_key}")
-                else:
-                    try:
-                        print(
-                            f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
-                        )
-                    except Exception:
-                        pass
+                if should_log_movement():
+                    print(
+                        f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                    )
+                    if movement.get("is_new"):
+                        print(f"🟡 First-time seen → {tracker_key}")
+                    else:
+                        try:
+                            print(
+                                f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
+                            )
+                        except Exception:
+                            pass
                 # Tracker update moved below evaluation to preserve prior state
                 row["full_stake"] = stake
                 row["price_source"] = price_source
@@ -2308,18 +2338,19 @@ def process_theme_logged_bets(
                 t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
                 prior = MARKET_EVAL_TRACKER.get(t_key)
                 movement = track_and_update_market_movement(row_copy, MARKET_EVAL_TRACKER)
-                print(
-                    f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-                )
-                if movement.get("is_new"):
-                    print(f"🟡 First-time seen → {t_key}")
-                else:
-                    try:
-                        print(
-                            f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row_copy.get('blended_fv')}"
-                        )
-                    except Exception:
-                        pass
+                if should_log_movement():
+                    print(
+                        f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                    )
+                    if movement.get("is_new"):
+                        print(f"🟡 First-time seen → {t_key}")
+                    else:
+                        try:
+                            print(
+                                f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row_copy.get('blended_fv')}"
+                            )
+                        except Exception:
+                            pass
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     write_to_csv(
@@ -2404,7 +2435,7 @@ def process_theme_logged_bets(
         }[reason]
         print(f"  {label}: {count}")
 
-    if skipped_bets:
+    if SHOW_SKIPPED and skipped_bets:
         print("\n🟡 Skipped Bets (Details):")
         for b in skipped_bets:
             print(
@@ -2462,7 +2493,12 @@ if __name__ == "__main__":
         help="Generate summary image and post to Discord",
     )
     p.add_argument("--output-dir", default="logs", help="Directory for summary image")
+    p.add_argument("--show-skipped", action="store_true", help="Show skipped bet details")
+    p.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = p.parse_args()
+
+    VERBOSE = args.verbose
+    SHOW_SKIPPED = args.show_skipped
 
     date_tag = os.path.basename(args.eval_folder)
 
