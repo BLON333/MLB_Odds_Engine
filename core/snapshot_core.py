@@ -143,7 +143,7 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     styled = styled.set_properties(
         subset=[c for c in df.columns if c != "Market Class"],
         **{
-            "text-align": "left",
+            "text-align": "center",
             "font-family": "monospace",
             "font-size": "10pt",
         },
