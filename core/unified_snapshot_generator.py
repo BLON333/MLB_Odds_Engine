@@ -21,6 +21,7 @@ from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import load_simulations, build_snapshot_rows
 from core.market_eval_tracker import load_tracker, save_tracker
 from core.market_movement_tracker import track_and_update_market_movement
+import copy
 from cli.log_betting_evals import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
@@ -92,8 +93,13 @@ def build_snapshot_for_date(
 
     # 🧠 Track line movement for each row using the eval tracker
     tracker = load_tracker()
+    reference_tracker = copy.deepcopy(tracker)
     for row in rows:
-        movement = track_and_update_market_movement(row, tracker)
+        movement = track_and_update_market_movement(
+            row,
+            tracker,
+            reference_tracker,
+        )
         row.update(movement)
     save_tracker(tracker)
 

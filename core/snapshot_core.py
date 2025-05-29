@@ -32,9 +32,11 @@ from core.market_pricer import (
 )
 from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
+import copy
 
-# Load tracker once for snapshot utilities
+# Load tracker once for snapshot utilities and keep a frozen copy for comparisons
 MARKET_EVAL_TRACKER = load_tracker()
+MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
 # === Console Output Controls ===
 MOVEMENT_LOG_LIMIT = 5
@@ -368,6 +370,7 @@ def compare_and_flag_new_rows(
                 "best_book": book,
             },
             MARKET_EVAL_TRACKER,
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
         )
         if should_log_movement():
             print(
@@ -523,7 +526,11 @@ def build_snapshot_rows(
             }
             # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
-            movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
+            movement = track_and_update_market_movement(
+                row,
+                MARKET_EVAL_TRACKER,
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+            )
             if should_log_movement():
                 print(
                     f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"

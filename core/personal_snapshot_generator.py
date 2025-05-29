@@ -108,10 +108,13 @@ def main():
 
     # Reload market eval tracker to ensure latest bet logs are included
     from core.market_eval_tracker import load_tracker
-    from core.snapshot_core import MARKET_EVAL_TRACKER
+    from core.snapshot_core import MARKET_EVAL_TRACKER, MARKET_EVAL_TRACKER_BEFORE_UPDATE
+    import copy
 
     MARKET_EVAL_TRACKER.clear()
     MARKET_EVAL_TRACKER.update(load_tracker())
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE.update(copy.deepcopy(MARKET_EVAL_TRACKER))
 
     flagged_rows, snapshot_next = compare_and_flag_new_rows(
         rows,
