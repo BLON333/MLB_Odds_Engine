@@ -1435,21 +1435,22 @@ def log_bets(
             row["_raw_sportsbook"] = book_prices.copy()
 
         # 📝 Track every evaluated bet before applying stake/EV filters
-                tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
-                prior = MARKET_EVAL_TRACKER.get(tracker_key)
-                movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
+        tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+        prior = MARKET_EVAL_TRACKER.get(tracker_key)
+
+        movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
+        print(
+            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+        )
+        if movement.get("is_new"):
+            print(f"🟡 First-time seen → {tracker_key}")
+        else:
+            try:
                 print(
-                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                    f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
                 )
-                if movement.get("is_new"):
-                    print(f"🟡 First-time seen → {tracker_key}")
-                else:
-                    try:
-                        print(
-                            f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
-                        )
-                    except Exception:
-                        pass
+            except Exception:
+                pass
 
         print(
             f"📦 Matched: {matched_key} | Price Source: {price_source} | Segment: {segment}"
