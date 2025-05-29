@@ -63,8 +63,16 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+    if df.empty:
+        logger.warning("⚠️ Snapshot DataFrame is empty — nothing to dispatch.")
+        return
+
     if "market" in df.columns and "Market" not in df.columns:
         df["Market"] = df["market"]
+
+    if "Market" not in df.columns:
+        logger.warning("⚠️ 'Market' column missing — cannot apply fallback filters.")
+        return
 
     if args.output_discord:
         webhook_main = os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
