@@ -21,6 +21,7 @@ from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,
+    to_eastern,
 )
 from core.market_pricer import (
     to_american_odds,
@@ -518,6 +519,7 @@ def build_snapshot_rows(
                 "segment": segment,
                 "market_class": market_class,
                 "best_book": best_book,
+                "start_time": start_str,
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
             }
@@ -541,6 +543,17 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 
     df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
     df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
+    if "start_time" in df.columns:
+        def _fmt_time(s: str) -> str:
+            try:
+                dt = datetime.fromisoformat(s)
+                return to_eastern(dt).strftime("%I:%M %p")
+            except Exception:
+                return ""
+
+        df["Time"] = df["start_time"].map(_fmt_time)
+    else:
+        df["Time"] = ""
     if "market_class" not in df.columns:
         df["market_class"] = "main"
     df["Market Class"] = (
@@ -566,6 +579,7 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     required_cols = [
         "Date",
         "Matchup",
+        "Time",
         "Market Class",
         "Market",
         "Bet",
@@ -631,9 +645,19 @@ def build_display_block(row: dict) -> Dict[str, str]:
     stake = row.get("stake")
     stake_str = f"{stake:.2f}u" if stake is not None else "N/A"
 
+    start_time = row.get("start_time")
+    if start_time:
+        try:
+            time_str = to_eastern(datetime.fromisoformat(start_time)).strftime("%I:%M %p")
+        except Exception:
+            time_str = ""
+    else:
+        time_str = ""
+
     return {
         "Date": date,
         "Matchup": matchup,
+        "Time": time_str,
         "Market Class": market_class,
         "Market": row.get("market", ""),
         "Bet": row.get("side", ""),
