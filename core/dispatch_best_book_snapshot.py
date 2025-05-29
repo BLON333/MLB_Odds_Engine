@@ -71,7 +71,17 @@ def main() -> None:
         webhook_alt = os.getenv("DISCORD_BEST_BOOK_ALT_WEBHOOK_URL")
         if webhook_main or webhook_alt:
             if webhook_main:
-                subset = df[df["Market Class"] == "🏆 Main"]
+                if "Market Class" in df.columns:
+                    subset = df[df["Market Class"] == "Main"]
+                else:
+                    logger.warning(
+                        "⚠️ 'Market Class' column missing — using fallback"
+                    )
+                    subset = df[
+                        df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
                 if subset.empty:
                     subset = df[
                         df["Market"]
@@ -88,7 +98,14 @@ def main() -> None:
                 else:
                     logger.warning("⚠️ No bets for main")
             if webhook_alt:
-                subset = df[df["Market Class"] == "📐 Alt Line"]
+                if "Market Class" in df.columns:
+                    subset = df[df["Market Class"] == "Alt"]
+                else:
+                    subset = df[
+                        ~df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
                 if subset.empty:
                     subset = df[
                         ~df["Market"]

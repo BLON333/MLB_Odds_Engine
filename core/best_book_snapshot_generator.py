@@ -210,7 +210,7 @@ def main():
     if args.output_discord:
         if WEBHOOK_MAIN or WEBHOOK_ALT:
             if WEBHOOK_MAIN:
-                subset = df[df["Market Class"] == "🏆 Main"]
+                subset = df[df["Market Class"] == "Main"]
                 if subset.empty:
                     subset = df[
                         df["Market"]
@@ -225,7 +225,7 @@ def main():
                 else:
                     logger.warning("⚠️ No bets for main")
             if WEBHOOK_ALT:
-                subset = df[df["Market Class"] == "📐 Alt Line"]
+                subset = df[df["Market Class"] == "Alt"]
                 if subset.empty:
                     subset = df[
                         ~df["Market"]

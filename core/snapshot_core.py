@@ -516,9 +516,7 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     if "market_class" not in df.columns:
         df["market_class"] = "main"
     df["Market Class"] = (
-        df["market_class"]
-        .map({"alternate": "📐 Alt Line", "main": "🏆 Main"})
-        .fillna("❓")
+        df["market_class"].map({"alternate": "Alt", "main": "Main"}).fillna("❓")
     )
     df["Market"] = df["market"]
     df["Bet"] = df["side"]
@@ -580,8 +578,8 @@ def build_display_block(row: dict) -> Dict[str, str]:
 
     market_class_key = row.get("market_class", "main")
     market_class = {
-        "alternate": "📐 Alt Line",
-        "main": "🏆 Main",
+        "alternate": "Alt",
+        "main": "Main",
     }.get(market_class_key, "❓")
 
     odds = row.get("market_odds")
