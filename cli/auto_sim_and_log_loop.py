@@ -2,8 +2,10 @@ import sys
 import os
 
 import sys
+
 if sys.version_info >= (3, 7):
     import os
+
     os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # Ensure project root is on the path regardless of where this script is invoked
@@ -12,8 +14,10 @@ sys.path.append(ROOT_DIR)
 PYTHON = sys.executable
 
 from dotenv import load_dotenv
+
 load_dotenv()
 from core.logger import get_logger
+
 logger = get_logger(__name__)
 
 import time
@@ -26,8 +30,8 @@ from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_fi
 
 EDGE_THRESHOLD = 0.05
 MIN_EV = 0.05
-SIM_INTERVAL = 60 * 30      # Every 30 minutes
-LOG_INTERVAL = 60 * 5       # Every 5 minutes
+SIM_INTERVAL = 60 * 30  # Every 30 minutes
+LOG_INTERVAL = 60 * 5  # Every 5 minutes
 SNAPSHOT_INTERVAL = 60 * 5  # Every 5 minutes
 
 last_sim_time = 0
@@ -51,12 +55,11 @@ def run_subprocess(cmd):
             cmd,
             cwd=ROOT_DIR,
             capture_output=True,
-            encoding="utf-8",   # ✅ ensures emoji + UTF-8 output renders cleanly
-            errors="replace",   # ✅ prevents crashes from odd characters
+            encoding="utf-8",  # ✅ ensures emoji + UTF-8 output renders cleanly
+            errors="replace",  # ✅ prevents crashes from odd characters
             check=True,
             env=os.environ,
         )
-
 
         if proc.stdout:
             logger.debug("📤 STDOUT:\n%s", proc.stdout)
@@ -90,11 +93,13 @@ def ensure_closing_monitor_running():
             [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
         )
 
+
 def get_date_strings():
     now = now_eastern()
     today_str = now.strftime("%Y-%m-%d")
     tomorrow_str = (now + timedelta(days=1)).strftime("%Y-%m-%d")
     return today_str, tomorrow_str
+
 
 def get_today_str() -> str:
     """Return today's date as YYYY-MM-DD."""
@@ -124,10 +129,15 @@ def fetch_and_cache_odds_snapshot() -> str | None:
     logger.info("✅ Saved shared odds snapshot: %s", odds_path)
     return odds_path
 
+
 def run_simulation():
     today_str, tomorrow_str = get_date_strings()
     for date_str in [today_str, tomorrow_str]:
-        logger.info("\n🎯 [%s] Launching full slate simulation for %s...", now_eastern(), date_str)
+        logger.info(
+            "\n🎯 [%s] Launching full slate simulation for %s...",
+            now_eastern(),
+            date_str,
+        )
         cmd = [
             PYTHON,
             os.path.join("cli", "full_slate_runner.py"),
@@ -137,7 +147,6 @@ def run_simulation():
         ]
         subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
         logger.info("🚀 Started simulation subprocess for %s", date_str)
-
 
 
 def run_logger():
@@ -180,8 +189,6 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
 
 def run_unified_snapshot_and_dispatch(odds_path: str):
     """Generate a unified snapshot then dispatch filtered alerts."""
-    timestamp = now_eastern().strftime("%Y%m%dT%H%M")
-    snapshot_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
 
     subprocess.run(
         [PYTHON, "core/unified_snapshot_generator.py", "--odds-path", odds_path],
@@ -200,8 +207,6 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
             [
                 PYTHON,
                 f"core/{script}",
-                "--snapshot-path",
-                snapshot_path,
                 "--output-discord",
                 "--diff-highlight",
             ],
@@ -217,7 +222,9 @@ logger.info(
 
 ensure_closing_monitor_running()
 
-logger.info("🟢 First-time launch → triggering run_logger and snapshot dispatch immediately")
+logger.info(
+    "🟢 First-time launch → triggering run_logger and snapshot dispatch immediately"
+)
 run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
 log_bets_with_snapshot_odds(initial_odds)
