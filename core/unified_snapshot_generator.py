@@ -24,6 +24,17 @@ from cli.log_betting_evals import expand_snapshot_rows_with_kelly
 logger = get_logger(__name__)
 
 # ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def latest_odds_file(folder="data/market_odds") -> str | None:
+    files = sorted(
+        [f for f in os.listdir(folder) if f.startswith("market_odds_") and f.endswith(".json")],
+        reverse=True,
+    )
+    return os.path.join(folder, files[0]) if files else None
+
+# ---------------------------------------------------------------------------
 # Snapshot role helpers
 # ---------------------------------------------------------------------------
 POPULAR_BOOKS = [
@@ -106,6 +117,15 @@ def main() -> None:
             logger.info("📥 Loaded odds from %s", args.odds_path)
         except Exception as e:
             logger.error("❌ Failed to load odds file %s: %s", args.odds_path, e)
+    else:
+        auto_path = latest_odds_file()
+        if auto_path:
+            with open(auto_path) as fh:
+                odds_cache = json.load(fh)
+            logger.info("📥 Auto-loaded latest odds: %s", auto_path)
+        else:
+            logger.error("❌ No market_odds_*.json files found.")
+            return
 
     all_rows: list = []
     for date_str in date_list:
