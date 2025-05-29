@@ -582,19 +582,22 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
             df[col] = "N/A"
 
     if include_movement:
-        movement_cols = []
-        for c in [
-            "odds_movement",
-            "fv_movement",
+        movement_cols = [
             "ev_movement",
+            "mkt_movement",
+            "fv_movement",
             "stake_movement",
             "sim_movement",
-            "mkt_movement",
+            "odds_movement",
             "is_new",
-        ]:
-            if c in df.columns:
-                movement_cols.append(c)
+        ]
+
+        for col in movement_cols:
+            if col not in df.columns:
+                df[col] = [row.get(col, "same") for row in rows]
+
         return df[required_cols + movement_cols + ["market_class"]]
+
     return df[required_cols + ["market_class"]]
 
 
