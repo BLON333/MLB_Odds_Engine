@@ -37,6 +37,16 @@ TEAM_ABBR = {
 TEAM_NAME_TO_ABBR = {k.title(): v.upper() for k, v in TEAM_ABBR.items()}
 TEAM_ABBR_TO_NAME = {v.upper(): k.title() for k, v in TEAM_ABBR.items()}
 
+# Mapping for normalizing non-standard team abbreviations encountered in
+# simulation files or other data sources.
+TEAM_FIXES = {
+    "ATH": "OAK",
+    "WSN": "WSH",
+    "CHW": "CWS",
+    "KCR": "KC",
+    "TBD": "TB",
+}
+
 
 def merge_offers_with_alternates(offers: dict, alt_map: dict = None) -> dict:
     """
@@ -747,6 +757,19 @@ def normalize_game_id(game_id):
     except Exception as e:
         from core.logger import get_logger
         get_logger(__name__).debug("[DEBUG] normalize_game_id error: %s | Returning raw game_id", e)
+        return game_id
+
+
+def canonical_game_id(game_id: str) -> str:
+    """Normalize ``game_id`` using :data:`TEAM_FIXES` for consistent comparisons."""
+    try:
+        date_parts = game_id.split("-", 3)[:3]
+        matchup = game_id.split("-")[3]
+        away, home = matchup.split("@")
+        away_fixed = TEAM_FIXES.get(away, away)
+        home_fixed = TEAM_FIXES.get(home, home)
+        return f"{'-'.join(date_parts)}-{away_fixed}@{home_fixed}"
+    except Exception:
         return game_id
 
 
