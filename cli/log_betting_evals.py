@@ -125,6 +125,7 @@ from utils import (
     normalize_label,
     get_segment_label,
     canonical_game_id,
+    now_eastern,
 )
 
 
@@ -2533,7 +2534,8 @@ if __name__ == "__main__":
         ]
         print(f"📡 Fetching market odds for {len(games)} games on {date_tag}...")
         odds = fetch_market_odds_from_api(games)
-        odds_file = save_market_odds_to_file(odds, date_tag)
+        timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
+        odds_file = save_market_odds_to_file(odds, timestamp_tag)
 
     run_batch_logging(
         eval_folder=args.eval_folder,
