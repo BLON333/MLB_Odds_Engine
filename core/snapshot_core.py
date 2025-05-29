@@ -371,7 +371,7 @@ def compare_and_flag_new_rows(
         )
         if should_log_movement():
             print(
-                f"🧠 Movement for {key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
+                f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
             )
 
         j = json.dumps(entry, sort_keys=True)
@@ -526,7 +526,7 @@ def build_snapshot_rows(
             movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
             if should_log_movement():
                 print(
-                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
+                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
                 )
             rows.append(row)
     # Persist tracker after processing simulations

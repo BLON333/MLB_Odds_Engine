@@ -162,10 +162,10 @@ def should_log_bet(
         except Exception:
             pass
     if not (
-        movement["ev_movement"] == "better" and movement["mkt_movement"] == "better"
+        movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
     ):
         _log_verbose(
-            f"⛔ should_log_bet: Market not confirmed (EV: {movement['ev_movement']}, Mkt: {movement['mkt_movement']})",
+            f"⛔ should_log_bet: Market not confirmed (EV: {movement['ev_movement']}, FV: {movement['fv_movement']})",
             verbose,
         )
         return None
