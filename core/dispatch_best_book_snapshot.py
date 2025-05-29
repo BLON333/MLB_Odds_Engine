@@ -6,6 +6,9 @@ import sys
 import json
 import glob
 import argparse
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -13,6 +16,11 @@ from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 
 logger = get_logger(__name__)
+
+# Optional debug log to verify environment variables are loaded
+logger.debug(
+    "✅ Loaded webhook: %s", os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
+)
 
 
 def latest_snapshot_path() -> str | None:
