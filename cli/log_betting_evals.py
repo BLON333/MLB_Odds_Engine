@@ -1437,6 +1437,7 @@ def log_bets(
         # 📝 Track every evaluated bet before applying stake/EV filters
         tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
+
         movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
         print(
             f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
