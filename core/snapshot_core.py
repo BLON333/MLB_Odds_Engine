@@ -141,9 +141,16 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.apply(highlight_new, axis=1)
 
     styled = styled.set_properties(
-        subset=df.columns.tolist(),
+        subset=[c for c in df.columns if c != "Market Class"],
         **{
             "text-align": "left",
+            "font-family": "monospace",
+            "font-size": "10pt",
+        },
+    ).set_properties(
+        subset=["Market Class"],
+        **{
+            "text-align": "center",
             "font-family": "monospace",
             "font-size": "10pt",
         },
@@ -160,13 +167,6 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             }
         ]
     )
-
-    # Center align the Market Class column for clarity
-    if "Market Class" in df.columns:
-        styled = styled.set_properties(
-            subset=["Market Class"],
-            **{"text-align": "center"},
-        )
 
     try:
         styled = styled.hide_index()
