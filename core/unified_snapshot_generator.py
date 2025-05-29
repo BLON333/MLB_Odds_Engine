@@ -19,6 +19,8 @@ from utils import now_eastern
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import load_simulations, build_snapshot_rows
+from core.market_eval_tracker import load_tracker, save_tracker
+from core.market_movement_tracker import track_and_update_market_movement
 from cli.log_betting_evals import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
@@ -87,6 +89,13 @@ def build_snapshot_for_date(
 
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows, min_ev=1.0, min_stake=0.5)
+
+    # 🧠 Track line movement for each row using the eval tracker
+    tracker = load_tracker()
+    for row in rows:
+        movement = track_and_update_market_movement(row, tracker)
+        row.update(movement)
+    save_tracker(tracker)
 
     # Filter rows to desired EV%% range before tagging snapshot roles
     min_ev, max_ev = ev_range
