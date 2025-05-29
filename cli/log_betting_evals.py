@@ -98,7 +98,7 @@ from utils import (
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
 from core.market_eval_tracker import load_tracker, save_tracker
-from core.market_movement_tracker import detect_market_movement
+from core.market_movement_tracker import track_and_update_market_movement
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -905,8 +905,7 @@ def send_discord_notification(row, eval_tracker=None):
     tracker = eval_tracker
     tracker_key = f"{game_id}:{market}:{side}"
     prior = tracker.get(tracker_key)
-    movement = detect_market_movement(row, prior)
-    row.update(movement)
+    movement = track_and_update_market_movement(row, tracker)
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
     else:
@@ -1232,19 +1231,10 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         # }
         # save_market_conf_tracker(MARKET_CONF_TRACKER)
 
-        prior = MARKET_EVAL_TRACKER.get(tracker_key)
-        movement = detect_market_movement(row, prior)
-        row.update(movement)
+        movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
         print(
             f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
         )
-        MARKET_EVAL_TRACKER[tracker_key] = {
-            "ev_percent": row["ev_percent"],
-            "blended_fv": row.get("blended_fv", row.get("fair_odds")),
-            "market_odds": row["market_odds"],
-            "date_simulated": row["date_simulated"],
-            "best_book": row.get("best_book"),
-        }
 
     existing[key] = full_stake
     if existing_theme_stakes is not None:
@@ -1447,8 +1437,7 @@ def log_bets(
         # 📝 Track every evaluated bet before applying stake/EV filters
         tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
-        movement = detect_market_movement(row, prior)
-        row.update(movement)
+        movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
         print(
             f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
         )
@@ -1767,8 +1756,7 @@ def log_derivative_bets(
                 # 📝 Track every evaluated bet before applying stake/EV filters
                 tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
                 prior = MARKET_EVAL_TRACKER.get(tracker_key)
-                movement = detect_market_movement(row, prior)
-                row.update(movement)
+                movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
                 print(
                     f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
                 )
@@ -2318,8 +2306,7 @@ def process_theme_logged_bets(
                 # 📝 Update tracker for every evaluated bet
                 t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
                 prior = MARKET_EVAL_TRACKER.get(t_key)
-                movement = detect_market_movement(row_copy, prior)
-                row_copy.update(movement)
+                movement = track_and_update_market_movement(row_copy, MARKET_EVAL_TRACKER)
                 print(
                     f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
                 )
@@ -2332,13 +2319,6 @@ def process_theme_logged_bets(
                         )
                     except Exception:
                         pass
-                MARKET_EVAL_TRACKER[t_key] = {
-                    "ev_percent": row_copy.get("ev_percent"),
-                    "blended_fv": row_copy.get("blended_fv", row_copy.get("fair_odds")),
-                    "market_odds": row_copy.get("market_odds"),
-                    "date_simulated": row_copy.get("date_simulated"),
-                    "best_book": row_copy.get("best_book"),
-                }
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     write_to_csv(
