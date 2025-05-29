@@ -36,6 +36,19 @@ from core.market_eval_tracker import load_tracker, save_tracker
 # Load tracker once for snapshot utilities
 MARKET_EVAL_TRACKER = load_tracker()
 
+# === Console Output Controls ===
+MOVEMENT_LOG_LIMIT = 5
+movement_log_count = 0
+
+def should_log_movement() -> bool:
+    global movement_log_count
+    movement_log_count += 1
+    if movement_log_count <= MOVEMENT_LOG_LIMIT:
+        return True
+    if movement_log_count == MOVEMENT_LOG_LIMIT + 1:
+        print("🧠 ... (truncated additional movement logs)")
+    return False
+
 
 def build_argument_parser(
     description: str,
@@ -343,9 +356,10 @@ def compare_and_flag_new_rows(
             },
             MARKET_EVAL_TRACKER,
         )
-        print(
-            f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-        )
+        if should_log_movement():
+            print(
+                f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+            )
 
         j = json.dumps(entry, sort_keys=True)
         if j in seen:
@@ -497,9 +511,10 @@ def build_snapshot_rows(
             # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
-            print(
-                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-            )
+            if should_log_movement():
+                print(
+                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                )
             rows.append(row)
     # Persist tracker after processing simulations
     save_tracker(MARKET_EVAL_TRACKER)
