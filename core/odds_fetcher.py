@@ -190,11 +190,31 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
             away_team = event["away_team"]
             start_time = datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00"))
 
-            game_id = extract_game_id_from_event(away_team, home_team, start_time)
+            # 🧩 Patch known abbreviation mismatches
+            TEAM_FIXES = {"WAS": "WSH", "CHW": "CWS", "KCR": "KC", "ATH": "OAK","NYN": "NYM","SDP": "SD", }
+
+            def patched_abbr(name):
+                abbr = TEAM_ABBR.get(name, name)
+                return TEAM_FIXES.get(abbr, abbr)
+
+            away_abbr = patched_abbr(away_team)
+            home_abbr = patched_abbr(home_team)
+            date_str = start_time.strftime("%Y-%m-%d")
+            game_id = f"{date_str}-{away_abbr}@{home_abbr}"
+
+            # 🔍 DEBUG comparison with your sim game_ids
+            print("🔍 Incoming game_ids (expected):", sorted(game_ids))
+            print(f"🧱 Built from API: {game_id} → Home: {home_team}, Away: {away_team}")
+
             if game_id not in game_ids:
+                print(f"❌ No match for API-built game_id: {game_id}")
+                os.makedirs("logs", exist_ok=True)
+                with open("logs/missed_game_ids.txt", "a") as f:
+                    f.write(f"{game_id} — API: {away_team} @ {home_team}\n")
                 continue
 
-            logger.debug(f"\n🧪 Scanned event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}")
+            logger.debug(f"\n✅ Matched event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}")
+
 
             event_id = event["id"]
             odds_resp = requests.get(

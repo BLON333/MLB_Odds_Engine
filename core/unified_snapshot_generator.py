@@ -83,15 +83,17 @@ def build_snapshot_for_date(
         logger.warning("❌ No simulation files found for %s", date_str)
         return []
 
+    # Fetch or slice market odds
     if odds_data is None:
         odds = fetch_market_odds_from_api(list(sims.keys()))
     else:
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
 
+    # Build base rows and expand per-book variants
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows, min_ev=1.0, min_stake=0.5)
 
-    # 🧠 Track line movement for each row using the eval tracker
+    # 🧠 Track line movement
     tracker = load_tracker()
     reference_tracker = copy.deepcopy(tracker)
     for row in rows:
@@ -103,16 +105,17 @@ def build_snapshot_for_date(
         row.update(movement)
     save_tracker(tracker)
 
-    # Filter rows to desired EV%% range before tagging snapshot roles
+    # 🎯 Filter by EV% (optional)
     min_ev, max_ev = ev_range
     rows = [r for r in rows if min_ev <= r.get("ev_percent", 0) <= max_ev]
     logger.info(
-        "✅ Filtered rows to EV%% between %s and %s → %s rows remain",
+        "✅ Filtered rows to EV%% between %.2f and %.2f → %d rows remain",
         min_ev,
         max_ev,
         len(rows),
     )
 
+    # 📦 Assign snapshot roles (but include all rows)
     snapshot_rows = []
     for row in rows:
         row["snapshot_roles"] = []
@@ -124,10 +127,11 @@ def build_snapshot_for_date(
             row["snapshot_roles"].append("fv_drop")
         if is_personal_book_row(row):
             row["snapshot_roles"].append("personal")
-        if row["snapshot_roles"]:
-            snapshot_rows.append(row)
+        snapshot_rows.append(row)
 
+    print(f"✅ Snapshot contains {len(snapshot_rows)} evaluated bets.")
     return snapshot_rows
+
 
 
 def main() -> None:
