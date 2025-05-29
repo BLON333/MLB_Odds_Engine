@@ -6,7 +6,6 @@ import sys
 import json
 import glob
 import argparse
-import pandas as pd
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -38,7 +37,9 @@ def filter_by_date(rows: list, date_str: str | None) -> list:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Dispatch best-book snapshot")
-    parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
+    parser.add_argument(
+        "--snapshot-path", default=None, help="Path to unified snapshot JSON"
+    )
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument("--diff-highlight", action="store_true")
@@ -54,6 +55,8 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+    if "market" in df.columns and "Market" not in df.columns:
+        df["Market"] = df["market"]
 
     if args.output_discord:
         webhook_main = os.getenv("DISCORD_BEST_BOOK_MAIN_WEBHOOK_URL")
@@ -62,23 +65,37 @@ def main() -> None:
             if webhook_main:
                 subset = df[df["Market Class"] == "🏆 Main"]
                 if subset.empty:
-                    subset = df[df["Market"].str.lower().str.startswith(("h2h", "spreads", "totals"), na=False)]
-                logger.info("📡 Evaluating snapshot for: main → %s rows", subset.shape[0])
+                    subset = df[
+                        df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
+                logger.info(
+                    "📡 Evaluating snapshot for: main → %s rows", subset.shape[0]
+                )
                 if not subset.empty:
-                    send_bet_snapshot_to_discord(subset, "Best Book (Main)", webhook_main)
+                    send_bet_snapshot_to_discord(
+                        subset, "Best Book (Main)", webhook_main
+                    )
                 else:
                     logger.warning("⚠️ No bets for main")
             if webhook_alt:
                 subset = df[df["Market Class"] == "📐 Alt Line"]
                 if subset.empty:
-                    subset = df[~df["Market"].str.lower().str.startswith(("h2h", "spreads", "totals"), na=False)]
-                logger.info("📡 Evaluating snapshot for: alternate → %s rows", subset.shape[0])
+                    subset = df[
+                        ~df["Market"]
+                        .str.lower()
+                        .str.startswith(("h2h", "spreads", "totals"), na=False)
+                    ]
+                logger.info(
+                    "📡 Evaluating snapshot for: alternate → %s rows", subset.shape[0]
+                )
                 if not subset.empty:
                     send_bet_snapshot_to_discord(subset, "Best Book (Alt)", webhook_alt)
                 else:
                     logger.warning("⚠️ No bets for alternate")
         else:
-            logger.error("❌ No Discord webhook configured for best-book snapshots.")
+            logger.warning("❌ No Discord webhook configured for best-book snapshots.")
     else:
         print(df.to_string(index=False))
 
