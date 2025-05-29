@@ -95,3 +95,29 @@ def detect_market_movement(
         "sim_movement": _move(sim_curr, sim_prev, sim_threshold),
         "mkt_movement": _move(mkt_curr, mkt_prev, mkt_threshold),
     }
+
+
+def track_and_update_market_movement(
+    entry: Dict, tracker: Dict, thresholds: Optional[Dict[str, float]] | None = None
+) -> Dict[str, object]:
+    """Detect movement for an entry and update the tracker in one step."""
+
+    key = f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
+    prior = tracker.get(key)
+
+    thresholds = thresholds or {}
+    movement = detect_market_movement(entry, prior, **thresholds)
+    entry.update(movement)
+
+    tracker[key] = {
+        "ev_percent": entry.get("ev_percent"),
+        "blended_fv": entry.get("blended_fv"),
+        "market_odds": entry.get("market_odds"),
+        "stake": entry.get("stake"),
+        "sim_prob": entry.get("sim_prob"),
+        "market_prob": entry.get("market_prob"),
+        "date_simulated": entry.get("date_simulated"),
+        "best_book": entry.get("best_book"),
+    }
+
+    return movement
