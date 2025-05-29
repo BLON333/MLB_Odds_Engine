@@ -68,7 +68,11 @@ def is_personal_book_row(row: dict) -> bool:
 # Snapshot generation
 # ---------------------------------------------------------------------------
 
-def build_snapshot_for_date(date_str: str, odds_data: dict | None) -> list:
+def build_snapshot_for_date(
+    date_str: str,
+    odds_data: dict | None,
+    ev_range: tuple[float, float] = (5.0, 20.0),
+) -> list:
     """Return expanded snapshot rows for a single date."""
     sim_dir = os.path.join("backtest", "sims", date_str)
     sims = load_simulations(sim_dir)
@@ -83,6 +87,16 @@ def build_snapshot_for_date(date_str: str, odds_data: dict | None) -> list:
 
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows, min_ev=1.0, min_stake=0.5)
+
+    # Filter rows to desired EV%% range before tagging snapshot roles
+    min_ev, max_ev = ev_range
+    rows = [r for r in rows if min_ev <= r.get("ev_percent", 0) <= max_ev]
+    logger.info(
+        "✅ Filtered rows to EV%% between %s and %s → %s rows remain",
+        min_ev,
+        max_ev,
+        len(rows),
+    )
 
     snapshot_rows = []
     for row in rows:
@@ -105,9 +119,20 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate unified market snapshot")
     parser.add_argument("--date", default=now_eastern().strftime("%Y-%m-%d"))
     parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
+    parser.add_argument(
+        "--ev-range",
+        default="5.0,20.0",
+        help="EV%% range to include as 'min,max'",
+    )
     args = parser.parse_args()
 
     date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
+
+    try:
+        min_ev, max_ev = map(float, args.ev_range.split(","))
+    except Exception:
+        logger.error("❌ Invalid --ev-range format, expected 'min,max'")
+        return
 
     odds_cache = None
     if args.odds_path:
@@ -129,7 +154,9 @@ def main() -> None:
 
     all_rows: list = []
     for date_str in date_list:
-        all_rows.extend(build_snapshot_for_date(date_str, odds_cache))
+        all_rows.extend(
+            build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
+        )
 
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
