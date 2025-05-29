@@ -19,7 +19,8 @@ from utils import (
     TEAM_NAME_TO_ABBR,
     TEAM_ABBR_TO_NAME,
     extract_game_id_from_event,
-    merge_book_sources_for
+    merge_book_sources_for,
+    canonical_game_id,
 )
 
 load_dotenv()
@@ -98,6 +99,7 @@ def fetch_consensus_for_single_game(game_id):
     """
     Pulls odds from API for a single game and returns de-vigged consensus odds.
     """
+    game_id = canonical_game_id(game_id)
     logger.debug(f"🔎 Fetching consensus odds for {game_id}")
 
     # Step 1: Pull events
@@ -171,6 +173,7 @@ def fetch_consensus_for_single_game(game_id):
 
 
 def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
+    game_ids = [canonical_game_id(gid) for gid in game_ids]
     logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
     logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
@@ -190,17 +193,10 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
             away_team = event["away_team"]
             start_time = datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00"))
 
-            # 🧩 Patch known abbreviation mismatches
-            TEAM_FIXES = {"WAS": "WSH", "CHW": "CWS", "KCR": "KC", "ATH": "OAK","NYN": "NYM","SDP": "SD", }
-
-            def patched_abbr(name):
-                abbr = TEAM_ABBR.get(name, name)
-                return TEAM_FIXES.get(abbr, abbr)
-
-            away_abbr = patched_abbr(away_team)
-            home_abbr = patched_abbr(home_team)
+            away_abbr = TEAM_ABBR.get(away_team, away_team)
+            home_abbr = TEAM_ABBR.get(home_team, home_team)
             date_str = start_time.strftime("%Y-%m-%d")
-            game_id = f"{date_str}-{away_abbr}@{home_abbr}"
+            game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
 
             # 🔍 DEBUG comparison with your sim game_ids
             print("🔍 Incoming game_ids (expected):", sorted(game_ids))

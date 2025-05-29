@@ -124,6 +124,7 @@ from utils import (
     find_sim_entry,
     normalize_label,
     get_segment_label,
+    canonical_game_id,
 )
 
 
@@ -776,7 +777,8 @@ def load_existing_stakes(log_path):
         reader = csv.DictReader(f)
         for row in reader:
             try:
-                key = (row["game_id"], row["market"], row["side"])
+                gid = canonical_game_id(row["game_id"])
+                key = (gid, row["market"], row["side"])
                 stake_str = row.get("stake", "").strip()
                 stake = float(stake_str) if stake_str else 0.0
                 existing[key] = stake
@@ -801,7 +803,7 @@ def load_existing_theme_stakes(csv_path):
         reader = csv.DictReader(f)
         for row in reader:
             try:
-                game_id = row["game_id"]
+                game_id = canonical_game_id(row["game_id"])
                 market = row["market"]
                 side = row["side"]
 
@@ -1331,6 +1333,8 @@ def log_bets(
     from datetime import datetime
     from core.market_pricer import decimal_odds, implied_prob, kelly_fraction
     from utils import convert_full_team_spread_to_odds_key
+
+    game_id = canonical_game_id(game_id)
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
@@ -1962,19 +1966,6 @@ def run_batch_logging(
     else:
         all_market_odds = market_odds
 
-    TEAM_FIXES = {"ATH": "OAK", "WSN": "WSH", "CHW": "CWS", "KCR": "KC", "TBD": "TB"}
-
-    def normalize_game_id(gid):
-        try:
-            parts = gid.split("-")
-            date = "-".join(parts[:3])
-            matchup = parts[3]
-            away, home = matchup.split("@")
-            away = TEAM_FIXES.get(away, away)
-            home = TEAM_FIXES.get(home, home)
-            return f"{date}-{away}@{home}"
-        except Exception:
-            return gid
 
     def extract_start_times(odds_data):
         from dateutil import parser
@@ -2097,7 +2088,7 @@ def run_batch_logging(
         existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
 
         raw_game_id = fname.replace(".json", "")
-        game_id = normalize_game_id(raw_game_id)
+        game_id = canonical_game_id(raw_game_id)
         sim_path = os.path.join(eval_folder, fname)
 
         if not os.path.exists(sim_path):
