@@ -30,7 +30,7 @@ from core.market_pricer import (
     decimal_odds,
     extract_best_book,
 )
-from core.market_movement_tracker import detect_market_movement
+from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
 
 # Load tracker once for snapshot utilities
@@ -327,36 +327,25 @@ def compare_and_flag_new_rows(
             "display": build_display_block(entry),
         }
 
-        prior = MARKET_EVAL_TRACKER.get(key)
-        if prior is None:
-            prior = prior_data.get(key)
-
-        movement = detect_market_movement(
+        movement = track_and_update_market_movement(
             {
+                "game_id": game_id,
+                "market": market,
+                "side": side,
                 "blended_fv": blended_fv,
                 "market_odds": market_odds,
                 "ev_percent": ev_pct,
                 "stake": entry.get("stake"),
                 "sim_prob": entry.get("sim_prob"),
                 "market_prob": entry.get("market_prob"),
+                "date_simulated": entry.get("date_simulated"),
+                "best_book": book,
             },
-            prior,
+            MARKET_EVAL_TRACKER,
         )
-        entry.update(movement)
         print(
             f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
         )
-        # 📝 Track every evaluated bet regardless of filters
-        MARKET_EVAL_TRACKER[key] = {
-            "ev_percent": ev_pct,
-            "blended_fv": blended_fv,
-            "market_odds": market_odds,
-            "stake": entry.get("stake"),
-            "sim_prob": entry.get("sim_prob"),
-            "market_prob": entry.get("market_prob"),
-            "date_simulated": entry.get("date_simulated"),
-            "best_book": book,
-        }
 
         j = json.dumps(entry, sort_keys=True)
         if j in seen:
@@ -507,22 +496,10 @@ def build_snapshot_rows(
             }
             # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
-            prior = MARKET_EVAL_TRACKER.get(tracker_key)
-            movement = detect_market_movement(row, prior)
-            row.update(movement)
+            movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
             print(
                 f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
             )
-            MARKET_EVAL_TRACKER[tracker_key] = {
-                "ev_percent": row["ev_percent"],
-                "blended_fv": row["blended_fv"],
-                "market_odds": row["market_odds"],
-                "stake": row.get("stake"),
-                "sim_prob": row.get("sim_prob"),
-                "market_prob": row.get("market_prob"),
-                "date_simulated": row["date_simulated"],
-                "best_book": row.get("best_book"),
-            }
             rows.append(row)
     # Persist tracker after processing simulations
     save_tracker(MARKET_EVAL_TRACKER)
