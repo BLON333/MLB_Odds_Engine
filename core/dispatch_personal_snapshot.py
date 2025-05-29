@@ -6,6 +6,9 @@ import sys
 import json
 import glob
 import argparse
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -14,7 +17,13 @@ from core.logger import get_logger
 
 logger = get_logger(__name__)
 
-PERSONAL_WEBHOOK_URL = "https://discord.com/api/webhooks/1368408687559053332/2uhUud0fgdonV0xdIDorXX02HGQ1AWsEO_lQHMDqWLh-4THpMEe3mXb7u88JSvssSRtM"
+# Optional debug log to verify environment variables are loaded
+logger.debug("✅ Loaded webhook: %s", os.getenv("DISCORD_PERSONAL_WEBHOOK_URL"))
+
+PERSONAL_WEBHOOK_URL = os.getenv(
+    "DISCORD_PERSONAL_WEBHOOK_URL",
+    "https://discord.com/api/webhooks/1368408687559053332/2uhUud0fgdonV0xdIDorXX02HGQ1AWsEO_lQHMDqWLh-4THpMEe3mXb7u88JSvssSRtM",
+)
 
 
 def latest_snapshot_path() -> str | None:
