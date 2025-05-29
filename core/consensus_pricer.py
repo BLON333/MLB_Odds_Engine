@@ -160,7 +160,7 @@ def calculate_consensus_prob(game_id, market_odds, market_key, label, consensus_
                                 print(f"✅ Found paired label in {alt_mkt_key}: {paired_key}")
                         else:
                             if debug:
-                                print(f"⚠️ Paired label not found for: '{paired_label}'")
+                                print(f⚠️ Paired label not found for: '{paired_label}'")
                                 print(f"   ➤ Normalized paired label: '{normalize_label(paired_label)}'")
                                 print(f"   ➤ Keys in {mkt_key}: {[k for k in market]}")
                                 print(f"   ➤ Normalized {mkt_key} keys: {[normalize_label(k) for k in market]}")
