@@ -143,7 +143,7 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     styled = styled.set_properties(
         subset=df.columns.tolist(),
         **{
-            "text-align": "left",
+            "text-align": "center",
             "font-family": "monospace",
             "font-size": "10pt",
         },
@@ -160,13 +160,6 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             }
         ]
     )
-
-    # Center align the Market Class column for clarity
-    if "Market Class" in df.columns:
-        styled = styled.set_properties(
-            subset=["Market Class"],
-            **{"text-align": "center"},
-        )
 
     try:
         styled = styled.hide_index()
