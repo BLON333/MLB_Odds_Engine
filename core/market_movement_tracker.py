@@ -2,92 +2,111 @@
 
 from typing import Dict, Optional
 
-MOVEMENT_THRESHOLDS = {
-    "ev_percent": 0.001,
-    "market_prob": 0.0005,
-    "blended_fv": 0.01,
-    "market_odds": 0.01,
-    "stake": 0.001,
-    "sim_prob": 0.001,
-}
-
 from core.market_pricer import decimal_odds
 
 
-def _compare_change(curr, prev, threshold):
+def _move_odds(curr, prev, threshold: float = 0.01) -> str:
+    """Return bettor-facing movement based on decimal payout value."""
+
     if curr is None or prev is None:
         return "same"
     try:
-        if abs(float(curr) - float(prev)) < threshold:
-            return "same"
-        return "better" if float(curr) > float(prev) else "worse"
-    except:
-        return "same"
-
-
-def _compare_odds(curr, prev, threshold):
-    from core.market_pricer import decimal_odds
-    try:
         dec_curr = decimal_odds(float(curr))
         dec_prev = decimal_odds(float(prev))
-        if abs(dec_curr - dec_prev) < threshold:
-            return "same"
-        return "better" if dec_curr > dec_prev else "worse"
-    except:
+    except Exception:
         return "same"
 
+    if abs(dec_curr - dec_prev) < threshold:
+        return "same"
 
-def _compare_fv(curr, prev, threshold):
-    base = _compare_odds(curr, prev, threshold)
-    return {"better": "worse", "worse": "better"}.get(base, base)
+    return "better" if dec_curr > dec_prev else "worse"
 
 
-def detect_market_movement(current: Dict, prior: Optional[Dict]) -> Dict[str, object]:
-    movement = {"is_new": prior is None}
+def _move_fv(curr, prev, threshold: float = 0.01) -> str:
+    """Return market-confirmation movement (inverse of :func:`_move_odds`)."""
 
-    field_map = {
-        "ev_movement": ("ev_percent", _compare_change),
-        "mkt_movement": ("market_prob", _compare_change),
-        "fv_movement": ("blended_fv", _compare_fv),
-        "odds_movement": ("market_odds", _compare_odds),
-        "stake_movement": ("stake", _compare_change),
-        "sim_movement": ("sim_prob", _compare_change),
+    base = _move_odds(curr, prev, threshold)
+    if base == "better":
+        return "worse"
+    if base == "worse":
+        return "better"
+    return base
+
+
+def detect_market_movement(
+    current: Dict,
+    prior: Optional[Dict],
+    *,
+    fv_threshold: float = 0.01,
+    ev_threshold: float = 0.001,
+    odds_threshold: float = 0.01,
+    stake_threshold: float = 0.001,
+    sim_threshold: float = 0.001,
+    mkt_threshold: float = 0.001,
+) -> Dict[str, object]:
+    """Return movement info for FV, EV, odds and stake compared to a prior entry.
+
+    The function now uses per-field thresholds so even small changes can be
+    detected.  Thresholds can be overridden via keyword arguments if desired.
+    """
+
+    def _get(d: Dict, *keys):
+        for k in keys:
+            if d is None:
+                continue
+            v = d.get(k)
+            if v is not None:
+                return v
+        return None
+
+    def _move(curr, prev, threshold: float = 0.1):
+        if prev is None or curr is None:
+            return "same"
+        try:
+            if abs(float(curr) - float(prev)) < threshold:
+                return "same"
+        except Exception:
+            pass
+        if curr > prev:
+            return "better"
+        if curr < prev:
+            return "worse"
+        return "same"
+
+    fv_curr = _get(current, "blended_fv", "fair_value", "fair_odds")
+    fv_prev = _get(prior or {}, "blended_fv", "fair_value", "fair_odds")
+    ev_curr = _get(current, "ev_percent")
+    ev_prev = _get(prior or {}, "ev_percent")
+    odds_curr = _get(current, "market_odds")
+    odds_prev = _get(prior or {}, "market_odds")
+    stake_curr = _get(current, "stake")
+    stake_prev = _get(prior or {}, "stake")
+    sim_curr = _get(current, "sim_prob")
+    sim_prev = _get(prior or {}, "sim_prob")
+    mkt_curr = _get(current, "market_prob")
+    mkt_prev = _get(prior or {}, "market_prob")
+
+    return {
+        "is_new": prior is None,
+        "fv_movement": _move_fv(fv_curr, fv_prev, fv_threshold),
+        "ev_movement": _move(ev_curr, ev_prev, ev_threshold),
+        "odds_movement": _move_odds(odds_curr, odds_prev, odds_threshold),
+        "stake_movement": _move(stake_curr, stake_prev, stake_threshold),
+        "sim_movement": _move(sim_curr, sim_prev, sim_threshold),
+        "mkt_movement": _move(mkt_curr, mkt_prev, mkt_threshold),
     }
-
-    for move_key, (field, fn) in field_map.items():
-        curr = current.get(field)
-        prev = (prior or {}).get(field)
-        threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
-        movement[move_key] = fn(curr, prev, threshold)
-
-    return movement
 
 
 def track_and_update_market_movement(
-    entry: Dict,
-    tracker: Dict,
-    reference_tracker: Optional[Dict] | None = None,
+    entry: Dict, tracker: Dict, thresholds: Optional[Dict[str, float]] | None = None
 ) -> Dict[str, object]:
-    """Detect movement for an entry and update the tracker in one step.
+    """Detect movement for an entry and update the tracker in one step."""
 
-    Parameters
-    ----------
-    entry : Dict
-        Current market evaluation row.
-    tracker : Dict
-        Tracker to update with the new values.
-    reference_tracker : Optional[Dict], optional
-        Frozen snapshot used for movement comparison.  If ``None`` the
-        ``tracker`` itself is used, which preserves the previous behaviour.
-    """
+    key = f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
+    prior = tracker.get(key)
 
-    key = (
-        f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
-    )
-    base = reference_tracker if reference_tracker is not None else tracker
-    prior = base.get(key)
-
-    movement = detect_market_movement(entry, prior)
+    thresholds = thresholds or {}
+    movement = detect_market_movement(entry, prior, **thresholds)
     entry.update(movement)
 
     tracker[key] = {

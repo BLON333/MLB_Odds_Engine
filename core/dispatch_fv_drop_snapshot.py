@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Dispatch FV drop snapshot (market probability increases) from unified snapshot JSON."""
+"""Dispatch FV drop snapshot from unified snapshot JSON."""
 
 import os
 import sys
@@ -44,7 +44,7 @@ def filter_by_date(rows: list, date_str: str | None) -> list:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Dispatch FV drop snapshot (market probability increases)")
+    parser = argparse.ArgumentParser(description="Dispatch FV drop snapshot")
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
@@ -57,11 +57,7 @@ def main() -> None:
         return
 
     rows = load_rows(path)
-    rows = [
-        r
-        for r in rows
-        if r.get("ev_movement") == "better" and r.get("mkt_movement") == "better"
-    ]
+    rows = [r for r in rows if "fv_drop" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)

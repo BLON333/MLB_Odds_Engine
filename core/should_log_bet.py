@@ -117,7 +117,6 @@ def should_log_bet(
     min_ev: float = 0.05,
     min_stake: float = 1.0,
     eval_tracker: dict | None = None,
-    reference_tracker: dict | None = None,
 ) -> Optional[dict]:
     """Return updated bet dict if staking and movement criteria are met.
 
@@ -151,11 +150,7 @@ def should_log_bet(
             prior_entry = tracker_entry
 
     tracker_key = f"{game_id}:{market}:{side}"
-    movement = track_and_update_market_movement(
-        new_bet,
-        eval_tracker or {},
-        reference_tracker or eval_tracker,
-    )
+    movement = track_and_update_market_movement(new_bet, eval_tracker or {})
     if movement.get("is_new"):
         _log_verbose(f"🟡 First-time seen → {tracker_key}", verbose)
     else:

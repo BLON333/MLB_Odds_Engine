@@ -30,14 +30,11 @@ from core.market_pricer import (
     decimal_odds,
     extract_best_book,
 )
-from core.consensus_pricer import calculate_consensus_prob
 from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
-import copy
 
-# Load tracker once for snapshot utilities and keep a frozen copy for comparisons
+# Load tracker once for snapshot utilities
 MARKET_EVAL_TRACKER = load_tracker()
-MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
 # === Console Output Controls ===
 MOVEMENT_LOG_LIMIT = 5
@@ -121,11 +118,7 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     if "odds_movement" in df.columns:
         styled = styled.apply(_apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"])
     if "fv_movement" in df.columns:
-        # Invert the FV coloring so drops (market confirmation) appear green
-        styled = styled.apply(
-            _apply_movement("Fair Value", "fv_movement", invert=True),
-            subset=["FV"],
-        )
+        styled = styled.apply(_apply_movement("FV", "fv_movement", invert=True), subset=["FV"])
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
     if "stake_movement" in df.columns:
@@ -144,16 +137,9 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
         styled = styled.apply(highlight_new, axis=1)
 
     styled = styled.set_properties(
-        subset=[c for c in df.columns if c != "Market Class"],
+        subset=df.columns.tolist(),
         **{
-            "text-align": "center",
-            "font-family": "monospace",
-            "font-size": "10pt",
-        },
-    ).set_properties(
-        subset=["Market Class"],
-        **{
-            "text-align": "center",
+            "text-align": "left",
             "font-family": "monospace",
             "font-size": "10pt",
         },
@@ -247,9 +233,7 @@ def send_bet_snapshot_to_discord(
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
     caption = (
-        f"📈 **Live Market Snapshot — {market_type}**\n"
-        f"_Generated: {timestamp}_\n"
-        "🟩 FV worse = market confirmation | 🟥 FV better = market drifted"
+        f"📈 **Live Market Snapshot — {market_type}**\n" f"_Generated: {timestamp}_"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
@@ -371,7 +355,6 @@ def compare_and_flag_new_rows(
                 "best_book": book,
             },
             MARKET_EVAL_TRACKER,
-            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
         )
         if should_log_movement():
             print(
@@ -491,18 +474,7 @@ def build_snapshot_rows(
                 )
                 continue
 
-            sportsbook_odds = market_entry.get("per_book", {})
-            best_book = extract_best_book(sportsbook_odds)
-            if best_book:
-                sportsbook_odds[best_book] = price
-                market_entry["per_book"] = sportsbook_odds
-            result, _ = calculate_consensus_prob(
-                game_id=game_id,
-                market_odds={game_id: odds},
-                market_key=matched_key,
-                label=lookup_side,
-            )
-            consensus_prob = result.get("consensus_prob")
+            consensus_prob = market_entry.get("consensus_prob")
             p_blended, _, _, p_market = blend_prob(
                 sim_prob, price, market, hours_to_game, consensus_prob
             )
@@ -514,6 +486,9 @@ def build_snapshot_rows(
             print(
                 f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
             )
+
+            sportsbook_odds = market_entry.get("per_book", {})
+            best_book = extract_best_book(sportsbook_odds)
 
             row = {
                 "game_id": game_id,
@@ -535,11 +510,7 @@ def build_snapshot_rows(
             }
             # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
-            movement = track_and_update_market_movement(
-                row,
-                MARKET_EVAL_TRACKER,
-                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-            )
+            movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
             if should_log_movement():
                 print(
                     f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
@@ -598,22 +569,19 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
             df[col] = "N/A"
 
     if include_movement:
-        movement_cols = [
-            "ev_movement",
-            "mkt_movement",
+        movement_cols = []
+        for c in [
+            "odds_movement",
             "fv_movement",
+            "ev_movement",
             "stake_movement",
             "sim_movement",
-            "odds_movement",
+            "mkt_movement",
             "is_new",
-        ]
-
-        for col in movement_cols:
-            if col not in df.columns:
-                df[col] = [row.get(col, "same") for row in rows]
-
+        ]:
+            if c in df.columns:
+                movement_cols.append(c)
         return df[required_cols + movement_cols + ["market_class"]]
-
     return df[required_cols + ["market_class"]]
 
 

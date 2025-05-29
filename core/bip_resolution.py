@@ -59,4 +59,3 @@ def resolve_bip(bip_type, ev=None, la=None, batter_speed=50, fielder_rating=50, 
         print(f"resolve_bip: {bip_type} EV={ev} LA={la} -> prob={prob:.3f}")
 
     return random.random() < prob
-

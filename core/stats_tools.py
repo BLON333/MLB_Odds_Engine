@@ -49,4 +49,3 @@ def summarize_pmf(values):
             continue
         pmf[key] = float(v) / total
     return pmf
-

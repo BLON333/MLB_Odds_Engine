@@ -19,9 +19,6 @@ from utils import now_eastern
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import load_simulations, build_snapshot_rows
-from core.market_eval_tracker import load_tracker, save_tracker
-from core.market_movement_tracker import track_and_update_market_movement
-import copy
 from cli.log_betting_evals import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
@@ -58,8 +55,8 @@ def is_live_snapshot_row(row: dict) -> bool:
 
 
 def is_fv_drop_row(row: dict, prior_snapshot: dict | None = None) -> bool:
-    """Return True if market probability increased while EV improved."""
-    return row.get("ev_movement") == "better" and row.get("mkt_movement") == "better"
+    """Return True if FV decreased but EV improved."""
+    return row.get("ev_movement") == "better" and row.get("fv_movement") == "worse"
 
 
 def is_personal_book_row(row: dict) -> bool:
@@ -90,18 +87,6 @@ def build_snapshot_for_date(
 
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows, min_ev=1.0, min_stake=0.5)
-
-    # 🧠 Track line movement for each row using the eval tracker
-    tracker = load_tracker()
-    reference_tracker = copy.deepcopy(tracker)
-    for row in rows:
-        movement = track_and_update_market_movement(
-            row,
-            tracker,
-            reference_tracker,
-        )
-        row.update(movement)
-    save_tracker(tracker)
 
     # Filter rows to desired EV%% range before tagging snapshot roles
     min_ev, max_ev = ev_range
