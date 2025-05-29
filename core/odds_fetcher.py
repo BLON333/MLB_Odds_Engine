@@ -6,6 +6,7 @@ import requests
 import numpy as np
 from dotenv import load_dotenv
 from datetime import datetime, timedelta  # ✅ ADD THIS LINE
+from zoneinfo import ZoneInfo
 from collections import defaultdict
 
 from core.market_pricer import implied_prob, to_american_odds, best_price
@@ -191,7 +192,10 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
         try:
             home_team = event["home_team"]
             away_team = event["away_team"]
-            start_time = datetime.fromisoformat(event["commence_time"].replace("Z", "+00:00"))
+            start_time_utc = datetime.fromisoformat(
+                event["commence_time"].replace("Z", "+00:00")
+            ).replace(tzinfo=ZoneInfo("UTC"))
+            start_time = start_time_utc.astimezone(ZoneInfo("America/New_York"))
 
             away_abbr = TEAM_ABBR.get(away_team, away_team)
             home_abbr = TEAM_ABBR.get(home_team, home_team)
