@@ -947,10 +947,10 @@ def send_discord_notification(row, eval_tracker=None):
         except Exception:
             pass
     if not (
-        movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
+        movement["ev_movement"] == "better" and movement["mkt_movement"] == "better"
     ):
         print(
-            f"⛔ Discord notification aborted due to movement → EV: {movement['ev_movement']}, FV: {movement['fv_movement']}"
+            f"⛔ Discord notification aborted due to movement → EV: {movement['ev_movement']}, Mkt: {movement['mkt_movement']}"
         )
         return
     print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
@@ -1071,6 +1071,7 @@ def send_discord_notification(row, eval_tracker=None):
     fv_display = f"{prev_fv} --> {fair_odds}" if prev_fv is not None else str(fair_odds)
     movement_note = (
         f"📊 Movement → EV: {movement['ev_movement']}, "
+        f"Mkt: {movement['mkt_movement']}, "
         f"FV: {movement['fv_movement']}, Odds: {movement['odds_movement']}"
     )
 
@@ -1265,7 +1266,7 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
         if should_log_movement():
             print(
-                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
             )
 
     existing[key] = full_stake
@@ -1471,7 +1472,7 @@ def log_bets(
         movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
         if should_log_movement():
             print(
-                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
             )
             if movement.get("is_new"):
                 print(f"🟡 First-time seen → {tracker_key}")
@@ -1789,7 +1790,7 @@ def log_derivative_bets(
                 movement = track_and_update_market_movement(row, MARKET_EVAL_TRACKER)
                 if should_log_movement():
                     print(
-                        f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                        f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
                     )
                     if movement.get("is_new"):
                         print(f"🟡 First-time seen → {tracker_key}")
@@ -2340,7 +2341,7 @@ def process_theme_logged_bets(
                 movement = track_and_update_market_movement(row_copy, MARKET_EVAL_TRACKER)
                 if should_log_movement():
                     print(
-                        f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+                        f"🧠 Movement for {t_key}: EV {movement['ev_movement']} | Mkt {movement['mkt_movement']} | FV {movement['fv_movement']}"
                     )
                     if movement.get("is_new"):
                         print(f"🟡 First-time seen → {t_key}")
