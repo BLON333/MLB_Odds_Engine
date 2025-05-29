@@ -79,6 +79,9 @@ python cli/closing_odds_monitor.py
 
 Run the full automation loop (which also launches the monitor):
 python cli/auto_sim_and_log_loop.py
+This loop also dispatches unified market snapshots to Discord.
+The dispatch scripts automatically detect the latest snapshot file, so no
+`--snapshot-path` argument is required.
 
 Windows users can start just the monitor via `launch_closing_odds_monitor.bat`.
 
