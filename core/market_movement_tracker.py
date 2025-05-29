@@ -98,12 +98,31 @@ def detect_market_movement(
 
 
 def track_and_update_market_movement(
-    entry: Dict, tracker: Dict, thresholds: Optional[Dict[str, float]] | None = None
+    entry: Dict,
+    tracker: Dict,
+    reference_tracker: Optional[Dict] | None = None,
+    thresholds: Optional[Dict[str, float]] | None = None,
 ) -> Dict[str, object]:
-    """Detect movement for an entry and update the tracker in one step."""
+    """Detect movement for an entry and update the tracker in one step.
 
-    key = f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
-    prior = tracker.get(key)
+    Parameters
+    ----------
+    entry : Dict
+        Current market evaluation row.
+    tracker : Dict
+        Tracker to update with the new values.
+    reference_tracker : Optional[Dict], optional
+        Frozen snapshot used for movement comparison.  If ``None`` the
+        ``tracker`` itself is used, which preserves the previous behaviour.
+    thresholds : Optional[Dict[str, float]], optional
+        Per-field movement thresholds.
+    """
+
+    key = (
+        f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
+    )
+    base = reference_tracker if reference_tracker is not None else tracker
+    prior = base.get(key)
 
     thresholds = thresholds or {}
     movement = detect_market_movement(entry, prior, **thresholds)
