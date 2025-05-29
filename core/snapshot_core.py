@@ -30,6 +30,7 @@ from core.market_pricer import (
     decimal_odds,
     extract_best_book,
 )
+from core.consensus_pricer import calculate_consensus_prob
 from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
 
@@ -487,7 +488,18 @@ def build_snapshot_rows(
                 )
                 continue
 
-            consensus_prob = market_entry.get("consensus_prob")
+            sportsbook_odds = market_entry.get("per_book", {})
+            best_book = extract_best_book(sportsbook_odds)
+            if best_book:
+                sportsbook_odds[best_book] = price
+                market_entry["per_book"] = sportsbook_odds
+            result, _ = calculate_consensus_prob(
+                game_id=game_id,
+                market_odds={game_id: odds},
+                market_key=matched_key,
+                label=lookup_side,
+            )
+            consensus_prob = result.get("consensus_prob")
             p_blended, _, _, p_market = blend_prob(
                 sim_prob, price, market, hours_to_game, consensus_prob
             )
@@ -499,9 +511,6 @@ def build_snapshot_rows(
             print(
                 f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
             )
-
-            sportsbook_odds = market_entry.get("per_book", {})
-            best_book = extract_best_book(sportsbook_odds)
 
             row = {
                 "game_id": game_id,
