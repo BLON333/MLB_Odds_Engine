@@ -103,7 +103,7 @@ def select_best_book_rows(rows: List[dict], preferred_books: List[str] | None = 
 
 def main():
     parser = build_argument_parser(
-        "Generate snapshot of bets with decreased fair value",
+        "Generate snapshot of bets with increased market probability",
         output_discord_default=False,
     )
     parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
@@ -168,15 +168,15 @@ def main():
         prior_snapshot=market_snapshot_paths.get("all"),
     )
     from collections import Counter
-    mv_counts = Counter(r.get("fv_movement") for r in flagged_rows)
-    logger.debug("FV movement counts: %s", dict(mv_counts))
+    mv_counts = Counter(r.get("mkt_movement") for r in flagged_rows)
+    logger.debug("Market movement counts: %s", dict(mv_counts))
 
     rows = [
         r
         for r in flagged_rows
-        if r.get("fv_movement") == "worse" and r.get("ev_movement") == "better"
+        if r.get("mkt_movement") == "better" and r.get("ev_movement") == "better"
     ]
-    logger.debug("Rows with confirmed FV drop: %s", len(rows))
+    logger.debug("Rows with confirmed market move: %s", len(rows))
 
     # Filter rows within EV bounds and sort descending by EV percentage
     rows = [
@@ -187,7 +187,7 @@ def main():
     rows.sort(key=lambda r: r.get("ev_percent", 0), reverse=True)
 
     if not rows:
-        logger.warning("⚠️ No bets with decreased FV found.")
+        logger.warning("⚠️ No bets with increased market probability found.")
         if args.output_discord:
             if WEBHOOK_URL:
                 msg = (

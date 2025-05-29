@@ -55,8 +55,8 @@ def is_live_snapshot_row(row: dict) -> bool:
 
 
 def is_fv_drop_row(row: dict, prior_snapshot: dict | None = None) -> bool:
-    """Return True if FV decreased but EV improved."""
-    return row.get("ev_movement") == "better" and row.get("fv_movement") == "worse"
+    """Return True if market probability increased while EV improved."""
+    return row.get("ev_movement") == "better" and row.get("mkt_movement") == "better"
 
 
 def is_personal_book_row(row: dict) -> bool:
