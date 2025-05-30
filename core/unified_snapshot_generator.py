@@ -57,11 +57,6 @@ def is_live_snapshot_row(row: dict) -> bool:
     return row.get("ev_percent", 0) >= 5.0
 
 
-def is_fv_drop_row(row: dict, prior_snapshot: dict | None = None) -> bool:
-    """Return True if market probability increased while EV improved."""
-    return row.get("ev_movement") == "better" and row.get("mkt_movement") == "better"
-
-
 def is_personal_book_row(row: dict) -> bool:
     """Return True if row is from a personal sportsbook."""
     return row.get("best_book") in ["bovada", "betonlineag"]
@@ -123,8 +118,6 @@ def build_snapshot_for_date(
             row["snapshot_roles"].append("best_book")
         if is_live_snapshot_row(row):
             row["snapshot_roles"].append("live")
-        if is_fv_drop_row(row, None):
-            row["snapshot_roles"].append("fv_drop")
         if is_personal_book_row(row):
             row["snapshot_roles"].append("personal")
         snapshot_rows.append(row)

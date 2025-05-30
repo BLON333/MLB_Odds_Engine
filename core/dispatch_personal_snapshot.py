@@ -66,11 +66,37 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+    if df.empty:
+        logger.warning("⚠️ Snapshot DataFrame is empty — nothing to dispatch.")
+        return
+
+    if "market" in df.columns and "Market" not in df.columns:
+        df["Market"] = df["market"]
+
+    if "Market Class" not in df.columns:
+        logger.warning("⚠️ 'Market Class' column missing — cannot dispatch personal main/alt splits.")
+        return
 
     if args.output_discord:
-        send_bet_snapshot_to_discord(df, "MLB Markets", PERSONAL_WEBHOOK_URL)
+        webhook = PERSONAL_WEBHOOK_URL
+
+        main_df = df[df["Market Class"] == "Main"]
+        alt_df = df[df["Market Class"] == "Alt"]
+
+        if not main_df.empty:
+            logger.info("📡 Dispatching Personal Snapshot → Main Markets (%s rows)", main_df.shape[0])
+            send_bet_snapshot_to_discord(main_df, "Personal (Main)", webhook)
+        else:
+            logger.info("⚠️ No personal bets found for Main markets")
+
+        if not alt_df.empty:
+            logger.info("📡 Dispatching Personal Snapshot → Alt Markets (%s rows)", alt_df.shape[0])
+            send_bet_snapshot_to_discord(alt_df, "Personal (Alt)", webhook)
+        else:
+            logger.info("⚠️ No personal bets found for Alt markets")
     else:
         print(df.to_string(index=False))
+
 
 
 if __name__ == "__main__":

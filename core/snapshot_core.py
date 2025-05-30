@@ -635,7 +635,8 @@ def build_snapshot_rows(
                 "date_simulated": datetime.now().isoformat(),
             }
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
-            prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+
             annotate_display_deltas(row, prior_row)
             MARKET_EVAL_TRACKER[tracker_key] = {
                 "market_odds": row.get("market_odds"),

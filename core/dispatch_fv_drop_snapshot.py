@@ -88,13 +88,12 @@ def main() -> None:
 
     rows = load_rows(path)
 
-    # Keep only rows where EV improved and market probability moved in favor
-    rows = [
-        r
-        for r in rows
-        if r.get("ev_movement") == "better" and r.get("mkt_movement") == "better"
-    ]
+    # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)
+
+
+
+
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
@@ -103,7 +102,7 @@ def main() -> None:
         df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
     # ✅ Hardcoded sportsbook filter for FV Drop
-    allowed_books = ["pinnacle", "betonlineag", "bovada", "fanduel"]
+    allowed_books = ["betonlineag", "bovada"]
 
     df = filter_by_books(df, allowed_books)
 

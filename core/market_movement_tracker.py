@@ -3,12 +3,12 @@
 from typing import Dict, Optional
 
 MOVEMENT_THRESHOLDS = {
-    "ev_percent": 0.001,
-    "market_prob": 0.0005,
-    "blended_fv": 0.01,
-    "market_odds": 0.01,
-    "stake": 0.001,
-    "sim_prob": 0.001,
+    "ev_percent": 0.1,
+    "market_prob": 0.00001,
+    "blended_fv": 1,
+    "market_odds": 1,
+    "stake": 0.1,
+    "sim_prob": 0.1,
 }
 
 from core.market_pricer import decimal_odds
