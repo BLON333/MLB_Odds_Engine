@@ -43,6 +43,19 @@ def filter_by_date(rows: list, date_str: str | None) -> list:
     return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
 
 
+def is_market_prob_increasing(val: str) -> bool:
+    """Return True if val contains an upward market probability shift."""
+    if not isinstance(val, str) or "→" not in val:
+        return False
+    try:
+        left, right = val.split("→")
+        left = float(left.strip().replace("%", ""))
+        right = float(right.strip().replace("%", ""))
+        return right > left
+    except Exception:
+        return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Dispatch FV drop snapshot (market probability increases)")
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
@@ -68,9 +81,9 @@ def main() -> None:
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
-    # ✅ Filter to only show rows where "Mkt %" column contains a → movement
+    # ✅ Filter to only show rows where market probability increased
     if "Mkt %" in df.columns:
-        df = df[df["Mkt %"].astype(str).str.contains("→")]
+        df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
     if df.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
