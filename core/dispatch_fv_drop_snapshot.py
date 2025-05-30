@@ -102,7 +102,9 @@ def main() -> None:
     if "Mkt %" in df.columns:
         df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
-    allowed_books = [b.strip() for b in str(args.books).split(",") if b.strip()] if args.books else []
+    # ✅ Hardcoded sportsbook filter for FV Drop
+    allowed_books = ["pinnacle", "betonlineag", "bovada", "fanduel"]
+
     df = filter_by_books(df, allowed_books)
 
     if df.empty:
