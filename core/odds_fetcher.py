@@ -332,6 +332,10 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
                     )
                     normalized[mkt_key][label].update(result)
 
+            # Ensure all expected market keys exist for downstream tools
+            for key in MARKET_KEYS:
+                normalized.setdefault(key, {})
+
             odds_data[game_id] = normalized
 
             if normalized:
