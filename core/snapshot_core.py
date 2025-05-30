@@ -779,3 +779,57 @@ def export_market_snapshots(df: pd.DataFrame, snapshot_paths: Dict[str, str]) ->
             subset.to_json(path, orient="records", indent=2)
         except Exception as e:
             print(f"❌ Failed to export {market} snapshot to {path}: {e}")
+
+
+def expand_snapshot_rows_with_kelly(
+    rows: List[dict], allowed_books: List[str] | None = None
+) -> List[dict]:
+    """Expand rows into one row per sportsbook with updated EV and stake.
+
+    If ``allowed_books`` is provided, only sportsbooks in that list will be
+    expanded.  Each expanded row has its display fields refreshed to reflect the
+    specific book price.
+    """
+
+    expanded: List[dict] = []
+
+    for row in rows:
+        per_book = row.get("_raw_sportsbook")
+        if not isinstance(per_book, dict) or not per_book:
+            expanded.append(row)
+            continue
+
+        for book, odds in per_book.items():
+            if allowed_books and book not in allowed_books:
+                continue
+
+            p = row.get("blended_prob", row.get("sim_prob", 0))
+
+            try:
+                ev = calculate_ev_from_prob(p, odds)
+                stake = kelly_fraction(p, odds, fraction=0.25)
+            except Exception:
+                continue
+
+            expanded_row = row.copy()
+            expanded_row.update(
+                {
+                    "best_book": book,
+                    "market_odds": odds,
+                    "ev_percent": round(ev, 2),
+                    "stake": stake,
+                    "full_stake": stake,
+                }
+            )
+            annotate_display_deltas(expanded_row, prior=None)
+            expanded.append(expanded_row)
+
+    deduped: List[dict] = []
+    seen = set()
+    for r in expanded:
+        key = (r.get("game_id"), r.get("market"), r.get("side"), r.get("best_book"))
+        if key not in seen:
+            deduped.append(r)
+            seen.add(key)
+
+    return deduped

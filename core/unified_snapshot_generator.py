@@ -22,7 +22,7 @@ from core.snapshot_core import load_simulations, build_snapshot_rows
 from core.market_eval_tracker import load_tracker, save_tracker
 from core.market_movement_tracker import track_and_update_market_movement
 import copy
-from cli.log_betting_evals import expand_snapshot_rows_with_kelly
+from core.snapshot_core import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
 
@@ -91,7 +91,7 @@ def build_snapshot_for_date(
 
     # Build base rows and expand per-book variants
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    rows = expand_snapshot_rows_with_kelly(rows, min_ev=1.0, min_stake=0.5)
+    rows = expand_snapshot_rows_with_kelly(rows)
 
     # 🧠 Track line movement
     tracker = load_tracker()
