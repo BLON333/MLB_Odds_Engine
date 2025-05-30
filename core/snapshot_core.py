@@ -3,6 +3,7 @@ import os
 import json
 from datetime import datetime
 from typing import List, Dict, Tuple
+from typing import Optional
 import io
 
 import pandas as pd
@@ -51,6 +52,59 @@ def should_log_movement() -> bool:
     if movement_log_count == MOVEMENT_LOG_LIMIT + 1:
         print("🧠 ... (truncated additional movement logs)")
     return False
+
+
+def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
+    """Populate *_display fields on ``entry`` using the provided prior data."""
+
+    def fmt_odds(val: Optional[float]) -> str:
+        if val is None:
+            return "N/A"
+        try:
+            return f"{val:+}" if isinstance(val, (int, float)) else str(val)
+        except Exception:
+            return str(val)
+
+    def fmt_percent(val: Optional[float]) -> str:
+        if val is None:
+            return "N/A"
+        try:
+            return f"{val:+.1f}%"
+        except Exception:
+            return str(val)
+
+    def fmt_prob(val: Optional[float]) -> str:
+        if val is None:
+            return "N/A"
+        try:
+            return f"{val * 100:.1f}%"
+        except Exception:
+            return str(val)
+
+    def fmt_fv(val: Optional[float]) -> str:
+        if val is None:
+            return "N/A"
+        try:
+            return f"{round(val)}"
+        except Exception:
+            return str(val)
+
+    field_map = {
+        "market_odds": ("odds_display", fmt_odds),
+        "ev_percent": ("ev_display", fmt_percent),
+        "market_prob": ("mkt_prob_display", fmt_prob),
+        "sim_prob": ("sim_prob_display", fmt_prob),
+        "stake": ("stake_display", lambda v: f"{v:.2f}u" if v is not None else "N/A"),
+        "blended_fv": ("fv_display", fmt_fv),
+    }
+
+    for field, (disp_key, fmt) in field_map.items():
+        curr = entry.get(field)
+        prior_val = prior.get(field) if prior else None
+        if prior_val is not None and prior_val != curr:
+            entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
+        else:
+            entry[disp_key] = fmt(curr)
 
 
 def build_argument_parser(
@@ -329,6 +383,12 @@ def compare_and_flag_new_rows(
         market = str(entry.get("market", "")).strip()
         side = str(entry.get("side", "")).strip()
         key = f"{game_id}:{market}:{side}"
+        prior = (
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(key)
+            or last_snapshot.get(key)
+            or prior_data.get(key)
+        )
+        annotate_display_deltas(entry, prior)
         blended_fv = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
         ev_pct = entry.get("ev_percent")
@@ -533,8 +593,9 @@ def build_snapshot_rows(
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
             }
-            # 📝 Track every evaluated bet regardless of filters
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
+            prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            annotate_display_deltas(row, prior_row)
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -568,16 +629,39 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         df["Book"] = df["best_book"]
     else:
         df["Book"] = ""
-    df["Odds"] = df["market_odds"].apply(
-        lambda x: f"{x:+}" if isinstance(x, (int, float)) else x
-    )
-    df["Sim %"] = (df["sim_prob"] * 100).map("{:.1f}%".format)
-    df["Mkt %"] = (df["market_prob"] * 100).map("{:.1f}%".format)
-    df["FV"] = df["blended_fv"].apply(
-        lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
-    )
-    df["EV"] = df["ev_percent"].map("{:+.1f}%".format)
-    df["Stake"] = df["stake"].map("{:.2f}u".format)
+    if "odds_display" in df.columns:
+        df["Odds"] = df["odds_display"]
+    else:
+        df["Odds"] = df["market_odds"].apply(
+            lambda x: f"{x:+}" if isinstance(x, (int, float)) else x
+        )
+
+    if "sim_prob_display" in df.columns:
+        df["Sim %"] = df["sim_prob_display"]
+    else:
+        df["Sim %"] = (df["sim_prob"] * 100).map("{:.1f}%".format)
+
+    if "mkt_prob_display" in df.columns:
+        df["Mkt %"] = df["mkt_prob_display"]
+    else:
+        df["Mkt %"] = (df["market_prob"] * 100).map("{:.1f}%".format)
+
+    if "fv_display" in df.columns:
+        df["FV"] = df["fv_display"]
+    else:
+        df["FV"] = df["blended_fv"].apply(
+            lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
+        )
+
+    if "ev_display" in df.columns:
+        df["EV"] = df["ev_display"]
+    else:
+        df["EV"] = df["ev_percent"].map("{:+.1f}%".format)
+
+    if "stake_display" in df.columns:
+        df["Stake"] = df["stake_display"]
+    else:
+        df["Stake"] = df["stake"].map("{:.2f}u".format)
 
     required_cols = [
         "Date",
@@ -629,26 +713,44 @@ def build_display_block(row: dict) -> Dict[str, str]:
         "main": "Main",
     }.get(market_class_key, "❓")
 
-    odds = row.get("market_odds")
-    if isinstance(odds, (int, float)):
-        odds_str = f"{odds:+}"
+    if "odds_display" in row:
+        odds_str = row.get("odds_display", "N/A")
     else:
-        odds_str = str(odds) if odds is not None else "N/A"
+        odds = row.get("market_odds")
+        if isinstance(odds, (int, float)):
+            odds_str = f"{odds:+}"
+        else:
+            odds_str = str(odds) if odds is not None else "N/A"
 
-    sim_prob = row.get("sim_prob")
-    sim_str = f"{sim_prob * 100:.1f}%" if sim_prob is not None else "N/A"
+    if "sim_prob_display" in row:
+        sim_str = row.get("sim_prob_display", "N/A")
+    else:
+        sim_prob = row.get("sim_prob")
+        sim_str = f"{sim_prob * 100:.1f}%" if sim_prob is not None else "N/A"
 
-    mkt_prob = row.get("market_prob")
-    mkt_str = f"{mkt_prob * 100:.1f}%" if mkt_prob is not None else "N/A"
+    if "mkt_prob_display" in row:
+        mkt_str = row.get("mkt_prob_display", "N/A")
+    else:
+        mkt_prob = row.get("market_prob")
+        mkt_str = f"{mkt_prob * 100:.1f}%" if mkt_prob is not None else "N/A"
 
-    fv = row.get("blended_fv", row.get("fair_odds"))
-    fv_str = f"{round(fv)}" if isinstance(fv, (int, float)) else "N/A"
+    if "fv_display" in row:
+        fv_str = row.get("fv_display", "N/A")
+    else:
+        fv = row.get("blended_fv", row.get("fair_odds"))
+        fv_str = f"{round(fv)}" if isinstance(fv, (int, float)) else "N/A"
 
-    ev = row.get("ev_percent")
-    ev_str = f"{ev:+.1f}%" if ev is not None else "N/A"
+    if "ev_display" in row:
+        ev_str = row.get("ev_display", "N/A")
+    else:
+        ev = row.get("ev_percent")
+        ev_str = f"{ev:+.1f}%" if ev is not None else "N/A"
 
-    stake = row.get("stake")
-    stake_str = f"{stake:.2f}u" if stake is not None else "N/A"
+    if "stake_display" in row:
+        stake_str = row.get("stake_display", "N/A")
+    else:
+        stake = row.get("stake")
+        stake_str = f"{stake:.2f}u" if stake is not None else "N/A"
 
     return {
         "Date": date,
