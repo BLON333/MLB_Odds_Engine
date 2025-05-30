@@ -16,6 +16,7 @@ except Exception:  # pragma: no cover - optional dep
     dfi = None
 
 from core.logger import get_logger
+
 logger = get_logger(__name__)
 
 from utils import (
@@ -43,6 +44,7 @@ MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 # === Console Output Controls ===
 MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
+
 
 def should_log_movement() -> bool:
     global movement_log_count
@@ -98,7 +100,7 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         "blended_fv": ("fv_display", fmt_fv),
     }
 
-    skip_deltas_for = {"stake","ev_percent"}  
+    skip_deltas_for = {"stake", "ev_percent"}
 
     thresholds = {
         "ev_percent": 0.1,
@@ -184,11 +186,15 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             for mv in moves if moves is not None else []:
                 if mv == "better":
                     colors.append(
-                        "background-color: #f8d7da" if invert else "background-color: #d4edda"
+                        "background-color: #f8d7da"
+                        if invert
+                        else "background-color: #d4edda"
                     )
                 elif mv == "worse":
                     colors.append(
-                        "background-color: #d4edda" if invert else "background-color: #f8d7da"
+                        "background-color: #d4edda"
+                        if invert
+                        else "background-color: #f8d7da"
                     )
                 else:
                     colors.append("")
@@ -198,7 +204,9 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
     styled = df.style.set_caption(f"Generated: {timestamp}")
     if "odds_movement" in df.columns:
-        styled = styled.apply(_apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"])
+        styled = styled.apply(
+            _apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"]
+        )
     if "fv_movement" in df.columns:
         # Invert the FV coloring so drops (market confirmation) appear green
         styled = styled.apply(
@@ -208,11 +216,17 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     if "ev_movement" in df.columns:
         styled = styled.apply(_apply_movement("EV", "ev_movement"), subset=["EV"])
     if "stake_movement" in df.columns:
-        styled = styled.apply(_apply_movement("Stake", "stake_movement"), subset=["Stake"])
+        styled = styled.apply(
+            _apply_movement("Stake", "stake_movement"), subset=["Stake"]
+        )
     if "sim_movement" in df.columns:
-        styled = styled.apply(_apply_movement("Sim %", "sim_movement"), subset=["Sim %"])
+        styled = styled.apply(
+            _apply_movement("Sim %", "sim_movement"), subset=["Sim %"]
+        )
     if "mkt_movement" in df.columns:
-        styled = styled.apply(_apply_movement("Mkt %", "mkt_movement"), subset=["Mkt %"])
+        styled = styled.apply(
+            _apply_movement("Mkt %", "mkt_movement"), subset=["Mkt %"]
+        )
     if "is_new" in df.columns:
 
         def highlight_new(row):
@@ -222,32 +236,36 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
         styled = styled.apply(highlight_new, axis=1)
 
-    styled = styled.set_properties(
-        subset=[c for c in df.columns if c != "Market Class"],
-        **{
-            "text-align": "center",
-            "font-family": "monospace",
-            "font-size": "10pt",
-        },
-    ).set_properties(
-        subset=["Market Class"],
-        **{
-            "text-align": "center",
-            "font-family": "monospace",
-            "font-size": "10pt",
-        },
-    ).set_table_styles(
-        [
-            {
-                "selector": "th",
-                "props": [
-                    ("font-weight", "bold"),
-                    ("background-color", "#e0f7fa"),
-                    ("color", "black"),
-                    ("text-align", "center"),
-                ],
-            }
-        ]
+    styled = (
+        styled.set_properties(
+            subset=[c for c in df.columns if c != "Market Class"],
+            **{
+                "text-align": "center",
+                "font-family": "monospace",
+                "font-size": "10pt",
+            },
+        )
+        .set_properties(
+            subset=["Market Class"],
+            **{
+                "text-align": "center",
+                "font-family": "monospace",
+                "font-size": "10pt",
+            },
+        )
+        .set_table_styles(
+            [
+                {
+                    "selector": "th",
+                    "props": [
+                        ("font-weight", "bold"),
+                        ("background-color", "#e0f7fa"),
+                        ("color", "black"),
+                        ("text-align", "center"),
+                    ],
+                }
+            ]
+        )
     )
 
     try:
@@ -326,8 +344,7 @@ def send_bet_snapshot_to_discord(
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M ET")
     caption = (
-        f"📈 **Live Market Snapshot — {market_type}**\n"
-        f"_Generated: {timestamp}_\n"
+        f"📈 **Live Market Snapshot — {market_type}**\n" f"_Generated: {timestamp}_\n"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
@@ -620,6 +637,14 @@ def build_snapshot_rows(
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
             annotate_display_deltas(row, prior_row)
+            MARKET_EVAL_TRACKER[tracker_key] = {
+                "market_odds": row.get("market_odds"),
+                "ev_percent": row.get("ev_percent"),
+                "blended_fv": row.get("blended_fv"),
+                "stake": row.get("stake"),
+                "market_prob": row.get("market_prob"),
+                "sim_prob": row.get("sim_prob"),
+            }
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -723,7 +748,6 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         return df[required_cols + movement_cols + ["market_class"]]
 
     return df[required_cols + ["market_class"]]
-
 
 
 def build_display_block(row: dict) -> Dict[str, str]:
@@ -849,6 +873,14 @@ def expand_snapshot_rows_with_kelly(
             tracker_key = f"{expanded_row['game_id']}:{expanded_row['market'].strip()}:{expanded_row['side'].strip()}"
             prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
             annotate_display_deltas(expanded_row, prior_row)
+            MARKET_EVAL_TRACKER[tracker_key] = {
+                "market_odds": expanded_row.get("market_odds"),
+                "ev_percent": expanded_row.get("ev_percent"),
+                "blended_fv": expanded_row.get("blended_fv"),
+                "stake": expanded_row.get("stake"),
+                "market_prob": expanded_row.get("market_prob"),
+                "sim_prob": expanded_row.get("sim_prob"),
+            }
 
             expanded.append(expanded_row)
 
@@ -860,4 +892,5 @@ def expand_snapshot_rows_with_kelly(
             deduped.append(r)
             seen.add(key)
 
+    save_tracker(MARKET_EVAL_TRACKER)
     return deduped
