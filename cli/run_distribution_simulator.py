@@ -395,27 +395,28 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     # Raw distributions
     raw_totals = [h + a for h, a in zip(raw_home_scores, raw_away_scores)]
     raw_diffs = [h - a for h, a in zip(raw_home_scores, raw_away_scores)]
-
-    # Base raw distribution storage
     raw_distributions = {
-        "totals": {
-            "values": raw_totals,
-            "mean": float(np.mean(raw_totals)),
-            "std": float(np.std(raw_totals)),
-        },
-        "run_diffs": {
-            "values": raw_diffs,
-            "std": float(np.std(raw_diffs)),
-        },
+        "totals": {"values": raw_totals, "mean": float(np.mean(raw_totals)), "std": float(np.std(raw_totals))},
+        "run_diffs": {"values": raw_diffs, "std": float(np.std(raw_diffs))},
     }
 
-    # Segment label mapping for downstream storage
     seg_name_map = {
-        "f1": "1st_inning",
+        "f1": "1st_1_innings",
         "f3": "1st_3_innings",
         "f5": "1st_5_innings",
         "f7": "1st_7_innings",
     }
+    for seg_id, data in segment_raw.items():
+        seg_key = seg_name_map[seg_id]
+        raw_distributions[f"totals_{seg_key}"] = {
+            "values": data["total"],
+            "mean": float(np.mean(data["total"])),
+            "std": float(np.std(data["total"])),
+        }
+        raw_distributions[f"run_diffs_{seg_key}"] = {
+            "values": data["diff"],
+            "std": float(np.std(data["diff"])),
+        }
 
     scaled_totals = scale_distribution(
         raw_totals,
@@ -424,23 +425,26 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     )
     scaled_diffs = scale_distribution(
         raw_diffs,
-        target_sd=pricing_engine.run_diff_scaling_factor,
+        target_sd=benchmark_totals["full_game"]["std_total"],
     )
-
     scaled_distributions = {
-        "totals": {
-            "values": scaled_totals,
-            "mean": float(np.mean(scaled_totals)),
-            "std": float(np.std(scaled_totals)),
-        },
-        "run_diffs": {
-            "values": scaled_diffs,
-            "std": float(np.std(scaled_diffs)),
-        },
+        "totals": {"values": scaled_totals, "mean": float(np.mean(scaled_totals)), "std": float(np.std(scaled_totals))},
+        "run_diffs": {"values": scaled_diffs, "std": float(np.std(scaled_diffs))},
     }
     print(
-        f"\n📊 Segment: totals\nRaw Mean: {np.mean(raw_totals):.2f} → Scaled Mean: {np.mean(scaled_totals):.2f}\n"
+        f"\n📊 PMF: totals_full_game"
+    )
+    print(
+        f"Raw Mean: {np.mean(raw_totals):.2f} → Scaled Mean: {np.mean(scaled_totals):.2f}"
+    )
+    print(
         f"Raw SD: {np.std(raw_totals):.2f} → Scaled SD: {np.std(scaled_totals):.2f}"
+    )
+    print(
+        f"\n📊 PMF: spreads_full_game"
+    )
+    print(
+        f"Raw SD: {np.std(raw_diffs):.2f} → Scaled SD: {np.std(scaled_diffs):.2f}"
     )
 
     home_scores = [(t + d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
@@ -458,10 +462,25 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
     # Compute PMFs
     total = np.array(home_scores) + np.array(away_scores)
-    run_diff = np.array(home_scores) - np.array(away_scores)
+    run_diff = np.array(scaled_diffs)
     run_pmf_rounded = summarize_pmf(np.round(total).astype(int))
-    run_pmf_raw     = summarize_pmf(total)
-    run_diff_pmf    = summarize_pmf(np.round(run_diff).astype(int))
+    run_pmf_raw = summarize_pmf(np.round(raw_totals).astype(int))
+    run_diff_pmf = summarize_pmf(np.round(run_diff).astype(int))
+
+    pmfs = {
+        "totals": {
+            "full_game": {
+                "raw": summarize_pmf(np.round(raw_totals).astype(int)),
+                "scaled": run_pmf_rounded,
+            }
+        },
+        "spreads": {
+            "full_game": {
+                "raw": summarize_pmf(np.round(raw_diffs).astype(int)),
+                "scaled": run_diff_pmf,
+            }
+        },
+    }
 
     # === Build Full-Game Market with Alt Lines ===
     runline_dict = {}
@@ -525,7 +544,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             "odds": to_american_odds(moneyline["home"]["prob"])
         }
     }
-    prob_over = calculate_tail_probability(summarize_pmf(total), threshold=line, direction="over")
+    prob_over = calculate_tail_probability(run_pmf_rounded, threshold=line, direction="over")
 
     # === Team Totals — Full Game ===
     team_totals_dict = {}
@@ -534,7 +553,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
     for line in [1.5, 2.5, 3.5, 4.5, 5.5, 6.5]:
         for team_abbr, scores in [(home_abbr, full_home_scores), (away_abbr, full_away_scores)]:
-            pmf = summarize_pmf(scores)
+            pmf = summarize_pmf(np.round(scores).astype(int))
             p_over = calculate_tail_probability(pmf, line, direction="over")
             p_under = 1 - p_over
             team_totals_dict[f"{team_abbr} Over {line}"] = {
@@ -617,23 +636,41 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             target_sd=seg_cal.get("diff_sd")
         )
 
-        # Store raw and scaled distributions for this segment
-        seg_name = seg_name_map.get(seg_id)
-        raw_distributions[f"run_diffs_{seg_name}"] = {
-            "values": segment_raw[seg_id]["diff"],
-            "std": float(np.std(segment_raw[seg_id]["diff"])),
+
+        seg_key_name = seg_name_map[seg_id]
+
+        scaled_distributions[f"totals_{seg_key_name}"] = {
+            "values": seg_totals_scaled,
+            "mean": float(np.mean(seg_totals_scaled)),
+            "std": float(np.std(seg_totals_scaled)),
         }
-        scaled_distributions[f"run_diffs_{seg_name}"] = {
+        scaled_distributions[f"run_diffs_{seg_key_name}"] = {
             "values": seg_diffs_scaled,
             "std": float(np.std(seg_diffs_scaled)),
         }
 
-        print(
-            f"\n📊 Segment: run_diffs_{seg_name}\n"
-            f"Raw SD: {np.std(segment_raw[seg_id]['diff']):.2f} → Scaled SD: {np.std(seg_diffs_scaled):.2f}"
-        )
         pmf_total_seg = summarize_pmf(np.round(seg_totals_scaled).astype(int))
         pmf_diff_seg = summarize_pmf(np.round(seg_diffs_scaled).astype(int))
+        pmfs["totals"][seg_key_name] = {
+            "raw": summarize_pmf(np.round(segment_raw[seg_id]["total"]).astype(int)),
+            "scaled": pmf_total_seg,
+        }
+        pmfs["spreads"][seg_key_name] = {
+            "raw": summarize_pmf(np.round(segment_raw[seg_id]["diff"]).astype(int)),
+            "scaled": pmf_diff_seg,
+        }
+
+        print(f"\n📊 PMF: totals_{seg_key_name}")
+        print(
+            f"Raw Mean: {np.mean(segment_raw[seg_id]['total']):.2f} → Scaled Mean: {np.mean(seg_totals_scaled):.2f}"
+        )
+        print(
+            f"Raw SD: {np.std(segment_raw[seg_id]['total']):.2f} → Scaled SD: {np.std(seg_totals_scaled):.2f}"
+        )
+        print(f"\n📊 PMF: spreads_{seg_key_name}")
+        print(
+            f"Raw SD: {np.std(segment_raw[seg_id]['diff']):.2f} → Scaled SD: {np.std(seg_diffs_scaled):.2f}"
+        )
 
         totals = {}
         for line in config.get("total_lines", []):
@@ -699,7 +736,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
             for line in config.get("team_total_lines", []):
                 for team_abbr, scores in [(home_abbr, home_scores), (away_abbr, away_scores)]:
-                    pmf = summarize_pmf(scores)
+                    pmf = summarize_pmf(np.round(scores).astype(int))
                     p_over = calculate_tail_probability(pmf, line, direction="over")
                     p_under = 1 - p_over
                     team_totals[f"{team_abbr} Over {line}"] = {
@@ -751,6 +788,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
         "run_distribution": run_pmf_rounded,
         "run_distribution_raw": run_pmf_raw,
         "run_diff_distribution": run_diff_pmf,
+        "pmfs": pmfs,
         "raw_distributions": raw_distributions,
         "scaled_distributions": scaled_distributions,
         "markets": markets_debug,
