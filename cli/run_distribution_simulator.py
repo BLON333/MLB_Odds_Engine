@@ -36,7 +36,14 @@ from assets.env_builder import (
     get_noaa_weather,
     compute_weather_multipliers
 )
-from utils import normalize_game_id, TEAM_ABBR_TO_NAME, TEAM_NAME_TO_ABBR, standardize_derivative_label,get_normalized_lookup_side
+from utils import (
+    normalize_game_id,
+    TEAM_ABBR_TO_NAME,
+    TEAM_NAME_TO_ABBR,
+    standardize_derivative_label,
+    get_normalized_lookup_side,
+)
+from core.scaling_utils import scale_distribution
 
 
 N_SIMULATIONS = 10000
@@ -65,14 +72,8 @@ def pitcher_has_enrichment(p):
 
 
 def apply_segment_scaling(values, target_mean=None, target_sd=None):
-    mean = np.mean(values)
-    std = np.std(values)
-    scaled = values
-    if target_sd and std > 0:
-        scaled = [(v - mean) * (target_sd / std) + mean for v in scaled]
-    if target_mean is not None:
-        scaled = [v + (target_mean - mean) for v in scaled]
-    return scaled
+    """Compatibility wrapper using the general scale_distribution."""
+    return scale_distribution(values, target_mean=target_mean, target_sd=target_sd)
 
 
 
@@ -384,13 +385,63 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
         away_seg = [sum(inn["away_runs"] for inn in r["innings"] if inn["inning"] <= cap) for r in all_results]
         totals_seg = [h + a for h, a in zip(home_seg, away_seg)]
         diffs_seg = [h - a for h, a in zip(home_seg, away_seg)]
-        segment_raw[key] = {"total": totals_seg, "diff": diffs_seg}
+        segment_raw[key] = {
+            "total": totals_seg,
+            "diff": diffs_seg,
+            "home": home_seg,
+            "away": away_seg,
+        }
 
-    # Apply calibration
+    # Raw distributions
     raw_totals = [h + a for h, a in zip(raw_home_scores, raw_away_scores)]
-    raw_diffs  = [h - a for h, a in zip(raw_home_scores, raw_away_scores)]
-    scaled_totals = pricing_engine.apply_total_scaling(raw_totals)
-    scaled_diffs  = pricing_engine.apply_runline_scaling(raw_diffs)
+    raw_diffs = [h - a for h, a in zip(raw_home_scores, raw_away_scores)]
+
+    # Base raw distribution storage
+    raw_distributions = {
+        "totals": {
+            "values": raw_totals,
+            "mean": float(np.mean(raw_totals)),
+            "std": float(np.std(raw_totals)),
+        },
+        "run_diffs": {
+            "values": raw_diffs,
+            "std": float(np.std(raw_diffs)),
+        },
+    }
+
+    # Segment label mapping for downstream storage
+    seg_name_map = {
+        "f1": "1st_inning",
+        "f3": "1st_3_innings",
+        "f5": "1st_5_innings",
+        "f7": "1st_7_innings",
+    }
+
+    scaled_totals = scale_distribution(
+        raw_totals,
+        target_mean=benchmark_totals["full_game"]["mean_total"],
+        target_sd=benchmark_totals["full_game"]["std_total"],
+    )
+    scaled_diffs = scale_distribution(
+        raw_diffs,
+        target_sd=pricing_engine.run_diff_scaling_factor,
+    )
+
+    scaled_distributions = {
+        "totals": {
+            "values": scaled_totals,
+            "mean": float(np.mean(scaled_totals)),
+            "std": float(np.std(scaled_totals)),
+        },
+        "run_diffs": {
+            "values": scaled_diffs,
+            "std": float(np.std(scaled_diffs)),
+        },
+    }
+    print(
+        f"\n📊 Segment: totals\nRaw Mean: {np.mean(raw_totals):.2f} → Scaled Mean: {np.mean(scaled_totals):.2f}\n"
+        f"Raw SD: {np.std(raw_totals):.2f} → Scaled SD: {np.std(scaled_totals):.2f}"
+    )
 
     home_scores = [(t + d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
     away_scores = [(t - d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
@@ -565,6 +616,22 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             target_mean=None,
             target_sd=seg_cal.get("diff_sd")
         )
+
+        # Store raw and scaled distributions for this segment
+        seg_name = seg_name_map.get(seg_id)
+        raw_distributions[f"run_diffs_{seg_name}"] = {
+            "values": segment_raw[seg_id]["diff"],
+            "std": float(np.std(segment_raw[seg_id]["diff"])),
+        }
+        scaled_distributions[f"run_diffs_{seg_name}"] = {
+            "values": seg_diffs_scaled,
+            "std": float(np.std(seg_diffs_scaled)),
+        }
+
+        print(
+            f"\n📊 Segment: run_diffs_{seg_name}\n"
+            f"Raw SD: {np.std(segment_raw[seg_id]['diff']):.2f} → Scaled SD: {np.std(seg_diffs_scaled):.2f}"
+        )
         pmf_total_seg = summarize_pmf(np.round(seg_totals_scaled).astype(int))
         pmf_diff_seg = summarize_pmf(np.round(seg_diffs_scaled).astype(int))
 
@@ -684,6 +751,8 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
         "run_distribution": run_pmf_rounded,
         "run_distribution_raw": run_pmf_raw,
         "run_diff_distribution": run_diff_pmf,
+        "raw_distributions": raw_distributions,
+        "scaled_distributions": scaled_distributions,
         "markets": markets_debug,
         "summary_metrics": {
             "full_game": summary_full,
