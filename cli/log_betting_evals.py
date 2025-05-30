@@ -940,7 +940,7 @@ def send_discord_notification(row, eval_tracker=None):
 
     tracker = eval_tracker
     tracker_key = f"{game_id}:{market}:{side}"
-    prior = tracker.get(tracker_key)
+    prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = track_and_update_market_movement(
         row,
         tracker,
@@ -1077,7 +1077,10 @@ def send_discord_notification(row, eval_tracker=None):
     if entry_type == "top-up" and stake < full_stake:
         topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
-    fv_display = f"{prev_fv} --> {fair_odds}" if prev_fv is not None else str(fair_odds)
+    if prev_fv is not None and prev_fv != fair_odds:
+        fv_display = f"{prev_fv} → {fair_odds}"
+    else:
+        fv_display = str(fair_odds)
     movement_note = (
         f"📊 Movement → EV: {movement['ev_movement']}, "
         f"FV: {movement['fv_movement']}, Odds: {movement['odds_movement']}"
