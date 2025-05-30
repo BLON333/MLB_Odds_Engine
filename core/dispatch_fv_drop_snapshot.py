@@ -5,6 +5,8 @@ import os
 import sys
 import json
 import argparse
+from typing import List
+import pandas as pd
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
@@ -43,12 +45,40 @@ def filter_by_date(rows: list, date_str: str | None) -> list:
     return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
 
 
+def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
+    """Return df filtered to the given book keys."""
+    if not books or "Book" not in df.columns:
+        return df
+    clean_books = [b.strip() for b in books if b.strip()]
+    if not clean_books:
+        return df
+    return df[df["Book"].isin(clean_books)]
+
+
+def is_market_prob_increasing(val: str) -> bool:
+    """Return True if val contains an upward market probability shift."""
+    if not isinstance(val, str) or "→" not in val:
+        return False
+    try:
+        left, right = val.split("→")
+        left = float(left.strip().replace("%", ""))
+        right = float(right.strip().replace("%", ""))
+        return right > left
+    except Exception:
+        return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Dispatch FV drop snapshot (market probability increases)")
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument("--diff-highlight", action="store_true")
+    parser.add_argument(
+        "--books",
+        default=os.getenv("FV_DROP_BOOKS"),
+        help="Comma-separated book keys to include",
+    )
     args = parser.parse_args()
 
     path = args.snapshot_path or latest_snapshot_path()
@@ -68,9 +98,12 @@ def main() -> None:
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
 
-    # ✅ Filter to only show rows where "Mkt %" column contains a → movement
+    # ✅ Filter to only show rows where market probability increased
     if "Mkt %" in df.columns:
-        df = df[df["Mkt %"].astype(str).str.contains("→")]
+        df = df[df["Mkt %"].apply(is_market_prob_increasing)]
+
+    allowed_books = [b.strip() for b in str(args.books).split(",") if b.strip()] if args.books else []
+    df = filter_by_books(df, allowed_books)
 
     if df.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
