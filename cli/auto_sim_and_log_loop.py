@@ -169,29 +169,43 @@ def run_logger():
 
 
 def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
-    """Launch log_betting_evals.py using the provided odds snapshot."""
-    eval_folder = os.path.join(sim_dir, get_today_str())
+    """Launch log_betting_evals.py for today and tomorrow using the provided odds snapshot."""
+
+    today_str, tomorrow_str = get_date_strings()
     default_script = os.path.join("cli", "log_betting_evals.py")
     if not os.path.exists(default_script):
         default_script = "log_betting_evals.py"
-    cmd = [
-        PYTHON,
-        default_script,
-        f"--eval-folder={eval_folder}",
-        f"--odds-path={odds_path}",
-        f"--min-ev={MIN_EV}",
-        "--debug",
-        "--output-dir=logs",
-    ]
-    subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-    logger.info("🚀 Started log bets subprocess for %s", eval_folder)
+
+    for date_str in [today_str, tomorrow_str]:
+        eval_folder = os.path.join(sim_dir, date_str)
+        cmd = [
+            PYTHON,
+            default_script,
+            f"--eval-folder={eval_folder}",
+            f"--odds-path={odds_path}",
+            f"--min-ev={MIN_EV}",
+            "--debug",
+            "--output-dir=logs",
+        ]
+        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+        logger.info("🚀 Started log bets subprocess for %s", eval_folder)
 
 
 def run_unified_snapshot_and_dispatch(odds_path: str):
-    """Generate a unified snapshot then dispatch filtered alerts."""
+    """Generate a unified snapshot for today and tomorrow then dispatch alerts."""
+
+    today_str, tomorrow_str = get_date_strings()
+    date_arg = f"{today_str},{tomorrow_str}"
 
     subprocess.run(
-        [PYTHON, "core/unified_snapshot_generator.py", "--odds-path", odds_path],
+        [
+            PYTHON,
+            "core/unified_snapshot_generator.py",
+            "--odds-path",
+            odds_path,
+            "--date",
+            date_arg,
+        ],
         cwd=ROOT_DIR,
         env=os.environ,
         check=True,
