@@ -636,6 +636,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             target_sd=seg_cal.get("diff_sd")
         )
 
+
         seg_key_name = seg_name_map[seg_id]
 
         scaled_distributions[f"totals_{seg_key_name}"] = {
