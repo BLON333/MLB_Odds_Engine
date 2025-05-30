@@ -57,6 +57,8 @@ def main() -> None:
         return
 
     rows = load_rows(path)
+
+    # Keep only rows where EV improved and market probability moved in favor
     rows = [
         r
         for r in rows
@@ -65,6 +67,14 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+
+    # ✅ Filter to only show rows where "Mkt %" column contains a → movement
+    if "Mkt %" in df.columns:
+        df = df[df["Mkt %"].astype(str).str.contains("→")]
+
+    if df.empty:
+        logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
+        return
 
     if args.output_discord:
         webhook = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
