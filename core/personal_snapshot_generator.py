@@ -18,7 +18,7 @@ import pandas as pd
 
 from core import odds_fetcher
 from core.odds_fetcher import fetch_market_odds_from_api
-from cli.log_betting_evals import expand_snapshot_rows_with_kelly
+from core.snapshot_core import expand_snapshot_rows_with_kelly
 from core.snapshot_core import  (
     build_argument_parser,
     load_simulations,
@@ -100,11 +100,7 @@ def main():
 
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, DEBUG_LOG))
 
-    rows = expand_snapshot_rows_with_kelly(
-        all_rows,
-        min_ev=args.min_ev * 100,
-        min_stake=1.0,
-    )
+    rows = expand_snapshot_rows_with_kelly(all_rows, allowed_books=CUSTOM_BOOKMAKERS)
 
     # Reload market eval tracker to ensure latest bet logs are included
     from core.market_eval_tracker import load_tracker

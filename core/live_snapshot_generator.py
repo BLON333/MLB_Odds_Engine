@@ -17,7 +17,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from core.odds_fetcher import fetch_market_odds_from_api
-from cli.log_betting_evals import expand_snapshot_rows_with_kelly
+from core.snapshot_core import expand_snapshot_rows_with_kelly
 from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
@@ -114,11 +114,7 @@ def main():
         all_rows.extend(build_snapshot_rows(sims, odds, args.min_ev, DEBUG_LOG))
 
     # Expand rows and apply EV/stake filtering
-    rows = expand_snapshot_rows_with_kelly(
-        all_rows,
-        min_ev=args.min_ev * 100,
-        min_stake=1.0,
-    )
+    rows = expand_snapshot_rows_with_kelly(all_rows)
 
     # Reload market eval tracker to compare against latest evaluations
     from core.market_eval_tracker import load_tracker
