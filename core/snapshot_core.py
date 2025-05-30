@@ -98,7 +98,7 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         "blended_fv": ("fv_display", fmt_fv),
     }
 
-    skip_deltas_for = {"stake"}  # ← Skip deltas for stake
+    skip_deltas_for = {"stake","ev_percent"}  
 
     thresholds = {
         "ev_percent": 0.1,
@@ -642,54 +642,87 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 
     df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
     df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
-
-    df["market_class"] = df.get("market_class", "main")
-    df["Market Class"] = df["market_class"].map({"alternate": "Alt", "main": "Main"}).fillna("❓")
+    if "market_class" not in df.columns:
+        df["market_class"] = "main"
+    df["Market Class"] = (
+        df["market_class"].map({"alternate": "Alt", "main": "Main"}).fillna("❓")
+    )
     df["Market"] = df["market"]
     df["Bet"] = df["side"]
-    df["Book"] = df.get("best_book", "")
+    if "best_book" in df.columns:
+        df["Book"] = df["best_book"]
+    else:
+        df["Book"] = ""
+    if "odds_display" in df.columns:
+        df["Odds"] = df["odds_display"]
+    else:
+        df["Odds"] = df["market_odds"].apply(
+            lambda x: f"{x:+}" if isinstance(x, (int, float)) else x
+        )
 
-    df["Odds"] = df.get("odds_display", df["market_odds"].apply(
-        lambda x: f"{x:+}" if isinstance(x, (int, float)) else "N/A"
-    ))
+    if "sim_prob_display" in df.columns:
+        df["Sim %"] = df["sim_prob_display"]
+    else:
+        df["Sim %"] = (df["sim_prob"] * 100).map("{:.1f}%".format)
 
-    df["Sim %"] = df.get("sim_prob_display", (df["sim_prob"] * 100).map("{:.1f}%".format))
-    df["Mkt %"] = df.get("mkt_prob_display", (df["market_prob"] * 100).map("{:.1f}%".format))
-    df["FV"] = df.get("fv_display", df["blended_fv"].apply(
-        lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
-    ))
+    if "mkt_prob_display" in df.columns:
+        df["Mkt %"] = df["mkt_prob_display"]
+    else:
+        df["Mkt %"] = (df["market_prob"] * 100).map("{:.1f}%".format)
 
-    df["Stake"] = df.get("stake_display", df["stake"].map("{:.2f}u".format))
+    if "fv_display" in df.columns:
+        df["FV"] = df["fv_display"]
+    else:
+        df["FV"] = df["blended_fv"].apply(
+            lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
+        )
 
-    # Use ev_display for visual, ev_percent for sorting
-    df["EV"] = df["ev_percent"]                          # Numeric EV (for sorting)
-    df["EV Display"] = df.get("ev_display", df["ev_percent"].map("{:+.1f}%".format))  # Visual EV
+    if "ev_display" in df.columns:
+        df["EV"] = df["ev_display"]
+    else:
+        df["EV"] = df["ev_percent"].map("{:+.1f}%".format)
 
-    # Define column layout
-    display_cols = [
-        "Date", "Matchup", "Market Class", "Market", "Bet", "Book",
-        "Odds", "Sim %", "Mkt %", "FV", "EV Display", "Stake"
+    if "stake_display" in df.columns:
+        df["Stake"] = df["stake_display"]
+    else:
+        df["Stake"] = df["stake"].map("{:.2f}u".format)
+
+    required_cols = [
+        "Date",
+        "Matchup",
+        "Market Class",
+        "Market",
+        "Bet",
+        "Book",
+        "Odds",
+        "Sim %",
+        "Mkt %",
+        "FV",
+        "EV",
+        "Stake",
     ]
-
-    for col in display_cols:
+    for col in required_cols:
         if col not in df.columns:
             df[col] = "N/A"
 
-    # Apply sorting by actual numeric EV
-    df = df.sort_values("EV", ascending=False)
-
     if include_movement:
         movement_cols = [
-            "ev_movement", "mkt_movement", "fv_movement", "stake_movement",
-            "sim_movement", "odds_movement", "is_new"
+            "ev_movement",
+            "mkt_movement",
+            "fv_movement",
+            "stake_movement",
+            "sim_movement",
+            "odds_movement",
+            "is_new",
         ]
+
         for col in movement_cols:
             if col not in df.columns:
                 df[col] = [row.get(col, "same") for row in rows]
 
-        return df[display_cols + movement_cols + ["market_class"]]
+        return df[required_cols + movement_cols + ["market_class"]]
 
-    return df[display_cols + ["market_class"]]
+    return df[required_cols + ["market_class"]]
 
 
 
