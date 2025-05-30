@@ -784,7 +784,12 @@ def export_market_snapshots(df: pd.DataFrame, snapshot_paths: Dict[str, str]) ->
 def expand_snapshot_rows_with_kelly(
     rows: List[dict], allowed_books: List[str] | None = None
 ) -> List[dict]:
-    """Expand rows into one row per sportsbook with updated EV and stake."""
+    """Expand rows into one row per sportsbook with updated EV and stake.
+
+    If ``allowed_books`` is provided, only sportsbooks in that list will be
+    expanded.  Each expanded row has its display fields refreshed to reflect the
+    specific book price.
+    """
 
     expanded: List[dict] = []
 
@@ -816,6 +821,7 @@ def expand_snapshot_rows_with_kelly(
                     "full_stake": stake,
                 }
             )
+            annotate_display_deltas(expanded_row, prior=None)
             expanded.append(expanded_row)
 
     deduped: List[dict] = []

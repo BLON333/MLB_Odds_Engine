@@ -91,9 +91,7 @@ def build_snapshot_for_date(
 
     # Build base rows and expand per-book variants
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    rows = expand_snapshot_rows_with_kelly(
-        rows, allowed_books=["bovada", "betonlineag"]
-    )
+    rows = expand_snapshot_rows_with_kelly(rows)
 
     # 🧠 Track line movement
     tracker = load_tracker()
