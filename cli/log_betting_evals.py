@@ -2169,6 +2169,8 @@ def process_theme_logged_bets(
     seen_keys = set()
     seen_lines = set()
     game_summary = defaultdict(list)
+    # Track the best bet per (game_id, market, segment)
+    best_market_segment = {}
 
     def safe_remove_segment(game_id, theme_key, segment=None):
         if segment:
@@ -2368,23 +2370,38 @@ def process_theme_logged_bets(
                             pass
                 if evaluated:
                     evaluated["market"] = row["market"].replace("alternate_", "")
-                    write_to_csv(
-                        evaluated,
-                        "logs/market_evals.csv",
-                        existing,
-                        session_exposure,
-                        existing_theme_stakes,
-                        dry_run=dry_run,
+                    key_best = (
+                        evaluated["game_id"],
+                        evaluated["market"],
+                        evaluated.get("segment"),
                     )
-                    game_summary[game_id].append(evaluated)
-                    logged_stake = evaluated["stake"]
-                    exposure_key = get_exposure_key(evaluated)
-                    existing_theme_stakes[exposure_key] = (
-                        existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
-                    )
-                    if should_include_in_summary(evaluated):
-                        ensure_consensus_books(evaluated)
-                        skipped_bets.append(evaluated)
+                    current_best = best_market_segment.get(key_best)
+
+                    if (
+                        not current_best
+                        or evaluated["ev_percent"] > current_best.get("ev_percent", -999)
+                    ):
+                        best_market_segment[key_best] = evaluated
+
+    # ➡️ Log only the best bet per (game_id, market, segment)
+    for best_row in best_market_segment.values():
+        write_to_csv(
+            best_row,
+            "logs/market_evals.csv",
+            existing,
+            session_exposure,
+            existing_theme_stakes,
+            dry_run=dry_run,
+        )
+        game_summary[best_row["game_id"]].append(best_row)
+        logged_stake = best_row["stake"]
+        exposure_key = get_exposure_key(best_row)
+        existing_theme_stakes[exposure_key] = (
+            existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
+        )
+        if should_include_in_summary(best_row):
+            ensure_consensus_books(best_row)
+            skipped_bets.append(best_row)
 
     print("\n🧠 Summary by Game:")
     mainline_total = 0.0
