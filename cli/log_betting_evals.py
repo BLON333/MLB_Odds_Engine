@@ -540,32 +540,20 @@ def expand_snapshot_rows_with_kelly(
             "segment_label": bet.get("segment_label"),
         }
 
-        # 🧠 Copy any prior movement metadata (EV, FV, Odds movement, etc.)
         for field in [
-            "ev_movement",
-            "fv_movement",
-            "odds_movement",
-            "stake_movement",
-            "sim_movement",
-            "mkt_movement",
-            "is_new",
+            "ev_movement", "fv_movement", "odds_movement", "stake_movement",
+            "sim_movement", "mkt_movement", "is_new",
         ]:
             if field in bet:
                 base_fields[field] = bet[field]
 
-        # 🧠 Propagate any *_display fields for prior/current values
         for field in [
-            "ev_display",
-            "fv_display",
-            "odds_display",
-            "stake_display",
-            "sim_prob_display",
-            "mkt_prob_display",
+            "ev_display", "fv_display", "odds_display", "stake_display",
+            "sim_prob_display", "mkt_prob_display",
         ]:
             if field in bet:
                 base_fields[field] = bet[field]
 
-        # ✅ If no per-book expansion is available, just keep the original
         if not isinstance(bet.get("_raw_sportsbook", None), dict):
             print(
                 f"⚠️ No expansion data available — keeping existing row: {bet['side']} @ {bet['market']}"
@@ -587,39 +575,33 @@ def expand_snapshot_rows_with_kelly(
                     print(f"🔍 {book}: EV={ev:.2f}%, Odds={odds}, Stake={stake:.2f}u")
 
                 if ev >= min_ev and stake >= min_stake:
-                expanded_row = {
-                    **base_fields,
-                    "best_book": book,
-                    "market_odds": odds,
-                    "market_class": bet.get("market_class", "main"),
-                    "segment": bet.get("segment"),
-                    "segment_label": bet.get("segment_label"),
-                    "ev_percent": round(ev, 2),
-                    "stake": stake,
-                    "full_stake": stake,
-                }
+                    expanded_row = {
+                        **base_fields,
+                        "best_book": book,
+                        "market_odds": odds,
+                        "market_class": bet.get("market_class", "main"),
+                        "segment": bet.get("segment"),
+                        "segment_label": bet.get("segment_label"),
+                        "ev_percent": round(ev, 2),
+                        "stake": stake,
+                        "full_stake": stake,
+                    }
+
                     for field in [
-                        "ev_movement",
-                        "fv_movement",
-                        "odds_movement",
-                        "stake_movement",
-                        "sim_movement",
-                        "mkt_movement",
-                        "is_new",
+                        "ev_movement", "fv_movement", "odds_movement", "stake_movement",
+                        "sim_movement", "mkt_movement", "is_new",
                     ]:
-                    if field in base_fields:
-                        expanded_row[field] = base_fields[field]
-                for disp in [
-                    "ev_display",
-                    "fv_display",
-                    "odds_display",
-                    "stake_display",
-                    "sim_prob_display",
-                    "mkt_prob_display",
-                ]:
-                    if disp in base_fields:
-                        expanded_row[disp] = base_fields[disp]
-                expanded_rows.append(expanded_row)
+                        if field in base_fields:
+                            expanded_row[field] = base_fields[field]
+
+                    for disp in [
+                        "ev_display", "fv_display", "odds_display", "stake_display",
+                        "sim_prob_display", "mkt_prob_display",
+                    ]:
+                        if disp in base_fields:
+                            expanded_row[disp] = base_fields[disp]
+
+                    expanded_rows.append(expanded_row)
                 else:
                     if VERBOSE:
                         if ev < min_ev:
@@ -641,6 +623,7 @@ def expand_snapshot_rows_with_kelly(
             seen.add(key)
 
     return deduped
+
 
 
 def logistic_decay(t_hours, t_switch=8, slope=1.5):
