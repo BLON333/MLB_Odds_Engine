@@ -832,7 +832,9 @@ def export_market_snapshots(df: pd.DataFrame, snapshot_paths: Dict[str, str]) ->
 
 
 def expand_snapshot_rows_with_kelly(
-    rows: List[dict], allowed_books: List[str] | None = None
+    rows: List[dict],
+    allowed_books: List[str] | None = None,
+    include_ev_stake_movement: bool = True,
 ) -> List[dict]:
     """Expand rows into one row per sportsbook with updated EV and stake.
 
@@ -845,7 +847,26 @@ def expand_snapshot_rows_with_kelly(
 
     for row in rows:
         per_book = row.get("_raw_sportsbook")
+        tracker_key = (
+            f"{row.get('game_id')}:{str(row.get('market', '')).strip()}:"
+            f"{str(row.get('side', '')).strip()}"
+        )
+        prior_row = (
+            MARKET_EVAL_TRACKER.get(tracker_key)
+            or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+        )
+
         if not isinstance(per_book, dict) or not per_book:
+            annotate_display_deltas(row, prior_row)
+            movement = track_and_update_market_movement(
+                row,
+                MARKET_EVAL_TRACKER,
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+            )
+            if not include_ev_stake_movement:
+                movement.pop("ev_movement", None)
+                movement.pop("stake_movement", None)
+            row.update(movement)
             expanded.append(row)
             continue
 
@@ -871,18 +892,24 @@ def expand_snapshot_rows_with_kelly(
                     "full_stake": stake,
                 }
             )
-            tracker_key = f"{expanded_row['game_id']}:{expanded_row['market'].strip()}:{expanded_row['side'].strip()}"
-            prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            tracker_key = (
+                f"{expanded_row['game_id']}:{expanded_row['market'].strip()}:"
+                f"{expanded_row['side'].strip()}"
+            )
+            prior_row = (
+                MARKET_EVAL_TRACKER.get(tracker_key)
+                or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            )
             annotate_display_deltas(expanded_row, prior_row)
-            MARKET_EVAL_TRACKER[tracker_key] = {
-                "market_odds": expanded_row.get("market_odds"),
-                "ev_percent": expanded_row.get("ev_percent"),
-                "blended_fv": expanded_row.get("blended_fv"),
-                "stake": expanded_row.get("stake"),
-                "market_prob": expanded_row.get("market_prob"),
-                "sim_prob": expanded_row.get("sim_prob"),
-            }
-
+            movement = track_and_update_market_movement(
+                expanded_row,
+                MARKET_EVAL_TRACKER,
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+            )
+            if not include_ev_stake_movement:
+                movement.pop("ev_movement", None)
+                movement.pop("stake_movement", None)
+            expanded_row.update(movement)
             expanded.append(expanded_row)
 
     deduped: List[dict] = []
