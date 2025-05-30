@@ -428,23 +428,27 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
         target_sd=benchmark_totals["full_game"]["std_total"],
     )
     scaled_distributions = {
-        "totals": {"values": scaled_totals, "mean": float(np.mean(scaled_totals)), "std": float(np.std(scaled_totals))},
-        "run_diffs": {"values": scaled_diffs, "std": float(np.std(scaled_diffs))},
+        "totals": {
+            "values": scaled_totals,
+            "mean": float(np.mean(scaled_totals)),
+            "std": float(np.std(scaled_totals)),
+        },
+        "run_diffs": {
+            "values": scaled_diffs,
+            "std": float(np.std(scaled_diffs)),
+        },
     }
+
+    print(f"\n📊 PMF: totals_full_game")
     print(
-        f"\n📊 PMF: totals_full_game"
+        f"Raw Mean: {np.mean(raw_distributions['totals']['values']):.2f} → Scaled Mean: {np.mean(scaled_distributions['totals']['values']):.2f}"
     )
     print(
-        f"Raw Mean: {np.mean(raw_totals):.2f} → Scaled Mean: {np.mean(scaled_totals):.2f}"
+        f"Raw SD: {np.std(raw_distributions['totals']['values']):.2f} → Scaled SD: {np.std(scaled_distributions['totals']['values']):.2f}"
     )
+    print(f"\n📊 PMF: spreads_full_game")
     print(
-        f"Raw SD: {np.std(raw_totals):.2f} → Scaled SD: {np.std(scaled_totals):.2f}"
-    )
-    print(
-        f"\n📊 PMF: spreads_full_game"
-    )
-    print(
-        f"Raw SD: {np.std(raw_diffs):.2f} → Scaled SD: {np.std(scaled_diffs):.2f}"
+        f"Raw SD: {np.std(raw_distributions['run_diffs']['values']):.2f} → Scaled SD: {np.std(scaled_distributions['run_diffs']['values']):.2f}"
     )
 
     home_scores = [(t + d) / 2 for t, d in zip(scaled_totals, scaled_diffs)]
@@ -462,21 +466,21 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
     # Compute PMFs
     total = np.array(home_scores) + np.array(away_scores)
-    run_diff = np.array(scaled_diffs)
+    run_diff = np.array(scaled_distributions["run_diffs"]["values"])
     run_pmf_rounded = summarize_pmf(np.round(total).astype(int))
-    run_pmf_raw = summarize_pmf(np.round(raw_totals).astype(int))
+    run_pmf_raw = summarize_pmf(np.round(raw_distributions["totals"]["values"]).astype(int))
     run_diff_pmf = summarize_pmf(np.round(run_diff).astype(int))
 
     pmfs = {
         "totals": {
             "full_game": {
-                "raw": summarize_pmf(np.round(raw_totals).astype(int)),
+                "raw": summarize_pmf(np.round(raw_distributions["totals"]["values"]).astype(int)),
                 "scaled": run_pmf_rounded,
             }
         },
         "spreads": {
             "full_game": {
-                "raw": summarize_pmf(np.round(raw_diffs).astype(int)),
+                "raw": summarize_pmf(np.round(raw_distributions["run_diffs"]["values"]).astype(int)),
                 "scaled": run_diff_pmf,
             }
         },
@@ -649,27 +653,28 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             "std": float(np.std(seg_diffs_scaled)),
         }
 
-        pmf_total_seg = summarize_pmf(np.round(seg_totals_scaled).astype(int))
-        pmf_diff_seg = summarize_pmf(np.round(seg_diffs_scaled).astype(int))
+        pmf_total_seg = summarize_pmf(np.round(scaled_distributions[f"totals_{seg_key_name}"]["values"]).astype(int))
+        pmf_diff_seg = summarize_pmf(np.round(scaled_distributions[f"run_diffs_{seg_key_name}"]["values"]).astype(int))
+
         pmfs["totals"][seg_key_name] = {
-            "raw": summarize_pmf(np.round(segment_raw[seg_id]["total"]).astype(int)),
+            "raw": summarize_pmf(np.round(raw_distributions[f"totals_{seg_key_name}"]["values"]).astype(int)),
             "scaled": pmf_total_seg,
         }
         pmfs["spreads"][seg_key_name] = {
-            "raw": summarize_pmf(np.round(segment_raw[seg_id]["diff"]).astype(int)),
+            "raw": summarize_pmf(np.round(raw_distributions[f"run_diffs_{seg_key_name}"]["values"]).astype(int)),
             "scaled": pmf_diff_seg,
         }
 
         print(f"\n📊 PMF: totals_{seg_key_name}")
         print(
-            f"Raw Mean: {np.mean(segment_raw[seg_id]['total']):.2f} → Scaled Mean: {np.mean(seg_totals_scaled):.2f}"
+            f"Raw Mean: {np.mean(raw_distributions[f'totals_{seg_key_name}']["values"]):.2f} → Scaled Mean: {np.mean(scaled_distributions[f'totals_{seg_key_name}']["values"]):.2f}"
         )
         print(
-            f"Raw SD: {np.std(segment_raw[seg_id]['total']):.2f} → Scaled SD: {np.std(seg_totals_scaled):.2f}"
+            f"Raw SD: {np.std(raw_distributions[f'totals_{seg_key_name}']["values"]):.2f} → Scaled SD: {np.std(scaled_distributions[f'totals_{seg_key_name}']["values"]):.2f}"
         )
         print(f"\n📊 PMF: spreads_{seg_key_name}")
         print(
-            f"Raw SD: {np.std(segment_raw[seg_id]['diff']):.2f} → Scaled SD: {np.std(seg_diffs_scaled):.2f}"
+            f"Raw SD: {np.std(raw_distributions[f'run_diffs_{seg_key_name}']["values"]):.2f} → Scaled SD: {np.std(scaled_distributions[f'run_diffs_{seg_key_name}']["values"]):.2f}"
         )
 
         totals = {}
