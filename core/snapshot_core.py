@@ -98,11 +98,36 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         "blended_fv": ("fv_display", fmt_fv),
     }
 
+    skip_deltas_for = {"stake"}  # ← Skip deltas for stake
+
+    thresholds = {
+        "ev_percent": 0.1,
+        "market_prob": 0.00001,
+        "blended_fv": 1,
+        "market_odds": 1,
+        "stake": 0.1,
+        "sim_prob": 0.1,
+    }
+
     for field, (disp_key, fmt) in field_map.items():
         curr = entry.get(field)
         prior_val = prior.get(field) if prior else None
-        if prior_val is not None and prior_val != curr:
-            entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
+
+        if field in skip_deltas_for:
+            entry[disp_key] = fmt(curr)
+
+        elif prior_val is not None:
+            if isinstance(curr, (int, float)) and isinstance(prior_val, (int, float)):
+                diff = abs(curr - prior_val)
+                if diff >= thresholds.get(field, 0.0001):
+                    entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
+                else:
+                    entry[disp_key] = fmt(curr)
+            else:
+                if curr != prior_val:
+                    entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
+                else:
+                    entry[disp_key] = fmt(curr)
         else:
             entry[disp_key] = fmt(curr)
 
@@ -303,7 +328,6 @@ def send_bet_snapshot_to_discord(
     caption = (
         f"📈 **Live Market Snapshot — {market_type}**\n"
         f"_Generated: {timestamp}_\n"
-        "🟩 FV worse = market confirmation | 🟥 FV better = market drifted"
     )
 
     files = {"file": ("snapshot.png", buf, "image/png")}
@@ -618,87 +642,55 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 
     df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
     df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
-    if "market_class" not in df.columns:
-        df["market_class"] = "main"
-    df["Market Class"] = (
-        df["market_class"].map({"alternate": "Alt", "main": "Main"}).fillna("❓")
-    )
+
+    df["market_class"] = df.get("market_class", "main")
+    df["Market Class"] = df["market_class"].map({"alternate": "Alt", "main": "Main"}).fillna("❓")
     df["Market"] = df["market"]
     df["Bet"] = df["side"]
-    if "best_book" in df.columns:
-        df["Book"] = df["best_book"]
-    else:
-        df["Book"] = ""
-    if "odds_display" in df.columns:
-        df["Odds"] = df["odds_display"]
-    else:
-        df["Odds"] = df["market_odds"].apply(
-            lambda x: f"{x:+}" if isinstance(x, (int, float)) else x
-        )
+    df["Book"] = df.get("best_book", "")
 
-    if "sim_prob_display" in df.columns:
-        df["Sim %"] = df["sim_prob_display"]
-    else:
-        df["Sim %"] = (df["sim_prob"] * 100).map("{:.1f}%".format)
+    df["Odds"] = df.get("odds_display", df["market_odds"].apply(
+        lambda x: f"{x:+}" if isinstance(x, (int, float)) else "N/A"
+    ))
 
-    if "mkt_prob_display" in df.columns:
-        df["Mkt %"] = df["mkt_prob_display"]
-    else:
-        df["Mkt %"] = (df["market_prob"] * 100).map("{:.1f}%".format)
+    df["Sim %"] = df.get("sim_prob_display", (df["sim_prob"] * 100).map("{:.1f}%".format))
+    df["Mkt %"] = df.get("mkt_prob_display", (df["market_prob"] * 100).map("{:.1f}%".format))
+    df["FV"] = df.get("fv_display", df["blended_fv"].apply(
+        lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
+    ))
 
-    if "fv_display" in df.columns:
-        df["FV"] = df["fv_display"]
-    else:
-        df["FV"] = df["blended_fv"].apply(
-            lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
-        )
+    df["Stake"] = df.get("stake_display", df["stake"].map("{:.2f}u".format))
 
-    if "ev_display" in df.columns:
-        df["EV"] = df["ev_display"]
-    else:
-        df["EV"] = df["ev_percent"].map("{:+.1f}%".format)
+    # Use ev_display for visual, ev_percent for sorting
+    df["EV"] = df["ev_percent"]                          # Numeric EV (for sorting)
+    df["EV Display"] = df.get("ev_display", df["ev_percent"].map("{:+.1f}%".format))  # Visual EV
 
-    if "stake_display" in df.columns:
-        df["Stake"] = df["stake_display"]
-    else:
-        df["Stake"] = df["stake"].map("{:.2f}u".format)
-
-    required_cols = [
-        "Date",
-        "Matchup",
-        "Market Class",
-        "Market",
-        "Bet",
-        "Book",
-        "Odds",
-        "Sim %",
-        "Mkt %",
-        "FV",
-        "EV",
-        "Stake",
+    # Define column layout
+    display_cols = [
+        "Date", "Matchup", "Market Class", "Market", "Bet", "Book",
+        "Odds", "Sim %", "Mkt %", "FV", "EV Display", "Stake"
     ]
-    for col in required_cols:
+
+    for col in display_cols:
         if col not in df.columns:
             df[col] = "N/A"
 
+    # Apply sorting by actual numeric EV
+    df = df.sort_values("EV", ascending=False)
+
     if include_movement:
         movement_cols = [
-            "ev_movement",
-            "mkt_movement",
-            "fv_movement",
-            "stake_movement",
-            "sim_movement",
-            "odds_movement",
-            "is_new",
+            "ev_movement", "mkt_movement", "fv_movement", "stake_movement",
+            "sim_movement", "odds_movement", "is_new"
         ]
-
         for col in movement_cols:
             if col not in df.columns:
                 df[col] = [row.get(col, "same") for row in rows]
 
-        return df[required_cols + movement_cols + ["market_class"]]
+        return df[display_cols + movement_cols + ["market_class"]]
 
-    return df[required_cols + ["market_class"]]
+    return df[display_cols + ["market_class"]]
+
 
 
 def build_display_block(row: dict) -> Dict[str, str]:
@@ -821,7 +813,10 @@ def expand_snapshot_rows_with_kelly(
                     "full_stake": stake,
                 }
             )
-            annotate_display_deltas(expanded_row, prior=None)
+            tracker_key = f"{expanded_row['game_id']}:{expanded_row['market'].strip()}:{expanded_row['side'].strip()}"
+            prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            annotate_display_deltas(expanded_row, prior_row)
+
             expanded.append(expanded_row)
 
     deduped: List[dict] = []
