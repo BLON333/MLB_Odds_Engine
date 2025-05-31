@@ -122,6 +122,19 @@ def build_snapshot_for_date(
             row["snapshot_roles"].append("personal")
         snapshot_rows.append(row)
 
+    # 🛠️ Deduplicate best-book rows
+    deduped = {}
+    for row in snapshot_rows:
+        if "best_book" not in row.get("snapshot_roles", []):
+            continue
+        key = (row.get("game_id"), row.get("market"), row.get("side"))
+        current = deduped.get(key)
+        if not current or row.get("ev_percent", 0) > current.get("ev_percent", 0):
+            deduped[key] = row
+
+    snapshot_rows = [r for r in snapshot_rows if "best_book" not in r.get("snapshot_roles", [])]
+    snapshot_rows.extend(deduped.values())
+
     print(f"✅ Snapshot contains {len(snapshot_rows)} evaluated bets.")
     return snapshot_rows
 
