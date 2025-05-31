@@ -305,18 +305,6 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             "mkt_movement",
             "is_new",
             "market_class",
-            "prev_sim_prob",
-            "prev_market_prob",
-            "prev_market_odds",
-            "prev_blended_fv",
-            "sim_prob",
-            "market_prob",
-            "market_odds",
-            "blended_fv",
-            "sim_prob_display",
-            "mkt_prob_display",
-            "odds_display",
-            "fv_display",
         ]
         if c in df.columns
     ]
@@ -462,12 +450,6 @@ def compare_and_flag_new_rows(
             or last_snapshot.get(key)
             or prior_data.get(key)
         )
-        entry.update({
-            "prev_sim_prob": (prior or {}).get("sim_prob"),
-            "prev_market_prob": (prior or {}).get("market_prob"),
-            "prev_market_odds": (prior or {}).get("market_odds"),
-            "prev_blended_fv": (prior or {}).get("blended_fv"),
-        })
         movement = track_and_update_market_movement(
             entry,
             MARKET_EVAL_TRACKER,
@@ -669,13 +651,6 @@ def build_snapshot_rows(
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
-            row.update({
-                "prev_sim_prob": (prior_row or {}).get("sim_prob"),
-                "prev_market_prob": (prior_row or {}).get("market_prob"),
-                "prev_market_odds": (prior_row or {}).get("market_odds"),
-                "prev_blended_fv": (prior_row or {}).get("blended_fv"),
-            })
-
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -770,21 +745,6 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         if col not in df.columns:
             df[col] = "N/A"
 
-    extra_cols = [
-        "sim_prob_display",
-        "mkt_prob_display",
-        "odds_display",
-        "fv_display",
-        "sim_prob",
-        "market_prob",
-        "market_odds",
-        "blended_fv",
-        "prev_sim_prob",
-        "prev_market_prob",
-        "prev_market_odds",
-        "prev_blended_fv",
-    ]
-
     if include_movement:
         movement_cols = [
             "ev_movement",
@@ -800,14 +760,9 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
             if col not in df.columns:
                 df[col] = [row.get(col, "same") for row in rows]
 
-        cols = required_cols + movement_cols
-    else:
-        cols = required_cols
+        return df[required_cols + movement_cols + ["market_class"]]
 
-    cols += [c for c in extra_cols if c in df.columns]
-    cols.append("market_class")
-
-    return df[cols]
+    return df[required_cols + ["market_class"]]
 
 
 def build_display_block(row: dict) -> Dict[str, str]:
@@ -915,13 +870,6 @@ def expand_snapshot_rows_with_kelly(
             or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
         )
 
-        row.update({
-            "prev_sim_prob": (prior_row or {}).get("sim_prob"),
-            "prev_market_prob": (prior_row or {}).get("market_prob"),
-            "prev_market_odds": (prior_row or {}).get("market_odds"),
-            "prev_blended_fv": (prior_row or {}).get("blended_fv"),
-        })
-
         if not isinstance(per_book, dict) or not per_book:
             movement = track_and_update_market_movement(
                 row,
@@ -966,12 +914,6 @@ def expand_snapshot_rows_with_kelly(
                 MARKET_EVAL_TRACKER.get(tracker_key)
                 or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
             )
-            expanded_row.update({
-                "prev_sim_prob": (prior_row or {}).get("sim_prob"),
-                "prev_market_prob": (prior_row or {}).get("market_prob"),
-                "prev_market_odds": (prior_row or {}).get("market_odds"),
-                "prev_blended_fv": (prior_row or {}).get("blended_fv"),
-            })
             movement = track_and_update_market_movement(
                 expanded_row,
                 MARKET_EVAL_TRACKER,
