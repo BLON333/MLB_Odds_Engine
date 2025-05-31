@@ -2,6 +2,7 @@
 import os
 import json
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from typing import List, Dict, Tuple
 from typing import Optional
 import io
@@ -553,8 +554,13 @@ def build_snapshot_rows(
         hours_to_game = 8.0
         if start_str:
             try:
-                dt = datetime.fromisoformat(start_str)
-                hours_to_game = (dt - datetime.now(dt.tzinfo)).total_seconds() / 3600
+                dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                dt_et = dt.astimezone(ZoneInfo("America/New_York"))
+                now_et = datetime.now(ZoneInfo("America/New_York"))
+                hours_to_game = (dt_et - now_et).total_seconds() / 3600
+                print(
+                    f"🕓 DEBUG: {game_id} — start={dt_et.isoformat()} | now={now_et.isoformat()} | delta={hours_to_game:.2f}h"
+                )
             except Exception:
                 pass
         if hours_to_game < 0:
