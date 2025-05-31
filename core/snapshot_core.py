@@ -56,6 +56,32 @@ def should_log_movement() -> bool:
     return False
 
 
+def format_percentage(val: Optional[float]) -> str:
+    """Return a percentage string like ``41.2%`` or ``–``."""
+    try:
+        return f"{val * 100:.1f}%" if val is not None else "–"
+    except Exception:
+        return "–"
+
+
+def format_odds(val: Optional[float]) -> str:
+    """Return American odds like ``+215`` or ``–``."""
+    if val is None:
+        return "–"
+    try:
+        return f"{int(float(val)):+}"
+    except Exception:
+        return str(val)
+
+
+def format_display(curr: Optional[float], prior: Optional[float], movement: str, mode: str = "percent") -> str:
+    """Return ``X → Y`` string for display based on movement."""
+    fmt = format_percentage if mode == "percent" else format_odds
+    if movement == "same" or prior is None:
+        return fmt(curr)
+    return f"{fmt(prior)} → {fmt(curr)}"
+
+
 def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
     """Populate *_display fields on ``entry`` using the provided prior data."""
 
@@ -102,34 +128,28 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
 
     skip_deltas_for = {"stake", "ev_percent"}
 
-    thresholds = {
-        "ev_percent": 0.1,
-        "market_prob": 0.00001,
-        "blended_fv": 1,
-        "market_odds": 1,
-        "stake": 0.1,
-        "sim_prob": 0.1,
+    movement_fields = {
+        "sim_prob": ("sim_movement", "percent"),
+        "market_prob": ("mkt_movement", "percent"),
+        "blended_fv": ("fv_movement", "odds"),
     }
 
     for field, (disp_key, fmt) in field_map.items():
         curr = entry.get(field)
         prior_val = prior.get(field) if prior else None
 
+        if field in movement_fields:
+            move_key, mode = movement_fields[field]
+            movement = entry.get(move_key, "same")
+            entry[disp_key] = format_display(curr, prior_val, movement, mode)
+            continue
+
         if field in skip_deltas_for:
             entry[disp_key] = fmt(curr)
+            continue
 
-        elif prior_val is not None:
-            if isinstance(curr, (int, float)) and isinstance(prior_val, (int, float)):
-                diff = abs(curr - prior_val)
-                if diff >= thresholds.get(field, 0.0001):
-                    entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
-                else:
-                    entry[disp_key] = fmt(curr)
-            else:
-                if curr != prior_val:
-                    entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
-                else:
-                    entry[disp_key] = fmt(curr)
+        if prior_val is not None and curr != prior_val:
+            entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
         else:
             entry[disp_key] = fmt(curr)
 
@@ -429,6 +449,11 @@ def compare_and_flag_new_rows(
             or last_snapshot.get(key)
             or prior_data.get(key)
         )
+        movement = track_and_update_market_movement(
+            entry,
+            MARKET_EVAL_TRACKER,
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+        )
         annotate_display_deltas(entry, prior)
         blended_fv = entry.get("blended_fv", entry.get("fair_odds"))
         market_odds = entry.get("market_odds")
@@ -457,23 +482,6 @@ def compare_and_flag_new_rows(
             "display": build_display_block(entry),
         }
 
-        movement = track_and_update_market_movement(
-            {
-                "game_id": game_id,
-                "market": market,
-                "side": side,
-                "blended_fv": blended_fv,
-                "market_odds": market_odds,
-                "ev_percent": ev_pct,
-                "stake": entry.get("stake"),
-                "sim_prob": entry.get("sim_prob"),
-                "market_prob": entry.get("market_prob"),
-                "date_simulated": entry.get("date_simulated"),
-                "best_book": book,
-            },
-            MARKET_EVAL_TRACKER,
-            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-        )
         if should_log_movement():
             print(
                 f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
@@ -637,6 +645,11 @@ def build_snapshot_rows(
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
+            movement = track_and_update_market_movement(
+                row,
+                MARKET_EVAL_TRACKER,
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+            )
             annotate_display_deltas(row, prior_row)
             MARKET_EVAL_TRACKER[tracker_key] = {
                 "market_odds": row.get("market_odds"),
@@ -646,11 +659,6 @@ def build_snapshot_rows(
                 "market_prob": row.get("market_prob"),
                 "sim_prob": row.get("sim_prob"),
             }
-            movement = track_and_update_market_movement(
-                row,
-                MARKET_EVAL_TRACKER,
-                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-            )
             if should_log_movement():
                 print(
                     f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
@@ -857,12 +865,12 @@ def expand_snapshot_rows_with_kelly(
         )
 
         if not isinstance(per_book, dict) or not per_book:
-            annotate_display_deltas(row, prior_row)
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
                 MARKET_EVAL_TRACKER_BEFORE_UPDATE,
             )
+            annotate_display_deltas(row, prior_row)
             if not include_ev_stake_movement:
                 movement.pop("ev_movement", None)
                 movement.pop("stake_movement", None)
@@ -900,12 +908,12 @@ def expand_snapshot_rows_with_kelly(
                 MARKET_EVAL_TRACKER.get(tracker_key)
                 or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
             )
-            annotate_display_deltas(expanded_row, prior_row)
             movement = track_and_update_market_movement(
                 expanded_row,
                 MARKET_EVAL_TRACKER,
                 MARKET_EVAL_TRACKER_BEFORE_UPDATE,
             )
+            annotate_display_deltas(expanded_row, prior_row)
             if not include_ev_stake_movement:
                 movement.pop("ev_movement", None)
                 movement.pop("stake_movement", None)
