@@ -579,7 +579,6 @@ def expand_snapshot_rows_with_kelly(
                         **base_fields,
                         "best_book": book,
                         "market_odds": odds,
-                        "market_prob": round(implied_prob(odds), 4),
                         "market_class": bet.get("market_class", "main"),
                         "segment": bet.get("segment"),
                         "segment_label": bet.get("segment_label"),

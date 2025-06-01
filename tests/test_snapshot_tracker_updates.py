@@ -90,32 +90,3 @@ def test_frozen_tracker_used_for_each_expanded_row(monkeypatch):
         assert r["prev_market_prob"] == 0.5
         assert r["prev_sim_prob"] == 0.55
         assert r["prev_blended_fv"] == -110
-
-
-def test_market_prob_updates_with_market_odds(monkeypatch):
-    monkeypatch.setattr(sc, "save_tracker", lambda tracker: None)
-
-    sc.MARKET_EVAL_TRACKER.clear()
-    sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
-
-    row = {
-        "game_id": "gid",
-        "market": "h2h",
-        "side": "TeamA",
-        "blended_prob": 0.55,
-        "market_prob": 0.5,
-        "sim_prob": 0.55,
-        "blended_fv": -110,
-        "market_odds": 115,
-        "ev_percent": 6.0,
-        "stake": 1.1,
-        "full_stake": 1.1,
-        "_raw_sportsbook": {"B1": 115, "B2": 110},
-        "best_book": "B1",
-    }
-
-    expanded = sc.expand_snapshot_rows_with_kelly([row])
-    from core.market_pricer import implied_prob
-
-    for r in expanded:
-        assert r["market_prob"] == round(implied_prob(r["market_odds"]), 4)
