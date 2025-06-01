@@ -79,7 +79,12 @@ def is_live_snapshot_row(row: dict) -> bool:
 
 def is_personal_book_row(row: dict) -> bool:
     """Return True if row is from a personal sportsbook."""
-    return row.get("best_book") in ["bovada", "betonlineag"]
+    return row.get("best_book") in [
+        "pinnacle",
+        "fanduel",
+        "bovada",
+        "betonlineag",
+    ]
 
 
 # ---------------------------------------------------------------------------

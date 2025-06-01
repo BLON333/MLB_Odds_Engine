@@ -5,6 +5,8 @@ import os
 import sys
 import json
 import argparse
+from typing import List
+import pandas as pd
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
@@ -48,6 +50,16 @@ def filter_by_date(rows: list, date_str: str | None) -> list:
     return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
 
 
+def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
+    """Return DataFrame filtered to the specified sportsbook keys."""
+    if not books or "Book" not in df.columns:
+        return df
+    clean_books = [b.strip() for b in books if b.strip()]
+    if not clean_books:
+        return df
+    return df[df["Book"].isin(clean_books)]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Dispatch personal-book snapshot")
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
@@ -66,6 +78,8 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+    allowed_books = ["pinnacle", "fanduel", "bovada", "betonlineag"]
+    df = filter_by_books(df, allowed_books)
     if "sim_prob_display" in df.columns:
         df["Sim %"] = df["sim_prob_display"]
     if "mkt_prob_display" in df.columns:
