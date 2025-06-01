@@ -11,6 +11,7 @@ import os
 import sys
 import json
 import argparse
+from datetime import timedelta
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
@@ -165,7 +166,7 @@ def build_snapshot_for_date(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate unified market snapshot")
-    parser.add_argument("--date", default=now_eastern().strftime("%Y-%m-%d"))
+    parser.add_argument("--date", default=None)
     parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
     parser.add_argument(
         "--ev-range",
@@ -174,7 +175,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
+    if args.date:
+        date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
+    else:
+        today = now_eastern().strftime("%Y-%m-%d")
+        tomorrow = (now_eastern() + timedelta(days=1)).strftime("%Y-%m-%d")
+        date_list = [today, tomorrow]
 
     try:
         min_ev, max_ev = map(float, args.ev_range.split(","))
