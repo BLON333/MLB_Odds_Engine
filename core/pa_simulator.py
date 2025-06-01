@@ -64,10 +64,18 @@ def resolve_contact(batter, pitcher, debug=False, rng=None):
     )
 
     if is_hit:
-        outcome = rand.choice(["1B", "2B", "3B"], p=[0.76, 0.22, 0.02])
+        probs = [0.76, 0.22, 0.02]
+        probs[0] *= 1.01
+        total = sum(probs)
+        probs = [p / total for p in probs]
+        outcome = rand.choice(["1B", "2B", "3B"], p=probs)
     else:
         if rand.random() < 0.10:
-            outcome = rand.choice(["1B", "2B"], p=[0.92, 0.08])
+            fb_probs = [0.92, 0.08]
+            fb_probs[0] *= 1.01
+            total = sum(fb_probs)
+            fb_probs = [p / total for p in fb_probs]
+            outcome = rand.choice(["1B", "2B"], p=fb_probs)
             if debug:
                 print(f"DEBUG: Infield single fallback triggered → {outcome}")
         else:
@@ -107,6 +115,7 @@ def simulate_pa(
     # Normalize and optionally apply noise
     k_prob = beta_noise(k_rate, rng=rand) if use_noise else k_rate
     bb_prob = beta_noise(bb_rate, rng=rand) if use_noise else bb_rate
+    bb_prob *= 1.01
     contact_prob = max(0.0, 1 - k_prob - bb_prob)
 
     result = rand.random() if hasattr(rand, "random") else rand.rand()
