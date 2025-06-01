@@ -79,6 +79,12 @@ def main() -> None:
         default=os.getenv("FV_DROP_BOOKS"),
         help="Comma-separated book keys to include",
     )
+    parser.add_argument(
+        "--min-ev",
+        type=float,
+        default=2.0,
+        help="Minimum EV% required to dispatch",
+    )
     args = parser.parse_args()
 
     path = args.snapshot_path or latest_snapshot_path()
@@ -90,6 +96,11 @@ def main() -> None:
 
     # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)
+
+    rows = [r for r in rows if r.get("ev_percent", 0) >= args.min_ev]
+    logger.info(
+        "🧪 Dispatch filter: %d rows passed EV%% ≥ %.1f", len(rows), args.min_ev
+    )
 
 
 

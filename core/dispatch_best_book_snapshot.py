@@ -53,6 +53,12 @@ def main() -> None:
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument("--diff-highlight", action="store_true")
+    parser.add_argument(
+        "--min-ev",
+        type=float,
+        default=2.0,
+        help="Minimum EV% required to dispatch",
+    )
     args = parser.parse_args()
 
     path = args.snapshot_path or latest_snapshot_path()
@@ -63,6 +69,11 @@ def main() -> None:
     rows = load_rows(path)
     rows = [r for r in rows if "best_book" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
+
+    rows = [r for r in rows if r.get("ev_percent", 0) >= args.min_ev]
+    logger.info(
+        "🧪 Dispatch filter: %d rows passed EV%% ≥ %.1f", len(rows), args.min_ev
+    )
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
     if "sim_prob_display" in df.columns:
