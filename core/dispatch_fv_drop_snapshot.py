@@ -96,6 +96,14 @@ def main() -> None:
 
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
+    if "sim_prob_display" in df.columns:
+        df["Sim %"] = df["sim_prob_display"]
+    if "mkt_prob_display" in df.columns:
+        df["Mkt %"] = df["mkt_prob_display"]
+    if "odds_display" in df.columns:
+        df["Odds"] = df["odds_display"]
+    if "fv_display" in df.columns:
+        df["FV"] = df["fv_display"]
 
     # ✅ Filter to only show rows where market probability increased
     if "Mkt %" in df.columns:
