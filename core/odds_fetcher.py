@@ -96,15 +96,23 @@ def prob_to_american(prob):
     except:
         return None
 
-def fetch_consensus_for_single_game(game_id):
-    """
-    Pulls odds from API for a single game and returns de-vigged consensus odds.
+def fetch_consensus_for_single_game(game_id, lookahead_days=2):
+    """Return de-vigged consensus odds for a single game.
+
+    Parameters
+    ----------
+    game_id : str
+        Canonical game identifier.
+    lookahead_days : int, default 2
+        How many days of events to request from the Odds API.
     """
     game_id = canonical_game_id(game_id)
     logger.debug(f"🔎 Fetching consensus odds for {game_id}")
 
     # Step 1: Pull events
-    resp = requests.get(EVENTS_URL, params={"apiKey": ODDS_API_KEY})
+    resp = requests.get(
+        EVENTS_URL, params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days}
+    )
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events.")
         return None
@@ -173,12 +181,27 @@ def fetch_consensus_for_single_game(game_id):
     return normalized
 
 
-def fetch_market_odds_from_api(game_ids, filter_bookmakers=None):
+def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=2):
+    """Fetch market odds for the provided game IDs.
+
+    Parameters
+    ----------
+    game_ids : list[str]
+        Canonical game IDs to pull odds for.
+    filter_bookmakers : list[str] | None
+        Optional subset of bookmakers to include.
+    lookahead_days : int, default 2
+        Number of days ahead to request from the Odds API. The default of ``2``
+        ensures today's and tomorrow's games are returned.
+    """
+
     game_ids = [canonical_game_id(gid) for gid in game_ids]
     logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
     logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
-    resp = requests.get(EVENTS_URL, params={"apiKey": ODDS_API_KEY})
+    resp = requests.get(
+        EVENTS_URL, params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days}
+    )
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events: {resp.text}")
         return {}
