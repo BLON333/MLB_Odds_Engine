@@ -21,11 +21,7 @@ from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
     load_simulations,
     build_snapshot_rows,
-    annotate_display_deltas,
 )
-from core.market_eval_tracker import load_tracker, save_tracker
-from core.market_movement_tracker import track_and_update_market_movement
-import copy
 from core.snapshot_core import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
@@ -113,25 +109,6 @@ def build_snapshot_for_date(
     # Build base rows and expand per-book variants
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows)
-
-    # 🧠 Track line movement
-    tracker = load_tracker()
-    reference_tracker = copy.deepcopy(tracker)
-    for row in rows:
-        key = (
-            f"{row.get('game_id', '')}:"
-            f"{str(row.get('market', '')).strip()}:"
-            f"{str(row.get('side', '')).strip()}"
-        )
-        prior_row = reference_tracker.get(key)
-        movement = track_and_update_market_movement(
-            row,
-            tracker,
-            reference_tracker,
-        )
-        row.update(movement)
-        annotate_display_deltas(row, prior_row)
-    save_tracker(tracker)
 
     # 🎯 Filter by EV% (optional)
     min_ev, max_ev = ev_range
