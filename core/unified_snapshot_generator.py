@@ -107,8 +107,12 @@ def build_snapshot_for_date(
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
 
     # Build base rows and expand per-book variants
-    rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    rows = expand_snapshot_rows_with_kelly(rows)
+    raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
+    logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
+    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
+    logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
+
+    rows = expanded_rows
 
     # 🎯 Retain all rows (EV% filter removed)
     min_ev, max_ev = ev_range  # kept for compatibility
@@ -144,7 +148,18 @@ def build_snapshot_for_date(
     ]
     snapshot_rows.extend(deduped.values())
 
-    print(f"✅ Snapshot contains {len(snapshot_rows)} evaluated bets.")
+    logger.info("\u2705 Final snapshot rows to write: %d", len(snapshot_rows))
+
+    num_with_roles = sum(1 for r in snapshot_rows if r.get("snapshot_roles"))
+    num_stake_half = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 0.5)
+    num_stake_one = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 1.0)
+    logger.info(
+        "\U0001F4CA Of those: %d rows have roles, %d have stake \u2265 0.5u, %d have stake \u2265 1.0u",
+        num_with_roles,
+        num_stake_half,
+        num_stake_one,
+    )
+
     return snapshot_rows
 
 
