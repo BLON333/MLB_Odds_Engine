@@ -8,6 +8,37 @@ from core.logger import get_logger
 logger = get_logger(__name__)
 
 
+def maybe_inject_misc_run(runs, runner_reached, rng=None):
+    """Occasionally convert a scoreless inning into a one-run frame."""
+    rand = rng if rng is not None else random
+    if runner_reached and runs == 0 and rand.random() < 0.011:
+        return runs + 1
+    return runs
+
+
+def maybe_inject_ghost_run(runs, runner_reached, rng=None):
+    """Add a possible unearned ghost run if a runner reached base."""
+    rand = rng if rng is not None else random
+    if runner_reached and rand.random() < 0.01:
+        return runs + 1
+    return runs
+
+
+def maybe_score_from_second(outcome, before_state, after_state, outs, rng=None):
+    """With two outs, occasionally score a runner from second on a single."""
+    rand = rng if rng is not None else random
+    if (
+        outcome == "1B"
+        and outs == 2
+        and before_state[1] is not None
+        and after_state[2] is not None
+        and rand.random() < 0.10
+    ):
+        after_state[2] = None
+        return after_state, 1
+    return after_state, 0
+
+
 def _advance_bases(base_state, transitions, batter=None, debug=False):
     """Return new base state and runs scored after applying transitions."""
     new_state = [None, None, None]
@@ -63,7 +94,7 @@ def _handle_walk(base_state, batter, rng=None, debug=False):
     return new_state, runs, 0
 
 
-def _handle_single(base_state, batter, rng=None, debug=False):
+def _handle_single(base_state, batter, outs, rng=None, debug=False):
     rand = rng if rng is not None else random
     mapping = {}
     if base_state[2]:
@@ -74,7 +105,8 @@ def _handle_single(base_state, batter, rng=None, debug=False):
         mapping[0] = 1 if rand.random() < 0.8 else 0
     mapping["batter"] = 0
     new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
-    return new_state, runs, 0
+    new_state, extra = maybe_score_from_second("1B", base_state, new_state, outs, rng=rand)
+    return new_state, runs + extra, 0
 
 
 def _handle_double(base_state, batter, rng=None, debug=False):
@@ -122,6 +154,7 @@ def simulate_half_inning(
     batter_idx = start_batter_index
     events = []
     base_state = [None, None, None]  # [1B, 2B, 3B]
+    runner_reached = False
 
     pitcher_state = pitcher_state or {"batters_faced": 0, "pitch_count": 0, "tto_count": 1}
     max_pa = 30
@@ -170,6 +203,8 @@ def simulate_half_inning(
 
         if outcome in ("K", "OUT"):
             base_state, runs_this_play, outs_added = handler(base_state, outs, rng=rng, debug=debug)
+        elif outcome == "1B":
+            base_state, runs_this_play, outs_added = handler(base_state, batter, outs, rng=rng, debug=debug)
         else:
             base_state, runs_this_play, outs_added = handler(base_state, batter, rng=rng, debug=debug)
         outs += outs_added
@@ -178,6 +213,8 @@ def simulate_half_inning(
             runs_this_play = 0
 
         runs += runs_this_play
+        if not runner_reached and (runs_this_play > 0 or any(base_state)):
+            runner_reached = True
         pitcher_state["batters_faced"] += 1
         pitcher_state["pitch_count"] += 1
         batter_idx += 1
@@ -201,6 +238,9 @@ def simulate_half_inning(
 
     if pa_count >= max_pa:
         logger.debug(f"⚠️ Max PA cap reached ({pa_count}) — potential infinite loop in {half} of inning {inning}")
+
+    runs = maybe_inject_misc_run(runs, runner_reached, rng=rng)
+    runs = maybe_inject_ghost_run(runs, runner_reached, rng=rng)
 
     return {
         "runs_scored": runs,
