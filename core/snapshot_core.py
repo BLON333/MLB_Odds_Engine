@@ -137,7 +137,7 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
 
     for field, (disp_key, fmt) in field_map.items():
         curr = entry.get(field)
-        prior_val = entry.get(f"prev_{field}") or (prior.get(field) if prior else None)
+        prior_val = prior.get(field) if prior else None
 
         if field in movement_fields:
             move_key, mode = movement_fields[field]
