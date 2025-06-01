@@ -26,7 +26,7 @@ import subprocess
 
 from datetime import timedelta
 from utils import now_eastern
-from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
+from core.odds_fetcher import fetch_all_market_odds, save_market_odds_to_file
 
 EDGE_THRESHOLD = 0.05
 MIN_EV = 0.05
@@ -108,21 +108,9 @@ def get_today_str() -> str:
 
 def fetch_and_cache_odds_snapshot() -> str | None:
     """Fetch market odds once per loop and save to a timestamped file."""
-    today_str, tomorrow_str = get_date_strings()
-    game_ids = []
-    for date_str in [today_str, tomorrow_str]:
-        sim_dir = os.path.join("backtest", "sims", date_str)
-        if os.path.isdir(sim_dir):
-            for f in os.listdir(sim_dir):
-                if f.endswith(".json"):
-                    game_ids.append(f.replace(".json", ""))
 
-    if not game_ids:
-        logger.warning("⚠️ No game IDs found for odds fetch.")
-        return None
-
-    logger.info("\n📡 Fetching market odds for %s games...", len(game_ids))
-    odds = fetch_market_odds_from_api(game_ids, lookahead_days=2)
+    logger.info("\n📡 Fetching market odds for today and tomorrow...")
+    odds = fetch_all_market_odds(lookahead_days=2)
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
     odds_path = save_market_odds_to_file(odds, tag)
