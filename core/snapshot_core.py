@@ -980,6 +980,7 @@ def expand_snapshot_rows_with_kelly(
                 {
                     "best_book": book,
                     "market_odds": odds,
+                    "market_prob": round(implied_prob(odds), 4),
                     "ev_percent": round(ev, 2),
                     "stake": stake,
                     "full_stake": stake,
