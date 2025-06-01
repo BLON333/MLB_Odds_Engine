@@ -357,6 +357,33 @@ def send_bet_snapshot_to_discord(
             df = df.sort_values(by="EV", ascending=False)
     else:
         df = df.sort_values(by="ev_percent", ascending=False)
+
+    columns_to_exclude = [
+        "prev_sim_prob",
+        "prev_market_prob",
+        "prev_market_odds",
+        "prev_blended_fv",
+        "sim_prob",
+        "market_prob",
+        "market_odds",
+        "blended_fv",
+        "sim_movement",
+        "mkt_movement",
+        "fv_movement",
+        "odds_movement",
+        "stake_movement",
+        "ev_movement",
+        "is_new",
+        "market_class",
+        "_raw_sportsbook",
+        "full_stake",
+        "blended_prob",
+        "segment",
+        "date_simulated",
+    ]
+
+    df = df.drop(columns=[col for col in columns_to_exclude if col in df.columns])
+
     styled = _style_dataframe(df)
 
     buf = io.BytesIO()
