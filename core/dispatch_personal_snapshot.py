@@ -66,14 +66,6 @@ def main() -> None:
     rows = filter_by_date(rows, args.date)
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
-    if "sim_prob_display" in df.columns:
-        df["Sim %"] = df["sim_prob_display"]
-    if "mkt_prob_display" in df.columns:
-        df["Mkt %"] = df["mkt_prob_display"]
-    if "odds_display" in df.columns:
-        df["Odds"] = df["odds_display"]
-    if "fv_display" in df.columns:
-        df["FV"] = df["fv_display"]
     if df.empty:
         logger.warning("⚠️ Snapshot DataFrame is empty — nothing to dispatch.")
         return
