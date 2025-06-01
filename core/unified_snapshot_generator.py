@@ -110,13 +110,10 @@ def build_snapshot_for_date(
     rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     rows = expand_snapshot_rows_with_kelly(rows)
 
-    # 🎯 Filter by EV% (optional)
-    min_ev, max_ev = ev_range
-    rows = [r for r in rows if min_ev <= r.get("ev_percent", 0) <= max_ev]
+    # 🎯 Retain all rows (EV% filter removed)
+    min_ev, max_ev = ev_range  # kept for compatibility
     logger.info(
-        "✅ Filtered rows to EV%% between %.2f and %.2f → %d rows remain",
-        min_ev,
-        max_ev,
+        "📊 Snapshot generation: %d rows evaluated (no EV%% filtering applied)",
         len(rows),
     )
 
