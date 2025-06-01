@@ -187,7 +187,10 @@ def main() -> None:
 
     all_rows: list = []
     for date_str in date_list:
-        all_rows.extend(build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev)))
+        rows_for_date = build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
+        for row in rows_for_date:
+            row["snapshot_for_date"] = date_str
+        all_rows.extend(rows_for_date)
 
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
