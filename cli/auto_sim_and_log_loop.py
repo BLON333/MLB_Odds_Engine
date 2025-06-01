@@ -122,7 +122,7 @@ def fetch_and_cache_odds_snapshot() -> str | None:
         return None
 
     logger.info("\n📡 Fetching market odds for %s games...", len(game_ids))
-    odds = fetch_market_odds_from_api(game_ids)
+    odds = fetch_market_odds_from_api(game_ids, lookahead_days=2)
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
     odds_path = save_market_odds_to_file(odds, tag)
