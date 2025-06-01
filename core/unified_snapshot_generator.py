@@ -18,7 +18,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "c
 from utils import now_eastern
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
-from core.snapshot_core import load_simulations, build_snapshot_rows
+from core.snapshot_core import (
+    load_simulations,
+    build_snapshot_rows,
+    annotate_display_deltas,
+)
 from core.market_eval_tracker import load_tracker, save_tracker
 from core.market_movement_tracker import track_and_update_market_movement
 import copy
@@ -30,20 +34,36 @@ logger = get_logger(__name__)
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def latest_odds_file(folder="data/market_odds") -> str | None:
     files = sorted(
-        [f for f in os.listdir(folder) if f.startswith("market_odds_") and f.endswith(".json")],
+        [
+            f
+            for f in os.listdir(folder)
+            if f.startswith("market_odds_") and f.endswith(".json")
+        ],
         reverse=True,
     )
     return os.path.join(folder, files[0]) if files else None
+
 
 # ---------------------------------------------------------------------------
 # Snapshot role helpers
 # ---------------------------------------------------------------------------
 POPULAR_BOOKS = [
-    "fanduel", "draftkings", "betmgm", "williamhill_us", "espnbet",
-    "hardrockbet", "fliff", "mybookieag", "lowvig", "betonlineag",
-    "betrivers", "fanatics", "pinnacle",
+    "fanduel",
+    "draftkings",
+    "betmgm",
+    "williamhill_us",
+    "espnbet",
+    "hardrockbet",
+    "fliff",
+    "mybookieag",
+    "lowvig",
+    "betonlineag",
+    "betrivers",
+    "fanatics",
+    "pinnacle",
 ]
 
 
@@ -65,6 +85,7 @@ def is_personal_book_row(row: dict) -> bool:
 # ---------------------------------------------------------------------------
 # Snapshot generation
 # ---------------------------------------------------------------------------
+
 
 def build_snapshot_for_date(
     date_str: str,
@@ -92,12 +113,19 @@ def build_snapshot_for_date(
     tracker = load_tracker()
     reference_tracker = copy.deepcopy(tracker)
     for row in rows:
+        key = (
+            f"{row.get('game_id', '')}:"
+            f"{str(row.get('market', '')).strip()}:"
+            f"{str(row.get('side', '')).strip()}"
+        )
+        prior_row = reference_tracker.get(key)
         movement = track_and_update_market_movement(
             row,
             tracker,
             reference_tracker,
         )
         row.update(movement)
+        annotate_display_deltas(row, prior_row)
     save_tracker(tracker)
 
     # 🎯 Filter by EV% (optional)
@@ -132,12 +160,13 @@ def build_snapshot_for_date(
         if not current or row.get("ev_percent", 0) > current.get("ev_percent", 0):
             deduped[key] = row
 
-    snapshot_rows = [r for r in snapshot_rows if "best_book" not in r.get("snapshot_roles", [])]
+    snapshot_rows = [
+        r for r in snapshot_rows if "best_book" not in r.get("snapshot_roles", [])
+    ]
     snapshot_rows.extend(deduped.values())
 
     print(f"✅ Snapshot contains {len(snapshot_rows)} evaluated bets.")
     return snapshot_rows
-
 
 
 def main() -> None:
@@ -179,9 +208,7 @@ def main() -> None:
 
     all_rows: list = []
     for date_str in date_list:
-        all_rows.extend(
-            build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
-        )
+        all_rows.extend(build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev)))
 
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
