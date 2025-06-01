@@ -42,7 +42,7 @@ def load_rows(path: str) -> list:
 def filter_by_date(rows: list, date_str: str | None) -> list:
     if not date_str:
         return rows
-    return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
+    return [r for r in rows if str(r.get("snapshot_for_date")) == date_str]
 
 
 def main() -> None:
