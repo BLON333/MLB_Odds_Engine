@@ -331,8 +331,14 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
 
             normalized = normalize_odds(game_id, offers)
 
-            if normalized is not None:
-                normalized["start_time"] = start_time.isoformat()
+            if not normalized:
+                logger.debug(
+                    f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds. Skipping."
+                )
+                odds_data[game_id] = None
+                continue
+
+            normalized["start_time"] = start_time.isoformat()
 
             # Add per_book odds (used later for true consensus devigging)
             per_book_odds = extract_per_book_odds(bookmakers_data, debug=True)
@@ -361,10 +367,9 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
 
             odds_data[game_id] = normalized
 
-            if normalized:
-            logger.debug(f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored")
-            else:
-                logger.debug(f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds.")
+            logger.debug(
+                f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored"
+            )
 
         except Exception as e:
             logger.debug(f"💥 Exception while processing {game_id if 'game_id' in locals() else 'event'}: {e}")
@@ -489,8 +494,14 @@ def fetch_all_market_odds(lookahead_days=2):
 
             normalized = normalize_odds(game_id, offers)
 
-            if normalized is not None:
-                normalized["start_time"] = start_time.isoformat()
+            if not normalized:
+                logger.debug(
+                    f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds. Skipping."
+                )
+                odds_data[game_id] = None
+                continue
+
+            normalized["start_time"] = start_time.isoformat()
 
             per_book_odds = extract_per_book_odds(bookmakers_data, debug=True)
             for mkt_key, labels in per_book_odds.items():
@@ -516,10 +527,9 @@ def fetch_all_market_odds(lookahead_days=2):
 
             odds_data[game_id] = normalized
 
-            if normalized:
-                logger.debug(f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored")
-            else:
-                logger.debug(f"📭 Normalized odds for {game_id} is empty — possible filtering or no valid odds.")
+            logger.debug(
+                f"📱 ✅ Normalized odds for {game_id} — {len(normalized)} markets stored"
+            )
 
         except Exception as e:
             logger.debug(
