@@ -938,8 +938,8 @@ def expand_snapshot_rows_with_kelly(
             f"{str(row.get('side', '')).strip()}"
         )
         prior_row = (
-            MARKET_EVAL_TRACKER.get(tracker_key)
-            or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+            or MARKET_EVAL_TRACKER.get(tracker_key)
         )
 
         row.update({
@@ -990,8 +990,8 @@ def expand_snapshot_rows_with_kelly(
                 f"{expanded_row['side'].strip()}"
             )
             prior_row = (
-                MARKET_EVAL_TRACKER.get(tracker_key)
-                or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+                or MARKET_EVAL_TRACKER.get(tracker_key)
             )
             expanded_row.update({
                 "prev_sim_prob": (prior_row or {}).get("sim_prob"),
