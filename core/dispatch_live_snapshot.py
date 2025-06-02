@@ -4,6 +4,7 @@
 import os
 import sys
 import json
+from utils import safe_load_json
 import argparse
 from dotenv import load_dotenv
 
@@ -29,12 +30,11 @@ def latest_snapshot_path(folder="backtest") -> str | None:
 
 
 def load_rows(path: str) -> list:
-    try:
-        with open(path) as fh:
-            return json.load(fh)
-    except Exception as e:
-        logger.error("❌ Failed to load snapshot %s: %s", path, e)
+    rows = safe_load_json(path)
+    if rows is None:
+        logger.error("❌ Failed to load snapshot %s", path)
         return []
+    return rows
 
 
 def filter_by_date(rows: list, date_str: str | None) -> list:

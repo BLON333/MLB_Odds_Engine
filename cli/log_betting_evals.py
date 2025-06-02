@@ -18,6 +18,7 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker
+from utils import safe_load_json
 
 load_dotenv()
 from core.logger import get_logger
@@ -67,16 +68,13 @@ MARKET_CONF_TRACKER_PATH = os.path.join(
 
 def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
     """Load last seen consensus probabilities for bets."""
-    try:
-        with open(path, "r") as f:
-            data = json.load(f)
-            if isinstance(data, dict):
-                return data
-    except Exception:
-        if os.path.exists(path):
-            print(
-                f"⚠️ Could not load market confirmation tracker at {path}, starting fresh."
-            )
+    data = safe_load_json(path)
+    if isinstance(data, dict):
+        return data
+    if os.path.exists(path):
+        print(
+            f"⚠️ Could not load market confirmation tracker at {path}, starting fresh."
+        )
 
 
 def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH):
@@ -1970,8 +1968,10 @@ def run_batch_logging(
     summary_candidates = []
 
     if isinstance(market_odds, str):
-        with open(market_odds) as f:
-            all_market_odds = json.load(f)
+        all_market_odds = safe_load_json(market_odds)
+        if all_market_odds is None:
+            print(f"❌ Failed to load odds file {market_odds}")
+            return
     else:
         all_market_odds = market_odds
 
@@ -2103,8 +2103,10 @@ def run_batch_logging(
         if not os.path.exists(sim_path):
             continue
 
-        with open(sim_path) as f:
-            sim = json.load(f)
+        sim = safe_load_json(sim_path)
+        if sim is None:
+            print(f"❌ Failed to load simulation file {sim_path}")
+            continue
 
         mkt = all_market_odds.get(game_id)
         if not mkt:
@@ -2548,8 +2550,10 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args.odds_path:
-        with open(args.odds_path) as fh:
-            odds = json.load(fh)
+        odds = safe_load_json(args.odds_path)
+        if odds is None:
+            print(f"❌ Failed to load odds file {args.odds_path}")
+            sys.exit(1)
         odds_file = args.odds_path
     else:
         games = [
