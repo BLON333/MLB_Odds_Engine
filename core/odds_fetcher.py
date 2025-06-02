@@ -2,6 +2,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import json
+import shutil
 import requests
 import numpy as np
 from dotenv import load_dotenv
@@ -617,5 +618,18 @@ def save_market_odds_to_file(odds_data, date_tag):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
         json.dump(odds_data, f, indent=2)
+    try:
+        with open(path) as f:
+            json.load(f)
+    except Exception:
+        logger.exception("❌ Market odds JSON validation failed for %s", path)
+        bad_path = path + ".bad.json"
+        try:
+            shutil.move(path, bad_path)
+            logger.error("🚨 Corrupted odds file moved to %s", bad_path)
+        except Exception as mv_err:
+            logger.error("❌ Failed to move corrupt odds file: %s", mv_err)
+        return bad_path
+
     logger.debug(f"✅ Saved market odds to {path}")
     return path
