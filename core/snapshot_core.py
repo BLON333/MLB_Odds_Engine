@@ -139,11 +139,13 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         curr = entry.get(field)
         if field == "market_odds":
             prior_val = entry.get("prev_market_odds")
+            movement = entry.get("odds_movement", "same")
         else:
             prior_val = entry.get(f"prev_{field}") or (prior.get(field) if prior else None)
+            movement = entry.get(movement_fields.get(field, ("", ""))[0], "same")
 
         if field in movement_fields or field == "market_odds":
-            if prior_val is not None and curr != prior_val:
+            if prior_val is not None and movement != "same":
                 entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
             else:
                 entry[disp_key] = fmt(curr)
