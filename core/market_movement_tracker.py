@@ -3,7 +3,7 @@
 from typing import Dict, Optional
 
 MOVEMENT_THRESHOLDS = {
-    "ev_percent": 0.1,
+    "ev_percent": 0.5,
     "market_prob": 0.00001,
     "blended_fv": 1,
     "market_odds": 1,
