@@ -958,11 +958,9 @@ def send_discord_notification(row, eval_tracker=None):
             )
         except Exception:
             pass
-    if not (
-        movement["ev_movement"] == "better" and movement["fv_movement"] == "worse"
-    ):
+    if movement.get("mkt_movement") != "better":
         print(
-            f"⛔ Discord notification aborted due to movement → EV: {movement['ev_movement']}, FV: {movement['fv_movement']}"
+            "⛔ Discord notification aborted — Mkt % movement is not 'better'"
         )
         return
     print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
