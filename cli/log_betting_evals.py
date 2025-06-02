@@ -964,14 +964,10 @@ def send_discord_notification(row, eval_tracker=None):
         )
         return
     print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
-    prev_fv = None
-    if isinstance(prior, dict):
-        prev_fv = prior.get("blended_fv", prior.get("fair_odds"))
 
     sim_prob = row["sim_prob"]
     consensus_prob = row["market_prob"]
     blended_prob = row["blended_prob"]
-    fair_odds = row["blended_fv"]
 
     def _parse_odds_dict(val):
         """Return a clean {book: odds} dict from various input formats."""
@@ -1078,35 +1074,34 @@ def send_discord_notification(row, eval_tracker=None):
     if entry_type == "top-up" and stake < full_stake:
         topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
-    if prev_fv is not None and prev_fv != fair_odds:
-        fv_display = f"{prev_fv} → {fair_odds}"
+
+    prev_market_prob = None
+    if isinstance(prior, dict):
+        prev_market_prob = prior.get("market_prob")
+
+    if prev_market_prob is not None:
+        market_prob_str = f"{prev_market_prob:.1%} → {consensus_prob:.1%}"
     else:
-        fv_display = str(fair_odds)
-    movement_note = (
-        f"📊 Movement → EV: {movement['ev_movement']}, "
-        f"FV: {movement['fv_movement']}, Odds: {movement['odds_movement']}"
-    )
+        market_prob_str = f"{consensus_prob:.1%}"
 
     game_day_clean = game_day_tag.replace("**", "").replace("*", "")
     message = (
         f"{tag} {header}\n\n"
         f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
-        f"🏟️ Game: {event_label} ({game_id})\n"
-        f"🧾 Market: {market} — {side}\n"
-        f"💰 Stake: {stake:.2f}u @ {odds} → {bet_label}\n"
-        f"{topup_note}\n{movement_note}\n\n"
+        f"🏟️ Game: **{event_label}**\n"
+        f"🧾 Market: **{market} — {side}**\n"
+        f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}\n"
+        f"{topup_note}\n\n"
         "---\n\n"
-        "📈 Edge Overview\n"
-        f"Sim Win Rate: {sim_prob:.1%},\n"
-        f"Consensus Probability: {consensus_prob:.1%},\n"
-        f"Blended Model: {blended_prob:.1%},\n"
-        f"📊 EV: {ev:+.2f}%,\n"
-        f"💸 Fair Odds: {fv_display},\n\n"
+        "📈 **Model vs. Market**\n"
+        f"• Sim Win Rate: **{sim_prob:.1%}**\n"
+        f"• Market Implied: **{market_prob_str}**\n"
+        f"• Blended: **{blended_prob:.1%}**\n"
+        f"📊 EV: **{ev:+.2f}%**\n\n"
         "---\n\n"
-        f"🏦 Best Book: {best_book}\n"
-        f"📉 Market Odds:\n{all_odds_str}\n\n"
-        f"{roles_text}\n\n"
-        "━━━━━━━━━━━━━━━━━━━━━━━"
+        f"🏦 **Best Book**: {best_book}\n"
+        f"📉 **Market Odds**:\n{all_odds_str}\n\n"
+        f"{roles_text}\n"
     )
 
     try:
