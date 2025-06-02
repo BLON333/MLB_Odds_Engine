@@ -9,7 +9,7 @@ if sys.version_info >= (3, 7):
     os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # === Core Imports ===
-import json, csv, math, argparse
+import json, csv, math, argparse, ast
 from datetime import datetime
 from collections import defaultdict
 
@@ -92,6 +92,11 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
 import copy
 MARKET_EVAL_TRACKER = load_tracker()
 MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
+
+# Path used to persist theme exposure between auto loop iterations
+PERSISTED_THEME_STAKES_PATH = os.path.join(
+    "backtest", "existing_theme_stakes.json"
+)
 
 # === Local Modules ===
 from core.market_pricer import (
@@ -842,6 +847,37 @@ def load_existing_theme_stakes(csv_path):
     return theme_stakes
 
 
+def load_persisted_theme_stakes(path=PERSISTED_THEME_STAKES_PATH):
+    """Load theme exposure from a JSON file."""
+    if not os.path.exists(path):
+        return {}
+    data = safe_load_json(path)
+    if not isinstance(data, dict):
+        return {}
+    stakes = {}
+    for k, v in data.items():
+        try:
+            key = ast.literal_eval(k)
+            if isinstance(key, (list, tuple)) and len(key) == 3:
+                stakes[tuple(key)] = float(v)
+        except Exception:
+            continue
+    return stakes
+
+
+def save_persisted_theme_stakes(stakes: dict, path=PERSISTED_THEME_STAKES_PATH):
+    """Atomically save theme exposure to a JSON file."""
+    serializable = {str(k): v for k, v in stakes.items()}
+    tmp = f"{path}.tmp"
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    try:
+        with open(tmp, "w") as f:
+            json.dump(serializable, f, indent=2)
+        os.replace(tmp, path)
+    except Exception as e:
+        print(f"⚠️ Failed to save theme stakes: {e}")
+
+
 def get_discord_webhook_for_market(market: str) -> str:
     """Return the Discord webhook URL for a given market type."""
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
@@ -1306,6 +1342,7 @@ def write_to_csv(
         existing_theme_stakes[exposure_key] = (
             existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
         )
+        save_persisted_theme_stakes(existing_theme_stakes)
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
@@ -2080,6 +2117,9 @@ def run_batch_logging(
             )
 
     existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
+    persisted = load_persisted_theme_stakes()
+    if persisted:
+        existing_theme_stakes.update(persisted)
 
     for (gid, market, side), stake in existing.items():
         if stake >= 1.00:
@@ -2108,6 +2148,9 @@ def run_batch_logging(
 
         # 🔄 Reload exposure from file before evaluating each game
         existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
+        persisted = load_persisted_theme_stakes()
+        if persisted:
+            existing_theme_stakes.update(persisted)
 
         raw_game_id = fname.replace(".json", "")
         game_id = canonical_game_id(raw_game_id)
@@ -2210,6 +2253,9 @@ def process_theme_logged_bets(
         print(f"\n🔍 Game: {game_id}")
         # 🔄 Refresh theme exposure from the latest CSV before evaluating bets
         existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
+        persisted = load_persisted_theme_stakes()
+        if persisted:
+            existing_theme_stakes.update(persisted)
 
         print("\n📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
@@ -2422,6 +2468,7 @@ def process_theme_logged_bets(
         existing_theme_stakes[exposure_key] = (
             existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
         )
+        save_persisted_theme_stakes(existing_theme_stakes)
         if should_include_in_summary(best_row):
             ensure_consensus_books(best_row)
             skipped_bets.append(best_row)
