@@ -856,10 +856,6 @@ def load_persisted_theme_stakes(path=PERSISTED_THEME_STAKES_PATH):
         return {}
     stakes = {}
     for k, v in data.items():
-        if isinstance(k, str) and k.count(":") == 2:
-            parts = k.split(":")
-            stakes[(parts[0], parts[1], parts[2])] = float(v)
-            continue
         try:
             key = ast.literal_eval(k)
             if isinstance(key, (list, tuple)) and len(key) == 3:
@@ -871,9 +867,7 @@ def load_persisted_theme_stakes(path=PERSISTED_THEME_STAKES_PATH):
 
 def save_persisted_theme_stakes(stakes: dict, path=PERSISTED_THEME_STAKES_PATH):
     """Atomically save theme exposure to a JSON file."""
-    serializable = {
-        f"{k[0]}:{k[1]}:{k[2]}": v for k, v in stakes.items() if len(k) == 3
-    }
+    serializable = {str(k): v for k, v in stakes.items()}
     tmp = f"{path}.tmp"
     os.makedirs(os.path.dirname(path), exist_ok=True)
     try:
@@ -1308,42 +1302,40 @@ def write_to_csv(
     is_new = not os.path.exists(path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    write_success = False
-    try:
-        with open(path, "a", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            if is_new:
-                writer.writeheader()
+    with open(path, "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        if is_new:
+            writer.writeheader()
 
-            # ✅ Convert sportsbook dict → string before writing
-            if isinstance(row.get("sportsbook"), dict):
-                row["sportsbook"] = ", ".join(
-                    f"{book}:{odds:+}" for book, odds in row["sportsbook"].items()
-                )
+        # ✅ Convert sportsbook dict → string before writing
+        if isinstance(row.get("sportsbook"), dict):
+            row["sportsbook"] = ", ".join(
+                f"{book}:{odds:+}" for book, odds in row["sportsbook"].items()
+            )
 
-            row_to_write = {k: v for k, v in row.items() if k in fieldnames}
-            writer.writerow(row_to_write)
-        write_success = True
-    except PermissionError as e:
-        print(f"⚠️ Unable to write to {path}: {e}")
-    except Exception as e:
-        print(f"⚠️ Failed to write log row: {e}")
+        row_to_write = {k: v for k, v in row.items() if k in fieldnames}
+        writer.writerow(row_to_write)
 
-    if not write_success:
-        return 0
+        # ✅ Send full, untrimmed row to Discord for role tagging and odds display
+        if notify and is_notification_eligible(row):
+            send_discord_notification(row, MARKET_EVAL_TRACKER)
 
-    if notify and is_notification_eligible(row):
-        send_discord_notification(row, MARKET_EVAL_TRACKER)
+        # Update market confirmation tracker on successful log
+        # MARKET_CONF_TRACKER[tracker_key] = {
+        #     "consensus_prob": new_conf_val,
+        #     "timestamp": datetime.now().isoformat(),
+        # }
+        # save_market_conf_tracker(MARKET_CONF_TRACKER)
 
-    movement = track_and_update_market_movement(
-        row,
-        MARKET_EVAL_TRACKER,
-        MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-    )
-    if should_log_movement():
-        print(
-            f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+        movement = track_and_update_market_movement(
+            row,
+            MARKET_EVAL_TRACKER,
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
         )
+        if should_log_movement():
+            print(
+                f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
+            )
 
     existing[key] = full_stake
     if existing_theme_stakes is not None:
