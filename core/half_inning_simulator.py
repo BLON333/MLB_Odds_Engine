@@ -24,12 +24,11 @@ def maybe_inject_ghost_run(runs, runner_reached, rng=None):
     return runs
 
 
-def maybe_score_from_second(outcome, before_state, after_state, outs, rng=None):
+def maybe_score_from_second(before_state, after_state, outs, rng=None):
     """With two outs, occasionally score a runner from second on a single."""
     rand = rng if rng is not None else random
     if (
-        outcome == "1B"
-        and outs == 2
+        outs == 2
         and before_state[1] is not None
         and after_state[2] is not None
         and rand.random() < 0.10
@@ -105,7 +104,7 @@ def _handle_single(base_state, batter, outs, rng=None, debug=False):
         mapping[0] = 1 if rand.random() < 0.8 else 0
     mapping["batter"] = 0
     new_state, runs = _advance_bases(base_state, mapping, batter, debug=debug)
-    new_state, extra = maybe_score_from_second("1B", base_state, new_state, outs, rng=rand)
+    new_state, extra = maybe_score_from_second(base_state, new_state, outs, rng=rand)
     return new_state, runs + extra, 0
 
 
@@ -239,8 +238,15 @@ def simulate_half_inning(
     if pa_count >= max_pa:
         logger.debug(f"⚠️ Max PA cap reached ({pa_count}) — potential infinite loop in {half} of inning {inning}")
 
-    runs = maybe_inject_misc_run(runs, runner_reached, rng=rng)
-    runs = maybe_inject_ghost_run(runs, runner_reached, rng=rng)
+    new_runs = maybe_inject_misc_run(runs, runner_reached, rng=rng)
+    if new_runs > runs:
+        events.append({"inning": inning, "half": half, "batter": None, "pitcher": pitcher["name"], "outcome": "MISC_RUN", "runs_scored": 1})
+        runs = new_runs
+
+    new_runs = maybe_inject_ghost_run(runs, runner_reached, rng=rng)
+    if new_runs > runs:
+        events.append({"inning": inning, "half": half, "batter": None, "pitcher": pitcher["name"], "outcome": "GHOST_RUN", "runs_scored": 1})
+        runs = new_runs
 
     return {
         "runs_scored": runs,
