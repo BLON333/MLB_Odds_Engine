@@ -93,6 +93,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    # Clamp EV range to 5%-20%
+    args.min_ev = max(5.0, args.min_ev)
+    args.max_ev = min(20.0, args.max_ev)
+    if args.min_ev > args.max_ev:
+        args.max_ev = args.min_ev
+
     path = args.snapshot_path or latest_snapshot_path()
     if not path or not os.path.exists(path):
         logger.error("❌ Snapshot not found: %s", path)
