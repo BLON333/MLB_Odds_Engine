@@ -142,14 +142,11 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         else:
             prior_val = entry.get(f"prev_{field}") or (prior.get(field) if prior else None)
 
-        if field in movement_fields:
-            move_key, mode = movement_fields[field]
-            movement = entry.get(move_key, "same")
-            entry[disp_key] = format_display(curr, prior_val, movement, mode)
-            continue
-        if field == "market_odds":
-            movement = entry.get("odds_movement", "same")
-            entry[disp_key] = format_display(curr, prior_val, movement, "odds")
+        if field in movement_fields or field == "market_odds":
+            if prior_val is not None and curr != prior_val:
+                entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
+            else:
+                entry[disp_key] = fmt(curr)
             continue
 
         if field in skip_deltas_for:
