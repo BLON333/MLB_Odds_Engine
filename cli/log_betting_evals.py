@@ -1129,25 +1129,26 @@ def send_discord_notification(row, eval_tracker=None):
     else:
         market_prob_str = f"{consensus_prob:.1%}"
 
-    game_day_clean = game_day_tag.replace("**", "").replace("*", "")
-    message = (
-        f"{tag} {header}\n\n"
-        f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
-        f"🏟️ Game: **{event_label}**\n"
-        f"🧾 Market: **{market} — {side}**\n"
-        f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}\n"
-        f"{topup_note}\n\n"
-        "---\n\n"
-        "📈 **Model vs. Market**\n"
-        f"• Sim Win Rate: **{sim_prob:.1%}**\n"
-        f"• Market Implied: **{market_prob_str}**\n"
-        f"• Blended: **{blended_prob:.1%}**\n"
-        f"📊 EV: **{ev:+.2f}%**\n\n"
-        "---\n\n"
-        f"🏦 **Best Book**: {best_book}\n"
-        f"📉 **Market Odds**:\n{all_odds_str}\n\n"
-        f"{roles_text}\n"
-    )
+        game_day_clean = game_day_tag.replace("**", "").replace("*", "")
+        message = (
+            f"{tag} {header}\n\n"
+            f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
+            f"🏟️ Game: **{event_label}**\n"
+            f"🧾 Market: **{market} — {side}**\n"
+            f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}\n"
+            f"{topup_note}\n\n"
+            "---\n\n"
+            "📈 **Model vs. Market**\n"
+            f"• Sim Win Rate: **{sim_prob:.1%}**\n"
+            f"• Market Implied: **{market_prob_str}**\n"
+            f"• Blended: **{blended_prob:.1%}**\n"
+            f"💸 Fair Value: **{row.get('blended_fv')}**\n"
+            f"📊 EV: **{ev:+.2f}%**\n\n"
+            "---\n\n"
+            f"🏦 **Best Book**: {best_book}\n"
+            f"📉 **Market Odds**:\n{all_odds_str}\n\n"
+            f"{roles_text}\n"
+        )
 
     try:
         requests.post(webhook_url, json={"content": message.strip()})
