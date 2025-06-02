@@ -233,12 +233,11 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     styled = df.style.set_caption(f"Generated: {timestamp}")
     if "odds_movement" in df.columns:
         styled = styled.apply(
-            _apply_movement("Odds", "odds_movement", invert=True), subset=["Odds"]
+            _apply_movement("Odds", "odds_movement"), subset=["Odds"]
         )
     if "fv_movement" in df.columns:
-        # Invert the FV coloring so drops (market confirmation) appear green
         styled = styled.apply(
-            _apply_movement("Fair Value", "fv_movement", invert=True),
+            _apply_movement("Fair Value", "fv_movement"),
             subset=["FV"],
         )
     if "ev_movement" in df.columns:
@@ -393,13 +392,6 @@ def send_bet_snapshot_to_discord(
         "market_prob",
         "market_odds",
         "blended_fv",
-        "sim_movement",
-        "mkt_movement",
-        "fv_movement",
-        "odds_movement",
-        "stake_movement",
-        "ev_movement",
-        "is_new",
         "market_class",
         "_raw_sportsbook",
         "full_stake",
