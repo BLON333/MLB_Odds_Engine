@@ -11,12 +11,13 @@ import os
 import sys
 import json
 import argparse
+import shutil
 from datetime import timedelta
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
 
-from utils import now_eastern
+from utils import now_eastern, safe_load_json
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
@@ -178,20 +179,19 @@ def main() -> None:
 
     odds_cache = None
     if args.odds_path:
-        try:
-            with open(args.odds_path) as fh:
-                odds_cache = json.load(fh)
+        odds_cache = safe_load_json(args.odds_path)
+        if odds_cache is not None:
             logger.info("📥 Loaded odds from %s", args.odds_path)
-        except Exception as e:
-            logger.error("❌ Failed to load odds file %s: %s", args.odds_path, e)
+        else:
+            logger.error("❌ Failed to load odds file %s", args.odds_path)
     else:
         auto_path = latest_odds_file()
         if auto_path:
-            with open(auto_path) as fh:
-                odds_cache = json.load(fh)
-            logger.info("📥 Auto-loaded latest odds: %s", auto_path)
-        else:
-            logger.error("❌ No market_odds_*.json files found.")
+            odds_cache = safe_load_json(auto_path)
+            if odds_cache is not None:
+                logger.info("📥 Auto-loaded latest odds: %s", auto_path)
+        if odds_cache is None:
+            logger.error("❌ No market_odds_*.json files found or failed to load.")
             return
 
     all_rows: list = []
@@ -206,6 +206,20 @@ def main() -> None:
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w") as f:
         json.dump(all_rows, f, indent=2)
+
+    # Validate written JSON
+    try:
+        with open(out_path) as f:
+            json.load(f)
+    except Exception:
+        logger.exception("❌ Snapshot JSON validation failed for %s", out_path)
+        bad_path = out_path + ".bad.json"
+        try:
+            shutil.move(out_path, bad_path)
+            logger.error("🚨 Corrupted snapshot moved to %s", bad_path)
+        except Exception as mv_err:
+            logger.error("❌ Failed to move corrupt snapshot: %s", mv_err)
+        return
 
     logger.info("✅ Wrote %s rows to %s", len(all_rows), out_path)
 

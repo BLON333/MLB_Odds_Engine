@@ -1,6 +1,8 @@
 from collections import defaultdict
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import json
+import traceback
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
@@ -16,6 +18,29 @@ def to_eastern(dt: datetime) -> datetime:
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=ZoneInfo("UTC"))
     return dt.astimezone(EASTERN_TZ)
+
+
+def safe_load_json(path: str):
+    """Load JSON from ``path`` with helpful diagnostics on failure."""
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return json.load(fh)
+    except json.JSONDecodeError as e:
+        print(f"\u274c JSON decode error in {path}: {e}")
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                lines = fh.readlines()
+            start = max(e.lineno - 2, 0)
+            end = min(e.lineno + 1, len(lines))
+            context = ''.join(f"{i+1}: {line}" for i, line in enumerate(lines[start:end], start))
+            print(f"Context around line {e.lineno}:\n{context}")
+        except Exception as ctx_err:
+            print(f"⚠️ Could not read context for {path}: {ctx_err}")
+        print("🔧 Ensure commas separate all objects and arrays correctly.")
+        return None
+    except Exception:
+        print(f"\u274c Failed to load JSON from {path}\n{traceback.format_exc()}")
+        return None
 
 TEAM_ABBR_FIXES = {
     "CHW": "CWS", "WSN": "WSH", "KCR": "KC", "TBD": "TB", "ATH": "OAK"
