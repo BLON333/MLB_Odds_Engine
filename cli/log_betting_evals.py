@@ -847,6 +847,22 @@ def get_discord_webhook_for_market(market: str) -> str:
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
 
 
+def is_notification_eligible(row: dict) -> bool:
+    """Return True if the bet meets EV and stake thresholds for alerts."""
+    ev = row.get("ev_percent", 0)
+    if not (5 <= ev <= 20):
+        return False
+
+    stake = float(row.get("stake", 0))
+    entry_type = row.get("entry_type", "first")
+    if entry_type == "first" and stake < 1.0:
+        return False
+    if entry_type == "top-up" and stake < 0.5:
+        return False
+
+    return True
+
+
 def send_discord_notification(row, eval_tracker=None):
     if eval_tracker is None:
         eval_tracker = MARKET_EVAL_TRACKER
@@ -855,19 +871,12 @@ def send_discord_notification(row, eval_tracker=None):
     if not webhook_url:
         return
 
-    ev = row["ev_percent"]
-    if ev > 20.0 or ev < 5.0:
+    if not is_notification_eligible(row):
         return
 
+    ev = row["ev_percent"]
     stake = float(row.get("stake", 0))
     entry_type = row.get("entry_type", "first")
-    if (entry_type == "first" and stake < 1.0) or (
-        entry_type == "top-up" and stake < 0.5
-    ):
-        print(
-            f"⛔ Skipping Discord notification — stake below threshold ({stake:.2f}u)"
-        )
-        return
     stake = round(stake, 2)
     full_stake = round(float(row.get("full_stake", stake)), 2)
     print(
@@ -1143,7 +1152,15 @@ def get_exposure_key(row):
     return (game_id, theme_key, segment)
 
 
-def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, dry_run=False):
+def write_to_csv(
+    row,
+    path,
+    existing,
+    session_exposure,
+    existing_theme_stakes,
+    dry_run=False,
+    notify=True,
+):
     """
     Final write function for fully approved bets only.
 
@@ -1160,6 +1177,8 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
     existing_theme_stakes : dict
         Mapping used to track current theme exposure in-memory. Updated on
         successful writes.
+    notify : bool, optional
+        If True (default), trigger a Discord notification after writing.
     """
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
@@ -1261,7 +1280,8 @@ def write_to_csv(row, path, existing, session_exposure, existing_theme_stakes, d
         writer.writerow(row_to_write)
 
         # ✅ Send full, untrimmed row to Discord for role tagging and odds display
-        send_discord_notification(row, MARKET_EVAL_TRACKER)
+        if notify and is_notification_eligible(row):
+            send_discord_notification(row, MARKET_EVAL_TRACKER)
 
         # Update market confirmation tracker on successful log
         # MARKET_CONF_TRACKER[tracker_key] = {
