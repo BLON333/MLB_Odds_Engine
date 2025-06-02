@@ -85,10 +85,28 @@ def track_and_update_market_movement(
         f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
     )
     base = reference_tracker if reference_tracker is not None else tracker
-    prior = base.get(key)
+    prior = base.get(key) or {}
 
-    movement = detect_market_movement(entry, prior)
+    # Determine the sportsbook for this row
+    book = entry.get("book") or entry.get("best_book")
+    current_raw = entry.get("_raw_sportsbook", {}) or {}
+
+    # Lookup prior odds for the same book
+    prev_raw = prior.get("raw_sportsbook") or prior.get("prev_raw_sportsbook") or {}
+    prev_market_odds = None
+    if isinstance(prev_raw, dict):
+        prev_market_odds = prev_raw.get(book)
+
+    # Use prior book odds for movement detection
+    if prior:
+        prior_for_detect = prior.copy()
+        prior_for_detect["market_odds"] = prev_market_odds
+    else:
+        prior_for_detect = None
+
+    movement = detect_market_movement(entry, prior_for_detect)
     entry.update(movement)
+    entry["prev_market_odds"] = prev_market_odds
 
     tracker[key] = {
         "ev_percent": entry.get("ev_percent"),
@@ -99,6 +117,8 @@ def track_and_update_market_movement(
         "market_prob": entry.get("market_prob"),
         "date_simulated": entry.get("date_simulated"),
         "best_book": entry.get("best_book"),
+        "raw_sportsbook": current_raw,
+        "prev_raw_sportsbook": prev_raw,
     }
 
     return movement
