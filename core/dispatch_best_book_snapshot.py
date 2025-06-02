@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-"""Dispatch best-book snapshot from unified snapshot JSON."""
-
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+"""Dispatch best-book snapshot from unified snapshot JSON."""
+
 import json
 from utils import safe_load_json
 import argparse
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
