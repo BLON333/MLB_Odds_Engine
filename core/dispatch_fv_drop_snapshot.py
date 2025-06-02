@@ -105,6 +105,9 @@ def main() -> None:
         return
 
     rows = load_rows(path)
+    for r in rows:
+        if "book" not in r and "best_book" in r:
+            r["book"] = r["best_book"]
 
     # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)

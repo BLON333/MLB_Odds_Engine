@@ -92,6 +92,9 @@ def main() -> None:
         return
 
     rows = load_rows(path)
+    for r in rows:
+        if "book" not in r and "best_book" in r:
+            r["book"] = r["best_book"]
     rows = [r for r in rows if "personal" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
 

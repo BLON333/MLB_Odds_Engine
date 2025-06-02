@@ -768,8 +768,6 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     df["Bet"] = df["side"]
     if "book" in df.columns:
         df["Book"] = df["book"]
-    elif "best_book" in df.columns:
-        df["Book"] = df["best_book"]
     else:
         df["Book"] = ""
     if "odds_display" in df.columns:
@@ -921,7 +919,7 @@ def build_display_block(row: dict) -> Dict[str, str]:
         "Market Class": market_class,
         "Market": row.get("market", ""),
         "Bet": row.get("side", ""),
-        "Book": row.get("book", row.get("best_book", "")),
+        "Book": row.get("book", ""),
         "Odds": odds_str,
         "Sim %": sim_str,
         "Mkt %": mkt_str,
@@ -975,7 +973,7 @@ def expand_snapshot_rows_with_kelly(
             "prev_blended_fv": (prior_row or {}).get("blended_fv"),
         })
 
-        row["book"] = row.get("best_book")
+        row["book"] = row.get("book", row.get("best_book"))
 
         if not isinstance(per_book, dict) or not per_book:
             movement = track_and_update_market_movement(
