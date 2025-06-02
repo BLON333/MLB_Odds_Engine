@@ -47,7 +47,7 @@ def load_rows(path: str) -> list:
 def filter_by_date(rows: list, date_str: str | None) -> list:
     if not date_str:
         return rows
-    return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
+    return [r for r in rows if str(r.get("snapshot_for_date")) == date_str]
 
 
 def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
@@ -66,6 +66,18 @@ def main() -> None:
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument("--diff-highlight", action="store_true")
+    parser.add_argument(
+        "--min-ev",
+        type=float,
+        default=5.0,
+        help="Minimum EV% required to dispatch",
+    )
+    parser.add_argument(
+        "--max-ev",
+        type=float,
+        default=20.0,
+        help="Maximum EV% allowed to dispatch",
+    )
     args = parser.parse_args()
 
     path = args.snapshot_path or latest_snapshot_path()
@@ -76,6 +88,18 @@ def main() -> None:
     rows = load_rows(path)
     rows = [r for r in rows if "personal" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
+
+    rows = [
+        r
+        for r in rows
+        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
+    ]
+    logger.info(
+        "🧪 Dispatch filter: %d rows with %.1f ≤ EV%% ≤ %.1f",
+        len(rows),
+        args.min_ev,
+        args.max_ev,
+    )
 
     df = format_for_display(rows, include_movement=args.diff_highlight)
     allowed_books = ["pinnacle", "fanduel", "bovada", "betonlineag"]

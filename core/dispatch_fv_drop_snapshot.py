@@ -42,7 +42,7 @@ def load_rows(path: str) -> list:
 def filter_by_date(rows: list, date_str: str | None) -> list:
     if not date_str:
         return rows
-    return [r for r in rows if str(r.get("game_id", "")).startswith(date_str)]
+    return [r for r in rows if str(r.get("snapshot_for_date")) == date_str]
 
 
 def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
@@ -79,6 +79,18 @@ def main() -> None:
         default=os.getenv("FV_DROP_BOOKS"),
         help="Comma-separated book keys to include",
     )
+    parser.add_argument(
+        "--min-ev",
+        type=float,
+        default=5.0,
+        help="Minimum EV% required to dispatch",
+    )
+    parser.add_argument(
+        "--max-ev",
+        type=float,
+        default=20.0,
+        help="Maximum EV% allowed to dispatch",
+    )
     args = parser.parse_args()
 
     path = args.snapshot_path or latest_snapshot_path()
@@ -90,6 +102,18 @@ def main() -> None:
 
     # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)
+
+    rows = [
+        r
+        for r in rows
+        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
+    ]
+    logger.info(
+        "🧪 Dispatch filter: %d rows with %.1f ≤ EV%% ≤ %.1f",
+        len(rows),
+        args.min_ev,
+        args.max_ev,
+    )
 
 
 

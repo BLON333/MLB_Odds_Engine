@@ -11,6 +11,7 @@ import os
 import sys
 import json
 import argparse
+from datetime import timedelta
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
@@ -21,11 +22,7 @@ from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
     load_simulations,
     build_snapshot_rows,
-    annotate_display_deltas,
 )
-from core.market_eval_tracker import load_tracker, save_tracker
-from core.market_movement_tracker import track_and_update_market_movement
-import copy
 from core.snapshot_core import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
@@ -111,35 +108,17 @@ def build_snapshot_for_date(
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
 
     # Build base rows and expand per-book variants
-    rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    rows = expand_snapshot_rows_with_kelly(rows)
+    raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
+    logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
+    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
+    logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
 
-    # 🧠 Track line movement
-    tracker = load_tracker()
-    reference_tracker = copy.deepcopy(tracker)
-    for row in rows:
-        key = (
-            f"{row.get('game_id', '')}:"
-            f"{str(row.get('market', '')).strip()}:"
-            f"{str(row.get('side', '')).strip()}"
-        )
-        prior_row = reference_tracker.get(key)
-        movement = track_and_update_market_movement(
-            row,
-            tracker,
-            reference_tracker,
-        )
-        row.update(movement)
-        annotate_display_deltas(row, prior_row)
-    save_tracker(tracker)
+    rows = expanded_rows
 
-    # 🎯 Filter by EV% (optional)
-    min_ev, max_ev = ev_range
-    rows = [r for r in rows if min_ev <= r.get("ev_percent", 0) <= max_ev]
+    # 🎯 Retain all rows (EV% filter removed)
+    min_ev, max_ev = ev_range  # kept for compatibility
     logger.info(
-        "✅ Filtered rows to EV%% between %.2f and %.2f → %d rows remain",
-        min_ev,
-        max_ev,
+        "📊 Snapshot generation: %d rows evaluated (no EV%% filtering applied)",
         len(rows),
     )
 
@@ -170,13 +149,24 @@ def build_snapshot_for_date(
     ]
     snapshot_rows.extend(deduped.values())
 
-    print(f"✅ Snapshot contains {len(snapshot_rows)} evaluated bets.")
+    logger.info("\u2705 Final snapshot rows to write: %d", len(snapshot_rows))
+
+    num_with_roles = sum(1 for r in snapshot_rows if r.get("snapshot_roles"))
+    num_stake_half = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 0.5)
+    num_stake_one = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 1.0)
+    logger.info(
+        "\U0001F4CA Of those: %d rows have roles, %d have stake \u2265 0.5u, %d have stake \u2265 1.0u",
+        num_with_roles,
+        num_stake_half,
+        num_stake_one,
+    )
+
     return snapshot_rows
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate unified market snapshot")
-    parser.add_argument("--date", default=now_eastern().strftime("%Y-%m-%d"))
+    parser.add_argument("--date", default=None)
     parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
     parser.add_argument(
         "--ev-range",
@@ -185,7 +175,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
+    if args.date:
+        date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
+    else:
+        today = now_eastern().strftime("%Y-%m-%d")
+        tomorrow = (now_eastern() + timedelta(days=1)).strftime("%Y-%m-%d")
+        date_list = [today, tomorrow]
 
     try:
         min_ev, max_ev = map(float, args.ev_range.split(","))
@@ -213,7 +208,10 @@ def main() -> None:
 
     all_rows: list = []
     for date_str in date_list:
-        all_rows.extend(build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev)))
+        rows_for_date = build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
+        for row in rows_for_date:
+            row["snapshot_for_date"] = date_str
+        all_rows.extend(rows_for_date)
 
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
