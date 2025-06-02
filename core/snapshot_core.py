@@ -137,12 +137,19 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
 
     for field, (disp_key, fmt) in field_map.items():
         curr = entry.get(field)
-        prior_val = entry.get(f"prev_{field}") or (prior.get(field) if prior else None)
+        if field == "market_odds":
+            prior_val = entry.get("prev_market_odds")
+        else:
+            prior_val = entry.get(f"prev_{field}") or (prior.get(field) if prior else None)
 
         if field in movement_fields:
             move_key, mode = movement_fields[field]
             movement = entry.get(move_key, "same")
             entry[disp_key] = format_display(curr, prior_val, movement, mode)
+            continue
+        if field == "market_odds":
+            movement = entry.get("odds_movement", "same")
+            entry[disp_key] = format_display(curr, prior_val, movement, "odds")
             continue
 
         if field in skip_deltas_for:
@@ -499,7 +506,7 @@ def compare_and_flag_new_rows(
 
     for entry in current_entries:
         game_id = entry.get("game_id", "")
-        book = entry.get("best_book", "")
+        book = entry.get("book", entry.get("best_book", ""))
         market = str(entry.get("market", "")).strip()
         side = str(entry.get("side", "")).strip()
         key = f"{game_id}:{market}:{side}"
@@ -511,7 +518,6 @@ def compare_and_flag_new_rows(
         entry.update({
             "prev_sim_prob": (prior or {}).get("sim_prob"),
             "prev_market_prob": (prior or {}).get("market_prob"),
-            "prev_market_odds": (prior or {}).get("market_odds"),
             "prev_blended_fv": (prior or {}).get("blended_fv"),
         })
         movement = track_and_update_market_movement(
@@ -535,6 +541,7 @@ def compare_and_flag_new_rows(
             "market": entry.get("market"),
             "side": entry.get("side"),
             "best_book": book,
+            "book": entry.get("book", book),
             "sim_prob": entry.get("sim_prob"),
             "market_prob": entry.get("market_prob"),
             "blended_fv": blended_fv,
@@ -718,7 +725,6 @@ def build_snapshot_rows(
             row.update({
                 "prev_sim_prob": (prior_row or {}).get("sim_prob"),
                 "prev_market_prob": (prior_row or {}).get("market_prob"),
-                "prev_market_odds": (prior_row or {}).get("market_odds"),
                 "prev_blended_fv": (prior_row or {}).get("blended_fv"),
             })
 
@@ -760,7 +766,9 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     )
     df["Market"] = df["market"]
     df["Bet"] = df["side"]
-    if "best_book" in df.columns:
+    if "book" in df.columns:
+        df["Book"] = df["book"]
+    elif "best_book" in df.columns:
         df["Book"] = df["best_book"]
     else:
         df["Book"] = ""
@@ -913,7 +921,7 @@ def build_display_block(row: dict) -> Dict[str, str]:
         "Market Class": market_class,
         "Market": row.get("market", ""),
         "Bet": row.get("side", ""),
-        "Book": row.get("best_book", ""),
+        "Book": row.get("book", row.get("best_book", "")),
         "Odds": odds_str,
         "Sim %": sim_str,
         "Mkt %": mkt_str,
@@ -964,9 +972,10 @@ def expand_snapshot_rows_with_kelly(
         row.update({
             "prev_sim_prob": (prior_row or {}).get("sim_prob"),
             "prev_market_prob": (prior_row or {}).get("market_prob"),
-            "prev_market_odds": (prior_row or {}).get("market_odds"),
             "prev_blended_fv": (prior_row or {}).get("blended_fv"),
         })
+
+        row["book"] = row.get("best_book")
 
         if not isinstance(per_book, dict) or not per_book:
             movement = track_and_update_market_movement(
@@ -998,6 +1007,7 @@ def expand_snapshot_rows_with_kelly(
             expanded_row.update(
                 {
                     "best_book": book,
+                    "book": book,
                     "market_odds": odds,
                     "ev_percent": round(ev, 2),
                     "stake": stake,
@@ -1015,7 +1025,6 @@ def expand_snapshot_rows_with_kelly(
             expanded_row.update({
                 "prev_sim_prob": (prior_row or {}).get("sim_prob"),
                 "prev_market_prob": (prior_row or {}).get("market_prob"),
-                "prev_market_odds": (prior_row or {}).get("market_odds"),
                 "prev_blended_fv": (prior_row or {}).get("blended_fv"),
             })
             movement = track_and_update_market_movement(
@@ -1033,7 +1042,7 @@ def expand_snapshot_rows_with_kelly(
     deduped: List[dict] = []
     seen = set()
     for r in expanded:
-        key = (r.get("game_id"), r.get("market"), r.get("side"), r.get("best_book"))
+        key = (r.get("game_id"), r.get("market"), r.get("side"), r.get("book"))
         if key not in seen:
             deduped.append(r)
             seen.add(key)
