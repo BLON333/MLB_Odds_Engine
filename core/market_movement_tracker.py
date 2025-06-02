@@ -88,6 +88,20 @@ def track_and_update_market_movement(
     prior = base.get(key)
 
     movement = detect_market_movement(entry, prior)
+
+    if prior:
+        prev_map = {
+            "sim_prob": "prev_sim_prob",
+            "market_prob": "prev_market_prob",
+            "blended_fv": "prev_blended_fv",
+            "market_odds": "prev_market_odds",
+        }
+
+        for field, prev_field in prev_map.items():
+            val = prior.get(field)
+            if val is not None:
+                movement[prev_field] = val
+
     entry.update(movement)
 
     tracker[key] = {
