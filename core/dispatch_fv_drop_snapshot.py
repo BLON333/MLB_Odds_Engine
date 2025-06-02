@@ -82,8 +82,14 @@ def main() -> None:
     parser.add_argument(
         "--min-ev",
         type=float,
-        default=2.0,
+        default=5.0,
         help="Minimum EV% required to dispatch",
+    )
+    parser.add_argument(
+        "--max-ev",
+        type=float,
+        default=20.0,
+        help="Maximum EV% allowed to dispatch",
     )
     args = parser.parse_args()
 
@@ -97,9 +103,16 @@ def main() -> None:
     # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)
 
-    rows = [r for r in rows if r.get("ev_percent", 0) >= args.min_ev]
+    rows = [
+        r
+        for r in rows
+        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
+    ]
     logger.info(
-        "🧪 Dispatch filter: %d rows passed EV%% ≥ %.1f", len(rows), args.min_ev
+        "🧪 Dispatch filter: %d rows with %.1f ≤ EV%% ≤ %.1f",
+        len(rows),
+        args.min_ev,
+        args.max_ev,
     )
 
 
