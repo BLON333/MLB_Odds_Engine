@@ -42,6 +42,7 @@ from utils import (
     TEAM_NAME_TO_ABBR,
     standardize_derivative_label,
     get_normalized_lookup_side,
+    safe_load_json,
 )
 from core.scaling_utils import scale_distribution
 
@@ -290,11 +291,16 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     cache_path = f"data/weather_cache/{park_name.replace(' ', '_')}.json"
     if not no_weather:
         try:
-            weather_profile = json.load(open(cache_path)) if os.path.exists(cache_path) else get_noaa_weather(park_name)
+            if os.path.exists(cache_path):
+                weather_profile = safe_load_json(cache_path)
+            else:
+                weather_profile = get_noaa_weather(park_name)
+            if not isinstance(weather_profile, dict):
+                weather_profile = get_noaa_weather(park_name)
             os.makedirs(os.path.dirname(cache_path), exist_ok=True)
             with open(cache_path, "w") as f:
                 json.dump(weather_profile, f, indent=2)
-        except:
+        except Exception:
             weather_profile = {"wind_direction": "none", "wind_speed": 0, "temperature": 70, "humidity": 50}
     else:
         weather_profile = {"wind_direction": "none", "wind_speed": 0, "temperature": 70, "humidity": 50}
@@ -318,8 +324,9 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     print(f"  Starters: {away_abbr} → {pitcher_data['away']['name']} | {home_abbr} → {pitcher_data['home']['name']}")
 
     # Load calibration
-    with open("logs/calibration_offset.json") as f:
-        calibration = json.load(f)
+    calibration = safe_load_json("logs/calibration_offset.json")
+    if not isinstance(calibration, dict):
+        calibration = {}
     pricing_engine = MLBPricingEngine(calibration)
 
     print(f"\n🔧 Calibration Loaded:")

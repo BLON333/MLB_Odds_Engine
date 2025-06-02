@@ -1,5 +1,4 @@
 import csv
-import json
 import argparse
 from datetime import datetime, timedelta
 import os
@@ -11,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core.logger import get_logger
 logger = get_logger(__name__)
 
-from utils import format_market_key, TEAM_ABBR
+from utils import format_market_key, TEAM_ABBR, safe_load_json
 from core.odds_fetcher import american_to_prob  # ✅ Corrected path
 
 def normalize_team_name(abbr):
@@ -33,8 +32,13 @@ def update_clv(csv_path, odds_json_path, target_date):
     with open(csv_path, "r", newline="") as f:
         rows = list(csv.DictReader(f))
 
-    with open(odds_json_path, "r") as f:
-        closing_odds = json.load(f)
+    closing_odds = safe_load_json(odds_json_path)
+    if not isinstance(closing_odds, dict):
+        logger.warning(
+            "⚠️ Failed to load closing odds from %s. CLV columns will be blank.",
+            odds_json_path,
+        )
+        closing_odds = {}
 
     updated_rows = []
     for row in rows:
