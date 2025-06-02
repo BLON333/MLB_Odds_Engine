@@ -66,7 +66,7 @@ POPULAR_BOOKS = [
 
 def is_best_book_row(row: dict) -> bool:
     """Return True if row uses a popular sportsbook."""
-    return row.get("best_book") in POPULAR_BOOKS
+    return row.get("book") in POPULAR_BOOKS
 
 
 def is_live_snapshot_row(row: dict) -> bool:
@@ -76,7 +76,7 @@ def is_live_snapshot_row(row: dict) -> bool:
 
 def is_personal_book_row(row: dict) -> bool:
     """Return True if row is from a personal sportsbook."""
-    return row.get("best_book") in [
+    return row.get("book") in [
         "pinnacle",
         "fanduel",
         "bovada",
@@ -134,26 +134,14 @@ def build_snapshot_for_date(
             row["snapshot_roles"].append("personal")
         snapshot_rows.append(row)
 
-    # 🛠️ Deduplicate best-book rows
-    deduped = {}
-    for row in snapshot_rows:
-        if "best_book" not in row.get("snapshot_roles", []):
-            continue
-        key = (row.get("game_id"), row.get("market"), row.get("side"))
-        current = deduped.get(key)
-        if not current or row.get("ev_percent", 0) > current.get("ev_percent", 0):
-            deduped[key] = row
+    # ✅ No deduplication needed now that rows are per-book
+    final_rows = snapshot_rows
 
-    snapshot_rows = [
-        r for r in snapshot_rows if "best_book" not in r.get("snapshot_roles", [])
-    ]
-    snapshot_rows.extend(deduped.values())
+    logger.info("\u2705 Final snapshot rows to write: %d", len(final_rows))
 
-    logger.info("\u2705 Final snapshot rows to write: %d", len(snapshot_rows))
-
-    num_with_roles = sum(1 for r in snapshot_rows if r.get("snapshot_roles"))
-    num_stake_half = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 0.5)
-    num_stake_one = sum(1 for r in snapshot_rows if r.get("stake", 0) >= 1.0)
+    num_with_roles = sum(1 for r in final_rows if r.get("snapshot_roles"))
+    num_stake_half = sum(1 for r in final_rows if r.get("stake", 0) >= 0.5)
+    num_stake_one = sum(1 for r in final_rows if r.get("stake", 0) >= 1.0)
     logger.info(
         "\U0001F4CA Of those: %d rows have roles, %d have stake \u2265 0.5u, %d have stake \u2265 1.0u",
         num_with_roles,
@@ -161,7 +149,7 @@ def build_snapshot_for_date(
         num_stake_one,
     )
 
-    return snapshot_rows
+    return final_rows
 
 
 def main() -> None:
