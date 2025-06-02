@@ -11,7 +11,7 @@ import json
 import time
 import requests
 from datetime import datetime
-from utils import now_eastern, to_eastern
+from utils import now_eastern, to_eastern, safe_load_json
 from dotenv import load_dotenv
 
 from core.odds_fetcher import fetch_consensus_for_single_game
@@ -180,10 +180,8 @@ def monitor_loop(poll_interval=600, target_date=None):
 
         file_path = os.path.join(closing_odds_path, f"{today}.json")
         if os.path.exists(file_path):
-            try:
-                with open(file_path, "r") as f:
-                    existing = json.load(f)
-            except:
+            existing = safe_load_json(file_path)
+            if not isinstance(existing, dict):
                 logger.warning(
                     "⚠️ Warning: Corrupt closing odds file for %s. Starting fresh.",
                     today,
