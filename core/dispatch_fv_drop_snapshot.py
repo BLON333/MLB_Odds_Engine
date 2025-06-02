@@ -133,23 +133,34 @@ def main() -> None:
     if "Mkt %" in df.columns:
         df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
+    df_all_books = df.copy()
+
     # ✅ Hardcoded sportsbook filter for FV Drop
     allowed_books = ["betonlineag", "bovada"]
 
-    df = filter_by_books(df, allowed_books)
+    df_allowed = filter_by_books(df, allowed_books)
 
-    if df.empty:
+    if df_allowed.empty and df_all_books.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
         return
 
     if args.output_discord:
-        webhook = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
-        if webhook:
-            send_bet_snapshot_to_discord(df, "FV Drop", webhook)
+        webhook_allowed = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
+        webhook_all = os.getenv("DISCORD_FV_DROP_ALL_WEBHOOK_URL")
+
+        if webhook_allowed and not df_allowed.empty:
+            send_bet_snapshot_to_discord(df_allowed, "FV Drop", webhook_allowed)
+        elif webhook_allowed:
+            logger.warning("⚠️ No FV Drop rows for allowed books")
         else:
             logger.error("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
+
+        if webhook_all and not df_all_books.empty:
+            send_bet_snapshot_to_discord(df_all_books, "FV Drop (All Books)", webhook_all)
+        elif webhook_all:
+            logger.warning("⚠️ No FV Drop rows for all books")
     else:
-        print(df.to_string(index=False))
+        print(df_allowed.to_string(index=False))
 
 
 if __name__ == "__main__":
