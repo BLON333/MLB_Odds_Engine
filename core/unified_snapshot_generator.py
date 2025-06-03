@@ -123,19 +123,36 @@ def build_snapshot_for_date(
         len(rows),
     )
 
-    # 📦 Assign snapshot roles (but include all rows)
+    # 📦 Assign snapshot roles (include all rows)
     snapshot_rows = []
+    best_book_tracker: dict[tuple[str, str, str], dict] = {}
+
     for row in rows:
         row["snapshot_roles"] = []
-        if is_best_book_row(row):
-            row["snapshot_roles"].append("best_book")
+
         if is_live_snapshot_row(row):
             row["snapshot_roles"].append("live")
         if is_personal_book_row(row):
             row["snapshot_roles"].append("personal")
+
+        if is_best_book_row(row):
+            key = (row.get("game_id"), row.get("market"), row.get("side"))
+            best_row = best_book_tracker.get(key)
+            if not best_row:
+                best_book_tracker[key] = row
+            else:
+                ev = row.get("ev_percent", 0)
+                best_ev = best_row.get("ev_percent", 0)
+                if ev > best_ev or (
+                    ev == best_ev and row.get("stake", 0) > best_row.get("stake", 0)
+                ):
+                    best_book_tracker[key] = row
+
         snapshot_rows.append(row)
 
-    # ✅ No deduplication needed now that rows are per-book
+    for best_row in best_book_tracker.values():
+        best_row.setdefault("snapshot_roles", []).append("best_book")
+
     final_rows = snapshot_rows
 
     logger.info("\u2705 Final snapshot rows to write: %d", len(final_rows))
