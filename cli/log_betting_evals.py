@@ -1252,6 +1252,11 @@ def write_to_csv(
 
     row.pop("consensus_books", None)
 
+
+    if movement.get("mkt_movement") != "better":
+        print(f"  ⛔ Market movement is not 'better' for {tracker_key} — skipping")
+        return None
+
     fieldnames = [
         "game_id",
         "market",
