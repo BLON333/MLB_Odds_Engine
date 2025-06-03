@@ -886,31 +886,10 @@ def get_discord_webhook_for_market(market: str) -> str:
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
 
 
-def is_notification_eligible(row: dict) -> bool:
-    """Return True if the bet meets EV and stake thresholds for alerts."""
-    ev = row.get("ev_percent", 0)
-    if not (5 <= ev <= 20):
-        return False
-
-    stake = float(row.get("stake", 0))
-    entry_type = row.get("entry_type", "first")
-    if entry_type == "first" and stake < 1.0:
-        return False
-    if entry_type == "top-up" and stake < 0.5:
-        return False
-
-    return True
-
-
-def send_discord_notification(row, eval_tracker=None):
-    if eval_tracker is None:
-        eval_tracker = MARKET_EVAL_TRACKER
+def send_discord_notification(row):
 
     webhook_url = get_discord_webhook_for_market(row.get("market", ""))
     if not webhook_url:
-        return
-
-    if not is_notification_eligible(row):
         return
 
     ev = row["ev_percent"]
@@ -989,14 +968,11 @@ def send_discord_notification(row, eval_tracker=None):
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
-    tracker = eval_tracker
     tracker_key = f"{game_id}:{market}:{side}"
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
-    movement = row.get("_movement") or track_and_update_market_movement(
-        row,
-        tracker,
-        MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-    )
+    movement = row.get("_movement")
+    if not movement:
+        movement = detect_market_movement(row, prior)
     row.setdefault("_movement", movement)
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
@@ -1200,7 +1176,6 @@ def write_to_csv(
     session_exposure,
     existing_theme_stakes,
     dry_run=False,
-    notify=True,
 ):
     """
     Final write function for fully approved bets only.
@@ -1218,8 +1193,6 @@ def write_to_csv(
     existing_theme_stakes : dict
         Mapping used to track current theme exposure in-memory. Updated on
         successful writes.
-    notify : bool, optional
-        If True (default), trigger a Discord notification after writing.
     """
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
@@ -1238,7 +1211,7 @@ def write_to_csv(
 
     if new_conf_val is None:
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
-        return 0
+        return None
 
     # if prev_conf_val is not None and new_conf_val <= prev_conf_val:
     #     print(
@@ -1251,16 +1224,16 @@ def write_to_csv(
 
     if prev >= full_stake:
         print(f"  ⛔ Already logged full stake for {key}, skipping.")
-        return 0
+        return None
 
     entry_type = row.get("entry_type", "first")
     stake_to_log = delta
     if entry_type == "first" and stake_to_log < 1.0:
         print(f"  ⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping")
-        return 0
+        return None
     if entry_type == "top-up" and stake_to_log < 0.5:
         print(f"  ⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping")
-        return 0
+        return None
 
     row["stake"] = stake_to_log
     row["result"] = ""
@@ -1269,7 +1242,7 @@ def write_to_csv(
         print(
             f"📝 [Dry Run] Would log: {key} | Stake: {delta:.2f}u | EV: {row['ev_percent']:.2f}%"
         )
-        return 0
+        return None
 
     # ===== Market Confirmation =====
     prior_snapshot = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
@@ -1325,10 +1298,9 @@ def write_to_csv(
 
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
-
-        # ✅ Send full, untrimmed row to Discord for role tagging and odds display
-        if notify and is_notification_eligible(row):
-            send_discord_notification(row, MARKET_EVAL_TRACKER)
+        print(
+            f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}"
+        )
 
         # Update market confirmation tracker on successful log
         # MARKET_CONF_TRACKER[tracker_key] = {
@@ -1371,7 +1343,7 @@ def write_to_csv(
         f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
     )
 
-    return 1
+    return row
 
 
 def ensure_consensus_books(row):
@@ -2458,8 +2430,9 @@ def process_theme_logged_bets(
                         best_market_segment[key_best] = evaluated
 
     # ➡️ Log only the best bet per (game_id, market, segment)
+    logged_bets_this_loop = []
     for best_row in best_market_segment.values():
-        write_to_csv(
+        result = write_to_csv(
             best_row,
             "logs/market_evals.csv",
             existing,
@@ -2467,16 +2440,21 @@ def process_theme_logged_bets(
             existing_theme_stakes,
             dry_run=dry_run,
         )
-        game_summary[best_row["game_id"]].append(best_row)
-        logged_stake = best_row["stake"]
-        exposure_key = get_exposure_key(best_row)
-        existing_theme_stakes[exposure_key] = (
-            existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
-        )
-        save_persisted_theme_stakes(existing_theme_stakes)
-        if should_include_in_summary(best_row):
-            ensure_consensus_books(best_row)
-            skipped_bets.append(best_row)
+        if result:
+            logged_bets_this_loop.append(result)
+            game_summary[best_row["game_id"]].append(best_row)
+            logged_stake = best_row["stake"]
+            exposure_key = get_exposure_key(best_row)
+            existing_theme_stakes[exposure_key] = (
+                existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
+            )
+            save_persisted_theme_stakes(existing_theme_stakes)
+            if should_include_in_summary(best_row):
+                ensure_consensus_books(best_row)
+                skipped_bets.append(best_row)
+
+    for row in logged_bets_this_loop:
+        send_discord_notification(row)
 
     print("\n🧠 Summary by Game:")
     mainline_total = 0.0
