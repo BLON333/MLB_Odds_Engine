@@ -1,6 +1,5 @@
 from typing import Optional
 
-from core.market_movement_tracker import detect_market_movement
 
 from utils import (
     normalize_to_abbreviation,
@@ -156,34 +155,6 @@ def should_log_bet(
             prior_entry = tracker_entry
 
     tracker_key = f"{game_id}:{market}:{side}"
-
-    movement = new_bet.get("_movement") or detect_market_movement(
-        new_bet,
-        prior_entry,
-    )
-    new_bet.setdefault("_movement", movement)
-    if movement.get("is_new"):
-        _log_verbose(f"🟡 First-time seen → {tracker_key}", verbose)
-    else:
-        try:
-            _log_verbose(
-                f"🧠 Prior FV: {prior_entry.get('blended_fv')} → New FV: {new_bet.get('blended_fv')}",
-                verbose,
-            )
-        except Exception:
-            pass
-    if not (
-        movement["mkt_movement"] == "better" and 5 <= ev <= 20
-    ):
-        _log_verbose(
-            f"⛔ should_log_bet: Market not confirmed (Market movement: {movement['mkt_movement']}, EV: {ev:.2f}%)",
-            verbose,
-        )
-        return None
-    _log_verbose(
-        f"✅ Market-confirmed bet → {tracker_key} — should be logged and posted",
-        verbose,
-    )
 
     base_market = market.replace("alternate_", "")
     segment = get_segment_group(market)
