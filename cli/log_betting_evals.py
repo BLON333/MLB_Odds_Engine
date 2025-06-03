@@ -1267,6 +1267,18 @@ def write_to_csv(
         )
         return 0
 
+    # ===== Market Confirmation =====
+    movement = track_and_update_market_movement(
+        row,
+        MARKET_EVAL_TRACKER,
+        MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+    )
+    if movement.get("mkt_movement") != "better":
+        print(
+            f"\u26d4 Skipping write \u2014 no market confirmation (mkt_movement: {movement.get('mkt_movement')})"
+        )
+        return 0
+
     row.pop("consensus_books", None)
 
     fieldnames = [
