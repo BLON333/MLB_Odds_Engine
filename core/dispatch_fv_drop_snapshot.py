@@ -16,25 +16,11 @@ load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
-from core.should_log_bet import should_log_bet
-from core.market_eval_tracker import load_tracker
-from cli.log_betting_evals import (
-    load_existing_stakes,
-    load_existing_theme_stakes,
-    load_persisted_theme_stakes,
-    write_to_csv,
-    send_discord_notification,
-)
-from collections import defaultdict
-import copy
 
 logger = get_logger(__name__)
 
 # Optional debug log to verify environment variables are loaded
 logger.debug("✅ Loaded webhook: %s", os.getenv("DISCORD_FV_DROP_WEBHOOK_URL"))
-
-MARKET_EVAL_TRACKER = load_tracker()
-MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
 
 def latest_snapshot_path(folder="backtest") -> str | None:
@@ -80,28 +66,6 @@ def is_market_prob_increasing(val: str) -> bool:
         return right > left
     except Exception:
         return False
-
-
-def log_and_notify_if_qualified(row, existing, session_exposure, existing_theme_stakes):
-    """Run staking, logging, and notification for a snapshot row."""
-    staked_row = should_log_bet(
-        row,
-        existing_theme_stakes,
-        eval_tracker=MARKET_EVAL_TRACKER,
-        reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-    )
-    if staked_row:
-        result = write_to_csv(
-            staked_row,
-            "logs/market_evals.csv",
-            existing,
-            session_exposure,
-            existing_theme_stakes,
-        )
-        if result:
-            send_discord_notification(result)
-            return result
-    return None
 
 
 def main() -> None:
@@ -185,29 +149,7 @@ def main() -> None:
 
     df_allowed = filter_by_books(df, allowed_books)
 
-    # === Load existing exposure + trackers ===
-    existing = load_existing_stakes("logs/market_evals.csv")
-    existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
-    persisted = load_persisted_theme_stakes()
-    if persisted:
-        existing_theme_stakes.update(persisted)
-    session_exposure = defaultdict(set)
-
-    logged_indices = []
-    for idx in df_all_books.index:
-        row = rows[idx]
-        result = log_and_notify_if_qualified(
-            row,
-            existing,
-            session_exposure,
-            existing_theme_stakes,
-        )
-        if result:
-            logged_indices.append(idx)
-
-    df_logged = df_all_books.loc[logged_indices] if logged_indices else pd.DataFrame()
-
-    if df_allowed.empty and df_logged.empty:
+    if df_allowed.empty and df_all_books.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
         return
 
@@ -222,8 +164,8 @@ def main() -> None:
         else:
             logger.error("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
 
-        if webhook_all and not df_logged.empty:
-            send_bet_snapshot_to_discord(df_logged, "FV Drop (All Books)", webhook_all)
+        if webhook_all and not df_all_books.empty:
+            send_bet_snapshot_to_discord(df_all_books, "FV Drop (All Books)", webhook_all)
         elif webhook_all:
             logger.warning("⚠️ No FV Drop rows for all books")
     else:
