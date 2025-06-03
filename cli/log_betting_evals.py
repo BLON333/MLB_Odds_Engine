@@ -1272,11 +1272,8 @@ def write_to_csv(
         return 0
 
     # ===== Market Confirmation =====
-    movement = track_and_update_market_movement(
-        row,
-        MARKET_EVAL_TRACKER,
-        MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-    )
+    prior_snapshot = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+    movement = detect_market_movement(row, prior_snapshot)
     row["_movement"] = movement
     if movement.get("mkt_movement") != "better":
         print(
