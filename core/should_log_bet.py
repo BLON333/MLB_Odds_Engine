@@ -151,11 +151,12 @@ def should_log_bet(
             prior_entry = tracker_entry
 
     tracker_key = f"{game_id}:{market}:{side}"
-    movement = track_and_update_market_movement(
+    movement = new_bet.get("_movement") or track_and_update_market_movement(
         new_bet,
         eval_tracker or {},
         reference_tracker or eval_tracker,
     )
+    new_bet.setdefault("_movement", movement)
     if movement.get("is_new"):
         _log_verbose(f"🟡 First-time seen → {tracker_key}", verbose)
     else:
