@@ -1,6 +1,6 @@
 from typing import Optional
 
-from core.market_movement_tracker import track_and_update_market_movement
+from core.market_movement_tracker import detect_market_movement
 
 from utils import (
     normalize_to_abbreviation,
@@ -143,18 +143,23 @@ def should_log_bet(
         return None
 
     prior_entry = None
+    t_key = f"{game_id}:{market}:{side}"
 
-    if eval_tracker is not None and prior_entry is None:
-        t_key = f"{game_id}:{market}:{side}"
+    if reference_tracker is not None:
+        tracker_entry = reference_tracker.get(t_key)
+        if isinstance(tracker_entry, dict):
+            prior_entry = tracker_entry
+
+    if prior_entry is None and eval_tracker is not None:
         tracker_entry = eval_tracker.get(t_key)
         if isinstance(tracker_entry, dict):
             prior_entry = tracker_entry
 
     tracker_key = f"{game_id}:{market}:{side}"
-    movement = new_bet.get("_movement") or track_and_update_market_movement(
+
+    movement = new_bet.get("_movement") or detect_market_movement(
         new_bet,
-        eval_tracker or {},
-        reference_tracker or eval_tracker,
+        prior_entry,
     )
     new_bet.setdefault("_movement", movement)
     if movement.get("is_new"):
