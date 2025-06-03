@@ -1275,11 +1275,7 @@ def write_to_csv(
     prior_snapshot = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = detect_market_movement(row, prior_snapshot)
     row["_movement"] = movement
-    if movement.get("mkt_movement") != "better":
-        print(
-            f"\u26d4 Skipping write \u2014 no market confirmation (mkt_movement: {movement.get('mkt_movement')})"
-        )
-        return 0
+
 
     row.pop("consensus_books", None)
 
