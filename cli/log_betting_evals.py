@@ -1268,28 +1268,46 @@ def write_to_csv(
     #     )
     #     return 0
     full_stake = round(float(row.get("full_stake", 0)), 2)
-    prev = existing.get(key, 0)
-    delta = round(full_stake - prev, 2)
+    entry_type = row.get("entry_type", "first")
+    stake_to_log = full_stake
 
-    if prev >= full_stake:
+    if entry_type == "first":
+        if row.get("market_class") == "alternate":
+            stake_to_log = full_stake / 2
+            if stake_to_log < 1.0:
+                print(
+                    f"⛔ Alternate line first bet stake {stake_to_log:.2f}u below 1.0u — skipping"
+                )
+                return None
+        else:
+            if stake_to_log < 1.0:
+                print(
+                    f"⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping"
+                )
+                return None
+    elif entry_type == "top-up":
+        if stake_to_log < 0.5:
+            print(
+                f"⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping"
+            )
+            return None
+
+    prev = existing.get(key, 0)
+    delta = round(stake_to_log - prev, 2)
+
+    if prev >= stake_to_log or delta <= 0:
         print(f"  ⛔ Already logged full stake for {key}, skipping.")
         return None
 
-    entry_type = row.get("entry_type", "first")
     stake_to_log = delta
-    if entry_type == "first" and stake_to_log < 1.0:
-        print(f"  ⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping")
-        return None
-    if entry_type == "top-up" and stake_to_log < 0.5:
-        print(f"  ⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping")
-        return None
 
     row["stake"] = stake_to_log
+    row["full_stake"] = stake_to_log
     row["result"] = ""
 
     if dry_run:
         print(
-            f"📝 [Dry Run] Would log: {key} | Stake: {delta:.2f}u | EV: {row['ev_percent']:.2f}%"
+            f"📝 [Dry Run] Would log: {key} | Stake: {stake_to_log:.2f}u | EV: {row['ev_percent']:.2f}%"
         )
         return None
 
@@ -1413,7 +1431,7 @@ def write_to_csv(
                 f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
             )
 
-    existing[key] = full_stake
+    existing[key] = prev + stake_to_log
     if existing_theme_stakes is not None:
         exposure_key = get_exposure_key(row)
         existing_theme_stakes[exposure_key] = (
