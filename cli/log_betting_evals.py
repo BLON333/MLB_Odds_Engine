@@ -891,6 +891,7 @@ def send_discord_notification(row):
     webhook_url = get_discord_webhook_for_market(row.get("market", ""))
     if not webhook_url:
         return
+    print(f"Webhook URL resolved: {webhook_url}")
 
     ev = row["ev_percent"]
     stake = float(row.get("stake", 0))
@@ -1131,7 +1132,8 @@ def send_discord_notification(row):
         )
 
     try:
-        requests.post(webhook_url, json={"content": message.strip()})
+        response = requests.post(webhook_url, json={"content": message.strip()})
+        print(f"Discord response: {response.status_code} | {response.text}")
     except Exception as e:
         print(f"❌ Failed to send Discord message: {e}")
 
@@ -2437,6 +2439,9 @@ def process_theme_logged_bets(
     # ➡️ Log only the best bet per (game_id, market, segment)
     logged_bets_this_loop = []
     for best_row in best_market_segment.values():
+        print(
+            f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
+        )
         result = write_to_csv(
             best_row,
             "logs/market_evals.csv",
@@ -2446,6 +2451,9 @@ def process_theme_logged_bets(
             dry_run=dry_run,
         )
         if result:
+            print(
+                f"✅ CSV Log Success → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
+            )
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
             logged_stake = best_row["stake"]
@@ -2457,83 +2465,17 @@ def process_theme_logged_bets(
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
+        else:
+            print(
+                f"⛔ CSV Log Failed → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
+            )
 
     for row in logged_bets_this_loop:
+        print(
+            f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
+        )
         send_discord_notification(row)
 
-    print("\n🧠 Summary by Game:")
-    mainline_total = 0.0
-    derivative_total = 0.0
-    mainline_count = 0
-    derivative_count = 0
-
-    for game_id, rows in game_summary.items():
-        print(f"\n📝 Summary: {game_id}")
-        total_stake = sum(r["stake"] for r in rows)
-        mainline_stake = sum(
-            r["stake"]
-            for r in rows
-            if get_segment_from_market(r["market"]) == "full_game"
-        )
-        derivative_stake = sum(
-            r["stake"]
-            for r in rows
-            if get_segment_from_market(r["market"]) == "derivative"
-        )
-        mainline_count += sum(
-            1 for r in rows if get_segment_from_market(r["market"]) == "full_game"
-        )
-        derivative_count += sum(
-            1 for r in rows if get_segment_from_market(r["market"]) == "derivative"
-        )
-
-        print(
-            f"🧮 Total stake for {game_id}: {total_stake:.2f}u ({mainline_stake:.2f}u full game, {derivative_stake:.2f}u derivative)"
-        )
-        for r in sorted(rows, key=lambda r: -r["ev_percent"]):
-            tag = "🟢" if r["ev_percent"] >= 10 else "🟡"
-            print(
-                f"  {tag} {r['side']} ({r['market']}) — {r.get('full_stake', r['stake']):.2f}u @ {r['ev_percent']:+.2f}% EV"
-            )
-
-    grand_total = sum(sum(r["stake"] for r in rows) for rows in game_summary.values())
-    print(f"\n💰 Total stake logged across all games: {grand_total:.2f}u")
-    print(
-        f"📊 Logged {mainline_count} full game bets, {derivative_count} derivative bets across all games."
-    )
-    logged_first = sum(
-        1
-        for rows in game_summary.values()
-        for r in rows
-        if r.get("entry_type") == "first"
-    )
-    logged_topup = sum(
-        1
-        for rows in game_summary.values()
-        for r in rows
-        if r.get("entry_type") == "top-up"
-    )
-    print(f"📦 Logged Entries: {logged_first} first bets | {logged_topup} top-ups")
-
-    print("\n🧹 Skipped Bets Summary:")
-    for reason, count in skipped_counts.items():
-        label = {
-            "duplicate": "⚠️ Duplicate",
-            "low_initial": "⛔ Initial < 1u",
-            "low_topup": "⛔ Top-up < 0.5u",
-            "already_logged": "⛔ Already logged",
-        }[reason]
-        print(f"  {label}: {count}")
-
-    if SHOW_SKIPPED and skipped_bets:
-        print("\n🟡 Skipped Bets (Details):")
-        for b in skipped_bets:
-            print(
-                f"📅 {b['game_id']} | {b['market']} | {b['side']} ({b.get('skip_reason', 'unknown')})"
-            )
-            print(
-                f"   💸 Fair Odds: {b['blended_fv']} | 💰 Stake: {b.get('full_stake', b['stake']):.2f}u @ {b['market_odds']} | 📈 EV: {b['ev_percent']}%"
-            )
 
     # ✅ Expand snapshot per book with proper stake & EV% logic
     snapshot_raw = [r for rows in game_summary.values() for r in rows] + skipped_bets
@@ -2543,23 +2485,14 @@ def process_theme_logged_bets(
 
     if image:
         if final_snapshot:
-            print(
-                f"\n📸 Generating clean model snapshot with {len(final_snapshot)} bets..."
-            )
             os.makedirs(output_dir, exist_ok=True)
             output_path = os.path.join(output_dir, "mlb_summary_table_model.png")
             generate_clean_summary_image(
                 final_snapshot, output_path=output_path, stake_mode="model"
             )
             upload_summary_image_to_discord(output_path, webhook_url)
-        else:
-            print(
-                f"⚠️ No bets met criteria for image summary (stake_mode: '{stake_mode}', EV ≥ 5%, stake ≥ 1.0u)."
-            )
 
     save_tracker(MARKET_EVAL_TRACKER)
-    if not MARKET_EVAL_TRACKER:
-        print("⚠️ market_eval_tracker.json not updated — 0 entries saved")
 
 
 if __name__ == "__main__":
