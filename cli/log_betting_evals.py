@@ -87,16 +87,45 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
     except Exception as e:
         print(f"⚠️ Failed to save market confirmation tracker: {e}")
 
-
-# MARKET_CONF_TRACKER = load_market_conf_tracker()
 import copy
+from datetime import datetime
+
+def latest_snapshot_path(folder="backtest"):
+    """Return the most recent snapshot file from the given folder."""
+    files = sorted(
+        [f for f in os.listdir(folder) if f.startswith("market_snapshot_") and f.endswith(".json")],
+        reverse=True,
+    )
+    return os.path.join(folder, files[0]) if files else None
+
+# Load tracker for updates during logging
 MARKET_EVAL_TRACKER = load_tracker()
-MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
+
+# Load most recent snapshot file for movement comparison
+SNAPSHOT_PATH_USED = latest_snapshot_path("backtest")
+if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
+    print(f"📂 Using prior snapshot for market movement detection: {SNAPSHOT_PATH_USED}")
+    prior_snapshot_data = safe_load_json(SNAPSHOT_PATH_USED) or []
+
+    if isinstance(prior_snapshot_data, list):
+        # Convert snapshot list to tracker-style dict
+        prior_snapshot_tracker = {
+            f"{r['game_id']}:{r['market']}:{r['side']}": r
+            for r in prior_snapshot_data
+            if "game_id" in r and "market" in r and "side" in r
+        }
+        print(f"🔁 Loaded {len(prior_snapshot_tracker)} entries from snapshot.")
+    else:
+        prior_snapshot_tracker = prior_snapshot_data  # already dict
+
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE = prior_snapshot_tracker
+else:
+    print("⚠️ No valid prior snapshot found — using fallback copy of tracker.")
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
 # Path used to persist theme exposure between auto loop iterations
-PERSISTED_THEME_STAKES_PATH = os.path.join(
-    "backtest", "existing_theme_stakes.json"
-)
+PERSISTED_THEME_STAKES_PATH = os.path.join("backtest", "existing_theme_stakes.json")
+
 
 # === Local Modules ===
 from core.market_pricer import (
@@ -530,6 +559,9 @@ def expand_snapshot_rows_with_kelly(
 
     expanded_rows = []
 
+    
+
+
     for bet in final_snapshot:
         base_fields = {
             "game_id": bet.get("game_id", "unknown"),
@@ -567,8 +599,8 @@ def expand_snapshot_rows_with_kelly(
             expanded_rows.append(bet)
             continue
 
-        raw_books = bet.get("_raw_sportsbook", {}) or bet.get("sportsbook", {})
-        if isinstance(raw_books, str):
+        raw_books = bet.get("_raw_sportsbook") or bet.get("sportsbook", {})
+        if not isinstance(raw_books, dict):
             continue  # skip malformed entries
 
         for book, odds in raw_books.items():
@@ -579,6 +611,17 @@ def expand_snapshot_rows_with_kelly(
 
                 if base_fields["side"] == "St. Louis Cardinals":
                     print(f"🔍 {book}: EV={ev:.2f}%, Odds={odds}, Stake={stake:.2f}u")
+
+                tracker_key = f"{base_fields['game_id']}:{base_fields['market']}:{base_fields['side']}"
+                prior_snapshot_row = bet.get("_prior_snapshot")
+
+                # 🧪 Optional Debug
+                if VERBOSE and not prior_snapshot_row:
+                    print(f"⚠️ Missing _prior_snapshot for {tracker_key} in expanded_row")
+
+
+                if VERBOSE and not prior_snapshot_row:
+                    print(f"⚠️ Missing prior snapshot for: {tracker_key}")
 
                 if ev >= min_ev and stake >= min_stake:
                     expanded_row = {
@@ -591,6 +634,7 @@ def expand_snapshot_rows_with_kelly(
                         "ev_percent": round(ev, 2),
                         "stake": stake,
                         "full_stake": stake,
+                        "_prior_snapshot": prior_snapshot_row,
                     }
 
                     for field in [
@@ -1246,18 +1290,58 @@ def write_to_csv(
         )
         return None
 
+    if VERBOSE and "_prior_snapshot" not in row:
+        print(f"⚠️ _prior_snapshot not present in row for {tracker_key}")
+
+
+
     # ===== Market Confirmation =====
-    prior_snapshot = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+
+    if VERBOSE:
+        if "_prior_snapshot" in row:
+            print(f"📥 Using injected _prior_snapshot for movement check.")
+        else:
+            print(f"📥 Falling back to MARKET_EVAL_TRACKER_BEFORE_UPDATE for movement check.")
+
+    prior_snapshot = row.get("_prior_snapshot") or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+
+    if VERBOSE:
+        print(f"📈 Prior Tracker market_prob : {MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key, {}).get('market_prob')}")
+        print(f"📈 Attached Snapshot market_prob: {row.get('_prior_snapshot', {}).get('market_prob')}")
+        print(f"📈 New market_prob             : {row.get('market_prob')}")
+
+        if row.get("_prior_snapshot") != MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key):
+            print(f"⚠️ Snapshot mismatch for {tracker_key}")
+
+
     movement = detect_market_movement(row, prior_snapshot)
-    row["_movement"] = movement
+    row["_movement"] = movement  # store for Discord/export/debug
 
+    # 🔍 Snapshot Debug Metadata
+    print(f"\n🔎 Movement Debug for {tracker_key}:")
+    print(f"    • Simulated EV           : {row.get('ev_percent')}%")
+    print(f"    • Market Prob (New)      : {row.get('market_prob')}")
+    print(f"    • Market Prob (Prior)    : {prior_snapshot.get('market_prob') if prior_snapshot else 'None'}")
+    print(f"    • Movement               : {movement.get('mkt_movement')}")
 
-    row.pop("consensus_books", None)
+    if isinstance(MARKET_EVAL_TRACKER_BEFORE_UPDATE, dict):
+        print(f"    • Tracker Source         : Snapshot-Based Tracker (Length: {len(MARKET_EVAL_TRACKER_BEFORE_UPDATE)})")
+    else:
+        print(f"    • Tracker Source         : Unknown")
 
+    try:
+        print(f"    • Snapshot File Used     : {SNAPSHOT_PATH_USED}")
+    except NameError:
+        print(f"    • Snapshot File Used     : Not available in this scope")
 
     if movement.get("mkt_movement") != "better":
-        print(f"  ⛔ Market movement is not 'better' for {tracker_key} — skipping")
+        print(f"    ⛔ BLOCKED                : Market movement not better ({movement.get('mkt_movement')})")
         return None
+    else:
+        print(f"    ✅ PASSED                 : Market movement: {movement.get('mkt_movement')}")
+
+    # Clean up non-persistent keys
+    row.pop("consensus_books", None)
 
     fieldnames = [
         "game_id",
@@ -2482,6 +2566,19 @@ def process_theme_logged_bets(
     final_snapshot = expand_snapshot_rows_with_kelly(
         snapshot_raw, min_ev=snapshot_ev, min_stake=0.5
     )
+
+    if VERBOSE:
+        print("\n🧠 Snapshot Prob Consistency Check:")
+        for row in final_snapshot:
+            key = f"{row['game_id']}:{row['market']}:{row['side']}"
+            prior = row.get("_prior_snapshot")
+            if prior:
+                print(f"🧠 {key} | Prior market_prob: {prior.get('market_prob')} | Current: {row.get('market_prob')}")
+            else:
+                print(f"⚠️  {key} has no _prior_snapshot attached.")
+
+
+
 
     if image:
         if final_snapshot:
