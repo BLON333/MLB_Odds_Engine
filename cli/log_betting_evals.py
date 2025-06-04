@@ -1154,6 +1154,8 @@ def send_discord_notification(row):
     else:
         market_prob_str = f"{consensus_prob:.1%}"
 
+    message = None
+    try:
         game_day_clean = game_day_tag.replace("**", "").replace("*", "")
         message = (
             f"{tag} {header}\n\n"
@@ -1175,11 +1177,12 @@ def send_discord_notification(row):
             f"{roles_text}\n"
         )
 
-    try:
         response = requests.post(webhook_url, json={"content": message.strip()})
         print(f"Discord response: {response.status_code} | {response.text}")
     except Exception as e:
         print(f"❌ Failed to send Discord message: {e}")
+        if message:
+            print(f"🔍 Message that failed: {message}")
 
 
 def get_exposure_key(row):
