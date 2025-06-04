@@ -713,6 +713,9 @@ def build_snapshot_rows(
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
+            row["_tracker_entry"] = prior_row
+            row["_prior_snapshot"] = prior_row
+
             row.update({
                 "prev_sim_prob": (prior_row or {}).get("sim_prob"),
                 "prev_market_prob": (prior_row or {}).get("market_prob"),
