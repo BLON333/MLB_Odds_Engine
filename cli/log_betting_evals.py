@@ -2613,16 +2613,21 @@ def process_theme_logged_bets(
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
+
+            # Send Discord notification immediately for successfully logged bets
+            stake_ok = result.get("stake", 0) >= 0.5
+            ev_ok = isinstance(result.get("ev_percent"), (int, float))
+            if stake_ok and ev_ok:
+                print(
+                    f"📤 Dispatching to Discord → {result['game_id']} | {result['market']} | {result['side']}"
+                )
+                send_discord_notification(result)
         else:
             print(
                 f"⛔ CSV Log Failed → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
             )
 
-    for row in logged_bets_this_loop:
-        print(
-            f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
-        )
-        send_discord_notification(row)
+    # Preserve previous behaviour of returning all logged bets this loop
 
 
     # ✅ Expand snapshot per book with proper stake & EV% logic
