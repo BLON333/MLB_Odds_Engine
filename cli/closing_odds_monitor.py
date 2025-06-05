@@ -366,6 +366,7 @@ def monitor_loop(poll_interval=600, target_date=None):
                             f"  • CLV: `{clv:+.2f}%` {emoji}"
                         )
                         alert_lines.append(line)
+                        logger.info("✅ Prepared alert line for %s: %s", gid, side)
 
                     if alert_lines:
                         logger.info(
@@ -375,6 +376,11 @@ def monitor_loop(poll_interval=600, target_date=None):
                         )
                         message = f"📊 **CLV Check - {gid}**\n" + "\n".join(alert_lines)
                         send_discord_alert(message)
+                    else:
+                        logger.info(
+                            "ℹ️ Skipping %s — no matched closing odds for any bets.",
+                            gid,
+                        )
 
                     fetched_games.add(gid)
 
