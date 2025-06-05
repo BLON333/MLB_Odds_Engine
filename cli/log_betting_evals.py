@@ -680,6 +680,16 @@ def logistic_decay(t_hours, t_switch=8, slope=1.5):
     return 1 / (1 + math.exp((t_switch - t_hours) / slope))
 
 
+def market_prob_increase_threshold(hours_to_game: float) -> float:
+    """Return required market_prob delta for logging based on time to game."""
+    if hours_to_game >= 48:
+        return 0.005
+    elif hours_to_game <= 6:
+        return 0.002
+    else:
+        return 0.002 + (0.003 * (hours_to_game - 6) / (48 - 6))
+
+
 def base_model_weight_for_market(market):
     if "1st" in market:
         return 0.9  # prioritize derivatives (1st innings) first
@@ -1355,11 +1365,23 @@ def write_to_csv(
     except NameError:
         print(f"    • Snapshot File Used     : Not available in this scope")
 
-    if movement.get("mkt_movement") != "better":
-        print(f"    ⛔ BLOCKED                : Market movement not better ({movement.get('mkt_movement')})")
+    prior_prob = prior_snapshot.get("market_prob") if prior_snapshot else None
+    new_prob = row.get("market_prob")
+    hours_to_game = row.get("hours_to_game", 8)
+
+    if prior_prob is None or new_prob is None:
+        print("⚠️ Missing market_prob values — skipping threshold check.")
+    elif new_prob <= prior_prob:
+        print("⛔ Market probability did not improve — skipping.")
         return None
     else:
-        print(f"    ✅ PASSED                 : Market movement: {movement.get('mkt_movement')}")
+        delta = new_prob - prior_prob
+        threshold = market_prob_increase_threshold(hours_to_game)
+        if delta < threshold:
+            print(
+                f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
+            )
+            return None
 
     # Clean up non-persistent keys
     row.pop("consensus_books", None)
