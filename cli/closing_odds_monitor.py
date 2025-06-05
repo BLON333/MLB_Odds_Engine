@@ -297,7 +297,14 @@ def monitor_loop(poll_interval=600, target_date=None):
                         continue
 
                     # Attach normalized labels for easier lookups
-                    for mkey, market_vals in consensus_odds.items():
+                    #
+                    # NOTE: We build the ``_normalized`` blocks in a separate
+                    # dictionary and merge them after the loop. Mutating the
+                    # ``consensus_odds`` dict while iterating over it previously
+                    # triggered ``RuntimeError: dictionary changed size during
+                    # iteration``.
+                    normalized_blocks = {}
+                    for mkey, market_vals in list(consensus_odds.items()):
                         if not isinstance(market_vals, dict):
                             continue
                         normalized_block = {}
@@ -308,7 +315,10 @@ def monitor_loop(poll_interval=600, target_date=None):
                             info.setdefault("label_normalized", norm)
                             normalized_block[norm] = info
                         if normalized_block:
-                            consensus_odds[f"{mkey}_normalized"] = normalized_block
+                            normalized_blocks[f"{mkey}_normalized"] = normalized_block
+
+                    # Merge normalized blocks after iteration to avoid mutation
+                    consensus_odds.update(normalized_blocks)
 
                     existing[gid] = consensus_odds
                     with open(file_path, "w") as f:
