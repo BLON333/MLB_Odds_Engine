@@ -1521,7 +1521,10 @@ def log_bets(
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
     if start_dt:
-        now = datetime.now(start_dt.tzinfo)
+        from pytz import timezone
+
+        eastern = timezone("US/Eastern")
+        now = datetime.now(eastern)
         hours_to_game = (start_dt - now).total_seconds() / 3600
 
     if hours_to_game < 0:
@@ -1742,7 +1745,10 @@ def log_derivative_bets(
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
     if start_dt:
-        now = datetime.now(start_dt.tzinfo)
+        from pytz import timezone
+
+        eastern = timezone("US/Eastern")
+        now = datetime.now(eastern)
         hours_to_game = (start_dt - now).total_seconds() / 3600
 
     if hours_to_game < 0:
@@ -2140,15 +2146,17 @@ def run_batch_logging(
 
     def extract_start_times(odds_data):
         from dateutil import parser
+        from pytz import timezone
 
+        eastern = timezone("US/Eastern")
         start_times = {}
         for game_id, game in odds_data.items():
             if not isinstance(game, dict):
                 continue
             if "start_time" in game:
                 try:
-                    start_times[game_id] = parser.parse(game["start_time"])
-                except:
+                    start_times[game_id] = parser.parse(game["start_time"]).astimezone(eastern)
+                except Exception:
                     pass
         return start_times
 
