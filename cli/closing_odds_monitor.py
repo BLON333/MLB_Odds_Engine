@@ -16,6 +16,7 @@ from utils import (
     to_eastern,
     safe_load_json,
     normalize_to_abbreviation,
+    normalize_line_label,
 )
 from dotenv import load_dotenv
 
@@ -161,6 +162,41 @@ def fuzzy_match_side(side, market_data):
         list(market_data.keys())[:5],
     )
     return None
+
+
+def find_matching_closing_odds(side, market_key, market_data, threshold=1.0):
+    """Return closest matching odds key and line shift for ``side``."""
+    lookup = normalize_to_abbreviation(side)
+
+    if lookup in market_data:
+        return lookup, 0.0
+
+    fuzzy = fuzzy_match_side(lookup, market_data)
+    if fuzzy:
+        return fuzzy, 0.0
+
+    prefix, val = normalize_line_label(lookup)
+    if val is None:
+        return None, None
+
+    best_key = None
+    best_diff = None
+
+    for label in market_data.keys():
+        p2, v2 = normalize_line_label(label)
+        if p2 != prefix or v2 is None:
+            continue
+        if market_key.startswith("spreads") and ((val >= 0) != (v2 >= 0)):
+            continue
+        diff = abs(v2 - val)
+        if best_diff is None or diff < best_diff:
+            best_key = label
+            best_diff = diff
+
+    if best_diff is not None and best_diff <= threshold:
+        return best_key, best_diff
+
+    return None, None
 
 
 def get_market_data_with_alternates(consensus_odds, market_key):
@@ -369,12 +405,23 @@ def monitor_loop(poll_interval=600, target_date=None):
 
                         lookup_side = normalize_to_abbreviation(side)
                         closing_data = normalized_market_data.get(lookup_side)
+                        line_shift = 0.0
 
                         if not closing_data:
-                            logger.debug("🔍 Attempting fuzzy match for: '%s'", lookup_side)
-                            fuzzy_key = fuzzy_match_side(lookup_side, normalized_market_data)
-                            if fuzzy_key:
-                                closing_data = normalized_market_data[fuzzy_key]
+                            match_key, line_shift = find_matching_closing_odds(
+                                side,
+                                market,
+                                normalized_market_data,
+                            )
+                            if match_key:
+                                closing_data = normalized_market_data[match_key]
+                                if debug_mode or line_shift:
+                                    logger.debug(
+                                        "🎯 Bet Line: %s | Closest Match: %s | Line Shift: %+0.1f",
+                                        side,
+                                        match_key,
+                                        line_shift,
+                                    )
 
                         if not closing_data:
                             logger.warning(
@@ -412,6 +459,8 @@ def monitor_loop(poll_interval=600, target_date=None):
                             f"  • Closing Line: `{closing_american:+}`\n"
                             f"  • CLV: `{clv:+.2f}%` {emoji}"
                         )
+                        if line_shift:
+                            line += f"\n  • Line Shift: `{line_shift:+.1f}`"
                         alert_lines.append(line)
                         logger.info("✅ Prepared alert line for %s: %s", gid, side)
 
