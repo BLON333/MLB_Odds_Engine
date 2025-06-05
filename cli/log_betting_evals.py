@@ -1383,6 +1383,10 @@ def write_to_csv(
 
     row["stake"] = stake_to_log
     row["full_stake"] = full_stake
+    if row["entry_type"] == "top-up":
+        print(
+            f"🔁 Logging Top-Up: {tracker_key} | Delta: {stake_to_log:.2f}u → Total: {full_stake:.2f}u"
+        )
 
     if dry_run:
         print(
