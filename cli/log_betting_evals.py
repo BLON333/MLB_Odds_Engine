@@ -606,7 +606,8 @@ def expand_snapshot_rows_with_kelly(
         for book, odds in raw_books.items():
             try:
                 p = base_fields.get("blended_prob", base_fields.get("sim_prob", 0))
-                stake = round(float(bet.get("full_stake", 0)), 4)
+                full_stake = round(float(bet.get("full_stake", 0)), 4)
+                stake = round(float(bet.get("stake", full_stake)), 4)
                 ev = calculate_ev_from_prob(p, odds)
 
                 if base_fields["side"] == "St. Louis Cardinals":
@@ -632,8 +633,9 @@ def expand_snapshot_rows_with_kelly(
                         "segment": bet.get("segment"),
                         "segment_label": bet.get("segment_label"),
                         "ev_percent": round(ev, 2),
-                        "stake": stake,
-                        "full_stake": stake,
+                        "stake": bet.get("stake", 0),
+                        "full_stake": full_stake,
+                        "entry_type": bet.get("entry_type", "first"),
                         "_prior_snapshot": prior_snapshot_row,
                     }
 
