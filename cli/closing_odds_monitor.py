@@ -345,6 +345,12 @@ def monitor_loop(poll_interval=600, target_date=None):
 
                         closing_prob = closing_data.get("consensus_prob")
                         if closing_prob is None:
+                            logger.warning(
+                                "⚠️ No consensus probability for %s (%s) in %s",
+                                side,
+                                market,
+                                gid,
+                            )
                             continue
 
                         closing_american = to_american_odds(closing_prob)
