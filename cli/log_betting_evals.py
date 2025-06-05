@@ -1289,47 +1289,10 @@ def write_to_csv(
     #     return 0
     full_stake = round(float(row.get("full_stake", 0)), 2)
     entry_type = row.get("entry_type", "first")
+    prev = existing.get(key, 0)
     stake_to_log = full_stake
 
-    if entry_type == "first":
-        if row.get("market_class") == "alternate":
-            stake_to_log = full_stake / 2
-            if stake_to_log < 1.0:
-                print(
-                    f"⛔ Alternate line first bet stake {stake_to_log:.2f}u below 1.0u — skipping"
-                )
-                return None
-        else:
-            if stake_to_log < 1.0:
-                print(
-                    f"⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping"
-                )
-                return None
-    elif entry_type == "top-up":
-        if stake_to_log < 0.5:
-            print(
-                f"⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping"
-            )
-            return None
-
-    prev = existing.get(key, 0)
-    delta = round(stake_to_log - prev, 2)
-
-    if prev >= stake_to_log or delta <= 0:
-        print(f"  ⛔ Already logged full stake for {key}, skipping.")
-        return None
-
-    stake_to_log = delta
-
-    row["stake"] = stake_to_log
-    row["full_stake"] = stake_to_log
     row["result"] = ""
-
-    if dry_run:
-        print(
-            f"📝 [Dry Run] Would log: {key} | Stake: {stake_to_log:.2f}u | EV: {row['ev_percent']:.2f}%"
-        )
-        return None
 
     if VERBOSE and "_prior_snapshot" not in row:
         print(f"⚠️ _prior_snapshot not present in row for {tracker_key}")
@@ -1392,6 +1355,40 @@ def write_to_csv(
                 f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
             )
             return None
+
+    # ===== Stake Thresholds =====
+    if entry_type == "first":
+        if full_stake < 1.0:
+            print(f"⛔ First bet full stake {full_stake:.2f}u below 1.0u — skipping")
+            return None
+        target = full_stake / 2 if row.get("market_class") == "alternate" else full_stake
+        delta = round(target - prev, 2)
+        if prev >= target or delta <= 0:
+            print(f"  ⛔ Already logged full stake for {key}, skipping.")
+            return None
+        stake_to_log = delta
+    elif entry_type == "top-up":
+        delta = round(full_stake - prev, 2)
+        if full_stake <= prev or delta < 0.5:
+            print(f"⛔ Top-up stake delta {delta:.2f}u below 0.5u or not greater than existing — skipping")
+            return None
+        stake_to_log = delta
+        print(f"🔁 Top-up Passed: {tracker_key} | New stake: {stake_to_log:.2f}u → Total: {full_stake:.2f}u")
+    else:
+        delta = round(full_stake - prev, 2)
+        if delta <= 0:
+            print(f"  ⛔ Already logged full stake for {key}, skipping.")
+            return None
+        stake_to_log = delta
+
+    row["stake"] = stake_to_log
+    row["full_stake"] = full_stake
+
+    if dry_run:
+        print(
+            f"📝 [Dry Run] Would log: {key} | Stake: {stake_to_log:.2f}u | EV: {row['ev_percent']:.2f}%"
+        )
+        return None
 
     # Clean up non-persistent keys
     row.pop("consensus_books", None)
