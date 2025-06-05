@@ -680,14 +680,24 @@ def logistic_decay(t_hours, t_switch=8, slope=1.5):
     return 1 / (1 + math.exp((t_switch - t_hours) / slope))
 
 
-def market_prob_increase_threshold(hours_to_game: float) -> float:
-    """Return required market_prob delta for logging based on time to game."""
+def market_prob_increase_threshold(hours_to_game: float, market_type: str = "") -> float:
+    """Return required market_prob delta for logging based on time to game.
+
+    A lower threshold is returned for derivative markets (e.g. F5, 1st inning) to
+    allow small market moves to pass the filter.
+    """
+
+    market_key = market_type.lower() if isinstance(market_type, str) else ""
+    is_derivative = any(x in market_key for x in ["1st", "f5", "innings"])
+
     if hours_to_game >= 48:
-        return 0.005
+        return 0.004 if is_derivative else 0.005
     elif hours_to_game <= 6:
-        return 0.002
+        return 0.001 if is_derivative else 0.002
     else:
-        return 0.002 + (0.003 * (hours_to_game - 6) / (48 - 6))
+        decay = 0.003
+        floor = 0.001 if is_derivative else 0.002
+        return floor + (decay * (hours_to_game - 6) / 42)
 
 
 def base_model_weight_for_market(market):
@@ -1376,7 +1386,7 @@ def write_to_csv(
         return None
     else:
         delta = new_prob - prior_prob
-        threshold = market_prob_increase_threshold(hours_to_game)
+        threshold = market_prob_increase_threshold(hours_to_game, row.get("market", ""))
         if delta < threshold:
             print(
                 f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
