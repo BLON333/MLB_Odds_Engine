@@ -317,6 +317,32 @@ def normalize_to_abbreviation(label: str) -> str:
     return label  # fallback
 
 
+def normalize_line_label(label: str):
+    """Extract prefix and numeric line value from a label string."""
+    if not isinstance(label, str):
+        return None, None
+
+    cleaned = label.strip().replace("+", " +").replace("-", " -")
+    parts = cleaned.split()
+    if not parts:
+        return None, None
+
+    if parts[0].lower() in {"over", "under"}:
+        prefix = parts[0].capitalize()
+        try:
+            value = float(parts[1])
+        except (IndexError, ValueError):
+            value = None
+        return prefix, value
+
+    prefix = normalize_to_abbreviation(parts[0])
+    try:
+        value = float(parts[-1])
+    except (ValueError, IndexError):
+        value = None
+    return prefix.upper(), value
+
+
 
 def build_point_str(point, market_key=None):
     """Return formatted point string for a given market."""
