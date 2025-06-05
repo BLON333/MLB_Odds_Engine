@@ -11,7 +11,12 @@ import json
 import time
 import requests
 from datetime import datetime
-from utils import now_eastern, to_eastern, safe_load_json
+from utils import (
+    now_eastern,
+    to_eastern,
+    safe_load_json,
+    normalize_to_abbreviation,
+)
 from dotenv import load_dotenv
 
 from core.odds_fetcher import fetch_consensus_for_single_game
@@ -286,8 +291,24 @@ def monitor_loop(poll_interval=600, target_date=None):
                             time.sleep(10)
 
                     if not consensus_odds:
-                        logger.warning("⚠️ No consensus odds found for %s after retry.", gid)
+                        logger.warning(
+                            "⚠️ No consensus odds found for %s after retry.", gid
+                        )
                         continue
+
+                    # Attach normalized labels for easier lookups
+                    for mkey, market_vals in consensus_odds.items():
+                        if not isinstance(market_vals, dict):
+                            continue
+                        normalized_block = {}
+                        for label, info in market_vals.items():
+                            if not isinstance(info, dict):
+                                continue
+                            norm = normalize_to_abbreviation(label)
+                            info.setdefault("label_normalized", norm)
+                            normalized_block[norm] = info
+                        if normalized_block:
+                            consensus_odds[f"{mkey}_normalized"] = normalized_block
 
                     existing[gid] = consensus_odds
                     with open(file_path, "w") as f:
@@ -320,6 +341,14 @@ def monitor_loop(poll_interval=600, target_date=None):
                             )
                             continue
 
+                        # Build normalized lookup map
+                        normalized_market_data = {}
+                        for label, info in market_data.items():
+                            if not isinstance(info, dict):
+                                continue
+                            norm = info.get("label_normalized") or normalize_to_abbreviation(label)
+                            normalized_market_data[norm] = info
+
                         if debug_mode:
                             logger.debug(
                                 "   Available sides for market '%s': %s",
@@ -328,12 +357,14 @@ def monitor_loop(poll_interval=600, target_date=None):
                             )
                             logger.debug("   Attempting to match bet side: '%s'", side)
 
-                        closing_data = market_data.get(side)
+                        lookup_side = normalize_to_abbreviation(side)
+                        closing_data = normalized_market_data.get(lookup_side)
+
                         if not closing_data:
-                            logger.debug("🔍 Attempting fuzzy match for: '%s'", side)
-                            fuzzy_key = fuzzy_match_side(side, market_data)
+                            logger.debug("🔍 Attempting fuzzy match for: '%s'", lookup_side)
+                            fuzzy_key = fuzzy_match_side(lookup_side, normalized_market_data)
                             if fuzzy_key:
-                                closing_data = market_data[fuzzy_key]
+                                closing_data = normalized_market_data[fuzzy_key]
 
                         if not closing_data:
                             logger.warning(
@@ -341,6 +372,12 @@ def monitor_loop(poll_interval=600, target_date=None):
                                 side,
                                 market,
                             )
+                            labels_list = sorted(market_data.keys())
+                            if labels_list:
+                                logger.info(
+                                    "📦 Available book options:\n  • %s",
+                                    "\n  • ".join(labels_list),
+                                )
                             continue
 
                         closing_prob = closing_data.get("consensus_prob")
