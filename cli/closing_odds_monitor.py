@@ -100,6 +100,21 @@ def fuzzy_match_side(side, market_data):
             logger.debug("🧠 Fuzzy match: Partial match for '%s' → '%s'", side, key)
             return key
 
+    # ✅ Detect abbreviation prefix (e.g., "HOU -1.5") and expand to full name
+    for abbr, full_name in TEAM_ABBR_TO_NAME.items():
+        if side.upper().startswith(abbr):
+            rest = side[len(abbr):].strip()
+            reconstructed = f"{full_name} {rest}".strip()
+            for key in market_data.keys():
+                if clean(key) == clean(reconstructed):
+                    logger.debug(
+                        "🧠 Fuzzy match: Abbrev prefix '%s' → '%s' → '%s'",
+                        side,
+                        reconstructed,
+                        key,
+                    )
+                    return key
+
     # ✅ Try Full Team Name → Abbreviation (e.g., "San Diego Padres" → "SD")
     if side in TEAM_NAME_TO_ABBR:
         abbr = TEAM_NAME_TO_ABBR[side]
