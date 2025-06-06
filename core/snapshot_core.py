@@ -24,7 +24,10 @@ from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,
+    normalize_label_for_odds,
+    get_segment_label,
 )
+from core.should_log_bet import get_theme, get_theme_key
 from core.market_pricer import (
     to_american_odds,
     kelly_fraction,
@@ -693,10 +696,11 @@ def build_snapshot_rows(
                 f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
             )
 
+            normalized_side = normalize_label_for_odds(side, matched_key)
             row = {
                 "game_id": game_id,
                 "market": market_clean,
-                "side": side,
+                "side": normalized_side,
                 "sim_prob": round(sim_prob, 4),
                 "market_prob": round(p_market, 4),
                 "blended_prob": round(p_blended, 4),
@@ -711,6 +715,10 @@ def build_snapshot_rows(
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
             }
+            row["segment_label"] = get_segment_label(matched_key, normalized_side)
+            theme = get_theme({"side": normalized_side, "market": market_clean})
+            row["theme_key"] = get_theme_key(market_clean, theme)
+            row.setdefault("entry_type", "first")
             tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
@@ -952,7 +960,7 @@ def expand_snapshot_rows_with_kelly(
     expanded: List[dict] = []
 
     for row in rows:
-        per_book = row.get("_raw_sportsbook")
+        per_book = row.get("_raw_sportsbook") or {}
         tracker_key = (
             f"{row.get('game_id')}:{str(row.get('market', '')).strip()}:"
             f"{str(row.get('side', '')).strip()}"
@@ -971,6 +979,8 @@ def expand_snapshot_rows_with_kelly(
         row["book"] = row.get("book", row.get("best_book"))
 
         if not isinstance(per_book, dict) or not per_book:
+            if row.get("market_odds") is None:
+                row["skip_reason"] = "no_odds"
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -984,25 +994,49 @@ def expand_snapshot_rows_with_kelly(
             expanded.append(row)
             continue
 
+
+        expanded_any = False
         for book, odds in per_book.items():
             if allowed_books and book not in allowed_books:
                 continue
 
-            p = row.get("blended_prob", row.get("sim_prob", 0))
+            p = row.get("blended_prob")
+            if p is None:
+                p = row.get("sim_prob")
+            if p is None:
+                p = row.get("market_prob")
+            if p is None:
+                continue
 
             try:
-                ev = calculate_ev_from_prob(p, odds)
+                odds_val = float(odds)
+            except Exception:
+                try:
+                    odds_val = float(row.get("market_odds"))
+                except Exception:
+                    numeric = [o for o in per_book.values() if isinstance(o, (int, float))]
+                    odds_val = min(numeric) if numeric else None
+
+            if isinstance(odds_val, float) and odds_val.is_integer():
+                odds_val = int(odds_val)
+
+            if odds_val is None:
+                continue
+
+            try:
+                ev = calculate_ev_from_prob(p, odds_val)
                 fraction = 0.125 if row.get("market_class") == "alternate" else 0.25
-                stake = kelly_fraction(p, odds, fraction=fraction)
+                stake = kelly_fraction(p, odds_val, fraction=fraction)
             except Exception:
                 continue
 
+            expanded_any = True
             expanded_row = row.copy()
             expanded_row.update(
                 {
                     "best_book": book,
                     "book": book,
-                    "market_odds": odds,
+                    "market_odds": odds_val,
                     "ev_percent": round(ev, 2),
                     "stake": stake,
                     "full_stake": stake,
@@ -1032,6 +1066,16 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("stake_movement", None)
             expanded_row.update(movement)
             expanded.append(expanded_row)
+        
+        if not expanded_any:
+            row_copy = row.copy()
+            if allowed_books:
+                row_copy["skip_reason"] = "book_filter"
+            elif row.get("market_odds") is None:
+                row_copy.setdefault("skip_reason", "no_odds")
+            else:
+                row_copy["skip_reason"] = "invalid_data"
+            expanded.append(row_copy)
 
     deduped: List[dict] = []
     seen = set()
