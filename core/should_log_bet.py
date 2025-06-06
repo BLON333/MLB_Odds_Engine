@@ -1,5 +1,7 @@
 from typing import Optional
 
+from core.market_pricer import decimal_odds
+
 
 from utils import (
     normalize_label_for_odds,
@@ -150,6 +152,30 @@ def should_log_bet(
         tracker_entry = eval_tracker.get(t_key)
         if isinstance(tracker_entry, dict):
             prior_entry = tracker_entry
+
+    # 🚦 Reject bet if odds worsened versus reference snapshot
+    if prior_entry is not None:
+        try:
+            prev_odds = prior_entry.get("market_odds")
+            curr_odds = new_bet.get("market_odds")
+            prev_ev = prior_entry.get("ev_percent")
+            curr_ev = new_bet.get("ev_percent")
+            odds_worsened = False
+            if prev_odds is not None and curr_odds is not None:
+                if decimal_odds(float(curr_odds)) < decimal_odds(float(prev_odds)):
+                    odds_worsened = True
+            if not odds_worsened and prev_ev is not None and curr_ev is not None:
+                if float(curr_ev) < float(prev_ev):
+                    odds_worsened = True
+            if odds_worsened:
+                _log_verbose(
+                    "Skipping bet due to worse market odds vs reference.",
+                    verbose,
+                )
+                new_bet["entry_type"] = "none"
+                return None
+        except Exception:
+            pass
 
     tracker_key = f"{game_id}:{market}:{side}"
 
