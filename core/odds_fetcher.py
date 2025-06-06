@@ -223,7 +223,7 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             start_time = to_eastern(start_time_utc)
 
             game_id = canonical_game_id(
-                extract_game_id_from_event(away_team, home_team, start_time_utc)
+                extract_game_id_from_event(away_team, home_team, start_time)
             )
 
             # 🕒 Debug the start times and game_id
@@ -425,7 +425,7 @@ def fetch_all_market_odds(lookahead_days=2):
             start_time = to_eastern(start_time_utc)
 
             game_id = canonical_game_id(
-                extract_game_id_from_event(away_team, home_team, start_time_utc)
+                extract_game_id_from_event(away_team, home_team, start_time)
             )
 
             # 🕒 Debug the start times and game_id

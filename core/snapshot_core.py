@@ -657,12 +657,15 @@ def build_snapshot_rows(
                 )
             if not isinstance(market_entry, dict):
                 print(
-
+                    f"⚠️ No market entry for {game_id} | {market} | {lookup_side}"
+                )
                 continue
 
             price = market_entry.get("price")
             if price is None:
                 print(
+                    f"⚠️ Missing price for {game_id} | {market} | {lookup_side}"
+                )
                 continue
 
             sportsbook_odds = market_entry.get("per_book", {})
