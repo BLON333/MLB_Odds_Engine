@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 logs/
 log
-backtest/
+backtest/*
+!backtest/.gitkeep
 *.log
 *.sqlite
