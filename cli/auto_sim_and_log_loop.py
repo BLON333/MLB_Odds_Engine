@@ -42,6 +42,14 @@ last_snapshot_time = 0
 closing_monitor_proc = None
 
 
+def seconds_to_readable(seconds: float) -> str:
+    """Return minutes remaining rounded to the nearest whole minute."""
+    minutes = int(seconds // 60)
+    if minutes <= 0:
+        return "<1m"
+    return f"{minutes}m"
+
+
 def run_subprocess(cmd):
     """Run a subprocess synchronously and log output."""
     timestamp = now_eastern()
@@ -81,9 +89,14 @@ def run_subprocess(cmd):
         return e.returncode
 
 
-def ensure_closing_monitor_running():
-    """Launch closing_odds_monitor.py if not already running."""
+def ensure_closing_monitor_running() -> bool:
+    """Launch closing_odds_monitor.py if not already running.
+
+    Returns ``True`` if the monitor was restarted, ``False`` if it was already
+    running.
+    """
     global closing_monitor_proc
+    restarted = False
     if closing_monitor_proc is None or closing_monitor_proc.poll() is not None:
         script_path = os.path.join("cli", "closing_odds_monitor.py")
         if not os.path.exists(script_path):
@@ -92,6 +105,8 @@ def ensure_closing_monitor_running():
         closing_monitor_proc = subprocess.Popen(
             [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
         )
+        restarted = True
+    return restarted
 
 
 def get_date_strings():
@@ -233,8 +248,14 @@ log_bets_with_snapshot_odds(initial_odds)
 if initial_odds:
     run_unified_snapshot_and_dispatch(initial_odds)
 
+start_time = time.time()
+loop_count = 0
+last_log_time = start_time
+last_snapshot_time = start_time
+
 while True:
     now = time.time()
+    loop_count += 1
 
     logger.debug(
         "Loop tick → now: %s, log Δ: %.1f, snap Δ: %.1f",
@@ -243,16 +264,22 @@ while True:
         now - last_snapshot_time,
     )
 
-    ensure_closing_monitor_running()
+    monitor_restarted = ensure_closing_monitor_running()
+
+    triggered_sim = False
+    triggered_log = False
+    triggered_snap = False
 
     if now - last_sim_time > SIM_INTERVAL:
         run_simulation()
         last_sim_time = now
+        triggered_sim = True
 
     if now - last_log_time > LOG_INTERVAL:
         logger.info("🟢 Triggering run_logger()")
         run_logger()
         last_log_time = now
+        triggered_log = True
 
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
         logger.info("🟢 Triggering snapshot scripts")
@@ -261,5 +288,28 @@ while True:
         if odds_file:
             run_unified_snapshot_and_dispatch(odds_file)
         last_snapshot_time = now
+        triggered_snap = True
+
+    uptime = str(timedelta(seconds=int(now - start_time)))
+    timestamp = now_eastern().strftime("%Y-%m-%d %H:%M:%S")
+
+    def next_in(last, interval):
+        return seconds_to_readable(interval - (now - last))
+
+    sim_msg = "🟢 triggered" if triggered_sim else f"⏭ (next ~{next_in(last_sim_time, SIM_INTERVAL)})"
+    log_msg = "🟢 triggered" if triggered_log else f"⏭ (next ~{next_in(last_log_time, LOG_INTERVAL)})"
+    snap_msg = "🟢 triggered" if triggered_snap else f"⏭ (next ~{next_in(last_snapshot_time, SNAPSHOT_INTERVAL)})"
+    monitor_msg = "restarted" if monitor_restarted else "OK"
+
+    logger.info(
+        "\n🔁 [%s] Loop %d (uptime %s):\nSim %s | Log %s | Snap %s | Monitor %s",
+        timestamp,
+        loop_count,
+        uptime,
+        sim_msg,
+        log_msg,
+        snap_msg,
+        monitor_msg,
+    )
 
     time.sleep(10)
