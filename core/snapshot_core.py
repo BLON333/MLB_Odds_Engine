@@ -684,7 +684,8 @@ def build_snapshot_rows(
                 sim_prob, price, market, hours_to_game, consensus_prob
             )
             ev_pct = calculate_ev_from_prob(p_blended, price)
-            stake = kelly_fraction(p_blended, price, fraction=0.25)
+            stake_fraction = 0.125 if price_source == "alternate" else 0.25
+            stake = kelly_fraction(p_blended, price, fraction=stake_fraction)
             market_clean = matched_key.replace("alternate_", "")
             market_class = "alternate" if price_source == "alternate" else "main"
 
@@ -991,7 +992,8 @@ def expand_snapshot_rows_with_kelly(
 
             try:
                 ev = calculate_ev_from_prob(p, odds)
-                stake = kelly_fraction(p, odds, fraction=0.25)
+                fraction = 0.125 if row.get("market_class") == "alternate" else 0.25
+                stake = kelly_fraction(p, odds, fraction=fraction)
             except Exception:
                 continue
 

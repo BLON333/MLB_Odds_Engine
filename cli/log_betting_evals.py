@@ -550,7 +550,7 @@ def upload_summary_image_to_discord(image_path, webhook_url):
 
 
 def expand_snapshot_rows_with_kelly(
-    final_snapshot, min_ev=1.0, min_stake=0.5, kelly_fraction=0.25
+    final_snapshot, min_ev=1.0, min_stake=0.5
 ):
     """
     Expand snapshot rows into 1 row per sportsbook, recalculating EV% and stake using Quarter-Kelly.
@@ -606,7 +606,8 @@ def expand_snapshot_rows_with_kelly(
         for book, odds in raw_books.items():
             try:
                 p = base_fields.get("blended_prob", base_fields.get("sim_prob", 0))
-                stake = round(float(bet.get("full_stake", 0)), 4)
+                fraction = 0.125 if bet.get("market_class") == "alternate" else 0.25
+                stake = kelly_fraction(p, odds, fraction=fraction)
                 ev = calculate_ev_from_prob(p, odds)
 
                 if base_fields["side"] == "St. Louis Cardinals":
@@ -1292,19 +1293,11 @@ def write_to_csv(
     stake_to_log = full_stake
 
     if entry_type == "first":
-        if row.get("market_class") == "alternate":
-            stake_to_log = full_stake / 2
-            if stake_to_log < 1.0:
-                print(
-                    f"⛔ Alternate line first bet stake {stake_to_log:.2f}u below 1.0u — skipping"
-                )
-                return None
-        else:
-            if stake_to_log < 1.0:
-                print(
-                    f"⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping"
-                )
-                return None
+        if stake_to_log < 1.0:
+            print(
+                f"⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping"
+            )
+            return None
     elif entry_type == "top-up":
         if stake_to_log < 0.5:
             print(
@@ -1618,7 +1611,8 @@ def log_bets(
         )
 
         ev_calc = calculate_ev_from_prob(p_blended, market_price)
-        stake = kelly_fraction(p_blended, market_price, fraction=0.25)
+        stake_fraction = 0.125 if price_source == "alternate" else 0.25
+        stake = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
 
         print(
             f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
@@ -1913,7 +1907,8 @@ def log_derivative_bets(
                 dec_odds = decimal_odds(market_price)
                 blended_fair_odds = 1 / p_blended
                 ev_calc = calculate_ev_from_prob(p_blended, market_price)  # ✅ correct
-                stake = kelly_fraction(p_blended, market_price, fraction=0.25)
+                stake_fraction = 0.125 if price_source == "alternate" else 0.25
+                stake = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
 
                 print(
                     f"        🕒 Game in {hours_to_game:.2f}h → model weight: {w_model:.2f}"
