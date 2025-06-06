@@ -46,3 +46,39 @@ def test_top_up_rejected_for_small_delta():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result is None
     assert bet["entry_type"] == "none"
+
+
+def test_first_bet_rejected_if_odds_worse():
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_odds": 105,
+    }
+
+    tracker_key = f"{bet['game_id']}:{bet['market']}:TeamA"
+    reference = {tracker_key: {"market_odds": 110, "ev_percent": 7.0}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is None
+    assert bet["entry_type"] == "none"
+
+
+def test_first_bet_logged_if_odds_improve():
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 1.2,
+        "ev_percent": 7.0,
+        "market_odds": 115,
+    }
+
+    tracker_key = f"{bet['game_id']}:{bet['market']}:TeamA"
+    reference = {tracker_key: {"market_odds": 110, "ev_percent": 6.0}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is not None
+    assert result["entry_type"] == "first"
