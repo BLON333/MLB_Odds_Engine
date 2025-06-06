@@ -1668,7 +1668,11 @@ def log_bets(
         tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
 
-        movement = detect_market_movement(row, prior)
+        movement = track_and_update_market_movement(
+            row,
+            MARKET_EVAL_TRACKER,
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+        )
         if should_log_movement():
             print(
                 f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
@@ -1989,9 +1993,10 @@ def log_derivative_bets(
                 # 📝 Track every evaluated bet before applying stake/EV filters
                 tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
                 prior = MARKET_EVAL_TRACKER.get(tracker_key)
-                movement = detect_market_movement(
+                movement = track_and_update_market_movement(
                     row,
-                    MARKET_EVAL_TRACKER.get(tracker_key),
+                    MARKET_EVAL_TRACKER,
+                    MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                 )
                 if should_log_movement():
                     print(
@@ -2548,9 +2553,10 @@ def process_theme_logged_bets(
                 # 📝 Update tracker for every evaluated bet
                 t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
                 prior = MARKET_EVAL_TRACKER.get(t_key)
-                movement = detect_market_movement(
+                movement = track_and_update_market_movement(
                     row_copy,
-                    MARKET_EVAL_TRACKER.get(t_key),
+                    MARKET_EVAL_TRACKER,
+                    MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                 )
                 if should_log_movement():
                     print(
