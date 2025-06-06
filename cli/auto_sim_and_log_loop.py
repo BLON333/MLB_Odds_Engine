@@ -103,6 +103,24 @@ def poll_active_processes() -> None:
     for entry in list(active_processes):
         ret = entry["proc"].poll()
         if ret is None:
+            time_running = time.time() - entry["start"]
+            if (
+                entry["name"].startswith("FullSlateSim")
+                and time_running > 45 * 60
+            ):
+                logger.warning(
+                    "\u23F3 %s still running after %dm \u2014 possible stall",
+                    entry["name"],
+                    int(time_running // 60),
+                )
+            elif (
+                entry["name"].startswith("LogEval") and time_running > 10 * 60
+            ):
+                logger.warning(
+                    "\u23F3 %s still running after %dm \u2014 possible stall",
+                    entry["name"],
+                    int(time_running // 60),
+                )
             continue
         runtime = time.time() - entry["start"]
         if ret == 0:
