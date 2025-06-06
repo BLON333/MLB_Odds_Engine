@@ -24,6 +24,7 @@ from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,
+    parse_float,
 )
 from core.market_pricer import (
     to_american_odds,
@@ -974,6 +975,11 @@ def expand_snapshot_rows_with_kelly(
         })
 
         row["book"] = row.get("book", row.get("best_book"))
+
+        # Normalize stake fields
+        if "stake" in row:
+            row["stake"] = parse_float(row["stake"])
+        row["full_stake"] = parse_float(row.get("full_stake", row.get("stake", 0)))
 
         if not isinstance(per_book, dict) or not per_book:
             movement = track_and_update_market_movement(
