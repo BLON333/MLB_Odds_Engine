@@ -159,13 +159,10 @@ def should_log_bet(
     theme_key = get_theme_key(base_market, theme)
     exposure_key = (game_id, theme_key, segment)
     theme_total = existing_theme_stakes.get(exposure_key, 0.0)
-    # Alternate lines (identified by market prefix or class) should use half of
-    # the normal full_stake amount for the initial entry (⅛ Kelly).
     is_alt_line = market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
 
     if theme_total == 0:
-        stake_amt = stake * 0.5 if is_alt_line else stake
-        new_bet["stake"] = round(stake_amt, 2)
+        new_bet["stake"] = round(stake, 2)
         new_bet["entry_type"] = "first"
         if new_bet["stake"] < 1.0:
             _log_verbose(
@@ -174,7 +171,7 @@ def should_log_bet(
             )
             return None
         _log_verbose(
-            f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake_amt:.2f}u | EV: {ev:.2f}%",
+            f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
             verbose,
         )
         return new_bet
