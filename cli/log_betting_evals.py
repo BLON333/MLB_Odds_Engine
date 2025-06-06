@@ -1050,11 +1050,10 @@ def send_discord_notification(row):
             )
         except Exception:
             pass
-    if movement.get("mkt_movement") != "better":
-        print(
-            "⛔ Discord notification aborted — Mkt % movement is not 'better'"
-        )
+    if "_movement" not in row:
+        print("⚠️ No movement data found — skipping Discord notification.")
         return
+
     print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
 
     sim_prob = row["sim_prob"]
