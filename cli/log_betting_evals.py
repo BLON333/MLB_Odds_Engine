@@ -149,7 +149,7 @@ from utils import (
     get_segment_from_market,
     normalize_lookup_side,  # ✅ This is likely what you actually want
     get_normalized_lookup_side,
-    normalize_to_abbreviation,
+    normalize_label_for_odds,
     convert_full_team_spread_to_odds_key,
     assert_segment_match,
     classify_market_segment,
@@ -1563,13 +1563,12 @@ def log_bets(
 
         if market_key in {"spreads", "h2h"}:
             raw_lookup = convert_full_team_spread_to_odds_key(side_clean)
-            lookup_side = normalize_label(raw_lookup)  # ✅ Use canonical label
-
+            lookup_side = normalize_label_for_odds(raw_lookup, market_key)
         elif market_key == "totals":
-            lookup_side = normalize_to_abbreviation(side_clean)
+            lookup_side = normalize_label_for_odds(side_clean, market_key)
         else:
-            lookup_side = normalize_to_abbreviation(
-                get_normalized_lookup_side(side_clean, market_key)
+            lookup_side = normalize_label_for_odds(
+                get_normalized_lookup_side(side_clean, market_key), market_key
             )
 
         market_entry, best_book, matched_key, segment, price_source = (
@@ -1807,14 +1806,14 @@ def log_derivative_bets(
                 side_clean = standardize_derivative_label(label)
 
                 if market_key in {"spreads", "h2h"}:
-                    lookup_side = normalize_to_abbreviation(
-                        convert_full_team_spread_to_odds_key(side_clean)
+                    lookup_side = normalize_label_for_odds(
+                        convert_full_team_spread_to_odds_key(side_clean), market_key
                     )
                 elif market_key == "totals":
-                    lookup_side = normalize_to_abbreviation(side_clean)
+                    lookup_side = normalize_label_for_odds(side_clean, market_key)
                 else:
-                    lookup_side = normalize_to_abbreviation(
-                        get_normalized_lookup_side(side_clean, market_key)
+                    lookup_side = normalize_label_for_odds(
+                        get_normalized_lookup_side(side_clean, market_key), market_key
                     )
 
                 # Try both "alternate_" and regular market key fallback

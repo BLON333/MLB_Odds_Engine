@@ -384,6 +384,66 @@ def build_full_label(normalized_label, market_key, point):
 
     return normalized_label.strip()
 
+
+def normalize_label_for_odds(label: str, market_key: str, point=None) -> str:
+    """Return standardized label for odds lookups.
+
+    Parameters
+    ----------
+    label : str
+        Raw label string (may include team name or Over/Under).
+    market_key : str
+        Canonical market key such as ``spreads`` or ``totals_1st_5_innings``.
+    point : float | None, optional
+        Explicit numeric line value. If ``None``, the value will be extracted
+        from ``label`` when possible.
+
+    Returns
+    -------
+    str
+        Normalized label with consistent spacing, team abbreviations and
+        decimal precision.
+    """
+
+    if label is None:
+        return ""
+
+    base = normalize_label(label)
+
+    if point is None:
+        _, inferred = normalize_line_label(base)
+        point = inferred
+
+    mkey = market_key.lower()
+    if mkey.startswith("spreads") or mkey.startswith("h2h"):
+        base = normalize_to_abbreviation(base)
+
+    return build_full_label(base, mkey, point)
+
+
+def normalize_market_key(market_key: str) -> str:
+    """Return canonical form of ``market_key``.
+
+    Examples
+    --------
+    >>> normalize_market_key("F5 totals")
+    'totals_1st_5_innings'
+    """
+
+    key = market_key.strip().lower().replace(" ", "_")
+    aliases = {
+        "f5_totals": "totals_1st_5_innings",
+        "f5_spreads": "spreads_1st_5_innings",
+        "f5_h2h": "h2h_1st_5_innings",
+        "1st5_totals": "totals_1st_5_innings",
+        "1st5_spreads": "spreads_1st_5_innings",
+        "1st5_h2h": "h2h_1st_5_innings",
+        "totals_f5": "totals_1st_5_innings",
+        "spreads_f5": "spreads_1st_5_innings",
+        "h2h_f5": "h2h_1st_5_innings",
+    }
+    return aliases.get(key, key)
+
 def classify_market_segment(market_key: str) -> str:
     """
     Returns the segment type of a given market key.

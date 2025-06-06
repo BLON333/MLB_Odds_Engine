@@ -14,7 +14,7 @@ from core.market_pricer import implied_prob, to_american_odds, best_price
 from core.bookmakers import get_us_bookmakers
 from utils import (
     normalize_label,
-    build_full_label,
+    normalize_label_for_odds,
     fallback_source,
     print_market_debug,
     TEAM_ABBR,
@@ -312,16 +312,14 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
                         if label is None or price is None:
                             continue
 
-                        # Normalize label and build unified full label
-                        norm_label = normalize_label(label)
-
+                        # Build unified full label
                         if "team_totals" in market_type and team:
                             team_abbr = TEAM_NAME_TO_ABBR.get(team.strip(), team.strip())
-                            base_label = f"{team_abbr} {norm_label}".strip()
+                            label_input = f"{team_abbr} {label}".strip()
                         else:
-                            base_label = TEAM_NAME_TO_ABBR.get(norm_label, norm_label)
+                            label_input = label
 
-                        full_label = build_full_label(base_label, market_type, point)
+                        full_label = normalize_label_for_odds(label_input, market_type, point)
 
                         offers.setdefault(market_type, {}).setdefault(book_key, {})[full_label] = {
                             "price": price,
@@ -495,15 +493,13 @@ def fetch_all_market_odds(lookahead_days=2):
                         if label is None or price is None:
                             continue
 
-                        norm_label = normalize_label(label)
-
                         if "team_totals" in market_type and team:
                             team_abbr = TEAM_NAME_TO_ABBR.get(team.strip(), team.strip())
-                            base_label = f"{team_abbr} {norm_label}".strip()
+                            label_input = f"{team_abbr} {label}".strip()
                         else:
-                            base_label = TEAM_NAME_TO_ABBR.get(norm_label, norm_label)
+                            label_input = label
 
-                        full_label = build_full_label(base_label, market_type, point)
+                        full_label = normalize_label_for_odds(label_input, market_type, point)
 
                         offers.setdefault(market_type, {}).setdefault(book_key, {})[
                             full_label
@@ -582,7 +578,7 @@ def fetch_all_market_odds(lookahead_days=2):
 def normalize_odds(game_id: str, offers: dict) -> dict:
     """Normalize odds into a per-book structure."""
     from core.market_pricer import best_price
-    from utils import normalize_label, build_full_label, fallback_source
+    from utils import normalize_label, normalize_label_for_odds, fallback_source
 
     logger.debug(f"\n🔍 Normalizing odds for: {game_id}")
 
@@ -605,8 +601,7 @@ def normalize_odds(game_id: str, offers: dict) -> dict:
                     continue
 
 
-                norm = normalize_label(label)
-                full_label = build_full_label(norm, market_key, point)
+                full_label = normalize_label_for_odds(label, market_key, point)
 
                 label_prices.setdefault(full_label, []).append(price)
                 sources.setdefault(f"{market_key}_source", {}).setdefault(full_label, {})[book] = price
@@ -639,11 +634,12 @@ def extract_per_book_odds(bookmakers_list, target_market_key=None, debug=False):
                 team_desc = outcome.get("description")
                 # H2H markets do not have a point value, so allow point to be None
                 if name and price is not None:
-                    base = normalize_label(name)
                     if "team_totals" in mkey and team_desc:
                         team_abbr = TEAM_NAME_TO_ABBR.get(team_desc.strip(), team_desc.strip())
-                        base = f"{team_abbr} {base}".strip()
-                    label = build_full_label(base, mkey, point)
+                        label_input = f"{team_abbr} {name}".strip()
+                    else:
+                        label_input = name
+                    label = normalize_label_for_odds(label_input, mkey, point)
                     result[mkey][label][book] = price
                     if debug:
                         logger.debug(f"✅ Stored {book}: {mkey} → {label} @ {price}")
