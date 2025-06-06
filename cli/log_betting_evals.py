@@ -954,6 +954,14 @@ def get_discord_webhook_for_market(market: str) -> str:
 
 def send_discord_notification(row):
 
+    if row.get("_discord_sent"):
+        print(
+            f"\ud83d\udceD Skipping duplicate notification for {row.get('game_id')} | {row.get('market')} | {row.get('side')}"
+        )
+        return
+
+    row["_discord_sent"] = True
+
     webhook_url = get_discord_webhook_for_market(row.get("market", ""))
     if not webhook_url:
         return
