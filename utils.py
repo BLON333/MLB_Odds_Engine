@@ -491,12 +491,7 @@ def print_market_debug(market_key, label, price, books):
         logger.debug("   🏦 Books considered: %s", ", ".join(books))
 
 
-def get_contributing_books(market_odds, market_key, lookup_side):
-    """
-    Returns a dictionary of books and their prices that contributed to a specific market label.
-    """
-    source_key = f"{market_key}_source"
-    return market_odds.get(source_key, {}).get(lookup_side, {})
+
 
 
 import unicodedata
@@ -770,20 +765,24 @@ def canonical_label(label):
     return label.replace(" ", "").lower()
 
 def get_contributing_books(market_odds, market_key, lookup_side):
-    """
-    Returns a dictionary of books and their prices that contributed to a specific market label.
-    Tries primary, alternate, and team_ market sources.
-    """
+    """Return per-book prices for ``lookup_side`` using robust fallback lookup."""
+    _, _, matched_key, _, _ = get_market_entry_with_alternate_fallback(
+        market_odds, market_key, lookup_side
+    )
+
+    if matched_key == "❌":
+        return {}
+
     sources = [
-        f"{market_key}_source",
-        f"alternate_{market_key}_source",
-        f"team_{market_key}_source"
+        f"{matched_key}_source",
+        f"alternate_{matched_key}_source",
+        f"team_{matched_key}_source",
     ]
-    
+
     for source_key in sources:
         if lookup_side in market_odds.get(source_key, {}):
             return market_odds[source_key][lookup_side]
-    
+
     return {}
 
 
