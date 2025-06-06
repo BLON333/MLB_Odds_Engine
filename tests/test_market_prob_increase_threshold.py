@@ -5,6 +5,7 @@ import pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from cli.log_betting_evals import market_prob_increase_threshold
+from core import market_movement_tracker as mmt
 
 
 @pytest.mark.parametrize(
@@ -27,3 +28,35 @@ def test_mid_range_thresholds():
     base = 0.002 + 0.003 * (hours - 6) / 42
     assert non_derivative == pytest.approx(base)
     assert derivative == pytest.approx(base - 0.001)
+
+
+def test_detect_movement_derivative_vs_mainline():
+    prior = {"market_prob": 0.5}
+    derivative = {
+        "market_prob": 0.5045,
+        "market": "f5 totals",
+        "hours_to_game": 50,
+    }
+    mainline = {
+        "market_prob": 0.5045,
+        "market": "h2h",
+        "hours_to_game": 50,
+    }
+    assert mmt.detect_market_movement(derivative, prior)["mkt_movement"] == "better"
+    assert mmt.detect_market_movement(mainline, prior)["mkt_movement"] == "same"
+
+
+def test_detect_movement_hours_to_game():
+    prior = {"market_prob": 0.5}
+    far = {
+        "market_prob": 0.502,
+        "market": "f5 totals",
+        "hours_to_game": 50,
+    }
+    close = {
+        "market_prob": 0.502,
+        "market": "f5 totals",
+        "hours_to_game": 6,
+    }
+    assert mmt.detect_market_movement(far, prior)["mkt_movement"] == "same"
+    assert mmt.detect_market_movement(close, prior)["mkt_movement"] == "better"
