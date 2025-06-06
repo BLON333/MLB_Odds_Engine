@@ -108,6 +108,10 @@ def track_and_update_market_movement(
     prev_market_odds = None
     if isinstance(prev_raw, dict):
         prev_market_odds = prev_raw.get(book)
+    if prev_market_odds is None:
+        print(
+            f"⚠️ No prior odds found for book: {book} in {entry.get('game_id')}:{entry.get('market')}:{entry.get('side')}"
+        )
 
     # Use prior book odds for movement detection
     if prior:
