@@ -23,6 +23,7 @@ from utils import (
     extract_game_id_from_event,
     merge_book_sources_for,
     canonical_game_id,
+    to_eastern,
 )
 
 load_dotenv()
@@ -219,12 +220,11 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             start_time_utc = datetime.fromisoformat(
                 event["commence_time"].replace("Z", "+00:00")
             ).replace(tzinfo=ZoneInfo("UTC"))
-            start_time = start_time_utc.astimezone(ZoneInfo("America/New_York"))
+            start_time = to_eastern(start_time_utc)
 
-            away_abbr = TEAM_ABBR.get(away_team, away_team)
-            home_abbr = TEAM_ABBR.get(home_team, home_team)
-            date_str = start_time.strftime("%Y-%m-%d")
-            game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
+            game_id = canonical_game_id(
+                extract_game_id_from_event(away_team, home_team, start_time_utc)
+            )
 
             # 🔍 DEBUG comparison with your sim game_ids
             print("🔍 Incoming game_ids (expected):", sorted(game_ids))
@@ -402,12 +402,11 @@ def fetch_all_market_odds(lookahead_days=2):
             start_time_utc = datetime.fromisoformat(
                 event["commence_time"].replace("Z", "+00:00")
             ).replace(tzinfo=ZoneInfo("UTC"))
-            start_time = start_time_utc.astimezone(ZoneInfo("America/New_York"))
+            start_time = to_eastern(start_time_utc)
 
-            away_abbr = TEAM_ABBR.get(away_team, away_team)
-            home_abbr = TEAM_ABBR.get(home_team, home_team)
-            date_str = start_time.strftime("%Y-%m-%d")
-            game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
+            game_id = canonical_game_id(
+                extract_game_id_from_event(away_team, home_team, start_time_utc)
+            )
 
             logger.debug(
                 f"\n🌐 Processing event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}"

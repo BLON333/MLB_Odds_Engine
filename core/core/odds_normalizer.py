@@ -11,6 +11,7 @@ from utils import (
     TEAM_NAME_TO_ABBR,
     canonical_game_id,
     clean_book_prices,
+    to_eastern,
 )
 
 
@@ -38,7 +39,7 @@ def normalize_market_odds(odds: dict) -> dict:
     try:
         if commence:
             start_ts = datetime.fromisoformat(commence.replace("Z", "+00:00"))
-            start_ts = start_ts.astimezone(ZoneInfo("America/New_York"))
+            start_ts = to_eastern(start_ts)
         if home_team and away_team and start_ts:
             date_str = start_ts.strftime("%Y-%m-%d")
             away_abbr = TEAM_ABBR.get(away_team, away_team)
