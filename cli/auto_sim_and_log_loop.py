@@ -40,6 +40,7 @@ last_snapshot_time = 0
 
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
+active_processes: list[dict] = []  # Track background subprocesses
 
 
 def seconds_to_readable(seconds: float) -> str:
@@ -89,6 +90,39 @@ def run_subprocess(cmd):
         return e.returncode
 
 
+def launch_process(name: str, cmd: list[str]) -> subprocess.Popen:
+    """Launch a subprocess asynchronously and track it."""
+    proc = subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+    active_processes.append({"name": name, "proc": proc, "start": time.time()})
+    logger.info("🚀 Started %s (PID %d)", name, proc.pid)
+    return proc
+
+
+def poll_active_processes() -> None:
+    """Check running processes and log when they finish."""
+    for entry in list(active_processes):
+        ret = entry["proc"].poll()
+        if ret is None:
+            continue
+        runtime = time.time() - entry["start"]
+        if ret == 0:
+            logger.info(
+                "✅ Subprocess '%s' (PID %d) completed in %.1fs",
+                entry["name"],
+                entry["proc"].pid,
+                runtime,
+            )
+        else:
+            logger.error(
+                "❌ Subprocess '%s' (PID %d) exited with code %s after %.1fs",
+                entry["name"],
+                entry["proc"].pid,
+                ret,
+                runtime,
+            )
+        active_processes.remove(entry)
+
+
 def ensure_closing_monitor_running() -> bool:
     """Launch closing_odds_monitor.py if not already running.
 
@@ -102,8 +136,9 @@ def ensure_closing_monitor_running() -> bool:
         if not os.path.exists(script_path):
             script_path = "closing_odds_monitor.py"
         logger.info("\n🎯 [%s] Starting closing odds monitor...", now_eastern())
-        closing_monitor_proc = subprocess.Popen(
-            [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
+        closing_monitor_proc = launch_process(
+            "closing_odds_monitor",
+            [PYTHON, script_path],
         )
         restarted = True
     return restarted
@@ -148,8 +183,7 @@ def run_simulation():
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started simulation subprocess for %s", date_str)
+        launch_process(f"FullSlateSim {date_str}", cmd)
 
 
 def run_logger():
@@ -167,8 +201,7 @@ def run_logger():
             "--min-ev",
             str(MIN_EV),
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started log eval subprocess for %s", date_str)
+        launch_process(f"LogEval {date_str}", cmd)
 
 
 def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
@@ -190,8 +223,7 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
             "--debug",
             "--output-dir=logs",
         ]
-        subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
-        logger.info("🚀 Started log bets subprocess for %s", eval_folder)
+        launch_process(f"LogBets {eval_folder}", cmd)
 
 
 def run_unified_snapshot_and_dispatch(odds_path: str):
@@ -220,15 +252,14 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
         "dispatch_best_book_snapshot.py",
         "dispatch_personal_snapshot.py",
     ]:
-        subprocess.Popen(
+        launch_process(
+            script,
             [
                 PYTHON,
                 f"core/{script}",
                 "--output-discord",
                 "--diff-highlight",
             ],
-            cwd=ROOT_DIR,
-            env=os.environ,
         )
 
 
@@ -263,6 +294,9 @@ while True:
         now - last_log_time,
         now - last_snapshot_time,
     )
+
+    # Check on any active subprocesses
+    poll_active_processes()
 
     monitor_restarted = ensure_closing_monitor_running()
 
