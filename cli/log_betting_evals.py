@@ -857,8 +857,12 @@ def load_existing_stakes(log_path):
             try:
                 gid = canonical_game_id(row["game_id"])
                 key = (gid, row["market"], row["side"])
-                stake_str = row.get("stake", "").strip()
-                stake = float(stake_str) if stake_str else 0.0
+                stake_value = row.get("stake")
+                try:
+                    stake = float(stake_value)
+                except (ValueError, TypeError):
+                    print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
+                    continue
                 existing[key] = stake
             except Exception as e:
                 print(f"⚠️ Error parsing row {row}: {e}")
@@ -885,11 +889,12 @@ def load_existing_theme_stakes(csv_path):
                 market = row["market"]
                 side = row["side"]
 
-                # Safe fallback for malformed stake
+                stake_value = row.get("stake")
                 try:
-                    stake = float(row.get("stake", 0))
-                except:
-                    stake = 0.0
+                    stake = float(stake_value)
+                except (ValueError, TypeError):
+                    print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
+                    continue
 
                 # Identify theme category
                 theme = get_theme({"side": side, "market": market})
@@ -968,7 +973,12 @@ def send_discord_notification(row):
     print(f"Webhook URL resolved: {webhook_url}")
 
     ev = row["ev_percent"]
-    stake = float(row.get("stake", 0))
+    stake_value = row.get("stake")
+    try:
+        stake = float(stake_value)
+    except (ValueError, TypeError):
+        print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
+        return
     entry_type = row.get("entry_type", "first")
     stake = round(stake, 2)
     full_stake = round(float(row.get("full_stake", stake)), 2)
