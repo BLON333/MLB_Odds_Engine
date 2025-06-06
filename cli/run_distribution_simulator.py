@@ -40,8 +40,7 @@ from utils import (
     normalize_game_id,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
-    standardize_derivative_label,
-    get_normalized_lookup_side,
+    normalize_label_for_odds,
     safe_load_json,
 )
 from core.scaling_utils import scale_distribution
@@ -105,11 +104,11 @@ def extract_universal_markets(game_id, full_game_market, derivative_segments, ru
     # === Spreads (Runlines)
     for team_abbr in [away, home]:
         for line in [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5]:
-            lookup_key = f"{team_abbr} {'+' if line > 0 else ''}{line}"  # ✅ correct format, space between abbr and line
-            label = f"{team_abbr} {'+' if line > 0 else ''}{line:.1f}"   # for market display
+            label = normalize_label_for_odds(team_abbr, "spreads", line)
+            lookup_key = f"{team_abbr} {'+' if line > 0 else ''}{line}"
             spread_data = full_game_market.get("runline", {}).get(lookup_key, {})
             if "prob" in spread_data and "odds" in spread_data:
-                entries.append(build_entry("spreads", label.strip(), spread_data["prob"], spread_data["odds"]))
+                entries.append(build_entry("spreads", label, spread_data["prob"], spread_data["odds"]))
 
 
     # === Totals
@@ -164,12 +163,11 @@ def extract_universal_markets(game_id, full_game_market, derivative_segments, ru
             market_name = f"{market_prefix}_{seg_suffix}"
             for raw_label, sim in options.items():
                 if market_prefix in {"h2h", "spreads"}:
-                    label = get_normalized_lookup_side(raw_label.strip(), market_prefix)
-                    print(f"RAW: {raw_label} → NORM: {label}")
+                    label = normalize_label_for_odds(raw_label.strip(), market_prefix)
                 elif market_prefix == "team_totals":
-                    label = normalize_to_abbreviation(raw_label.strip())
+                    label = normalize_label_for_odds(raw_label.strip(), "team_totals")
                 else:
-                    label = raw_label.strip()  # e.g., "Over 5.5"
+                    label = normalize_label_for_odds(raw_label.strip(), market_prefix)
 
                 entries.append(build_entry(market_name, label, sim["prob"], sim["fair_odds"]))
 
@@ -567,13 +565,15 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
             pmf = summarize_pmf(np.round(scores).astype(int))
             p_over = calculate_tail_probability(pmf, line, direction="over")
             p_under = 1 - p_over
-            team_totals_dict[f"{team_abbr} Over {line}"] = {
+            over_label = normalize_label_for_odds(f"{team_abbr} Over", "team_totals", line)
+            under_label = normalize_label_for_odds(f"{team_abbr} Under", "team_totals", line)
+            team_totals_dict[over_label] = {
                 "prob": round(p_over, 4),
-                "odds": to_american_odds(p_over)
+                "odds": to_american_odds(p_over),
             }
-            team_totals_dict[f"{team_abbr} Under {line}"] = {
+            team_totals_dict[under_label] = {
                 "prob": round(p_under, 4),
-                "odds": to_american_odds(p_under)
+                "odds": to_american_odds(p_under),
             }
 
     full_game_market = {
@@ -751,13 +751,15 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
                     pmf = summarize_pmf(np.round(scores).astype(int))
                     p_over = calculate_tail_probability(pmf, line, direction="over")
                     p_under = 1 - p_over
-                    team_totals[f"{team_abbr} Over {line}"] = {
+                    over_label = normalize_label_for_odds(f"{team_abbr} Over", "team_totals", line)
+                    under_label = normalize_label_for_odds(f"{team_abbr} Under", "team_totals", line)
+                    team_totals[over_label] = {
                         "prob": round(p_over, 4),
-                        "fair_odds": to_american_odds(p_over)
+                        "fair_odds": to_american_odds(p_over),
                     }
-                    team_totals[f"{team_abbr} Under {line}"] = {
+                    team_totals[under_label] = {
                         "prob": round(p_under, 4),
-                        "fair_odds": to_american_odds(p_under)
+                        "fair_odds": to_american_odds(p_under),
                     }
 
             seg["markets"]["team_totals"] = team_totals

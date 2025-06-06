@@ -5,7 +5,7 @@ from core.market_pricer import best_price
 from core.consensus_pricer import calculate_consensus_prob
 from utils import (
     normalize_label,
-    build_full_label,
+    normalize_label_for_odds,
     merge_offers_with_alternates,
     TEAM_ABBR,
     TEAM_NAME_TO_ABBR,
@@ -60,13 +60,12 @@ def normalize_market_odds(odds: dict) -> dict:
                 team_desc = outcome.get("description")
                 if label is None or price is None:
                     continue
-                norm_label = normalize_label(label)
                 if "team_totals" in mkey and team_desc:
                     team_abbr = TEAM_NAME_TO_ABBR.get(team_desc.strip(), team_desc.strip())
-                    base = f"{team_abbr} {norm_label}".strip()
+                    base_label = f"{team_abbr} {label}".strip()
                 else:
-                    base = TEAM_NAME_TO_ABBR.get(norm_label, norm_label)
-                full_label = build_full_label(base, mkey, point)
+                    base_label = label
+                full_label = normalize_label_for_odds(base_label, mkey, point)
                 offers.setdefault(mkey, {}).setdefault(book, {})[full_label] = price
 
     offers = merge_offers_with_alternates(offers)

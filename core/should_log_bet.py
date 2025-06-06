@@ -2,8 +2,7 @@ from typing import Optional
 
 
 from utils import (
-    normalize_to_abbreviation,
-    get_normalized_lookup_side,
+    normalize_label_for_odds,
     classify_market_segment,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
@@ -127,9 +126,7 @@ def should_log_bet(
 
     game_id = new_bet["game_id"]
     market = new_bet["market"]
-    side = normalize_to_abbreviation(
-        get_normalized_lookup_side(new_bet["side"], market)
-    )
+    side = normalize_label_for_odds(new_bet["side"], market)
     new_bet["side"] = side  # ensure consistent formatting
     stake = new_bet["full_stake"]
     ev = new_bet["ev_percent"]
