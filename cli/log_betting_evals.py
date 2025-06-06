@@ -9,7 +9,7 @@ if sys.version_info >= (3, 7):
     os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # === Core Imports ===
-import json, csv, math, argparse, ast
+import json, csv, math, argparse
 from datetime import datetime
 from collections import defaultdict
 
@@ -123,10 +123,6 @@ else:
     print("⚠️ No valid prior snapshot found — using fallback copy of tracker.")
     MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
-# Path used to persist theme exposure between auto loop iterations
-PERSISTED_THEME_STAKES_PATH = os.path.join("backtest", "existing_theme_stakes.json")
-
-
 # === Local Modules ===
 from core.market_pricer import (
     implied_prob,
@@ -168,6 +164,7 @@ from core.market_movement_tracker import (
     track_and_update_market_movement,
     detect_market_movement,
 )
+from core.theme_exposure_tracker import load_tracker as load_theme_stakes, save_tracker as save_theme_stakes
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -864,86 +861,7 @@ def load_existing_stakes(log_path):
     return existing
 
 
-def load_existing_theme_stakes(csv_path):
-    """
-    Builds a dict mapping (game_id, theme_key, segment) → total_stake
-    to track existing theme-level exposure from the CSV.
-    """
-    from collections import defaultdict
 
-    theme_stakes = defaultdict(float)
-
-    if not os.path.exists(csv_path):
-        return theme_stakes
-
-    with open(csv_path, "r", newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            try:
-                game_id = canonical_game_id(row["game_id"])
-                market = row["market"]
-                side = row["side"]
-
-                # Safe fallback for malformed stake
-                try:
-                    stake = float(row.get("stake", 0))
-                except:
-                    stake = 0.0
-
-                # Identify theme category
-                theme = get_theme({"side": side, "market": market})
-                if "spreads" in market or "h2h" in market or "runline" in market:
-                    theme_key = f"{theme}_spread"
-                elif "totals" in market:
-                    theme_key = f"{theme}_total"
-                else:
-                    theme_key = f"{theme}_other"
-
-                # Determine segment: mainline vs. derivative
-                segment = (
-                    "derivative"
-                    if "1st" in market or "7_innings" in market
-                    else "mainline"
-                )
-
-                # Aggregate total exposure
-                theme_stakes[(game_id, theme_key, segment)] += stake
-
-            except Exception as e:
-                print(f"⚠️ Error processing theme stake row: {e}")
-
-    return theme_stakes
-
-
-def load_persisted_theme_stakes(path=PERSISTED_THEME_STAKES_PATH):
-    """Load theme exposure from a JSON file."""
-    if not os.path.exists(path):
-        return {}
-    data = safe_load_json(path)
-    if not isinstance(data, dict):
-        return {}
-    stakes = {}
-    for k, v in data.items():
-        try:
-            key = ast.literal_eval(k)
-            if isinstance(key, (list, tuple)) and len(key) == 3:
-                stakes[tuple(key)] = float(v)
-        except Exception:
-            continue
-    return stakes
-
-
-def save_persisted_theme_stakes(stakes: dict, path=PERSISTED_THEME_STAKES_PATH):
-    """Atomically save theme exposure to a JSON file."""
-    serializable = {str(k): v for k, v in stakes.items()}
-    tmp = f"{path}.tmp"
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    try:
-        with open(tmp, "w") as f:
-            json.dump(serializable, f, indent=2)
-        os.replace(tmp, path)
-    except Exception as e:
-        print(f"⚠️ Failed to save theme stakes: {e}")
 
 
 def get_discord_webhook_for_market(market: str) -> str:
@@ -1462,7 +1380,7 @@ def write_to_csv(
         existing_theme_stakes[exposure_key] = (
             existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
         )
-        save_persisted_theme_stakes(existing_theme_stakes)
+        save_theme_stakes(existing_theme_stakes)
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
@@ -2240,29 +2158,8 @@ def run_batch_logging(
                 f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
             )
 
-    existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
-    persisted = load_persisted_theme_stakes()
-    if persisted:
-        existing_theme_stakes.update(persisted)
+    existing_theme_stakes = load_theme_stakes()
 
-    for (gid, market, side), stake in existing.items():
-        if stake >= 1.00:
-            theme = get_theme({"side": side, "market": market})
-            if (
-                market.startswith("spreads")
-                or market.startswith("h2h")
-                or market.startswith("runline")
-            ):
-                theme_key = f"{theme}_spread"
-            elif market.startswith("totals"):
-                theme_key = f"{theme}_total"
-            else:
-                theme_key = f"{theme}_other"
-
-            segment = (
-                "derivative" if "1st" in market or "7_innings" in market else "mainline"
-            )
-            existing_theme_stakes[(gid, theme_key, segment)] += stake
 
     odds_start_times = extract_start_times(all_market_odds)
 
@@ -2270,11 +2167,8 @@ def run_batch_logging(
         if not fname.endswith(".json"):
             continue
 
-        # 🔄 Reload exposure from file before evaluating each game
-        existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
-        persisted = load_persisted_theme_stakes()
-        if persisted:
-            existing_theme_stakes.update(persisted)
+        # 🔄 Reload exposure from persistent tracker before each game
+        existing_theme_stakes = load_theme_stakes()
 
         raw_game_id = fname.replace(".json", "")
         game_id = canonical_game_id(raw_game_id)
@@ -2375,11 +2269,8 @@ def process_theme_logged_bets(
 
     for game_id in theme_logged:
         print(f"\n🔍 Game: {game_id}")
-        # 🔄 Refresh theme exposure from the latest CSV before evaluating bets
-        existing_theme_stakes = load_existing_theme_stakes("logs/market_evals.csv")
-        persisted = load_persisted_theme_stakes()
-        if persisted:
-            existing_theme_stakes.update(persisted)
+        # 🔄 Refresh exposure from persistent tracker before evaluating bets
+        existing_theme_stakes = load_theme_stakes()
 
         print("\n📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
@@ -2600,7 +2491,7 @@ def process_theme_logged_bets(
             existing_theme_stakes[exposure_key] = (
                 existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
             )
-            save_persisted_theme_stakes(existing_theme_stakes)
+            save_theme_stakes(existing_theme_stakes)
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
