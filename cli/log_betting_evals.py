@@ -1324,14 +1324,19 @@ def write_to_csv(
             print(f"⚠️ Snapshot mismatch for {tracker_key}")
 
 
-    if row.get("market_prob") is None:
-        print(
-            f"⚠️ Skipping {tracker_key} — missing market_prob for movement detection."
-        )
-        movement = {}
+    if "_movement" in row:
+        print(f"🧠 Movement pre-injected for {tracker_key}")
+        print(f"✅ Skipping redundant movement detection for {tracker_key}")
+        movement = row["_movement"]
     else:
-        movement = detect_market_movement(row, prior_snapshot)
-    row["_movement"] = movement  # store for Discord/export/debug
+        if row.get("market_prob") is None:
+            print(
+                f"⚠️ Skipping {tracker_key} — missing market_prob for movement detection."
+            )
+            movement = {}
+        else:
+            movement = detect_market_movement(row, prior_snapshot)
+        row["_movement"] = movement  # store for Discord/export/debug
 
     # 🔍 Snapshot Debug Metadata
     print(f"\n🔎 Movement Debug for {tracker_key}:")
