@@ -674,8 +674,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
         print(f"\n📊 PMF: totals_{seg_key_name}")
         print(
-            f"Raw Mean: {np.mean(raw_distributions[f'totals_{seg_key_name}']['values']):.2f}"
-            f" → Scaled Mean: {np.mean(scaled_distributions[f'totals_{seg_key_name}']['values']):.2f}"
+            f"Raw Mean: {np.mean(raw_distributions[f'totals_{seg_key_name}']["values"]):.2f} → Scaled Mean: {np.mean(scaled_distributions[f'totals_{seg_key_name}']["values"]):.2f}"
         )
         print(
             f"Raw SD: {np.std(raw_distributions[f'totals_{seg_key_name}']["values"]):.2f} → Scaled SD: {np.std(scaled_distributions[f'totals_{seg_key_name}']["values"]):.2f}"
@@ -968,3 +967,4 @@ if __name__ == "__main__":
         edge_threshold=edge_threshold,
         export_json=export_json
     )
+

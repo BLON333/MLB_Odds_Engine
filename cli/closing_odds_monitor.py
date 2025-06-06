@@ -208,7 +208,7 @@ def get_market_data_with_alternates(consensus_odds, market_key):
     )
 
 
-def monitor_loop(poll_interval=600, target_date=None):
+def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
     """Continuously fetch closing odds for games on ``target_date``.
 
     ``target_date`` defaults to today's date when the monitor is started and
@@ -297,12 +297,28 @@ def monitor_loop(poll_interval=600, target_date=None):
 
                 if gid not in tracked_games:
                     continue
+
                 if gid in fetched_games:
                     continue
+
                 if gid in existing:
-                    logger.info("🛑 %s already captured. Skipping re-fetch.", gid)
-                    fetched_games.add(gid)
-                    continue
+                    if force_game_id and gid == force_game_id:
+                        logger.info("🧼 Forcing re-fetch for %s (was already captured)", gid)
+                        del existing[gid]
+                        try:
+                            with open(file_path, "r") as f:
+                                data = json.load(f)
+                            data.pop(gid, None)
+                            with open(file_path, "w") as f:
+                                json.dump(data, f, indent=2)
+                            logger.info("🧼 Removed %s from saved JSON", gid)
+                        except Exception as e:
+                            logger.warning("⚠️ Could not remove from saved file: %s", e)
+                    else:
+                        logger.info("🛑 %s already captured. Skipping re-fetch.", gid)
+                        fetched_games.add(gid)
+                        continue
+
 
                 if 0 <= time_to_game <= 1000000:
                     logger.info("📡 Fetching consensus odds for %s...", gid)
@@ -486,7 +502,6 @@ def monitor_loop(poll_interval=600, target_date=None):
         logger.info("⏱ Sleeping for %s minutes...\n", poll_interval // 60)
         time.sleep(poll_interval)
 
-
 if __name__ == "__main__":
     import argparse
 
@@ -496,6 +511,11 @@ if __name__ == "__main__":
         dest="date",
         help="YYYY-MM-DD date to monitor (defaults to today's Eastern date)",
     )
+    parser.add_argument(
+        "--force-game",
+        dest="force_game",
+        help="Force re-fetch and alert for specific game_id (e.g., 2025-06-04-NYM@LAD)",
+    )
     args = parser.parse_args()
 
-    monitor_loop(target_date=args.date)
+    monitor_loop(target_date=args.date, force_game_id=args.force_game)

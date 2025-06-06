@@ -85,11 +85,12 @@ def ensure_closing_monitor_running():
     """Launch closing_odds_monitor.py if not already running."""
     global closing_monitor_proc
     if closing_monitor_proc is None or closing_monitor_proc.poll() is not None:
+        script_path = os.path.join("cli", "closing_odds_monitor.py")
+        if not os.path.exists(script_path):
+            script_path = "closing_odds_monitor.py"
         logger.info("\n🎯 [%s] Starting closing odds monitor...", now_eastern())
         closing_monitor_proc = subprocess.Popen(
-            [PYTHON, "cli/closing_odds_monitor.py"],
-            cwd=ROOT_DIR,
-            env=os.environ,
+            [PYTHON, script_path], cwd=ROOT_DIR, env=os.environ
         )
 
 
@@ -110,15 +111,10 @@ def fetch_and_cache_odds_snapshot() -> str | None:
 
     logger.info("\n📡 Fetching market odds for today and tomorrow...")
     odds = fetch_all_market_odds(lookahead_days=2)
-    if odds is None:
-        logger.error("❌ Failed to fetch market odds — skipping snapshot")
-        return None
-
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
     odds_path = save_market_odds_to_file(odds, tag)
-    if odds_path:
-        logger.info("✅ Saved shared odds snapshot: %s", odds_path)
+    logger.info("✅ Saved shared odds snapshot: %s", odds_path)
     return odds_path
 
 
@@ -233,8 +229,8 @@ logger.info(
 )
 run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
+log_bets_with_snapshot_odds(initial_odds)
 if initial_odds:
-    log_bets_with_snapshot_odds(initial_odds)
     run_unified_snapshot_and_dispatch(initial_odds)
 
 while True:
@@ -261,8 +257,8 @@ while True:
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
         logger.info("🟢 Triggering snapshot scripts")
         odds_file = fetch_and_cache_odds_snapshot()
+        log_bets_with_snapshot_odds(odds_file)
         if odds_file:
-            log_bets_with_snapshot_odds(odds_file)
             run_unified_snapshot_and_dispatch(odds_file)
         last_snapshot_time = now
 
