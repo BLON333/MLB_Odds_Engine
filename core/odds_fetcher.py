@@ -226,6 +226,11 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             date_str = start_time.strftime("%Y-%m-%d")
             game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
 
+            # 🕒 Debug the start times and game_id
+            print(
+                f"📅 Game {game_id} starts at {start_time.isoformat()} ET (UTC: {start_time_utc.isoformat()})"
+            )
+
             # 🔍 DEBUG comparison with your sim game_ids
             print("🔍 Incoming game_ids (expected):", sorted(game_ids))
             print(f"🧱 Built from API: {game_id} → Home: {home_team}, Away: {away_team}")
@@ -423,6 +428,11 @@ def fetch_all_market_odds(lookahead_days=2):
             home_abbr = TEAM_ABBR.get(home_team, home_team)
             date_str = start_time.strftime("%Y-%m-%d")
             game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
+
+            # 🕒 Debug the start times and game_id
+            print(
+                f"📅 Game {game_id} starts at {start_time.isoformat()} ET (UTC: {start_time_utc.isoformat()})"
+            )
 
             logger.debug(
                 f"\n🌐 Processing event: {away_team} @ {home_team} → {game_id} | Start: {start_time.isoformat()}"
