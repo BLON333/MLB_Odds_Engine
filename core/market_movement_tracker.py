@@ -116,7 +116,13 @@ def track_and_update_market_movement(
     else:
         prior_for_detect = None
 
-    movement = detect_market_movement(entry, prior_for_detect)
+    if entry.get("market_prob") is None:
+        print(
+            f"⚠️ Skipping {entry.get('game_id')}:{entry.get('market')}:{entry.get('side')} — missing market_prob for movement detection."
+        )
+        movement = {}
+    else:
+        movement = detect_market_movement(entry, prior_for_detect)
     entry.update(movement)
     entry["prev_market_odds"] = prev_market_odds
 
