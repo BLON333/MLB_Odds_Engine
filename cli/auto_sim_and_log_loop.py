@@ -142,23 +142,41 @@ def poll_active_processes() -> None:
 
 
 def ensure_closing_monitor_running() -> bool:
-    """Launch closing_odds_monitor.py if not already running.
+    """Launch ``closing_odds_monitor.py`` if not already running.
 
-    Returns ``True`` if the monitor was restarted, ``False`` if it was already
-    running.
+    Returns ``True`` if the monitor was restarted or started for the first
+    time, ``False`` if it was already running.
     """
     global closing_monitor_proc
     restarted = False
-    if closing_monitor_proc is None or closing_monitor_proc.poll() is not None:
+
+    exit_code = None if closing_monitor_proc is None else closing_monitor_proc.poll()
+
+    if closing_monitor_proc is None or exit_code is not None:
+        # If the previous monitor exited, log the exit code before restarting
+        if closing_monitor_proc is not None and exit_code is not None:
+            logger.warning(
+                "⚠️ Closing odds monitor exited with code %s, restarting...",
+                exit_code,
+            )
+
         script_path = os.path.join("cli", "closing_odds_monitor.py")
         if not os.path.exists(script_path):
             script_path = "closing_odds_monitor.py"
-        logger.info("\n🎯 [%s] Starting closing odds monitor...", now_eastern())
+
         closing_monitor_proc = launch_process(
             "closing_odds_monitor",
             [PYTHON, script_path],
         )
+
+        logger.info(
+            "🎯 [%s] Launching closing odds monitor (PID %d)",
+            now_eastern(),
+            closing_monitor_proc.pid,
+        )
+
         restarted = True
+
     return restarted
 
 
