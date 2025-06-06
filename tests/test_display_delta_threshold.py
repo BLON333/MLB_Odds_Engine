@@ -4,12 +4,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import core.snapshot_core as sc
 from core import market_movement_tracker as mmt
+from cli import log_betting_evals as lbe
 
 
 def test_display_delta_respects_threshold(monkeypatch):
     # Set a high threshold so movement is considered 'same'
-    monkeypatch.setitem(mmt.MOVEMENT_THRESHOLDS, 'market_prob', 0.1)
-    entry = {'market_prob': 0.51}
+    monkeypatch.setattr(lbe, 'market_prob_increase_threshold', lambda h, m: 0.1)
+    entry = {'market_prob': 0.51, 'market': 'h2h', 'hours_to_game': 10}
     prior = {'market_prob': 0.46}
     movement = mmt.detect_market_movement(entry, prior)
     entry.update(movement)
@@ -19,7 +20,7 @@ def test_display_delta_respects_threshold(monkeypatch):
     assert entry['mkt_prob_display'] == '51.0%'
 
     # Lower threshold to trigger movement
-    monkeypatch.setitem(mmt.MOVEMENT_THRESHOLDS, 'market_prob', 0.01)
+    monkeypatch.setattr(lbe, 'market_prob_increase_threshold', lambda h, m: 0.01)
     movement = mmt.detect_market_movement(entry, prior)
     entry.update(movement)
     sc.annotate_display_deltas(entry, prior)
