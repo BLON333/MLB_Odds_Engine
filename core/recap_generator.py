@@ -16,7 +16,12 @@ def generate_recap(csv_path):
             reader = csv.DictReader(f)
             for row in reader:
                 label = row.get("segment_label", "mainline")
-                stake = float(row.get("stake", 0) or 0)
+                stake_value = row.get("stake")
+                try:
+                    stake = float(stake_value)
+                except (ValueError, TypeError):
+                    print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
+                    continue
                 counts[label] += 1
                 stakes[label] += stake
     except FileNotFoundError:
