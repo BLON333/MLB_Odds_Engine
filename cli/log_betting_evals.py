@@ -1038,9 +1038,9 @@ def send_discord_notification(row):
     tracker_key = f"{game_id}:{market}:{side}"
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = row.get("_movement")
-    if not movement:
-        movement = detect_market_movement(row, prior)
-    row.setdefault("_movement", movement)
+    if movement is None:
+        print("⚠️ No movement data found — skipping Discord notification.")
+        return
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
     else:
@@ -1050,9 +1050,6 @@ def send_discord_notification(row):
             )
         except Exception:
             pass
-    if "_movement" not in row:
-        print("⚠️ No movement data found — skipping Discord notification.")
-        return
 
     print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
 
@@ -2614,13 +2611,10 @@ def process_theme_logged_bets(
                 skipped_bets.append(best_row)
 
             # Send Discord notification immediately for successfully logged bets
-            stake_ok = result.get("stake", 0) >= 0.5
-            ev_ok = isinstance(result.get("ev_percent"), (int, float))
-            if stake_ok and ev_ok:
-                print(
-                    f"📤 Dispatching to Discord → {result['game_id']} | {result['market']} | {result['side']}"
-                )
-                send_discord_notification(result)
+            print(
+                f"📤 Dispatching to Discord → {result['game_id']} | {result['market']} | {result['side']}"
+            )
+            send_discord_notification(result)
         else:
             print(
                 f"⛔ CSV Log Failed → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
