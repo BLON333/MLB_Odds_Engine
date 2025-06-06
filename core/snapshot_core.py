@@ -680,7 +680,13 @@ def build_snapshot_rows(
                 label=lookup_side,
             )
             consensus_prob = result.get("consensus_prob")
-            p_blended, _, _, p_market = blend_prob(
+            if consensus_prob is None or price is None:
+                print(
+                    f"\u26d4 Skipping snapshot row \u2014 no consensus_prob or price for {game_id} | {matched_key} | {lookup_side}"
+                )
+                continue
+            p_market = consensus_prob
+            p_blended, _, _, _ = blend_prob(
                 sim_prob, price, market, hours_to_game, consensus_prob
             )
             ev_pct = calculate_ev_from_prob(p_blended, price)
