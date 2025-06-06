@@ -21,6 +21,12 @@ def get_theme(bet: dict) -> str:
     side = bet["side"].strip()
     market = bet["market"].replace("alternate_", "")
 
+    # 🆕 Handle team total bets like "ATL Over 4.5" or "Los Angeles Over 5.0"
+    if "team_totals" in market:
+        _, direction = parse_team_total_side(side)
+        if direction:
+            return direction
+
     if side.startswith("Over"):
         return "Over"
     if side.startswith("Under"):
