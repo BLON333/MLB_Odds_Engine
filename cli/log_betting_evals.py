@@ -1039,8 +1039,10 @@ def send_discord_notification(row):
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = row.get("_movement")
     if movement is None:
-        print("⚠️ No movement data found — skipping Discord notification.")
-        return
+        print("⚠️ No _movement found — computing from prior snapshot.")
+        prior_snapshot = row.get("_prior_snapshot") or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+        movement = detect_market_movement(row, prior_snapshot)
+        row["_movement"] = movement
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
     else:
