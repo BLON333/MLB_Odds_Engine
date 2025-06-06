@@ -12,4 +12,3 @@ def scale_distribution(raw_vals, target_mean=None, target_sd=None):
     if target_mean is not None:
         scaled = scaled + (target_mean - raw_mean)
     return scaled.tolist()
-

@@ -57,19 +57,7 @@ def detect_market_movement(current: Dict, prior: Optional[Dict]) -> Dict[str, ob
     for move_key, (field, fn) in field_map.items():
         curr = current.get(field)
         prev = (prior or {}).get(field)
-
-        if field == "market_prob":
-            from cli.log_betting_evals import market_prob_increase_threshold
-
-            try:
-                hours = float(current.get("hours_to_game", 8.0))
-            except Exception:
-                hours = 8.0
-            market_type = current.get("market", "")
-            threshold = market_prob_increase_threshold(hours, market_type)
-        else:
-            threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
-
+        threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
         movement[move_key] = fn(curr, prev, threshold)
 
     return movement
@@ -108,10 +96,6 @@ def track_and_update_market_movement(
     prev_market_odds = None
     if isinstance(prev_raw, dict):
         prev_market_odds = prev_raw.get(book)
-    if prev_market_odds is None:
-        print(
-            f"⚠️ No prior odds found for book: {book} in {entry.get('game_id')}:{entry.get('market')}:{entry.get('side')}"
-        )
 
     # Use prior book odds for movement detection
     if prior:
@@ -120,13 +104,7 @@ def track_and_update_market_movement(
     else:
         prior_for_detect = None
 
-    if entry.get("market_prob") is None:
-        print(
-            f"⚠️ Skipping {entry.get('game_id')}:{entry.get('market')}:{entry.get('side')} — missing market_prob for movement detection."
-        )
-        movement = {}
-    else:
-        movement = detect_market_movement(entry, prior_for_detect)
+    movement = detect_market_movement(entry, prior_for_detect)
     entry.update(movement)
     entry["prev_market_odds"] = prev_market_odds
 

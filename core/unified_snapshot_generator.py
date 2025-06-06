@@ -105,14 +105,8 @@ def build_snapshot_for_date(
     # Fetch or slice market odds
     if odds_data is None:
         odds = fetch_market_odds_from_api(list(sims.keys()))
-        if odds is None:
-            logger.error("❌ Failed to fetch market odds. Aborting snapshot for %s", date_str)
-            return []
     else:
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
-    if not odds:
-        logger.warning("❌ No market odds found for %s", date_str)
-        return []
 
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
@@ -215,10 +209,7 @@ def main() -> None:
                 logger.info("📥 Auto-loaded latest odds: %s", auto_path)
         if odds_cache is None:
             logger.error("❌ No market_odds_*.json files found or failed to load.")
-            sys.exit(1)
-    if not odds_cache:
-        logger.error("❌ No valid market odds loaded")
-        sys.exit(1)
+            return
 
     all_rows: list = []
     for date_str in date_list:

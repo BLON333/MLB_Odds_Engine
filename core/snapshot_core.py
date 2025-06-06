@@ -24,7 +24,6 @@ from utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,
-    parse_float,
 )
 from core.market_pricer import (
     to_american_odds,
@@ -658,15 +657,12 @@ def build_snapshot_rows(
                 )
             if not isinstance(market_entry, dict):
                 print(
-                    f"   ⛔ Skipping {game_id} | {market} | {side} — no valid market entry"
-                )
+
                 continue
 
             price = market_entry.get("price")
             if price is None:
                 print(
-                    f"   ⛔ Skipping {game_id} | {matched_key} | {side} — missing price"
-                )
                 continue
 
             sportsbook_odds = market_entry.get("per_book", {})
@@ -681,13 +677,7 @@ def build_snapshot_rows(
                 label=lookup_side,
             )
             consensus_prob = result.get("consensus_prob")
-            if consensus_prob is None or price is None:
-                print(
-                    f"\u26d4 Skipping snapshot row \u2014 no consensus_prob or price for {game_id} | {matched_key} | {lookup_side}"
-                )
-                continue
-            p_market = consensus_prob
-            p_blended, _, _, _ = blend_prob(
+            p_blended, _, _, p_market = blend_prob(
                 sim_prob, price, market, hours_to_game, consensus_prob
             )
             ev_pct = calculate_ev_from_prob(p_blended, price)
@@ -704,7 +694,7 @@ def build_snapshot_rows(
                 "market": market_clean,
                 "side": side,
                 "sim_prob": round(sim_prob, 4),
-                "market_prob": round(consensus_prob, 4),
+                "market_prob": round(p_market, 4),
                 "blended_prob": round(p_blended, 4),
                 "blended_fv": to_american_odds(p_blended),
                 "market_odds": price,
@@ -975,11 +965,6 @@ def expand_snapshot_rows_with_kelly(
         })
 
         row["book"] = row.get("book", row.get("best_book"))
-
-        # Normalize stake fields
-        if "stake" in row:
-            row["stake"] = parse_float(row["stake"])
-        row["full_stake"] = parse_float(row.get("full_stake", row.get("stake", 0)))
 
         if not isinstance(per_book, dict) or not per_book:
             movement = track_and_update_market_movement(
