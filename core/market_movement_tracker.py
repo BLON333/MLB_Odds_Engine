@@ -57,7 +57,13 @@ def detect_market_movement(current: Dict, prior: Optional[Dict]) -> Dict[str, ob
     for move_key, (field, fn) in field_map.items():
         curr = current.get(field)
         prev = (prior or {}).get(field)
-        threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
+        if field == "market_prob":
+            from cli.log_betting_evals import market_prob_increase_threshold
+            hours = current.get("hours_to_game", 0)
+            mkt = current.get("market", "")
+            threshold = market_prob_increase_threshold(hours, mkt)
+        else:
+            threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
         movement[move_key] = fn(curr, prev, threshold)
 
     return movement
