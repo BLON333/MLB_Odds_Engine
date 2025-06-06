@@ -1274,7 +1274,7 @@ def write_to_csv(
         f"{row['game_id']}:{row['market']}:{row['side']}"
     )
 
-    new_conf = row.get("consensus_prob")
+    new_conf = row.get("market_prob")
     try:
         new_conf_val = float(new_conf) if new_conf is not None else None
     except Exception:
@@ -1285,7 +1285,7 @@ def write_to_csv(
     #     prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
 
     if new_conf_val is None:
-        print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
+        print(f"  ⛔ No valid market_prob for {tracker_key} — skipping")
         return None
 
     if row.get("market_prob") is None:
@@ -1430,7 +1430,6 @@ def write_to_csv(
         "fair_odds",
         "market_prob",
         "market_fv",
-        "consensus_prob",
         "pricing_method",
         "books_used",
         "model_edge",
@@ -1639,7 +1638,7 @@ def log_bets(
 
         if consensus_prob is None or market_price is None:
             print(
-                f"\u26d4 Skipping bet \u2014 missing consensus_prob or price for {game_id} | {matched_key} | {lookup_side}"
+                f"\u26d4 Skipping bet \u2014 missing market_prob or price for {game_id} | {matched_key} | {lookup_side}"
             )
             continue
         p_market = consensus_prob
@@ -1662,9 +1661,8 @@ def log_bets(
             "lookup_side": lookup_side,
             "sim_prob": round(sim_prob, 4),
             "fair_odds": round(fair_odds, 2),
-            "market_prob": round(p_market, 4),
+            "market_prob": round(consensus_prob, 4),
             "market_fv": market_fv,
-            "consensus_prob": consensus_prob,
             "pricing_method": pricing_method,
             "books_used": (
                 ", ".join(books_used) if isinstance(books_used, list) else books_used
@@ -1927,10 +1925,7 @@ def log_derivative_bets(
                     )
 
                 # 💡 Blending market and model probabilities
-                if consensus_prob is not None and consensus_prob > 0:
-                    p_market = consensus_prob
-                else:
-                    p_market = implied_prob(market_price)
+                p_market = consensus_prob
 
                 p_blended, w_model, p_model, _ = blend_prob(
                     p_model=prob,
@@ -1974,16 +1969,8 @@ def log_derivative_bets(
                     "lookup_side": lookup_side,
                     "sim_prob": round(prob, 4),
                     "fair_odds": round(fair_odds, 2),
-                    "market_prob": round(
-                        (
-                            consensus_prob
-                            if consensus_prob is not None
-                            else implied_prob(market_price)
-                        ),
-                        4,
-                    ),
+                    "market_prob": round(consensus_prob, 4),
                     "market_fv": market_fv,
-                    "consensus_prob": consensus_prob,
                     "pricing_method": pricing_method,
                     "books_used": (
                         ", ".join(books_used)
