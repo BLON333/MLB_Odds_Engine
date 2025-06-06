@@ -82,3 +82,19 @@ def test_first_bet_logged_if_odds_improve():
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result is not None
     assert result["entry_type"] == "first"
+
+
+def test_team_total_classified_as_over():
+    bet = {"side": "ATL Over 4.5", "market": "team_totals"}
+    theme = get_theme(bet)
+    assert theme == "Over"
+    theme_key = get_theme_key(bet["market"], theme)
+    assert theme_key == "Over_total"
+
+
+def test_team_total_classified_as_under():
+    bet = {"side": "NYY Under 3.5", "market": "team_totals"}
+    theme = get_theme(bet)
+    assert theme == "Under"
+    theme_key = get_theme_key(bet["market"], theme)
+    assert theme_key == "Under_total"
