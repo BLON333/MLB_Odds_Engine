@@ -1,21 +1,13 @@
 from collections import defaultdict
 from datetime import datetime
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from zoneinfo import ZoneInfo
 import json
 import traceback
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
 # Timezone helpers
-try:
-    EASTERN_TZ = ZoneInfo("US/Eastern")
-except ZoneInfoNotFoundError:
-    print("⚠️ 'US/Eastern' timezone not found, trying 'America/New_York'.")
-    try:
-        EASTERN_TZ = ZoneInfo("America/New_York")
-    except ZoneInfoNotFoundError:
-        print("⚠️ Falling back to UTC timezone.")
-        EASTERN_TZ = ZoneInfo("UTC")
+EASTERN_TZ = ZoneInfo("US/Eastern")
 
 def now_eastern() -> datetime:
     """Return the current time in US/Eastern timezone."""
@@ -49,15 +41,6 @@ def safe_load_json(path: str):
     except Exception:
         print(f"\u274c Failed to load JSON from {path}\n{traceback.format_exc()}")
         return None
-
-
-def parse_float(value, default=0.0):
-    """Safely convert ``value`` to a float, returning ``default`` on failure."""
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        print(f"⚠️ Invalid float value: {value} → defaulting to {default}")
-        return default
 
 TEAM_ABBR_FIXES = {
     "CHW": "CWS", "WSN": "WSH", "KCR": "KC", "TBD": "TB", "ATH": "OAK"
