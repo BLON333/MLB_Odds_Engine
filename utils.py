@@ -1,13 +1,21 @@
 from collections import defaultdict
 from datetime import datetime
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import json
 import traceback
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
 # Timezone helpers
-EASTERN_TZ = ZoneInfo("US/Eastern")
+try:
+    EASTERN_TZ = ZoneInfo("US/Eastern")
+except ZoneInfoNotFoundError:
+    print("⚠️ 'US/Eastern' timezone not found, trying 'America/New_York'.")
+    try:
+        EASTERN_TZ = ZoneInfo("America/New_York")
+    except ZoneInfoNotFoundError:
+        print("⚠️ Falling back to UTC timezone.")
+        EASTERN_TZ = ZoneInfo("UTC")
 
 def now_eastern() -> datetime:
     """Return the current time in US/Eastern timezone."""
