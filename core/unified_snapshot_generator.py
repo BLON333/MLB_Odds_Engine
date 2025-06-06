@@ -105,6 +105,9 @@ def build_snapshot_for_date(
     # Fetch or slice market odds
     if odds_data is None:
         odds = fetch_market_odds_from_api(list(sims.keys()))
+        if odds is None:
+            logger.error("❌ Failed to fetch market odds. Aborting snapshot for %s", date_str)
+            return []
     else:
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
 

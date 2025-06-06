@@ -2744,6 +2744,9 @@ if __name__ == "__main__":
         ]
         print(f"📡 Fetching market odds for {len(games)} games on {date_tag}...")
         odds = fetch_market_odds_from_api(games)
+        if odds is None:
+            print("❌ Failed to fetch odds data.")
+            sys.exit(1)
         timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
         odds_file = save_market_odds_to_file(odds, timestamp_tag)
 
