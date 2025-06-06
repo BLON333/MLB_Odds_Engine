@@ -50,6 +50,15 @@ def safe_load_json(path: str):
         print(f"\u274c Failed to load JSON from {path}\n{traceback.format_exc()}")
         return None
 
+
+def parse_float(value, default=0.0):
+    """Safely convert ``value`` to a float, returning ``default`` on failure."""
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        print(f"⚠️ Invalid float value: {value} → defaulting to {default}")
+        return default
+
 TEAM_ABBR_FIXES = {
     "CHW": "CWS", "WSN": "WSH", "KCR": "KC", "TBD": "TB", "ATH": "OAK"
 }

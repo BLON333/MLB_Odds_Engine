@@ -18,7 +18,7 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker
-from utils import safe_load_json
+from utils import safe_load_json, parse_float
 
 load_dotenv()
 from core.logger import get_logger
@@ -606,8 +606,8 @@ def expand_snapshot_rows_with_kelly(
         for book, odds in raw_books.items():
             try:
                 p = base_fields.get("blended_prob", base_fields.get("sim_prob", 0))
-                full_stake = round(float(bet.get("full_stake", 0)), 4)
-                stake = round(float(bet.get("stake", full_stake)), 4)
+                full_stake = round(parse_float(bet.get("full_stake", 0)), 4)
+                stake = round(parse_float(bet.get("stake", full_stake)), 4)
                 ev = calculate_ev_from_prob(p, odds)
 
                 if base_fields["side"] == "St. Louis Cardinals":
@@ -858,11 +858,7 @@ def load_existing_stakes(log_path):
                 gid = canonical_game_id(row["game_id"])
                 key = (gid, row["market"], row["side"])
                 stake_value = row.get("stake")
-                try:
-                    stake = float(stake_value)
-                except (ValueError, TypeError):
-                    print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
-                    continue
+                stake = parse_float(stake_value)
                 existing[key] = stake
             except Exception as e:
                 print(f"⚠️ Error parsing row {row}: {e}")
@@ -890,11 +886,7 @@ def load_existing_theme_stakes(csv_path):
                 side = row["side"]
 
                 stake_value = row.get("stake")
-                try:
-                    stake = float(stake_value)
-                except (ValueError, TypeError):
-                    print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
-                    continue
+                stake = parse_float(stake_value)
 
                 # Identify theme category
                 theme = get_theme({"side": side, "market": market})
@@ -974,14 +966,10 @@ def send_discord_notification(row):
 
     ev = row["ev_percent"]
     stake_value = row.get("stake")
-    try:
-        stake = float(stake_value)
-    except (ValueError, TypeError):
-        print(f"⚠️ Invalid stake format: {stake_value} → skipping row")
-        return
+    stake = parse_float(stake_value)
     entry_type = row.get("entry_type", "first")
     stake = round(stake, 2)
-    full_stake = round(float(row.get("full_stake", stake)), 2)
+    full_stake = round(parse_float(row.get("full_stake", stake)), 2)
     print(
         f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}"
     )
@@ -1317,7 +1305,7 @@ def write_to_csv(
     #         f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
     #     )
     #     return 0
-    full_stake = round(float(row.get("full_stake", 0)), 2)
+    full_stake = round(parse_float(row.get("full_stake", 0)), 2)
     entry_type = row.get("entry_type", "first")
     prev = existing.get(key, 0)
     stake_to_log = full_stake
@@ -2429,7 +2417,7 @@ def process_theme_logged_bets(
         print("\n📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
             for segment, row in segment_map.items():
-                stake = round(float(row.get("full_stake", row.get("stake", 0))), 2)
+                stake = round(parse_float(row.get("full_stake", row.get("stake", 0))), 2)
                 ev = row.get("ev_percent", 0)
                 print(
                     f"   - {theme_key} [{segment}] → {row['side']} ({row['market']}) @ {stake:.2f}u | EV: {ev:.2f}%"
@@ -2496,7 +2484,7 @@ def process_theme_logged_bets(
                     )
                     continue
 
-                proposed_stake = round(float(row.get("full_stake", 0)), 2)
+                proposed_stake = round(parse_float(row.get("full_stake", 0)), 2)
                 key = (row["game_id"], row["market"], row["side"])
                 line_key = (row["market"], row["side"])
                 exposure_key = get_exposure_key(row)
