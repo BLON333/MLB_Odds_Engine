@@ -1288,6 +1288,12 @@ def write_to_csv(
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
         return None
 
+    if row.get("market_prob") is None:
+        print(
+            f"\u26d4 Skipping write \u2014 missing market_prob for {tracker_key}"
+        )
+        return None
+
     # if prev_conf_val is not None and new_conf_val <= prev_conf_val:
     #     print(
     #         f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
@@ -1631,7 +1637,12 @@ def log_bets(
             fallback_source = str(best_book or "fallback")
             book_prices = {fallback_source: market_price}
 
-        p_market = consensus_prob if consensus_prob else implied_prob(market_price)
+        if consensus_prob is None or market_price is None:
+            print(
+                f"\u26d4 Skipping bet \u2014 missing consensus_prob or price for {game_id} | {matched_key} | {lookup_side}"
+            )
+            continue
+        p_market = consensus_prob
         p_blended, w_model, p_model, _ = blend_prob(
             sim_prob, market_price, market_key, hours_to_game, p_market
         )
