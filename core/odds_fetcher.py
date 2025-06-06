@@ -205,7 +205,7 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
     )
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events: {resp.text}")
-        return {}
+        return None
 
     events = resp.json()
     logger.debug(f"[DEBUG] Received {len(events)} events from Odds API")
@@ -375,6 +375,21 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
         except Exception as e:
             logger.debug(f"💥 Exception while processing {game_id if 'game_id' in locals() else 'event'}: {e}")
 
+    has_markets = False
+    for data in odds_data.values():
+        if not data:
+            continue
+        for key in MARKET_KEYS:
+            if data.get(key):
+                has_markets = True
+                break
+        if has_markets:
+            break
+
+    if not has_markets:
+        logger.error("❌ Odds API returned no games with market entries")
+        return None
+
     return odds_data
 
 
@@ -388,7 +403,7 @@ def fetch_all_market_odds(lookahead_days=2):
     )
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events: {resp.text}")
-        return {}
+        return None
 
     events = resp.json()
     logger.debug(f"[DEBUG] Received {len(events)} events from Odds API")
@@ -537,6 +552,21 @@ def fetch_all_market_odds(lookahead_days=2):
                 f"💥 Exception while processing {game_id if 'game_id' in locals() else 'event'}: {e}"
             )
 
+    has_markets = False
+    for data in odds_data.values():
+        if not data:
+            continue
+        for key in MARKET_KEYS:
+            if data.get(key):
+                has_markets = True
+                break
+        if has_markets:
+            break
+
+    if not has_markets:
+        logger.error("❌ Odds API returned no games with market entries")
+        return None
+
     return odds_data
 
 
@@ -614,6 +644,10 @@ def extract_per_book_odds(bookmakers_list, target_market_key=None, debug=False):
 
 
 def save_market_odds_to_file(odds_data, date_tag):
+    if odds_data is None:
+        logger.warning("⚠️ No odds data provided for %s, skipping write", date_tag)
+        return None
+
     path = f"data/market_odds/{date_tag}.json"
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:

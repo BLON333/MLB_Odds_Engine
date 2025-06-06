@@ -43,12 +43,13 @@ def run_daily_odds_pipeline():
     print(f"\n📅 Running daily odds fetch for {len(game_ids)} games on {today_tag}\n")
 
     odds_data = fetch_market_odds_from_api(game_ids)
-    if not odds_data:
-        print("❌ No odds data fetched.")
+    if odds_data is None:
+        print("❌ Failed to fetch odds data.")
         return
 
-    save_market_odds_to_file(odds_data, today_tag)
-    print_market_health(odds_data)
+    out_path = save_market_odds_to_file(odds_data, today_tag)
+    if out_path:
+        print_market_health(odds_data)
 
 if __name__ == "__main__":
     run_daily_odds_pipeline()
