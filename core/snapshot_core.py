@@ -714,6 +714,7 @@ def build_snapshot_rows(
                 "best_book": best_book,
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
+                "hours_to_game": round(hours_to_game, 2),
             }
             row["segment_label"] = get_segment_label(matched_key, normalized_side)
             theme = get_theme({"side": normalized_side, "market": market_clean})
