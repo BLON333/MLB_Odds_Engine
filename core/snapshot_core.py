@@ -29,7 +29,7 @@ from utils import (
     to_eastern,
     now_eastern,
 )
-from core.utils import compute_hours_to_game
+from core.time_utils import compute_hours_to_game
 from core.should_log_bet import get_theme, get_theme_key
 from core.market_pricer import (
     to_american_odds,
