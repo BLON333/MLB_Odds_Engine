@@ -18,7 +18,8 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker
-from utils import safe_load_json
+from utils import safe_load_json, now_eastern, EASTERN_TZ
+import re
 
 load_dotenv()
 from core.logger import get_logger
@@ -103,8 +104,34 @@ MARKET_EVAL_TRACKER = load_tracker()
 
 # Load most recent snapshot file for movement comparison
 SNAPSHOT_PATH_USED = latest_snapshot_path("backtest")
+STALE_SNAPSHOT = False
 if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
-    print(f"📂 Using prior snapshot for market movement detection: {SNAPSHOT_PATH_USED}")
+    print(
+        f"📂 Using prior snapshot for market movement detection: {SNAPSHOT_PATH_USED}"
+    )
+
+    # Determine snapshot timestamp from filename or modification time
+    snap_dt = None
+    m = re.search(r"market_snapshot_(\d{8}T\d{4})", os.path.basename(SNAPSHOT_PATH_USED))
+    if m:
+        try:
+            snap_dt = datetime.strptime(m.group(1), "%Y%m%dT%H%M").replace(tzinfo=EASTERN_TZ)
+        except Exception:
+            snap_dt = None
+    if snap_dt is None:
+        try:
+            snap_dt = datetime.fromtimestamp(os.path.getmtime(SNAPSHOT_PATH_USED), tz=EASTERN_TZ)
+        except Exception:
+            snap_dt = None
+
+    if snap_dt is not None:
+        age_hours = (now_eastern() - snap_dt).total_seconds() / 3600.0
+        if age_hours > 2:
+            logger.warning(
+                "⚠️ Snapshot is over 2 hours old – movement tracking may be stale."
+            )
+            STALE_SNAPSHOT = True
+
     prior_snapshot_data = safe_load_json(SNAPSHOT_PATH_USED) or []
 
     if isinstance(prior_snapshot_data, list):
@@ -118,7 +145,7 @@ if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
     else:
         prior_snapshot_tracker = prior_snapshot_data  # already dict
 
-    MARKET_EVAL_TRACKER_BEFORE_UPDATE = prior_snapshot_tracker
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE = {} if STALE_SNAPSHOT else prior_snapshot_tracker
 else:
     print("⚠️ No valid prior snapshot found — using fallback copy of tracker.")
     MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
