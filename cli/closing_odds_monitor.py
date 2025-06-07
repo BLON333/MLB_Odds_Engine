@@ -320,7 +320,11 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                         continue
 
 
-                if 0 <= time_to_game <= 1000000:
+                # Only capture closing odds within ~15 minutes of first pitch
+                # ``commence_time`` from the API is in UTC, so ``game_time`` is
+                # already converted to Eastern above. ``time_to_game`` is
+                # therefore an Eastern-based delta in seconds.
+                if 0 <= time_to_game <= 900:
                     logger.info("📡 Fetching consensus odds for %s...", gid)
 
                     consensus_odds = None
