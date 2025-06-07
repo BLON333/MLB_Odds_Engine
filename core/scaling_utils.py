@@ -1,5 +1,13 @@
 import numpy as np
 import math
+from typing import Optional, Tuple
+
+__all__ = [
+    "scale_distribution",
+    "logistic_decay",
+    "base_model_weight_for_market",
+    "blend_prob",
+]
 
 
 def scale_distribution(raw_vals, target_mean=None, target_sd=None):
@@ -34,8 +42,32 @@ def base_model_weight_for_market(market):
         return 0.75  # fallback for anything else
 
 
-def blend_prob(p_model, market_odds, market_type, hours_to_game, p_market=None):
-    """Blend model and market probabilities with time-based weighting."""
+def blend_prob(
+    p_model: float,
+    market_odds: float,
+    market_type: str,
+    hours_to_game: float,
+    p_market: Optional[float] = None,
+) -> Tuple[float, float, float, float]:
+    """Return a blended probability and weights.
+
+    The model probability is downweighted as game time approaches using a
+    logistic decay. The weight at time ``t`` is also adjusted based on the market
+    type (mainline vs. derivative).
+
+    Args:
+        p_model: Probability estimated by the model.
+        market_odds: Current market odds in American format.
+        market_type: Market identifier used to determine the base model weight.
+        hours_to_game: Hours until game start.
+        p_market: Market implied probability. If ``None`` the value is derived
+            from ``market_odds``.
+
+    Returns:
+        A tuple ``(p_blended, w_model, p_model, p_market)`` where ``p_blended``
+        is the combined probability and ``w_model`` is the weight applied to the
+        model probability.
+    """
     from core.market_pricer import implied_prob
 
     if p_market is None:
