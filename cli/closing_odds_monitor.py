@@ -20,8 +20,8 @@ from utils import (
 )
 from dotenv import load_dotenv
 
-from core.odds_fetcher import fetch_consensus_for_single_game
-from core.market_pricer import decimal_odds, to_american_odds
+from core.odds_fetcher import fetch_consensus_for_single_game, american_to_prob
+from core.market_pricer import to_american_odds
 from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 from dotenv import load_dotenv
@@ -468,9 +468,8 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                             continue
 
                         closing_american = to_american_odds(closing_prob)
-                        bet_dec = decimal_odds(bet_odds)
-                        closing_dec = decimal_odds(closing_american)
-                        clv = ((bet_dec / closing_dec) - 1) * 100
+                        bet_prob = american_to_prob(bet_odds)
+                        clv = (closing_prob - bet_prob) * 100
                         emoji = "🟢" if clv > 0 else "🔴"
 
                         line = (
