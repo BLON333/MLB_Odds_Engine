@@ -249,6 +249,14 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
 
     for date_str in [today_str, tomorrow_str]:
         eval_folder = os.path.join(sim_dir, date_str)
+
+        if date_str == tomorrow_str:
+            if not os.path.isdir(eval_folder) or not any(
+                f.endswith(".json") for f in os.listdir(eval_folder) if os.path.isfile(os.path.join(eval_folder, f))
+            ):
+                logger.info("⏭ Skipping tomorrow's eval: sim data not ready yet")
+                continue
+
         cmd = [
             PYTHON,
             default_script,
