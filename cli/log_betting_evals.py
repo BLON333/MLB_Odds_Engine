@@ -129,10 +129,10 @@ from core.market_pricer import (
     decimal_odds,
     to_american_odds,
     kelly_fraction,
-    blend_prob,
     calculate_ev_from_prob,
     extract_best_book,
 )
+from core.scaling_utils import blend_prob
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
 from utils import (
     TEAM_ABBR,
@@ -675,10 +675,6 @@ def expand_snapshot_rows_with_kelly(
 
 
 
-def logistic_decay(t_hours, t_switch=8, slope=1.5):
-    return 1 / (1 + math.exp((t_switch - t_hours) / slope))
-
-
 def market_prob_increase_threshold(hours_to_game: float, market_type: str = "") -> float:
     """Return required market_prob delta for logging based on time to game.
 
@@ -699,39 +695,12 @@ def market_prob_increase_threshold(hours_to_game: float, market_type: str = "") 
         return floor + (decay * (hours_to_game - 6) / 42)
 
 
-def base_model_weight_for_market(market):
-    if "1st" in market:
-        return 0.9  # prioritize derivatives (1st innings) first
-    elif (
-        market.startswith("h2h")
-        or (market.startswith("spreads") and "_" not in market)
-        or (market.startswith("totals") and "_" not in market)
-    ):
-        return 0.6  # mainlines (h2h, spreads, totals without "_")
-    else:
-        return 0.75  # fallback for anything else
-
-
 def should_include_in_summary(row):
     """
     Return True if the row qualifies to appear in summary notifications.
     Currently defined as EV ≥ 5.0%.
     """
     return row.get("ev_percent", 0) >= 5.0
-
-
-def blend_prob(p_model, market_odds, market_type, hours_to_game, p_market=None):
-    # Use provided consensus_prob if available, otherwise derive from odds
-    if p_market is None:
-        p_market = implied_prob(market_odds)
-
-    base_weight = base_model_weight_for_market(market_type)
-    w_time = logistic_decay(hours_to_game, t_switch=8, slope=1.5)
-    w_model = min(base_weight * w_time, 1.0)
-    w_market = 1 - w_model
-
-    p_blended = w_model * p_model + w_market * p_market
-    return p_blended, w_model, p_model, p_market
 
 
 def get_theme(row):

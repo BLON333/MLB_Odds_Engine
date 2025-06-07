@@ -34,11 +34,11 @@ from core.should_log_bet import get_theme, get_theme_key
 from core.market_pricer import (
     to_american_odds,
     kelly_fraction,
-    blend_prob,
     calculate_ev_from_prob,
     decimal_odds,
     extract_best_book,
 )
+from core.scaling_utils import blend_prob
 from core.consensus_pricer import calculate_consensus_prob
 from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker
