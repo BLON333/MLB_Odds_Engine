@@ -926,6 +926,9 @@ def send_discord_notification(row):
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = detect_market_movement(row, prior)
     row["_movement"] = movement
+    print(
+        f"\U0001F4E2 Sending alert for {tracker_key} | Mkt: {row['market']} | Side: {row['side']} | EV%: {row.get('ev_pct')} | Stake: {row.get('stake')} | Mkt Movement: {movement.get('mkt_movement')}"
+    )
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
     else:
