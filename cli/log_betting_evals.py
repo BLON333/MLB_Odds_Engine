@@ -1154,6 +1154,11 @@ def write_to_csv(
         Mapping used to track current theme exposure in-memory. Updated on
         successful writes.
     """
+    from utils import logging_allowed_now
+
+    if not logging_allowed_now():
+        print("🕒 Logging disabled during quiet hours (10pm-8am ET). Skipping CSV write.")
+        return None
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
         f"{row['game_id']}:{row['market']}:{row['side']}"
