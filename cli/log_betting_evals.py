@@ -182,7 +182,7 @@ from utils import (
     canonical_game_id,
     now_eastern,
 )
-from core.utils import compute_hours_to_game
+from core.time_utils import compute_hours_to_game
 
 
 # === Staking Logic Refactor ===
