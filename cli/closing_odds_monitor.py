@@ -20,7 +20,12 @@ from utils import (
 )
 from dotenv import load_dotenv
 
-from core.odds_fetcher import fetch_consensus_for_single_game, american_to_prob
+from core.odds_fetcher import (
+    fetch_consensus_for_single_game,
+    fetch_market_odds_from_api,
+    american_to_prob,
+)
+from core.consensus_pricer import get_paired_label
 from core.market_pricer import to_american_odds
 from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
@@ -74,6 +79,24 @@ def load_tracked_games(csv_path="logs/market_evals.csv"):
         for row in reader:
             bets.append(row)
     return bets
+
+
+def fetch_single_book_fallback(game_id, books=("pinnacle", "betonlineag")):
+    """Fetch odds from a single bookmaker as a fallback."""
+    for book in books:
+        try:
+            data = fetch_market_odds_from_api([game_id], filter_bookmakers=[book])
+            odds = data.get(game_id) if data else None
+            if odds:
+                logger.warning(
+                    "⚠️ Using %s prices as fallback for %s", book, game_id
+                )
+                return odds
+        except Exception as e:
+            logger.error(
+                "❌ Fallback fetch with %s failed for %s: %s", book, game_id, e
+            )
+    return None
 
 
 from utils import (
@@ -395,9 +418,15 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
 
                     if not consensus_odds:
                         logger.warning(
-                            "⚠️ No consensus odds found for %s after retry.", gid
+                            "⚠️ No consensus odds found for %s after retry. Using single-book fallback...",
+                            gid,
                         )
-                        continue
+                        consensus_odds = fetch_single_book_fallback(gid)
+                        if not consensus_odds:
+                            logger.warning(
+                                "❌ Fallback odds also unavailable for %s", gid
+                            )
+                            continue
 
                     attach_consensus_probs(consensus_odds)
 
@@ -493,20 +522,40 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                                     )
 
                         if not closing_data:
-                            logger.warning(
-                                "⚠️ No match found for bet side '%s' in market '%s'",
-                                side,
-                                market,
-                            )
-                            labels_list = sorted(market_data.keys())
-                            if labels_list:
-                                logger.info(
-                                    "📦 Available book options:\n  • %s",
-                                    "\n  • ".join(labels_list),
+                            paired = get_paired_label(side, market, gid)
+                            if paired:
+                                paired_norm = normalize_to_abbreviation(paired)
+                                paired_data = normalized_market_data.get(paired_norm)
+                                if paired_data and paired_data.get("consensus_prob") is not None:
+                                    pair_prob = paired_data["consensus_prob"]
+                                    closing_prob = 1 - pair_prob
+                                    closing_data = {
+                                        "consensus_prob": closing_prob
+                                    }
+                                    if debug_mode:
+                                        logger.debug(
+                                            "📐 Inferred %s from %s prob %.3f",
+                                            side,
+                                            paired,
+                                            pair_prob,
+                                        )
+                            if not closing_data:
+                                logger.warning(
+                                    "⚠️ No match found for bet side '%s' in market '%s'",
+                                    side,
+                                    market,
                                 )
-                            continue
+                                labels_list = sorted(market_data.keys())
+                                if labels_list:
+                                    logger.info(
+                                        "📦 Available book options:\n  • %s",
+                                        "\n  • ".join(labels_list),
+                                    )
+                                continue
 
                         closing_prob = closing_data.get("consensus_prob")
+                        if closing_prob is None and "price" in closing_data:
+                            closing_prob = american_to_prob(closing_data["price"])
                         if closing_prob is None:
                             logger.warning(
                                 "⚠️ No consensus probability for %s (%s) in %s",
