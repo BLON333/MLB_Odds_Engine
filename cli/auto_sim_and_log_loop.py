@@ -268,7 +268,7 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
     today_str, tomorrow_str = get_date_strings()
     date_arg = f"{today_str},{tomorrow_str}"
 
-    subprocess.run(
+    exit_code = run_subprocess(
         [
             PYTHON,
             "core/unified_snapshot_generator.py",
@@ -276,11 +276,15 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
             odds_path,
             "--date",
             date_arg,
-        ],
-        cwd=ROOT_DIR,
-        env=os.environ,
-        check=True,
+        ]
     )
+
+    if exit_code != 0:
+        logger.error(
+            "❌ Unified snapshot generation failed (code %s); skipping dispatch.",
+            exit_code,
+        )
+        return
 
     for script in [
         "dispatch_live_snapshot.py",
