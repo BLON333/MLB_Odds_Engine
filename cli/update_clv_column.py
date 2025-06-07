@@ -10,7 +10,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core.logger import get_logger
 logger = get_logger(__name__)
 
-from utils import format_market_key, TEAM_ABBR, safe_load_json
+from utils import (
+    format_market_key,
+    TEAM_ABBR,
+    safe_load_json,
+    normalize_line_label,
+    normalize_to_abbreviation,
+)
 from core.odds_fetcher import american_to_prob  # ✅ Corrected path
 
 def normalize_team_name(abbr):
@@ -27,6 +33,40 @@ def classify_clv(clv_percent):
             return "neutral"
     except:
         return ""
+
+
+def find_closing_label(side, market_key, market_data, threshold=1.0):
+    """Return best matching label and signed line shift."""
+    lookup = normalize_to_abbreviation(side)
+
+    if lookup in market_data:
+        return lookup, 0.0
+
+    prefix, val = normalize_line_label(lookup)
+    if val is None:
+        return None, None
+
+    best_key = None
+    best_signed = None
+    best_abs = None
+
+    for label in market_data.keys():
+        p2, v2 = normalize_line_label(label)
+        if p2 != prefix or v2 is None:
+            continue
+        if market_key.startswith("spreads") and ((val >= 0) != (v2 >= 0)):
+            continue
+        diff = v2 - val
+        adiff = abs(diff)
+        if best_abs is None or adiff < best_abs:
+            best_abs = adiff
+            best_signed = diff
+            best_key = label
+
+    if best_abs is not None and best_abs <= threshold:
+        return best_key, best_signed
+
+    return None, None
 
 def update_clv(csv_path, odds_json_path, target_date):
     with open(csv_path, "r", newline="") as f:
@@ -60,7 +100,9 @@ def update_clv(csv_path, odds_json_path, target_date):
 
         market_key, side_key = format_market_key(row)
         market_data = closing_odds[gid].get(market_key, {})
-        line_info = market_data.get(side_key)
+
+        match_key, shift = find_closing_label(side_key, market_key, market_data)
+        line_info = market_data.get(match_key) if match_key else None
 
         if isinstance(line_info, dict):
             closing_line = line_info.get("price")
@@ -68,6 +110,8 @@ def update_clv(csv_path, odds_json_path, target_date):
         else:
             closing_line = line_info
             consensus_fv = None
+
+        row["line_shift"] = round(shift, 1) if shift not in (None, "") else ""
 
         row["closing_odds"] = closing_line if closing_line is not None else ""
 
@@ -100,7 +144,9 @@ def update_clv(csv_path, odds_json_path, target_date):
         writer.writeheader()
         writer.writerows(updated_rows)
 
-    print(f"✅ Updated {csv_path} with closing_odds, clv_percent, model_clv_percent, and clv_class")
+    print(
+        f"✅ Updated {csv_path} with closing_odds, clv_percent, model_clv_percent, clv_class, and line_shift"
+    )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Update CLV and closing odds in market_evals.csv")
