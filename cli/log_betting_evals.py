@@ -1136,6 +1136,7 @@ def write_to_csv(
     session_exposure,
     existing_theme_stakes,
     dry_run=False,
+    force_log=False,
 ):
     """
     Final write function for fully approved bets only.
@@ -1156,8 +1157,10 @@ def write_to_csv(
     """
     from utils import logging_allowed_now
 
-    if not logging_allowed_now():
-        print("🕒 Logging disabled during quiet hours (10pm-8am ET). Skipping CSV write.")
+    if not force_log and not logging_allowed_now():
+        print(
+            "🕒 Logging disabled during quiet hours (10pm-8am ET). Skipping CSV write."
+        )
         return None
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
@@ -2017,6 +2020,7 @@ def run_batch_logging(
     image=False,
     output_dir="logs",
     fallback_odds_path=None,
+    force_log=False,
 ):
     from collections import defaultdict
     import os, json
@@ -2195,6 +2199,7 @@ def run_batch_logging(
         snapshot_ev=args.min_ev,
         image=image,
         output_dir=output_dir,
+        force_log=force_log,
     )
 
     if summary_candidates:
@@ -2218,6 +2223,7 @@ def process_theme_logged_bets(
     snapshot_ev=5.0,
     image=False,
     output_dir="logs",
+    force_log=False,
 ):
     print("\n🧾 Final Trimmed Bets to Log:")
 
@@ -2460,6 +2466,7 @@ def process_theme_logged_bets(
             session_exposure,
             existing_theme_stakes,
             dry_run=dry_run,
+            force_log=force_log,
         )
         if result:
             print(
@@ -2547,10 +2554,16 @@ if __name__ == "__main__":
     p.add_argument("--output-dir", default="logs", help="Directory for summary image")
     p.add_argument("--show-skipped", action="store_true", help="Show skipped bet details")
     p.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    p.add_argument(
+        "--force-log",
+        action="store_true",
+        help="Bypass quiet hours and allow logging at any time",
+    )
     args = p.parse_args()
 
     VERBOSE = args.verbose
     SHOW_SKIPPED = args.show_skipped
+    force_log = args.force_log
 
     date_tag = os.path.basename(args.eval_folder)
 
@@ -2585,4 +2598,5 @@ if __name__ == "__main__":
         image=args.image,
         output_dir=args.output_dir,
         fallback_odds_path=args.fallback_odds_path,
+        force_log=force_log,
     )
