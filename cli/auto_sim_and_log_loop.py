@@ -34,6 +34,7 @@ SIM_INTERVAL = 60 * 30  # Every 30 minutes
 LOG_INTERVAL = 60 * 5  # Every 5 minutes
 last_sim_time = 0
 last_log_time = 0
+last_snapshot_time = 0
 
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
@@ -110,19 +111,14 @@ def poll_active_processes() -> None:
         ret = entry["proc"].poll()
         if ret is None:
             time_running = time.time() - entry["start"]
-            if (
-                entry["name"].startswith("FullSlateSim")
-                and time_running > 45 * 60
-            ):
+            if entry["name"].startswith("FullSlateSim") and time_running > 45 * 60:
                 logger.warning(
                     "⏳ [%s] %s still running after %dm \u2014 possible stall",
                     now_eastern(),
                     entry["name"],
                     int(time_running // 60),
                 )
-            elif (
-                entry["name"].startswith("LogEval") and time_running > 10 * 60
-            ):
+            elif entry["name"].startswith("LogEval") and time_running > 10 * 60:
                 logger.warning(
                     "⏳ [%s] %s still running after %dm \u2014 possible stall",
                     now_eastern(),
@@ -206,7 +202,9 @@ def get_today_str() -> str:
 def fetch_and_cache_odds_snapshot() -> str | None:
     """Fetch market odds once per loop and save to a timestamped file."""
 
-    logger.info("\n📡 [%s] Fetching market odds for today and tomorrow...", now_eastern())
+    logger.info(
+        "\n📡 [%s] Fetching market odds for today and tomorrow...", now_eastern()
+    )
     odds = fetch_all_market_odds(lookahead_days=2)
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
@@ -252,7 +250,9 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
 
         if date_str == tomorrow_str:
             if not os.path.isdir(eval_folder) or not any(
-                f.endswith(".json") for f in os.listdir(eval_folder) if os.path.isfile(os.path.join(eval_folder, f))
+                f.endswith(".json")
+                for f in os.listdir(eval_folder)
+                if os.path.isfile(os.path.join(eval_folder, f))
             ):
                 logger.info("⏭ Skipping tomorrow's eval: sim data not ready yet")
                 continue
@@ -325,12 +325,17 @@ logger.info(
 )
 initial_odds = fetch_and_cache_odds_snapshot()
 if initial_odds:
+    last_snapshot_time = time.time()
+    last_log_time = last_snapshot_time
+    last_sim_time = last_snapshot_time
     run_logger(initial_odds)
     run_unified_snapshot_and_dispatch(initial_odds)
 
 start_time = time.time()
 loop_count = 0
-last_log_time = start_time
+if not initial_odds:
+    last_log_time = start_time
+    last_sim_time = start_time
 
 while True:
     now = time.time()
@@ -356,9 +361,12 @@ while True:
         triggered_sim = True
 
     if now - last_log_time > LOG_INTERVAL:
-        logger.info("🟢 [%s] Fetching odds snapshot and dispatching logs", now_eastern())
+        logger.info(
+            "🟢 [%s] Fetching odds snapshot and dispatching logs", now_eastern()
+        )
         odds_file = fetch_and_cache_odds_snapshot()
         if odds_file:
+            last_snapshot_time = now
             run_logger(odds_file)
             run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
@@ -370,8 +378,16 @@ while True:
     def next_in(last, interval):
         return seconds_to_readable(interval - (now - last))
 
-    sim_msg = "🟢 triggered" if triggered_sim else f"⏭ (next ~{next_in(last_sim_time, SIM_INTERVAL)})"
-    log_msg = "🟢 triggered" if triggered_log else f"⏭ (next ~{next_in(last_log_time, LOG_INTERVAL)})"
+    sim_msg = (
+        "🟢 triggered"
+        if triggered_sim
+        else f"⏭ (next ~{next_in(last_sim_time, SIM_INTERVAL)})"
+    )
+    log_msg = (
+        "🟢 triggered"
+        if triggered_log
+        else f"⏭ (next ~{next_in(last_log_time, LOG_INTERVAL)})"
+    )
     monitor_msg = "restarted" if monitor_restarted else "OK"
 
     logger.info(
