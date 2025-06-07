@@ -9,7 +9,7 @@ from core.odds_fetcher import (
     american_to_prob,
 )
 from core.market_pricer import to_american_odds
-from utils import normalize_line_label
+from utils import normalize_line_label, safe_load_json
 
 load_dotenv()
 from core.logger import get_logger
@@ -89,11 +89,38 @@ def attach_implied_probs(consensus_odds):
 
 
 
+def _deep_merge(dest: dict, src: dict):
+    """Recursively merge ``src`` into ``dest`` without overwriting values."""
+    for key, val in src.items():
+        if key not in dest:
+            dest[key] = val
+        elif isinstance(val, dict) and isinstance(dest.get(key), dict):
+            _deep_merge(dest[key], val)
+
+
 def save_output_json(data, date_str):
+    """Persist closing odds to JSON, merging with any existing file."""
     path = f"data/closing_odds/{date_str}.json"
     os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    existing = {}
+    if os.path.exists(path):
+        loaded = safe_load_json(path)
+        if isinstance(loaded, dict):
+            existing = loaded
+
+    for gid, odds in data.items():
+        existing_game = existing.get(gid, {})
+        if not isinstance(existing_game, dict):
+            existing_game = {}
+        if not isinstance(odds, dict):
+            existing.setdefault(gid, odds)
+            continue
+        _deep_merge(existing_game, odds)
+        existing[gid] = existing_game
+
     with open(path, "w") as f:
-        json.dump(data, f, indent=2)
+        json.dump(existing, f, indent=2)
     print(f"✅ Saved closing odds to: {path}")
 
 if __name__ == "__main__":
