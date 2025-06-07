@@ -208,6 +208,53 @@ def get_market_data_with_alternates(consensus_odds, market_key):
     )
 
 
+def attach_consensus_probs(consensus_odds):
+    """Compute devigged probabilities and fair odds for each side."""
+    for mkey, market in consensus_odds.items():
+        if not isinstance(market, dict):
+            continue
+
+        groups = {}
+        for label, info in market.items():
+            if not isinstance(info, dict):
+                continue
+
+            price = info.get("price")
+            prefix, point = normalize_line_label(label)
+
+            if "team_totals" in mkey:
+                group_key = (prefix.upper(), point)
+            elif "totals" in mkey:
+                group_key = point
+            elif mkey.startswith("spreads") or mkey.startswith("alternate_spreads"):
+                group_key = abs(point) if point is not None else None
+            else:  # h2h and others
+                group_key = None
+
+            groups.setdefault(group_key, []).append((label, price))
+
+        for entries in groups.values():
+            if len(entries) != 2:
+                continue
+
+            (l1, p1), (l2, p2) = entries
+            try:
+                imp1 = american_to_prob(p1)
+                imp2 = american_to_prob(p2)
+                total = imp1 + imp2
+                if total <= 0:
+                    continue
+                prob1 = round(imp1 / total, 6)
+                prob2 = round(imp2 / total, 6)
+            except Exception:
+                continue
+
+            market[l1]["consensus_prob"] = prob1
+            market[l1]["consensus_odds"] = round(to_american_odds(prob1), 2)
+            market[l2]["consensus_prob"] = prob2
+            market[l2]["consensus_odds"] = round(to_american_odds(prob2), 2)
+
+
 def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
     """Continuously fetch closing odds for games on ``target_date``.
 
@@ -351,6 +398,8 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                             "⚠️ No consensus odds found for %s after retry.", gid
                         )
                         continue
+
+                    attach_consensus_probs(consensus_odds)
 
                     # Attach normalized labels for easier lookups
                     #
