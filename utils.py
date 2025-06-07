@@ -851,7 +851,13 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
                 source_type,
             )
 
+    available_map = {
+        key: sorted(market_odds.get(key, {}).keys())
+        for key in search_keys
+        if isinstance(market_odds.get(key, {}), dict)
+    }
     log(f"❌ No match for '{normalized}' in: {search_keys}")
+    log(f"   ↳ Available keys: {available_map}")
     return None, "unknown", "❌", "❌", "❌"
 
 
