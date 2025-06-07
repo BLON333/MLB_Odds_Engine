@@ -26,6 +26,18 @@ def to_eastern(dt: datetime) -> datetime:
     return dt.astimezone(EASTERN_TZ)
 
 
+def logging_allowed_now(now: datetime | None = None) -> bool:
+    """Return True if logging should be allowed at the given time.
+
+    Logging to CSV and theme exposure files is disabled between
+    10 PM and 8 AM Eastern time.  If ``now`` is not provided the
+    current Eastern time is used.
+    """
+    dt = to_eastern(now) if now else now_eastern()
+    hour = dt.hour
+    return 8 <= hour < 22
+
+
 def safe_load_json(path: str):
     """Load JSON from ``path`` with helpful diagnostics on failure."""
     try:
