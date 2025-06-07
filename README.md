@@ -90,7 +90,7 @@ Windows users can start just the monitor via `launch_closing_odds_monitor.bat`.
 These tools help measure closing line value (CLV) for your logged bets.
 
 * **closing_odds_monitor.py** – runs continuously and checks the Odds API for
-  games starting within 15 minutes. When closing odds are found it saves a
+  games starting within 10 minutes. When closing odds are found it saves a
   snapshot under `data/closing_odds/` and posts a Discord alert summarizing the
   expected value of any logged bets for that game. Set `DISCORD_ALERT_WEBHOOK_URL`
   in your `.env` to enable alerts. You can also define

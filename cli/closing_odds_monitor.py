@@ -365,6 +365,16 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                 if debug_mode:
                     logger.debug("DEBUG: %s | time_to_game=%.2fs", gid, time_to_game)
 
+                # Reject games outside the closing odds window
+                if time_to_game > 600 or time_to_game < 0:
+                    if debug_mode:
+                        logger.debug(
+                            "⏩ Skipping %s - outside 10 minute window (%.2fs)",
+                            gid,
+                            time_to_game,
+                        )
+                    continue
+
                 if gid not in tracked_games:
                     continue
 
@@ -390,11 +400,11 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                         continue
 
 
-                # Only capture closing odds within ~15 minutes of first pitch
+                # Only capture closing odds within ~10 minutes of first pitch
                 # ``commence_time`` from the API is in UTC, so ``game_time`` is
                 # already converted to Eastern above. ``time_to_game`` is
                 # therefore an Eastern-based delta in seconds.
-                if 0 <= time_to_game <= 900:
+                if 0 <= time_to_game <= 600:
                     logger.info("📡 Fetching consensus odds for %s...", gid)
 
                     consensus_odds = None
