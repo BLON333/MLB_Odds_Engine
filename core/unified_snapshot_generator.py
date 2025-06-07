@@ -220,26 +220,35 @@ def main() -> None:
             all_rows.extend(rows_for_date)
     
         timestamp = now_eastern().strftime("%Y%m%dT%H%M")
-        out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
-        os.makedirs(os.path.dirname(out_path), exist_ok=True)
-        with open(out_path, "w") as f:
+        out_dir = "backtest"
+        final_path = os.path.join(out_dir, f"market_snapshot_{timestamp}.json")
+        tmp_path = os.path.join(out_dir, f"market_snapshot_{timestamp}.tmp")
+
+        os.makedirs(out_dir, exist_ok=True)
+        with open(tmp_path, "w") as f:
             json.dump(all_rows, f, indent=2)
-    
-        # Validate written JSON
+
+        # Validate written JSON before renaming
         try:
-            with open(out_path) as f:
+            with open(tmp_path) as f:
                 json.load(f)
         except Exception:
-            logger.exception("❌ Snapshot JSON validation failed for %s", out_path)
-            bad_path = out_path + ".bad.json"
+            logger.exception("❌ Snapshot JSON validation failed for %s", tmp_path)
+            bad_path = final_path + ".bad.json"
             try:
-                shutil.move(out_path, bad_path)
+                shutil.move(tmp_path, bad_path)
                 logger.error("🚨 Corrupted snapshot moved to %s", bad_path)
             except Exception as mv_err:
                 logger.error("❌ Failed to move corrupt snapshot: %s", mv_err)
             return
-    
-        logger.info("✅ Wrote %s rows to %s", len(all_rows), out_path)
+
+        try:
+            os.rename(tmp_path, final_path)
+        except Exception:
+            logger.exception("❌ Failed to finalize snapshot rename from %s to %s", tmp_path, final_path)
+            return
+
+        logger.info("✅ Wrote %s rows to %s", len(all_rows), final_path)
     except Exception:
         logger.exception("Snapshot generation failed:")
         sys.exit(1)
