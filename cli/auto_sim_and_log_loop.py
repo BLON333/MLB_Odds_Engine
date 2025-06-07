@@ -55,7 +55,7 @@ def run_subprocess(cmd):
     """Run a subprocess synchronously and log output."""
     timestamp = now_eastern()
     logger.info("\n%s", "═" * 60)
-    logger.info("⚙️  [%s] Starting subprocess:", timestamp)
+    logger.info("🚀 [%s] Starting subprocess:", timestamp)
     logger.info("👉 %s", " ".join(cmd))
     logger.info("%s\n", "═" * 60)
 
@@ -76,7 +76,11 @@ def run_subprocess(cmd):
         if proc.stderr:
             logger.debug("⚠️ STDERR:\n%s", proc.stderr)
 
-        logger.info("\n✅ Subprocess completed with exit code %s", proc.returncode)
+        logger.info(
+            "\n✅ [%s] Subprocess completed with exit code %s",
+            now_eastern(),
+            proc.returncode,
+        )
         return proc.returncode
 
     except subprocess.CalledProcessError as e:
@@ -86,7 +90,12 @@ def run_subprocess(cmd):
         if e.stderr:
             logger.debug("⚠️ STDERR (on error):\n%s", e.stderr)
 
-        logger.error("\n❌ Command %s exited with code %s", " ".join(cmd), e.returncode)
+        logger.error(
+            "\n❌ [%s] Command %s exited with code %s",
+            now_eastern(),
+            " ".join(cmd),
+            e.returncode,
+        )
         return e.returncode
 
 
@@ -94,7 +103,7 @@ def launch_process(name: str, cmd: list[str]) -> subprocess.Popen:
     """Launch a subprocess asynchronously and track it."""
     proc = subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
     active_processes.append({"name": name, "proc": proc, "start": time.time()})
-    logger.info("🚀 Started %s (PID %d)", name, proc.pid)
+    logger.info("🚀 [%s] Started %s (PID %d)", now_eastern(), name, proc.pid)
     return proc
 
 
@@ -109,7 +118,8 @@ def poll_active_processes() -> None:
                 and time_running > 45 * 60
             ):
                 logger.warning(
-                    "\u23F3 %s still running after %dm \u2014 possible stall",
+                    "⏳ [%s] %s still running after %dm \u2014 possible stall",
+                    now_eastern(),
                     entry["name"],
                     int(time_running // 60),
                 )
@@ -117,7 +127,8 @@ def poll_active_processes() -> None:
                 entry["name"].startswith("LogEval") and time_running > 10 * 60
             ):
                 logger.warning(
-                    "\u23F3 %s still running after %dm \u2014 possible stall",
+                    "⏳ [%s] %s still running after %dm \u2014 possible stall",
+                    now_eastern(),
                     entry["name"],
                     int(time_running // 60),
                 )
@@ -125,14 +136,16 @@ def poll_active_processes() -> None:
         runtime = time.time() - entry["start"]
         if ret == 0:
             logger.info(
-                "✅ Subprocess '%s' (PID %d) completed in %.1fs",
+                "✅ [%s] Subprocess '%s' (PID %d) completed in %.1fs",
+                now_eastern(),
                 entry["name"],
                 entry["proc"].pid,
                 runtime,
             )
         else:
             logger.error(
-                "❌ Subprocess '%s' (PID %d) exited with code %s after %.1fs",
+                "❌ [%s] Subprocess '%s' (PID %d) exited with code %s after %.1fs",
+                now_eastern(),
                 entry["name"],
                 entry["proc"].pid,
                 ret,
@@ -156,7 +169,8 @@ def ensure_closing_monitor_running() -> bool:
         # If the previous monitor exited, log the exit code before restarting
         if closing_monitor_proc is not None and exit_code is not None:
             logger.warning(
-                "⚠️ Closing odds monitor exited with code %s, restarting...",
+                "⚠️ [%s] Closing odds monitor exited with code %s, restarting...",
+                now_eastern(),
                 exit_code,
             )
 
@@ -195,12 +209,12 @@ def get_today_str() -> str:
 def fetch_and_cache_odds_snapshot() -> str | None:
     """Fetch market odds once per loop and save to a timestamped file."""
 
-    logger.info("\n📡 Fetching market odds for today and tomorrow...")
+    logger.info("\n📡 [%s] Fetching market odds for today and tomorrow...", now_eastern())
     odds = fetch_all_market_odds(lookahead_days=2)
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
     odds_path = save_market_odds_to_file(odds, tag)
-    logger.info("✅ Saved shared odds snapshot: %s", odds_path)
+    logger.info("✅ [%s] Saved shared odds snapshot: %s", now_eastern(), odds_path)
     return odds_path
 
 
@@ -281,7 +295,8 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
 
     if exit_code != 0:
         logger.error(
-            "❌ Unified snapshot generation failed (code %s); skipping dispatch.",
+            "❌ [%s] Unified snapshot generation failed (code %s); skipping dispatch.",
+            now_eastern(),
             exit_code,
         )
         return
@@ -304,14 +319,16 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
 
 
 logger.info(
-    "🔄 Starting auto loop... "
-    "(Sim: 30 min | Log & Snapshot Dispatch: 5 min, for today and tomorrow)"
+    "🔄 [%s] Starting auto loop... "
+    "(Sim: 30 min | Log & Snapshot Dispatch: 5 min, for today and tomorrow)",
+    now_eastern(),
 )
 
 ensure_closing_monitor_running()
 
 logger.info(
-    "🟢 First-time launch → triggering run_logger and snapshot dispatch immediately"
+    "🟢 [%s] First-time launch → triggering run_logger and snapshot dispatch immediately",
+    now_eastern(),
 )
 run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
@@ -350,13 +367,13 @@ while True:
         triggered_sim = True
 
     if now - last_log_time > LOG_INTERVAL:
-        logger.info("🟢 Triggering run_logger()")
+        logger.info("🟢 [%s] Triggering run_logger()", now_eastern())
         run_logger()
         last_log_time = now
         triggered_log = True
 
     if now - last_snapshot_time > SNAPSHOT_INTERVAL:
-        logger.info("🟢 Triggering snapshot scripts")
+        logger.info("🟢 [%s] Triggering snapshot scripts", now_eastern())
         odds_file = fetch_and_cache_odds_snapshot()
         log_bets_with_snapshot_odds(odds_file)
         if odds_file:
