@@ -171,74 +171,78 @@ def build_snapshot_for_date(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate unified market snapshot")
-    parser.add_argument("--date", default=None)
-    parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
-    parser.add_argument(
-        "--ev-range",
-        default="5.0,20.0",
-        help="EV%% range to include as 'min,max'",
-    )
-    args = parser.parse_args()
-
-    if args.date:
-        date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
-    else:
-        today = now_eastern().strftime("%Y-%m-%d")
-        tomorrow = (now_eastern() + timedelta(days=1)).strftime("%Y-%m-%d")
-        date_list = [today, tomorrow]
-
     try:
-        min_ev, max_ev = map(float, args.ev_range.split(","))
-    except Exception:
-        logger.error("❌ Invalid --ev-range format, expected 'min,max'")
-        return
+        parser = argparse.ArgumentParser(description="Generate unified market snapshot")
+        parser.add_argument("--date", default=None)
+        parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
+        parser.add_argument(
+            "--ev-range",
+            default="5.0,20.0",
+            help="EV%% range to include as 'min,max'",
+        )
+        args = parser.parse_args()
 
-    odds_cache = None
-    if args.odds_path:
-        odds_cache = safe_load_json(args.odds_path)
-        if odds_cache is not None:
-            logger.info("📥 Loaded odds from %s", args.odds_path)
+        if args.date:
+            date_list = [d.strip() for d in str(args.date).split(",") if d.strip()]
         else:
-            logger.error("❌ Failed to load odds file %s", args.odds_path)
-    else:
-        auto_path = latest_odds_file()
-        if auto_path:
-            odds_cache = safe_load_json(auto_path)
-            if odds_cache is not None:
-                logger.info("📥 Auto-loaded latest odds: %s", auto_path)
-        if odds_cache is None:
-            logger.error("❌ No market_odds_*.json files found or failed to load.")
-            return
-
-    all_rows: list = []
-    for date_str in date_list:
-        rows_for_date = build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
-        for row in rows_for_date:
-            row["snapshot_for_date"] = date_str
-        all_rows.extend(rows_for_date)
-
-    timestamp = now_eastern().strftime("%Y%m%dT%H%M")
-    out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w") as f:
-        json.dump(all_rows, f, indent=2)
-
-    # Validate written JSON
-    try:
-        with open(out_path) as f:
-            json.load(f)
-    except Exception:
-        logger.exception("❌ Snapshot JSON validation failed for %s", out_path)
-        bad_path = out_path + ".bad.json"
+            today = now_eastern().strftime("%Y-%m-%d")
+            tomorrow = (now_eastern() + timedelta(days=1)).strftime("%Y-%m-%d")
+            date_list = [today, tomorrow]
+    
         try:
-            shutil.move(out_path, bad_path)
-            logger.error("🚨 Corrupted snapshot moved to %s", bad_path)
-        except Exception as mv_err:
-            logger.error("❌ Failed to move corrupt snapshot: %s", mv_err)
-        return
-
-    logger.info("✅ Wrote %s rows to %s", len(all_rows), out_path)
+            min_ev, max_ev = map(float, args.ev_range.split(","))
+        except Exception:
+            logger.error("❌ Invalid --ev-range format, expected 'min,max'")
+            return
+    
+        odds_cache = None
+        if args.odds_path:
+            odds_cache = safe_load_json(args.odds_path)
+            if odds_cache is not None:
+                logger.info("📥 Loaded odds from %s", args.odds_path)
+            else:
+                logger.error("❌ Failed to load odds file %s", args.odds_path)
+        else:
+            auto_path = latest_odds_file()
+            if auto_path:
+                odds_cache = safe_load_json(auto_path)
+                if odds_cache is not None:
+                    logger.info("📥 Auto-loaded latest odds: %s", auto_path)
+            if odds_cache is None:
+                logger.error("❌ No market_odds_*.json files found or failed to load.")
+                return
+    
+        all_rows: list = []
+        for date_str in date_list:
+            rows_for_date = build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
+            for row in rows_for_date:
+                row["snapshot_for_date"] = date_str
+            all_rows.extend(rows_for_date)
+    
+        timestamp = now_eastern().strftime("%Y%m%dT%H%M")
+        out_path = os.path.join("backtest", f"market_snapshot_{timestamp}.json")
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        with open(out_path, "w") as f:
+            json.dump(all_rows, f, indent=2)
+    
+        # Validate written JSON
+        try:
+            with open(out_path) as f:
+                json.load(f)
+        except Exception:
+            logger.exception("❌ Snapshot JSON validation failed for %s", out_path)
+            bad_path = out_path + ".bad.json"
+            try:
+                shutil.move(out_path, bad_path)
+                logger.error("🚨 Corrupted snapshot moved to %s", bad_path)
+            except Exception as mv_err:
+                logger.error("❌ Failed to move corrupt snapshot: %s", mv_err)
+            return
+    
+        logger.info("✅ Wrote %s rows to %s", len(all_rows), out_path)
+    except Exception:
+        logger.exception("Snapshot generation failed:")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
