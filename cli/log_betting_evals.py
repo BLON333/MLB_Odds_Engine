@@ -924,10 +924,8 @@ def send_discord_notification(row):
 
     tracker_key = f"{game_id}:{market}:{side}"
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
-    movement = row.get("_movement")
-    if not movement:
-        movement = detect_market_movement(row, prior)
-    row.setdefault("_movement", movement)
+    movement = detect_market_movement(row, prior)
+    row["_movement"] = movement
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
     else:
@@ -937,12 +935,13 @@ def send_discord_notification(row):
             )
         except Exception:
             pass
-    if movement.get("mkt_movement") != "better":
+
+    if movement.get("mkt_movement") == "better":
+        print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
+    else:
         print(
-            "⛔ Discord notification aborted — Mkt % movement is not 'better'"
+            f"📄 Sending anyway — Mkt movement is '{movement.get('mkt_movement')}' (relaxed check)"
         )
-        return
-    print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
 
     sim_prob = row["sim_prob"]
     consensus_prob = row["market_prob"]
