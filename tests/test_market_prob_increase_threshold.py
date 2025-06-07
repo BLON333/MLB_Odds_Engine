@@ -60,3 +60,18 @@ def test_detect_movement_hours_to_game():
     }
     assert mmt.detect_market_movement(far, prior)["mkt_movement"] == "same"
     assert mmt.detect_market_movement(close, prior)["mkt_movement"] == "better"
+
+
+def test_detect_movement_missing_hours(monkeypatch):
+    """Missing hours_to_game should use conservative threshold."""
+    prior = {"market_prob": 0.5}
+    row = {"market_prob": 0.515, "market": "h2h"}
+
+    # Use a large threshold to prove fallback is not using this value
+    from cli import log_betting_evals as lbe
+
+    monkeypatch.setattr(
+        lbe, "market_prob_increase_threshold", lambda h, m: 0.02
+    )
+
+    assert mmt.detect_market_movement(row, prior)["mkt_movement"] == "better"

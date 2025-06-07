@@ -2,6 +2,10 @@
 
 from typing import Dict, Optional
 
+from core.logger import get_logger
+
+logger = get_logger(__name__)
+
 MOVEMENT_THRESHOLDS = {
     "ev_percent": 0.5,
     "market_prob": 0.00001,
@@ -59,9 +63,18 @@ def detect_market_movement(current: Dict, prior: Optional[Dict]) -> Dict[str, ob
         prev = (prior or {}).get(field)
         if field == "market_prob":
             from cli.log_betting_evals import market_prob_increase_threshold
-            hours = current.get("hours_to_game", 0)
             mkt = current.get("market", "")
-            threshold = market_prob_increase_threshold(hours, mkt)
+            hours = current.get("hours_to_game")
+            if hours is None:
+                logger.warning(
+                    "Missing hours_to_game for %s %s; using conservative "
+                    "threshold 0.01",
+                    current.get("game_id"),
+                    mkt,
+                )
+                threshold = 0.01
+            else:
+                threshold = market_prob_increase_threshold(hours, mkt)
         else:
             threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
         movement[move_key] = fn(curr, prev, threshold)
