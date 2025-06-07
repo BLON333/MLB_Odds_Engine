@@ -155,6 +155,7 @@ from utils import (
     canonical_game_id,
     now_eastern,
 )
+from core.utils import compute_hours_to_game
 
 
 # === Staking Logic Refactor ===
@@ -1442,11 +1443,7 @@ def log_bets(
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
     if start_dt:
-        from pytz import timezone
-
-        eastern = timezone("US/Eastern")
-        now = datetime.now(eastern)
-        hours_to_game = (start_dt - now).total_seconds() / 3600
+        hours_to_game = compute_hours_to_game(start_dt)
 
     if hours_to_game < 0:
         print(
@@ -1666,11 +1663,7 @@ def log_derivative_bets(
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
     if start_dt:
-        from pytz import timezone
-
-        eastern = timezone("US/Eastern")
-        now = datetime.now(eastern)
-        hours_to_game = (start_dt - now).total_seconds() / 3600
+        hours_to_game = compute_hours_to_game(start_dt)
 
     if hours_to_game < 0:
         print(

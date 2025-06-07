@@ -26,7 +26,10 @@ from utils import (
     get_market_entry_with_alternate_fallback,
     normalize_label_for_odds,
     get_segment_label,
+    to_eastern,
+    now_eastern,
 )
+from core.utils import compute_hours_to_game
 from core.should_log_bet import get_theme, get_theme_key
 from core.market_pricer import (
     to_american_odds,
@@ -620,11 +623,9 @@ def build_snapshot_rows(
         if start_str:
             try:
                 dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
-                dt_et = dt.astimezone(ZoneInfo("America/New_York"))
-                now_et = datetime.now(ZoneInfo("America/New_York"))
-                hours_to_game = (dt_et - now_et).total_seconds() / 3600
+                hours_to_game = compute_hours_to_game(dt)
                 print(
-                    f"🕓 DEBUG: {game_id} — start={dt_et.isoformat()} | now={now_et.isoformat()} | delta={hours_to_game:.2f}h"
+                    f"🕓 DEBUG: {game_id} — start={to_eastern(dt).isoformat()} | now={now_eastern().isoformat()} | delta={hours_to_game:.2f}h"
                 )
             except Exception:
                 pass
