@@ -32,11 +32,8 @@ EDGE_THRESHOLD = 0.05
 MIN_EV = 0.05
 SIM_INTERVAL = 60 * 30  # Every 30 minutes
 LOG_INTERVAL = 60 * 5  # Every 5 minutes
-SNAPSHOT_INTERVAL = 60 * 5  # Every 5 minutes
-
 last_sim_time = 0
 last_log_time = 0
-last_snapshot_time = 0
 
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
@@ -236,22 +233,10 @@ def run_simulation():
         launch_process(f"FullSlateSim {date_str}", cmd)
 
 
-def run_logger():
-    today_str, tomorrow_str = get_date_strings()
-    for date_str in [today_str, tomorrow_str]:
-        logger.info("\n📝 [%s] Launching log evals for %s...", now_eastern(), date_str)
-        default_script = os.path.join("cli", "log_betting_evals.py")
-        if not os.path.exists(default_script):
-            default_script = "log_betting_evals.py"
-        cmd = [
-            PYTHON,
-            default_script,
-            "--eval-folder",
-            f"backtest/sims/{date_str}",
-            "--min-ev",
-            str(MIN_EV),
-        ]
-        launch_process(f"LogEval {date_str}", cmd)
+def run_logger(odds_path: str):
+    """Launch logging for today and tomorrow using a cached odds snapshot."""
+
+    log_bets_with_snapshot_odds(odds_path)
 
 
 def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
@@ -327,29 +312,26 @@ logger.info(
 ensure_closing_monitor_running()
 
 logger.info(
-    "🟢 [%s] First-time launch → triggering run_logger and snapshot dispatch immediately",
+    "🟢 [%s] First-time launch → fetching odds and dispatching logs",
     now_eastern(),
 )
-run_logger()
 initial_odds = fetch_and_cache_odds_snapshot()
-log_bets_with_snapshot_odds(initial_odds)
 if initial_odds:
+    run_logger(initial_odds)
     run_unified_snapshot_and_dispatch(initial_odds)
 
 start_time = time.time()
 loop_count = 0
 last_log_time = start_time
-last_snapshot_time = start_time
 
 while True:
     now = time.time()
     loop_count += 1
 
     logger.debug(
-        "Loop tick → now: %s, log Δ: %.1f, snap Δ: %.1f",
+        "Loop tick → now: %s, log Δ: %.1f",
         now,
         now - last_log_time,
-        now - last_snapshot_time,
     )
 
     # Check on any active subprocesses
@@ -359,7 +341,6 @@ while True:
 
     triggered_sim = False
     triggered_log = False
-    triggered_snap = False
 
     if now - last_sim_time > SIM_INTERVAL:
         run_simulation()
@@ -367,19 +348,13 @@ while True:
         triggered_sim = True
 
     if now - last_log_time > LOG_INTERVAL:
-        logger.info("🟢 [%s] Triggering run_logger()", now_eastern())
-        run_logger()
+        logger.info("🟢 [%s] Fetching odds snapshot and dispatching logs", now_eastern())
+        odds_file = fetch_and_cache_odds_snapshot()
+        if odds_file:
+            run_logger(odds_file)
+            run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
         triggered_log = True
-
-    if now - last_snapshot_time > SNAPSHOT_INTERVAL:
-        logger.info("🟢 [%s] Triggering snapshot scripts", now_eastern())
-        odds_file = fetch_and_cache_odds_snapshot()
-        log_bets_with_snapshot_odds(odds_file)
-        if odds_file:
-            run_unified_snapshot_and_dispatch(odds_file)
-        last_snapshot_time = now
-        triggered_snap = True
 
     uptime = str(timedelta(seconds=int(now - start_time)))
     timestamp = now_eastern().strftime("%Y-%m-%d %H:%M:%S")
@@ -389,17 +364,15 @@ while True:
 
     sim_msg = "🟢 triggered" if triggered_sim else f"⏭ (next ~{next_in(last_sim_time, SIM_INTERVAL)})"
     log_msg = "🟢 triggered" if triggered_log else f"⏭ (next ~{next_in(last_log_time, LOG_INTERVAL)})"
-    snap_msg = "🟢 triggered" if triggered_snap else f"⏭ (next ~{next_in(last_snapshot_time, SNAPSHOT_INTERVAL)})"
     monitor_msg = "restarted" if monitor_restarted else "OK"
 
     logger.info(
-        "\n🔁 [%s] Loop %d (uptime %s):\nSim %s | Log %s | Snap %s | Monitor %s",
+        "\n🔁 [%s] Loop %d (uptime %s):\nSim %s | Log %s | Monitor %s",
         timestamp,
         loop_count,
         uptime,
         sim_msg,
         log_msg,
-        snap_msg,
         monitor_msg,
     )
 
