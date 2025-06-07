@@ -3,6 +3,8 @@
 from core.market_pricer import implied_prob, to_american_odds
 from utils import normalize_label, TEAM_ABBR_TO_NAME, TEAM_NAME_TO_ABBR
 
+_DEVIG_WARNING_LOGGED = set()
+
 DEFAULT_CONSENSUS_BOOKS = [
     "pinnacle", "betonlineag", "fanduel", "betmgm", "draftkings", "williamhill", "mybookieag"
 ]
@@ -15,7 +17,15 @@ SIM_ONLY = {
 }
 
 
-def calculate_consensus_prob(game_id, market_odds, market_key, label, consensus_books=DEFAULT_CONSENSUS_BOOKS, debug=False):
+def calculate_consensus_prob(
+    game_id,
+    market_odds,
+    market_key,
+    label,
+    consensus_books=DEFAULT_CONSENSUS_BOOKS,
+    debug=False,
+    throttle_logs=True,
+):
     def sim_only(reason):
         if debug:
             print(f"🟡 Devig failed for {label} in {market_key} → {reason}; using sim_only")
@@ -205,7 +215,11 @@ def calculate_consensus_prob(game_id, market_odds, market_key, label, consensus_
                 return sim_only("no shared books")
      
         if len(shared_books) == 1 and not debug:
-            print(f"⚠️ Only 1 book used for devig → {shared_books[0]}")
+            should_log = not throttle_logs or game_id not in _DEVIG_WARNING_LOGGED
+            if should_log:
+                print(f"⚠️ Only 1 book used for devig → {shared_books[0]}")
+                if throttle_logs:
+                    _DEVIG_WARNING_LOGGED.add(game_id)
 
         book_probs = {}
         for book in shared_books:
