@@ -2016,6 +2016,7 @@ def run_batch_logging(
     debug=False,
     image=False,
     output_dir="logs",
+    fallback_odds_path=None,
 ):
     from collections import defaultdict
     import os, json
@@ -2033,6 +2034,13 @@ def run_batch_logging(
             return
     else:
         all_market_odds = market_odds
+
+    fallback_odds = {}
+    if fallback_odds_path:
+        fallback_odds = safe_load_json(fallback_odds_path) or {}
+        print(
+            f"📂 Loaded fallback odds from {fallback_odds_path} ({len(fallback_odds)} games)"
+        )
 
 
     def extract_start_times(odds_data):
@@ -2152,6 +2160,10 @@ def run_batch_logging(
             continue
 
         mkt = all_market_odds.get(game_id)
+        if (not mkt) and fallback_odds:
+            mkt = fallback_odds.get(game_id)
+            if mkt:
+                print(f"🔄 Using fallback odds for {raw_game_id}")
         if not mkt:
             print(
                 f"❌ No market odds for {raw_game_id} (normalized: {game_id}), skipping."
@@ -2514,6 +2526,11 @@ if __name__ == "__main__":
     )
     p.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
     p.add_argument(
+        "--fallback-odds-path",
+        default=None,
+        help="Path to prior odds JSON for fallback lookup",
+    )
+    p.add_argument(
         "--min-ev", type=float, default=0.05, help="Minimum EV% threshold for bets"
     )
     p.add_argument(
@@ -2567,4 +2584,5 @@ if __name__ == "__main__":
         debug=args.debug,  # ✅ New debug toggle wired up!
         image=args.image,
         output_dir=args.output_dir,
+        fallback_odds_path=args.fallback_odds_path,
     )
