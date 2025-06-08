@@ -46,6 +46,7 @@ def test_top_up_rejected_for_small_delta():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result is None
     assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "low_stake"
 
 
 def test_first_bet_rejected_if_odds_worse():
@@ -98,3 +99,33 @@ def test_team_total_classified_as_under():
     assert theme == "Under"
     theme_key = get_theme_key(bet["market"], theme)
     assert theme_key == "Under_total"
+
+
+def test_rejected_for_low_ev():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 3.0,
+    }
+
+    result = should_log_bet(bet, {}, verbose=False, min_ev=0.05)
+    assert result is None
+    assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "low_ev"
+
+
+def test_rejected_for_low_stake():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 0.5,
+        "ev_percent": 6.0,
+    }
+
+    result = should_log_bet(bet, {}, verbose=False, min_stake=1.0)
+    assert result is None
+    assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "low_stake"

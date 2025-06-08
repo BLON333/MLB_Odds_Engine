@@ -144,6 +144,11 @@ def should_log_bet(
             print(
                 f"⛔ should_log_bet: Rejected due to EV/stake threshold → EV: {ev:.2f}%, Stake: {stake:.2f}u"
             )
+        new_bet["entry_type"] = "none"
+        if ev < min_ev * 100:
+            new_bet["skip_reason"] = "low_ev"
+        elif stake < min_stake:
+            new_bet["skip_reason"] = "low_stake"
         return None
 
     prior_entry = None
@@ -201,6 +206,8 @@ def should_log_bet(
                 f"⛔ Skipping bet — scaled stake {new_bet['stake']}u is below 1.0u minimum",
                 verbose,
             )
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "low_stake"
             return None
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
@@ -217,6 +224,8 @@ def should_log_bet(
                 f"⛔ Skipping top-up — delta stake {new_bet['stake']}u is below 0.5u minimum",
                 verbose,
             )
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "low_stake"
             return None
         _log_verbose(
             f"🔼 should_log_bet: Top-up accepted → {side} | {theme_key} [{segment}] | Δ {delta:.2f}u",
@@ -225,5 +234,6 @@ def should_log_bet(
         return new_bet
 
     new_bet["entry_type"] = "none"
+    new_bet["skip_reason"] = "low_stake"
     _log_verbose("⛔ Rejected — top-up delta too small (< 0.5u)", verbose)
     return None
