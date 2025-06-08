@@ -2310,7 +2310,11 @@ def process_theme_logged_bets(
 
         print("\n📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
+            ordered_rows = []
             for segment, row in segment_map.items():
+                ordered_rows.append((segment, row))
+            ordered_rows.sort(key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0)
+            for segment, row in ordered_rows:
                 stake = round(float(row.get("full_stake", row.get("stake", 0))), 2)
                 ev = row.get("ev_percent", 0)
                 print(
@@ -2371,7 +2375,11 @@ def process_theme_logged_bets(
                         safe_remove_segment(game_id, theme_key, "mainline")
 
         for theme_key, segment_map in theme_logged[game_id].items():
+            ordered_rows = []
             for segment, row in segment_map.items():
+                ordered_rows.append((segment, row))
+            ordered_rows.sort(key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0)
+            for segment, row in ordered_rows:
                 if row.get("ev_percent", 0) > MAX_ALLOWED_EV:
                     print(
                         f"                ⛔ Skipped      : EV exceeds cap ({row['ev_percent']:.2f}% > {MAX_ALLOWED_EV:.2f}%) — {row['side']} in {row['market']}"
