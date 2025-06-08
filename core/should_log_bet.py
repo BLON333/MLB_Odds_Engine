@@ -182,18 +182,24 @@ def should_log_bet(
             prev_ev = prior_entry.get("ev_percent")
             curr_ev = new_bet.get("ev_percent")
             odds_worsened = False
+            reason_parts = []
+            if prev_ev is not None and curr_ev is not None:
+                if float(curr_ev) < float(prev_ev):
+                    reason_parts.append(
+                        f"EV fell from {float(prev_ev):.1f}% to {float(curr_ev):.1f}%"
+                    )
+                    odds_worsened = True
             if prev_odds is not None and curr_odds is not None:
                 if decimal_odds(float(curr_odds)) < decimal_odds(float(prev_odds)):
-                    odds_worsened = True
-            if not odds_worsened and prev_ev is not None and curr_ev is not None:
-                if float(curr_ev) < float(prev_ev):
+                    reason_parts.append(
+                        f"odds worsened from {int(prev_odds):+d} to {int(curr_odds):+d}"
+                    )
                     odds_worsened = True
             if odds_worsened:
-                _log_verbose(
-                    "Skipping bet due to worse market odds vs reference.",
-                    verbose,
-                )
+                msg = "⛔ Skipping top-up: " + ", ".join(reason_parts)
+                _log_verbose(msg, verbose)
                 new_bet["entry_type"] = "none"
+                new_bet["skip_reason"] = msg
                 return None
         except Exception:
             pass
@@ -224,12 +230,10 @@ def should_log_bet(
         new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
         if new_bet["stake"] < 0.5:
-            _log_verbose(
-                f"⛔ Skipping top-up — delta stake {new_bet['stake']}u is below 0.5u minimum",
-                verbose,
-            )
+            msg = f"⛔ Delta stake {new_bet['stake']:.2f}u < 0.5u minimum"
+            _log_verbose(msg, verbose)
             new_bet["entry_type"] = "none"
-            new_bet["skip_reason"] = "low_stake"
+            new_bet["skip_reason"] = msg
             return None
         _log_verbose(
             f"🔼 should_log_bet: Top-up accepted → {side} | {theme_key} [{segment}] | Δ {delta:.2f}u",
@@ -237,7 +241,8 @@ def should_log_bet(
         )
         return new_bet
 
+    msg = f"⛔ Delta stake {delta:.2f}u < 0.5u minimum"
     new_bet["entry_type"] = "none"
-    new_bet["skip_reason"] = "low_stake"
-    _log_verbose("⛔ Rejected — top-up delta too small (< 0.5u)", verbose)
+    new_bet["skip_reason"] = msg
+    _log_verbose(msg, verbose)
     return None
