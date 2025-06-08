@@ -1298,7 +1298,13 @@ def write_to_csv(
     hours_to_game = row.get("hours_to_game", 8)
 
     if prior_prob is None or new_prob is None:
-        print("⚠️ Missing market_prob values — skipping threshold check.")
+        print("⛔ No prior market probability — building baseline and skipping log.")
+        track_and_update_market_movement(
+            row,
+            MARKET_EVAL_TRACKER,
+            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+        )
+        return None
     elif new_prob <= prior_prob:
         print("⛔ Market probability did not improve — skipping.")
         return None
