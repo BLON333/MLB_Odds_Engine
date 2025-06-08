@@ -1,5 +1,9 @@
 from typing import Optional
 
+# Minimum stake thresholds used across the staking pipeline
+MIN_FIRST_STAKE = 1.0
+MIN_TOPUP_STAKE = 0.5
+
 from core.market_pricer import decimal_odds
 
 
@@ -121,7 +125,7 @@ def should_log_bet(
     existing_theme_stakes: dict,
     verbose: bool = True,
     min_ev: float = 0.05,
-    min_stake: float = 1.0,
+    min_stake: float = MIN_FIRST_STAKE,
     eval_tracker: dict | None = None,
     reference_tracker: dict | None = None,
 ) -> Optional[dict]:
@@ -209,9 +213,9 @@ def should_log_bet(
     if theme_total == 0:
         new_bet["stake"] = round(stake, 2)
         new_bet["entry_type"] = "first"
-        if new_bet["stake"] < 1.0:
+        if new_bet["stake"] < MIN_FIRST_STAKE:
             _log_verbose(
-                f"⛔ Skipping bet — scaled stake {new_bet['stake']}u is below 1.0u minimum",
+                f"⛔ Skipping bet — scaled stake {new_bet['stake']}u is below {MIN_FIRST_STAKE:.1f}u minimum",
                 verbose,
             )
             new_bet["entry_type"] = "none"
@@ -226,11 +230,13 @@ def should_log_bet(
     # Round the delta once to avoid floating point drift across the pipeline
     delta_raw = stake - theme_total
     delta = round(delta_raw, 2)
-    if delta >= 0.5:
+    if delta >= MIN_TOPUP_STAKE:
         new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
-        if new_bet["stake"] < 0.5:
-            msg = f"⛔ Delta stake {new_bet['stake']:.2f}u < 0.5u minimum"
+        if new_bet["stake"] < MIN_TOPUP_STAKE:
+            msg = (
+                f"⛔ Delta stake {new_bet['stake']:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
+            )
             _log_verbose(msg, verbose)
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = msg
@@ -241,7 +247,7 @@ def should_log_bet(
         )
         return new_bet
 
-    msg = f"⛔ Delta stake {delta:.2f}u < 0.5u minimum"
+    msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
     new_bet["skip_reason"] = msg
     _log_verbose(msg, verbose)
