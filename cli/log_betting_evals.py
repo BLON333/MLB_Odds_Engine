@@ -186,7 +186,11 @@ from core.time_utils import compute_hours_to_game
 
 
 # === Staking Logic Refactor ===
-from core.should_log_bet import should_log_bet
+from core.should_log_bet import (
+    should_log_bet,
+    MIN_FIRST_STAKE,
+    MIN_TOPUP_STAKE,
+)
 from core.market_eval_tracker import load_tracker, save_tracker
 from core.market_movement_tracker import (
     track_and_update_market_movement,
@@ -1216,15 +1220,15 @@ def write_to_csv(
     stake_to_log = full_stake
 
     if entry_type == "first":
-        if stake_to_log < 1.0:
+        if stake_to_log < MIN_FIRST_STAKE:
             print(
-                f"⛔ First bet stake {stake_to_log:.2f}u below 1.0u — skipping"
+                f"⛔ First bet stake {stake_to_log:.2f}u below {MIN_FIRST_STAKE:.1f}u — skipping"
             )
             return None
     elif entry_type == "top-up":
-        if stake_to_log < 0.5:
+        if stake_to_log < MIN_TOPUP_STAKE:
             print(
-                f"⛔ Top-up stake {stake_to_log:.2f}u below 0.5u — skipping"
+                f"⛔ Top-up stake {stake_to_log:.2f}u below {MIN_TOPUP_STAKE:.1f}u — skipping"
             )
             return None
 
