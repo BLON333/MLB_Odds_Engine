@@ -46,7 +46,7 @@ def test_top_up_rejected_for_small_delta():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result is None
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "low_stake"
+    assert bet["skip_reason"] == "⛔ Delta stake 0.20u < 0.5u minimum"
 
 
 def test_top_up_delta_rounded_before_threshold():
@@ -103,6 +103,7 @@ def test_top_up_rejected_if_odds_worse():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, reference_tracker=reference)
     assert result is None
     assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "⛔ Skipping top-up: EV fell from 7.0% to 6.0%, odds worsened from +110 to +105"
 
 
 def test_first_bet_logged_if_odds_improve():
