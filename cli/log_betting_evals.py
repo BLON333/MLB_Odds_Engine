@@ -892,11 +892,13 @@ def send_discord_notification(row):
     if full_stake > stake and full_stake - stake >= 0.5:
         tag = "🔁"
         header = "**Top-Up Bet Logged**"
-        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
     else:
         tag = "🟢" if ev >= 10 else "🟡" if ev >= 5 else "⚪"
         header = "**New Bet Logged**"
-        topup_note = ""
+
+    topup_note = ""
+    if entry_type == "top-up" and stake < full_stake:
+        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
     if row.get("test_mode"):
         header = f"[TEST] {header}"
@@ -1077,10 +1079,6 @@ def send_discord_notification(row):
         roles_text = "📣 " + " ".join(sorted(roles))
     else:
         roles_text = ""
-
-    topup_note = ""
-    if entry_type == "top-up" and stake < full_stake:
-        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
 
     prev_market_prob = None
