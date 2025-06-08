@@ -344,11 +344,28 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 
 
 def send_bet_snapshot_to_discord(
-    df: pd.DataFrame, market_type: str, webhook_url: str
+    df: pd.DataFrame,
+    market_type: str,
+    webhook_url: str,
+    debug_counts: dict | None = None,
 ) -> None:
     """Render a styled image and send it to a Discord webhook."""
     if df is None or df.empty:
-        print(f"⚠️ No snapshot rows to send for {market_type}.")
+        if debug_counts is not None:
+            print(
+                "⚠️ Snapshot skipped: 0 rows remain after all filters (EV%, stake, role)"
+            )
+            print(
+                "🧮 Counts → pre-EV:%d post-EV:%d post-stake:%d post-role:%d"
+                % (
+                    debug_counts.get("pre_ev", 0),
+                    debug_counts.get("post_ev", 0),
+                    debug_counts.get("post_stake", 0),
+                    debug_counts.get("post_role", 0),
+                )
+            )
+        else:
+            print(f"⚠️ No snapshot rows to send for {market_type}.")
         return
 
     # 🚫 Filter out bets with < 1 unit stake before rendering
@@ -367,7 +384,21 @@ def send_bet_snapshot_to_discord(
         pass
 
     if df.empty:
-        print(f"⚠️ No snapshot rows to send for {market_type} after filtering.")
+        if debug_counts is not None:
+            print(
+                "⚠️ Snapshot skipped: 0 rows remain after all filters (EV%, stake, role)"
+            )
+            print(
+                "🧮 Counts → pre-EV:%d post-EV:%d post-stake:%d post-role:%d"
+                % (
+                    debug_counts.get("pre_ev", 0),
+                    debug_counts.get("post_ev", 0),
+                    debug_counts.get("post_stake", 0),
+                    debug_counts.get("post_role", 0),
+                )
+            )
+        else:
+            print(f"⚠️ No snapshot rows to send for {market_type} after filtering.")
         return
     if dfi is None:
         print("⚠️ dataframe_image is not available. Sending text fallback.")
@@ -1089,3 +1120,57 @@ def expand_snapshot_rows_with_kelly(
 
     save_tracker(MARKET_EVAL_TRACKER)
     return deduped
+
+
+def dispatch_snapshot_rows(
+    df: pd.DataFrame,
+    market_type: str,
+    webhook_url: str,
+    ev_range: tuple[float, float] = (5.0, 20.0),
+    min_stake: float = 1.0,
+    role: str | None = None,
+) -> None:
+    """Filter snapshot rows and send to Discord with debug logging."""
+
+    counts = {
+        "pre_ev": len(df),
+        "post_ev": 0,
+        "post_stake": 0,
+        "post_role": 0,
+    }
+
+    # EV%% filter
+    if "EV" in df.columns:
+        tmp = df["EV"].astype(str).str.replace("%", "", regex=False)
+        with pd.option_context("mode.use_inf_as_na", True):
+            ev_vals = pd.to_numeric(tmp, errors="coerce")
+        df = df[(ev_vals >= ev_range[0]) & (ev_vals <= ev_range[1])]
+    elif "ev_percent" in df.columns:
+        df = df[(df["ev_percent"] >= ev_range[0]) & (df["ev_percent"] <= ev_range[1])]
+    counts["post_ev"] = len(df)
+
+    # Stake filter
+    try:
+        if "full_stake" in df.columns:
+            df = df[df["full_stake"] >= min_stake]
+        elif "stake" in df.columns:
+            df = df[df["stake"] >= min_stake]
+        elif "Stake" in df.columns:
+            stake_vals = df["Stake"].astype(str).str.replace("u", "", regex=False)
+            stake_vals = pd.to_numeric(stake_vals, errors="coerce")
+            df = df[stake_vals >= min_stake]
+    except Exception:
+        pass
+    counts["post_stake"] = len(df)
+
+    # Role filter
+    if role:
+        if "snapshot_roles" in df.columns:
+            df = df[df["snapshot_roles"].apply(lambda r: role in r if isinstance(r, list) else False)]
+    counts["post_role"] = len(df)
+
+    if counts["post_role"] == 0:
+        send_bet_snapshot_to_discord(df, market_type, webhook_url, debug_counts=counts)
+        return
+
+    send_bet_snapshot_to_discord(df, market_type, webhook_url)
