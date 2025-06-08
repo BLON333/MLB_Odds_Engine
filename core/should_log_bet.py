@@ -217,9 +217,11 @@ def should_log_bet(
         )
         return new_bet
 
-    delta = stake - theme_total
+    # Round the delta once to avoid floating point drift across the pipeline
+    delta_raw = stake - theme_total
+    delta = round(delta_raw, 2)
     if delta >= 0.5:
-        new_bet["stake"] = round(delta, 2)
+        new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
         if new_bet["stake"] < 0.5:
             _log_verbose(
