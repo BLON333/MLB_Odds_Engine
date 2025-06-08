@@ -1240,7 +1240,8 @@ def write_to_csv(
     stake_to_log = delta
 
     row["stake"] = stake_to_log
-    row["full_stake"] = stake_to_log
+    # Preserve the total intended exposure in full_stake
+    row["full_stake"] = full_stake
     row["result"] = ""
 
     if dry_run:
