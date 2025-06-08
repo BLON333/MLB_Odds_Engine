@@ -16,7 +16,8 @@ import requests
 from utils import safe_load_json
 from core.logger import get_logger
 
-load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
+# Load environment variables from a .env file in the working directory
+load_dotenv()
 
 logger = get_logger(__name__)
 logger.debug("✅ Loaded webhook: %s", os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL"))
@@ -198,6 +199,7 @@ def main() -> None:
         if not webhook:
             logger.error("❌ DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL not configured")
             return
+        logger.info("📤 Using Discord webhook: %s", webhook)
         for start in range(0, len(df), 25):
             send_snapshot(df.iloc[start : start + 25], webhook)
     else:
