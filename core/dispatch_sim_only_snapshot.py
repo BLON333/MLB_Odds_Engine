@@ -1,29 +1,37 @@
 #!/usr/bin/env python
+"""Dispatch a simulation-only snapshot for mainline markets."""
+
 import os
 import sys
+import json
+import io
+from typing import List
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-"""Dispatch simulation-only snapshot from unified snapshot JSON."""
-
-import json
-from utils import safe_load_json
-import argparse
 from dotenv import load_dotenv
+import pandas as pd
+import requests
+
+from utils import safe_load_json
+from core.logger import get_logger
 
 load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
 
-from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
-from core.logger import get_logger
-
 logger = get_logger(__name__)
+logger.debug("✅ Loaded webhook: %s", os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL"))
 
-# Optional debug log to verify environment variables are loaded
-logger.debug(
-    "✅ Loaded webhook: %s", os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL")
-)
+try:
+    import dataframe_image as dfi
+except Exception:  # pragma: no cover - optional dep
+    dfi = None
 
 
-def latest_snapshot_path(folder="backtest") -> str | None:
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def latest_snapshot_path(folder: str = "backtest") -> str | None:
     files = sorted(
         [f for f in os.listdir(folder) if f.startswith("market_snapshot_") and f.endswith(".json")],
         reverse=True,
@@ -31,7 +39,7 @@ def latest_snapshot_path(folder="backtest") -> str | None:
     return os.path.join(folder, files[0]) if files else None
 
 
-def load_rows(path: str) -> list:
+def load_rows(path: str) -> List[dict]:
     rows = safe_load_json(path)
     if rows is None:
         logger.error("❌ Failed to load snapshot %s", path)
@@ -39,33 +47,99 @@ def load_rows(path: str) -> list:
     return rows
 
 
-def filter_by_date(rows: list, date_str: str | None) -> list:
+def filter_by_date(rows: List[dict], date_str: str | None) -> List[dict]:
     if not date_str:
         return rows
     return [r for r in rows if str(r.get("snapshot_for_date")) == date_str]
 
 
+# ---------------------------------------------------------------------------
+# Styling & Discord Helpers
+# ---------------------------------------------------------------------------
+
+def _style_plain(df: pd.DataFrame) -> pd.io.formats.style.Styler:
+    """Return a simple white-background style."""
+    styled = (
+        df.style.set_properties(
+            **{
+                "text-align": "center",
+                "font-family": "monospace",
+                "font-size": "10pt",
+            }
+        )
+        .set_table_styles(
+            [
+                {
+                    "selector": "th",
+                    "props": [
+                        ("font-weight", "bold"),
+                        ("background-color", "white"),
+                        ("color", "black"),
+                        ("text-align", "center"),
+                    ],
+                }
+            ]
+        )
+    )
+    try:
+        styled = styled.hide_index()
+    except Exception:
+        pass
+    return styled
+
+
+def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
+    """Render and send the DataFrame image to Discord."""
+    if df.empty:
+        logger.info("⚠️ No snapshot rows to send.")
+        return
+
+    if dfi is None:
+        logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
+        message = df.to_string(index=False)
+        requests.post(webhook_url, json={"content": f"```\n{message}\n```"})
+        return
+
+    styled = _style_plain(df)
+    buf = io.BytesIO()
+    try:
+        dfi.export(styled, buf, table_conversion="chrome", max_rows=-1)
+    except Exception as e:
+        logger.error("❌ dfi.export failed: %s", e)
+        buf.close()
+        return
+    buf.seek(0)
+
+    caption = "📊 Simulation-Only Snapshot Feed (Mainlines Only)"
+    files = {"file": ("snapshot.png", buf, "image/png")}
+    try:
+        resp = requests.post(
+            webhook_url,
+            data={"payload_json": json.dumps({"content": caption})},
+            files=files,
+            timeout=10,
+        )
+        resp.raise_for_status()
+        logger.info("✅ Snapshot sent (%d rows)", df.shape[0])
+    except Exception as e:  # pragma: no cover - network errors
+        logger.error("❌ Failed to send snapshot: %s", e)
+    finally:
+        buf.close()
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Dispatch simulation-only snapshot")
+    parser = argparse.ArgumentParser(description="Dispatch sim-only mainline snapshot")
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
-    parser.add_argument("--diff-highlight", action="store_true")
-    parser.add_argument(
-        "--min-ev",
-        type=float,
-        default=5.0,
-        help="Minimum EV% required to dispatch",
-    )
-    parser.add_argument(
-        "--max-ev",
-        type=float,
-        default=20.0,
-        help="Maximum EV% allowed to dispatch",
-    )
+    parser.add_argument("--min-ev", type=float, default=5.0)
+    parser.add_argument("--max-ev", type=float, default=20.0)
     args = parser.parse_args()
 
-    # Clamp EV range to 5%-20%
     args.min_ev = max(5.0, args.min_ev)
     args.max_ev = min(20.0, args.max_ev)
     if args.min_ev > args.max_ev:
@@ -77,61 +151,46 @@ def main() -> None:
         return
 
     rows = load_rows(path)
-    for r in rows:
-        if "book" not in r and "best_book" in r:
-            r["book"] = r["best_book"]
-    rows = [r for r in rows if "best_book" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
 
-    rows = [r for r in rows if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev]
+    # Filter EV and mainline markets only
+    rows = [
+        r
+        for r in rows
+        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
+        and str(r.get("market_class", "main")).lower() == "main"
+    ]
     logger.info(
-        "🧪 Dispatch filter: %d rows with %.1f ≤ EV%% ≤ %.1f",
+        "🧪 Dispatch filter → %d rows with %.1f ≤ EV%% ≤ %.1f",
         len(rows),
         args.min_ev,
         args.max_ev,
     )
 
-    df = format_for_display(rows, include_movement=args.diff_highlight)
-    if "sim_prob_display" in df.columns:
-        df["Sim %"] = df["sim_prob_display"]
-    if "odds_display" in df.columns:
-        df["Odds"] = df["odds_display"]
-    if "fv_display" in df.columns:
-        df["FV"] = df["fv_display"]
-
-    # Remove market probability columns entirely
-    drop_cols = [c for c in ["Mkt %", "mkt_prob_display", "market_prob", "prev_market_prob", "mkt_movement"] if c in df.columns]
-    if drop_cols:
-        df = df.drop(columns=drop_cols)
-
-    if df.empty:
-        logger.warning("⚠️ Snapshot DataFrame is empty — nothing to dispatch.")
+    if not rows:
+        logger.info("⚠️ No rows after filtering.")
         return
 
-    if "market" in df.columns and "Market" not in df.columns:
-        df["Market"] = df["market"]
+    df = pd.DataFrame(rows)
+    df["Game"] = df.get("game_id", "")
+    df["Market"] = df.get("market", "")
+    df["Side"] = df.get("side", "")
+    df["Sim Prob"] = (df.get("sim_prob", 0) * 100).map("{:.1f}%".format)
+    df["Fair Odds"] = df.get("blended_fv", df.get("fair_odds", "")).apply(
+        lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
+    )
+    df["EV%"] = df.get("ev_percent", 0).map("{:+.1f}%".format)
 
-    if "Market" not in df.columns:
-        logger.warning("⚠️ 'Market' column missing — cannot apply fallback filters.")
-        return
+    df = df[["Game", "Market", "Side", "Sim Prob", "Fair Odds", "EV%"]]
+    df = df.sort_values(by="EV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False)
 
     if args.output_discord:
-        webhook_main = os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL")
-        if webhook_main:
-            if "Market Class" in df.columns:
-                subset = df[df["Market Class"] == "Main"]
-            else:
-                logger.warning("⚠️ 'Market Class' column missing — using fallback")
-                subset = df[df["Market"].str.lower().str.startswith(("h2h", "spreads", "totals"), na=False)]
-            if subset.empty:
-                subset = df[df["Market"].str.lower().str.startswith(("h2h", "spreads", "totals"), na=False)]
-            logger.info("📡 Evaluating snapshot for: sim-only main → %s rows", subset.shape[0])
-            if not subset.empty:
-                send_bet_snapshot_to_discord(subset, "Sim Only (Main)", webhook_main)
-            else:
-                logger.warning("⚠️ No bets for sim-only main")
-        else:
-            logger.warning("❌ No Discord webhook configured for sim-only snapshots.")
+        webhook = os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL")
+        if not webhook:
+            logger.error("❌ DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL not configured")
+            return
+        for start in range(0, len(df), 25):
+            send_snapshot(df.iloc[start : start + 25], webhook)
     else:
         print(df.to_string(index=False))
 
