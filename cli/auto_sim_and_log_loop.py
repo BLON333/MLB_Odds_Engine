@@ -299,16 +299,13 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
         "dispatch_fv_drop_snapshot.py",
         "dispatch_best_book_snapshot.py",
         "dispatch_personal_snapshot.py",
+        "dispatch_sim_only_snapshot.py",
     ]:
-        launch_process(
-            script,
-            [
-                PYTHON,
-                f"core/{script}",
-                "--output-discord",
-                "--diff-highlight",
-            ],
-        )
+        cmd = [PYTHON, f"core/{script}", "--output-discord"]
+        if script != "dispatch_sim_only_snapshot.py":
+            cmd.append("--diff-highlight")
+
+        launch_process(script, cmd)
 
 
 logger.info(
