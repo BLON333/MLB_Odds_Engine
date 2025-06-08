@@ -49,6 +49,25 @@ def test_top_up_rejected_for_small_delta():
     assert bet["skip_reason"] == "low_stake"
 
 
+def test_top_up_delta_rounded_before_threshold():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.7,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing = 0.4 * 3  # 1.2000000000000002 introduces floating point imprecision
+    existing_theme_stakes = {exposure_key: existing}
+    tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": existing}}
+
+    result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
+    assert result is not None
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == 0.5
+
+
 def test_first_bet_logged_even_if_odds_worse():
     bet = {
         "game_id": "gid",
