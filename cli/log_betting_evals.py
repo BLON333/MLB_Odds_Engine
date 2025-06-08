@@ -870,10 +870,17 @@ def get_discord_webhook_for_market(market: str) -> str:
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
 
 
-def send_discord_notification(row):
+def send_discord_notification(row, skipped_bets=None):
 
     webhook_url = get_discord_webhook_for_market(row.get("market", ""))
     if not webhook_url:
+        print(
+            f"⚠️ No Discord webhook configured for market {row.get('market', '')}. Notification skipped."
+        )
+        if skipped_bets is not None and should_include_in_summary(row):
+            row["skip_reason"] = "no_webhook"
+            ensure_consensus_books(row)
+            skipped_bets.append(row)
         return
     print(f"Webhook URL resolved: {webhook_url}")
 
@@ -1190,6 +1197,7 @@ def write_to_csv(
         print(
             "🕒 Logging disabled during quiet hours (10pm-8am ET). Skipping CSV write."
         )
+        row["skip_reason"] = "quiet_hours"
         return None
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
@@ -1208,6 +1216,7 @@ def write_to_csv(
 
     if new_conf_val is None:
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
+        row["skip_reason"] = "no_consensus"
         return None
 
     # if prev_conf_val is not None and new_conf_val <= prev_conf_val:
@@ -1307,9 +1316,11 @@ def write_to_csv(
             MARKET_EVAL_TRACKER,
             MARKET_EVAL_TRACKER_BEFORE_UPDATE,
         )
+        row["skip_reason"] = "market_not_moved"
         return None
     elif new_prob <= prior_prob:
         print("⛔ Market probability did not improve — skipping.")
+        row["skip_reason"] = "market_not_moved"
         return None
     else:
         delta = new_prob - prior_prob
@@ -1318,6 +1329,7 @@ def write_to_csv(
             print(
                 f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
             )
+            row["skip_reason"] = "market_not_moved"
             return None
 
     # Clean up non-persistent keys
@@ -1974,6 +1986,7 @@ def log_derivative_bets(
 
 def send_summary_to_discord(skipped_bets, webhook_url):
     if not webhook_url:
+        print("⚠️ No Discord summary webhook URL provided. Skipping Discord summary.")
         return
 
     now = datetime.now().strftime("%I:%M %p")
@@ -2523,12 +2536,15 @@ def process_theme_logged_bets(
             print(
                 f"⛔ CSV Log Failed → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
             )
+            if best_row.get("skip_reason") and should_include_in_summary(best_row):
+                ensure_consensus_books(best_row)
+                skipped_bets.append(best_row)
 
     for row in logged_bets_this_loop:
         print(
             f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
         )
-        send_discord_notification(row)
+        send_discord_notification(row, skipped_bets)
 
 
     # ✅ Expand snapshot per book with proper stake & EV% logic
