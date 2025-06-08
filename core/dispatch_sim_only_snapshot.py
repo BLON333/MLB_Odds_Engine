@@ -138,6 +138,12 @@ def main() -> None:
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument("--min-ev", type=float, default=5.0)
     parser.add_argument("--max-ev", type=float, default=20.0)
+    parser.add_argument(
+        "--max-rows",
+        type=int,
+        default=None,
+        help="Limit total rows dispatched",
+    )
     args = parser.parse_args()
 
     args.min_ev = max(5.0, args.min_ev)
@@ -183,6 +189,9 @@ def main() -> None:
 
     df = df[["Game", "Market", "Side", "Sim Prob", "Fair Odds", "EV%"]]
     df = df.sort_values(by="EV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False)
+
+    if args.max_rows and args.max_rows > 0:
+        df = df.head(args.max_rows)
 
     if args.output_discord:
         webhook = os.getenv("DISCORD_SIM_ONLY_MAIN_WEBHOOK_URL")
