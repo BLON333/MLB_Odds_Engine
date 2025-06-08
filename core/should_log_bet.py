@@ -151,6 +151,16 @@ def should_log_bet(
             new_bet["skip_reason"] = "low_stake"
         return None
 
+    base_market = market.replace("alternate_", "")
+    segment = get_segment_group(market)
+    theme = get_theme({"side": side, "market": base_market})
+    theme_key = get_theme_key(base_market, theme)
+    exposure_key = (game_id, theme_key, segment)
+    theme_total = existing_theme_stakes.get(exposure_key, 0.0)
+    is_alt_line = (
+        market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
+    )
+
     prior_entry = None
     t_key = f"{game_id}:{market}:{side}"
 
@@ -165,7 +175,7 @@ def should_log_bet(
             prior_entry = tracker_entry
 
     # 🚦 Reject bet if odds worsened versus reference snapshot
-    if prior_entry is not None:
+    if prior_entry is not None and theme_total > 0:
         try:
             prev_odds = prior_entry.get("market_odds")
             curr_odds = new_bet.get("market_odds")
@@ -189,14 +199,6 @@ def should_log_bet(
             pass
 
     tracker_key = f"{game_id}:{market}:{side}"
-
-    base_market = market.replace("alternate_", "")
-    segment = get_segment_group(market)
-    theme = get_theme({"side": side, "market": base_market})
-    theme_key = get_theme_key(base_market, theme)
-    exposure_key = (game_id, theme_key, segment)
-    theme_total = existing_theme_stakes.get(exposure_key, 0.0)
-    is_alt_line = market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
 
     if theme_total == 0:
         new_bet["stake"] = round(stake, 2)
