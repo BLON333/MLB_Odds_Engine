@@ -173,11 +173,17 @@ def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
     parts = parse_game_id(str(game_id))
     date = parts.get("date", "")
     matchup = f"{parts.get('away', '')} @ {parts.get('home', '')}".strip()
-    time = parts.get("time", "")
-    if isinstance(time, str) and time.startswith("T") and len(time) == 5:
-        time = f"{time[1:3]}:{time[3:]}"
-    else:
-        time = ""
+    time = ""
+    time_part = parts.get("time", "")
+    if isinstance(time_part, str) and time_part.startswith("T"):
+        raw = time_part.split("-")[0][1:]
+        try:
+            time = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
+        except Exception:
+            try:
+                time = datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
+            except Exception:
+                time = ""
     return date, matchup, time
 
 
@@ -768,7 +774,21 @@ def build_snapshot_rows(
                 "date_simulated": datetime.now().isoformat(),
                 "hours_to_game": round(hours_to_game, 2),
             }
-            row["Time"] = start_formatted or ""
+            parsed = parse_game_id(str(game_id))
+            row["Date"] = parsed.get("date", "")
+            row["Matchup"] = f"{parsed.get('away', '')} @ {parsed.get('home', '')}".strip()
+            time_part = parsed.get("time", "")
+            time_formatted = ""
+            if isinstance(time_part, str) and time_part.startswith("T"):
+                raw = time_part.split("-")[0][1:]
+                try:
+                    time_formatted = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
+                except Exception:
+                    try:
+                        time_formatted = datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
+                    except Exception:
+                        time_formatted = ""
+            row["Time"] = time_formatted or start_formatted or ""
             row["segment_label"] = get_segment_label(matched_key, normalized_side)
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)

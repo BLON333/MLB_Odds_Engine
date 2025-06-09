@@ -161,11 +161,17 @@ def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
     parts = parse_game_id(str(game_id))
     date = parts.get("date", "")
     matchup = f"{parts.get('away', '')} @ {parts.get('home', '')}".strip()
-    time = parts.get("time", "")
-    if isinstance(time, str) and time.startswith("T") and len(time) == 5:
-        time = f"{time[1:3]}:{time[3:]}"
-    else:
-        time = ""
+    time = ""
+    time_part = parts.get("time", "")
+    if isinstance(time_part, str) and time_part.startswith("T"):
+        raw = time_part.split("-")[0][1:]
+        try:
+            time = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
+        except Exception:
+            try:
+                time = datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
+            except Exception:
+                time = ""
     return date, matchup, time
 from core.market_pricer import (
     implied_prob,
@@ -1225,6 +1231,25 @@ def write_to_csv(
         )
         row["skip_reason"] = "quiet_hours"
         return None
+
+    # 🗓️ Derive human-friendly fields from game_id
+    parsed = parse_game_id(str(row.get("game_id", "")))
+    row["Date"] = parsed.get("date", "")
+    row["Matchup"] = f"{parsed.get('away', '')} @ {parsed.get('home', '')}".strip()
+    time_part = parsed.get("time", "")
+    time_formatted = ""
+    if isinstance(time_part, str) and time_part.startswith("T"):
+        raw = time_part.split("-")[0][1:]
+        try:
+            time_formatted = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
+        except Exception:
+            try:
+                time_formatted = (
+                    datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
+                )
+            except Exception:
+                time_formatted = ""
+    row["Time"] = time_formatted
     key = (row["game_id"], row["market"], row["side"])
     tracker_key = (
         f"{row['game_id']}:{row['market']}:{row['side']}"
@@ -1375,6 +1400,9 @@ def write_to_csv(
     row.pop("consensus_books", None)
 
     fieldnames = [
+        "Date",
+        "Time",
+        "Matchup",
         "game_id",
         "market",
         "market_class",
