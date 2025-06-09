@@ -665,6 +665,7 @@ def build_snapshot_rows(
             continue
         start_str = odds.get("start_time")
         hours_to_game = 8.0
+        start_formatted = ""
         if start_str:
             try:
                 dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
@@ -672,8 +673,13 @@ def build_snapshot_rows(
                 print(
                     f"🕓 DEBUG: {game_id} — start={to_eastern(dt).isoformat()} | now={now_eastern().isoformat()} | delta={hours_to_game:.2f}h"
                 )
+                start_et = to_eastern(dt)
+                try:
+                    start_formatted = start_et.strftime("%-I:%M %p")
+                except Exception:
+                    start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
             except Exception:
-                pass
+                start_formatted = ""
         if hours_to_game < 0:
             print(
                 f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
@@ -762,6 +768,7 @@ def build_snapshot_rows(
                 "date_simulated": datetime.now().isoformat(),
                 "hours_to_game": round(hours_to_game, 2),
             }
+            row["Time"] = start_formatted or ""
             row["segment_label"] = get_segment_label(matched_key, normalized_side)
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)
@@ -807,9 +814,14 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     if df.empty:
         return df
 
-    df[["Date", "Matchup", "Time"]] = df["game_id"].apply(
-        lambda gid: pd.Series(_game_id_display_fields(gid))
-    )
+    tmp = df["game_id"].apply(lambda gid: pd.Series(_game_id_display_fields(gid)))
+    df["Date"] = tmp[0]
+    df["Matchup"] = tmp[1]
+    time_from_gid = tmp[2]
+    if "Time" in df.columns:
+        df["Time"] = df["Time"].where(df["Time"].astype(str).str.strip() != "", time_from_gid)
+    else:
+        df["Time"] = time_from_gid
     if df["Time"].eq("").all():
         df.drop(columns=["Time"], inplace=True)
     if "market_class" not in df.columns:
@@ -921,6 +933,9 @@ def build_display_block(row: dict) -> Dict[str, str]:
     """Return formatted display fields for a snapshot row."""
     game_id = str(row.get("game_id", ""))
     date, matchup, time = _game_id_display_fields(game_id)
+    time_from_row = row.get("Time")
+    if isinstance(time_from_row, str) and time_from_row.strip():
+        time = time_from_row
 
     market_class_key = row.get("market_class", "main")
     market_class = {

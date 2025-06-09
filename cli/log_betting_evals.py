@@ -970,6 +970,9 @@ def send_discord_notification(row, skipped_bets=None):
         away_team = TEAM_ABBR_TO_NAME.get(parts["away"], parts["away"])
         home_team = TEAM_ABBR_TO_NAME.get(parts["home"], parts["home"])
         event_label = f"{away_team} @ {home_team}"
+        game_time = row.get("Time")
+        if isinstance(game_time, str) and game_time.strip():
+            event_label += f" ({game_time} ET)"
     except Exception:
         event_label = game_id
 
