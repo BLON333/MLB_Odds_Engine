@@ -627,6 +627,7 @@ def expand_snapshot_rows_with_kelly(
             "league": bet.get("league", "MLB"),
             "Date": bet.get("Date", ""),
             "Matchup": bet.get("Matchup", bet.get("game_id", "")[-7:]),
+            "Time": bet.get("Time", ""),
             "side": bet.get("side", ""),
             "market": bet.get("market", ""),
             "sim_prob": bet.get("sim_prob", 0),
