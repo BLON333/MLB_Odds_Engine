@@ -16,7 +16,12 @@ import requests
 
 from utils import safe_load_json
 from core.logger import get_logger
-from core.market_pricer import extract_best_book, calculate_ev_from_prob
+from core.market_pricer import (
+    extract_best_book,
+    calculate_ev_from_prob,
+    to_american_odds,
+    kelly_fraction,
+)
 
 # Load environment variables from a .env file in the working directory
 load_dotenv()
@@ -187,6 +192,7 @@ def main() -> None:
             continue
         try:
             ev_sim = calculate_ev_from_prob(float(sim_prob), odds_val)
+            stake_units = kelly_fraction(float(sim_prob), odds_val, fraction=0.25)
         except Exception:
             continue
 
@@ -201,8 +207,9 @@ def main() -> None:
                 "Book": best_book or "",
                 "Odds": odds_val,
                 "Sim Prob": sim_prob,
-                "Fair Odds": r.get("blended_fv", r.get("fair_odds")),
+                "Fair Odds": to_american_odds(float(sim_prob)),
                 "EV_numeric": ev_sim,
+                "Stake_units": stake_units,
             }
         )
 
@@ -219,9 +226,20 @@ def main() -> None:
         lambda x: f"{int(x):+}" if isinstance(x, (int, float)) else "N/A"
     )
     df["EV%"] = df["EV_numeric"].map("{:+.1f}%".format)
-    df = df.drop(columns=["EV_numeric"])
+    df["Stake"] = df["Stake_units"].map("{:.2f}u".format)
+    df = df.drop(columns=["EV_numeric", "Stake_units"])
 
-    df = df[["Game", "Market", "Side", "Book", "Odds", "Sim Prob", "Fair Odds", "EV%"]]
+    df = df[[
+        "Game",
+        "Market",
+        "Side",
+        "Book",
+        "Odds",
+        "Sim Prob",
+        "Fair Odds",
+        "EV%",
+        "Stake",
+    ]]
     df = df.sort_values(
         by="EV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False
     )
