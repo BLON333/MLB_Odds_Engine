@@ -1,7 +1,12 @@
 # consensus_pricer.py (final patch — paired_key fix for spreads)
 
 from core.market_pricer import implied_prob, to_american_odds
-from utils import normalize_label, TEAM_ABBR_TO_NAME, TEAM_NAME_TO_ABBR
+from utils import (
+    normalize_label,
+    TEAM_ABBR_TO_NAME,
+    TEAM_NAME_TO_ABBR,
+    parse_game_id,
+)
 
 _DEVIG_WARNING_LOGGED = set()
 
@@ -260,8 +265,9 @@ def get_paired_label(label, market_key, game_id, point=None):
 
     if market_key.startswith("h2h"):
         try:
-            _, matchup = game_id.rsplit("-", 1)
-            away_abbr, home_abbr = matchup.split("@")
+            parts = parse_game_id(game_id)
+            away_abbr = parts["away"]
+            home_abbr = parts["home"]
             away_name = TEAM_ABBR_TO_NAME.get(away_abbr, away_abbr)
             home_name = TEAM_ABBR_TO_NAME.get(home_abbr, home_abbr)
 
@@ -289,10 +295,11 @@ def get_paired_label(label, market_key, game_id, point=None):
 
 
 def get_opponent_abbr_by_game_id(team_name, game_id):
-    _, matchup = game_id.rsplit("-", 1)
-    away, home = matchup.split("@")
+    parts = parse_game_id(game_id)
+    away = parts["away"]
+    home = parts["home"]
     team_abbr = TEAM_NAME_TO_ABBR.get(team_name, team_name)
-    return home if team_abbr == away else away
+    return home if team_abbr.upper() == away.upper() else away
 
 
 def extract_point(label):
