@@ -2,8 +2,9 @@ import argparse
 import csv
 import json
 import os
+from datetime import datetime
 
-from utils import canonical_game_id
+from utils import canonical_game_id, parse_game_id
 
 FIELDNAMES = [
     "Date",
@@ -97,6 +98,16 @@ def main():
         if key in existing:
             continue
         bet["game_id"] = gid
+
+        parsed = parse_game_id(gid)
+        bet["Date"] = parsed.get("date", "")
+        bet["Matchup"] = f"{parsed['away']} @ {parsed['home']}"
+        time_raw = parsed.get("time", "")
+        if time_raw.startswith("T"):
+            bet["Time"] = datetime.strptime(time_raw[1:], "%H%M").strftime("%-I:%M %p")
+        else:
+            bet["Time"] = ""
+
         new_rows.append(bet)
         existing.add(key)
 
