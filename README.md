@@ -151,3 +151,17 @@ This engine is modular and open to extensions. If you have ideas for improvement
 Let me know if you'd like me to retry generating a downloadable `.md` file or push it to a GitHub-compatible format!
 
 
+### 🆕 Game ID Format (Commencement Time-Aware)
+
+Game identifiers now use this format:
+
+YYYY-MM-DD-AWAY@HOME-T%H%M
+
+- Example: `2025-06-09-MIL@CIN-T1305` represents a 1:05 PM ET game.
+- This format ensures uniqueness on doubleheader days.
+
+#### Helpers:
+- `disambiguate_game_id(date, away, home, start_time_et)` → returns full game_id.
+- `parse_game_id(game_id)` → returns dict with `date`, `away`, `home`, `time`.
+
+All modules should use these helpers for consistency.
