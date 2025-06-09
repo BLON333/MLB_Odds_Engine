@@ -18,7 +18,7 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker
-from utils import safe_load_json, now_eastern, EASTERN_TZ
+from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 import re
 
 load_dotenv()
@@ -156,6 +156,17 @@ else:
     MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
 # === Local Modules ===
+def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
+    """Return Date, Matchup and Time strings from a game_id."""
+    parts = parse_game_id(str(game_id))
+    date = parts.get("date", "")
+    matchup = f"{parts.get('away', '')} @ {parts.get('home', '')}".strip()
+    time = parts.get("time", "")
+    if isinstance(time, str) and time.startswith("T") and len(time) == 5:
+        time = f"{time[1:3]}:{time[3:]}"
+    else:
+        time = ""
+    return date, matchup, time
 from core.market_pricer import (
     implied_prob,
     decimal_odds,
@@ -367,8 +378,11 @@ def generate_clean_summary_image(
     else:
         df["Segment"] = "⚠️ Unknown"
 
-    df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
-    df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
+    df[["Date", "Matchup", "Time"]] = df["game_id"].apply(
+        lambda gid: pd.Series(_game_id_display_fields(gid))
+    )
+    if df["Time"].eq("").all():
+        df.drop(columns=["Time"], inplace=True)
 
     if "market_class" in df.columns:
         df["Market"] = df.apply(
@@ -382,22 +396,23 @@ def generate_clean_summary_image(
     else:
         df["Market"] = df["market"]
 
-    display_df = df[
-        [
-            "Date",
-            "Matchup",
-            "Segment",
-            "Market",
-            "side",
-            "best_book",
-            "Odds",
-            "Sim %",
-            "Mkt %",
-            "FV",
-            "EV",
-            "Stake",
-        ]
-    ].rename(columns={"side": "Bet", "best_book": "Book"})
+    cols = ["Date"]
+    if "Time" in df.columns:
+        cols.append("Time")
+    cols += [
+        "Matchup",
+        "Segment",
+        "Market",
+        "side",
+        "best_book",
+        "Odds",
+        "Sim %",
+        "Mkt %",
+        "FV",
+        "EV",
+        "Stake",
+    ]
+    display_df = df[cols].rename(columns={"side": "Bet", "best_book": "Book"})
 
     styled = display_df.style.set_properties(
         **{"text-align": "left", "font-family": "monospace", "font-size": "11pt"}
@@ -487,8 +502,11 @@ def generate_clean_summary_table(
         df["Segment"] = "⚠️ Unknown"
 
     # 🗓️ Add readable fields
-    df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
-    df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
+    df[["Date", "Matchup", "Time"]] = df["game_id"].apply(
+        lambda gid: pd.Series(_game_id_display_fields(gid))
+    )
+    if df["Time"].eq("").all():
+        df.drop(columns=["Time"], inplace=True)
 
     if "market_class" in df.columns:
         df["Market"] = df.apply(
@@ -502,22 +520,23 @@ def generate_clean_summary_table(
     else:
         df["Market"] = df["market"]
 
-    display_df = df[
-        [
-            "Date",
-            "Matchup",
-            "Segment",
-            "Market",
-            "side",
-            "best_book",
-            "Odds",
-            "Sim %",
-            "Mkt %",
-            "FV",
-            "EV",
-            "Stake",
-        ]
-    ].rename(columns={"side": "Bet", "best_book": "Book"})
+    cols = ["Date"]
+    if "Time" in df.columns:
+        cols.append("Time")
+    cols += [
+        "Matchup",
+        "Segment",
+        "Market",
+        "side",
+        "best_book",
+        "Odds",
+        "Sim %",
+        "Mkt %",
+        "FV",
+        "EV",
+        "Stake",
+    ]
+    display_df = df[cols].rename(columns={"side": "Bet", "best_book": "Book"})
 
     # 🖼️ Output file path
     date_tag = datetime.now().strftime("%Y-%m-%d")
@@ -935,8 +954,8 @@ def send_discord_notification(row, skipped_bets=None):
     from datetime import datetime, timedelta
 
     now = datetime.now()
-    game_date_str = game_id.split("-")[0:3]
-    game_date = datetime.strptime("-".join(game_date_str), "%Y-%m-%d").date()
+    parts = parse_game_id(game_id)
+    game_date = datetime.strptime(parts["date"], "%Y-%m-%d").date()
 
     if game_date == now.date():
         game_day_tag = "📅 *Today*"
@@ -948,9 +967,8 @@ def send_discord_notification(row, skipped_bets=None):
     from utils import TEAM_ABBR_TO_NAME
 
     try:
-        away_abbr, home_abbr = game_id.split("-")[-1].split("@")
-        away_team = TEAM_ABBR_TO_NAME.get(away_abbr, away_abbr)
-        home_team = TEAM_ABBR_TO_NAME.get(home_abbr, home_abbr)
+        away_team = TEAM_ABBR_TO_NAME.get(parts["away"], parts["away"])
+        home_team = TEAM_ABBR_TO_NAME.get(parts["home"], parts["home"])
         event_label = f"{away_team} @ {home_team}"
     except Exception:
         event_label = game_id
