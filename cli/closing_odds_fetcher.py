@@ -9,7 +9,7 @@ from core.odds_fetcher import (
     american_to_prob,
 )
 from core.market_pricer import to_american_odds
-from utils import normalize_line_label, safe_load_json
+from utils import normalize_line_label, safe_load_json, canonical_game_id
 
 load_dotenv()
 from core.logger import get_logger
@@ -22,7 +22,8 @@ def load_game_ids_from_csv(csv_path):
     with open(csv_path, "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            game_ids.add(row["game_id"])
+            gid = canonical_game_id(row["game_id"])
+            game_ids.add(gid)
     return sorted(game_ids)
 
 

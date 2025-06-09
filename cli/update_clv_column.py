@@ -16,6 +16,7 @@ from utils import (
     safe_load_json,
     normalize_line_label,
     normalize_to_abbreviation,
+    canonical_game_id,
 )
 from core.odds_fetcher import american_to_prob  # ✅ Corrected path
 
@@ -82,7 +83,7 @@ def update_clv(csv_path, odds_json_path, target_date):
 
     updated_rows = []
     for row in rows:
-        gid = row.get("game_id")
+        gid = canonical_game_id(row.get("game_id", ""))
         row_date = gid[:10] if gid else ""
 
         # ⛔ Skip if not from the target date
