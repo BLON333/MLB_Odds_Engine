@@ -76,6 +76,8 @@ def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
         print(
             f"⚠️ Could not load market confirmation tracker at {path}, starting fresh."
         )
+    # Return empty dict if file missing or failed to load
+    return {}
 
 
 def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH):
@@ -90,6 +92,9 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
 
 import copy
 from datetime import datetime
+
+# Load market confirmation tracker
+MARKET_CONF_TRACKER = load_market_conf_tracker()
 
 def latest_snapshot_path(folder="backtest"):
     """Return the most recent snapshot file from the given folder."""
@@ -1211,8 +1216,8 @@ def write_to_csv(
         new_conf_val = None
 
     prev_conf_val = None
-    # if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
-    #     prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
+    if isinstance(MARKET_CONF_TRACKER.get(tracker_key), dict):
+        prev_conf_val = MARKET_CONF_TRACKER[tracker_key].get("consensus_prob")
 
     if new_conf_val is None:
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
@@ -1399,11 +1404,11 @@ def write_to_csv(
         )
 
         # Update market confirmation tracker on successful log
-        # MARKET_CONF_TRACKER[tracker_key] = {
-        #     "consensus_prob": new_conf_val,
-        #     "timestamp": datetime.now().isoformat(),
-        # }
-        # save_market_conf_tracker(MARKET_CONF_TRACKER)
+        MARKET_CONF_TRACKER[tracker_key] = {
+            "consensus_prob": new_conf_val,
+            "timestamp": datetime.now().isoformat(),
+        }
+        save_market_conf_tracker(MARKET_CONF_TRACKER)
 
         movement = track_and_update_market_movement(
             row,
