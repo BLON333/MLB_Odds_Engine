@@ -48,6 +48,18 @@ def test_skip_reason_market_not_moved(monkeypatch, tmp_path):
     assert row["skip_reason"] == "market_not_moved"
 
 
+def test_top_up_skips_movement_check(monkeypatch, tmp_path):
+    row = _base_row()
+    row["entry_type"] = "top-up"
+    row["market_prob"] = 0.55
+    row["_prior_snapshot"] = {"market_prob": 0.6}
+    row["sportsbook"] = "B1"
+    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
+    result = write_to_csv(row, tmp_path / "t.csv", {}, {}, {}, dry_run=False, force_log=False)
+    assert result is not None
+    assert "skip_reason" not in row
+
+
 def test_send_discord_notification_no_webhook(monkeypatch):
     row = _base_row()
     monkeypatch.setattr("cli.log_betting_evals.get_discord_webhook_for_market", lambda m: "")
