@@ -6,6 +6,7 @@ import sys
 import json
 import io
 from typing import List
+import argparse
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -15,6 +16,12 @@ import requests
 
 from utils import safe_load_json
 from core.logger import get_logger
+from core.market_pricer import (
+    extract_best_book,
+    calculate_ev_from_prob,
+    to_american_odds,
+    kelly_fraction,
+)
 
 # Load environment variables from a .env file in the working directory
 load_dotenv()
@@ -160,36 +167,82 @@ def main() -> None:
     rows = load_rows(path)
     rows = filter_by_date(rows, args.date)
 
-    # Filter EV and mainline markets only
-    rows = [
-        r
-        for r in rows
-        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
-        and str(r.get("market_class", "main")).lower() == "main"
-    ]
-    logger.info(
-        "🧪 Dispatch filter → %d rows with %.1f ≤ EV%% ≤ %.1f",
-        len(rows),
-        args.min_ev,
-        args.max_ev,
-    )
+    processed: list[dict] = []
+    for r in rows:
+        if str(r.get("market_class", "main")).lower() != "main":
+            continue
 
-    if not rows:
+        per_book = r.get("_raw_sportsbook") or r.get("per_book") or {}
+        best_book = r.get("best_book") or extract_best_book(per_book)
+        best_odds = None
+        if best_book and isinstance(per_book, dict):
+            best_odds = per_book.get(best_book)
+        if best_odds is None:
+            best_odds = r.get("market_odds")
+
+        try:
+            odds_val = float(best_odds)
+            if odds_val.is_integer():
+                odds_val = int(odds_val)
+        except Exception:
+            continue
+
+        sim_prob = r.get("sim_prob")
+        if sim_prob is None:
+            continue
+        try:
+            ev_sim = calculate_ev_from_prob(float(sim_prob), odds_val)
+            stake_units = kelly_fraction(float(sim_prob), odds_val, fraction=0.25)
+        except Exception:
+            continue
+
+        if not (args.min_ev <= ev_sim <= args.max_ev):
+            continue
+
+        processed.append(
+            {
+                "Game": r.get("game_id", ""),
+                "Market": r.get("market", ""),
+                "Side": r.get("side", ""),
+                "Book": best_book or "",
+                "Odds": odds_val,
+                "Sim Prob": sim_prob,
+                "Fair Odds": to_american_odds(float(sim_prob)),
+                "EV_numeric": ev_sim,
+                "Stake_units": stake_units,
+            }
+        )
+
+    if not processed:
         logger.info("⚠️ No rows after filtering.")
         return
 
-    df = pd.DataFrame(rows)
-    df["Game"] = df.get("game_id", "")
-    df["Market"] = df.get("market", "")
-    df["Side"] = df.get("side", "")
-    df["Sim Prob"] = (df.get("sim_prob", 0) * 100).map("{:.1f}%".format)
-    df["Fair Odds"] = df.get("blended_fv", df.get("fair_odds", "")).apply(
+    df = pd.DataFrame(processed)
+    df["Sim Prob"] = (df["Sim Prob"] * 100).map("{:.1f}%".format)
+    df["Fair Odds"] = df["Fair Odds"].apply(
         lambda x: f"{round(x)}" if isinstance(x, (int, float)) else "N/A"
     )
-    df["EV%"] = df.get("ev_percent", 0).map("{:+.1f}%".format)
+    df["Odds"] = df["Odds"].apply(
+        lambda x: f"{int(x):+}" if isinstance(x, (int, float)) else "N/A"
+    )
+    df["EV%"] = df["EV_numeric"].map("{:+.1f}%".format)
+    df["Stake"] = df["Stake_units"].map("{:.2f}u".format)
+    df = df.drop(columns=["EV_numeric", "Stake_units"])
 
-    df = df[["Game", "Market", "Side", "Sim Prob", "Fair Odds", "EV%"]]
-    df = df.sort_values(by="EV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False)
+    df = df[[
+        "Game",
+        "Market",
+        "Side",
+        "Book",
+        "Odds",
+        "Sim Prob",
+        "Fair Odds",
+        "EV%",
+        "Stake",
+    ]]
+    df = df.sort_values(
+        by="EV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False
+    )
 
     if args.max_rows and args.max_rows > 0:
         df = df.head(args.max_rows)
