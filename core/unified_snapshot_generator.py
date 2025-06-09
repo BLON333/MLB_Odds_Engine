@@ -22,11 +22,15 @@ from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
     load_simulations,
-    build_snapshot_rows,
+    build_snapshot_rows as _core_build_snapshot_rows,
 )
 from core.snapshot_core import expand_snapshot_rows_with_kelly
 
 logger = get_logger(__name__)
+
+# Debug/verbose toggles
+VERBOSE = False
+DEBUG = False
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -88,6 +92,18 @@ def is_personal_book_row(row: dict) -> bool:
 # ---------------------------------------------------------------------------
 # Snapshot generation
 # ---------------------------------------------------------------------------
+
+
+def build_snapshot_rows(sim_data: dict, odds_json: dict, min_ev: float = 0.01):
+    """Wrapper around snapshot_core.build_snapshot_rows with debug logging."""
+    if VERBOSE or DEBUG:
+        for game_id in sim_data.keys():
+            print(f"\U0001F50D Evaluating {game_id}")
+            if odds_json.get(game_id):
+                print(f"\u2705 Matched odds for {game_id}")
+            else:
+                print(f"\u274C No odds found for {game_id}")
+    return _core_build_snapshot_rows(sim_data, odds_json, min_ev=min_ev)
 
 
 def build_snapshot_for_date(
