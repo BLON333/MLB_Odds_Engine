@@ -876,8 +876,10 @@ def disambiguate_game_id(date: str, away: str, home: str, start_time_et: datetim
 def parse_game_id(game_id: str) -> dict:
     """Parse a ``game_id`` into components.
 
-    Returns a dict ``{"date": ..., "away": ..., "home": ..., "time": ...}``.
-    Works for IDs with or without a time suffix.
+    Returns ``{"date": ..., "away": ..., "home": ..., "time": ...}`` where the
+    ``time`` value includes any additional suffix used for doubleheaders.  Both
+    plain (``2025-06-01-ARI@COL``) and time-stamped identifiers
+    (``2025-06-01-ARI@COL-T1905-DH1``) are supported.
     """
     try:
         parts = game_id.split("-")
@@ -885,7 +887,8 @@ def parse_game_id(game_id: str) -> dict:
             raise ValueError("invalid game_id")
         date = "-".join(parts[:3])
         matchup = parts[3]
-        time_part = parts[4] if len(parts) > 4 else ""
+        suffix_parts = parts[4:]
+        time_part = "-".join(suffix_parts) if suffix_parts else ""
         away, home = matchup.split("@")
         return {"date": date, "away": away, "home": home, "time": time_part}
     except Exception:
@@ -934,7 +937,11 @@ def normalize_game_id(game_id):
 
 
 def canonical_game_id(game_id: str) -> str:
-    """Return ``game_id`` with team codes normalized using :data:`TEAM_FIXES`."""
+    """Return ``game_id`` with team codes normalized using :data:`TEAM_FIXES`.
+
+    The trailing time component, including any doubleheader tag (e.g.
+    ``-T1305-DH1``), is preserved.
+    """
     try:
         parts = parse_game_id(game_id)
         away = TEAM_FIXES.get(parts["away"].upper(), parts["away"].upper())
