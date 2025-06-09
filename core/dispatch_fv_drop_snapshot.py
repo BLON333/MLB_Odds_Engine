@@ -9,6 +9,7 @@ import json
 from utils import safe_load_json
 import argparse
 from typing import List
+import re
 import pandas as pd
 from dotenv import load_dotenv
 
@@ -16,6 +17,7 @@ load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
+from core.should_log_bet import MAX_POSITIVE_ODDS, MIN_NEGATIVE_ODDS
 
 logger = get_logger(__name__)
 
@@ -53,6 +55,49 @@ def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
     if not clean_books:
         return df
     return df[df["Book"].isin(clean_books)]
+
+
+def parse_american_odds(val: str | float | int | None) -> float | None:
+    """Return numeric US odds from various input formats."""
+    if val is None:
+        return None
+    if isinstance(val, (int, float)):
+        try:
+            return float(val)
+        except Exception:
+            return None
+    if isinstance(val, str):
+        s = val.strip()
+        if not s or s.upper() == "N/A":
+            return None
+        try:
+            return float(s)
+        except Exception:
+            m = re.match(r"^[+-]?\d+", s)
+            if m:
+                try:
+                    return float(m.group())
+                except Exception:
+                    return None
+    return None
+
+
+def filter_by_odds(df: pd.DataFrame, min_odds: float, max_odds: float) -> pd.DataFrame:
+    """Return df filtered to the given odds range."""
+    if "Odds" not in df.columns:
+        return df
+    df = df.copy()
+    df["_odds_val"] = df["Odds"].apply(parse_american_odds)
+    df = df[df["_odds_val"].between(min_odds, max_odds)]
+    df.drop(columns=["_odds_val"], inplace=True)
+    return df
+
+
+def filter_main_lines(df: pd.DataFrame) -> pd.DataFrame:
+    """Return df filtered to only main market lines."""
+    if "Market Class" in df.columns:
+        return df[df["Market Class"] == "Main"]
+    return df
 
 
 def is_market_prob_increasing(val: str) -> bool:
@@ -148,6 +193,12 @@ def main() -> None:
     allowed_books = ["betonlineag", "bovada"]
 
     df_allowed = filter_by_books(df, allowed_books)
+    df_allowed = filter_main_lines(df_allowed)
+    df_allowed = filter_by_odds(
+        df_allowed,
+        MIN_NEGATIVE_ODDS,
+        MAX_POSITIVE_ODDS,
+    )
 
     if df_allowed.empty and df_all_books.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
