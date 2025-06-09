@@ -104,7 +104,11 @@ def main():
 
     # Fetch all games for the specified window
     matchups = fetch_probable_pitchers(days_ahead=days_ahead)
-    game_ids = sorted(gid for gid in matchups if gid.startswith(date_str))
+    game_ids = sorted(
+        canonical_game_id(gid)
+        for gid in matchups
+        if gid.startswith(date_str)
+    )
 
     if not game_ids:
         logger.error("❌ No games found for %s", date_str)
