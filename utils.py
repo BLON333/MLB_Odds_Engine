@@ -864,13 +864,42 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
 
 
 
-def extract_game_id_from_event(away_team, home_team, start_time_utc):
-    """Construct a game ID (YYYY-MM-DD-AWAY@HOME) using US/Eastern time."""
+def disambiguate_game_id(date: str, away: str, home: str, start_time_et: datetime) -> str:
+    """Return a time-stamped game ID like ``2025-06-09-MIL@CIN-T1305``."""
     try:
-        local_date = to_eastern(start_time_utc).strftime("%Y-%m-%d")
+        time_tag = to_eastern(start_time_et).strftime("T%H%M")
+        return f"{date}-{away}@{home}-{time_tag}"
+    except Exception:
+        return f"{date}-{away}@{home}"
+
+
+def parse_game_id(game_id: str) -> dict:
+    """Parse a ``game_id`` into components.
+
+    Returns a dict ``{"date": ..., "away": ..., "home": ..., "time": ...}``.
+    Works for IDs with or without a time suffix.
+    """
+    try:
+        parts = game_id.split("-")
+        if len(parts) < 4:
+            raise ValueError("invalid game_id")
+        date = "-".join(parts[:3])
+        matchup = parts[3]
+        time_part = parts[4] if len(parts) > 4 else ""
+        away, home = matchup.split("@")
+        return {"date": date, "away": away, "home": home, "time": time_part}
+    except Exception:
+        return {"date": game_id, "away": "", "home": "", "time": ""}
+
+
+def extract_game_id_from_event(away_team, home_team, start_time_utc):
+    """Construct a time-stamped game ID using US/Eastern time."""
+    try:
+        start_et = to_eastern(start_time_utc)
+        local_date = start_et.strftime("%Y-%m-%d")
         away_abbr = TEAM_ABBR.get(away_team, away_team)
         home_abbr = TEAM_ABBR.get(home_team, home_team)
-        return f"{local_date}-{away_abbr}@{home_abbr}"
+        return disambiguate_game_id(local_date, away_abbr, home_abbr, start_et)
     except Exception as e:
         from core.logger import get_logger
         get_logger(__name__).debug("[DEBUG] extract_game_id_from_event error: %s", e)
@@ -895,14 +924,13 @@ def normalize_game_id(game_id):
 
 
 def canonical_game_id(game_id: str) -> str:
-    """Normalize ``game_id`` using :data:`TEAM_FIXES` for consistent comparisons."""
+    """Return ``game_id`` with team codes normalized using :data:`TEAM_FIXES`."""
     try:
-        date_parts = game_id.split("-", 3)[:3]
-        matchup = game_id.split("-")[3]
-        away, home = matchup.split("@")
-        away_fixed = TEAM_FIXES.get(away, away)
-        home_fixed = TEAM_FIXES.get(home, home)
-        return f"{'-'.join(date_parts)}-{away_fixed}@{home_fixed}"
+        parts = parse_game_id(game_id)
+        away = TEAM_FIXES.get(parts["away"].upper(), parts["away"].upper())
+        home = TEAM_FIXES.get(parts["home"].upper(), parts["home"].upper())
+        base = f"{parts['date']}-{away}@{home}"
+        return f"{base}-{parts['time']}" if parts["time"] else base
     except Exception:
         return game_id
 

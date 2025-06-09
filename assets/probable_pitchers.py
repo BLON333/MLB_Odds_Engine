@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from utils import normalize_game_id  
+from utils import normalize_game_id, disambiguate_game_id, to_eastern
 import pytz
 import requests
 
@@ -73,7 +73,10 @@ def fetch_probable_pitchers(days_ahead=1):
         for game in games:
             try:
                 utc_ts = game["gameDate"]  # e.g. "2025-04-18T01:05:00Z"
-                corrected_date = to_eastern_date(utc_ts)
+                start_dt = datetime.strptime(utc_ts, "%Y-%m-%dT%H:%M:%SZ")
+                start_dt = start_dt.replace(tzinfo=pytz.utc)
+                start_et = to_eastern(start_dt)
+                corrected_date = start_et.strftime("%Y-%m-%d")
 
                 away_team_name = game["teams"]["away"]["team"]["name"]
                 home_team_name = game["teams"]["home"]["team"]["name"]
@@ -81,7 +84,9 @@ def fetch_probable_pitchers(days_ahead=1):
                 away_team = abbreviate_team(away_team_name)
                 home_team = abbreviate_team(home_team_name)
 
-                raw_game_id = f"{corrected_date}-{away_team}@{home_team}"
+                raw_game_id = disambiguate_game_id(
+                    corrected_date, away_team, home_team, start_et
+                )
                 game_id = normalize_game_id(raw_game_id)  # 🔁 ensures team codes like ATH → OAK
 
                 away_prob = game["teams"]["away"].get("probablePitcher")
