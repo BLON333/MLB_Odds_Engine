@@ -359,7 +359,8 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
 
                 away_abbr = TEAM_ABBR.get(away_team_full, away_team_full.split()[-1])
                 home_abbr = TEAM_ABBR.get(home_team_full, home_team_full.split()[-1])
-                gid = f"{game_date}-{away_abbr}@{home_abbr}"
+                raw_id = disambiguate_game_id(game_date, away_abbr, home_abbr, game_time)
+                gid = canonical_game_id(raw_id)
 
                 time_to_game = (game_time - now_est).total_seconds()
                 if debug_mode:

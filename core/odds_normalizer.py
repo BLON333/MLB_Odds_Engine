@@ -44,7 +44,8 @@ def normalize_market_odds(odds: dict) -> dict:
             date_str = start_ts.strftime("%Y-%m-%d")
             away_abbr = TEAM_ABBR.get(away_team, away_team)
             home_abbr = TEAM_ABBR.get(home_team, home_team)
-            game_id = canonical_game_id(f"{date_str}-{away_abbr}@{home_abbr}")
+            raw_id = disambiguate_game_id(date_str, away_abbr, home_abbr, start_ts)
+            game_id = canonical_game_id(raw_id)
     except Exception:
         pass
 
