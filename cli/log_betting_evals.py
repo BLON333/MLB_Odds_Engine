@@ -1309,23 +1309,24 @@ def write_to_csv(
     new_prob = row.get("market_prob")
     hours_to_game = row.get("hours_to_game", 8)
 
-    if prior_prob is None or new_prob is None:
-        print("⛔ No prior market probability — building baseline and skipping log.")
-        track_and_update_market_movement(
-            row,
-            MARKET_EVAL_TRACKER,
-            MARKET_EVAL_TRACKER_BEFORE_UPDATE,
-        )
-        row["skip_reason"] = "market_not_moved"
-        return None
-    elif new_prob <= prior_prob:
-        print("⛔ Market probability did not improve — skipping.")
-        row["skip_reason"] = "market_not_moved"
-        return None
-    else:
-        delta = new_prob - prior_prob
-        threshold = market_prob_increase_threshold(hours_to_game, row.get("market", ""))
-        if delta < threshold:
+    threshold = market_prob_increase_threshold(hours_to_game, row.get("market", ""))
+
+    if row.get("entry_type") == "first":
+        if prior_prob is None or new_prob is None:
+            print("⛔ No prior market probability — building baseline and skipping log.")
+            track_and_update_market_movement(
+                row,
+                MARKET_EVAL_TRACKER,
+                MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+            )
+            row["skip_reason"] = "market_not_moved"
+            return None
+        elif new_prob <= prior_prob:
+            print("⛔ Market probability did not improve — skipping.")
+            row["skip_reason"] = "market_not_moved"
+            return None
+        elif (new_prob - prior_prob) < threshold:
+            delta = new_prob - prior_prob
             print(
                 f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
             )
