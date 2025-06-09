@@ -17,6 +17,8 @@ from utils import (
     safe_load_json,
     normalize_to_abbreviation,
     normalize_line_label,
+    canonical_game_id,
+    extract_game_id_from_event,
 )
 from dotenv import load_dotenv
 
@@ -359,7 +361,12 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
 
                 away_abbr = TEAM_ABBR.get(away_team_full, away_team_full.split()[-1])
                 home_abbr = TEAM_ABBR.get(home_team_full, home_team_full.split()[-1])
-                raw_id = disambiguate_game_id(game_date, away_abbr, home_abbr, game_time)
+
+                raw_id = extract_game_id_from_event(
+                    away_team_full,
+                    home_team_full,
+                    game_time,
+                )
                 gid = canonical_game_id(raw_id)
 
                 time_to_game = (game_time - now_est).total_seconds()
