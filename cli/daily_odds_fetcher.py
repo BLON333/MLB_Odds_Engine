@@ -39,7 +39,10 @@ def run_daily_odds_pipeline():
         print(f"⚠️ Sim folder does not exist: {sim_folder}")
         return
 
-    game_ids = [f.replace(".json", "") for f in os.listdir(sim_folder) if f.endswith(".json")]
+    from pathlib import Path
+
+    sim_dir = Path(sim_folder)
+    game_ids = [f.stem for f in sim_dir.glob("*.json") if "-T" in f.stem]
     print(f"\n📅 Running daily odds fetch for {len(game_ids)} games on {today_tag}\n")
 
     odds_data = fetch_market_odds_from_api(game_ids)

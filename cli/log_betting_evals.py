@@ -2714,11 +2714,10 @@ if __name__ == "__main__":
             sys.exit(1)
         odds_file = args.odds_path
     else:
-        games = [
-            f.replace(".json", "")
-            for f in os.listdir(args.eval_folder)
-            if f.endswith(".json")
-        ]
+        from pathlib import Path
+
+        sim_dir = Path(args.eval_folder)
+        games = [f.stem for f in sim_dir.glob("*.json") if "-T" in f.stem]
         print(f"📡 Fetching market odds for {len(games)} games on {date_tag}...")
         odds = fetch_market_odds_from_api(games)
         timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
