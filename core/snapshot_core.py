@@ -777,18 +777,22 @@ def build_snapshot_rows(
             parsed = parse_game_id(str(game_id))
             row["Date"] = parsed.get("date", "")
             row["Matchup"] = f"{parsed.get('away', '')} @ {parsed.get('home', '')}".strip()
-            time_part = parsed.get("time", "")
-            time_formatted = ""
-            if isinstance(time_part, str) and time_part.startswith("T"):
+            time_part = parsed.get("time")
+            if time_part:
                 raw = time_part.split("-")[0][1:]
                 try:
-                    time_formatted = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
+                    time_str = datetime.strptime(raw, "%H%M").strftime("%-I:%M %p")
                 except Exception:
                     try:
-                        time_formatted = datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
+                        time_str = datetime.strptime(raw, "%H%M").strftime("%I:%M %p").lstrip("0")
                     except Exception:
-                        time_formatted = ""
-            row["Time"] = time_formatted or start_formatted or ""
+                        time_str = ""
+                if not time_str:
+                    time_str = start_formatted
+            else:
+                time_str = start_formatted
+
+            row["Time"] = time_str or ""
             row["segment_label"] = get_segment_label(matched_key, normalized_side)
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)
