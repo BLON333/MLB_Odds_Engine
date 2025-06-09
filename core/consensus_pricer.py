@@ -5,7 +5,7 @@ from utils import (
     normalize_label,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
-    parse_game_id,
+    get_teams_from_game_id,
 )
 
 _DEVIG_WARNING_LOGGED = set()
@@ -265,9 +265,7 @@ def get_paired_label(label, market_key, game_id, point=None):
 
     if market_key.startswith("h2h"):
         try:
-            parts = parse_game_id(game_id)
-            away_abbr = parts["away"]
-            home_abbr = parts["home"]
+            away_abbr, home_abbr = get_teams_from_game_id(game_id)
             away_name = TEAM_ABBR_TO_NAME.get(away_abbr, away_abbr)
             home_name = TEAM_ABBR_TO_NAME.get(home_abbr, home_abbr)
 
@@ -295,9 +293,7 @@ def get_paired_label(label, market_key, game_id, point=None):
 
 
 def get_opponent_abbr_by_game_id(team_name, game_id):
-    parts = parse_game_id(game_id)
-    away = parts["away"]
-    home = parts["home"]
+    away, home = get_teams_from_game_id(game_id)
     team_abbr = TEAM_NAME_TO_ABBR.get(team_name, team_name)
     return home if team_abbr.upper() == away.upper() else away
 

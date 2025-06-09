@@ -1,5 +1,9 @@
 from core.market_pricer import implied_prob, to_american_odds, best_price
-from utils import normalize_label, merge_offers_with_alternates, parse_game_id
+from utils import (
+    normalize_label,
+    merge_offers_with_alternates,
+    get_teams_from_game_id,
+)
 import numpy as np
 
 
@@ -12,9 +16,7 @@ def normalize_odds(game_id: str, offers: dict) -> dict:
     ]
 
     def get_opponent_abbr(team_abbr, game_id):
-        parts = parse_game_id(game_id)
-        away = parts["away"]
-        home = parts["home"]
+        away, home = get_teams_from_game_id(game_id)
         return home if team_abbr.upper() == away.upper() else away
 
     print(f"\n🔍 Normalizing odds for: {game_id}")

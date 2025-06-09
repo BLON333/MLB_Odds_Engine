@@ -39,6 +39,7 @@ from assets.env_builder import (
 from utils import (
     canonical_game_id,
     parse_game_id,
+    get_teams_from_game_id,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
     normalize_label_for_odds,
@@ -93,9 +94,9 @@ def extract_universal_markets(game_id, full_game_market, derivative_segments, ru
             "source": "simulator"
         }
 
-    parts = parse_game_id(game_id)
-    away = parts["away"].upper()
-    home = parts["home"].upper()
+    away, home = get_teams_from_game_id(game_id)
+    away = away.upper()
+    home = home.upper()
     entries = []
 
     # === Moneyline (H2H)
