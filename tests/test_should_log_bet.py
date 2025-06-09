@@ -203,3 +203,35 @@ def test_rejected_for_low_stake():
     assert result is None
     assert bet["entry_type"] == "none"
     assert bet["skip_reason"] == "low_stake"
+
+
+def test_rejected_for_odds_too_high():
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_odds": 205,
+    }
+
+    result = should_log_bet(bet, {}, verbose=False)
+    assert result is None
+    assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "bad_odds"
+
+
+def test_rejected_for_odds_too_negative():
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_odds": -155,
+    }
+
+    result = should_log_bet(bet, {}, verbose=False)
+    assert result is None
+    assert bet["entry_type"] == "none"
+    assert bet["skip_reason"] == "bad_odds"

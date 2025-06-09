@@ -4,6 +4,10 @@ from typing import Optional
 MIN_FIRST_STAKE = 1.0
 MIN_TOPUP_STAKE = 0.5
 
+# Odds outside this range are ignored for logging
+MAX_POSITIVE_ODDS = 200
+MIN_NEGATIVE_ODDS = -150
+
 from core.market_pricer import decimal_odds
 
 
@@ -142,6 +146,22 @@ def should_log_bet(
     new_bet["side"] = side  # ensure consistent formatting
     stake = new_bet["full_stake"]
     ev = new_bet["ev_percent"]
+
+    odds_value = None
+    try:
+        odds_value = float(new_bet.get("market_odds"))
+    except Exception:
+        pass
+
+    if odds_value is not None:
+        if odds_value > MAX_POSITIVE_ODDS or odds_value < MIN_NEGATIVE_ODDS:
+            _log_verbose(
+                "⛔ should_log_bet: Rejected due to odds out of range",
+                verbose,
+            )
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "bad_odds"
+            return None
 
     if ev < min_ev * 100 or stake < min_stake:
         if verbose:
