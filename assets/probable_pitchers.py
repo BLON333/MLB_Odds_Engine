@@ -1,5 +1,9 @@
 from datetime import datetime, timedelta
-from utils import normalize_game_id, disambiguate_game_id, to_eastern
+from utils import (
+    canonical_game_id,
+    disambiguate_game_id,
+    to_eastern,
+)
 import pytz
 import requests
 
@@ -87,7 +91,8 @@ def fetch_probable_pitchers(days_ahead=1):
                 raw_game_id = disambiguate_game_id(
                     corrected_date, away_team, home_team, start_et
                 )
-                game_id = normalize_game_id(raw_game_id)  # 🔁 ensures team codes like ATH → OAK
+                # canonical_game_id preserves the time suffix while normalizing team codes
+                game_id = canonical_game_id(raw_game_id)
 
                 away_prob = game["teams"]["away"].get("probablePitcher")
                 home_prob = game["teams"]["home"].get("probablePitcher")
