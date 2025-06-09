@@ -1314,6 +1314,10 @@ def write_to_csv(
     if row.get("entry_type") == "first":
         if prior_prob is None or new_prob is None:
             print("⛔ No prior market probability — building baseline and skipping log.")
+            if VERBOSE:
+                print(
+                    f"⛔ Skipping {row.get('entry_type')} bet — no prior market probability ({prior_prob} → {new_prob})"
+                )
             track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -1323,6 +1327,10 @@ def write_to_csv(
             return None
         elif new_prob <= prior_prob:
             print("⛔ Market probability did not improve — skipping.")
+            if VERBOSE:
+                print(
+                    f"⛔ Skipping {row.get('entry_type')} bet — market probability did not improve ({new_prob:.4f} ≤ {prior_prob:.4f})"
+                )
             row["skip_reason"] = "market_not_moved"
             return None
         elif (new_prob - prior_prob) < threshold:
@@ -1330,6 +1338,10 @@ def write_to_csv(
             print(
                 f"⛔ Market % increase too small ({delta:.4f} < {threshold:.4f}) — skipping."
             )
+            if VERBOSE:
+                print(
+                    f"⛔ Skipping {row.get('entry_type')} bet — market % increase too small ({delta:.4f} < {threshold:.4f})"
+                )
             row["skip_reason"] = "market_not_moved"
             return None
 
