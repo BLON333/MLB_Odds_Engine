@@ -1403,6 +1403,7 @@ def write_to_csv(
     fieldnames = [
         "Date",
         "Time",
+        "Start Time (ISO)",
         "Matchup",
         "game_id",
         "market",
@@ -1664,6 +1665,9 @@ def log_bets(
             "date_simulated": date_sim,
             "result": "",
         }
+
+        # Preserve the raw start timestamp for filtering/debugging
+        row["Start Time (ISO)"] = market_odds.get("start_time", "")
 
         if isinstance(book_prices, dict):
             row["_raw_sportsbook"] = book_prices.copy()
@@ -1981,6 +1985,9 @@ def log_derivative_bets(
                     "date_simulated": date_sim,
                     "result": "",
                 }
+
+                # Preserve the raw start timestamp for filtering/debugging
+                row["Start Time (ISO)"] = market_odds.get("start_time", "")
 
                 if isinstance(book_prices, dict):
                     row["_raw_sportsbook"] = book_prices.copy()
