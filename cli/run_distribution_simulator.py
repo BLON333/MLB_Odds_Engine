@@ -93,9 +93,9 @@ def extract_universal_markets(game_id, full_game_market, derivative_segments, ru
             "source": "simulator"
         }
 
-    away, home = game_id.rsplit("-", 1)[-1].split("@")
-    away = away.upper()
-    home = home.upper()
+    parts = parse_game_id(game_id)
+    away = parts["away"].upper()
+    home = parts["home"].upper()
     entries = []
 
     # === Moneyline (H2H)
