@@ -892,10 +892,20 @@ def parse_game_id(game_id: str) -> dict:
         return {"date": game_id, "away": "", "home": "", "time": ""}
 
 
-def extract_game_id_from_event(away_team, home_team, start_time_utc):
-    """Construct a time-stamped game ID using US/Eastern time."""
+def extract_game_id_from_event(away_team, home_team, start_time):
+    """Construct a time-stamped game ID using US/Eastern time.
+
+    ``start_time`` may be an ISO formatted UTC string (``YYYY-mm-ddTHH:MM:SSZ``)
+    or a :class:`datetime.datetime` instance.  The time will be converted to the
+    US/Eastern timezone and suffixed to the game id as ``-T%H%M``.
+    """
     try:
-        start_et = to_eastern(start_time_utc)
+        if isinstance(start_time, str):
+            dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
+        else:
+            dt = start_time
+
+        start_et = to_eastern(dt)
         local_date = start_et.strftime("%Y-%m-%d")
         away_abbr = TEAM_ABBR.get(away_team, away_team)
         home_abbr = TEAM_ABBR.get(home_team, home_team)
