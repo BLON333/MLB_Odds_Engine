@@ -5,6 +5,7 @@ from datetime import datetime
 from assets.probable_pitchers import fetch_probable_pitchers
 from assets.lineup_scraper_selenium import fetch_lineups_selenium
 from assets.stats_loader import load_batter_stats, load_pitcher_stats, normalize_name
+from utils import parse_game_id
 from assets.bullpen_utils import build_bullpen_for_team
 from core.project_hr_pa import project_hr_pa
 import numpy as np
@@ -90,8 +91,8 @@ def build_game_assets(game_id, batter_stats, pitcher_stats, patch_hrfb=False):
         # 🔍 Helpful keys print for tracing
         print(f"✅ Lineup data loaded: keys = {list(lineup_data.keys())}")
 
-        game_part = game_id.rpartition("-")[2]
-        away_abbr_raw, home_abbr_raw = game_part.split("@")
+        parsed_id = parse_game_id(game_id)
+        away_abbr_raw, home_abbr_raw = parsed_id["away"], parsed_id["home"]
         away_abbr = TEAM_ABBR_FIXES.get(away_abbr_raw.strip().upper(), away_abbr_raw.strip().upper())
         home_abbr = TEAM_ABBR_FIXES.get(home_abbr_raw.strip().upper(), home_abbr_raw.strip().upper())
 
