@@ -28,6 +28,7 @@ from utils import (
     get_segment_label,
     to_eastern,
     now_eastern,
+    parse_game_id,
 )
 from core.time_utils import compute_hours_to_game
 from core.should_log_bet import get_theme, get_theme_key
@@ -165,6 +166,19 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
             entry[disp_key] = f"{fmt(prior_val)} → {fmt(curr)}"
         else:
             entry[disp_key] = fmt(curr)
+
+
+def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
+    """Return Date, Matchup and Time strings from ``game_id``."""
+    parts = parse_game_id(str(game_id))
+    date = parts.get("date", "")
+    matchup = f"{parts.get('away', '')} @ {parts.get('home', '')}".strip()
+    time = parts.get("time", "")
+    if isinstance(time, str) and time.startswith("T") and len(time) == 5:
+        time = f"{time[1:3]}:{time[3:]}"
+    else:
+        time = ""
+    return date, matchup, time
 
 
 def build_argument_parser(
@@ -793,8 +807,11 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     if df.empty:
         return df
 
-    df["Date"] = df["game_id"].apply(lambda x: "-".join(x.split("-")[:3]))
-    df["Matchup"] = df["game_id"].apply(lambda x: x.split("-")[-1].replace("@", " @ "))
+    df[["Date", "Matchup", "Time"]] = df["game_id"].apply(
+        lambda gid: pd.Series(_game_id_display_fields(gid))
+    )
+    if df["Time"].eq("").all():
+        df.drop(columns=["Time"], inplace=True)
     if "market_class" not in df.columns:
         df["market_class"] = "main"
     df["Market Class"] = (
@@ -840,8 +857,10 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
     else:
         df["Stake"] = df["stake"].map("{:.2f}u".format)
 
-    required_cols = [
-        "Date",
+    required_cols = ["Date"]
+    if "Time" in df.columns:
+        required_cols.append("Time")
+    required_cols += [
         "Matchup",
         "Market Class",
         "Market",
@@ -901,8 +920,7 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 def build_display_block(row: dict) -> Dict[str, str]:
     """Return formatted display fields for a snapshot row."""
     game_id = str(row.get("game_id", ""))
-    date = "-".join(game_id.split("-")[:3]) if game_id else ""
-    matchup = game_id.split("-")[-1].replace("@", " @ ") if game_id else ""
+    date, matchup, time = _game_id_display_fields(game_id)
 
     market_class_key = row.get("market_class", "main")
     market_class = {
@@ -951,6 +969,7 @@ def build_display_block(row: dict) -> Dict[str, str]:
 
     return {
         "Date": date,
+        "Time": time,
         "Matchup": matchup,
         "Market Class": market_class,
         "Market": row.get("market", ""),
