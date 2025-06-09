@@ -37,7 +37,8 @@ from assets.env_builder import (
     compute_weather_multipliers
 )
 from utils import (
-    normalize_game_id,
+    canonical_game_id,
+    parse_game_id,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
     normalize_label_for_odds,
@@ -214,12 +215,13 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     }
 
 
-    game_id = normalize_game_id(game_id)
+    game_id = canonical_game_id(game_id)
     print(f"\n🔁 Simulating {n_simulations} games for {game_id} (Line: {line})...\n")
 
-    game_tag = game_id.rpartition("-")[2]
-    away_abbr, home_abbr = game_tag.split("@")
-    game_date = game_id.split("-")[0]
+    parts = parse_game_id(game_id)
+    away_abbr = parts["away"]
+    home_abbr = parts["home"]
+    game_date = parts["date"]
     if game_date > datetime.today().strftime("%Y-%m-%d"):
         print(f"[📅] Simulating a future game — projected lineups may be used.")
 

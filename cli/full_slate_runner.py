@@ -19,7 +19,7 @@ logger = get_logger(__name__)
 # === Core Modules ===
 from assets.probable_pitchers import fetch_probable_pitchers
 from run_distribution_simulator import simulate_distribution
-from utils import normalize_game_id
+from utils import canonical_game_id
 
 
 # === Config ===
@@ -112,18 +112,18 @@ def main():
 
     # Loop through each game and delegate to the distribution simulator
     for gid in game_ids:
-        normalized_id = normalize_game_id(gid)
+        canonical_id = canonical_game_id(gid)
 
         # Determine export path
         export_json = None
         if export_folder:
             folder_path = os.path.join(export_folder, date_str)
             os.makedirs(folder_path, exist_ok=True)
-            export_json = os.path.join(folder_path, f"{normalized_id}.json")
+            export_json = os.path.join(folder_path, f"{canonical_id}.json")
 
         try:
             simulate_distribution(
-                game_id=normalized_id,
+                game_id=canonical_id,
                 line=line,
                 debug=debug,
                 no_weather=no_weather,
@@ -134,7 +134,7 @@ def main():
             if export_json and debug:
                 logger.debug("💾 Exported simulation JSON to %s", export_json)
         except Exception as e:
-            logger.error("[ERROR] Simulation failed for %s (orig %s): %s", normalized_id, gid, e)
+            logger.error("[ERROR] Simulation failed for %s (orig %s): %s", canonical_id, gid, e)
 
     # Summary
     logger.info("\n✅ Simulated %s games for %s.", len(game_ids), date_str)
