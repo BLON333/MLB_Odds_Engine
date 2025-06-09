@@ -121,18 +121,27 @@ def fetch_consensus_for_single_game(game_id, lookahead_days=2):
 
     events = resp.json()
 
-    # Step 2: Find event_id matching game_id
-
-    date_tag, matchup = game_id.split("-", 3)[0:3], game_id.split("-")[3]
-    away_abbr, home_abbr = matchup.split("@")
-    away_name = TEAM_ABBR_TO_NAME.get(away_abbr, away_abbr)
-    home_name = TEAM_ABBR_TO_NAME.get(home_abbr, home_abbr)
+    # Step 2: Find event_id matching game_id (including time)
 
     event_id = None
     for event in events:
-        if event["home_team"] == home_name and event["away_team"] == away_name:
-            event_id = event["id"]
-            break
+        away_team = event["away_team"]
+        home_team = event["home_team"]
+        start_time_utc = datetime.fromisoformat(
+            event["commence_time"].replace("Z", "+00:00")
+        ).replace(tzinfo=ZoneInfo("UTC"))
+        start_time = to_eastern(start_time_utc)
+
+        event_gid = canonical_game_id(
+            extract_game_id_from_event(away_team, home_team, start_time)
+        )
+
+        if event_gid != game_id:
+            continue
+
+        event_id = event["id"]
+        game_id = event_gid
+        break
 
     if not event_id:
         logger.debug(f"⚠️ No event found for {game_id}")
@@ -197,8 +206,8 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
         ensures today's and tomorrow's games are returned.
     """
 
-    game_ids = [canonical_game_id(gid) for gid in game_ids]
-    logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(game_ids)}")
+    input_game_ids = [canonical_game_id(gid) for gid in game_ids]
+    logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(input_game_ids)}")
     logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
     resp = requests.get(
@@ -232,10 +241,10 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             )
 
             # 🔍 DEBUG comparison with your sim game_ids
-            print("🔍 Incoming game_ids (expected):", sorted(game_ids))
+            print("🔍 Incoming game_ids (expected):", sorted(input_game_ids))
             print(f"🧱 Built from API: {game_id} → Home: {home_team}, Away: {away_team}")
 
-            if game_id not in game_ids:
+            if game_id not in input_game_ids:
                 print(f"❌ No match for API-built game_id: {game_id}")
                 os.makedirs("logs", exist_ok=True)
                 with open("logs/missed_game_ids.txt", "a") as f:
