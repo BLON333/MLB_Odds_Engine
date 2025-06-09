@@ -31,6 +31,24 @@ def test_top_up_accepted():
     assert result["stake"] == 0.6
 
 
+def test_top_up_accepted_for_1p6_full_stake():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.6,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+    tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
+
+    result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
+    assert result is not None
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == 0.6
+
+
 def test_top_up_rejected_for_small_delta():
     bet = {
         "game_id": "gid",
@@ -47,6 +65,23 @@ def test_top_up_rejected_for_small_delta():
     assert result is None
     assert bet["entry_type"] == "none"
     assert bet["skip_reason"] == "⛔ Delta stake 0.20u < 0.5u minimum"
+
+
+def test_top_up_rejected_for_delta_point_three():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.3,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+    tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
+
+    result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
+    assert result is None
+    assert bet["entry_type"] == "none"
 
 
 def test_top_up_delta_rounded_before_threshold():
