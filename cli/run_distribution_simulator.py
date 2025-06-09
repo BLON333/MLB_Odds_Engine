@@ -771,7 +771,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
 
     # === Output JSON ===
     date_tag = "-".join(game_id.split("-")[:3])
-    target_path = os.path.join("backtest", "sims", date_tag, f"{game_id}.json")
+    target_path = export_json or os.path.join("backtest", "sims", date_tag, f"{game_id}.json")
 
     # 📊 Segment-level summaries
     def inning_summary(inning_cap, label, benchmark=None):
