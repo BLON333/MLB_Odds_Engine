@@ -171,9 +171,19 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
 
 def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
     """Return Date, Matchup and Time strings from ``game_id``."""
-    parts = parse_game_id(str(game_id))
+    try:
+        parts = parse_game_id(str(game_id))
+    except Exception as e:  # pragma: no cover - defensive
+        logger = get_logger(__name__)
+        logger.warning(f"Could not parse game_id: {game_id} → {e}")
+        parts = {}
+
     date = parts.get("date", "")
     matchup = f"{parts.get('away', '')} @ {parts.get('home', '')}".strip()
+    if not date or not matchup.strip() or "@" not in matchup:
+        logger = get_logger(__name__)
+        logger.warning(f"Missing components after parsing game_id: {game_id}")
+
     time = ""
     time_part = parts.get("time", "")
     if isinstance(time_part, str) and time_part.startswith("T"):
