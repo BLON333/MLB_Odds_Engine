@@ -6,6 +6,9 @@ import os
 from utils import canonical_game_id
 
 FIELDNAMES = [
+    "Date",
+    "Time",
+    "Matchup",
     "game_id",
     "market",
     "market_class",
