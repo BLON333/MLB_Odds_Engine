@@ -163,5 +163,6 @@ YYYY-MM-DD-AWAY@HOME-T%H%M
 #### Helpers:
 - `disambiguate_game_id(date, away, home, start_time_et)` → returns full game_id.
 - `parse_game_id(game_id)` → returns dict with `date`, `away`, `home`, `time`.
+- `get_teams_from_game_id(game_id)` → returns `(away, home)` tuple.
 
 All modules should use these helpers for consistency.

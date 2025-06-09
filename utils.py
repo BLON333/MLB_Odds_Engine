@@ -895,6 +895,15 @@ def parse_game_id(game_id: str) -> dict:
         return {"date": game_id, "away": "", "home": "", "time": ""}
 
 
+def get_teams_from_game_id(game_id: str) -> tuple[str, str]:
+    """Return ``(away, home)`` team codes extracted from ``game_id``."""
+    try:
+        parts = parse_game_id(game_id)
+        return parts.get("away", ""), parts.get("home", "")
+    except Exception:
+        return "", ""
+
+
 def extract_game_id_from_event(away_team, home_team, start_time):
     """Construct a time-stamped game ID using US/Eastern time.
 
