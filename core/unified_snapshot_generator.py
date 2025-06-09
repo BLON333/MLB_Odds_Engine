@@ -108,6 +108,13 @@ def build_snapshot_for_date(
     else:
         odds = {gid: odds_data.get(gid) for gid in sims.keys()}
 
+    for gid in sims.keys():
+        if gid not in odds or odds.get(gid) is None:
+            logger.warning(
+                "\u26A0\uFE0F No odds found for %s \u2014 check if sim or odds file used wrong ID format",
+                gid,
+            )
+
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
