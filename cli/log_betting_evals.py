@@ -2292,6 +2292,52 @@ def run_batch_logging(
             mkt = fallback_odds.get(game_id)
             if mkt:
                 print(f"🔄 Using fallback odds for {raw_game_id}")
+
+        if not mkt and "-T" in game_id:
+            from datetime import datetime, timedelta
+            from utils import parse_game_id
+
+            try:
+                parts = parse_game_id(game_id)
+                date = parts["date"]
+                away = parts["away"]
+                home = parts["home"]
+                suffix = parts.get("time", "").split("-")[0]  # just T####
+
+                if suffix.startswith("T"):
+                    t_str = suffix[1:]
+                    t_dt = datetime.strptime(t_str, "%H%M")
+
+                    # Filter only game_ids with the same teams and date
+                    candidate_ids = [
+                        gid
+                        for gid in all_market_odds
+                        if f"{date}-{away}@{home}" in gid and "-T" in gid
+                    ]
+
+                    closest_match = None
+                    min_diff = float("inf")
+
+                    for cid in candidate_ids:
+                        try:
+                            c_parts = parse_game_id(cid)
+                            c_suffix = c_parts.get("time", "").split("-")[0]
+                            if c_suffix.startswith("T"):
+                                c_t_str = c_suffix[1:]
+                                c_dt = datetime.strptime(c_t_str, "%H%M")
+                                diff = abs((t_dt - c_dt).total_seconds()) / 60
+                                if diff <= 2 and diff < min_diff:
+                                    closest_match = cid
+                                    min_diff = diff
+                        except Exception:
+                            continue
+
+                    if closest_match:
+                        print(f"🔄 Fuzzy matched {game_id} → {closest_match}")
+                        mkt = all_market_odds.get(closest_match)
+            except Exception:
+                pass
+
         if not mkt:
             print(
                 f"❌ No market odds for {raw_game_id} (normalized: {game_id}), skipping."
