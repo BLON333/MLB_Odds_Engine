@@ -17,7 +17,7 @@ from datetime import timedelta
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
 
-from utils import now_eastern, safe_load_json
+from utils import now_eastern, safe_load_json, lookup_fallback_odds
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
@@ -99,7 +99,7 @@ def build_snapshot_rows(sim_data: dict, odds_json: dict, min_ev: float = 0.01):
     if VERBOSE or DEBUG:
         for game_id in sim_data.keys():
             print(f"\U0001F50D Evaluating {game_id}")
-            if odds_json.get(game_id):
+            if lookup_fallback_odds(game_id, odds_json):
                 print(f"\u2705 Matched odds for {game_id}")
             else:
                 print(f"\u274C No odds found for {game_id}")
@@ -122,7 +122,7 @@ def build_snapshot_for_date(
     if odds_data is None:
         odds = fetch_market_odds_from_api(list(sims.keys()))
     else:
-        odds = {gid: odds_data.get(gid) for gid in sims.keys()}
+        odds = {gid: lookup_fallback_odds(gid, odds_data) for gid in sims.keys()}
 
     for gid in sims.keys():
         if gid not in odds or odds.get(gid) is None:

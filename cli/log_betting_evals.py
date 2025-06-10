@@ -202,6 +202,7 @@ from utils import (
     normalize_label,
     get_segment_label,
     canonical_game_id,
+    lookup_fallback_odds,
     now_eastern,
 )
 from core.time_utils import compute_hours_to_game
@@ -2310,7 +2311,7 @@ def run_batch_logging(
 
         mkt = all_market_odds.get(game_id)
         if (not mkt) and fallback_odds:
-            mkt = fallback_odds.get(game_id)
+            mkt = lookup_fallback_odds(game_id, fallback_odds)
             if mkt:
                 print(f"🔄 Using fallback odds for {raw_game_id}")
 
