@@ -7,7 +7,7 @@ from typing import Dict
 from core.logger import get_logger
 
 from utils import canonical_game_id, parse_game_id
-from core.file_utils import is_file_older_than
+from core.file_utils import is_file_older_than, with_locked_file
 
 TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
 
@@ -61,74 +61,53 @@ def load_tracker(path: str = TRACKER_PATH) -> Dict[str, dict]:
 
 
 def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
-    """Save tracker data atomically with a simple file lock."""
+    """Save tracker data atomically using a simple lock file."""
     lock = f"{path}.lock"
     tmp = f"{path}.tmp"
 
-    # Detect and clean up stale lock files before attempting to acquire the lock
-    if is_file_older_than(lock, 10):
-        print("⚠️ Stale tracker lock detected; removing old lock file")
+    try:
+        with with_locked_file(lock):
+            # Merge with latest tracker on disk to avoid overwriting concurrent updates
+            existing = load_tracker(path)
+            if existing:
+                existing.update(tracker)
+                tracker.clear()
+                tracker.update(existing)
+            else:
+                existing = tracker
+
+            if not existing:
+                print("⚠️ Tracker is empty, saving 0 entries")
+
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(tmp, "w") as f:
+                json.dump(dict(sorted(existing.items())), f, indent=2)
+
+            # Retry replace in case another process still has the file open
+            for _ in range(5):
+                try:
+                    os.replace(tmp, path)
+                    break
+                except PermissionError:
+                    time.sleep(0.1)
+            else:
+                raise
+    except TimeoutError:
+        logger.error("❌ Tracker lock failed after multiple retries — skipping save")
         try:
-            os.remove(lock)
+            os.makedirs(os.path.dirname(FAILURE_LOG_PATH), exist_ok=True)
+            with open(FAILURE_LOG_PATH, "a") as f:
+                f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} tracker lock timeout\n")
         except Exception:
             pass
-
-    lock_acquired = False
-    try:
-        # Acquire an exclusive lock file with exponential backoff to avoid contention
-        for attempt in range(50):
-            try:
-                fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_RDWR)
-                os.close(fd)
-                lock_acquired = True
-                break
-            except FileExistsError:
-                if is_file_older_than(lock, 10):
-                    os.remove(lock)
-                    continue
-                time.sleep(min(0.1 * math.pow(2, attempt), 2.0))
-        if not lock_acquired:
-            logger.error("❌ Tracker lock failed after multiple retries — skipping save")
-            try:
-                os.makedirs(os.path.dirname(FAILURE_LOG_PATH), exist_ok=True)
-                with open(FAILURE_LOG_PATH, "a") as f:
-                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} tracker lock timeout\n")
-            except Exception:
-                pass
-            try:
-                os.makedirs(os.path.dirname(RECOVERY_PATH), exist_ok=True)
-                with open(RECOVERY_PATH, "w") as f:
-                    json.dump(dict(sorted(tracker.items())), f, indent=2)
-                print(f"🆘 Wrote recovery tracker to {RECOVERY_PATH}")
-            except Exception as rec_e:
-                print(f"❌ Failed to write recovery tracker: {rec_e}")
-            return
-
-        # Merge with latest tracker on disk to avoid overwriting concurrent updates
-        existing = load_tracker(path)
-        if existing:
-            existing.update(tracker)
-            tracker.clear()
-            tracker.update(existing)
-        else:
-            existing = tracker
-
-        if not existing:
-            print("⚠️ Tracker is empty, saving 0 entries")
-
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(tmp, "w") as f:
-            json.dump(dict(sorted(existing.items())), f, indent=2)
-
-        # Retry replace in case another process still has the file open
-        for _ in range(5):
-            try:
-                os.replace(tmp, path)
-                break
-            except PermissionError:
-                time.sleep(0.1)
-        else:
-            raise
+        try:
+            os.makedirs(os.path.dirname(RECOVERY_PATH), exist_ok=True)
+            with open(RECOVERY_PATH, "w") as f:
+                json.dump(dict(sorted(tracker.items())), f, indent=2)
+            print(f"🆘 Wrote recovery tracker to {RECOVERY_PATH}")
+        except Exception as rec_e:
+            print(f"❌ Failed to write recovery tracker: {rec_e}")
+        return
     except Exception as e:
         print(f"⚠️ Failed to save market eval tracker: {e}")
         try:
@@ -138,9 +117,3 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
             print(f"🆘 Wrote recovery tracker to {RECOVERY_PATH}")
         except Exception as rec_e:
             print(f"❌ Failed to write recovery tracker: {rec_e}")
-    finally:
-        if lock_acquired:
-            try:
-                os.remove(lock)
-            except Exception:
-                pass
