@@ -59,6 +59,14 @@ def test_role_tagging_filters(monkeypatch):
     send_discord_notification(row)
 
     content = payload.get("content", "")
-    assert "<@&1366767456470831164>" in content  # fanduel
-    assert "<@&1366767510246133821>" in content  # draftkings
-    assert "<@&1366767548502245457>" not in content  # betmgm out of range
+    lines = [ln.strip() for ln in content.splitlines()]
+    odds_idx = lines.index("📉 **Market Odds**:")
+    odds_lines = lines[odds_idx + 1 : odds_idx + 4]
+
+    # Fanduel and DraftKings should be tagged inline
+    assert any("fanduel: -110 <@&1366767456470831164>" in l for l in odds_lines)
+    assert any(
+        "draftkings: -105 <@&1366767510246133821>" in l for l in odds_lines
+    )
+    # betmgm is outside the range so should have no tag
+    assert all("<@&1366767548502245457>" not in l for l in odds_lines)
