@@ -13,7 +13,9 @@ def test_tracker_updates_after_expand(monkeypatch):
     sc.MARKET_EVAL_TRACKER.clear()
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
 
-    key = "gid:h2h:TeamA"
+    from utils import canonical_game_id
+    gid = canonical_game_id("2025-06-09-MIL@CIN-T1305")
+    key = f"{gid}:h2h:TeamA"
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE[key] = {
         "market_odds": 120,
         "ev_percent": 5.0,
@@ -26,7 +28,7 @@ def test_tracker_updates_after_expand(monkeypatch):
     sc.MARKET_EVAL_TRACKER.update(sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE)
 
     row = {
-        "game_id": "gid",
+        "game_id": "2025-06-09-MIL@CIN-T1305",
         "market": "h2h",
         "side": "TeamA",
         "blended_prob": 0.55,
@@ -64,7 +66,9 @@ def test_frozen_tracker_used_for_each_expanded_row(monkeypatch):
     sc.MARKET_EVAL_TRACKER.clear()
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
 
-    key = "gid:h2h:TeamA"
+    from utils import canonical_game_id
+    gid = canonical_game_id("2025-06-09-MIL@CIN-T1305")
+    key = f"{gid}:h2h:TeamA"
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE[key] = {
         "market_odds": 120,
         "market_prob": 0.5,
@@ -75,7 +79,7 @@ def test_frozen_tracker_used_for_each_expanded_row(monkeypatch):
     sc.MARKET_EVAL_TRACKER.update(sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE)
 
     row = {
-        "game_id": "gid",
+        "game_id": "2025-06-09-MIL@CIN-T1305",
         "market": "h2h",
         "side": "TeamA",
         "blended_prob": 0.55,
