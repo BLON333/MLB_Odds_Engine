@@ -30,6 +30,7 @@ from utils import (
     now_eastern,
     parse_game_id,
     normalize_game_id,
+    fuzzy_match_game_id,
 )
 from core.time_utils import compute_hours_to_game
 from core.should_log_bet import get_theme, get_theme_key
@@ -679,14 +680,18 @@ def build_snapshot_rows(
         markets = sim.get("markets", [])
         odds = odds_data.get(full_gid)
         if not odds:
-            normalized_gid = normalize_game_id(full_gid)
-            if normalized_gid in odds_data and normalized_gid != full_gid:
-                print(
-                    f"⚠️ Odds found for normalized ID {normalized_gid} but not full {full_gid}"
-                )
+            alt_id = fuzzy_match_game_id(full_gid, list(odds_data.keys()))
+            if alt_id:
+                odds = odds_data[alt_id]
             else:
-                print(f"⚠️ No odds for {full_gid}")
-            continue
+                normalized_gid = normalize_game_id(full_gid)
+                if normalized_gid in odds_data and normalized_gid != full_gid:
+                    print(
+                        f"⚠️ Odds found for normalized ID {normalized_gid} but not full {full_gid}"
+                    )
+                else:
+                    print(f"⚠️ No odds found for {full_gid}, even after fuzzy matching")
+                continue
         start_str = odds.get("start_time")
         hours_to_game = 8.0
         start_formatted = ""
