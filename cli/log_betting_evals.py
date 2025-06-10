@@ -1123,26 +1123,6 @@ def send_discord_notification(row, skipped_bets=None):
 
     # === Sort books and format display
     sorted_books = []
-    if isinstance(all_odds_dict, dict):
-        sorted_books = sorted(
-            all_odds_dict.items(), key=lambda x: to_decimal(x[1]), reverse=True
-        )
-
-        all_odds_str_pieces = []
-        for book, odds_value in sorted_books:
-            book_display = f"{book}: {odds_value}"
-            if book.lower() == best_book_name:
-                book_display = f"**{book_display}**"
-            all_odds_str_pieces.append(f"• {book_display}")
-
-        all_odds_str = "\n".join(all_odds_str_pieces)
-    else:
-        all_odds_str = "N/A"
-
-    # === Tag Roles from Books
-    # Only mention sportsbooks whose individual EV falls within the
-    # notification range (5% - 20%). This prevents tagging every book
-    # just because the best price qualifies.
     roles = set()
 
     def _qualifies(price_val):
@@ -1159,11 +1139,31 @@ def send_discord_notification(row, skipped_bets=None):
         ev_this_book = (sim_prob * offered_decimal - 1) * 100
         return 5 <= ev_this_book <= 20
 
-    for book, price in sorted_books:
-        if _qualifies(price):
-            role_tag = BOOKMAKER_TO_ROLE.get(book.lower())
-            if role_tag:
-                roles.add(role_tag)
+    if isinstance(all_odds_dict, dict):
+        sorted_books = sorted(
+            all_odds_dict.items(), key=lambda x: to_decimal(x[1]), reverse=True
+        )
+
+
+        all_odds_str_pieces = []
+        for book, odds_value in sorted_books:
+            book_clean = book.lower()
+            tag = ""
+            if _qualifies(odds_value):
+                role = BOOKMAKER_TO_ROLE.get(book_clean)
+                if role:
+                    tag = f" {role}"
+                    roles.add(role)
+
+            book_display = f"{book}: {odds_value}{tag}"
+            if book_clean == best_book_name:
+                book_display = f"**{book_display}**"
+            all_odds_str_pieces.append(f"• {book_display}")
+
+        all_odds_str = "\n".join(all_odds_str_pieces)
+    else:
+        all_odds_str = "N/A"
+
 
     # Tag the best book only if it also meets the criteria
     if best_book_name and best_book_name in all_odds_dict:
