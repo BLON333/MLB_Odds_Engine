@@ -1528,6 +1528,8 @@ def log_bets(
 
     game_id = canonical_game_id(game_id)
 
+    odds_start_times = odds_start_times or {}
+
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
 
@@ -1758,6 +1760,8 @@ def log_derivative_bets(
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
+
+    odds_start_times = odds_start_times or {}
 
     start_dt = odds_start_times.get(game_id)
     hours_to_game = 8.0
