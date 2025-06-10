@@ -851,9 +851,11 @@ def build_snapshot_rows(
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)
             row.setdefault("entry_type", "first")
+            # Look up prior tracker entry (current state or baseline) for movement comparison
             tracker_key = build_tracker_key(game_id, market_clean, side)
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
-
+            if not prior_row:
+                prior_row = {}
             row["_tracker_entry"] = prior_row
             row["_prior_snapshot"] = prior_row
 
@@ -863,6 +865,7 @@ def build_snapshot_rows(
                 "prev_blended_fv": (prior_row or {}).get("blended_fv"),
             })
 
+            # Compute movement and update tracker
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
