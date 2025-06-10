@@ -55,22 +55,24 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
         except Exception:
             pass
 
-    # Acquire an exclusive lock file with exponential backoff to avoid contention
-    for attempt in range(50):
-        try:
-            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_RDWR)
-            os.close(fd)
-            break
-        except FileExistsError:
-            if is_file_older_than(lock, 10):
-                os.remove(lock)
-                break
-            time.sleep(min(0.1 * math.pow(2, attempt), 2.0))
-    else:
-        print("⚠️ Failed to acquire tracker lock; aborting save")
-        return
-
+    lock_acquired = False
     try:
+        # Acquire an exclusive lock file with exponential backoff to avoid contention
+        for attempt in range(50):
+            try:
+                fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_RDWR)
+                os.close(fd)
+                lock_acquired = True
+                break
+            except FileExistsError:
+                if is_file_older_than(lock, 10):
+                    os.remove(lock)
+                    continue
+                time.sleep(min(0.1 * math.pow(2, attempt), 2.0))
+        if not lock_acquired:
+            print("⚠️ Failed to acquire tracker lock; aborting save")
+            return
+
         # Merge with latest tracker on disk to avoid overwriting concurrent updates
         existing = load_tracker(path)
         if existing:
@@ -99,7 +101,8 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
     except Exception as e:
         print(f"⚠️ Failed to save market eval tracker: {e}")
     finally:
-        try:
-            os.remove(lock)
-        except Exception:
-            pass
+        if lock_acquired:
+            try:
+                os.remove(lock)
+            except Exception:
+                pass
