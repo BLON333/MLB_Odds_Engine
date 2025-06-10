@@ -682,7 +682,14 @@ def build_snapshot_rows(
         if odds is None:
             fuzzy_id = fuzzy_match_game_id(full_gid, list(odds_data.keys()), window=3)
             if fuzzy_id:
-                odds = odds_data[fuzzy_id]
+                odds = odds_data.get(fuzzy_id)
+                if odds is None:
+                    logger.warning(
+                        "⚠️ Fuzzy matched %s → %s, but odds entry is None — skipping.",
+                        full_gid,
+                        fuzzy_id,
+                    )
+                    continue
                 logger.info("🔄 Fuzzy matched %s → %s", full_gid, fuzzy_id)
             else:
                 normalized_gid = normalize_game_id(full_gid)
@@ -698,7 +705,7 @@ def build_snapshot_rows(
                         full_gid,
                     )
                 continue
-        start_str = odds.get("start_time")
+        start_str = odds.get("start_time") if odds else None
         hours_to_game = 8.0
         start_formatted = ""
         if start_str:
