@@ -1446,11 +1446,11 @@ def write_to_csv(
         if is_new:
             writer.writeheader()
 
-        # ✅ Convert sportsbook dict → string before writing
+        # ✅ Serialize sportsbook and books_used dicts safely
         if isinstance(row.get("sportsbook"), dict):
-            row["sportsbook"] = ", ".join(
-                f"{book}:{odds:+}" for book, odds in row["sportsbook"].items()
-            )
+            row["sportsbook"] = json.dumps(row["sportsbook"])
+        if isinstance(row.get("books_used"), dict):
+            row["books_used"] = json.dumps(row["books_used"])
 
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
