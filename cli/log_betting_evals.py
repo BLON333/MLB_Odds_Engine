@@ -1144,19 +1144,34 @@ def send_discord_notification(row, skipped_bets=None):
     # notification range (5% - 20%). This prevents tagging every book
     # just because the best price qualifies.
     roles = set()
-    for book, price in sorted_books:
-        model_prob = sim_prob
-        offered_decimal = to_decimal(price)
-        ev_this_book = (model_prob * offered_decimal - 1) * 100
 
-        if 5 <= ev_this_book <= 20:
+    def _qualifies(price_val):
+        """Return True if odds and EV fall within notification thresholds."""
+        try:
+            odds_val = float(price_val)
+        except Exception:
+            return False
+
+        if odds_val < -150 or odds_val > 200:
+            return False
+
+        offered_decimal = to_decimal(odds_val)
+        ev_this_book = (sim_prob * offered_decimal - 1) * 100
+        return 5 <= ev_this_book <= 20
+
+    for book, price in sorted_books:
+        if _qualifies(price):
             role_tag = BOOKMAKER_TO_ROLE.get(book.lower())
             if role_tag:
                 roles.add(role_tag)
 
-    best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
-    if best_role:
-        roles.add(best_role)
+    # Tag the best book only if it also meets the criteria
+    if best_book_name and best_book_name in all_odds_dict:
+        best_price = all_odds_dict.get(best_book_name)
+        if _qualifies(best_price):
+            best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
+            if best_role:
+                roles.add(best_role)
 
     if len(roles) > 1:
         print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
