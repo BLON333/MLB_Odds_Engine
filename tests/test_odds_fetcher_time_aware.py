@@ -126,3 +126,54 @@ def test_fetch_consensus_single_game_time_aware(monkeypatch):
     result = of.fetch_consensus_for_single_game(gid)
     assert result is not None
     assert odds_calls == ["e1"]
+
+
+def test_fetch_consensus_single_game_no_time(monkeypatch):
+    events = [
+        {
+            "id": "e1",
+            "home_team": "Cincinnati Reds",
+            "away_team": "Milwaukee Brewers",
+            "commence_time": "2025-06-09T17:05:00Z",
+        },
+        {
+            "id": "e2",
+            "home_team": "Cincinnati Reds",
+            "away_team": "Milwaukee Brewers",
+            "commence_time": "2025-06-09T21:05:00Z",
+        },
+    ]
+    odds_calls = []
+
+    def fake_get(url, params=None):
+        if url == of.EVENTS_URL:
+            return DummyResp(events)
+        if url == of.EVENT_ODDS_URL.format(event_id="e1"):
+            odds_calls.append("e1")
+            return DummyResp({
+                "bookmakers": [
+                    {
+                        "key": "B1",
+                        "markets": [
+                            {
+                                "key": "h2h",
+                                "outcomes": [
+                                    {"name": "a", "price": 100}
+                                ],
+                            }
+                        ],
+                    }
+                ]
+            })
+        if url == of.EVENT_ODDS_URL.format(event_id="e2"):
+            odds_calls.append("e2")
+            return DummyResp({"bookmakers": []})
+        raise AssertionError(f"Unexpected URL {url}")
+
+    _patch_common(monkeypatch)
+    monkeypatch.setattr(of.requests, "get", fake_get)
+
+    gid = "2025-06-09-MIL@CIN"
+    result = of.fetch_consensus_for_single_game(gid)
+    assert result is not None
+    assert odds_calls == ["e1"]
