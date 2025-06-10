@@ -3,6 +3,8 @@ import json
 import ast
 from typing import Dict, Tuple
 
+from core.file_utils import with_locked_file
+
 TRACKER_PATH = os.path.join('backtest', 'existing_theme_stakes.json')
 
 
@@ -31,12 +33,14 @@ def load_tracker(path: str = TRACKER_PATH) -> Dict[Tuple[str, str, str], float]:
 def save_tracker(stakes: Dict[Tuple[str, str, str], float], path: str = TRACKER_PATH) -> None:
     """Atomically persist theme exposure tracker to ``path``."""
     serializable = {str(k): v for k, v in stakes.items()}
+    lock = f"{path}.lock"
     tmp = f"{path}.tmp"
     os.makedirs(os.path.dirname(path), exist_ok=True)
     try:
-        with open(tmp, 'w') as f:
-            json.dump(serializable, f, indent=2)
-        os.replace(tmp, path)
+        with with_locked_file(lock):
+            with open(tmp, 'w') as f:
+                json.dump(serializable, f, indent=2)
+            os.replace(tmp, path)
     except Exception as e:
         print(f"⚠️ Failed to save theme exposure tracker: {e}")
 
