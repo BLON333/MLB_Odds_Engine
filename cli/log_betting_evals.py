@@ -1495,6 +1495,8 @@ def write_to_csv(
     )
     print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
     print(f"   • Odds       : {row['market_odds']} | Book: {row['sportsbook']}")
+    # Debug: confirm the market probability at log time
+    print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
     print(
         f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
     )
