@@ -81,6 +81,14 @@ def update_clv(csv_path, odds_json_path, target_date):
         )
         closing_odds = {}
 
+    json_has_time = any("-T" in k for k in closing_odds)
+    csv_has_time = any("-T" in row.get("game_id", "") for row in rows)
+
+    if json_has_time and not csv_has_time:
+        logger.warning(
+            "⚠️ Detected possible mismatch: JSON has -T time in game_ids, CSV does not. CLV matching may fail."
+        )
+
     updated_rows = []
     for row in rows:
         gid = canonical_game_id(row.get("game_id", ""))
