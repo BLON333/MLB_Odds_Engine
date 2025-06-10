@@ -2160,12 +2160,17 @@ def run_batch_logging(
         if all_market_odds is None:
             print(f"❌ Failed to load odds file {market_odds}")
             return
+        if not all_market_odds or not isinstance(all_market_odds, dict):
+            print(f"❌ Odds file {market_odds} is empty or malformed — skipping logging.")
+            return
     else:
         all_market_odds = market_odds
 
     fallback_odds = {}
     if fallback_odds_path:
         fallback_odds = safe_load_json(fallback_odds_path) or {}
+        if not isinstance(fallback_odds, dict):
+            fallback_odds = {}
         print(
             f"📂 Loaded fallback odds from {fallback_odds_path} ({len(fallback_odds)} games)"
         )

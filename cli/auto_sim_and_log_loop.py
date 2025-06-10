@@ -206,6 +206,12 @@ def fetch_and_cache_odds_snapshot() -> str | None:
         "\n📡 [%s] Fetching market odds for today and tomorrow...", now_eastern()
     )
     odds = fetch_all_market_odds(lookahead_days=2)
+    if not odds or not isinstance(odds, dict) or len(odds) == 0:
+        logger.error(
+            "❌ Fetched odds snapshot is empty or invalid — skipping loop cycle."
+        )
+        return None
+    logger.debug("📊 Fetched game_ids: %s", list(odds.keys()))
     timestamp = now_eastern().strftime("%Y%m%dT%H%M")
     tag = f"market_odds_{timestamp}"
     odds_path = save_market_odds_to_file(odds, tag)
