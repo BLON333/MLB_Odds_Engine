@@ -2829,7 +2829,13 @@ def process_theme_logged_bets(
             )
             upload_summary_image_to_discord(output_path, webhook_url)
 
-    save_tracker(MARKET_EVAL_TRACKER)
+    try:
+        save_tracker(MARKET_EVAL_TRACKER)
+        logger.info(
+            "\u2705 Tracker saved with %d entries.", len(MARKET_EVAL_TRACKER)
+        )
+    except Exception as e:  # pragma: no cover - unexpected save failure
+        logger.warning("\u26A0\ufe0f Failed to save market eval tracker: %s", e)
 
 
 if __name__ == "__main__":
