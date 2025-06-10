@@ -91,7 +91,15 @@ def update_clv(csv_path, odds_json_path, target_date):
             updated_rows.append(row)
             continue
 
-        if not gid or gid not in closing_odds:
+        # 🔁 Use direct closing odds match, otherwise fallback to base ID
+        if gid in closing_odds:
+            game_data = closing_odds[gid]
+        else:
+            base_id = gid.split("-T")[0]
+            matches = [k for k in closing_odds if k.startswith(base_id)]
+            game_data = closing_odds[matches[0]] if len(matches) == 1 else None
+
+        if not gid or not game_data:
             row["closing_odds"] = ""
             row["clv_percent"] = ""
             row["model_clv_percent"] = ""
@@ -100,7 +108,7 @@ def update_clv(csv_path, odds_json_path, target_date):
             continue
 
         market_key, side_key = format_market_key(row)
-        market_data = closing_odds[gid].get(market_key, {})
+        market_data = game_data.get(market_key, {})
 
         match_key, shift = find_closing_label(side_key, market_key, market_data)
         line_info = market_data.get(match_key) if match_key else None
