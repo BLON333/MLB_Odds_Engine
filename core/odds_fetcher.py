@@ -236,16 +236,27 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             )
 
             # 🕒 Debug the start times and game_id
-            print(
-                f"📅 Game {game_id} starts at {start_time.isoformat()} ET (UTC: {start_time_utc.isoformat()})"
+            logger.debug(
+                "📅 Game %s starts at %s ET (UTC: %s)",
+                game_id,
+                start_time.isoformat(),
+                start_time_utc.isoformat(),
             )
 
             # 🔍 DEBUG comparison with your sim game_ids
-            print("🔍 Incoming game_ids (expected):", sorted(input_game_ids))
-            print(f"🧱 Built from API: {game_id} → Home: {home_team}, Away: {away_team}")
+            logger.debug("🔍 Incoming game_ids (expected): %s", sorted(input_game_ids))
+            logger.debug(
+                "🧱 Built from API: %s → Home: %s, Away: %s",
+                game_id,
+                home_team,
+                away_team,
+            )
 
             if game_id not in input_game_ids:
-                print(f"❌ No match for API-built game_id: {game_id}")
+                logger.warning(
+                    "❌ No odds for %s — possible ID mismatch or time suffix drift",
+                    game_id,
+                )
                 os.makedirs("logs", exist_ok=True)
                 with open("logs/missed_game_ids.txt", "a") as f:
                     f.write(f"{game_id} — API: {away_team} @ {home_team}\n")
@@ -436,8 +447,11 @@ def fetch_all_market_odds(lookahead_days=2):
             )
 
             # 🕒 Debug the start times and game_id
-            print(
-                f"📅 Game {game_id} starts at {start_time.isoformat()} ET (UTC: {start_time_utc.isoformat()})"
+            logger.debug(
+                "📅 Game %s starts at %s ET (UTC: %s)",
+                game_id,
+                start_time.isoformat(),
+                start_time_utc.isoformat(),
             )
 
             logger.debug(

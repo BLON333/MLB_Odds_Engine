@@ -22,7 +22,7 @@ from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 import re
 
 load_dotenv()
-from core.logger import get_logger
+from core.logger import get_logger, set_log_level
 logger = get_logger(__name__)
 
 # === Console Output Controls ===
@@ -88,7 +88,7 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
             json.dump(tracker, f, indent=2)
         os.replace(tmp, path)
     except Exception as e:
-        print(f"⚠️ Failed to save market confirmation tracker: {e}")
+        logger.warning("❌ Failed to save market confirmation tracker: %s", e)
 
 import copy
 from datetime import datetime
@@ -1588,7 +1588,9 @@ def log_bets(
             continue
 
         if not isinstance(market_entry, dict):
-            print(f"        ❌ No match for {side} in market: {market_key}")
+            logger.warning(
+                "❌ No odds for %s — market %s", side, market_key
+            )
             continue
 
         # Safely get the correct sim line (now that matched_key is known)
@@ -1596,7 +1598,9 @@ def log_bets(
             sim_results["markets"], matched_key, side, allow_fallback=False
         )
         if not sim_entry:
-            print(f"❌ No valid sim entry for: {side} @ {matched_key} — skipping")
+            logger.warning(
+                "❌ No odds for %s — missing sim entry for %s", side, matched_key
+            )
             continue
 
         sim_prob = sim_entry["sim_prob"]
@@ -1857,18 +1861,28 @@ def log_derivative_bets(
                         continue
 
                     if not isinstance(market_entry, dict):
-                        print(
-                            f"        🟡 No match for {label} in {market_key}_{segment_clean}"
+                        logger.warning(
+                            "❌ No odds for %s in %s_%s",
+                            label,
+                            market_key,
+                            segment_clean,
                         )
                         continue
 
-                    market_full = matched_key  # set final market key (e.g., totals, alternate_totals, etc.)
-                    print(
-                        f"📦 Matched via {market_full} | Segment: {segment} | Price Source: {price_source}"
+                    market_full = matched_key  # set final market key
+                    logger.debug(
+                        "📦 Matched via %s | Segment: %s | Price Source: %s",
+                        market_full,
+                        segment,
+                        price_source,
                     )
 
                 if not isinstance(market_entry, dict):
-                    print(f"                🟡 No odds for {label} in {market_full}")
+                    logger.warning(
+                        "❌ No odds for %s in %s",
+                        label,
+                        market_full,
+                    )
                     continue
 
                 market_price = market_entry.get("price")
@@ -1884,12 +1898,19 @@ def log_derivative_bets(
                 book_prices = clean_book_prices(raw_books)
 
                 if raw_books and not book_prices:
-                    print(
-                        f"⚠️ Raw books existed but cleaned empty — {game_id} | {lookup_side}: {raw_books}"
+                    logger.debug(
+                        "⚠️ Raw books existed but cleaned empty — %s | %s: %s",
+                        game_id,
+                        lookup_side,
+                        raw_books,
                     )
                 else:
-                    print(
-                        f"📦 {game_id} | {market_full} | {lookup_side} → book_prices: {book_prices}"
+                    logger.debug(
+                        "📦 %s | %s | %s → book_prices: %s",
+                        game_id,
+                        market_full,
+                        lookup_side,
+                        book_prices,
                     )
 
                 if not book_prices:
@@ -2158,7 +2179,7 @@ def run_batch_logging(
     load_dotenv()
 
     if market_odds is None:
-        print("❌ No odds data provided. Use --odds-path or pass market_odds as a dict.")
+        logger.warning("❌ No odds data provided. Use --odds-path or pass market_odds as a dict.")
         return
 
     DISCORD_SUMMARY_WEBHOOK_URL = os.getenv("DISCORD_SUMMARY_WEBHOOK_URL")
@@ -2167,10 +2188,10 @@ def run_batch_logging(
     if isinstance(market_odds, str):
         all_market_odds = safe_load_json(market_odds)
         if all_market_odds is None:
-            print(f"❌ Failed to load odds file {market_odds}")
+            logger.warning("❌ Failed to load odds file %s", market_odds)
             return
         if not all_market_odds or not isinstance(all_market_odds, dict):
-            print(f"❌ Odds file {market_odds} is empty or malformed — skipping logging.")
+            logger.warning("❌ Odds file %s is empty or malformed — skipping logging.", market_odds)
             return
     else:
         all_market_odds = market_odds
@@ -2764,6 +2785,9 @@ if __name__ == "__main__":
     )
     args = p.parse_args()
 
+    if args.debug:
+        set_log_level("DEBUG")
+
     VERBOSE = args.verbose
     SHOW_SKIPPED = args.show_skipped
     force_log = args.force_log
@@ -2772,13 +2796,15 @@ if __name__ == "__main__":
 
     # ✅ Check if eval-folder exists before proceeding
     if not os.path.exists(args.eval_folder):
-        print(f"⚠️ Skipping log run — folder does not exist: {args.eval_folder}")
+        logger.warning(
+            "⚠️ Skipping log run — folder does not exist: %s", args.eval_folder
+        )
         sys.exit(0)
 
     if args.odds_path:
         odds = safe_load_json(args.odds_path)
         if odds is None:
-            print(f"❌ Failed to load odds file {args.odds_path}")
+            logger.warning("❌ Failed to load odds file %s", args.odds_path)
             sys.exit(1)
         odds_file = args.odds_path
     else:
@@ -2786,7 +2812,11 @@ if __name__ == "__main__":
 
         sim_dir = Path(args.eval_folder)
         games = [f.stem for f in sim_dir.glob("*.json") if "-T" in f.stem]
-        print(f"📡 Fetching market odds for {len(games)} games on {date_tag}...")
+        logger.info(
+            "📡 Fetching market odds for %d games on %s...",
+            len(games),
+            date_tag,
+        )
         odds = fetch_market_odds_from_api(games)
         timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
         odds_file = save_market_odds_to_file(odds, timestamp_tag)

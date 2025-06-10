@@ -656,7 +656,7 @@ def format_table_with_highlights(entries: List[dict]) -> str:
 def load_simulations(sim_dir: str) -> dict:
     sims = {}
     if not os.path.isdir(sim_dir):
-        print(f"⚠️ Sim directory not found: {sim_dir}")
+        logger.warning("❌ Sim directory not found: %s", sim_dir)
         return sims
     for f in os.listdir(sim_dir):
         if f.endswith(".json"):
@@ -665,7 +665,7 @@ def load_simulations(sim_dir: str) -> dict:
                 with open(path) as fh:
                     sims[f.replace(".json", "")] = json.load(fh)
             except Exception as e:
-                print(f"⚠️ Failed to load {path}: {e}")
+                logger.warning("❌ Failed to load %s: %s", path, e)
     return sims
 
 
@@ -686,11 +686,16 @@ def build_snapshot_rows(
             else:
                 normalized_gid = normalize_game_id(full_gid)
                 if normalized_gid in odds_data and normalized_gid != full_gid:
-                    print(
-                        f"⚠️ Odds found for normalized ID {normalized_gid} but not full {full_gid}"
+                    logger.warning(
+                        "❌ No odds for %s — found only normalized ID %s",
+                        full_gid,
+                        normalized_gid,
                     )
                 else:
-                    print(f"⚠️ No odds found for {full_gid}, even after fuzzy matching")
+                    logger.warning(
+                        "❌ No odds for %s — possible ID mismatch or time suffix drift",
+                        full_gid,
+                    )
                 continue
         start_str = odds.get("start_time")
         hours_to_game = 8.0
@@ -699,8 +704,12 @@ def build_snapshot_rows(
             try:
                 dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
                 hours_to_game = compute_hours_to_game(dt)
-                print(
-                    f"🕓 DEBUG: {game_id} — start={to_eastern(dt).isoformat()} | now={now_eastern().isoformat()} | delta={hours_to_game:.2f}h"
+                logger.debug(
+                    "🕓 %s start=%s now=%s Δ=%.2fh",
+                    game_id,
+                    to_eastern(dt).isoformat(),
+                    now_eastern().isoformat(),
+                    hours_to_game,
                 )
                 start_et = to_eastern(dt)
                 try:
@@ -710,8 +719,10 @@ def build_snapshot_rows(
             except Exception:
                 start_formatted = ""
         if hours_to_game < 0:
-            print(
-                f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
+            logger.debug(
+                "⏱️ Skipping %s — game has already started (%.2fh ago)",
+                game_id,
+                abs(hours_to_game),
             )
             debug_log.append(
                 {
@@ -740,15 +751,21 @@ def build_snapshot_rows(
                     get_market_entry_with_alternate_fallback(odds, market, alt)
                 )
             if not isinstance(market_entry, dict):
-                print(
-                    f"⚠️ No market entry for {game_id} | {market} | {lookup_side}"
+                logger.warning(
+                    "❌ No odds for %s — market %s side %s",
+                    game_id,
+                    market,
+                    lookup_side,
                 )
                 continue
 
             price = market_entry.get("price")
             if price is None:
-                print(
-                    f"⚠️ Missing price for {game_id} | {market} | {lookup_side}"
+                logger.warning(
+                    "❌ No odds for %s — market %s side %s (missing price)",
+                    game_id,
+                    market,
+                    lookup_side,
                 )
                 continue
 
@@ -773,8 +790,14 @@ def build_snapshot_rows(
             market_clean = matched_key.replace("alternate_", "")
             market_class = "alternate" if price_source == "alternate" else "main"
 
-            print(
-                f"✓ {game_id} | {market_clean} | {side} → EV {ev_pct:.2f}% | Stake {stake:.2f}u | Source {market_entry.get('pricing_method', 'book')}"
+            logger.debug(
+                "✓ %s | %s | %s → EV %.2f%% | Stake %.2fu | Source %s",
+                game_id,
+                market_clean,
+                side,
+                ev_pct,
+                stake,
+                market_entry.get("pricing_method", "book"),
             )
 
             normalized_side = normalize_label_for_odds(side, matched_key)
