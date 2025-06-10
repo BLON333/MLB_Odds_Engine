@@ -23,8 +23,10 @@ from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
     load_simulations,
     build_snapshot_rows as _core_build_snapshot_rows,
+    MARKET_EVAL_TRACKER,
 )
 from core.snapshot_core import expand_snapshot_rows_with_kelly
+from core.market_eval_tracker import save_tracker
 
 logger = get_logger(__name__)
 
@@ -241,6 +243,9 @@ def main() -> None:
             for row in rows_for_date:
                 row["snapshot_for_date"] = date_str
             all_rows.extend(rows_for_date)
+
+        save_tracker(MARKET_EVAL_TRACKER)
+        print(f"\U0001F4BE Saved market_eval_tracker with {len(MARKET_EVAL_TRACKER)} entries.")
     
         timestamp = now_eastern().strftime("%Y%m%dT%H%M")
         out_dir = "backtest"

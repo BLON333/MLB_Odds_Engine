@@ -44,7 +44,7 @@ from core.market_pricer import (
 from core.scaling_utils import blend_prob
 from core.consensus_pricer import calculate_consensus_prob
 from core.market_movement_tracker import track_and_update_market_movement
-from core.market_eval_tracker import load_tracker, save_tracker
+from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 import copy
 
 # Load tracker once for snapshot utilities and keep a frozen copy for comparisons
@@ -851,7 +851,7 @@ def build_snapshot_rows(
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)
             row.setdefault("entry_type", "first")
-            tracker_key = f"{game_id}:{market_clean.strip()}:{side.strip()}"
+            tracker_key = build_tracker_key(game_id, market_clean, side)
             prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
             row["_tracker_entry"] = prior_row
@@ -1106,9 +1106,10 @@ def expand_snapshot_rows_with_kelly(
 
     for row in rows:
         per_book = row.get("_raw_sportsbook") or {}
-        tracker_key = (
-            f"{row.get('game_id')}:{str(row.get('market', '')).strip()}:"
-            f"{str(row.get('side', '')).strip()}"
+        tracker_key = build_tracker_key(
+            row.get("game_id"),
+            row.get("market", ""),
+            row.get("side", ""),
         )
         prior_row = (
             MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
@@ -1187,9 +1188,10 @@ def expand_snapshot_rows_with_kelly(
                     "full_stake": stake,
                 }
             )
-            tracker_key = (
-                f"{expanded_row['game_id']}:{expanded_row['market'].strip()}:"
-                f"{expanded_row['side'].strip()}"
+            tracker_key = build_tracker_key(
+                expanded_row["game_id"],
+                expanded_row["market"],
+                expanded_row["side"],
             )
             prior_row = (
                 MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
