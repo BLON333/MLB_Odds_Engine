@@ -4,6 +4,7 @@ import time
 from typing import Dict
 
 from utils import canonical_game_id, parse_game_id
+from core.file_utils import is_file_older_than
 
 TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
 
@@ -46,11 +47,10 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
     tmp = f"{path}.tmp"
 
     # Detect and clean up stale lock files before attempting to acquire the lock
-    if os.path.exists(lock):
+    if is_file_older_than(lock, 10):
+        print("⚠️ Stale tracker lock detected; removing old lock file")
         try:
-            if time.time() - os.path.getmtime(lock) > 10:
-                print("⚠️ Stale tracker lock detected; removing old lock file")
-                os.remove(lock)
+            os.remove(lock)
         except Exception:
             pass
 
