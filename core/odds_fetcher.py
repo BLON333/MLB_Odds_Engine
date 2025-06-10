@@ -23,6 +23,7 @@ from utils import (
     extract_game_id_from_event,
     merge_book_sources_for,
     canonical_game_id,
+    parse_game_id,
     to_eastern,
 )
 
@@ -123,7 +124,11 @@ def fetch_consensus_for_single_game(game_id, lookahead_days=2):
 
     # Step 2: Find event_id matching game_id (including time)
 
+    input_parts = parse_game_id(game_id)
+    input_base = f"{input_parts['date']}-{input_parts['away']}@{input_parts['home']}"
+
     event_id = None
+    matched_event = None
     for event in events:
         away_team = event["away_team"]
         home_team = event["home_team"]
@@ -136,12 +141,18 @@ def fetch_consensus_for_single_game(game_id, lookahead_days=2):
             extract_game_id_from_event(away_team, home_team, start_time)
         )
 
-        if event_gid != game_id:
-            continue
+        if event_gid == game_id:
+            matched_event = event
+            game_id = event_gid
+            break
 
-        event_id = event["id"]
-        game_id = event_gid
-        break
+        if "-T" not in game_id and event_gid.startswith(input_base):
+            matched_event = event
+            game_id = event_gid
+            break
+
+    if matched_event:
+        event_id = matched_event["id"]
 
     if not event_id:
         logger.debug(f"⚠️ No event found for {game_id}")
