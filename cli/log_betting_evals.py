@@ -4,8 +4,10 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import sys
+
 if sys.version_info >= (3, 7):
     import os
+
     os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # === Core Imports ===
@@ -23,6 +25,7 @@ import re
 
 load_dotenv()
 from core.logger import get_logger, set_log_level
+
 logger = get_logger(__name__)
 
 # === Console Output Controls ===
@@ -32,6 +35,7 @@ MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
 VERBOSE = False
 SHOW_SKIPPED = False
+
 
 def log_segment_mismatch(sim_segment: str, book_segment: str) -> None:
     """Print a segment mismatch message with truncation after a limit."""
@@ -54,6 +58,8 @@ def should_log_movement() -> bool:
     if movement_log_count == MOVEMENT_LOG_LIMIT + 1:
         print("🧠 ... (truncated additional movement logs)")
     return False
+
+
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 DISCORD_TOTALS_WEBHOOK_URL = os.getenv("DISCORD_TOTALS_WEBHOOK_URL")
 DISCORD_H2H_WEBHOOK_URL = os.getenv("DISCORD_H2H_WEBHOOK_URL")
@@ -90,19 +96,26 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
     except Exception as e:
         logger.warning("❌ Failed to save market confirmation tracker: %s", e)
 
+
 import copy
 from datetime import datetime
 
 # Load market confirmation tracker
 MARKET_CONF_TRACKER = load_market_conf_tracker()
 
+
 def latest_snapshot_path(folder="backtest"):
     """Return the most recent snapshot file from the given folder."""
     files = sorted(
-        [f for f in os.listdir(folder) if f.startswith("market_snapshot_") and f.endswith(".json")],
+        [
+            f
+            for f in os.listdir(folder)
+            if f.startswith("market_snapshot_") and f.endswith(".json")
+        ],
         reverse=True,
     )
     return os.path.join(folder, files[0]) if files else None
+
 
 # Load tracker for updates during logging
 MARKET_EVAL_TRACKER = load_tracker()
@@ -117,15 +130,21 @@ if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
 
     # Determine snapshot timestamp from filename or modification time
     snap_dt = None
-    m = re.search(r"market_snapshot_(\d{8}T\d{4})", os.path.basename(SNAPSHOT_PATH_USED))
+    m = re.search(
+        r"market_snapshot_(\d{8}T\d{4})", os.path.basename(SNAPSHOT_PATH_USED)
+    )
     if m:
         try:
-            snap_dt = datetime.strptime(m.group(1), "%Y%m%dT%H%M").replace(tzinfo=EASTERN_TZ)
+            snap_dt = datetime.strptime(m.group(1), "%Y%m%dT%H%M").replace(
+                tzinfo=EASTERN_TZ
+            )
         except Exception:
             snap_dt = None
     if snap_dt is None:
         try:
-            snap_dt = datetime.fromtimestamp(os.path.getmtime(SNAPSHOT_PATH_USED), tz=EASTERN_TZ)
+            snap_dt = datetime.fromtimestamp(
+                os.path.getmtime(SNAPSHOT_PATH_USED), tz=EASTERN_TZ
+            )
         except Exception:
             snap_dt = None
 
@@ -155,6 +174,7 @@ else:
     print("⚠️ No valid prior snapshot found — using fallback copy of tracker.")
     MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
+
 # === Local Modules ===
 def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
     """Return Date, Matchup and Time strings from a game_id."""
@@ -173,6 +193,8 @@ def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
             except Exception:
                 time = ""
     return date, matchup, time
+
+
 from core.market_pricer import (
     implied_prob,
     decimal_odds,
@@ -181,6 +203,7 @@ from core.market_pricer import (
     calculate_ev_from_prob,
     extract_best_book,
 )
+from core.snapshot_core import annotate_display_deltas
 from core.scaling_utils import blend_prob
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
 from utils import (
@@ -218,7 +241,10 @@ from core.market_movement_tracker import (
     track_and_update_market_movement,
     detect_market_movement,
 )
-from core.theme_exposure_tracker import load_tracker as load_theme_stakes, save_tracker as save_theme_stakes
+from core.theme_exposure_tracker import (
+    load_tracker as load_theme_stakes,
+    save_tracker as save_theme_stakes,
+)
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -608,18 +634,13 @@ def upload_summary_image_to_discord(image_path, webhook_url):
             print(f"❌ Failed to upload summary image to Discord: {e}")
 
 
-def expand_snapshot_rows_with_kelly(
-    final_snapshot, min_ev=1.0, min_stake=0.5
-):
+def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
     """
     Expand snapshot rows into 1 row per sportsbook, recalculating EV% and stake using Quarter-Kelly.
     """
     from core.market_pricer import calculate_ev_from_prob
 
     expanded_rows = []
-
-    
-
 
     for bet in final_snapshot:
         base_fields = {
@@ -639,15 +660,24 @@ def expand_snapshot_rows_with_kelly(
         }
 
         for field in [
-            "ev_movement", "fv_movement", "odds_movement", "stake_movement",
-            "sim_movement", "mkt_movement", "is_new",
+            "ev_movement",
+            "fv_movement",
+            "odds_movement",
+            "stake_movement",
+            "sim_movement",
+            "mkt_movement",
+            "is_new",
         ]:
             if field in bet:
                 base_fields[field] = bet[field]
 
         for field in [
-            "ev_display", "fv_display", "odds_display", "stake_display",
-            "sim_prob_display", "mkt_prob_display",
+            "ev_display",
+            "fv_display",
+            "odds_display",
+            "stake_display",
+            "sim_prob_display",
+            "mkt_prob_display",
         ]:
             if field in bet:
                 base_fields[field] = bet[field]
@@ -674,16 +704,17 @@ def expand_snapshot_rows_with_kelly(
                     print(f"🔍 {book}: EV={ev:.2f}%, Odds={odds}, Stake={stake:.2f}u")
 
                 tracker_key = build_tracker_key(
-                    base_fields['game_id'],
-                    base_fields['market'],
-                    base_fields['side'],
+                    base_fields["game_id"],
+                    base_fields["market"],
+                    base_fields["side"],
                 )
                 prior_snapshot_row = bet.get("_prior_snapshot")
 
                 # 🧪 Optional Debug
                 if VERBOSE and not prior_snapshot_row:
-                    print(f"⚠️ Missing _prior_snapshot for {tracker_key} in expanded_row")
-
+                    print(
+                        f"⚠️ Missing _prior_snapshot for {tracker_key} in expanded_row"
+                    )
 
                 if VERBOSE and not prior_snapshot_row:
                     print(f"⚠️ Missing prior snapshot for: {tracker_key}")
@@ -703,15 +734,24 @@ def expand_snapshot_rows_with_kelly(
                     }
 
                     for field in [
-                        "ev_movement", "fv_movement", "odds_movement", "stake_movement",
-                        "sim_movement", "mkt_movement", "is_new",
+                        "ev_movement",
+                        "fv_movement",
+                        "odds_movement",
+                        "stake_movement",
+                        "sim_movement",
+                        "mkt_movement",
+                        "is_new",
                     ]:
                         if field in base_fields:
                             expanded_row[field] = base_fields[field]
 
                     for disp in [
-                        "ev_display", "fv_display", "odds_display", "stake_display",
-                        "sim_prob_display", "mkt_prob_display",
+                        "ev_display",
+                        "fv_display",
+                        "odds_display",
+                        "stake_display",
+                        "sim_prob_display",
+                        "mkt_prob_display",
                     ]:
                         if disp in base_fields:
                             expanded_row[disp] = base_fields[disp]
@@ -740,8 +780,9 @@ def expand_snapshot_rows_with_kelly(
     return deduped
 
 
-
-def market_prob_increase_threshold(hours_to_game: float, market_type: str = "") -> float:
+def market_prob_increase_threshold(
+    hours_to_game: float, market_type: str = ""
+) -> float:
     """Return required market_prob delta for logging based on time to game.
 
     A lower threshold is returned for derivative markets (e.g. F5, 1st inning) to
@@ -897,9 +938,6 @@ def load_existing_stakes(log_path):
     return existing
 
 
-
-
-
 def get_discord_webhook_for_market(market: str) -> str:
     """Return the Discord webhook URL for a given market type."""
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
@@ -1004,7 +1042,7 @@ def send_discord_notification(row, skipped_bets=None):
     movement = detect_market_movement(row, prior)
     row["_movement"] = movement
     print(
-        f"\U0001F4E2 Sending alert for {tracker_key} | Mkt: {row['market']} | Side: {row['side']} | EV%: {ev} | Stake: {row.get('stake')} | Mkt Movement: {movement.get('mkt_movement')}"
+        f"\U0001f4e2 Sending alert for {tracker_key} | Mkt: {row['market']} | Side: {row['side']} | EV%: {ev} | Stake: {row.get('stake')} | Mkt Movement: {movement.get('mkt_movement')}"
     )
     if movement.get("is_new"):
         print(f"🟡 First-time seen → {tracker_key}")
@@ -1128,15 +1166,17 @@ def send_discord_notification(row, skipped_bets=None):
     else:
         roles_text = ""
 
+    market_prob_str = row.get("mkt_prob_display")
+    if not market_prob_str:
+        prev_market_prob = None
+        if isinstance(prior, dict):
+            prev_market_prob = prior.get("market_prob")
+        if prev_market_prob is not None:
+            market_prob_str = f"{prev_market_prob:.1%} → {consensus_prob:.1%}"
+        else:
+            market_prob_str = f"{consensus_prob:.1%}"
 
-    prev_market_prob = None
-    if isinstance(prior, dict):
-        prev_market_prob = prior.get("market_prob")
-
-    if prev_market_prob is not None:
-        market_prob_str = f"{prev_market_prob:.1%} → {consensus_prob:.1%}"
-    else:
-        market_prob_str = f"{consensus_prob:.1%}"
+    ev_str = row.get("ev_display", f"{ev:+.2f}%")
 
     message = None
     try:
@@ -1154,7 +1194,7 @@ def send_discord_notification(row, skipped_bets=None):
             f"• Market Implied: **{market_prob_str}**\n"
             f"• Blended: **{blended_prob:.1%}**\n"
             f"💸 Fair Value: **{row.get('blended_fv')}**\n"
-            f"📊 EV: **{ev:+.2f}%**\n\n"
+            f"📊 EV: **{ev_str}**\n\n"
             "---\n\n"
             f"🏦 **Best Book**: {best_book}\n"
             f"📉 **Market Odds**:\n{all_odds_str}\n\n"
@@ -1256,9 +1296,7 @@ def write_to_csv(
                 time_formatted = ""
     row["Time"] = time_formatted
     key = (row["game_id"], row["market"], row["side"])
-    tracker_key = build_tracker_key(
-        row["game_id"], row["market"], row["side"]
-    )
+    tracker_key = build_tracker_key(row["game_id"], row["market"], row["side"])
 
     new_conf = row.get("consensus_prob")
     try:
@@ -1320,26 +1358,33 @@ def write_to_csv(
     if VERBOSE and "_prior_snapshot" not in row:
         print(f"⚠️ _prior_snapshot not present in row for {tracker_key}")
 
-
-
     # ===== Market Confirmation =====
 
     if VERBOSE:
         if "_prior_snapshot" in row:
             print(f"📥 Using injected _prior_snapshot for movement check.")
         else:
-            print(f"📥 Falling back to MARKET_EVAL_TRACKER_BEFORE_UPDATE for movement check.")
+            print(
+                f"📥 Falling back to MARKET_EVAL_TRACKER_BEFORE_UPDATE for movement check."
+            )
 
-    prior_snapshot = row.get("_prior_snapshot") or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+    prior_snapshot = row.get(
+        "_prior_snapshot"
+    ) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
 
     if VERBOSE:
-        print(f"📈 Prior Tracker market_prob : {MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key, {}).get('market_prob')}")
-        print(f"📈 Attached Snapshot market_prob: {row.get('_prior_snapshot', {}).get('market_prob')}")
+        print(
+            f"📈 Prior Tracker market_prob : {MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key, {}).get('market_prob')}"
+        )
+        print(
+            f"📈 Attached Snapshot market_prob: {row.get('_prior_snapshot', {}).get('market_prob')}"
+        )
         print(f"📈 New market_prob             : {row.get('market_prob')}")
 
-        if row.get("_prior_snapshot") != MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key):
+        if row.get("_prior_snapshot") != MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(
+            tracker_key
+        ):
             print(f"⚠️ Snapshot mismatch for {tracker_key}")
-
 
     movement = detect_market_movement(row, prior_snapshot)
     row["_movement"] = movement  # store for Discord/export/debug
@@ -1348,11 +1393,15 @@ def write_to_csv(
     print(f"\n🔎 Movement Debug for {tracker_key}:")
     print(f"    • Simulated EV           : {row.get('ev_percent')}%")
     print(f"    • Market Prob (New)      : {row.get('market_prob')}")
-    print(f"    • Market Prob (Prior)    : {prior_snapshot.get('market_prob') if prior_snapshot else 'None'}")
+    print(
+        f"    • Market Prob (Prior)    : {prior_snapshot.get('market_prob') if prior_snapshot else 'None'}"
+    )
     print(f"    • Movement               : {movement.get('mkt_movement')}")
 
     if isinstance(MARKET_EVAL_TRACKER_BEFORE_UPDATE, dict):
-        print(f"    • Tracker Source         : Snapshot-Based Tracker (Length: {len(MARKET_EVAL_TRACKER_BEFORE_UPDATE)})")
+        print(
+            f"    • Tracker Source         : Snapshot-Based Tracker (Length: {len(MARKET_EVAL_TRACKER_BEFORE_UPDATE)})"
+        )
     else:
         print(f"    • Tracker Source         : Unknown")
 
@@ -1369,16 +1418,29 @@ def write_to_csv(
 
     if row.get("entry_type") == "first":
         if prior_prob is None or new_prob is None:
-            print("⛔ No prior market probability — building baseline and skipping log.")
+            print(
+                "⛔ No prior market probability — building baseline and skipping log."
+            )
             if VERBOSE:
                 print(
                     f"⛔ Skipping {row.get('entry_type')} bet — no prior market probability ({prior_prob} → {new_prob})"
                 )
-            track_and_update_market_movement(
+            movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
                 MARKET_EVAL_TRACKER_BEFORE_UPDATE,
             )
+            prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key) or {}
+            row.update(
+                {
+                    "prev_sim_prob": prior_row.get("sim_prob"),
+                    "prev_market_prob": prior_row.get("market_prob"),
+                    "prev_blended_fv": prior_row.get("blended_fv"),
+                }
+            )
+            annotate_display_deltas(row, prior_row)
+            row["_movement_str"] = row.get("mkt_prob_display")
+            row["_movement"] = movement
             row["skip_reason"] = "market_not_moved"
             return None
         elif new_prob <= prior_prob:
@@ -1454,9 +1516,7 @@ def write_to_csv(
 
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
-        print(
-            f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}"
-        )
+        print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
 
         # Update market confirmation tracker on successful log
         MARKET_CONF_TRACKER[tracker_key] = {
@@ -1470,6 +1530,17 @@ def write_to_csv(
             MARKET_EVAL_TRACKER,
             MARKET_EVAL_TRACKER_BEFORE_UPDATE,
         )
+        prior_row = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key) or {}
+        row.update(
+            {
+                "prev_sim_prob": prior_row.get("sim_prob"),
+                "prev_market_prob": prior_row.get("market_prob"),
+                "prev_blended_fv": prior_row.get("blended_fv"),
+            }
+        )
+        annotate_display_deltas(row, prior_row)
+        row["_movement_str"] = row.get("mkt_prob_display")
+        row["_movement"] = movement
         if should_log_movement():
             print(
                 f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
@@ -1593,9 +1664,7 @@ def log_bets(
             continue
 
         if not isinstance(market_entry, dict):
-            logger.warning(
-                "❌ No odds for %s — market %s", side, market_key
-            )
+            logger.warning("❌ No odds for %s — market %s", side, market_key)
             continue
 
         # Safely get the correct sim line (now that matched_key is known)
@@ -1685,9 +1754,7 @@ def log_bets(
             row["_raw_sportsbook"] = book_prices.copy()
 
         # 📝 Track every evaluated bet before applying stake/EV filters
-        tracker_key = build_tracker_key(
-            row["game_id"], row["market"], row["side"]
-        )
+        tracker_key = build_tracker_key(row["game_id"], row["market"], row["side"])
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
 
         movement = detect_market_movement(row, prior)
@@ -2029,7 +2096,7 @@ def log_derivative_bets(
                 print(f"🏦 Best Book Selected: {row['best_book']}")
                 # 📝 Track every evaluated bet before applying stake/EV filters
                 tracker_key = build_tracker_key(
-                    row['game_id'], row['market'], row['side']
+                    row["game_id"], row["market"], row["side"]
                 )
                 prior = MARKET_EVAL_TRACKER.get(tracker_key)
                 movement = detect_market_movement(
@@ -2188,7 +2255,9 @@ def run_batch_logging(
     load_dotenv()
 
     if market_odds is None:
-        logger.warning("❌ No odds data provided. Use --odds-path or pass market_odds as a dict.")
+        logger.warning(
+            "❌ No odds data provided. Use --odds-path or pass market_odds as a dict."
+        )
         return
 
     DISCORD_SUMMARY_WEBHOOK_URL = os.getenv("DISCORD_SUMMARY_WEBHOOK_URL")
@@ -2200,7 +2269,9 @@ def run_batch_logging(
             logger.warning("❌ Failed to load odds file %s", market_odds)
             return
         if not all_market_odds or not isinstance(all_market_odds, dict):
-            logger.warning("❌ Odds file %s is empty or malformed — skipping logging.", market_odds)
+            logger.warning(
+                "❌ Odds file %s is empty or malformed — skipping logging.", market_odds
+            )
             return
     else:
         all_market_odds = market_odds
@@ -2218,7 +2289,6 @@ def run_batch_logging(
         merged_odds = dict(fallback_odds)
         merged_odds.update(all_market_odds)
         all_market_odds = merged_odds
-
 
     def extract_start_times(odds_data):
         from dateutil import parser
@@ -2321,7 +2391,6 @@ def run_batch_logging(
             )
 
     existing_theme_stakes = load_theme_stakes()
-
 
     odds_start_times = extract_start_times(all_market_odds)
 
@@ -2487,7 +2556,9 @@ def process_theme_logged_bets(
             ordered_rows = []
             for segment, row in segment_map.items():
                 ordered_rows.append((segment, row))
-            ordered_rows.sort(key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0)
+            ordered_rows.sort(
+                key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
+            )
             for segment, row in ordered_rows:
                 stake = round(float(row.get("full_stake", row.get("stake", 0))), 2)
                 ev = row.get("ev_percent", 0)
@@ -2552,7 +2623,9 @@ def process_theme_logged_bets(
             ordered_rows = []
             for segment, row in segment_map.items():
                 ordered_rows.append((segment, row))
-            ordered_rows.sort(key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0)
+            ordered_rows.sort(
+                key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
+            )
             for segment, row in ordered_rows:
                 if row.get("ev_percent", 0) > MAX_ALLOWED_EV:
                     print(
@@ -2651,7 +2724,7 @@ def process_theme_logged_bets(
 
                 # 📝 Update tracker for every evaluated bet
                 t_key = build_tracker_key(
-                    row_copy['game_id'], row_copy['market'], row_copy['side']
+                    row_copy["game_id"], row_copy["market"], row_copy["side"]
                 )
                 prior = MARKET_EVAL_TRACKER.get(t_key)
                 movement = detect_market_movement(
@@ -2680,9 +2753,8 @@ def process_theme_logged_bets(
                     )
                     current_best = best_market_segment.get(key_best)
 
-                    if (
-                        not current_best
-                        or evaluated["ev_percent"] > current_best.get("ev_percent", -999)
+                    if not current_best or evaluated["ev_percent"] > current_best.get(
+                        "ev_percent", -999
                     ):
                         best_market_segment[key_best] = evaluated
 
@@ -2730,7 +2802,6 @@ def process_theme_logged_bets(
         )
         send_discord_notification(row, skipped_bets)
 
-
     # ✅ Expand snapshot per book with proper stake & EV% logic
     snapshot_raw = [r for rows in game_summary.values() for r in rows] + skipped_bets
     final_snapshot = expand_snapshot_rows_with_kelly(
@@ -2740,15 +2811,14 @@ def process_theme_logged_bets(
     if VERBOSE:
         print("\n🧠 Snapshot Prob Consistency Check:")
         for row in final_snapshot:
-            key = build_tracker_key(row['game_id'], row['market'], row['side'])
+            key = build_tracker_key(row["game_id"], row["market"], row["side"])
             prior = row.get("_prior_snapshot")
             if prior:
-                print(f"🧠 {key} | Prior market_prob: {prior.get('market_prob')} | Current: {row.get('market_prob')}")
+                print(
+                    f"🧠 {key} | Prior market_prob: {prior.get('market_prob')} | Current: {row.get('market_prob')}"
+                )
             else:
                 print(f"⚠️  {key} has no _prior_snapshot attached.")
-
-
-
 
     if image:
         if final_snapshot:
@@ -2788,7 +2858,9 @@ if __name__ == "__main__":
         help="Generate summary image and post to Discord",
     )
     p.add_argument("--output-dir", default="logs", help="Directory for summary image")
-    p.add_argument("--show-skipped", action="store_true", help="Show skipped bet details")
+    p.add_argument(
+        "--show-skipped", action="store_true", help="Show skipped bet details"
+    )
     p.add_argument("--verbose", action="store_true", help="Enable verbose output")
     p.add_argument(
         "--force-log",
