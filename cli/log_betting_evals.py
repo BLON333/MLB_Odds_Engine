@@ -1120,43 +1120,55 @@ def send_discord_notification(row, skipped_bets=None):
             )
         except:
             return 0.0
+    def _qualifies(price_val):
+        try:
+            odds_val = float(price_val)
+        except Exception:
+            return False
 
-    # === Sort books and format display
+        if odds_val < -150 or odds_val > 200:
+            return False
+
+        offered_decimal = to_decimal(odds_val)
+        ev_this_book = (sim_prob * offered_decimal - 1) * 100
+        return 5 <= ev_this_book <= 20
+
+
     sorted_books = []
     if isinstance(all_odds_dict, dict):
         sorted_books = sorted(
             all_odds_dict.items(), key=lambda x: to_decimal(x[1]), reverse=True
         )
 
+
+        roles = set()
         all_odds_str_pieces = []
         for book, odds_value in sorted_books:
+            role_tag = None
+            if _qualifies(odds_value):
+                role_tag = BOOKMAKER_TO_ROLE.get(book.lower())
+                if role_tag:
+                    roles.add(role_tag)
+
             book_display = f"{book}: {odds_value}"
+            if role_tag:
+                book_display = f"{book_display} {role_tag}"
             if book.lower() == best_book_name:
                 book_display = f"**{book_display}**"
             all_odds_str_pieces.append(f"• {book_display}")
 
         all_odds_str = "\n".join(all_odds_str_pieces)
     else:
+        roles = set()
         all_odds_str = "N/A"
 
-    # === Tag Roles from Books
-    # Only mention sportsbooks whose individual EV falls within the
-    # notification range (5% - 20%). This prevents tagging every book
-    # just because the best price qualifies.
-    roles = set()
-    for book, price in sorted_books:
-        model_prob = sim_prob
-        offered_decimal = to_decimal(price)
-        ev_this_book = (model_prob * offered_decimal - 1) * 100
-
-        if 5 <= ev_this_book <= 20:
-            role_tag = BOOKMAKER_TO_ROLE.get(book.lower())
-            if role_tag:
-                roles.add(role_tag)
-
-    best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
-    if best_role:
-        roles.add(best_role)
+    # Tag the best book only if it also meets the criteria
+    if best_book_name and best_book_name in all_odds_dict:
+        best_price = all_odds_dict.get(best_book_name)
+        if _qualifies(best_price):
+            best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
+            if best_role:
+                roles.add(best_role)
 
     if len(roles) > 1:
         print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
@@ -1165,7 +1177,6 @@ def send_discord_notification(row, skipped_bets=None):
         roles_text = "📣 " + " ".join(sorted(roles))
     else:
         roles_text = ""
-
     market_prob_str = row.get("mkt_prob_display")
     if not market_prob_str:
         prev_market_prob = None
