@@ -45,6 +45,15 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
     lock = f"{path}.lock"
     tmp = f"{path}.tmp"
 
+    # Detect and clean up stale lock files before attempting to acquire the lock
+    if os.path.exists(lock):
+        try:
+            if time.time() - os.path.getmtime(lock) > 10:
+                print("⚠️ Stale tracker lock detected; removing old lock file")
+                os.remove(lock)
+        except Exception:
+            pass
+
     # Acquire an exclusive lock file, waiting briefly if another process holds it
     for _ in range(50):  # ~5 seconds max
         try:
