@@ -24,9 +24,10 @@ from core.snapshot_core import (
     load_simulations,
     build_snapshot_rows as _core_build_snapshot_rows,
     MARKET_EVAL_TRACKER,
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE,
 )
 from core.snapshot_core import expand_snapshot_rows_with_kelly
-from core.market_eval_tracker import save_tracker
+from core.market_eval_tracker import load_tracker, save_tracker
 
 logger = get_logger(__name__)
 
@@ -237,6 +238,12 @@ def main() -> None:
                 logger.error("❌ No market_odds_*.json files found or failed to load.")
                 return
     
+        # Refresh tracker baseline before snapshot generation
+        MARKET_EVAL_TRACKER.clear()
+        MARKET_EVAL_TRACKER.update(load_tracker())
+        MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
+        MARKET_EVAL_TRACKER_BEFORE_UPDATE.update(MARKET_EVAL_TRACKER)
+
         all_rows: list = []
         for date_str in date_list:
             rows_for_date = build_snapshot_for_date(date_str, odds_cache, (min_ev, max_ev))
@@ -244,6 +251,7 @@ def main() -> None:
                 row["snapshot_for_date"] = date_str
             all_rows.extend(rows_for_date)
 
+        # Save tracker after snapshot generation
         save_tracker(MARKET_EVAL_TRACKER)
         print(f"\U0001F4BE Saved market_eval_tracker with {len(MARKET_EVAL_TRACKER)} entries.")
     
