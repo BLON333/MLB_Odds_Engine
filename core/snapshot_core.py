@@ -249,13 +249,13 @@ def _style_dataframe(df: pd.DataFrame) -> pd.io.formats.style.Styler:
             colors = []
             moves = df.get(move_col)
             for mv in moves if moves is not None else []:
-                if mv == "better":
+                if mv in ("better", "up"):
                     colors.append(
                         "background-color: #f8d7da"
                         if invert
                         else "background-color: #d4edda"
                     )
-                elif mv == "worse":
+                elif mv in ("worse", "down"):
                     colors.append(
                         "background-color: #d4edda"
                         if invert
