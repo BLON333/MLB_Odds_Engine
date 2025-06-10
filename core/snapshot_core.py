@@ -679,10 +679,11 @@ def build_snapshot_rows(
         full_gid = str(game_id)
         markets = sim.get("markets", [])
         odds = odds_data.get(full_gid)
-        if not odds:
-            alt_id = fuzzy_match_game_id(full_gid, list(odds_data.keys()))
-            if alt_id:
-                odds = odds_data[alt_id]
+        if odds is None:
+            fuzzy_id = fuzzy_match_game_id(full_gid, list(odds_data.keys()), window=3)
+            if fuzzy_id:
+                odds = odds_data[fuzzy_id]
+                logger.info("🔄 Fuzzy matched %s → %s", full_gid, fuzzy_id)
             else:
                 normalized_gid = normalize_game_id(full_gid)
                 if normalized_gid in odds_data and normalized_gid != full_gid:
@@ -693,7 +694,7 @@ def build_snapshot_rows(
                     )
                 else:
                     logger.warning(
-                        "❌ No odds for %s — possible ID mismatch or time suffix drift",
+                        "❌ No odds found for %s (even with fuzzy matching), skipping.",
                         full_gid,
                     )
                 continue
