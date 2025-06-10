@@ -2152,6 +2152,10 @@ def run_batch_logging(
 
     load_dotenv()
 
+    if market_odds is None:
+        print("❌ No odds data provided. Use --odds-path or pass market_odds as a dict.")
+        return
+
     DISCORD_SUMMARY_WEBHOOK_URL = os.getenv("DISCORD_SUMMARY_WEBHOOK_URL")
     summary_candidates = []
 
