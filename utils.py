@@ -4,6 +4,8 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import json
 import traceback
 
+from core.game_id_utils import build_game_id
+
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
 # Timezone helpers
@@ -917,11 +919,12 @@ def extract_game_id_from_event(away_team, home_team, start_time):
         else:
             dt = start_time
 
-        start_et = to_eastern(dt)
-        local_date = start_et.strftime("%Y-%m-%d")
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
         away_abbr = TEAM_ABBR.get(away_team, away_team)
         home_abbr = TEAM_ABBR.get(home_team, home_team)
-        return disambiguate_game_id(local_date, away_abbr, home_abbr, start_et)
+        return build_game_id(away_abbr, home_abbr, dt)
     except Exception as e:
         from core.logger import get_logger
         get_logger(__name__).debug("[DEBUG] extract_game_id_from_event error: %s", e)
