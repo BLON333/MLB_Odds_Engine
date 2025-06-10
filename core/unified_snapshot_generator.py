@@ -268,10 +268,20 @@ def main() -> None:
         try:
             os.rename(tmp_path, final_path)
         except Exception:
-            logger.exception("❌ Failed to finalize snapshot rename from %s to %s", tmp_path, final_path)
+            logger.exception(
+                "❌ Failed to finalize snapshot rename from %s to %s",
+                tmp_path,
+                final_path,
+            )
             return
 
-        logger.info("✅ Wrote %s rows to %s", len(all_rows), final_path)
+        if len(all_rows) == 0:
+            logger.warning(
+                "⚠️ Snapshot %s written with 0 rows — no matched games.",
+                final_path,
+            )
+        else:
+            logger.info("✅ Snapshot written: %s with %d rows", final_path, len(all_rows))
     except Exception:
         logger.exception("Snapshot generation failed:")
         sys.exit(1)
