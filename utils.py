@@ -4,7 +4,11 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import json
 import traceback
 
-from core.game_id_utils import build_game_id
+from core.game_id_utils import (
+    build_game_id,
+    normalize_game_id as base_game_id,
+    fuzzy_match_game_id,
+)
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
@@ -962,6 +966,19 @@ def canonical_game_id(game_id: str) -> str:
         return f"{base}-{parts['time']}" if parts["time"] else base
     except Exception:
         return game_id
+
+
+def lookup_fallback_odds(game_id: str, fallback_odds: dict) -> dict | None:
+    """Return the best-matching fallback odds entry for ``game_id``."""
+    if not isinstance(fallback_odds, dict):
+        return None
+    base = base_game_id(game_id)
+    candidates = [gid for gid in fallback_odds if base_game_id(gid) == base]
+    if not candidates:
+        return None
+    match = fuzzy_match_game_id(game_id, candidates)
+    key = match or candidates[0]
+    return fallback_odds.get(key)
 
 
 def normalize_name(name):
