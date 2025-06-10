@@ -4,10 +4,16 @@ import time
 import math
 from typing import Dict
 
+from core.logger import get_logger
+
 from utils import canonical_game_id, parse_game_id
 from core.file_utils import is_file_older_than
 
 TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
+
+logger = get_logger(__name__)
+
+FAILURE_LOG_PATH = os.path.join(os.path.dirname(TRACKER_PATH), "save_failures.log")
 
 
 def build_tracker_key(game_id: str, market: str, side: str) -> str:
@@ -70,7 +76,13 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
                     continue
                 time.sleep(min(0.1 * math.pow(2, attempt), 2.0))
         if not lock_acquired:
-            print("⚠️ Failed to acquire tracker lock; aborting save")
+            logger.error("❌ Tracker lock failed after multiple retries — skipping save")
+            try:
+                os.makedirs(os.path.dirname(FAILURE_LOG_PATH), exist_ok=True)
+                with open(FAILURE_LOG_PATH, "a") as f:
+                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} tracker lock timeout\n")
+            except Exception:
+                pass
             return
 
         # Merge with latest tracker on disk to avoid overwriting concurrent updates
