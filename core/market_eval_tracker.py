@@ -14,6 +14,7 @@ TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
 logger = get_logger(__name__)
 
 FAILURE_LOG_PATH = os.path.join(os.path.dirname(TRACKER_PATH), "save_failures.log")
+RECOVERY_PATH = os.path.join(os.path.dirname(TRACKER_PATH), "market_eval_tracker.recovery.json")
 
 
 def build_tracker_key(game_id: str, market: str, side: str) -> str:
@@ -28,24 +29,35 @@ def build_tracker_key(game_id: str, market: str, side: str) -> str:
 
 def load_tracker(path: str = TRACKER_PATH) -> Dict[str, dict]:
     """Load the market evaluation tracker dictionary."""
+    data: Dict[str, dict] = {}
     try:
-        with open(path, 'r') as f:
-            data = json.load(f)
-            if isinstance(data, dict):
-                return data
-            if isinstance(data, list):
-                converted = {}
-                for entry in data:
-                    key = entry.get('key')
+        with open(path, "r") as f:
+            raw = json.load(f)
+            if isinstance(raw, dict):
+                data = raw
+            elif isinstance(raw, list):
+                converted: Dict[str, dict] = {}
+                for entry in raw:
+                    key = entry.get("key")
                     if not key:
                         continue
-                    converted[key] = {
-                        k: v for k, v in entry.items() if k != 'key'
-                    }
-                return converted
+                    converted[key] = {k: v for k, v in entry.items() if k != "key"}
+                data = converted
     except Exception:
         pass
-    return {}
+
+    recovery_path = os.path.join(os.path.dirname(path), "market_eval_tracker.recovery.json")
+    if os.path.exists(recovery_path):
+        try:
+            with open(recovery_path, "r") as f:
+                recovery = json.load(f)
+            if isinstance(recovery, dict):
+                data.update(recovery)
+            os.remove(recovery_path)
+            print(f"\U0001F4E4 Merged recovery tracker with {len(recovery)} entries")
+        except Exception as e:
+            logger.error("❌ Failed to merge recovery tracker: %s", e)
+    return data
 
 
 def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
@@ -83,6 +95,13 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
                     f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} tracker lock timeout\n")
             except Exception:
                 pass
+            try:
+                os.makedirs(os.path.dirname(RECOVERY_PATH), exist_ok=True)
+                with open(RECOVERY_PATH, "w") as f:
+                    json.dump(dict(sorted(tracker.items())), f, indent=2)
+                print(f"🆘 Wrote recovery tracker to {RECOVERY_PATH}")
+            except Exception as rec_e:
+                print(f"❌ Failed to write recovery tracker: {rec_e}")
             return
 
         # Merge with latest tracker on disk to avoid overwriting concurrent updates
@@ -112,6 +131,13 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
             raise
     except Exception as e:
         print(f"⚠️ Failed to save market eval tracker: {e}")
+        try:
+            os.makedirs(os.path.dirname(RECOVERY_PATH), exist_ok=True)
+            with open(RECOVERY_PATH, "w") as f:
+                json.dump(dict(sorted(tracker.items())), f, indent=2)
+            print(f"🆘 Wrote recovery tracker to {RECOVERY_PATH}")
+        except Exception as rec_e:
+            print(f"❌ Failed to write recovery tracker: {rec_e}")
     finally:
         if lock_acquired:
             try:
