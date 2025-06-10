@@ -2,6 +2,8 @@
 
 from typing import Dict, Optional
 
+from core.market_eval_tracker import build_tracker_key
+
 from core.logger import get_logger
 
 logger = get_logger(__name__)
@@ -100,8 +102,10 @@ def track_and_update_market_movement(
         ``tracker`` itself is used, which preserves the previous behaviour.
     """
 
-    key = (
-        f"{entry.get('game_id', '')}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
+    key = build_tracker_key(
+        entry.get("game_id", ""),
+        entry.get("market", ""),
+        entry.get("side", ""),
     )
     base = reference_tracker if reference_tracker is not None else tracker
     prior = base.get(key) or {}
@@ -127,7 +131,7 @@ def track_and_update_market_movement(
     entry.update(movement)
     entry["prev_market_odds"] = prev_market_odds
 
-    tracker[key] = {
+    tracker_entry = {
         "ev_percent": entry.get("ev_percent"),
         "blended_fv": entry.get("blended_fv"),
         "market_odds": entry.get("market_odds"),
@@ -139,5 +143,12 @@ def track_and_update_market_movement(
         "raw_sportsbook": current_raw,
         "prev_raw_sportsbook": prev_raw,
     }
+
+    for field, val in tracker_entry.items():
+        prev_val = prior.get(field)
+        if prev_val is not None and val is not None and prev_val != val:
+            print(f"\U0001F501 {field} for {key} changed: {prev_val} → {val}")
+
+    tracker[key] = tracker_entry
 
     return movement

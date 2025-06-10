@@ -17,7 +17,7 @@ from collections import defaultdict
 import requests
 from dotenv import load_dotenv
 
-from core.market_eval_tracker import load_tracker, save_tracker
+from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 import re
 
@@ -142,7 +142,7 @@ if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
     if isinstance(prior_snapshot_data, list):
         # Convert snapshot list to tracker-style dict
         prior_snapshot_tracker = {
-            f"{r['game_id']}:{r['market']}:{r['side']}": r
+            build_tracker_key(r["game_id"], r["market"], r["side"]): r
             for r in prior_snapshot_data
             if "game_id" in r and "market" in r and "side" in r
         }
@@ -213,7 +213,7 @@ from core.should_log_bet import (
     MIN_FIRST_STAKE,
     MIN_TOPUP_STAKE,
 )
-from core.market_eval_tracker import load_tracker, save_tracker
+from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 from core.market_movement_tracker import (
     track_and_update_market_movement,
     detect_market_movement,
@@ -673,7 +673,11 @@ def expand_snapshot_rows_with_kelly(
                 if base_fields["side"] == "St. Louis Cardinals":
                     print(f"🔍 {book}: EV={ev:.2f}%, Odds={odds}, Stake={stake:.2f}u")
 
-                tracker_key = f"{base_fields['game_id']}:{base_fields['market']}:{base_fields['side']}"
+                tracker_key = build_tracker_key(
+                    base_fields['game_id'],
+                    base_fields['market'],
+                    base_fields['side'],
+                )
                 prior_snapshot_row = bet.get("_prior_snapshot")
 
                 # 🧪 Optional Debug
@@ -995,7 +999,7 @@ def send_discord_notification(row, skipped_bets=None):
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
 
-    tracker_key = f"{game_id}:{market}:{side}"
+    tracker_key = build_tracker_key(game_id, market, side)
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
     movement = detect_market_movement(row, prior)
     row["_movement"] = movement
@@ -1252,8 +1256,8 @@ def write_to_csv(
                 time_formatted = ""
     row["Time"] = time_formatted
     key = (row["game_id"], row["market"], row["side"])
-    tracker_key = (
-        f"{row['game_id']}:{row['market']}:{row['side']}"
+    tracker_key = build_tracker_key(
+        row["game_id"], row["market"], row["side"]
     )
 
     new_conf = row.get("consensus_prob")
@@ -1679,7 +1683,9 @@ def log_bets(
             row["_raw_sportsbook"] = book_prices.copy()
 
         # 📝 Track every evaluated bet before applying stake/EV filters
-        tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+        tracker_key = build_tracker_key(
+            row["game_id"], row["market"], row["side"]
+        )
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
 
         movement = detect_market_movement(row, prior)
@@ -2020,7 +2026,9 @@ def log_derivative_bets(
                 print(f"📦 Books stored in row: {book_prices}")
                 print(f"🏦 Best Book Selected: {row['best_book']}")
                 # 📝 Track every evaluated bet before applying stake/EV filters
-                tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+                tracker_key = build_tracker_key(
+                    row['game_id'], row['market'], row['side']
+                )
                 prior = MARKET_EVAL_TRACKER.get(tracker_key)
                 movement = detect_market_movement(
                     row,
@@ -2640,7 +2648,9 @@ def process_theme_logged_bets(
                 )
 
                 # 📝 Update tracker for every evaluated bet
-                t_key = f"{row_copy['game_id']}:{row_copy['market']}:{row_copy['side']}"
+                t_key = build_tracker_key(
+                    row_copy['game_id'], row_copy['market'], row_copy['side']
+                )
                 prior = MARKET_EVAL_TRACKER.get(t_key)
                 movement = detect_market_movement(
                     row_copy,
@@ -2728,7 +2738,7 @@ def process_theme_logged_bets(
     if VERBOSE:
         print("\n🧠 Snapshot Prob Consistency Check:")
         for row in final_snapshot:
-            key = f"{row['game_id']}:{row['market']}:{row['side']}"
+            key = build_tracker_key(row['game_id'], row['market'], row['side'])
             prior = row.get("_prior_snapshot")
             if prior:
                 print(f"🧠 {key} | Prior market_prob: {prior.get('market_prob')} | Current: {row.get('market_prob')}")

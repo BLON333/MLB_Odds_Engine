@@ -3,7 +3,19 @@ import json
 import time
 from typing import Dict
 
+from utils import canonical_game_id, parse_game_id
+
 TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
+
+
+def build_tracker_key(game_id: str, market: str, side: str) -> str:
+    """Return a normalized key for the tracker."""
+    parts = parse_game_id(game_id)
+    if parts.get("away") and parts.get("home"):
+        gid = canonical_game_id(game_id)
+    else:
+        gid = game_id
+    return f"{gid}:{str(market).strip()}:{str(side).strip()}"
 
 
 def load_tracker(path: str = TRACKER_PATH) -> Dict[str, dict]:
