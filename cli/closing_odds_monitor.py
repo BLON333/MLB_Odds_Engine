@@ -297,8 +297,13 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
         today = target_date  # Use a fixed date for the entire run
 
         loaded_bets = load_tracked_games()
-        bets = [b for b in loaded_bets if b["game_id"].startswith(today)]
-        tracked_games = set(b["game_id"] for b in bets)
+        today_str = target_date or now_eastern().strftime("%Y-%m-%d")
+        bets = [b for b in loaded_bets if b["game_id"].startswith(today_str)]
+
+        # Normalize game ids to canonical form while preserving any time tag
+        tracked_games = {canonical_game_id(b["game_id"]) for b in bets}
+        # Keep base ids (without time component) for backwards compatibility
+        tracked_bases = {gid.split("-T")[0] for gid in tracked_games}
 
         logger.info(
             "🔁 Checking games as of %s...",
@@ -383,7 +388,7 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                         )
                     continue
 
-                if gid not in tracked_games:
+                if gid not in tracked_games and gid.split("-T")[0] not in tracked_bases:
                     continue
 
                 if gid in fetched_games:
