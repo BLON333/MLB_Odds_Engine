@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import math
 from typing import Dict
 
 from utils import canonical_game_id, parse_game_id
@@ -54,14 +55,17 @@ def save_tracker(tracker: Dict[str, dict], path: str = TRACKER_PATH) -> None:
         except Exception:
             pass
 
-    # Acquire an exclusive lock file, waiting briefly if another process holds it
-    for _ in range(50):  # ~5 seconds max
+    # Acquire an exclusive lock file with exponential backoff to avoid contention
+    for attempt in range(50):
         try:
-            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_RDWR)
             os.close(fd)
             break
         except FileExistsError:
-            time.sleep(0.1)
+            if is_file_older_than(lock, 10):
+                os.remove(lock)
+                break
+            time.sleep(min(0.1 * math.pow(2, attempt), 2.0))
     else:
         print("⚠️ Failed to acquire tracker lock; aborting save")
         return
