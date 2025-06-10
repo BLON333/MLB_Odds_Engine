@@ -42,7 +42,7 @@ def test_detect_movement_derivative_vs_mainline():
         "market": "h2h",
         "hours_to_game": 50,
     }
-    assert mmt.detect_market_movement(derivative, prior)["mkt_movement"] == "better"
+    assert mmt.detect_market_movement(derivative, prior)["mkt_movement"] == "up"
     assert mmt.detect_market_movement(mainline, prior)["mkt_movement"] == "same"
 
 
@@ -59,7 +59,7 @@ def test_detect_movement_hours_to_game():
         "hours_to_game": 6,
     }
     assert mmt.detect_market_movement(far, prior)["mkt_movement"] == "same"
-    assert mmt.detect_market_movement(close, prior)["mkt_movement"] == "better"
+    assert mmt.detect_market_movement(close, prior)["mkt_movement"] == "up"
 
 
 def test_detect_movement_missing_hours(monkeypatch):
@@ -74,4 +74,4 @@ def test_detect_movement_missing_hours(monkeypatch):
         lbe, "market_prob_increase_threshold", lambda h, m: 0.02
     )
 
-    assert mmt.detect_market_movement(row, prior)["mkt_movement"] == "better"
+    assert mmt.detect_market_movement(row, prior)["mkt_movement"] == "up"

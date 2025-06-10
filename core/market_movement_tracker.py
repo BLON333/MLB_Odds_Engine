@@ -73,17 +73,31 @@ def detect_market_movement(current: Dict, prior: Optional[Dict]) -> Dict[str, ob
             hours = current.get("hours_to_game")
             if hours is None:
                 logger.warning(
-                    "Missing hours_to_game for %s %s; using conservative "
-                    "threshold 0.01",
+                    "Missing hours_to_game for %s %s; using conservative threshold 0.01",
                     current.get("game_id"),
                     mkt,
                 )
                 threshold = 0.01
             else:
                 threshold = market_prob_increase_threshold(hours, mkt)
+            # Compare current vs. prior market_prob with threshold to classify movement
+            if curr is None or prev is None:
+                movement["mkt_movement"] = "same"
+            else:
+                try:
+                    diff = float(curr) - float(prev)
+                except Exception:
+                    movement["mkt_movement"] = "same"
+                else:
+                    if abs(diff) < threshold:
+                        movement["mkt_movement"] = "same"
+                    elif diff > 0:
+                        movement["mkt_movement"] = "up"
+                    else:
+                        movement["mkt_movement"] = "down"
         else:
             threshold = MOVEMENT_THRESHOLDS.get(field, 0.001)
-        movement[move_key] = fn(curr, prev, threshold)
+            movement[move_key] = fn(curr, prev, threshold)
 
     return movement
 
@@ -134,6 +148,19 @@ def track_and_update_market_movement(
     movement = detect_market_movement(entry, prior_for_detect)
     entry.update(movement)
     entry["prev_market_odds"] = prev_market_odds
+
+    # Only update tracker if a meaningful change occurred
+    if movement.get("mkt_movement") == "same" and all(
+        movement.get(k) == "same"
+        for k in [
+            "ev_movement",
+            "fv_movement",
+            "odds_movement",
+            "stake_movement",
+            "sim_movement",
+        ]
+    ):
+        return movement
 
     tracker_entry = {
         "ev_percent": entry.get("ev_percent"),

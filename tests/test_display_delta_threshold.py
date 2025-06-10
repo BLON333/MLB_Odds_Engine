@@ -24,6 +24,6 @@ def test_display_delta_respects_threshold(monkeypatch):
     movement = mmt.detect_market_movement(entry, prior)
     entry.update(movement)
     sc.annotate_display_deltas(entry, prior)
-    assert entry['mkt_movement'] == 'better'
+    assert entry['mkt_movement'] == 'up'
     assert entry['mkt_prob_display'].startswith('46.0%')
     assert '→' in entry['mkt_prob_display']
