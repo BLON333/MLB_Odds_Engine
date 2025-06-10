@@ -2175,6 +2175,12 @@ def run_batch_logging(
         from dateutil import parser
         from pytz import timezone
 
+        if not isinstance(odds_data, dict):
+            print(
+                "⚠️ extract_start_times: odds_data is None or invalid, returning empty dict."
+            )
+            return {}
+
         eastern = timezone("US/Eastern")
         start_times = {}
         for game_id, game in odds_data.items():
@@ -2182,7 +2188,9 @@ def run_batch_logging(
                 continue
             if "start_time" in game:
                 try:
-                    start_times[game_id] = parser.parse(game["start_time"]).astimezone(eastern)
+                    start_times[game_id] = parser.parse(game["start_time"]).astimezone(
+                        eastern
+                    )
                 except Exception:
                     pass
         return start_times
