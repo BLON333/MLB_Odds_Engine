@@ -2,7 +2,11 @@
 
 from typing import Dict, Optional
 
-from core.market_eval_tracker import build_tracker_key
+# Use the canonical game_id when tracking market movement to ensure
+# consistency with snapshot keys.  ``build_tracker_key`` from
+# ``market_eval_tracker`` performs similar normalization, but here we only
+# need the canonical game id for constructing the tracker key.
+from utils import canonical_game_id
 
 from core.logger import get_logger
 
@@ -102,11 +106,11 @@ def track_and_update_market_movement(
         ``tracker`` itself is used, which preserves the previous behaviour.
     """
 
-    key = build_tracker_key(
-        entry.get("game_id", ""),
-        entry.get("market", ""),
-        entry.get("side", ""),
-    )
+    # Use a canonical game_id to avoid mismatches between market movement
+    # tracking and snapshot lookup.  ``canonical_game_id`` normalizes team codes
+    # and preserves the time component (including any doubleheader suffix).
+    gid = canonical_game_id(entry.get("game_id", ""))
+    key = f"{gid}:{str(entry.get('market', '')).strip()}:{str(entry.get('side', '')).strip()}"
     base = reference_tracker if reference_tracker is not None else tracker
     prior = base.get(key) or {}
 
