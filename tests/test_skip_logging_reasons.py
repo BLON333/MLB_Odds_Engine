@@ -53,7 +53,7 @@ def test_top_up_skips_movement_check(monkeypatch, tmp_path):
     row["entry_type"] = "top-up"
     row["market_prob"] = 0.55
     row["_prior_snapshot"] = {"market_prob": 0.6}
-    row["sportsbook"] = "B1"
+    row["best_book"] = "B1"
     monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
     result = write_to_csv(row, tmp_path / "t.csv", {}, {}, {}, dry_run=False, force_log=False)
     assert result is not None

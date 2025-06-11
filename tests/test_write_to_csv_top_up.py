@@ -26,7 +26,7 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
     row["full_stake"] = 1.6
     row["market_prob"] = 0.515
     row["_prior_snapshot"] = {"market_prob": 0.520}
-    row["sportsbook"] = "B1"
+    row["best_book"] = "B1"
 
     existing = {(row["game_id"], row["market"], row["side"]): 1.0}
 
