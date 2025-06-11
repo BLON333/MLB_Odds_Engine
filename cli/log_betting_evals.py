@@ -969,7 +969,7 @@ def get_topup_note(ev: float, stake: float, full_stake: float, entry_type: str, 
     else:
         bet_label = "\U0001F7E2 First Bet"
 
-    if full_stake > stake and full_stake - stake >= 0.5:
+    if entry_type == "top-up":
         tag = "\U0001F501"
         header = "**Top-Up Bet Logged**"
     else:
@@ -977,7 +977,7 @@ def get_topup_note(ev: float, stake: float, full_stake: float, entry_type: str, 
         header = "**New Bet Logged**"
 
     note = ""
-    if entry_type == "top-up" and stake < full_stake:
+    if entry_type == "top-up":
         note = f"\U0001F501 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
 
     return tag, header, bet_label, note
