@@ -320,6 +320,30 @@ def get_segment_label(market_key: str, side: str) -> str:
     return "mainline"
 
 
+def format_segment_header(segment_label: str) -> str:
+    """Return emoji and label for a segment, avoiding redundant tags."""
+
+    if not segment_label:
+        segment_label = "mainline"
+
+    emoji_map = {
+        "mainline": "\U0001F4CA",  # 📊
+        "alt_line": "\U0001F4D0",  # 📐
+        "derivative": "\U0001F9E9",  # 🧩
+        "team_total": "\U0001F3AF",  # 🎯
+        "pk_equiv": "\u2796",  # ➖
+    }
+
+    emoji = emoji_map.get(segment_label, "\U0001F4CA")
+    label_display = segment_label.replace("_", " ").title()
+    header = f"{emoji} *{label_display}*"
+
+    if segment_label in {"mainline", "alt_line", "derivative"}:
+        return header
+
+    return f"{header} | \U0001F3F7 {segment_label}" if segment_label else header
+
+
 
 
 def normalize_to_abbreviation(label: str) -> str:
