@@ -33,7 +33,6 @@ FIELDNAMES = [
     "entry_type",
     "segment",
     "segment_label",
-    "sportsbook",
     "best_book",
     "date_simulated",
     "result",

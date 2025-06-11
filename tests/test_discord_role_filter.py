@@ -31,11 +31,7 @@ def test_role_tagging_filters(monkeypatch):
                 "draftkings": -105,
                 "betmgm": 210,
             },
-            "best_book": {
-                "fanduel": -110,
-                "draftkings": -105,
-                "betmgm": 210,
-            },
+            "best_book": "fanduel",
         }
     )
 

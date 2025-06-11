@@ -686,10 +686,11 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
             print(
                 f"⚠️ No expansion data available — keeping existing row: {bet['side']} @ {bet['market']}"
             )
+            ensure_consensus_books(bet)
             expanded_rows.append(bet)
             continue
 
-        raw_books = bet.get("_raw_sportsbook") or bet.get("sportsbook", {})
+        raw_books = bet.get("_raw_sportsbook") or bet.get("consensus_books", {})
         if not isinstance(raw_books, dict):
             continue  # skip malformed entries
 
@@ -731,6 +732,8 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
                         "stake": stake,
                         "full_stake": stake,
                         "_prior_snapshot": prior_snapshot_row,
+                        "_raw_sportsbook": raw_books,
+                        "consensus_books": raw_books,
                     }
 
                     for field in [
@@ -756,6 +759,7 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
                         if disp in base_fields:
                             expanded_row[disp] = base_fields[disp]
 
+                    ensure_consensus_books(expanded_row)
                     expanded_rows.append(expanded_row)
                 else:
                     if VERBOSE:
@@ -1509,7 +1513,6 @@ def write_to_csv(
         "entry_type",
         "segment",
         "segment_label",
-        "sportsbook",
         "best_book",
         "date_simulated",
         "result",
@@ -1523,9 +1526,7 @@ def write_to_csv(
         if is_new:
             writer.writeheader()
 
-        # ✅ Serialize sportsbook and books_used dicts safely
-        if isinstance(row.get("sportsbook"), dict):
-            row["sportsbook"] = json.dumps(row["sportsbook"])
+        # ✅ Serialize books_used dict safely
         if isinstance(row.get("books_used"), dict):
             row["books_used"] = json.dumps(row["books_used"])
 
@@ -1580,7 +1581,7 @@ def write_to_csv(
         "full" if row["entry_type"] == "first" else f"delta of {row['stake']:.2f}u"
     )
     print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
-    print(f"   • Odds       : {row['market_odds']} | Book: {row['sportsbook']}")
+    print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
     # Debug: confirm the market probability at log time
     print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
     print(
@@ -1591,13 +1592,15 @@ def write_to_csv(
 
 
 def ensure_consensus_books(row):
+    """Populate ``row['consensus_books']`` with a clean book:odds mapping."""
+
     if "consensus_books" not in row or not row["consensus_books"]:
         if isinstance(row.get("_raw_sportsbook"), dict) and row["_raw_sportsbook"]:
             row["consensus_books"] = row["_raw_sportsbook"]
-        elif isinstance(row.get("sportsbook"), str) and isinstance(
+        elif isinstance(row.get("best_book"), str) and isinstance(
             row.get("market_odds"), (int, float)
         ):
-            row["consensus_books"] = {row["sportsbook"]: row["market_odds"]}
+            row["consensus_books"] = {row["best_book"]: row["market_odds"]}
 
 
 def log_bets(
@@ -1725,6 +1728,10 @@ def log_bets(
             f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
         )
 
+        best_book_str = (
+            extract_best_book(book_prices) if isinstance(book_prices, dict) else best_book
+        )
+
         row = {
             "game_id": game_id,
             "market": matched_key.replace("alternate_", ""),
@@ -1752,12 +1759,7 @@ def log_bets(
             "segment": segment,
             "segment_label": get_segment_label(matched_key, side_clean),
             "price_source": price_source,
-            "sportsbook": book_prices,
-            "best_book": (
-                extract_best_book(book_prices)
-                if isinstance(book_prices, dict)
-                else best_book
-            ),
+            "best_book": best_book_str,
             "date_simulated": date_sim,
             "result": "",
         }
@@ -1767,6 +1769,9 @@ def log_bets(
 
         if isinstance(book_prices, dict):
             row["_raw_sportsbook"] = book_prices.copy()
+            row["consensus_books"] = book_prices.copy()
+        else:
+            row["consensus_books"] = {best_book_str: market_price}
 
         # 📝 Track every evaluated bet before applying stake/EV filters
         tracker_key = build_tracker_key(row["game_id"], row["market"], row["side"])
@@ -2052,6 +2057,10 @@ def log_derivative_bets(
                     f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
                 )
 
+                best_book_str = (
+                    extract_best_book(book_prices) if isinstance(book_prices, dict) else sportsbook_source
+                )
+
                 row = {
                     "game_id": game_id,
                     "market": market_full.replace("alternate_", ""),
@@ -2087,16 +2096,7 @@ def log_derivative_bets(
                     "entry_type": "",  # Set below based on `prev`
                     "segment": segment,
                     "segment_label": get_segment_label(market_full, side_clean),
-                    "sportsbook": (
-                        book_prices
-                        if book_prices
-                        else {sportsbook_source: market_price}
-                    ),
-                    "best_book": (
-                        extract_best_book(book_prices)
-                        if isinstance(book_prices, dict)
-                        else sportsbook_source
-                    ),
+                    "best_book": best_book_str,
                     "date_simulated": date_sim,
                     "result": "",
                 }
@@ -2106,6 +2106,9 @@ def log_derivative_bets(
 
                 if isinstance(book_prices, dict):
                     row["_raw_sportsbook"] = book_prices.copy()
+                    row["consensus_books"] = book_prices.copy()
+                else:
+                    row["consensus_books"] = {best_book_str: market_price}
 
                 print(f"📦 Books stored in row: {book_prices}")
                 print(f"🏦 Best Book Selected: {row['best_book']}")
@@ -2214,10 +2217,10 @@ def send_summary_to_discord(skipped_bets, webhook_url):
                     books_lines.append(f"(+{len(sorted_books) - 3} more)")
                 books_str = "\n".join(books_lines)
 
-            elif isinstance(b.get("sportsbook"), str):
+            elif isinstance(b.get("best_book"), str):
                 odds_value = b.get("market_odds")
                 if isinstance(odds_value, (int, float)):
-                    books_str = f"🏦 {b['sportsbook']}: {odds_value:+}"
+                    books_str = f"🏦 {b['best_book']}: {odds_value:+}"
 
             skip_reason = b.get("skip_reason", "N/A").replace("_", " ").capitalize()
 
@@ -2368,7 +2371,6 @@ def run_batch_logging(
         "stake",
         "entry_type",
         "segment",
-        "sportsbook",
         "best_book",
         "date_simulated",
         "result",

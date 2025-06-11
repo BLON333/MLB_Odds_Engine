@@ -56,6 +56,18 @@ MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
 
 
+def ensure_consensus_books(row: Dict) -> None:
+    """Ensure ``row['consensus_books']`` is populated consistently."""
+
+    if "consensus_books" not in row or not row["consensus_books"]:
+        if isinstance(row.get("_raw_sportsbook"), dict) and row["_raw_sportsbook"]:
+            row["consensus_books"] = row["_raw_sportsbook"]
+        elif isinstance(row.get("best_book"), str) and isinstance(
+            row.get("market_odds"), (int, float)
+        ):
+            row["consensus_books"] = {row["best_book"]: row["market_odds"]}
+
+
 def should_log_movement() -> bool:
     global movement_log_count
     movement_log_count += 1
@@ -1108,7 +1120,7 @@ def expand_snapshot_rows_with_kelly(
     expanded: List[dict] = []
 
     for row in rows:
-        per_book = row.get("_raw_sportsbook") or {}
+        per_book = row.get("_raw_sportsbook") or row.get("consensus_books", {})
         tracker_key = build_tracker_key(
             row.get("game_id"),
             row.get("market", ""),
@@ -1140,6 +1152,7 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("ev_movement", None)
                 movement.pop("stake_movement", None)
             row.update(movement)
+            ensure_consensus_books(row)
             expanded.append(row)
             continue
 
@@ -1189,6 +1202,8 @@ def expand_snapshot_rows_with_kelly(
                     "ev_percent": round(ev, 2),
                     "stake": stake,
                     "full_stake": stake,
+                    "_raw_sportsbook": per_book,
+                    "consensus_books": per_book,
                 }
             )
             tracker_key = build_tracker_key(
@@ -1215,6 +1230,7 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("ev_movement", None)
                 movement.pop("stake_movement", None)
             expanded_row.update(movement)
+            ensure_consensus_books(expanded_row)
             expanded.append(expanded_row)
         
         if not expanded_any:
@@ -1225,6 +1241,7 @@ def expand_snapshot_rows_with_kelly(
                 row_copy.setdefault("skip_reason", "no_odds")
             else:
                 row_copy["skip_reason"] = "invalid_data"
+            ensure_consensus_books(row_copy)
             expanded.append(row_copy)
 
     deduped: List[dict] = []
