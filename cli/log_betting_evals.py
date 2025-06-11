@@ -245,6 +245,7 @@ from core.theme_exposure_tracker import (
     load_tracker as load_theme_stakes,
     save_tracker as save_theme_stakes,
 )
+from core.format_utils import format_market_odds_and_roles
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -1114,7 +1115,6 @@ def send_discord_notification(row, skipped_bets=None):
 
     best_book_name = best_book.lower() if isinstance(best_book, str) else ""
 
-    # === Utility: Convert American Odds to Decimal
     def to_decimal(american_odds):
         try:
             return (
@@ -1122,68 +1122,29 @@ def send_discord_notification(row, skipped_bets=None):
                 if american_odds < 0
                 else (american_odds / 100) + 1
             )
-        except:
+        except Exception:
             return 0.0
 
-    # === Sort books and format display
-    sorted_books = []
-    roles = set()
-
-    def _qualifies(price_val):
-        """Return True if odds and EV fall within notification thresholds."""
-        try:
-            odds_val = float(price_val)
-        except Exception:
-            return False
-
-        if odds_val < -150 or odds_val > 200:
-            return False
-
-        offered_decimal = to_decimal(odds_val)
-        ev_this_book = (sim_prob * offered_decimal - 1) * 100
-        return 5 <= ev_this_book <= 20
-
+    ev_map = {}
     if isinstance(all_odds_dict, dict):
-        sorted_books = sorted(
-            all_odds_dict.items(), key=lambda x: to_decimal(x[1]), reverse=True
-        )
+        for book, price in all_odds_dict.items():
+            try:
+                ev_map[book.lower()] = (sim_prob * to_decimal(float(price)) - 1) * 100
+            except Exception:
+                continue
 
+    all_odds_str, roles_text = format_market_odds_and_roles(
+        best_book,
+        all_odds_dict if isinstance(all_odds_dict, dict) else {},
+        ev_map,
+        BOOKMAKER_TO_ROLE,
+    )
 
-        all_odds_str_pieces = []
-        for book, odds_value in sorted_books:
-            book_clean = book.lower()
-            tag = ""
-            if _qualifies(odds_value):
-                role = BOOKMAKER_TO_ROLE.get(book_clean)
-                if role:
-                    tag = f" {role}"
-                    roles.add(role)
-
-            book_display = f"{book}: {odds_value}{tag}"
-            if book_clean == best_book_name:
-                book_display = f"**{book_display}**"
-            all_odds_str_pieces.append(f"• {book_display}")
-
-        all_odds_str = "\n".join(all_odds_str_pieces)
-    else:
-        all_odds_str = "N/A"
-
-
-    # Tag the best book only if it also meets the criteria
-    if best_book_name and best_book_name in all_odds_dict:
-        best_price = all_odds_dict.get(best_book_name)
-        if _qualifies(best_price):
-            best_role = BOOKMAKER_TO_ROLE.get(best_book_name)
-            if best_role:
-                roles.add(best_role)
-
-    if len(roles) > 1:
-        print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
-
-    if roles:
-        roles_text = "📣 " + " ".join(sorted(roles))
-    else:
-        roles_text = ""
+    if roles_text:
+        # extract role tags from roles_text
+        roles = set(roles_text.replace("📣", "").split())
+        if len(roles) > 1:
+            print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
 
     market_prob_str = row.get("mkt_prob_display")
     if not market_prob_str:
