@@ -948,46 +948,49 @@ def get_discord_webhook_for_market(market: str) -> str:
     return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
 
 
-def send_discord_notification(row, skipped_bets=None):
+def get_market_class_emoji(segment_label: str) -> str:
+    """Return an emoji representing the market class."""
+    mapping = {
+        "alt_line": "\U0001F4D0",  # 📐
+        "derivative": "\U0001F9E9",  # 🧩
+    }
+    return mapping.get(segment_label, "\U0001F4CA")  # 📊 by default
 
-    webhook_url = get_discord_webhook_for_market(row.get("market", ""))
-    if not webhook_url:
-        print(
-            f"⚠️ No Discord webhook configured for market {row.get('market', '')}. Notification skipped."
-        )
-        if skipped_bets is not None and should_include_in_summary(row):
-            row["skip_reason"] = "no_webhook"
-            ensure_consensus_books(row)
-            skipped_bets.append(row)
-        return
-    print(f"Webhook URL resolved: {webhook_url}")
 
-    ev = row["ev_percent"]
-    stake = float(row.get("stake", 0))
-    entry_type = row.get("entry_type", "first")
-    stake = round(stake, 2)
-    full_stake = round(float(row.get("full_stake", stake)), 2)
-    print(
-        f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}"
-    )
+def get_topup_note(ev: float, stake: float, full_stake: float, entry_type: str, market_class: str | None) -> tuple[str, str, str, str]:
+    """Return tag, header, bet label and optional top-up note."""
+
     if entry_type == "top-up":
-        bet_label = "🔁 Top-Up"
-    elif row.get("market_class") == "alternate":
-        bet_label = "🟢 First Bet (⅛ Kelly)"
+        bet_label = "\U0001F501 Top-Up"
+    elif market_class == "alternate":
+        bet_label = "\U0001F7E2 First Bet (\u215B Kelly)"
     else:
-        bet_label = "🟢 First Bet"
+        bet_label = "\U0001F7E2 First Bet"
 
-    # Treat as top-up only if full_stake > stake AND stake was previously logged
     if full_stake > stake and full_stake - stake >= 0.5:
-        tag = "🔁"
+        tag = "\U0001F501"
         header = "**Top-Up Bet Logged**"
     else:
-        tag = "🟢" if ev >= 10 else "🟡" if ev >= 5 else "⚪"
+        tag = "\U0001F7E2" if ev >= 10 else "\U0001F7E1" if ev >= 5 else "⚪"
         header = "**New Bet Logged**"
 
-    topup_note = ""
+    note = ""
     if entry_type == "top-up" and stake < full_stake:
-        topup_note = f"🔁 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
+        note = f"\U0001F501 Top-Up: `{stake:.2f}u` added → Total: `{full_stake:.2f}u`"
+
+    return tag, header, bet_label, note
+
+
+def build_discord_embed(row: dict) -> str:
+    """Return the Discord message body for a logged bet."""
+    ev = float(row.get("ev_percent", 0))
+    stake = round(float(row.get("stake", 0)), 2)
+    full_stake = round(float(row.get("full_stake", stake)), 2)
+    entry_type = row.get("entry_type", "first")
+
+    tag, header, bet_label, topup_note = get_topup_note(
+        ev, stake, full_stake, entry_type, row.get("market_class")
+    )
 
     if row.get("test_mode"):
         header = f"[TEST] {header}"
@@ -996,14 +999,13 @@ def send_discord_notification(row, skipped_bets=None):
     side = row["side"]
     market = row["market"]
 
-    if row.get("price_source") == "alternate":
-        market_class_tag = "📐 *Alt Line*"
-    elif "1st" in market or "innings" in market:
-        market_class_tag = "🧩 *Derivative*"
-    else:
-        market_class_tag = "📊 *Mainline*"
+    segment_label = row.get("segment_label", "mainline")
+    emoji = get_market_class_emoji(segment_label)
+    market_class_tag = f"{emoji} *{segment_label.replace('_', ' ').title()}*"
 
     odds = row["market_odds"]
+    if isinstance(odds, (int, float)) and odds > 0:
+        odds = f"+{int(odds) if float(odds).is_integer() else odds}"
 
     from datetime import datetime, timedelta
 
@@ -1012,11 +1014,11 @@ def send_discord_notification(row, skipped_bets=None):
     game_date = datetime.strptime(parts["date"], "%Y-%m-%d").date()
 
     if game_date == now.date():
-        game_day_tag = "📅 *Today*"
+        game_day_tag = "\U0001F4C5 *Today*"
     elif game_date == (now.date() + timedelta(days=1)):
-        game_day_tag = "📅 *Tomorrow*"
+        game_day_tag = "\U0001F4C5 *Tomorrow*"
     else:
-        game_day_tag = f"📅 *{game_date.strftime('%A')}*"
+        game_day_tag = f"\U0001F4C5 *{game_date.strftime('%A')}*"
 
     from utils import TEAM_ABBR_TO_NAME
 
@@ -1044,43 +1046,23 @@ def send_discord_notification(row, skipped_bets=None):
 
     tracker_key = build_tracker_key(game_id, market, side)
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
-    movement = detect_market_movement(row, prior)
-    row["_movement"] = movement
+    movement = row.get("_movement")
+    if movement is None:
+        movement = detect_market_movement(row, prior)
+        row["_movement"] = movement
     print(
-        f"\U0001f4e2 Sending alert for {tracker_key} | Mkt: {row['market']} | Side: {row['side']} | EV%: {ev} | Stake: {row.get('stake')} | Mkt Movement: {movement.get('mkt_movement')}"
+        f"\U0001f4e2 Sending alert for {tracker_key} | Mkt: {market} | Side: {side} | EV%: {ev}"
     )
-    if movement.get("is_new"):
-        print(f"🟡 First-time seen → {tracker_key}")
-    else:
-        try:
-            print(
-                f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row.get('blended_fv')}"
-            )
-        except Exception:
-            pass
 
-    if movement.get("mkt_movement") == "better":
-        print(f"✅ Market-confirmed bet → {tracker_key} — sending notification")
-    else:
-        print(
-            f"📄 Sending anyway — Mkt movement is '{movement.get('mkt_movement')}' (relaxed check)"
-        )
-
-    sim_prob = row["sim_prob"]
-    consensus_prob = row["market_prob"]
-    blended_prob = row["blended_prob"]
+    sim_prob = row.get("sim_prob")
+    consensus_prob = row.get("market_prob")
+    blended_prob = row.get("blended_prob")
 
     def _parse_odds_dict(val):
-        """Return a clean {book: odds} dict from various input formats."""
         if isinstance(val, dict):
-            # Handle nested dict serialized as the sole key
             if len(val) == 1:
                 ((k, v),) = val.items()
-                if (
-                    isinstance(k, str)
-                    and k.strip().startswith("{")
-                    and k.strip().endswith("}")
-                ):
+                if isinstance(k, str) and k.strip().startswith("{") and k.strip().endswith("}"):
                     try:
                         inner = json.loads(k.replace("'", '"'))
                         return inner
@@ -1113,15 +1095,9 @@ def send_discord_notification(row, skipped_bets=None):
         or _parse_odds_dict(row.get("sportsbook"))
     )
 
-    best_book_name = best_book.lower() if isinstance(best_book, str) else ""
-
     def to_decimal(american_odds):
         try:
-            return (
-                100 / abs(american_odds) + 1
-                if american_odds < 0
-                else (american_odds / 100) + 1
-            )
+            return 100 / abs(american_odds) + 1 if american_odds < 0 else (american_odds / 100) + 1
         except Exception:
             return 0.0
 
@@ -1133,7 +1109,7 @@ def send_discord_notification(row, skipped_bets=None):
             except Exception:
                 continue
 
-    all_odds_str, roles_text = format_market_odds_and_roles(
+    odds_str, roles_text = format_market_odds_and_roles(
         best_book,
         all_odds_dict if isinstance(all_odds_dict, dict) else {},
         ev_map,
@@ -1141,7 +1117,6 @@ def send_discord_notification(row, skipped_bets=None):
     )
 
     if roles_text:
-        # extract role tags from roles_text
         roles = set(roles_text.replace("📣", "").split())
         if len(roles) > 1:
             print(f"🔔 Multiple books tagged: {', '.join(sorted(roles))}")
@@ -1158,29 +1133,65 @@ def send_discord_notification(row, skipped_bets=None):
 
     ev_str = row.get("ev_display", f"{ev:+.2f}%")
 
-    message = None
-    try:
-        game_day_clean = game_day_tag.replace("**", "").replace("*", "")
-        message = (
-            f"{tag} {header}\n\n"
-            f"{game_day_clean} | {market_class_tag} | 🏷 {row.get('segment_label','')}\n"
-            f"🏟️ Game: **{event_label}**\n"
-            f"🧾 Market: **{market} — {side}**\n"
-            f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}\n"
-            f"{topup_note}\n\n"
-            "---\n\n"
-            "📈 **Model vs. Market**\n"
-            f"• Sim Win Rate: **{sim_prob:.1%}**\n"
-            f"• Market Implied: **{market_prob_str}**\n"
-            f"• Blended: **{blended_prob:.1%}**\n"
-            f"💸 Fair Value: **{row.get('blended_fv')}**\n"
-            f"📊 EV: **{ev_str}**\n\n"
-            "---\n\n"
-            f"🏦 **Best Book**: {best_book}\n"
-            f"📉 **Market Odds**:\n{all_odds_str}\n\n"
-            f"{roles_text}\n"
-        )
+    parts = [
+        f"{tag} {header}",
+        "",
+        f"{game_day_tag} | {market_class_tag} | 🏷 {segment_label}",
+        f"🏟️ Game: **{event_label}**",
+        f"🧾 Market: **{market} — {side}**",
+        f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}",
+    ]
+    if topup_note:
+        parts.append(topup_note)
+    parts.append("")
+    parts.append("---")
+    parts.append("")
+    parts.extend(
+        [
+            "📈 **Model vs. Market**",
+            f"• Sim Win Rate: **{sim_prob:.1%}**",
+            f"• Market Implied: **{market_prob_str}**",
+            f"• Blended: **{blended_prob:.1%}**",
+            f"💸 Fair Value: **{row.get('blended_fv')}**",
+            f"📊 EV: **{ev_str}**",
+            "",
+            "---",
+            "",
+            f"🏦 **Best Book**: {best_book}",
+            f"📉 **Market Odds**:\n{odds_str}",
+        ]
+    )
+    if roles_text:
+        parts.extend(["", roles_text])
 
+    return "\n".join(parts)
+
+
+def send_discord_notification(row, skipped_bets=None):
+
+    webhook_url = get_discord_webhook_for_market(row.get("market", ""))
+    if not webhook_url:
+        print(
+            f"⚠️ No Discord webhook configured for market {row.get('market', '')}. Notification skipped."
+        )
+        if skipped_bets is not None and should_include_in_summary(row):
+            row["skip_reason"] = "no_webhook"
+            ensure_consensus_books(row)
+            skipped_bets.append(row)
+        return
+
+    print(f"Webhook URL resolved: {webhook_url}")
+
+    stake = round(float(row.get("stake", 0)), 2)
+    full_stake = round(float(row.get("full_stake", stake)), 2)
+    entry_type = row.get("entry_type", "first")
+    print(
+        f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}"
+    )
+
+    message = build_discord_embed(row)
+
+    try:
         response = requests.post(webhook_url, json={"content": message.strip()})
         print(f"Discord response: {response.status_code} | {response.text}")
     except Exception as e:
