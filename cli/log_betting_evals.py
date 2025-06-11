@@ -953,6 +953,8 @@ def get_market_class_emoji(segment_label: str) -> str:
     mapping = {
         "alt_line": "\U0001F4D0",  # 📐
         "derivative": "\U0001F9E9",  # 🧩
+        "team_total": "\U0001F3AF",  # 🎯
+        "pk_equiv": "\u2796",  # ➖
     }
     return mapping.get(segment_label, "\U0001F4CA")  # 📊 by default
 
@@ -1000,8 +1002,8 @@ def build_discord_embed(row: dict) -> str:
     market = row["market"]
 
     segment_label = row.get("segment_label", "mainline")
-    emoji = get_market_class_emoji(segment_label)
-    market_class_tag = f"{emoji} *{segment_label.replace('_', ' ').title()}*"
+    from utils import format_segment_header
+    segment_header = format_segment_header(segment_label)
 
     odds = row["market_odds"]
     if isinstance(odds, (int, float)) and odds > 0:
@@ -1136,7 +1138,7 @@ def build_discord_embed(row: dict) -> str:
     parts = [
         f"{tag} {header}",
         "",
-        f"{game_day_tag} | {market_class_tag} | 🏷 {segment_label}",
+        f"{game_day_tag} | {segment_header}",
         f"🏟️ Game: **{event_label}**",
         f"🧾 Market: **{market} — {side}**",
         f"💰 Stake: **{stake:.2f}u @ {odds}** → {bet_label}",
