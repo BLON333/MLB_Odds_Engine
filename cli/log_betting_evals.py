@@ -1107,7 +1107,9 @@ def build_discord_embed(row: dict) -> str:
     if isinstance(all_odds_dict, dict):
         for book, price in all_odds_dict.items():
             try:
-                ev_map[book.lower()] = (sim_prob * to_decimal(float(price)) - 1) * 100
+                ev_map[book.lower()] = (
+                    blended_prob * to_decimal(float(price)) - 1
+                ) * 100
             except Exception:
                 continue
 

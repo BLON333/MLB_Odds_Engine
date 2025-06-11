@@ -77,3 +77,20 @@ def test_no_extra_roles_line_when_none_qualify():
     msg = build_discord_embed(row)
     lines = [ln.strip() for ln in msg.splitlines()]
     assert "📣" not in lines[-1]
+
+
+def test_role_tagging_uses_blended_prob():
+    row = _base_row()
+    row.update(
+        {
+            "_raw_sportsbook": {"DraftKings": -120},
+            "best_book": "DraftKings",
+            "sim_prob": 0.6,
+            "blended_prob": 0.52,
+            "ev_percent": -4.7,
+            "market_odds": -120,
+        }
+    )
+    msg = build_discord_embed(row)
+    lines = [ln.strip() for ln in msg.splitlines()]
+    assert "📣" not in lines[-1]
