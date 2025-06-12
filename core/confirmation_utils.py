@@ -9,6 +9,9 @@ __all__ = [
     "book_agreement_score",
 ]
 
+# Toggle for optional debug logging
+VERBOSE = False
+
 
 def required_market_move(hours_to_game: float) -> float:
     """Return required consensus probability movement for confirmation.
@@ -59,7 +62,14 @@ def confirmation_strength(observed_move: float, hours_to_game: float) -> float:
     threshold = required_market_move(hours_to_game)
     if threshold <= 0:
         return 1.0
-    return max(0.0, min(1.0, float(observed_move) / threshold))
+
+    strength = max(0.0, min(1.0, float(observed_move) / threshold))
+    if VERBOSE and strength <= 0:
+        print(
+            f"[DEBUG] Negative market confirmation: observed_move={observed_move:.4f}, "
+            f"threshold={threshold:.4f} → strength=0.0"
+        )
+    return strength
 
 
 def print_threshold_table() -> None:
