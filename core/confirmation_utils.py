@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-__all__ = ["required_market_move"]
+__all__ = ["required_market_move", "confirmation_strength"]
 
 
 def required_market_move(hours_to_game: float) -> float:
@@ -32,3 +32,26 @@ def required_market_move(hours_to_game: float) -> float:
     clamped = min(max(hours, 0.0), 24.0)
     multiplier = 1.0 + 2.0 * clamped / 24.0
     return multiplier * movement_unit
+
+
+def confirmation_strength(observed_move: float, hours_to_game: float) -> float:
+    """Return the market confirmation strength for a bet.
+
+    Parameters
+    ----------
+    observed_move : float
+        The consensus implied probability change observed in the market.
+    hours_to_game : float
+        Hours until game time used to determine the required threshold.
+
+    Returns
+    -------
+    float
+        A normalized strength value between 0 and 1 where ``1`` means the
+        observed move meets or exceeds the required threshold.
+    """
+
+    threshold = required_market_move(hours_to_game)
+    if threshold <= 0:
+        return 1.0
+    return min(1.0, float(observed_move) / threshold)
