@@ -3,6 +3,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.should_log_bet import should_log_bet, get_theme, get_theme_key, get_segment_group
+from core.confirmation_utils import required_market_move
 
 
 def _exposure_key(bet):
@@ -235,3 +236,43 @@ def test_rejected_for_odds_too_negative():
     assert result is None
     assert bet["entry_type"] == "none"
     assert bet["skip_reason"] == "bad_odds"
+
+
+def test_suppressed_early_unconfirmed(monkeypatch):
+    hours = 10
+    threshold = required_market_move(hours)
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_prob": 0.55,
+        "hours_to_game": hours,
+    }
+    tracker_key = f"{bet['game_id']}:{bet['market']}:Over 8.5"
+    reference = {tracker_key: {"market_prob": bet["market_prob"]}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is None
+    assert bet["skip_reason"] == "suppressed_early_unconfirmed"
+
+
+def test_early_bet_allowed_with_confirmation(monkeypatch):
+    hours = 10
+    move = required_market_move(hours) + 0.005
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_prob": 0.55 + move,
+        "hours_to_game": hours,
+    }
+    tracker_key = f"{bet['game_id']}:{bet['market']}:Over 8.5"
+    reference = {tracker_key: {"market_prob": 0.55}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is not None
+    assert result["entry_type"] == "first"
