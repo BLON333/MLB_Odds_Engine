@@ -211,8 +211,13 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
         start_dt = parse_start_time(gid, game_odds)
         if start_dt and start_dt <= now:
             continue
-        consensus_prob = lookup_consensus_prob(game_odds, row.get("market", ""), row.get("side", ""))
+        market = row.get("market", "")
+        side = row.get("side", "")
+        consensus_prob = lookup_consensus_prob(game_odds, market, side)
         if consensus_prob is None:
+            logger.warning(
+                "⚠️ No consensus price for game=%s market=%s side=%s", gid, market, side
+            )
             continue
         try:
             bet_odds = float(row.get("market_odds"))
