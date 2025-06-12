@@ -27,7 +27,7 @@ from utils import (
 )
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
-from core.market_pricer import to_american_odds
+from core.market_pricer import calculate_clv_and_fv
 
 try:
     import dataframe_image as dfi
@@ -214,11 +214,11 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
         consensus_prob = lookup_consensus_prob(game_odds, row.get("market", ""), row.get("side", ""))
         if consensus_prob is None:
             continue
-        bet_prob = american_to_prob(row.get("market_odds"))
-        if bet_prob is None:
+        try:
+            bet_odds = float(row.get("market_odds"))
+        except Exception:
             continue
-        clv_pct = round((consensus_prob - bet_prob) * 100, 2)
-        fv_odds = to_american_odds(consensus_prob)
+        clv_pct, fv_odds = calculate_clv_and_fv(bet_odds, consensus_prob)
         try:
             stake = float(row.get("stake", 0))
         except Exception:
