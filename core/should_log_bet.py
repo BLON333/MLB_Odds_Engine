@@ -9,7 +9,7 @@ MAX_POSITIVE_ODDS = 200
 MIN_NEGATIVE_ODDS = -150
 
 from core.market_pricer import decimal_odds
-from core.confirmation_utils import required_market_move
+from core.confirmation_utils import required_market_move, book_agreement_score
 
 
 from utils import (
@@ -241,6 +241,24 @@ def should_log_bet(
                 pass
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "suppressed_early_unconfirmed"
+            return None
+
+        # Additional filter → require broad agreement across books when far from game time
+        score = None
+        try:
+            score_val = new_bet.get("book_agreement_score")
+            if score_val is not None:
+                score = float(score_val)
+        except Exception:
+            score = None
+
+        if hours_to_game > 12 and score is not None and score < 0.3:
+            _log_verbose(
+                f"⛔ should_log_bet: Low book agreement {score:.2f} < 0.30",
+                verbose,
+            )
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "suppressed_low_agreement"
             return None
 
     # 🚦 Reject bet if odds worsened versus reference snapshot

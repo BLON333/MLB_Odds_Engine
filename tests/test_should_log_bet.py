@@ -276,3 +276,45 @@ def test_early_bet_allowed_with_confirmation(monkeypatch):
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result is not None
     assert result["entry_type"] == "first"
+
+
+def test_early_bet_rejected_for_low_book_agreement():
+    hours = 13
+    move = required_market_move(hours) + 0.005
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_prob": 0.55 + move,
+        "hours_to_game": hours,
+        "book_agreement_score": 0.25,
+    }
+    tracker_key = f"{bet['game_id']}:{bet['market']}:Over 8.5"
+    reference = {tracker_key: {"market_prob": 0.55}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is None
+    assert bet["skip_reason"] == "suppressed_low_agreement"
+
+
+def test_early_bet_allowed_with_book_agreement():
+    hours = 13
+    move = required_market_move(hours) + 0.005
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+        "market_prob": 0.55 + move,
+        "hours_to_game": hours,
+        "book_agreement_score": 0.4,
+    }
+    tracker_key = f"{bet['game_id']}:{bet['market']}:Over 8.5"
+    reference = {tracker_key: {"market_prob": 0.55}}
+
+    result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
+    assert result is not None
+    assert result["entry_type"] == "first"
