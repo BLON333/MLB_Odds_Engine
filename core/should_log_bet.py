@@ -9,6 +9,7 @@ MAX_POSITIVE_ODDS = 200
 MIN_NEGATIVE_ODDS = -150
 
 from core.market_pricer import decimal_odds
+from core.confirmation_utils import required_market_move
 
 
 from utils import (
@@ -197,6 +198,39 @@ def should_log_bet(
         tracker_entry = eval_tracker.get(t_key)
         if isinstance(tracker_entry, dict):
             prior_entry = tracker_entry
+
+    # 🆕 Suppress early bets lacking market confirmation
+    hours_to_game = None
+    try:
+        hours_to_game = float(new_bet.get("hours_to_game"))
+    except Exception:
+        hours_to_game = None
+
+    if hours_to_game is not None and hours_to_game > 6:
+        prev_prob = None
+        if prior_entry is not None:
+            prev_prob = prior_entry.get("consensus_prob")
+            if prev_prob is None:
+                prev_prob = prior_entry.get("market_prob")
+        curr_prob = new_bet.get("consensus_prob")
+        if curr_prob is None:
+            curr_prob = new_bet.get("market_prob")
+        movement = 0.0
+        try:
+            if prev_prob is not None and curr_prob is not None:
+                movement = float(curr_prob) - float(prev_prob)
+        except Exception:
+            movement = 0.0
+
+        threshold = required_market_move(hours_to_game)
+        if movement < threshold:
+            _log_verbose(
+                f"⛔ should_log_bet: Early bet suppressed — movement {movement:.3f} < {threshold:.3f}",
+                verbose,
+            )
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "suppressed_early_unconfirmed"
+            return None
 
     # 🚦 Reject bet if odds worsened versus reference snapshot
     if prior_entry is not None and theme_total > 0:
