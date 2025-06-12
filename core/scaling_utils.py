@@ -3,6 +3,8 @@ import math
 import os
 from typing import Optional, Tuple, List
 
+from core.confirmation_utils import confirmation_strength
+
 __all__ = [
     "scale_distribution",
     "dynamic_blend_weight",
@@ -100,6 +102,7 @@ def blend_prob(
     p_market: Optional[float] = None,
     book_odds_list: Optional[List[float]] = None,
     line_move: float = 0.0,
+    observed_move: float = 0.0,
 ) -> Tuple[float, float, float, float]:
     """Return a blended probability and weights.
 
@@ -115,6 +118,8 @@ def blend_prob(
         hours_to_game: Hours until game start.
         p_market: Market implied probability. If ``None`` the value is derived
             from ``market_odds``.
+        observed_move: Consensus probability change from the prior snapshot used
+            to gauge market confirmation strength.
 
     Returns:
         A tuple ``(p_blended, w_model, p_model, p_market)`` where ``p_blended``
@@ -150,6 +155,12 @@ def blend_prob(
     decay_factor = 1 - logistic_weight * market_confidence_proxy
 
     w_model = max(min_weight, w_base * (1 - decay_factor))
+
+    # Scale down model weight if market movement lacks confirmation
+    strength = confirmation_strength(observed_move, hours_to_game)
+    if strength < 1.0:
+        w_model *= 0.5 + 0.5 * strength
+
     w_market = 1.0 - w_model
 
     # Before blending p_model and p_market, shrink extreme model probabilities for team totals
@@ -163,7 +174,8 @@ def blend_prob(
         logger = get_logger(__name__)
         logger.debug(
             "[blend_prob] model_prob=%.4f market_prob=%.4f blended_prob=%.4f | "
-            "w_model=%.3f w_market=%.3f base_weight=%.2f conf_proxy=%.3f",
+            "w_model=%.3f w_market=%.3f base_weight=%.2f conf_proxy=%.3f "
+            "confirm=%.2f",
             p_model,
             p_market,
             p_blended,
@@ -171,6 +183,7 @@ def blend_prob(
             w_market,
             w_base,
             market_confidence_proxy,
+            strength,
         )
 
     return p_blended, w_model, p_model, p_market

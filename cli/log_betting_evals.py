@@ -1726,23 +1726,10 @@ def log_bets(
 
         p_market = consensus_prob if consensus_prob else implied_prob(market_price)
         book_odds_list = [implied_prob(v) for v in book_prices.values()]
-        p_blended, w_model, p_model, _ = blend_prob(
-            sim_prob,
-            market_price,
-            market_key,
-            hours_to_game,
-            p_market,
-            book_odds_list=book_odds_list,
-            line_move=0.0,
-        )
-
-        ev_calc = calculate_ev_from_prob(p_blended, market_price)
-        stake_fraction = 0.125 if price_source == "alternate" else 0.25
 
         tracker_key = build_tracker_key(game_id, matched_key.replace("alternate_", ""), side)
         prior = MARKET_EVAL_TRACKER.get(tracker_key)
 
-        raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
         prev_prob = None
         if prior:
             prev_prob = prior.get("market_prob") or prior.get("consensus_prob")
@@ -1753,6 +1740,22 @@ def log_bets(
             observed_move = 0.0
 
         strength = confirmation_strength(observed_move, hours_to_game)
+
+        p_blended, w_model, p_model, _ = blend_prob(
+            sim_prob,
+            market_price,
+            market_key,
+            hours_to_game,
+            p_market,
+            book_odds_list=book_odds_list,
+            line_move=0.0,
+            observed_move=observed_move,
+        )
+
+        ev_calc = calculate_ev_from_prob(p_blended, market_price)
+        stake_fraction = 0.125 if price_source == "alternate" else 0.25
+
+        raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
         stake = round(raw_kelly * (strength ** 1.5), 4)
 
         print(
@@ -2056,6 +2059,21 @@ def log_derivative_bets(
                     p_market = implied_prob(market_price)
 
                 book_odds_list = [implied_prob(v) for v in book_prices.values()]
+
+                tracker_key = build_tracker_key(game_id, market_full.replace("alternate_", ""), side_clean)
+                prior = MARKET_EVAL_TRACKER.get(tracker_key)
+
+                prev_prob = None
+                if prior:
+                    prev_prob = prior.get("market_prob") or prior.get("consensus_prob")
+                curr_prob = p_market
+                try:
+                    observed_move = float(curr_prob) - float(prev_prob)
+                except Exception:
+                    observed_move = 0.0
+
+                strength = confirmation_strength(observed_move, hours_to_game)
+
                 p_blended, w_model, p_model, _ = blend_prob(
                     p_model=prob,
                     market_odds=market_price,
@@ -2064,6 +2082,7 @@ def log_derivative_bets(
                     p_market=p_market,
                     book_odds_list=book_odds_list,
                     line_move=0.0,
+                    observed_move=observed_move,
                 )
 
                 print(
@@ -2075,20 +2094,7 @@ def log_derivative_bets(
                 ev_calc = calculate_ev_from_prob(p_blended, market_price)  # ✅ correct
                 stake_fraction = 0.125 if price_source == "alternate" else 0.25
 
-                tracker_key = build_tracker_key(game_id, market_full.replace("alternate_", ""), side_clean)
-                prior = MARKET_EVAL_TRACKER.get(tracker_key)
-
                 raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
-                prev_prob = None
-                if prior:
-                    prev_prob = prior.get("market_prob") or prior.get("consensus_prob")
-                curr_prob = p_market
-                try:
-                    observed_move = float(curr_prob) - float(prev_prob)
-                except Exception:
-                    observed_move = 0.0
-
-                strength = confirmation_strength(observed_move, hours_to_game)
                 stake = round(raw_kelly * (strength ** 1.5), 4)
 
                 print(
