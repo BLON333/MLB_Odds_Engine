@@ -217,6 +217,8 @@ def lookup_consensus_prob(odds_game: dict, market: str, side: str) -> float | No
 def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) -> list:
     results = []
     skipped = 0
+    open_count = 0
+    matched_count = 0
     now = now_eastern()
     for row in csv_rows:
         gid = canonical_game_id(row.get("game_id", ""))
@@ -224,6 +226,7 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) 
         start_dt = parse_start_time(gid, game_odds)
         if start_dt and start_dt <= now:
             continue
+        open_count += 1
         market = row.get("market", "")
         side = row.get("side", "")
         consensus_prob = lookup_consensus_prob(game_odds, market, side)
@@ -237,6 +240,7 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) 
                 )
             skipped += 1
             continue
+        matched_count += 1
         try:
             bet_odds = float(row.get("market_odds"))
         except Exception:
@@ -283,6 +287,8 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) 
         logger.warning(
             "⚠️ Skipped %d bets due to missing consensus price data.", skipped
         )
+    logger.debug("🧮 Open bets processed: %d", open_count)
+    logger.debug("🔗 Consensus matches: %d", matched_count)
     return results
 
 
@@ -372,6 +378,7 @@ def main() -> None:
     args = parser.parse_args()
 
     csv_rows = load_logged_bets(args.log_path)
+    logger.debug("📥 Logged bets loaded: %d", len(csv_rows))
     if not csv_rows:
         logger.error("❌ No logged bets found")
         return
@@ -387,6 +394,7 @@ def main() -> None:
         logger.info("⚠️ No qualifying open bets found.")
         return
     df = pd.DataFrame(rows)
+    logger.debug("📊 Final snapshot rows: %d", df.shape[0])
     if args.sort_by == "profit":
         df = df.sort_values(
             by="Expected Profit",
