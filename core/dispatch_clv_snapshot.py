@@ -255,8 +255,8 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
                 "Bet": row.get("side", ""),
                 "Book": row.get("best_book", row.get("book", "")),
                 "Odds": odds_str,
-                "FV": f"{round(fv_odds)}" if isinstance(fv_odds, (int, float)) else "N/A",
-                "CLV%": f"{clv_pct:+.2f}%",
+                "FV": f"{int(fv_odds):+}" if isinstance(fv_odds, (int, float)) else "N/A",
+                "CLV%": f"{clv_pct:+.1f}%",
                 "Stake": f"{stake:.2f}u",
                 "Expected Profit": f"{expected_profit:.2f}u",
             }
@@ -340,6 +340,12 @@ def main() -> None:
     parser.add_argument("--log-path", default="logs/market_evals.csv", help="Path to market_evals.csv")
     parser.add_argument("--odds-path", default=None, help="Path to odds snapshot JSON")
     parser.add_argument("--output-discord", action="store_true")
+    parser.add_argument(
+        "--sort-by",
+        choices=["clv", "profit"],
+        default="clv",
+        help="Sort by CLV percentage or expected profit",
+    )
     args = parser.parse_args()
 
     csv_rows = load_logged_bets(args.log_path)
@@ -358,7 +364,18 @@ def main() -> None:
         logger.info("⚠️ No qualifying open bets found.")
         return
     df = pd.DataFrame(rows)
-    df = df.sort_values(by="CLV%", key=lambda s: s.str.replace("%", "").astype(float), ascending=False)
+    if args.sort_by == "profit":
+        df = df.sort_values(
+            by="Expected Profit",
+            key=lambda s: s.str.rstrip("u").astype(float),
+            ascending=False,
+        )
+    else:
+        df = df.sort_values(
+            by="CLV%",
+            key=lambda s: s.str.replace("%", "").astype(float),
+            ascending=False,
+        )
 
     if args.output_discord and WEBHOOK_URL:
         send_snapshot(df, WEBHOOK_URL)
