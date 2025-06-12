@@ -228,6 +228,17 @@ def should_log_bet(
                 f"⛔ should_log_bet: Early bet suppressed — movement {movement:.3f} < {threshold:.3f}",
                 verbose,
             )
+            try:
+                from core.pending_bets import queue_pending_bet
+
+                queue_pending_bet(
+                    {
+                        **new_bet,
+                        "baseline_consensus_prob": prev_prob,
+                    }
+                )
+            except Exception:
+                pass
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "suppressed_early_unconfirmed"
             return None
