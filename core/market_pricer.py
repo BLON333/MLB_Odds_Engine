@@ -98,6 +98,14 @@ def decimal_odds(american):
     else:
         return round(american / 100 + 1, 4)
 
+
+def calculate_clv_and_fv(bet_odds: float, consensus_prob: float) -> tuple[float, int]:
+    """Return (clv_percent, fair_value_odds) for the given bet odds."""
+    bet_implied_prob = 1 / decimal_odds(bet_odds)
+    fair_value_odds = to_american_odds(consensus_prob)
+    clv_percent = (consensus_prob - bet_implied_prob) * 100
+    return round(clv_percent, 2), int(round(fair_value_odds))
+
 def kelly_fraction(prob_win, american_odds, fraction=0.25):
     if prob_win <= 0 or prob_win >= 1:
         return 0
