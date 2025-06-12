@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
-__all__ = ["required_market_move", "confirmation_strength"]
+__all__ = [
+    "required_market_move",
+    "confirmation_strength",
+    "print_threshold_table",
+]
 
 
 def required_market_move(hours_to_game: float) -> float:
@@ -55,3 +59,19 @@ def confirmation_strength(observed_move: float, hours_to_game: float) -> float:
     if threshold <= 0:
         return 1.0
     return min(1.0, float(observed_move) / threshold)
+
+
+def print_threshold_table() -> None:
+    """Print required market move thresholds at key hours.
+
+    The table shows how much consensus line movement is needed for
+    confirmation at selected hours leading up to a game.
+    """
+
+    key_hours = [24, 18, 12, 6, 3, 1, 0]
+    print("[Hours to Game] | [Required Move (%)] | [Movement Units]")
+    for hours in key_hours:
+        threshold = required_market_move(hours)
+        percent = threshold * 100.0
+        units = threshold / 0.006
+        print(f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}")
