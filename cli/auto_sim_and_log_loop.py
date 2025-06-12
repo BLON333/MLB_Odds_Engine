@@ -311,6 +311,10 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
 
         launch_process(script, cmd)
 
+    # Dispatch CLV snapshot after other role-based snapshots
+    clv_cmd = [PYTHON, "core/dispatch_clv_snapshot.py", "--output-discord"]
+    launch_process("dispatch_clv_snapshot.py", clv_cmd)
+
 
 logger.info(
     "🔄 [%s] Starting auto loop... "
