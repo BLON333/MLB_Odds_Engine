@@ -1611,6 +1611,10 @@ def log_bets(
         return
 
     start_dt = odds_start_times.get(game_id)
+    if not start_dt:
+        print(
+            f"⚠️ No start time found for game_id: {game_id} — defaulting to 8.0 hours"
+        )
     hours_to_game = 8.0
     if start_dt:
         hours_to_game = compute_hours_to_game(start_dt)
