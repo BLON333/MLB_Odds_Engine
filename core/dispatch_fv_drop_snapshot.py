@@ -118,7 +118,6 @@ def main() -> None:
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
-    parser.add_argument("--diff-highlight", action="store_true")
     parser.add_argument(
         "--books",
         default=os.getenv("FV_DROP_BOOKS"),
@@ -173,7 +172,7 @@ def main() -> None:
 
 
 
-    df = format_for_display(rows, include_movement=args.diff_highlight)
+    df = format_for_display(rows, include_movement=True)
     if "sim_prob_display" in df.columns:
         df["Sim %"] = df["sim_prob_display"]
     if "mkt_prob_display" in df.columns:

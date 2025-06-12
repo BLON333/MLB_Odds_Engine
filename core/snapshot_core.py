@@ -239,11 +239,6 @@ def build_argument_parser(
             "--debug-json", default=None, help="Path to write debug output"
         )
     parser.add_argument(
-        "--diff-highlight",
-        action="store_true",
-        help="Highlight new rows and odds movements",
-    )
-    parser.add_argument(
         "--reset-snapshot",
         action="store_true",
         help="Clear stored snapshot before running",
@@ -596,6 +591,11 @@ def compare_and_flag_new_rows(
             entry,
             MARKET_EVAL_TRACKER,
             MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+        )
+        entry["is_new"] = (
+            key not in MARKET_EVAL_TRACKER_BEFORE_UPDATE
+            and key not in last_snapshot
+            and key not in prior_data
         )
         annotate_display_deltas(entry, prior)
         blended_fv = entry.get("blended_fv", entry.get("fair_odds"))

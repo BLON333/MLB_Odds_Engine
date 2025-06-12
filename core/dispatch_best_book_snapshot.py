@@ -52,7 +52,6 @@ def main() -> None:
     )
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
-    parser.add_argument("--diff-highlight", action="store_true")
     parser.add_argument(
         "--min-ev",
         type=float,
@@ -97,7 +96,7 @@ def main() -> None:
         args.max_ev,
     )
 
-    df = format_for_display(rows, include_movement=args.diff_highlight)
+    df = format_for_display(rows, include_movement=True)
     if "sim_prob_display" in df.columns:
         df["Sim %"] = df["sim_prob_display"]
     if "mkt_prob_display" in df.columns:

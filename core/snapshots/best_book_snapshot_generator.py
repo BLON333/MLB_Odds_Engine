@@ -185,7 +185,7 @@ def main():
         logger.warning("⚠️ No qualifying bets found.")
         return
 
-    df = format_for_display(rows, include_movement=args.diff_highlight)
+    df = format_for_display(rows, include_movement=True)
 
     df_all_export = format_for_display(flagged_rows, include_movement=False)
     df_all_export = df_all_export.drop(
@@ -240,10 +240,7 @@ def main():
         else:
             logger.error("❌ No Discord webhook configured for best-book snapshots.")
     else:
-        if args.diff_highlight:
-            print(format_table_with_highlights(rows))
-        else:
-            print(df.to_string(index=False))
+        print(df.to_string(index=False))
 
     os.makedirs(os.path.dirname(snapshot_path), exist_ok=True)
     with open(snapshot_path, "w") as f:
