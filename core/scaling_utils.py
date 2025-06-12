@@ -144,6 +144,10 @@ def blend_prob(
     w_model = dynamic_blend_weight(adjusted_base, hours_to_game, market_type)
     w_market = 1.0 - w_model
 
+    # Before blending p_model and p_market, shrink extreme model probabilities for team totals
+    if "team_total" in market_type:
+        p_model = 0.3 * 0.5 + 0.7 * p_model  # shrink toward neutral (50%)
+
     p_blended = w_model * p_model + w_market * p_market
 
     if os.getenv("BLEND_PROB_DEBUG"):
