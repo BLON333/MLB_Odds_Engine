@@ -31,6 +31,15 @@ def test_confirmation_strength_example():
     assert strength == pytest.approx(0.009 / required)
 
 
+def test_confirmation_strength_clamped():
+    hours = 10
+    # Negative observed move should yield minimum strength of 0.0
+    assert confirmation_strength(-0.005, hours) == 0.0
+    # Observed move well above threshold should clamp to 1.0
+    large_move = required_market_move(hours) * 2
+    assert confirmation_strength(large_move, hours) == 1.0
+
+
 def test_print_threshold_table_output(capsys):
     print_threshold_table()
     out_lines = [line.strip() for line in capsys.readouterr().out.splitlines()]

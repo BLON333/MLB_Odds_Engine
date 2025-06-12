@@ -59,7 +59,7 @@ def confirmation_strength(observed_move: float, hours_to_game: float) -> float:
     threshold = required_market_move(hours_to_game)
     if threshold <= 0:
         return 1.0
-    return min(1.0, float(observed_move) / threshold)
+    return max(0.0, min(1.0, float(observed_move) / threshold))
 
 
 def print_threshold_table() -> None:
