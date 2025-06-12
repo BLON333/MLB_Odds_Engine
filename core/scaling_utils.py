@@ -103,10 +103,10 @@ def blend_prob(
 ) -> Tuple[float, float, float, float]:
     """Return a blended probability and weights.
 
-    The model probability weight decreases as first pitch approaches using a
-    gentler logistic curve with a floor to ensure the model maintains some
-    influence. The base weight also depends on the market type (mainline vs.
-    derivative).
+    The final model weight blends a base weight for the market with a
+    proxy–enhanced decay factor. As first pitch approaches a logistic curve
+    reduces the model influence while a market confidence proxy further adjusts
+    the decay. A minimum floor ensures the model never disappears entirely.
 
     Args:
         p_model: Probability estimated by the model.
@@ -139,9 +139,17 @@ def blend_prob(
         1.0,
     )
 
-    base_weight = base_model_weight_for_market(market_type)
-    adjusted_base = base_weight * market_confidence_proxy
-    w_model = dynamic_blend_weight(adjusted_base, hours_to_game, market_type)
+    if hours_to_game is None:
+        hours_to_game = 8
+
+    logistic_weight = 1 / (1 + math.exp((8 - hours_to_game) / 3.0))
+
+    w_base = base_model_weight_for_market(market_type)
+    min_weight = min_weight_override_for_market(market_type)
+
+    decay_factor = 1 - logistic_weight * market_confidence_proxy
+
+    w_model = max(min_weight, w_base * (1 - decay_factor))
     w_market = 1.0 - w_model
 
     # Before blending p_model and p_market, shrink extreme model probabilities for team totals
@@ -161,7 +169,7 @@ def blend_prob(
             p_blended,
             w_model,
             w_market,
-            base_weight,
+            w_base,
             market_confidence_proxy,
         )
 
