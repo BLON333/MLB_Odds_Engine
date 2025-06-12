@@ -804,15 +804,7 @@ def build_snapshot_rows(
             )
             consensus_prob = result.get("consensus_prob")
             book_odds_list = list(result.get("bookwise_probs", {}).values())
-            p_blended, _, _, p_market = blend_prob(
-                sim_prob,
-                price,
-                market,
-                hours_to_game,
-                consensus_prob,
-                book_odds_list=book_odds_list,
-                line_move=0.0,
-            )
+
             market_clean = matched_key.replace("alternate_", "")
             market_class = "alternate" if price_source == "alternate" else "main"
 
@@ -823,18 +815,30 @@ def build_snapshot_rows(
                 or {}
             )
 
-            ev_pct = calculate_ev_from_prob(p_blended, price)
-            stake_fraction = 0.125 if market_class == "alternate" else 0.25
-            raw_kelly = kelly_fraction(p_blended, price, fraction=stake_fraction)
-
             prev_prob = prior_row.get("market_prob")
-            curr_prob = p_market
+            curr_prob = consensus_prob
             try:
                 observed_move = float(curr_prob) - float(prev_prob)
             except Exception:
                 observed_move = 0.0
 
             strength = confirmation_strength(observed_move, hours_to_game)
+
+            p_blended, _, _, p_market = blend_prob(
+                sim_prob,
+                price,
+                market,
+                hours_to_game,
+                consensus_prob,
+                book_odds_list=book_odds_list,
+                line_move=0.0,
+                observed_move=observed_move,
+            )
+
+            ev_pct = calculate_ev_from_prob(p_blended, price)
+            stake_fraction = 0.125 if market_class == "alternate" else 0.25
+            raw_kelly = kelly_fraction(p_blended, price, fraction=stake_fraction)
+
             stake = round(raw_kelly * (strength ** 1.5), 4)
 
             logger.debug(
