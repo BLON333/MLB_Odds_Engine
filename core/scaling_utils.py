@@ -8,6 +8,7 @@ __all__ = [
     "dynamic_blend_weight",
     "base_model_weight_for_market",
     "blend_prob",
+    "min_weight_override_for_market",
 ]
 
 
@@ -24,21 +25,36 @@ def scale_distribution(raw_vals, target_mean=None, target_sd=None):
     return scaled.tolist()
 
 
-def dynamic_blend_weight(base_weight: float, hours_to_game: float, min_weight: float = 0.3) -> float:
+def min_weight_override_for_market(market_type: str) -> float:
+    """Return the minimum model weight allowed for a given market type."""
+    market_type = market_type.lower()
+    if "team_total" in market_type:
+        return 0.2
+    elif "1st" in market_type or "alt" in market_type:
+        return 0.4
+    elif "spread" in market_type or "total" in market_type:
+        return 0.3
+    return 0.3
+
+
+def dynamic_blend_weight(base_weight: float, hours_to_game: float, market_type: str) -> float:
     """Return the model weight accounting for time until game start.
 
     A gentler logistic curve (slope ``3.0``) is used to taper model influence
-    as first pitch approaches while enforcing a minimum ``min_weight`` so the
-    model never disappears completely.
+    as first pitch approaches while enforcing a minimum weight floor per market
+    type so the model never disappears completely.
     """
     if hours_to_game is None:
         hours_to_game = 8  # Fallback assumption
 
     logistic_weight = 1 / (1 + math.exp((8 - hours_to_game) / 3.0))
 
-    w_model = base_weight * logistic_weight
+    decay_curve_value = base_weight * logistic_weight
 
-    return max(w_model, min_weight)
+    min_weight = min_weight_override_for_market(market_type)
+    w_model = max(min_weight, decay_curve_value)
+
+    return w_model
 
 
 def base_model_weight_for_market(market: str) -> float:
@@ -109,7 +125,7 @@ def blend_prob(
         p_market = implied_prob(market_odds)
 
     base_weight = base_model_weight_for_market(market_type)
-    w_model = dynamic_blend_weight(base_weight, hours_to_game, min_weight=0.3)
+    w_model = dynamic_blend_weight(base_weight, hours_to_game, market_type)
     w_market = 1.0 - w_model
 
     p_blended = w_model * p_model + w_market * p_market
