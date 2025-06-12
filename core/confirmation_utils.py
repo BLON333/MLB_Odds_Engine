@@ -6,6 +6,7 @@ __all__ = [
     "required_market_move",
     "confirmation_strength",
     "print_threshold_table",
+    "book_agreement_score",
 ]
 
 
@@ -75,3 +76,47 @@ def print_threshold_table() -> None:
         percent = threshold * 100.0
         units = threshold / 0.006
         print(f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}")
+
+
+def book_agreement_score(market_data: dict) -> float:
+    """Return the fraction of sharp books agreeing on a line move.
+
+    ``market_data`` should map sportsbook keys to the implied probability
+    change observed at that book. Positive deltas indicate movement in favor
+    of the bet while negative deltas reflect the opposite.
+    """
+
+    sharp_books = [
+        "pinnacle",
+        "betonlineag",
+        "fanduel",
+        "betmgm",
+        "draftkings",
+        "williamhill",
+        "mybookieag",
+    ]
+
+    threshold = 0.005
+    deltas = {}
+    for book in sharp_books:
+        try:
+            delta = float(market_data.get(book))
+        except Exception:
+            continue
+        if abs(delta) >= threshold:
+            deltas[book] = delta
+
+    if not deltas:
+        return 0.0
+
+    up = sum(1 for d in deltas.values() if d > 0)
+    down = sum(1 for d in deltas.values() if d < 0)
+    direction = 1 if up >= down else -1
+
+    agree = sum(
+        1
+        for d in deltas.values()
+        if (d > 0 and direction > 0) or (d < 0 and direction < 0)
+    )
+
+    return round(agree / len(sharp_books), 2)
