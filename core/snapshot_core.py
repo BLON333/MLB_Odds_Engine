@@ -643,14 +643,15 @@ def compare_and_flag_new_rows(
 
 
 def format_table_with_highlights(entries: List[dict]) -> str:
-    """Render rows with emoji to highlight changes."""
+    """Render rows for fallback text without emoji highlights."""
     lines = []
     for e in entries:
-        new_sym = "🟢" if e.get("is_new") else " "
-        odds_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(
+        # preserve is_new evaluation but avoid emoji output
+        new_sym = "*" if e.get("is_new") else ""
+        odds_sym = {"better": "", "worse": "", "same": ""}.get(
             e.get("odds_movement"), ""
         )
-        ev_sym = {"better": "🟢", "worse": "🔴", "same": ""}.get(
+        ev_sym = {"better": "", "worse": "", "same": ""}.get(
             e.get("ev_movement"), ""
         )
         fair = e.get("blended_fv", e.get("fair_odds"))
