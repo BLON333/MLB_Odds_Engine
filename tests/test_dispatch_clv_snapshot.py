@@ -24,7 +24,7 @@ def test_skip_row_when_consensus_missing(caplog):
     with caplog.at_level(logging.WARNING, logger="core.dispatch_clv_snapshot"):
         result = build_snapshot_rows(rows, odds)
     assert result == []
-    assert any("consensus price" in rec.message for rec in caplog.records)
+    assert any("Skipped 1 bets" in rec.message for rec in caplog.records)
 
 
 def test_lookup_with_normalized_labels():

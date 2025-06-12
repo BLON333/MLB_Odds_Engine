@@ -214,8 +214,9 @@ def lookup_consensus_prob(odds_game: dict, market: str, side: str) -> float | No
     return prob
 
 
-def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
+def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) -> list:
     results = []
+    skipped = 0
     now = now_eastern()
     for row in csv_rows:
         gid = canonical_game_id(row.get("game_id", ""))
@@ -227,9 +228,14 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
         side = row.get("side", "")
         consensus_prob = lookup_consensus_prob(game_odds, market, side)
         if consensus_prob is None:
-            logger.warning(
-                "⚠️ No consensus price for game=%s market=%s side=%s", gid, market, side
-            )
+            if verbose:
+                logger.warning(
+                    "⚠️ No consensus price for game=%s market=%s side=%s",
+                    gid,
+                    market,
+                    side,
+                )
+            skipped += 1
             continue
         try:
             bet_odds = float(row.get("market_odds"))
@@ -272,6 +278,10 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict) -> list:
                 "Stake": f"{stake:.2f}u",
                 "Expected Profit": f"{expected_profit:.2f}u",
             }
+        )
+    if skipped and not verbose:
+        logger.warning(
+            "⚠️ Skipped %d bets due to missing consensus price data.", skipped
         )
     return results
 
@@ -358,6 +368,7 @@ def main() -> None:
         default="clv",
         help="Sort by CLV percentage or expected profit",
     )
+    parser.add_argument("--verbose", action="store_true", help="Show detailed warnings")
     args = parser.parse_args()
 
     csv_rows = load_logged_bets(args.log_path)
@@ -371,7 +382,7 @@ def main() -> None:
         return
     odds_data = load_odds(odds_path)
 
-    rows = build_snapshot_rows(csv_rows, odds_data)
+    rows = build_snapshot_rows(csv_rows, odds_data, verbose=args.verbose)
     if not rows:
         logger.info("⚠️ No qualifying open bets found.")
         return
