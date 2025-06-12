@@ -226,7 +226,7 @@ def main():
     if args.output_discord and WEBHOOK_URL:
         send_bet_snapshot_to_discord(df, "FV Drop", WEBHOOK_URL)
     else:
-        print(format_table_with_highlights(rows))
+        print(df.to_string(index=False))
         if args.output_discord and not WEBHOOK_URL:
             logger.warning("⚠️ Discord webhook is not configured for FV drop snapshots.")
 

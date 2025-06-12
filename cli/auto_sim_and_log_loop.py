@@ -308,8 +308,6 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
         "dispatch_sim_only_snapshot.py",
     ]:
         cmd = [PYTHON, f"core/{script}", "--output-discord"]
-        if script != "dispatch_sim_only_snapshot.py":
-            cmd.append("--diff-highlight")
 
         launch_process(script, cmd)
 
