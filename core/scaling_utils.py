@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import os
 from typing import Optional, Tuple
 
 __all__ = [
@@ -26,9 +27,9 @@ def scale_distribution(raw_vals, target_mean=None, target_sd=None):
 def dynamic_blend_weight(base_weight: float, hours_to_game: float, min_weight: float = 0.3) -> float:
     """Return the model weight accounting for time until game start.
 
-    A gentler logistic curve is used to taper model influence as first pitch
-    approaches while enforcing a minimum weight to avoid eliminating the model
-    entirely.
+    A gentler logistic curve (slope ``3.0``) is used to taper model influence
+    as first pitch approaches while enforcing a minimum ``min_weight`` so the
+    model never disappears completely.
     """
     if hours_to_game is None:
         hours_to_game = 8  # Fallback assumption
@@ -87,8 +88,23 @@ def blend_prob(
         p_market = implied_prob(market_odds)
 
     base_weight = base_model_weight_for_market(market_type)
-    w_model = dynamic_blend_weight(base_weight, hours_to_game)
-    w_market = 1 - w_model
+    w_model = dynamic_blend_weight(base_weight, hours_to_game, min_weight=0.3)
+    w_market = 1.0 - w_model
 
     p_blended = w_model * p_model + w_market * p_market
+
+    if os.getenv("BLEND_PROB_DEBUG"):
+        from core.logger import get_logger
+        logger = get_logger(__name__)
+        logger.debug(
+            "[blend_prob] model_prob=%.4f market_prob=%.4f blended_prob=%.4f | "
+            "w_model=%.3f w_market=%.3f base_weight=%.2f",
+            p_model,
+            p_market,
+            p_blended,
+            w_model,
+            w_market,
+            base_weight,
+        )
+
     return p_blended, w_model, p_model, p_market
