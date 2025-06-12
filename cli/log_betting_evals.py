@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
+from utils import canonical_game_id
 import re
 
 load_dotenv()
@@ -2287,6 +2288,7 @@ def run_batch_logging(
     def extract_start_times(odds_data):
         from dateutil import parser
         from pytz import timezone
+        from utils import canonical_game_id
 
         if not isinstance(odds_data, dict):
             print(
@@ -2301,7 +2303,8 @@ def run_batch_logging(
                 continue
             if "start_time" in game:
                 try:
-                    start_times[game_id] = parser.parse(game["start_time"]).astimezone(
+                    canon_id = canonical_game_id(game_id)
+                    start_times[canon_id] = parser.parse(game["start_time"]).astimezone(
                         eastern
                     )
                 except Exception:
