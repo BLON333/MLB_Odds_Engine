@@ -802,8 +802,15 @@ def build_snapshot_rows(
                 label=lookup_side,
             )
             consensus_prob = result.get("consensus_prob")
+            book_odds_list = list(result.get("bookwise_probs", {}).values())
             p_blended, _, _, p_market = blend_prob(
-                sim_prob, price, market, hours_to_game, consensus_prob
+                sim_prob,
+                price,
+                market,
+                hours_to_game,
+                consensus_prob,
+                book_odds_list=book_odds_list,
+                line_move=0.0,
             )
             ev_pct = calculate_ev_from_prob(p_blended, price)
             stake_fraction = 0.125 if price_source == "alternate" else 0.25

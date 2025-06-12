@@ -1706,8 +1706,15 @@ def log_bets(
             book_prices = {fallback_source: market_price}
 
         p_market = consensus_prob if consensus_prob else implied_prob(market_price)
+        book_odds_list = [implied_prob(v) for v in book_prices.values()]
         p_blended, w_model, p_model, _ = blend_prob(
-            sim_prob, market_price, market_key, hours_to_game, p_market
+            sim_prob,
+            market_price,
+            market_key,
+            hours_to_game,
+            p_market,
+            book_odds_list=book_odds_list,
+            line_move=0.0,
         )
 
         ev_calc = calculate_ev_from_prob(p_blended, market_price)
@@ -2012,12 +2019,15 @@ def log_derivative_bets(
                 else:
                     p_market = implied_prob(market_price)
 
+                book_odds_list = [implied_prob(v) for v in book_prices.values()]
                 p_blended, w_model, p_model, _ = blend_prob(
                     p_model=prob,
                     market_odds=market_price,
                     market_type=market_key,
                     hours_to_game=hours_to_game,
                     p_market=p_market,
+                    book_odds_list=book_odds_list,
+                    line_move=0.0,
                 )
 
                 print(

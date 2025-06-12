@@ -1,7 +1,7 @@
 import numpy as np
 import math
 import os
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 
 __all__ = [
     "scale_distribution",
@@ -98,6 +98,8 @@ def blend_prob(
     market_type: str,
     hours_to_game: float,
     p_market: Optional[float] = None,
+    book_odds_list: Optional[List[float]] = None,
+    line_move: float = 0.0,
 ) -> Tuple[float, float, float, float]:
     """Return a blended probability and weights.
 
@@ -124,8 +126,22 @@ def blend_prob(
     if p_market is None:
         p_market = implied_prob(market_odds)
 
+    # --- Light market confidence proxy ---
+    if book_odds_list and len(book_odds_list) >= 2:
+        std_dev_books = np.std(book_odds_list)
+    else:
+        std_dev_books = 0.0
+
+    line_volatility_factor = min(abs(line_move) / 0.1, 1.0)
+
+    market_confidence_proxy = 1.0 - min(
+        0.3 + std_dev_books + 0.5 * line_volatility_factor,
+        1.0,
+    )
+
     base_weight = base_model_weight_for_market(market_type)
-    w_model = dynamic_blend_weight(base_weight, hours_to_game, market_type)
+    adjusted_base = base_weight * market_confidence_proxy
+    w_model = dynamic_blend_weight(adjusted_base, hours_to_game, market_type)
     w_market = 1.0 - w_model
 
     p_blended = w_model * p_model + w_market * p_market
@@ -135,13 +151,14 @@ def blend_prob(
         logger = get_logger(__name__)
         logger.debug(
             "[blend_prob] model_prob=%.4f market_prob=%.4f blended_prob=%.4f | "
-            "w_model=%.3f w_market=%.3f base_weight=%.2f",
+            "w_model=%.3f w_market=%.3f base_weight=%.2f conf_proxy=%.3f",
             p_model,
             p_market,
             p_blended,
             w_model,
             w_market,
             base_weight,
+            market_confidence_proxy,
         )
 
     return p_blended, w_model, p_model, p_market
