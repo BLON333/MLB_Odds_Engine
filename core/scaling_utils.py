@@ -4,7 +4,7 @@ from typing import Optional, Tuple
 
 __all__ = [
     "scale_distribution",
-    "logistic_decay",
+    "dynamic_blend_weight",
     "base_model_weight_for_market",
     "blend_prob",
 ]
@@ -23,9 +23,21 @@ def scale_distribution(raw_vals, target_mean=None, target_sd=None):
     return scaled.tolist()
 
 
-def logistic_decay(t_hours, t_switch=8, slope=1.5):
-    """Return a weight that decays with time until game start."""
-    return 1 / (1 + math.exp((t_switch - t_hours) / slope))
+def dynamic_blend_weight(base_weight: float, hours_to_game: float, min_weight: float = 0.3) -> float:
+    """Return the model weight accounting for time until game start.
+
+    A gentler logistic curve is used to taper model influence as first pitch
+    approaches while enforcing a minimum weight to avoid eliminating the model
+    entirely.
+    """
+    if hours_to_game is None:
+        hours_to_game = 8  # Fallback assumption
+
+    logistic_weight = 1 / (1 + math.exp((8 - hours_to_game) / 3.0))
+
+    w_model = base_weight * logistic_weight
+
+    return max(w_model, min_weight)
 
 
 def base_model_weight_for_market(market):
@@ -51,9 +63,10 @@ def blend_prob(
 ) -> Tuple[float, float, float, float]:
     """Return a blended probability and weights.
 
-    The model probability is downweighted as game time approaches using a
-    logistic decay. The weight at time ``t`` is also adjusted based on the market
-    type (mainline vs. derivative).
+    The model probability weight decreases as first pitch approaches using a
+    gentler logistic curve with a floor to ensure the model maintains some
+    influence. The base weight also depends on the market type (mainline vs.
+    derivative).
 
     Args:
         p_model: Probability estimated by the model.
@@ -74,8 +87,7 @@ def blend_prob(
         p_market = implied_prob(market_odds)
 
     base_weight = base_model_weight_for_market(market_type)
-    w_time = logistic_decay(hours_to_game, t_switch=8, slope=1.5)
-    w_model = min(base_weight * w_time, 1.0)
+    w_model = dynamic_blend_weight(base_weight, hours_to_game)
     w_market = 1 - w_model
 
     p_blended = w_model * p_model + w_market * p_market
