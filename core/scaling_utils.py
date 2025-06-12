@@ -41,18 +41,39 @@ def dynamic_blend_weight(base_weight: float, hours_to_game: float, min_weight: f
     return max(w_model, min_weight)
 
 
-def base_model_weight_for_market(market):
-    """Return base model weight depending on market type."""
-    if "1st" in market:
-        return 0.9  # prioritize derivatives (1st innings)
-    elif (
-        market.startswith("h2h")
-        or (market.startswith("spreads") and "_" not in market)
-        or (market.startswith("totals") and "_" not in market)
-    ):
-        return 0.6  # mainlines (h2h, spreads, totals without "_")
-    else:
-        return 0.75  # fallback for anything else
+def base_model_weight_for_market(market: str) -> float:
+    """Return the base model weight for ``market``.
+
+    Derivative markets like inning-specific lines or alternate spreads/totals
+    receive higher weights while full-game mainlines are discounted.
+    """
+
+    # Normalize alternate market prefixes and remove ``_innings`` suffixes
+    key = market.lower().replace("alternate_", "").replace("_innings", "")
+
+    base_weights = {
+        "spreads": 0.6,
+        "totals": 0.6,
+        "h2h": 0.6,
+        "spreads_1st_5": 0.8,
+        "totals_1st_5": 0.9,
+        "spreads_1st_3": 0.9,
+        "totals_1st_3": 0.9,
+        "totals_1st_1": 0.95,
+        "spreads_1st_7": 0.75,
+        "totals_1st_7": 0.75,
+        "team_totals": 0.7,
+    }
+
+    if key in base_weights:
+        return base_weights[key]
+
+    for mkt_key, weight in base_weights.items():
+        if key.startswith(mkt_key + "_"):
+            return weight
+
+    # Default fallback for unrecognized markets
+    return 0.75
 
 
 def blend_prob(
