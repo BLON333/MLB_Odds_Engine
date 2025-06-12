@@ -1756,13 +1756,10 @@ def log_bets(
         stake_fraction = 0.125 if price_source == "alternate" else 0.25
 
         raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
-        try:
-            stake = round(
-                raw_kelly * (max(0.0, float(strength)) ** 1.5),
-                4,
-            )
-        except (TypeError, ValueError):
-            stake = 0.0
+        stake = round(
+            raw_kelly * (strength ** 1.5),
+            4,
+        )
 
         print(
             f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
