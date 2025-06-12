@@ -645,6 +645,9 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
     expanded_rows = []
 
     for bet in final_snapshot:
+        # ✅ Normalize market_prob from consensus_prob if not already present
+        if "market_prob" not in bet and "consensus_prob" in bet:
+            bet["market_prob"] = bet["consensus_prob"]
         base_fields = {
             "game_id": bet.get("game_id", "unknown"),
             "league": bet.get("league", "MLB"),
@@ -1058,6 +1061,9 @@ def build_discord_embed(row: dict) -> str:
     )
 
     sim_prob = row.get("sim_prob")
+    # ✅ Normalize market_prob from consensus_prob if not already present
+    if "market_prob" not in row and "consensus_prob" in row:
+        row["market_prob"] = row["consensus_prob"]
     consensus_prob = row.get("market_prob")
     blended_prob = row.get("blended_prob")
 
@@ -1407,6 +1413,9 @@ def write_to_csv(
         print(f"    • Snapshot File Used     : Not available in this scope")
 
     prior_prob = prior_snapshot.get("market_prob") if prior_snapshot else None
+    # ✅ Normalize market_prob from consensus_prob if not already present
+    if "market_prob" not in row and "consensus_prob" in row:
+        row["market_prob"] = row["consensus_prob"]
     new_prob = row.get("market_prob")
     hours_to_game = row.get("hours_to_game", 8)
 
