@@ -41,6 +41,7 @@ from core.market_pricer import (
     decimal_odds,
     extract_best_book,
 )
+from core.confirmation_utils import confirmation_strength
 from core.scaling_utils import blend_prob
 from core.consensus_pricer import calculate_consensus_prob
 from core.market_movement_tracker import track_and_update_market_movement
@@ -812,11 +813,29 @@ def build_snapshot_rows(
                 book_odds_list=book_odds_list,
                 line_move=0.0,
             )
-            ev_pct = calculate_ev_from_prob(p_blended, price)
-            stake_fraction = 0.125 if price_source == "alternate" else 0.25
-            stake = kelly_fraction(p_blended, price, fraction=stake_fraction)
             market_clean = matched_key.replace("alternate_", "")
             market_class = "alternate" if price_source == "alternate" else "main"
+
+            tracker_key = build_tracker_key(game_id, market_clean, side)
+            prior_row = (
+                MARKET_EVAL_TRACKER.get(tracker_key)
+                or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
+                or {}
+            )
+
+            ev_pct = calculate_ev_from_prob(p_blended, price)
+            stake_fraction = 0.125 if market_class == "alternate" else 0.25
+            raw_kelly = kelly_fraction(p_blended, price, fraction=stake_fraction)
+
+            prev_prob = prior_row.get("market_prob")
+            curr_prob = p_market
+            try:
+                observed_move = float(curr_prob) - float(prev_prob)
+            except Exception:
+                observed_move = 0.0
+
+            strength = confirmation_strength(observed_move, hours_to_game)
+            stake = round(raw_kelly * (strength ** 1.5), 4)
 
             logger.debug(
                 "✓ %s | %s | %s → EV %.2f%% | Stake %.2fu | Source %s",
@@ -841,6 +860,8 @@ def build_snapshot_rows(
                 "ev_percent": round(ev_pct, 2),
                 "stake": stake,
                 "full_stake": stake,
+                "raw_kelly": raw_kelly,
+                "adjusted_kelly": stake,
                 "segment": segment,
                 "market_class": market_class,
                 "best_book": best_book,
@@ -871,11 +892,6 @@ def build_snapshot_rows(
             theme = get_theme({"side": normalized_side, "market": market_clean})
             row["theme_key"] = get_theme_key(market_clean, theme)
             row.setdefault("entry_type", "first")
-            # Look up prior tracker entry (current state or baseline) for movement comparison
-            tracker_key = build_tracker_key(game_id, market_clean, side)
-            prior_row = MARKET_EVAL_TRACKER.get(tracker_key) or MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
-            if not prior_row:
-                prior_row = {}
             row["_tracker_entry"] = prior_row
             row["_prior_snapshot"] = prior_row
 
@@ -1196,7 +1212,18 @@ def expand_snapshot_rows_with_kelly(
             try:
                 ev = calculate_ev_from_prob(p, odds_val)
                 fraction = 0.125 if row.get("market_class") == "alternate" else 0.25
-                stake = kelly_fraction(p, odds_val, fraction=fraction)
+                raw_kelly = kelly_fraction(p, odds_val, fraction=fraction)
+
+                prev_prob = row.get("prev_market_prob")
+                curr_prob = row.get("market_prob")
+                try:
+                    observed_move = float(curr_prob) - float(prev_prob)
+                except Exception:
+                    observed_move = 0.0
+
+                hours = row.get("hours_to_game")
+                strength = confirmation_strength(observed_move, hours)
+                adjusted_kelly = round(raw_kelly * (strength ** 1.5), 4)
             except Exception:
                 continue
 
@@ -1208,8 +1235,10 @@ def expand_snapshot_rows_with_kelly(
                     "book": book,
                     "market_odds": odds_val,
                     "ev_percent": round(ev, 2),
-                    "stake": stake,
-                    "full_stake": stake,
+                    "stake": adjusted_kelly,
+                    "full_stake": adjusted_kelly,
+                    "raw_kelly": raw_kelly,
+                    "adjusted_kelly": adjusted_kelly,
                     "_raw_sportsbook": per_book,
                     "consensus_books": per_book,
                 }

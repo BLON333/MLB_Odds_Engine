@@ -204,6 +204,7 @@ from core.market_pricer import (
     calculate_ev_from_prob,
     extract_best_book,
 )
+from core.confirmation_utils import confirmation_strength
 from core.snapshot_core import annotate_display_deltas
 from core.scaling_utils import blend_prob
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
@@ -703,7 +704,22 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
             try:
                 p = base_fields.get("blended_prob", base_fields.get("sim_prob", 0))
                 fraction = 0.125 if bet.get("market_class") == "alternate" else 0.25
-                stake = kelly_fraction(p, odds, fraction=fraction)
+                prior_snapshot_row = bet.get("_prior_snapshot")
+
+                raw_kelly = kelly_fraction(p, odds, fraction=fraction)
+
+                prev_prob = None
+                if prior_snapshot_row:
+                    prev_prob = prior_snapshot_row.get("market_prob") or prior_snapshot_row.get("consensus_prob")
+                curr_prob = bet.get("market_prob") or bet.get("consensus_prob")
+                try:
+                    observed_move = float(curr_prob) - float(prev_prob)
+                except Exception:
+                    observed_move = 0.0
+
+                hours = bet.get("hours_to_game")
+                strength = confirmation_strength(observed_move, hours)
+                stake = round(raw_kelly * (strength ** 1.5), 4)
                 ev = calculate_ev_from_prob(p, odds)
 
                 if base_fields["side"] == "St. Louis Cardinals":
@@ -714,7 +730,6 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
                     base_fields["market"],
                     base_fields["side"],
                 )
-                prior_snapshot_row = bet.get("_prior_snapshot")
 
                 # 🧪 Optional Debug
                 if VERBOSE and not prior_snapshot_row:
@@ -736,6 +751,8 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
                         "ev_percent": round(ev, 2),
                         "stake": stake,
                         "full_stake": stake,
+                        "raw_kelly": raw_kelly,
+                        "adjusted_kelly": stake,
                         "_prior_snapshot": prior_snapshot_row,
                         "_raw_sportsbook": raw_books,
                         "consensus_books": raw_books,
@@ -1495,6 +1512,8 @@ def write_to_csv(
         "blended_fv",
         "hours_to_game",
         "blend_weight_model",
+        "raw_kelly",
+        "adjusted_kelly",
         "stake",
         "entry_type",
         "segment",
@@ -1719,7 +1738,22 @@ def log_bets(
 
         ev_calc = calculate_ev_from_prob(p_blended, market_price)
         stake_fraction = 0.125 if price_source == "alternate" else 0.25
-        stake = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
+
+        tracker_key = build_tracker_key(game_id, matched_key.replace("alternate_", ""), side)
+        prior = MARKET_EVAL_TRACKER.get(tracker_key)
+
+        raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
+        prev_prob = None
+        if prior:
+            prev_prob = prior.get("market_prob") or prior.get("consensus_prob")
+        curr_prob = p_market
+        try:
+            observed_move = float(curr_prob) - float(prev_prob)
+        except Exception:
+            observed_move = 0.0
+
+        strength = confirmation_strength(observed_move, hours_to_game)
+        stake = round(raw_kelly * (strength ** 1.5), 4)
 
         print(
             f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
@@ -1752,6 +1786,8 @@ def log_bets(
             "hours_to_game": round(hours_to_game, 2),
             "blend_weight_model": round(w_model, 2),
             "stake": stake,
+            "raw_kelly": raw_kelly,
+            "adjusted_kelly": stake,
             "entry_type": "",
             "segment": segment,
             "segment_label": get_segment_label(matched_key, side_clean),
@@ -2038,7 +2074,22 @@ def log_derivative_bets(
                 blended_fair_odds = 1 / p_blended
                 ev_calc = calculate_ev_from_prob(p_blended, market_price)  # ✅ correct
                 stake_fraction = 0.125 if price_source == "alternate" else 0.25
-                stake = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
+
+                tracker_key = build_tracker_key(game_id, market_full.replace("alternate_", ""), side_clean)
+                prior = MARKET_EVAL_TRACKER.get(tracker_key)
+
+                raw_kelly = kelly_fraction(p_blended, market_price, fraction=stake_fraction)
+                prev_prob = None
+                if prior:
+                    prev_prob = prior.get("market_prob") or prior.get("consensus_prob")
+                curr_prob = p_market
+                try:
+                    observed_move = float(curr_prob) - float(prev_prob)
+                except Exception:
+                    observed_move = 0.0
+
+                strength = confirmation_strength(observed_move, hours_to_game)
+                stake = round(raw_kelly * (strength ** 1.5), 4)
 
                 print(
                     f"        🕒 Game in {hours_to_game:.2f}h → model weight: {w_model:.2f}"
@@ -2093,6 +2144,8 @@ def log_derivative_bets(
                     "hours_to_game": round(hours_to_game, 2),
                     "blend_weight_model": round(w_model, 2),
                     "stake": stake,  # Will be updated to delta after comparing `prev`
+                    "raw_kelly": raw_kelly,
+                    "adjusted_kelly": stake,
                     "entry_type": "",  # Set below based on `prev`
                     "segment": segment,
                     "segment_label": get_segment_label(market_full, side_clean),
