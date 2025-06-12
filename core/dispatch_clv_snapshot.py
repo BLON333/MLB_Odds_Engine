@@ -20,6 +20,10 @@ from utils import (
     canonical_game_id,
     normalize_line_label,
     normalize_to_abbreviation,
+    normalize_market_key,
+    normalize_label_for_odds,
+    get_market_entry_with_alternate_fallback,
+    convert_full_team_spread_to_odds_key,
     to_eastern,
     now_eastern,
     TEAM_NAME_TO_ABBR,
@@ -185,17 +189,25 @@ def parse_start_time(gid: str, odds_game: dict | None) -> datetime | None:
 
 
 def lookup_consensus_prob(odds_game: dict, market: str, side: str) -> float | None:
+    """Return consensus probability for the given market/side."""
     if not odds_game:
         return None
-    market_data = get_market_data_with_alternates(odds_game, market)
-    if not isinstance(market_data, dict):
-        return None
-    key = side if side in market_data else None
-    if key is None:
-        key, _ = find_matching_closing_odds(side, market, market_data)
-    entry = market_data.get(key) if key else None
+
+    mkey = normalize_market_key(market)
+    normalized_side = normalize_label_for_odds(side, mkey)
+
+    entry, _, _, _, _ = get_market_entry_with_alternate_fallback(
+        odds_game, mkey, normalized_side
+    )
+    if not isinstance(entry, dict):
+        alt = convert_full_team_spread_to_odds_key(normalized_side)
+        entry, _, _, _, _ = get_market_entry_with_alternate_fallback(
+            odds_game, mkey, alt
+        )
+
     if not isinstance(entry, dict):
         return None
+
     prob = entry.get("consensus_prob")
     if prob is None and entry.get("price") is not None:
         prob = american_to_prob(entry["price"])
