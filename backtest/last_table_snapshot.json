@@ -1,0 +1,746 @@
+{
+  "h2h:TOR": {
+    "fair_odds": -116.64,
+    "ev_percent": null
+  },
+  "h2h:PHI": {
+    "fair_odds": 116.64,
+    "ev_percent": null
+  },
+  "spreads:TOR -2.5": {
+    "fair_odds": 213.77,
+    "ev_percent": null
+  },
+  "spreads:TOR -1.5": {
+    "fair_odds": 140.04,
+    "ev_percent": null
+  },
+  "spreads:TOR -0.5": {
+    "fair_odds": -116.83,
+    "ev_percent": null
+  },
+  "spreads:TOR +0.5": {
+    "fair_odds": -116.83,
+    "ev_percent": null
+  },
+  "spreads:TOR +1.5": {
+    "fair_odds": -202.85,
+    "ev_percent": null
+  },
+  "spreads:TOR +2.5": {
+    "fair_odds": -317.19,
+    "ev_percent": null
+  },
+  "spreads:PHI -2.5": {
+    "fair_odds": 317.19,
+    "ev_percent": null
+  },
+  "spreads:PHI -1.5": {
+    "fair_odds": 202.85,
+    "ev_percent": null
+  },
+  "spreads:PHI -0.5": {
+    "fair_odds": 116.83,
+    "ev_percent": null
+  },
+  "spreads:PHI +0.5": {
+    "fair_odds": 116.83,
+    "ev_percent": null
+  },
+  "spreads:PHI +1.5": {
+    "fair_odds": -140.04,
+    "ev_percent": null
+  },
+  "spreads:PHI +2.5": {
+    "fair_odds": -213.77,
+    "ev_percent": null
+  },
+  "totals:Over 6.5": {
+    "fair_odds": -212.4,
+    "ev_percent": null
+  },
+  "totals:Under 6.5": {
+    "fair_odds": 212.4,
+    "ev_percent": null
+  },
+  "totals:Over 7.0": {
+    "fair_odds": -190.75,
+    "ev_percent": null
+  },
+  "totals:Under 7.0": {
+    "fair_odds": 190.75,
+    "ev_percent": null
+  },
+  "totals:Over 7.5": {
+    "fair_odds": -156.81,
+    "ev_percent": null
+  },
+  "totals:Under 7.5": {
+    "fair_odds": 156.81,
+    "ev_percent": null
+  },
+  "totals:Over 8.0": {
+    "fair_odds": -125.53,
+    "ev_percent": null
+  },
+  "totals:Under 8.0": {
+    "fair_odds": 125.53,
+    "ev_percent": null
+  },
+  "totals:Over 8.5": {
+    "fair_odds": 104.58,
+    "ev_percent": null
+  },
+  "totals:Under 8.5": {
+    "fair_odds": -104.58,
+    "ev_percent": null
+  },
+  "totals:Over 9.0": {
+    "fair_odds": 120.65,
+    "ev_percent": null
+  },
+  "totals:Under 9.0": {
+    "fair_odds": -120.65,
+    "ev_percent": null
+  },
+  "totals:Over 9.5": {
+    "fair_odds": 136.02,
+    "ev_percent": null
+  },
+  "totals:Under 9.5": {
+    "fair_odds": -136.02,
+    "ev_percent": null
+  },
+  "totals:Over 10.0": {
+    "fair_odds": 176.24,
+    "ev_percent": null
+  },
+  "totals:Under 10.0": {
+    "fair_odds": -176.24,
+    "ev_percent": null
+  },
+  "totals:Over 10.5": {
+    "fair_odds": 205.81,
+    "ev_percent": null
+  },
+  "totals:Under 10.5": {
+    "fair_odds": -205.81,
+    "ev_percent": null
+  },
+  "totals:Over 11.0": {
+    "fair_odds": 251.03,
+    "ev_percent": null
+  },
+  "totals:Under 11.0": {
+    "fair_odds": -251.03,
+    "ev_percent": null
+  },
+  "totals:Over 11.5": {
+    "fair_odds": 273.0,
+    "ev_percent": null
+  },
+  "totals:Under 11.5": {
+    "fair_odds": -273.0,
+    "ev_percent": null
+  },
+  "totals:Over 12.0": {
+    "fair_odds": 371.33,
+    "ev_percent": null
+  },
+  "totals:Under 12.0": {
+    "fair_odds": -371.33,
+    "ev_percent": null
+  },
+  "totals:Over 12.5": {
+    "fair_odds": 407.36,
+    "ev_percent": null
+  },
+  "totals:Under 12.5": {
+    "fair_odds": -407.36,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 1.5": {
+    "fair_odds": -574.76,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 1.5": {
+    "fair_odds": 574.76,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 1.5": {
+    "fair_odds": -725.76,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 1.5": {
+    "fair_odds": 725.76,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 2.5": {
+    "fair_odds": -271.2,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 2.5": {
+    "fair_odds": 271.2,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 2.5": {
+    "fair_odds": -336.3,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 2.5": {
+    "fair_odds": 336.3,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 3.5": {
+    "fair_odds": -147.89,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 3.5": {
+    "fair_odds": 147.89,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 3.5": {
+    "fair_odds": -183.69,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 3.5": {
+    "fair_odds": 183.69,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 4.5": {
+    "fair_odds": 116.64,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 4.5": {
+    "fair_odds": -116.64,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 4.5": {
+    "fair_odds": -108.16,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 4.5": {
+    "fair_odds": 108.16,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 5.5": {
+    "fair_odds": 199.94,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 5.5": {
+    "fair_odds": -199.94,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 5.5": {
+    "fair_odds": 149.63,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 5.5": {
+    "fair_odds": -149.63,
+    "ev_percent": null
+  },
+  "team_totals:PHI Over 6.5": {
+    "fair_odds": 323.19,
+    "ev_percent": null
+  },
+  "team_totals:PHI Under 6.5": {
+    "fair_odds": -323.19,
+    "ev_percent": null
+  },
+  "team_totals:TOR Over 6.5": {
+    "fair_odds": 368.82,
+    "ev_percent": null
+  },
+  "team_totals:TOR Under 6.5": {
+    "fair_odds": -368.82,
+    "ev_percent": null
+  },
+  "totals_1st_1_innings:Over 0.5": {
+    "fair_odds": -108.25,
+    "ev_percent": null
+  },
+  "totals_1st_1_innings:Under 0.5": {
+    "fair_odds": 108.25,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Over 2.5": {
+    "fair_odds": 125.48,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Under 2.5": {
+    "fair_odds": -125.48,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Over 3.5": {
+    "fair_odds": 216.06,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Under 3.5": {
+    "fair_odds": -216.06,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Over 4.5": {
+    "fair_odds": 360.83,
+    "ev_percent": null
+  },
+  "totals_1st_3_innings:Under 4.5": {
+    "fair_odds": -360.83,
+    "ev_percent": null
+  },
+  "h2h_1st_3_innings:PHI": {
+    "fair_odds": 159.07,
+    "ev_percent": null
+  },
+  "h2h_1st_3_innings:TOR": {
+    "fair_odds": 140.96,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI -0.5": {
+    "fair_odds": 158.8,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR +0.5": {
+    "fair_odds": -158.8,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR -0.5": {
+    "fair_odds": 141.2,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI +0.5": {
+    "fair_odds": -141.2,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI -1.5": {
+    "fair_odds": 556.6,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR +1.5": {
+    "fair_odds": -556.6,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR -1.5": {
+    "fair_odds": 477.03,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI +1.5": {
+    "fair_odds": -477.03,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI -2.5": {
+    "fair_odds": 1916.13,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR +2.5": {
+    "fair_odds": -1916.13,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:TOR -2.5": {
+    "fair_odds": 1555.63,
+    "ev_percent": null
+  },
+  "spreads_1st_3_innings:PHI +2.5": {
+    "fair_odds": -1555.63,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Over 0.5": {
+    "fair_odds": -189.27,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Under 0.5": {
+    "fair_odds": 189.27,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Over 0.5": {
+    "fair_odds": -202.85,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Under 0.5": {
+    "fair_odds": 202.85,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Over 1.5": {
+    "fair_odds": 130.1,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Under 1.5": {
+    "fair_odds": -130.1,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Over 1.5": {
+    "fair_odds": 118.1,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Under 1.5": {
+    "fair_odds": -118.1,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Over 2.5": {
+    "fair_odds": 259.84,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Under 2.5": {
+    "fair_odds": -259.84,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Over 2.5": {
+    "fair_odds": 239.44,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Under 2.5": {
+    "fair_odds": -239.44,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Over 3.5": {
+    "fair_odds": 499.16,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:PHI Under 3.5": {
+    "fair_odds": -499.16,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Over 3.5": {
+    "fair_odds": 440.25,
+    "ev_percent": null
+  },
+  "team_totals_1st_3_innings:TOR Under 3.5": {
+    "fair_odds": -440.25,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Over 3.5": {
+    "fair_odds": -155.17,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Under 3.5": {
+    "fair_odds": 155.17,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Over 4.5": {
+    "fair_odds": 105.17,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Under 4.5": {
+    "fair_odds": -105.17,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Over 5.5": {
+    "fair_odds": 251.0,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Under 5.5": {
+    "fair_odds": -251.0,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Over 6.5": {
+    "fair_odds": 383.33,
+    "ev_percent": null
+  },
+  "totals_1st_5_innings:Under 6.5": {
+    "fair_odds": -383.33,
+    "ev_percent": null
+  },
+  "h2h_1st_5_innings:PHI": {
+    "fair_odds": 140.96,
+    "ev_percent": null
+  },
+  "h2h_1st_5_innings:TOR": {
+    "fair_odds": 120.75,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI -0.5": {
+    "fair_odds": 141.02,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR +0.5": {
+    "fair_odds": -141.02,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR -0.5": {
+    "fair_odds": 120.65,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI +0.5": {
+    "fair_odds": -120.65,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI -1.5": {
+    "fair_odds": 389.24,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR +1.5": {
+    "fair_odds": -389.24,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR -1.5": {
+    "fair_odds": 309.33,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI +1.5": {
+    "fair_odds": -309.33,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI -2.5": {
+    "fair_odds": 1064.14,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR +2.5": {
+    "fair_odds": -1064.14,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:TOR -2.5": {
+    "fair_odds": 513.87,
+    "ev_percent": null
+  },
+  "spreads_1st_5_innings:PHI +2.5": {
+    "fair_odds": -513.87,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Over 1.5": {
+    "fair_odds": -180.35,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Under 1.5": {
+    "fair_odds": 180.35,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Over 1.5": {
+    "fair_odds": -206.65,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Under 1.5": {
+    "fair_odds": 206.65,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Over 2.5": {
+    "fair_odds": 109.69,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Under 2.5": {
+    "fair_odds": -109.69,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Over 2.5": {
+    "fair_odds": -102.8,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Under 2.5": {
+    "fair_odds": 102.8,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Over 3.5": {
+    "fair_odds": 203.58,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Under 3.5": {
+    "fair_odds": -203.58,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Over 3.5": {
+    "fair_odds": 177.55,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Under 3.5": {
+    "fair_odds": -177.55,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Over 4.5": {
+    "fair_odds": 363.61,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Under 4.5": {
+    "fair_odds": -363.61,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Over 4.5": {
+    "fair_odds": 312.37,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Under 4.5": {
+    "fair_odds": -312.37,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Over 5.5": {
+    "fair_odds": 644.05,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:PHI Under 5.5": {
+    "fair_odds": -644.05,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Over 5.5": {
+    "fair_odds": 522.28,
+    "ev_percent": null
+  },
+  "team_totals_1st_5_innings:TOR Under 5.5": {
+    "fair_odds": -522.28,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Over 5.5": {
+    "fair_odds": -141.49,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Under 5.5": {
+    "fair_odds": 141.49,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Over 6.5": {
+    "fair_odds": 105.85,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Under 6.5": {
+    "fair_odds": -105.85,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Over 7.5": {
+    "fair_odds": 155.3,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Under 7.5": {
+    "fair_odds": -155.3,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Over 8.5": {
+    "fair_odds": 231.35,
+    "ev_percent": null
+  },
+  "totals_1st_7_innings:Under 8.5": {
+    "fair_odds": -231.35,
+    "ev_percent": null
+  },
+  "h2h_1st_7_innings:PHI": {
+    "fair_odds": 138.1,
+    "ev_percent": null
+  },
+  "h2h_1st_7_innings:TOR": {
+    "fair_odds": 110.53,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI -0.5": {
+    "fair_odds": 137.81,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR +0.5": {
+    "fair_odds": -137.81,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR -0.5": {
+    "fair_odds": 110.48,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI +0.5": {
+    "fair_odds": -110.48,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI -1.5": {
+    "fair_odds": 321.41,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR +1.5": {
+    "fair_odds": -321.41,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR -1.5": {
+    "fair_odds": 261.66,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI +1.5": {
+    "fair_odds": -261.66,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI -2.5": {
+    "fair_odds": 498.8,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR +2.5": {
+    "fair_odds": -498.8,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:TOR -2.5": {
+    "fair_odds": 395.79,
+    "ev_percent": null
+  },
+  "spreads_1st_7_innings:PHI +2.5": {
+    "fair_odds": -395.79,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Over 2.5": {
+    "fair_odds": -164.97,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Under 2.5": {
+    "fair_odds": 164.97,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Over 2.5": {
+    "fair_odds": -183.77,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Under 2.5": {
+    "fair_odds": 183.77,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Over 3.5": {
+    "fair_odds": 112.04,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Under 3.5": {
+    "fair_odds": -112.04,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Over 3.5": {
+    "fair_odds": -101.82,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Under 3.5": {
+    "fair_odds": 101.82,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Over 4.5": {
+    "fair_odds": 191.97,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Under 4.5": {
+    "fair_odds": -191.97,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Over 4.5": {
+    "fair_odds": 164.9,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Under 4.5": {
+    "fair_odds": -164.9,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Over 5.5": {
+    "fair_odds": 324.99,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Under 5.5": {
+    "fair_odds": -324.99,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Over 5.5": {
+    "fair_odds": 267.11,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Under 5.5": {
+    "fair_odds": -267.11,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Over 6.5": {
+    "fair_odds": 520.73,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:PHI Under 6.5": {
+    "fair_odds": -520.73,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Over 6.5": {
+    "fair_odds": 433.62,
+    "ev_percent": null
+  },
+  "team_totals_1st_7_innings:TOR Under 6.5": {
+    "fair_odds": -433.62,
+    "ev_percent": null
+  }
+}
