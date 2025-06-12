@@ -7,6 +7,7 @@ from core.confirmation_utils import (
     required_market_move,
     confirmation_strength,
     print_threshold_table,
+    book_agreement_score,
 )
 
 
@@ -42,3 +43,31 @@ def test_print_threshold_table_output(capsys):
         units = threshold / 0.006
         expected = f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}".strip()
         assert out_lines[idx] == expected
+
+
+def test_book_agreement_score_positive():
+    data = {
+        "pinnacle": 0.01,
+        "betonlineag": 0.006,
+        "fanduel": 0.007,
+        "betmgm": -0.002,
+        "draftkings": 0.004,
+        "williamhill": 0.008,
+        "mybookieag": 0.001,
+    }
+    score = book_agreement_score(data)
+    assert score == pytest.approx(4 / 7, rel=1e-2)
+
+
+def test_book_agreement_score_negative():
+    data = {
+        "pinnacle": -0.01,
+        "betonlineag": -0.006,
+        "fanduel": 0.004,
+        "betmgm": -0.003,
+        "draftkings": 0.0,
+        "williamhill": -0.007,
+        "mybookieag": 0.002,
+    }
+    score = book_agreement_score(data)
+    assert score == pytest.approx(3 / 7, rel=1e-2)
