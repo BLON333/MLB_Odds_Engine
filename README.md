@@ -102,6 +102,7 @@ These tools help measure closing line value (CLV) for your logged bets.
 * **update_clv_column.py** – merges the saved closing odds back into
   `market_evals.csv`, calculating `clv_percent`, `model_clv_percent` and a
   `clv_class` label for quick filtering.
+* **backup_market_evals.py** – copies `logs/market_evals.csv` to `logs/backups/market_evals_YYYYMMDD.csv` for safekeeping.
 
 
 📈 Output Fields

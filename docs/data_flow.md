@@ -24,6 +24,7 @@ A simplified flow diagram:
 ## Expected Folders & Files
 
 - `logs/` – rolling CSV logs like `market_evals.csv` and `bet_history.csv`.
+- `logs/backups/` – timestamped backups created by `backup_market_evals.py`.
 - `backtest/sims/` – saved simulation results and `market_snapshot_*.json` files.
 - `data/trackers/` – JSON trackers such as `market_conf_tracker.json` for stateful processes.
 
