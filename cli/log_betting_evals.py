@@ -35,7 +35,7 @@ segment_skip_count = 0
 MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
 VERBOSE = False
-SHOW_SKIPPED = False
+SHOW_PENDING = False
 
 
 def log_segment_mismatch(sim_segment: str, book_segment: str) -> None:
@@ -2596,7 +2596,7 @@ def run_batch_logging(
                 queue_pending_bet(bet)
             except Exception:
                 pass
-        print(f"📁 Queued {len(summary_candidates)} skipped bets to pending_bets.json")
+        print(f"📁 Queued {len(summary_candidates)} pending bets to pending_bets.json")
 
 
 def process_theme_logged_bets(
@@ -2961,7 +2961,7 @@ if __name__ == "__main__":
     )
     p.add_argument("--output-dir", default="logs", help="Directory for summary image")
     p.add_argument(
-        "--show-skipped", action="store_true", help="Show skipped bet details"
+        "--show-pending", action="store_true", help="Show pending bet details"
     )
     p.add_argument("--verbose", action="store_true", help="Enable verbose output")
     p.add_argument(
@@ -2975,7 +2975,7 @@ if __name__ == "__main__":
         set_log_level("DEBUG")
 
     VERBOSE = args.verbose
-    SHOW_SKIPPED = args.show_skipped
+    SHOW_PENDING = args.show_pending
     force_log = args.force_log
 
     date_tag = os.path.basename(args.eval_folder)
