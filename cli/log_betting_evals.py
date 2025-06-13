@@ -1,5 +1,5 @@
 # === Path Setup ===
-from core.config import DEBUG_MODE, VERBOSE_MODE
+from core import config
 import os, sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -42,7 +42,7 @@ SHOW_PENDING = False
 
 def log_segment_mismatch(sim_segment: str, book_segment: str, debug: bool = False) -> None:
     """Print a segment mismatch message with truncation after a limit."""
-    debug = debug or DEBUG_MODE or VERBOSE_MODE
+    debug = debug or config.DEBUG_MODE or config.VERBOSE_MODE
     if not debug:
         return
 
@@ -1807,7 +1807,7 @@ def log_bets(
         # print statement below was previously used for every bet processed
         # but created noisy output during batch logging. It has been removed
         # in favor of an optional debug message controlled by ``VERBOSE_MODE``.
-        if VERBOSE_MODE:
+        if config.VERBOSE_MODE:
             print(
                 f"[DEBUG] Preparing to evaluate: game={game_id}, market={matched_key}, side={side_clean}"
             )
@@ -2162,7 +2162,7 @@ def log_derivative_bets(
 
                 # Removed noisy print that logged every bet. Use verbose mode
                 # for optional debug visibility when needed.
-                if VERBOSE_MODE:
+                if config.VERBOSE_MODE:
                     print(
                         f"[DEBUG] Preparing to evaluate: game={game_id}, market={matched_key}, side={side_clean}"
                     )
@@ -2821,7 +2821,7 @@ def process_theme_logged_bets(
                     print(
                         f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%, Stake {delta:.2f}u"
                     )
-                elif VERBOSE_MODE:
+                elif config.VERBOSE_MODE:
                     print(
                         f"⛔ Skipped {row['game_id']} {row['side']} — Reason: {skip_reason}"
                     )
@@ -2986,7 +2986,7 @@ if __name__ == "__main__":
         "--dry-run", action="store_true", help="Preview bets without writing to CSV"
     )
     p.add_argument(
-        "--debug", action="store_true", help="Enable deep inspection debug mode"
+        "--debug", action="store_true", help="Enable debug logging"
     )
     p.add_argument(
         "--image",
@@ -2997,7 +2997,7 @@ if __name__ == "__main__":
     p.add_argument(
         "--show-pending", action="store_true", help="Show pending bet details"
     )
-    p.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    p.add_argument("--verbose", action="store_true", help="Enable verbose logging")
     p.add_argument(
         "--force-log",
         action="store_true",
@@ -3012,6 +3012,11 @@ if __name__ == "__main__":
     VERBOSE = args.verbose
     SHOW_PENDING = args.show_pending
     force_log = args.force_log
+
+    config.DEBUG_MODE = args.debug
+    config.VERBOSE_MODE = args.verbose
+    if config.DEBUG_MODE:
+        print("🧪 DEBUG_MODE ENABLED — Verbose output activated")
 
     date_tag = os.path.basename(args.eval_folder)
 

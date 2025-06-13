@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from core.config import DEBUG_MODE, VERBOSE_MODE
+from core import config
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -54,6 +54,8 @@ def main() -> None:
         "--snapshot-path", default=None, help="Path to unified snapshot JSON"
     )
     parser.add_argument("--date", default=None, help="Filter by game date")
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
     parser.add_argument("--output-discord", action="store_true")
     parser.add_argument(
         "--min-ev",
@@ -68,6 +70,10 @@ def main() -> None:
         help="Maximum EV% allowed to dispatch",
     )
     args = parser.parse_args()
+    config.DEBUG_MODE = args.debug
+    config.VERBOSE_MODE = args.verbose
+    if config.DEBUG_MODE:
+        print("🧪 DEBUG_MODE ENABLED — Verbose output activated")
 
     # Clamp EV range to 5%-20%
     args.min_ev = max(5.0, args.min_ev)
