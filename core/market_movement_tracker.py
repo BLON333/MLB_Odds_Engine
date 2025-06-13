@@ -176,10 +176,17 @@ def track_and_update_market_movement(
         "prev_raw_sportsbook": prev_raw,
     }
 
+    changed_fields = []
+
     for field, val in tracker_entry.items():
         prev_val = prior.get(field)
         if prev_val is not None and val is not None and prev_val != val:
-            print(f"\U0001F501 {field} for {key} changed: {prev_val} → {val}")
+            if DEBUG_MODE:
+                print(f"\U0001F501 {field} for {key} changed: {prev_val} → {val}")
+            changed_fields.append(field)
+
+    if changed_fields and not DEBUG_MODE:
+        logger.info("🔁 %s updated fields: %s", key, ", ".join(changed_fields))
 
     tracker[key] = tracker_entry
 
