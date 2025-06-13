@@ -158,6 +158,7 @@ BASE_CSV_COLUMNS = [
     "blended_fv",
     "hours_to_game",
     "stake",
+    "cumulative_stake",
     "entry_type",
     "segment",
     "segment_label",
@@ -1006,7 +1007,7 @@ def calculate_market_fv(sim_prob, market_odds):
 def load_existing_stakes(log_path):
     """
     Reads existing market_evals.csv and returns a dict
-    keyed by (game_id, market, side) → stake
+    keyed by (game_id, market, side) → cumulative stake
     """
     existing = {}
     if not os.path.exists(log_path):
@@ -1019,8 +1020,8 @@ def load_existing_stakes(log_path):
                 gid = canonical_game_id(row["game_id"])
                 key = (gid, row["market"], row["side"])
                 stake_str = row.get("stake", "").strip()
-                stake = float(stake_str) if stake_str else 0.0
-                existing[key] = stake
+                delta = float(stake_str) if stake_str else 0.0
+                existing[key] = existing.get(key, 0.0) + delta
             except Exception as e:
                 print(f"⚠️ Error parsing row {row}: {e}")
     return existing
@@ -1422,6 +1423,7 @@ def write_to_csv(
     stake_to_log = delta
 
     row["stake"] = stake_to_log
+    row["cumulative_stake"] = prev + stake_to_log
     # Preserve the total intended exposure in full_stake
     row["full_stake"] = full_stake
     row["result"] = ""

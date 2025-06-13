@@ -1,4 +1,5 @@
 import os, sys, csv
+import pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from cli.log_betting_evals import write_to_csv
@@ -55,9 +56,11 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
 
     assert result is not None
     assert row["stake"] == 0.6
+    assert row["cumulative_stake"] == pytest.approx(1.6)
 
     with open(path) as f:
         rows = list(csv.DictReader(f))
 
     assert len(rows) == 1
     assert float(rows[0]["stake"]) == 0.6
+    assert float(rows[0]["cumulative_stake"]) == pytest.approx(1.6)

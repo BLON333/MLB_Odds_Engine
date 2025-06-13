@@ -4,7 +4,7 @@ from core.logger import get_logger
 
 logger = get_logger(__name__)
 
-EXPECTED_COLUMNS = 29
+EXPECTED_COLUMNS = 30
 INPUT_FILE = "market_evals.csv"
 OUTPUT_FILE = "market_evals_clean.csv"
 
