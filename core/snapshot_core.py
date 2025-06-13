@@ -49,6 +49,8 @@ from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 import copy
 
+from utils.book_helpers import ensure_consensus_books
+
 # Load tracker once for snapshot utilities and keep a frozen copy for comparisons
 MARKET_EVAL_TRACKER = load_tracker()
 MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
@@ -57,17 +59,6 @@ MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
 
-
-def ensure_consensus_books(row: Dict) -> None:
-    """Ensure ``row['consensus_books']`` is populated consistently."""
-
-    if "consensus_books" not in row or not row["consensus_books"]:
-        if isinstance(row.get("_raw_sportsbook"), dict) and row["_raw_sportsbook"]:
-            row["consensus_books"] = row["_raw_sportsbook"]
-        elif isinstance(row.get("best_book"), str) and isinstance(
-            row.get("market_odds"), (int, float)
-        ):
-            row["consensus_books"] = {row["best_book"]: row["market_odds"]}
 
 
 def should_log_movement() -> bool:

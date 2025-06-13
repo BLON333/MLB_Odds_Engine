@@ -7,9 +7,11 @@ import pandas as pd
 from core.dispatch_fv_drop_snapshot import (
     is_market_prob_increasing,
     filter_by_books,
+    filter_main_lines,
+)
+from utils.book_helpers import (
     parse_american_odds,
     filter_by_odds,
-    filter_main_lines,
 )
 
 

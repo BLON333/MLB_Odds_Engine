@@ -23,6 +23,7 @@ from dotenv import load_dotenv
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 from utils import canonical_game_id
+from utils.book_helpers import ensure_consensus_books
 import re
 
 load_dotenv()
@@ -1653,17 +1654,6 @@ def write_to_csv(
 
     return row
 
-
-def ensure_consensus_books(row):
-    """Populate ``row['consensus_books']`` with a clean book:odds mapping."""
-
-    if "consensus_books" not in row or not row["consensus_books"]:
-        if isinstance(row.get("_raw_sportsbook"), dict) and row["_raw_sportsbook"]:
-            row["consensus_books"] = row["_raw_sportsbook"]
-        elif isinstance(row.get("best_book"), str) and isinstance(
-            row.get("market_odds"), (int, float)
-        ):
-            row["consensus_books"] = {row["best_book"]: row["market_odds"]}
 
 
 def log_bets(

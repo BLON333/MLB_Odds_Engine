@@ -33,7 +33,7 @@ from utils import (
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
 from core.market_pricer import calculate_clv_and_fv
-from utils.snapshot_filters import filter_snapshot_rows
+from utils.book_helpers import filter_snapshot_rows
 
 try:
     import dataframe_image as dfi
