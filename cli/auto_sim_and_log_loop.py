@@ -80,7 +80,7 @@ def run_subprocess(cmd):
             encoding="utf-8",  # ✅ ensures emoji + UTF-8 output renders cleanly
             errors="replace",  # ✅ prevents crashes from odd characters
             check=True,
-            env=os.environ,
+            env={**os.environ, "PYTHONPATH": ROOT_DIR},
         )
 
         if proc.stdout:
@@ -114,7 +114,7 @@ def run_subprocess(cmd):
 
 def launch_process(name: str, cmd: list[str]) -> subprocess.Popen:
     """Launch a subprocess asynchronously and track it."""
-    proc = subprocess.Popen(cmd, cwd=ROOT_DIR, env=os.environ)
+    proc = subprocess.Popen(cmd, cwd=ROOT_DIR, env={**os.environ, "PYTHONPATH": ROOT_DIR})
     active_processes.append({"name": name, "proc": proc, "start": time.time()})
     logger.info("🚀 [%s] Started %s (PID %d)", now_eastern(), name, proc.pid)
     return proc
