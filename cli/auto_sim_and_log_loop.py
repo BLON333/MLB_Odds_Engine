@@ -276,7 +276,9 @@ def run_simulation():
         )
         cmd = [
             PYTHON,
-            os.path.join("cli", "full_slate_runner.py"),
+            "-m",
+            "cli.full_slate_runner",
+            "--date",
             date_str,
             "--export-folder=backtest/sims",
             f"--edge-threshold={EDGE_THRESHOLD}",
@@ -294,9 +296,6 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
     """Launch log_betting_evals.py for today and tomorrow using the provided odds snapshot."""
 
     today_str, tomorrow_str = get_date_strings()
-    default_script = os.path.join("cli", "log_betting_evals.py")
-    if not os.path.exists(default_script):
-        default_script = "log_betting_evals.py"
 
     for date_str in [today_str, tomorrow_str]:
         eval_folder = os.path.join(sim_dir, date_str)
@@ -312,8 +311,10 @@ def log_bets_with_snapshot_odds(odds_path: str, sim_dir: str = "backtest/sims"):
 
         cmd = [
             PYTHON,
-            default_script,
-            f"--eval-folder={eval_folder}",
+            "-m",
+            "cli.log_betting_evals",
+            "--eval-folder",
+            eval_folder,
             f"--odds-path={odds_path}",
             f"--min-ev={MIN_EV}",
             "--debug",
