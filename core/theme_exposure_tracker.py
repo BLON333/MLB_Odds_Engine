@@ -5,7 +5,8 @@ from typing import Dict, Tuple
 
 from core.file_utils import with_locked_file
 
-TRACKER_PATH = os.path.join('backtest', 'existing_theme_stakes.json')
+# Default location for persistent theme exposure tracking
+TRACKER_PATH = os.path.join('data', 'trackers', 'theme_exposure.json')
 
 
 def load_tracker(path: str = TRACKER_PATH) -> Dict[Tuple[str, str, str], float]:

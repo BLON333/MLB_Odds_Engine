@@ -9,7 +9,8 @@ from core.logger import get_logger
 from utils import canonical_game_id, parse_game_id
 from core.file_utils import is_file_older_than, with_locked_file
 
-TRACKER_PATH = os.path.join('backtest', 'market_eval_tracker.json')
+# Default location for persistent market evaluation tracking
+TRACKER_PATH = os.path.join('data', 'trackers', 'market_eval_tracker.json')
 
 logger = get_logger(__name__)
 
