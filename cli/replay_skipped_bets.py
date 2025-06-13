@@ -48,10 +48,15 @@ def load_skipped(path):
         except Exception as e:
             print(f"Failed to parse {path}: {e}")
             return []
-    if not isinstance(data, list):
-        print(f"Invalid format in {path}")
-        return []
-    return data
+
+    if isinstance(data, dict):
+        return list(data.values())
+
+    if isinstance(data, list):
+        return data
+
+    print(f"Warning: unexpected format in {path}; expected list or dict")
+    return []
 
 def load_existing_keys(csv_path):
     keys = set()
