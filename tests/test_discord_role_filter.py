@@ -47,8 +47,8 @@ def test_role_tagging_filters(monkeypatch):
         return Resp()
 
     monkeypatch.setattr(
-        "cli.log_betting_evals.get_discord_webhook_for_market",
-        lambda m: "http://example.com",
+        "cli.log_betting_evals.OFFICIAL_PLAYS_WEBHOOK_URL",
+        "http://example.com",
     )
     monkeypatch.setattr("cli.log_betting_evals.requests.post", fake_post)
 

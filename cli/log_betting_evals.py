@@ -963,12 +963,6 @@ def load_existing_stakes(log_path):
                 print(f"⚠️ Error parsing row {row}: {e}")
     return existing
 
-
-def get_discord_webhook_for_market(market: str) -> str:
-    """Return the Discord webhook URL for a given market type."""
-    return OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
-
-
 def get_market_class_emoji(segment_label: str) -> str:
     """Return an emoji representing the market class."""
     mapping = {
@@ -1196,12 +1190,12 @@ def build_discord_embed(row: dict) -> str:
 
 
 def send_discord_notification(row, skipped_bets=None):
+    """Send a bet alert to Discord."""
 
-    webhook_url = get_discord_webhook_for_market(row.get("market", ""))
+    # NOTE: All bet alerts route to master feed only — role-specific routing is handled by snapshots.
+    webhook_url = OFFICIAL_PLAYS_WEBHOOK_URL or DISCORD_WEBHOOK_URL
     if not webhook_url:
-        print(
-            f"⚠️ No Discord webhook configured for market {row.get('market', '')}. Notification skipped."
-        )
+        print("⚠️ No Discord webhook configured. Notification skipped.")
         if skipped_bets is not None and should_include_in_summary(row):
             row["skip_reason"] = "no_webhook"
             ensure_consensus_books(row)
