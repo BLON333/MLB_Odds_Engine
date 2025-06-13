@@ -67,6 +67,8 @@ python cli/run_distribution_simulator.py 2025-04-04-TEX@HOU
 
 Simulate and price entire slate:
 python cli/full_slate_runner.py 2025-04-04 --csv
+# Use --safe to skip corrupt game data
+python cli/full_slate_runner.py 2025-04-04 --safe
 
 Track closing line value:
 python cli/closing_odds_monitor.py

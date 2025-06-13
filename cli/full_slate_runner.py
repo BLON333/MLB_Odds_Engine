@@ -41,6 +41,7 @@ Options:
   --line=FLOAT             Total line override (default: {DEFAULT_LINE})
   --days-ahead=INT         Look ahead days when listing games (default: 1)
   --export-folder=PATH     Override JSON export root folder
+  --safe                   Skip games that fail to simulate instead of exiting
   --help                   Show this help message and exit
 
 Examples:
@@ -65,6 +66,7 @@ def parse_args():
     line = DEFAULT_LINE
     days_ahead = 1
     export_folder = None
+    safe_mode = False
 
     for arg in args:
         if arg == "--debug":
@@ -88,19 +90,39 @@ def parse_args():
                 pass
         elif arg.startswith("--export-folder="):
             export_folder = arg.split("=", 1)[1]
+        elif arg == "--safe":
+            safe_mode = True
         else:
             date_arg = arg
 
     if not date_arg:
         date_arg = date.today().strftime("%Y-%m-%d")
 
-    return date_arg, debug, no_weather, edge_threshold, line, days_ahead, export_folder
+    return (
+        date_arg,
+        debug,
+        no_weather,
+        edge_threshold,
+        line,
+        days_ahead,
+        export_folder,
+        safe_mode,
+    )
 
 # ----------------------------
 # Full Slate Distribution Runner
 # ----------------------------
 def main():
-    date_str, debug, no_weather, edge_threshold, line, days_ahead, export_folder = parse_args()
+    (
+        date_str,
+        debug,
+        no_weather,
+        edge_threshold,
+        line,
+        days_ahead,
+        export_folder,
+        safe_mode,
+    ) = parse_args()
     logger.info("\n📅 Running full slate distribution for %s...\n", date_str)
 
     # Fetch all games for the specified window
@@ -134,12 +156,16 @@ def main():
                 no_weather=no_weather,
                 edge_threshold=edge_threshold,
                 export_json=export_json,
-                n_simulations=10000
+                n_simulations=10000,
             )
             if export_json and debug:
                 logger.debug("💾 Exported simulation JSON to %s", export_json)
         except Exception as e:
-            logger.error("[ERROR] Simulation failed for %s (orig %s): %s", canonical_id, gid, e)
+            logger.warning(
+                "Failed to simulate game %s: %s", canonical_id, str(e)
+            )
+            if not safe_mode:
+                sys.exit(1)
 
     # Summary
     logger.info("\n✅ Simulated %s games for %s.", len(game_ids), date_str)
