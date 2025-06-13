@@ -1535,6 +1535,23 @@ def write_to_csv(
         if "blend_weight_model" in row:
             del row["blend_weight_model"]
 
+        # Remove transient keys not meant for CSV output
+        for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
+            row.pop(k, None)
+
+        # Validate row fields before writing
+        unexpected_keys = set(row.keys()) - set(fieldnames)
+        if unexpected_keys:
+            raise ValueError(
+                f"[CSV Logger] Row contains unexpected keys: {unexpected_keys}"
+            )
+
+        missing_keys = set(fieldnames) - set(row.keys())
+        if missing_keys:
+            raise ValueError(
+                f"[CSV Logger] Row is missing required keys: {missing_keys}"
+            )
+
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
         print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
