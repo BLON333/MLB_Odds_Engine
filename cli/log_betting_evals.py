@@ -35,6 +35,7 @@ segment_skip_count = 0
 MOVEMENT_LOG_LIMIT = 5
 movement_log_count = 0
 VERBOSE = False
+DEBUG = False
 SHOW_PENDING = False
 
 
@@ -52,6 +53,8 @@ def log_segment_mismatch(sim_segment: str, book_segment: str) -> None:
 
 def should_log_movement() -> bool:
     """Return True if movement details should be printed."""
+    if not DEBUG:
+        return False
     global movement_log_count
     movement_log_count += 1
     if movement_log_count <= MOVEMENT_LOG_LIMIT:
@@ -1402,26 +1405,27 @@ def write_to_csv(
     movement = detect_market_movement(row, prior_snapshot)
     row["_movement"] = movement  # store for Discord/export/debug
 
-    # 🔍 Snapshot Debug Metadata
-    print(f"\n🔎 Movement Debug for {tracker_key}:")
-    print(f"    • Simulated EV           : {row.get('ev_percent')}%")
-    print(f"    • Market Prob (New)      : {row.get('market_prob')}")
-    print(
-        f"    • Market Prob (Prior)    : {prior_snapshot.get('market_prob') if prior_snapshot else 'None'}"
-    )
-    print(f"    • Movement               : {movement.get('mkt_movement')}")
-
-    if isinstance(MARKET_EVAL_TRACKER_BEFORE_UPDATE, dict):
+    if DEBUG:
+        # 🔍 Snapshot Debug Metadata
+        print(f"\n🔎 Movement Debug for {tracker_key}:")
+        print(f"    • Simulated EV           : {row.get('ev_percent')}%")
+        print(f"    • Market Prob (New)      : {row.get('market_prob')}")
         print(
-            f"    • Tracker Source         : Snapshot-Based Tracker (Length: {len(MARKET_EVAL_TRACKER_BEFORE_UPDATE)})"
+            f"    • Market Prob (Prior)    : {prior_snapshot.get('market_prob') if prior_snapshot else 'None'}"
         )
-    else:
-        print(f"    • Tracker Source         : Unknown")
+        print(f"    • Movement               : {movement.get('mkt_movement')}")
 
-    try:
-        print(f"    • Snapshot File Used     : {SNAPSHOT_PATH_USED}")
-    except NameError:
-        print(f"    • Snapshot File Used     : Not available in this scope")
+        if isinstance(MARKET_EVAL_TRACKER_BEFORE_UPDATE, dict):
+            print(
+                f"    • Tracker Source         : Snapshot-Based Tracker (Length: {len(MARKET_EVAL_TRACKER_BEFORE_UPDATE)})"
+            )
+        else:
+            print(f"    • Tracker Source         : Unknown")
+
+        try:
+            print(f"    • Snapshot File Used     : {SNAPSHOT_PATH_USED}")
+        except NameError:
+            print(f"    • Snapshot File Used     : Not available in this scope")
 
     prior_prob = prior_snapshot.get("market_prob") if prior_snapshot else None
     # ✅ Normalize market_prob from consensus_prob if not already present
@@ -1549,7 +1553,7 @@ def write_to_csv(
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
         print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
-        if blend_weight is not None:
+        if DEBUG and blend_weight is not None:
             print(f"🔢 Blend Weight (Model): {blend_weight:.2f}")
 
         # Update market confirmation tracker on successful log
@@ -1696,7 +1700,7 @@ def log_bets(
 
         market_entry, best_book, matched_key, segment, price_source = (
             get_market_entry_with_alternate_fallback(
-                market_odds, market_key, lookup_side, debug=True
+                market_odds, market_key, lookup_side, debug=DEBUG
             )
         )
         if not assert_segment_match(market_key, matched_key):
@@ -1990,7 +1994,7 @@ def log_derivative_bets(
                     # 🔍 Match using updated fallback (primary + alternate + normalized side)
                     market_entry, best_book, matched_key, segment, price_source = (
                         get_market_entry_with_alternate_fallback(
-                            market_odds, market_key, lookup_side, debug=True
+                            market_odds, market_key, lookup_side, debug=DEBUG
                         )
                     )
 
@@ -2185,8 +2189,9 @@ def log_derivative_bets(
                 else:
                     row["consensus_books"] = {best_book_str: market_price}
 
-                print(f"📦 Books stored in row: {book_prices}")
-                print(f"🏦 Best Book Selected: {row['best_book']}")
+                if DEBUG:
+                    print(f"📦 Books stored in row: {book_prices}")
+                    print(f"🏦 Best Book Selected: {row['best_book']}")
                 # 📝 Track every evaluated bet before applying stake/EV filters
                 tracker_key = build_tracker_key(
                     row["game_id"], row["market"], row["side"]
@@ -2479,10 +2484,11 @@ def run_batch_logging(
         if not current_best or row["ev_percent"] >= current_best["ev_percent"]:
             bets[segment] = row.copy()
         else:
-            print(
-                f"🧹 Skipped in cache — {market} | {row['side']} | "
-                f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
-            )
+            if DEBUG:
+                print(
+                    f"🧹 Skipped in cache — {market} | {row['side']} | "
+                    f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
+                )
 
     existing_theme_stakes = load_theme_stakes()
 
@@ -2973,6 +2979,7 @@ if __name__ == "__main__":
 
     if args.debug:
         set_log_level("DEBUG")
+    DEBUG = args.debug
 
     VERBOSE = args.verbose
     SHOW_PENDING = args.show_pending
