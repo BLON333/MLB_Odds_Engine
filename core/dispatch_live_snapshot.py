@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
+from utils.snapshot_filters import filter_snapshot_rows
 from core.logger import get_logger
 
 logger = get_logger(__name__)
@@ -83,17 +84,8 @@ def main() -> None:
     rows = [r for r in rows if "live" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
 
-    rows = [
-        r
-        for r in rows
-        if args.min_ev <= r.get("ev_percent", 0) <= args.max_ev
-    ]
-    logger.info(
-        "🧪 Dispatch filter: %d rows with %.1f ≤ EV%% ≤ %.1f",
-        len(rows),
-        args.min_ev,
-        args.max_ev,
-    )
+    rows = filter_snapshot_rows(rows, min_ev=args.min_ev)
+    logger.info("🧪 Dispatch filter: %d rows (min EV %.1f%%)", len(rows), args.min_ev)
 
     df = format_for_display(rows, include_movement=True)
     if "sim_prob_display" in df.columns:
