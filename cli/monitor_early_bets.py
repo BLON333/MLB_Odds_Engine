@@ -3,8 +3,7 @@ import sys
 import time
 from collections import defaultdict
 from datetime import datetime
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core.bootstrap import *  # noqa
 
 from utils import (
     parse_game_id,

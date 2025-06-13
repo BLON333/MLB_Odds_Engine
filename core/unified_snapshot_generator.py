@@ -14,9 +14,7 @@ import json
 import argparse
 import shutil
 from datetime import timedelta
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "cli")))
+from core.bootstrap import *  # noqa
 
 from utils import now_eastern, safe_load_json, lookup_fallback_odds
 from core.logger import get_logger
