@@ -77,7 +77,8 @@ def test_top_up_skips_movement_check(monkeypatch, tmp_path):
 
 def test_send_discord_notification_no_webhook(monkeypatch):
     row = _base_row()
-    monkeypatch.setattr("cli.log_betting_evals.get_discord_webhook_for_market", lambda m: "")
+    monkeypatch.setattr("cli.log_betting_evals.OFFICIAL_PLAYS_WEBHOOK_URL", "")
+    monkeypatch.setattr("cli.log_betting_evals.DISCORD_WEBHOOK_URL", "")
     skipped = []
     send_discord_notification(row, skipped)
     assert row["skip_reason"] == "no_webhook"
