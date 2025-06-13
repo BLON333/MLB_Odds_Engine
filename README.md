@@ -31,7 +31,7 @@ This project is a modular, data-driven Monte Carlo simulation engine for modelin
 | `stats_loader.py` | Loads and enriches player projections |
 | `summary_formatter.py` | Generates human-readable betting summaries |
 | `cli/run_distribution_simulator.py` | PMF + distribution simulation for totals |
-| `cli/run_full_slate_entry.py` | Simulates all games on a slate/date |
+| `cli/full_slate_runner.py` | Simulates all games on a slate/date |
 | `noaa_weather.py` | Alternative NOAA wind/temperature fetcher |
 | `lineup_scraper_selenium.py` | Scrapes FantasyData lineups using Selenium |
 | `probable_pitchers.py` | Pulls MLB probable starters from StatsAPI |
@@ -72,7 +72,7 @@ Simulate full distribution (PMF) of total runs:
 python cli/run_distribution_simulator.py 2025-04-04-TEX@HOU
 
 Simulate and price entire slate:
-python cli/run_full_slate_entry.py 2025-04-04 --csv
+python cli/full_slate_runner.py 2025-04-04 --csv
 
 Track closing line value:
 python cli/closing_odds_monitor.py
