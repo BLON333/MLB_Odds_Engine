@@ -1526,8 +1526,8 @@ def write_to_csv(
         if isinstance(row.get("books_used"), dict):
             row["books_used"] = json.dumps(row["books_used"])
 
-        if "blend_weight_model" in row:
-            del row["blend_weight_model"]
+        blend_weight = row.get("blend_weight_model")
+        row.pop("blend_weight_model", None)
 
         # Remove transient keys not meant for CSV output
         for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
@@ -1549,6 +1549,8 @@ def write_to_csv(
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
         print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
+        if blend_weight is not None:
+            print(f"🔢 Blend Weight (Model): {blend_weight:.2f}")
 
         # Update market confirmation tracker on successful log
         MARKET_CONF_TRACKER[tracker_key] = {
