@@ -131,6 +131,41 @@ from datetime import datetime
 # Load market confirmation tracker
 MARKET_CONF_TRACKER = load_market_conf_tracker()
 
+# Base schema for market_evals.csv. Additional columns may be appended
+# later (e.g. by update_clv_column.py). When writing to an existing CSV
+# we read its header to determine the active schema.
+BASE_CSV_COLUMNS = [
+    "Date",
+    "Time",
+    "Start Time (ISO)",
+    "Matchup",
+    "game_id",
+    "market",
+    "market_class",
+    "side",
+    "lookup_side",
+    "sim_prob",
+    "fair_odds",
+    "market_prob",
+    "market_fv",
+    "consensus_prob",
+    "pricing_method",
+    "books_used",
+    "model_edge",
+    "market_odds",
+    "ev_percent",
+    "blended_prob",
+    "blended_fv",
+    "hours_to_game",
+    "stake",
+    "entry_type",
+    "segment",
+    "segment_label",
+    "best_book",
+    "date_simulated",
+    "result",
+]
+
 
 def latest_snapshot_path(folder="backtest"):
     """Return the most recent snapshot file from the given folder."""
@@ -1512,40 +1547,19 @@ def write_to_csv(
     # Clean up non-persistent keys
     row.pop("consensus_books", None)
 
-    fieldnames = [
-        "Date",
-        "Time",
-        "Start Time (ISO)",
-        "Matchup",
-        "game_id",
-        "market",
-        "market_class",
-        "side",
-        "lookup_side",
-        "sim_prob",
-        "fair_odds",
-        "market_prob",
-        "market_fv",
-        "consensus_prob",
-        "pricing_method",
-        "books_used",
-        "model_edge",
-        "market_odds",
-        "ev_percent",
-        "blended_prob",
-        "blended_fv",
-        "hours_to_game",
-        "stake",
-        "entry_type",
-        "segment",
-        "segment_label",
-        "best_book",
-        "date_simulated",
-        "result",
-    ]
-
     is_new = not os.path.exists(path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    if not is_new:
+        with open(path, "r", newline="") as existing_file:
+            reader = csv.DictReader(existing_file)
+            fieldnames = reader.fieldnames or BASE_CSV_COLUMNS
+        if not set(BASE_CSV_COLUMNS).issubset(set(fieldnames)):
+            raise ValueError(
+                "[CSV Logger] Existing CSV missing required columns"
+            )
+    else:
+        fieldnames = BASE_CSV_COLUMNS
 
     with open(path, "a", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -1563,20 +1577,14 @@ def write_to_csv(
         for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
             row.pop(k, None)
 
-        # Validate row fields before writing
-        unexpected_keys = set(row.keys()) - set(fieldnames)
-        if unexpected_keys:
+        # Ensure required columns present in the row
+        missing_required = [c for c in BASE_CSV_COLUMNS if c not in row]
+        if missing_required:
             raise ValueError(
-                f"[CSV Logger] Row contains unexpected keys: {unexpected_keys}"
+                f"[CSV Logger] Row is missing required keys: {missing_required}"
             )
 
-        missing_keys = set(fieldnames) - set(row.keys())
-        if missing_keys:
-            raise ValueError(
-                f"[CSV Logger] Row is missing required keys: {missing_keys}"
-            )
-
-        row_to_write = {k: v for k, v in row.items() if k in fieldnames}
+        row_to_write = {k: row.get(k, "") for k in fieldnames}
         writer.writerow(row_to_write)
         if config.VERBOSE_MODE:
             print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
