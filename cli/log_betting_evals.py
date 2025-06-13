@@ -1511,7 +1511,6 @@ def write_to_csv(
         "blended_prob",
         "blended_fv",
         "hours_to_game",
-        "blend_weight_model",
         "raw_kelly",
         "adjusted_kelly",
         "stake",
@@ -1534,6 +1533,9 @@ def write_to_csv(
         # ✅ Serialize books_used dict safely
         if isinstance(row.get("books_used"), dict):
             row["books_used"] = json.dumps(row["books_used"])
+
+        if "blend_weight_model" in row:
+            del row["blend_weight_model"]
 
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
