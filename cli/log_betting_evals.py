@@ -40,8 +40,12 @@ DEBUG = False
 SHOW_PENDING = False
 
 
-def log_segment_mismatch(sim_segment: str, book_segment: str) -> None:
+def log_segment_mismatch(sim_segment: str, book_segment: str, debug: bool = False) -> None:
     """Print a segment mismatch message with truncation after a limit."""
+    debug = debug or DEBUG_MODE or VERBOSE_MODE
+    if not debug:
+        return
+
     global segment_skip_count
     segment_skip_count += 1
     if segment_skip_count <= SEGMENT_SKIP_LIMIT:

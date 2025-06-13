@@ -10,6 +10,8 @@ from core.game_id_utils import (
     fuzzy_match_game_id,
 )
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
+
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
 # Timezone helpers
@@ -238,37 +240,29 @@ def get_normalized_lookup_side(label: str, market_key: str) -> str:
     return clean
 
 
-def assert_segment_match(sim_market_key: str, matched_market_key: str) -> bool:
+def assert_segment_match(sim_market_key: str, matched_market_key: str, debug: bool = False) -> bool:
     """
     Confirms that both simulation and matched market are from the same segment.
     Raises warning or returns False if mismatched.
     """
     from utils import classify_market_segment
 
+    debug = debug or DEBUG_MODE or VERBOSE_MODE
+
     sim_segment = classify_market_segment(sim_market_key)
     book_segment = classify_market_segment(matched_market_key)
 
     if sim_segment != book_segment:
-        from core.logger import get_logger
-        logger = get_logger(__name__)
-        logger.debug(
-            "❌ [SEGMENT MISMATCH] Sim: %s (%s) ≠ Book: %s (%s)",
-            sim_segment,
-            sim_market_key,
-            book_segment,
-            matched_market_key,
-        )
+        if debug:
+            print(
+                f"❌ [SEGMENT MISMATCH] Sim: {sim_segment} ({sim_market_key}) ≠ Book: {book_segment} ({matched_market_key})"
+            )
         return False
 
-    from core.logger import get_logger
-    logger = get_logger(__name__)
-    logger.debug(
-        "✅ Segment match: %s (%s) == %s (%s)",
-        sim_segment,
-        sim_market_key,
-        book_segment,
-        matched_market_key,
-    )
+    if debug:
+        print(
+            f"✅ Segment match: {sim_segment} ({sim_market_key}) == {book_segment} ({matched_market_key})"
+        )
     return True
 
 
@@ -844,22 +838,19 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
     are searched to avoid mismatches.
     """
 
-    from core.logger import get_logger
-    logger = get_logger(__name__)
-
-    def log(msg: str) -> None:
-        if debug:
-            logger.debug(msg)
+    debug = debug or DEBUG_MODE
 
     if not isinstance(market_odds, dict):
-        log(f"[MATCHER] invalid market_odds type: {type(market_odds)}")
+        if debug:
+            print(f"[MATCHER] invalid market_odds type: {type(market_odds)}")
         return None, "unknown", "❌", "❌", "❌"
 
     normalized = lookup_side.strip()
     segment = classify_market_segment(market_key)
 
-    log(f"\n🧠 [MATCHER] Lookup {market_key} | side: {lookup_side} → {normalized}")
-    log(f"   • Segment      : {segment}")
+    if debug:
+        print(f"\n🧠 [MATCHER] Lookup {market_key} | side: {lookup_side} → {normalized}")
+        print(f"   • Segment      : {segment}")
 
     suffix = extract_segment_suffix(market_key)
     prefix = market_key.split("_")[0]
@@ -879,7 +870,8 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
             source_type = "alternate" if key.startswith("alternate_") else "mainline"
             source_map = market_odds.get(f"{key}_source", {})
             source_tag = source_map.get(normalized, source_type)
-            log(f"✅ Found '{normalized}' in {key}")
+            if debug:
+                print(f"✅ Found '{normalized}' in {key}")
             return (
                 block[normalized],
                 source_tag,
@@ -893,8 +885,9 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
         for key in search_keys
         if isinstance(market_odds.get(key, {}), dict)
     }
-    log(f"❌ No match for '{normalized}' in: {search_keys}")
-    log(f"   ↳ Available keys: {available_map}")
+    if debug:
+        print(f"❌ No match for '{normalized}' in: {search_keys}")
+        print(f"   ↳ Available keys: {available_map}")
     return None, "unknown", "❌", "❌", "❌"
 
 
