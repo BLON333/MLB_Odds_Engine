@@ -2593,12 +2593,14 @@ def run_batch_logging(
     )
 
     if summary_candidates:
-        os.makedirs("logs", exist_ok=True)
-        with open("logs/skipped_bets.json", "w") as f:
-            json.dump(summary_candidates, f, indent=2)
-        print(
-            f"📁 Saved {len(summary_candidates)} summary candidates to logs/skipped_bets.json"
-        )
+        from core.pending_bets import queue_pending_bet
+
+        for bet in summary_candidates:
+            try:
+                queue_pending_bet(bet)
+            except Exception:
+                pass
+        print(f"📁 Queued {len(summary_candidates)} skipped bets to pending_bets.json")
 
 
 def process_theme_logged_bets(
