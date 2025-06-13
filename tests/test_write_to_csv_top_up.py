@@ -46,7 +46,9 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
 
     existing = {(row["game_id"], row["market"], row["side"]): 1.0}
 
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
+    monkeypatch.setattr(
+        "utils.logging_allowed_now", lambda now=None, **_: True
+    )
 
     path = tmp_path / "log.csv"
     result = write_to_csv(row, path, existing, {}, {}, dry_run=False, force_log=False)
