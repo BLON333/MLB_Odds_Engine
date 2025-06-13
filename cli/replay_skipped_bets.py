@@ -28,7 +28,6 @@ FIELDNAMES = [
     "blended_prob",
     "blended_fv",
     "hours_to_game",
-    "blend_weight_model",
     "stake",
     "entry_type",
     "segment",
