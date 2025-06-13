@@ -1,4 +1,5 @@
-from core.config import DEBUG_MODE, VERBOSE_MODE
+from core import config
+import argparse
 import sys
 import os
 
@@ -20,6 +21,18 @@ load_dotenv()
 from core.logger import get_logger
 
 logger = get_logger(__name__)
+
+parser = argparse.ArgumentParser("Auto sim loop")
+parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+parser.add_argument(
+    "--verbose", action="store_true", help="Enable verbose logging"
+)
+args = parser.parse_args()
+
+config.DEBUG_MODE = args.debug
+config.VERBOSE_MODE = args.verbose
+if config.DEBUG_MODE:
+    print("🧪 DEBUG_MODE ENABLED — Verbose output activated")
 
 import time
 import subprocess
