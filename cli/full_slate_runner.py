@@ -5,21 +5,15 @@ import os
 import json
 import re
 from datetime import date
+from core.bootstrap import *  # noqa
 
-import sys
-if sys.version_info >= (3, 7):
-    import os
-    os.environ["PYTHONIOENCODING"] = "utf-8"
-
-# Add project root to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.logger import get_logger
 logger = get_logger(__name__)
 
 # === Core Modules ===
 from assets.probable_pitchers import fetch_probable_pitchers
-from run_distribution_simulator import simulate_distribution
+from cli.run_distribution_simulator import simulate_distribution
 from utils import canonical_game_id
 
 

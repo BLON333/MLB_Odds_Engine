@@ -5,10 +5,7 @@ from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
 import argparse
-
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if ROOT_DIR not in sys.path:
-    sys.path.append(ROOT_DIR)
+from core.bootstrap import *  # noqa
 
 from utils import safe_load_json
 

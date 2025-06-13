@@ -13,8 +13,7 @@ from datetime import datetime
 import pandas as pd
 import requests
 from dotenv import load_dotenv
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core.bootstrap import *  # noqa
 
 from utils import (
     parse_game_id,

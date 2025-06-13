@@ -2,7 +2,7 @@
 from core import config
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core.bootstrap import *  # noqa
 
 """Dispatch best-book snapshot from unified snapshot JSON."""
 

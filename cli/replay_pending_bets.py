@@ -4,6 +4,7 @@ import csv
 import json
 import os
 from datetime import datetime
+from core.bootstrap import *  # noqa
 
 from utils import canonical_game_id, parse_game_id
 

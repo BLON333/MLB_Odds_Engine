@@ -2,7 +2,7 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core.bootstrap import *  # noqa
 
 """Dispatch personal-book snapshot from unified snapshot JSON."""
 

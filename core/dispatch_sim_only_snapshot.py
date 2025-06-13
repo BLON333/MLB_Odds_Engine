@@ -8,8 +8,7 @@ import json
 import io
 from typing import List
 import argparse
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core.bootstrap import *  # noqa
 
 from dotenv import load_dotenv
 import pandas as pd

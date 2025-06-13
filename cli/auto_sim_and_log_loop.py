@@ -2,23 +2,15 @@ from core import config
 import argparse
 import sys
 import os
+from dotenv import load_dotenv
+from core.logger import get_logger
 
-import sys
+from core.bootstrap import *  # noqa
 
-if sys.version_info >= (3, 7):
-    import os
-
-    os.environ["PYTHONIOENCODING"] = "utf-8"
-
-# Ensure project root is on the path regardless of where this script is invoked
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(ROOT_DIR)
 PYTHON = sys.executable
 
-from dotenv import load_dotenv
-
 load_dotenv()
-from core.logger import get_logger
 
 logger = get_logger(__name__)
 
