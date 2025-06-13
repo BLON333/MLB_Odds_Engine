@@ -32,6 +32,7 @@ from utils import (
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
 from core.market_pricer import calculate_clv_and_fv
+from utils.snapshot_filters import filter_snapshot_rows
 
 try:
     import dataframe_image as dfi
@@ -390,6 +391,7 @@ def main() -> None:
     odds_data = load_odds(odds_path)
 
     rows = build_snapshot_rows(csv_rows, odds_data, verbose=args.verbose)
+    rows = filter_snapshot_rows(rows)
     if not rows:
         logger.info("⚠️ No qualifying open bets found.")
         return
