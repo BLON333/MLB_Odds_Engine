@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Print a summary of pending bets."""
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
 import argparse

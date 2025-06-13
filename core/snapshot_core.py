@@ -1,4 +1,5 @@
 # Shared snapshot utilities for generator scripts
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import json
 from datetime import datetime

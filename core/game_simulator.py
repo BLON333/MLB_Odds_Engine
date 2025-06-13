@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.half_inning_simulator import simulate_half_inning
 from assets.bullpen_utils import simulate_reliever_chain
 from core.logger import get_logger

@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import logging
 import os
 

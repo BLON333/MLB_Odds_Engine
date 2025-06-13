@@ -1,4 +1,5 @@
 # fatigue_modeling.py
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.logger import get_logger
 
 logger = get_logger(__name__)

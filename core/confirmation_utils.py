@@ -1,6 +1,7 @@
 """Utilities for confirming market signals."""
 
 from __future__ import annotations
+from core.config import DEBUG_MODE, VERBOSE_MODE
 
 __all__ = [
     "required_market_move",

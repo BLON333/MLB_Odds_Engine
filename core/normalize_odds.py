@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.market_pricer import implied_prob, to_american_odds, best_price
 from utils import (
     normalize_label,

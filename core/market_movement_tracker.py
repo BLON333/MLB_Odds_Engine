@@ -1,5 +1,6 @@
 """Utility for detecting line movement between snapshots."""
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from typing import Dict, Optional
 
 # Use the canonical game_id when tracking market movement to ensure

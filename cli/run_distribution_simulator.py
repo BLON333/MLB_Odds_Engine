@@ -4,6 +4,7 @@
 # provides CLI with --debug, --no-weather, --edge-threshold, --export-json, and --list
 # Source base: run_distribution_simulator.py citeturn0file0
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import re
 import sys
 import os

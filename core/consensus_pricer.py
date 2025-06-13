@@ -1,5 +1,6 @@
 # consensus_pricer.py (final patch — paired_key fix for spreads)
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.market_pricer import implied_prob, to_american_odds
 from utils import (
     normalize_label,

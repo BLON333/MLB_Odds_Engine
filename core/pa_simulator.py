@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import numpy as np
 import random
 from core.bip_resolution import resolve_bip

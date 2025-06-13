@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Generate today's unified snapshot then dispatch the sim-only version."""
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import argparse
 import subprocess
 import sys

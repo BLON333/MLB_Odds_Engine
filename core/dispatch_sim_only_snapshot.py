@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Dispatch a simulation-only snapshot for mainline markets."""
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
 import json
