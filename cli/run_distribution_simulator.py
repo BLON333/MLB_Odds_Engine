@@ -40,15 +40,28 @@ from utils import (
     canonical_game_id,
     parse_game_id,
     get_teams_from_game_id,
+    base_game_id,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
     normalize_label_for_odds,
     safe_load_json,
+    game_id_to_dt,
 )
 from core.scaling_utils import scale_distribution
 
 
 N_SIMULATIONS = 10000
+
+# Cache of loaded market odds by date
+_MARKET_ODDS_CACHE: dict[str, dict | None] = {}
+
+
+def _load_market_odds(date_str: str) -> dict | None:
+    """Load market odds JSON for ``date_str`` once and cache the result."""
+    if date_str not in _MARKET_ODDS_CACHE:
+        path = os.path.join("data", "market_odds", f"{date_str}.json")
+        _MARKET_ODDS_CACHE[date_str] = safe_load_json(path) if os.path.exists(path) else None
+    return _MARKET_ODDS_CACHE[date_str]
 
 
 def percent_in_range(scores, low=2, high=9):
@@ -225,6 +238,16 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     game_date = parts["date"]
     if game_date > datetime.today().strftime("%Y-%m-%d"):
         print(f"[📅] Simulating a future game — projected lineups may be used.")
+
+    odds_data = _load_market_odds(game_date)
+    start_time_iso = None
+    if isinstance(odds_data, dict):
+        entry = odds_data.get(game_id) or odds_data.get(base_game_id(game_id))
+        if isinstance(entry, dict):
+            start_time_iso = entry.get("game_time") or entry.get("start_time")
+    if not start_time_iso:
+        dt = game_id_to_dt(game_id)
+        start_time_iso = dt.isoformat() if dt else None
 
     batter_stats, pitcher_stats = load_all_stats()
     try:
@@ -802,6 +825,7 @@ def simulate_distribution(game_id, line, debug=False, no_weather=False, edge_thr
     output = {
         "home_score": float(np.mean(raw_home_scores)),
         "away_score": float(np.mean(raw_away_scores)),
+        "start_time_iso": start_time_iso,
         "run_distribution": run_pmf_rounded,
         "run_distribution_raw": run_pmf_raw,
         "run_diff_distribution": run_diff_pmf,

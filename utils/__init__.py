@@ -992,6 +992,27 @@ def canonical_game_id(game_id: str) -> str:
         return game_id
 
 
+def game_id_to_dt(game_id: str) -> datetime | None:
+    """Return a :class:`datetime` for the Eastern start time encoded in ``game_id``."""
+    parts = parse_game_id(game_id)
+    date = parts.get("date")
+    time_token = parts.get("time", "")
+    dt = None
+    if time_token.startswith("T"):
+        digits = "".join(c for c in time_token.split("-")[0][1:] if c.isdigit())[:4]
+        if len(digits) == 4:
+            try:
+                dt = datetime.strptime(f"{date} {digits}", "%Y-%m-%d %H%M")
+            except Exception:
+                dt = None
+    if dt is None and date:
+        try:
+            dt = datetime.strptime(date, "%Y-%m-%d")
+        except Exception:
+            dt = None
+    return dt.replace(tzinfo=EASTERN_TZ) if dt else None
+
+
 def lookup_fallback_odds(game_id: str, fallback_odds: dict) -> dict | None:
     """Return the best-matching fallback odds entry for ``game_id``."""
     if not isinstance(fallback_odds, dict):
