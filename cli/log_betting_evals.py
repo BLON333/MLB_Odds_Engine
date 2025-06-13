@@ -1511,8 +1511,6 @@ def write_to_csv(
         "blended_prob",
         "blended_fv",
         "hours_to_game",
-        "raw_kelly",
-        "adjusted_kelly",
         "stake",
         "entry_type",
         "segment",
