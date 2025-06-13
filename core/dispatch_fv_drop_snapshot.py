@@ -20,6 +20,7 @@ load_dotenv()
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 from core.should_log_bet import MAX_POSITIVE_ODDS, MIN_NEGATIVE_ODDS
+from utils.book_helpers import parse_american_odds, filter_by_odds
 
 logger = get_logger(__name__)
 
@@ -59,40 +60,6 @@ def filter_by_books(df: pd.DataFrame, books: List[str] | None) -> pd.DataFrame:
     return df[df["Book"].isin(clean_books)]
 
 
-def parse_american_odds(val: str | float | int | None) -> float | None:
-    """Return numeric US odds from various input formats."""
-    if val is None:
-        return None
-    if isinstance(val, (int, float)):
-        try:
-            return float(val)
-        except Exception:
-            return None
-    if isinstance(val, str):
-        s = val.strip()
-        if not s or s.upper() == "N/A":
-            return None
-        try:
-            return float(s)
-        except Exception:
-            m = re.match(r"^[+-]?\d+", s)
-            if m:
-                try:
-                    return float(m.group())
-                except Exception:
-                    return None
-    return None
-
-
-def filter_by_odds(df: pd.DataFrame, min_odds: float, max_odds: float) -> pd.DataFrame:
-    """Return df filtered to the given odds range."""
-    if "Odds" not in df.columns:
-        return df
-    df = df.copy()
-    df["_odds_val"] = df["Odds"].apply(parse_american_odds)
-    df = df[df["_odds_val"].between(min_odds, max_odds)]
-    df.drop(columns=["_odds_val"], inplace=True)
-    return df
 
 
 def filter_main_lines(df: pd.DataFrame) -> pd.DataFrame:
