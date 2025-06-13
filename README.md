@@ -20,7 +20,6 @@ This project is a modular, data-driven Monte Carlo simulation engine for modelin
 
 | File | Description |
 |------|-------------|
-| `simulate_game_and_price_market.py` | Main driver for simulating and pricing a game |
 | `game_simulator.py` | Simulates full games inning-by-inning |
 | `half_inning_simulator.py` | Handles per-half-inning simulation |
 | `pa_simulator.py` | Plate appearance outcome engine |
@@ -63,11 +62,6 @@ reliever_depth_chart_YYYY-MM-DD.json
 Set up Selenium ChromeDriver path in lineup_scraper_selenium.py
 
 🧪 Usage Examples
-
-Simulate and price a single game:
-python simulate_game_and_price_market.py 2025-04-04-TEX@HOU moneyline
-
-
 Simulate full distribution (PMF) of total runs:
 python cli/run_distribution_simulator.py 2025-04-04-TEX@HOU
 
