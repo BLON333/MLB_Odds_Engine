@@ -70,7 +70,7 @@ OFFICIAL_PLAYS_WEBHOOK_URL = os.getenv("OFFICIAL_PLAYS_WEBHOOK_URL")
 # === Market Confirmation Tracker ===
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MARKET_CONF_TRACKER_PATH = os.path.join(
-    SCRIPT_DIR, "..", "logs", "market_conf_tracker.json"
+    SCRIPT_DIR, "..", "data", "trackers", "market_conf_tracker.json"
 )
 
 
