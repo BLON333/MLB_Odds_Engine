@@ -70,6 +70,25 @@ DISCORD_H2H_WEBHOOK_URL = os.getenv("DISCORD_H2H_WEBHOOK_URL")
 DISCORD_SPREADS_WEBHOOK_URL = os.getenv("DISCORD_SPREADS_WEBHOOK_URL")
 OFFICIAL_PLAYS_WEBHOOK_URL = os.getenv("OFFICIAL_PLAYS_WEBHOOK_URL")
 
+# Configurable quiet hours (Eastern Time)
+quiet_hours_start = int(os.getenv("QUIET_HOURS_START", 22))  # default: 10 PM ET
+quiet_hours_end = int(os.getenv("QUIET_HOURS_END", 8))       # default: 8 AM ET
+
+
+def should_skip_due_to_quiet_hours(
+    now=None,
+    start_hour: int | None = None,
+    end_hour: int | None = None,
+) -> bool:
+    """Return ``True`` if logging should be skipped due to quiet hours."""
+    from utils import logging_allowed_now
+
+    return not logging_allowed_now(
+        now=now,
+        quiet_hours_start=quiet_hours_start if start_hour is None else start_hour,
+        quiet_hours_end=quiet_hours_end if end_hour is None else end_hour,
+    )
+
 # === Market Confirmation Tracker ===
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MARKET_CONF_TRACKER_PATH = os.path.join(
@@ -1284,11 +1303,13 @@ def write_to_csv(
         Mapping used to track current theme exposure in-memory. Updated on
         successful writes.
     """
-    from utils import logging_allowed_now
-
-    if not force_log and not logging_allowed_now():
+    if not force_log and should_skip_due_to_quiet_hours(
+        start_hour=quiet_hours_start,
+        end_hour=quiet_hours_end,
+    ):
         print(
-            "🕒 Logging disabled during quiet hours (10pm-8am ET). Skipping CSV write."
+            f"🕒 Logging disabled during quiet hours ({quiet_hours_start:02d}:00-"
+            f"{quiet_hours_end:02d}:00 ET). Skipping CSV write."
         )
         row["skip_reason"] = "quiet_hours"
         return None

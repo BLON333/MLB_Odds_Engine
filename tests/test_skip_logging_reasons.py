@@ -38,7 +38,9 @@ def _base_row():
 
 def test_skip_reason_quiet_hours(monkeypatch):
     row = _base_row()
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: False)
+    monkeypatch.setattr(
+        "utils.logging_allowed_now", lambda now=None, **_: False
+    )
     result = write_to_csv(row, "dummy.csv", {}, {}, {}, dry_run=True, force_log=False)
     assert result is None
     assert row["skip_reason"] == "quiet_hours"
@@ -47,7 +49,9 @@ def test_skip_reason_quiet_hours(monkeypatch):
 def test_skip_reason_no_consensus(monkeypatch):
     row = _base_row()
     row["consensus_prob"] = None
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
+    monkeypatch.setattr(
+        "utils.logging_allowed_now", lambda now=None, **_: True
+    )
     result = write_to_csv(row, "dummy.csv", {}, {}, {}, dry_run=True, force_log=False)
     assert result is None
     assert row["skip_reason"] == "no_consensus"
@@ -57,7 +61,9 @@ def test_skip_reason_market_not_moved(monkeypatch, tmp_path):
     row = _base_row()
     row["market_prob"] = 0.55
     row["_prior_snapshot"] = {"market_prob": 0.6}
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
+    monkeypatch.setattr(
+        "utils.logging_allowed_now", lambda now=None, **_: True
+    )
     result = write_to_csv(row, tmp_path / "t.csv", {}, {}, {}, dry_run=False, force_log=False)
     assert result is None
     assert row["skip_reason"] == "market_not_moved"
@@ -69,7 +75,9 @@ def test_top_up_skips_movement_check(monkeypatch, tmp_path):
     row["market_prob"] = 0.55
     row["_prior_snapshot"] = {"market_prob": 0.6}
     row["best_book"] = "B1"
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None: True)
+    monkeypatch.setattr(
+        "utils.logging_allowed_now", lambda now=None, **_: True
+    )
     result = write_to_csv(row, tmp_path / "t.csv", {}, {}, {}, dry_run=False, force_log=False)
     assert result is not None
     assert "skip_reason" not in row
