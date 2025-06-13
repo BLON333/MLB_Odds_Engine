@@ -141,12 +141,24 @@ def annotate_display_deltas(entry: Dict, prior: Optional[Dict]) -> None:
         except Exception:
             return str(val)
 
+    def fmt_stake(val: Optional[float]) -> str:
+        if val is None:
+            return "N/A"
+        out = f"{val:.2f}u"
+        total = entry.get("cumulative_stake")
+        try:
+            if total is not None and float(total) != float(val):
+                out = f"{val:.2f}u ({float(total):.2f}u)"
+        except Exception:
+            pass
+        return out
+
     field_map = {
         "market_odds": ("odds_display", fmt_odds),
         "ev_percent": ("ev_display", fmt_percent),
         "market_prob": ("mkt_prob_display", fmt_prob),
         "sim_prob": ("sim_prob_display", fmt_prob),
-        "stake": ("stake_display", lambda v: f"{v:.2f}u" if v is not None else "N/A"),
+        "stake": ("stake_display", fmt_stake),
         "blended_fv": ("fv_display", fmt_fv),
     }
 
@@ -422,15 +434,28 @@ def send_bet_snapshot_to_discord(
         sort_tmp = df["EV"].str.replace("%", "", regex=False)
         try:
             sort_vals = sort_tmp.astype(float)
-            df = (
-                df.assign(_ev_sort=sort_vals)
-                .sort_values("_ev_sort", ascending=False)
-                .drop(columns="_ev_sort")
-            )
+            df = df.assign(_ev_sort=sort_vals)
+            if "cumulative_stake" in df.columns:
+                df = df.assign(_stake_sort=pd.to_numeric(df["cumulative_stake"], errors="coerce"))
+                df = df.sort_values(
+                    by=["_ev_sort", "_stake_sort"],
+                    ascending=[False, False],
+                ).drop(columns=["_ev_sort", "_stake_sort"])
+            else:
+                df = df.sort_values("_ev_sort", ascending=False).drop(columns="_ev_sort")
         except Exception:
-            df = df.sort_values(by="EV", ascending=False)
+            by_cols = ["EV"]
+            if "cumulative_stake" in df.columns:
+                by_cols.append("cumulative_stake")
+            df = df.sort_values(by=by_cols, ascending=False)
     else:
-        df = df.sort_values(by="ev_percent", ascending=False)
+        by_cols = ["ev_percent"]
+        if "cumulative_stake" in df.columns:
+            df = df.assign(_stake_sort=pd.to_numeric(df["cumulative_stake"], errors="coerce"))
+            by_cols.append("_stake_sort")
+            df = df.sort_values(by=by_cols, ascending=False).drop(columns="_stake_sort")
+        else:
+            df = df.sort_values(by_cols[0], ascending=False)
 
     columns_to_exclude = [
         "prev_sim_prob",
@@ -978,6 +1003,18 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
 
     if "stake_display" in df.columns:
         df["Stake"] = df["stake_display"]
+    elif "cumulative_stake" in df.columns:
+        def _fmt_stake(row):
+            try:
+                stake = float(row["stake"])
+                total = float(row["cumulative_stake"])
+                if stake != total:
+                    return f"{stake:.2f}u ({total:.2f}u)"
+                return f"{stake:.2f}u"
+            except Exception:
+                return f"{row.get('stake', 'N/A')}"
+
+        df["Stake"] = df.apply(_fmt_stake, axis=1)
     else:
         df["Stake"] = df["stake"].map("{:.2f}u".format)
 
@@ -1088,11 +1125,20 @@ def build_display_block(row: dict) -> Dict[str, str]:
         ev = row.get("ev_percent")
         ev_str = f"{ev:+.1f}%" if ev is not None else "N/A"
 
+    stake_val = row.get("stake")
     if "stake_display" in row:
         stake_str = row.get("stake_display", "N/A")
     else:
-        stake = row.get("stake")
-        stake_str = f"{stake:.2f}u" if stake is not None else "N/A"
+        stake_str = f"{stake_val:.2f}u" if stake_val is not None else "N/A"
+    if row.get("cumulative_stake") is not None:
+        try:
+            total = float(row["cumulative_stake"])
+            if stake_val is None:
+                stake_val = 0.0
+            if total != float(stake_val):
+                stake_str = f"{stake_val:.2f}u ({total:.2f}u)"
+        except Exception:
+            pass
 
     return {
         "Date": date,
