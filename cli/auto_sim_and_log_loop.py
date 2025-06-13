@@ -38,6 +38,7 @@ last_snapshot_time = 0
 
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
+early_bet_monitor_proc = None
 active_processes: list[dict] = []  # Track background subprocesses
 
 
@@ -187,6 +188,46 @@ def ensure_closing_monitor_running() -> bool:
     return restarted
 
 
+def ensure_early_monitor_running() -> bool:
+    """Launch ``monitor_early_bets.py`` if not already running.
+
+    Returns ``True`` if the monitor was restarted or started for the first
+    time, ``False`` if it was already running.
+    """
+
+    global early_bet_monitor_proc
+    restarted = False
+
+    exit_code = None if early_bet_monitor_proc is None else early_bet_monitor_proc.poll()
+
+    if early_bet_monitor_proc is None or exit_code is not None:
+        if early_bet_monitor_proc is not None and exit_code is not None:
+            logger.warning(
+                "⚠️ [%s] Early bet monitor exited with code %s, restarting...",
+                now_eastern(),
+                exit_code,
+            )
+
+        script_path = os.path.join("cli", "monitor_early_bets.py")
+        if not os.path.exists(script_path):
+            script_path = "monitor_early_bets.py"
+
+        early_bet_monitor_proc = launch_process(
+            "early_bet_monitor",
+            [PYTHON, script_path],
+        )
+
+        logger.info(
+            "🎯 [%s] Launching early bet monitor (PID %d)",
+            now_eastern(),
+            early_bet_monitor_proc.pid,
+        )
+
+        restarted = True
+
+    return restarted
+
+
 def get_date_strings():
     now = now_eastern()
     today_str = now.strftime("%Y-%m-%d")
@@ -323,6 +364,7 @@ logger.info(
 )
 
 ensure_closing_monitor_running()
+ensure_early_monitor_running()
 
 logger.info(
     "🟢 [%s] First-time launch → fetching odds and dispatching logs",
@@ -356,6 +398,7 @@ while True:
     poll_active_processes()
 
     monitor_restarted = ensure_closing_monitor_running()
+    early_monitor_restarted = ensure_early_monitor_running()
 
     triggered_sim = False
     triggered_log = False
@@ -394,15 +437,17 @@ while True:
         else f"⏭ (next ~{next_in(last_log_time, LOG_INTERVAL)})"
     )
     monitor_msg = "restarted" if monitor_restarted else "OK"
+    early_monitor_msg = "restarted" if early_monitor_restarted else "OK"
 
     logger.info(
-        "\n🔁 [%s] Loop %d (uptime %s):\nSim %s | Log %s | Monitor %s",
+        "\n🔁 [%s] Loop %d (uptime %s):\nSim %s | Log %s | Closing Monitor %s | Early Monitor %s",
         timestamp,
         loop_count,
         uptime,
         sim_msg,
         log_msg,
         monitor_msg,
+        early_monitor_msg,
     )
 
     time.sleep(10)
