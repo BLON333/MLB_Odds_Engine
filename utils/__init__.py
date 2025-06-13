@@ -10,7 +10,7 @@ from core.game_id_utils import (
     fuzzy_match_game_id,
 )
 
-from core.config import DEBUG_MODE, VERBOSE_MODE
+from core import config
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
@@ -247,7 +247,7 @@ def assert_segment_match(sim_market_key: str, matched_market_key: str, debug: bo
     """
     from utils import classify_market_segment
 
-    debug = debug or DEBUG_MODE or VERBOSE_MODE
+    debug = debug or config.DEBUG_MODE or config.VERBOSE_MODE
 
     sim_segment = classify_market_segment(sim_market_key)
     book_segment = classify_market_segment(matched_market_key)
@@ -838,17 +838,17 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
     are searched to avoid mismatches.
     """
 
-    debug = debug or DEBUG_MODE
+    debug = debug or config.DEBUG_MODE
 
     if not isinstance(market_odds, dict):
-        if debug:
+        if config.DEBUG_MODE or config.VERBOSE_MODE:
             print(f"[MATCHER] invalid market_odds type: {type(market_odds)}")
         return None, "unknown", "❌", "❌", "❌"
 
     normalized = lookup_side.strip()
     segment = classify_market_segment(market_key)
 
-    if debug:
+    if config.DEBUG_MODE or config.VERBOSE_MODE:
         print(f"\n🧠 [MATCHER] Lookup {market_key} | side: {lookup_side} → {normalized}")
         print(f"   • Segment      : {segment}")
 
@@ -870,7 +870,7 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
             source_type = "alternate" if key.startswith("alternate_") else "mainline"
             source_map = market_odds.get(f"{key}_source", {})
             source_tag = source_map.get(normalized, source_type)
-            if debug:
+            if config.DEBUG_MODE or config.VERBOSE_MODE:
                 print(f"✅ Found '{normalized}' in {key}")
             return (
                 block[normalized],
@@ -885,7 +885,7 @@ def get_market_entry_with_alternate_fallback(market_odds, market_key, lookup_sid
         for key in search_keys
         if isinstance(market_odds.get(key, {}), dict)
     }
-    if debug:
+    if config.DEBUG_MODE or config.VERBOSE_MODE:
         print(f"❌ No match for '{normalized}' in: {search_keys}")
         print(f"   ↳ Available keys: {available_map}")
     return None, "unknown", "❌", "❌", "❌"

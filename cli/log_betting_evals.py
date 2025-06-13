@@ -1885,14 +1885,16 @@ def log_bets(
         row["full_stake"] = stake
 
         if ev_calc < min_ev * 100:
-            print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
+            if config.DEBUG_MODE or config.VERBOSE_MODE:
+                print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
             if ev_calc >= 5.0 and skipped_bets is not None:
                 row["skip_reason"] = "low_ev"
                 skipped_bets.append(row)
             continue
 
         if stake < 1.00:
-            print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
+            if config.DEBUG_MODE or config.VERBOSE_MODE:
+                print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
             if dry_run:
                 candidates.append(row)
             row["skip_reason"] = "low_stake"
@@ -2219,7 +2221,7 @@ def log_derivative_bets(
                 else:
                     row["consensus_books"] = {best_book_str: market_price}
 
-                if DEBUG:
+                if config.DEBUG_MODE or config.VERBOSE_MODE:
                     print(f"📦 Books stored in row: {book_prices}")
                     print(f"🏦 Best Book Selected: {row['best_book']}")
                 # 📝 Track every evaluated bet before applying stake/EV filters
@@ -2256,14 +2258,16 @@ def log_derivative_bets(
                 )
 
                 if ev_calc < min_ev * 100:
-                    print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
+                    if config.DEBUG_MODE or config.VERBOSE_MODE:
+                        print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
                     if ev_calc >= 5.0 and skipped_bets is not None:
                         row["skip_reason"] = "low_ev"
                         skipped_bets.append(row)
                     continue
 
                 if stake < 1.00:
-                    print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
+                    if config.DEBUG_MODE or config.VERBOSE_MODE:
+                        print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
                     row["skip_reason"] = "low_stake"
                     ensure_consensus_books(row)
                     if dry_run:
