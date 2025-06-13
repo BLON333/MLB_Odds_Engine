@@ -2972,6 +2972,13 @@ def process_theme_logged_bets(
     except Exception as e:  # pragma: no cover - unexpected save failure
         logger.warning("\u26A0\ufe0f Failed to save market eval tracker: %s", e)
 
+    if not config.DEBUG_MODE:
+        print(
+            f"\n🧾 Summary: {len(logged_bets_this_loop)} logged, {sum(skipped_counts.values())} skipped"
+        )
+        for reason, count in skipped_counts.items():
+            print(f"  - {count} skipped due to {reason}")
+
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser("Log value bets from sim output")
