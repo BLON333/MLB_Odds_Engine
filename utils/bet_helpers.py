@@ -1,4 +1,4 @@
-"""Utilities for managing bet entries and top-ups."""
+"""Helper utilities for bet management and top-ups."""
 
 from typing import Optional
 
@@ -12,26 +12,7 @@ def evaluate_late_confirmed_bet(
     new_consensus_prob: float,
     existing_stake: float,
 ) -> Optional[dict]:
-    """Return a top-up bet if late confirmation warrants additional stake.
-
-    Parameters
-    ----------
-    bet : dict
-        Original bet information as logged when first evaluated. Must
-        contain ``hours_to_game`` and ``full_stake`` keys. If
-        ``baseline_consensus_prob`` is present it is used as the
-        reference; otherwise ``consensus_prob`` is used.
-    new_consensus_prob : float
-        The latest consensus probability for the bet's line.
-    existing_stake : float
-        Units already staked on this bet.
-
-    Returns
-    -------
-    dict | None
-        A bet dictionary marked as ``"top-up"`` with the additional stake to
-        place, or ``None`` if no action is required.
-    """
+    """Return a top-up bet if late confirmation warrants additional stake."""
 
     try:
         hours = float(bet.get("hours_to_game"))

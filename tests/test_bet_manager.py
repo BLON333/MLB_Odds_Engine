@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from core.bet_manager import evaluate_late_confirmed_bet
+from utils.bet_helpers import evaluate_late_confirmed_bet
 from core.confirmation_utils import required_market_move
 
 
