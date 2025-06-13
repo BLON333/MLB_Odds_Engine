@@ -100,9 +100,7 @@ def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
     if isinstance(data, dict):
         return data
     if os.path.exists(path):
-        print(
-            f"⚠️ Could not load market confirmation tracker at {path}, starting fresh."
-        )
+        print(f"⚠️ Could not load market confirmation tracker at {path}, starting fresh.")
     # Return empty dict if file missing or failed to load
     return {}
 
