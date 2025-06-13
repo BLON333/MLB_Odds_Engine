@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import sys
 import os
 import json

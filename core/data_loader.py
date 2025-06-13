@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from assets.stats_loader import load_pitcher_stats, load_batter_stats
 from core.project_hr_pa import project_hr_pa  # ✅ Added import
 import pandas as pd

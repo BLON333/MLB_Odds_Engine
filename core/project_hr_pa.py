@@ -1,4 +1,5 @@
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import math
 
 DEFAULT_SHRINK_BASE = 300

@@ -7,6 +7,7 @@ annotated with ``snapshot_roles`` describing which downstream snapshot
 categories it qualifies for.
 """
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
 import json

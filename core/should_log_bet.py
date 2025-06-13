@@ -1,3 +1,4 @@
+from core.config import DEBUG_MODE, VERBOSE_MODE
 from typing import Optional
 
 # Minimum stake thresholds used across the staking pipeline

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Generate and dispatch a CLV snapshot for open bets."""
 
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
 import json

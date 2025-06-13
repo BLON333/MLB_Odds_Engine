@@ -1,4 +1,5 @@
 # half_inning_simulator.py
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import numpy as np
 import random
 from core.pa_simulator import simulate_pa
