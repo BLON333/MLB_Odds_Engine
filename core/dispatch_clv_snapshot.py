@@ -352,7 +352,7 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
             timeout=10,
         )
         resp.raise_for_status()
-        logger.info("✅ CLV snapshot sent (%d rows)", df.shape[0])
+        logger.info(f"✅ CLV Snapshot sent with {df.shape[0]} rows")
     except Exception as e:
         logger.error("❌ Failed to send snapshot: %s", e)
     finally:
