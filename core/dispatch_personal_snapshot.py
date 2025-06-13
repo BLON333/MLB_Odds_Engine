@@ -12,7 +12,8 @@ from typing import List
 import pandas as pd
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path="C:/Users/jason/OneDrive/Documents/Projects/odds-gpt/mlb_odds_engine_V1.1/.env")
+# Load environment variables from the project root .env file
+load_dotenv()
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
