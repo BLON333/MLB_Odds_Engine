@@ -392,21 +392,7 @@ def send_bet_snapshot_to_discord(
 ) -> None:
     """Render a styled image and send it to a Discord webhook."""
     if df is None or df.empty:
-        if debug_counts is not None:
-            print(
-                "⚠️ Snapshot skipped: 0 rows remain after all filters (EV%, stake, role)"
-            )
-            print(
-                "🧮 Counts → pre-EV:%d post-EV:%d post-stake:%d post-role:%d"
-                % (
-                    debug_counts.get("pre_ev", 0),
-                    debug_counts.get("post_ev", 0),
-                    debug_counts.get("post_stake", 0),
-                    debug_counts.get("post_role", 0),
-                )
-            )
-        else:
-            print(f"⚠️ No snapshot rows to send for {market_type}.")
+        print("⚠️ No qualifying snapshot bets to dispatch")
         return
 
     # 🚫 Filter out bets with < 1 unit stake before rendering
@@ -425,21 +411,7 @@ def send_bet_snapshot_to_discord(
         pass
 
     if df.empty:
-        if debug_counts is not None:
-            print(
-                "⚠️ Snapshot skipped: 0 rows remain after all filters (EV%, stake, role)"
-            )
-            print(
-                "🧮 Counts → pre-EV:%d post-EV:%d post-stake:%d post-role:%d"
-                % (
-                    debug_counts.get("pre_ev", 0),
-                    debug_counts.get("post_ev", 0),
-                    debug_counts.get("post_stake", 0),
-                    debug_counts.get("post_role", 0),
-                )
-            )
-        else:
-            print(f"⚠️ No snapshot rows to send for {market_type} after filtering.")
+        print("⚠️ No qualifying snapshot bets to dispatch")
         return
     if dfi is None:
         print("⚠️ dataframe_image is not available. Sending text fallback.")
@@ -511,7 +483,7 @@ def send_bet_snapshot_to_discord(
             timeout=10,
         )
         resp.raise_for_status()
-        print(f"✅ Snapshot sent for {market_type}.")
+        print(f"✅ Snapshot sent: {df.shape[0]} bets dispatched")
     except Exception as e:
         print(f"❌ Failed to send snapshot for {market_type}: {e}")
     finally:
@@ -628,10 +600,19 @@ def compare_and_flag_new_rows(
             "display": build_display_block(entry),
         }
 
-        if should_log_movement():
-            print(
-                f"🧠 Movement for {key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-            )
+        if VERBOSE_MODE:
+            old_ev = (prior or {}).get("ev_percent")
+            new_ev = entry.get("ev_percent")
+            old_fv = (prior or {}).get("blended_fv")
+            new_fv = entry.get("blended_fv")
+            try:
+                print(
+                    f"🔍 Movement: {key} — EV {old_ev:.2f} → {new_ev:.2f}, FV {old_fv:.2f} → {new_fv:.2f}"
+                )
+            except Exception:
+                print(
+                    f"🔍 Movement: {key} — EV {old_ev} → {new_ev}, FV {old_fv} → {new_fv}"
+                )
 
         j = json.dumps(entry, sort_keys=True)
         if j in seen:
@@ -921,10 +902,19 @@ def build_snapshot_rows(
                 "market_prob": row.get("market_prob"),
                 "sim_prob": row.get("sim_prob"),
             }
-            if should_log_movement():
-                print(
-                    f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
-                )
+            if VERBOSE_MODE:
+                old_ev = (prior_row or {}).get("ev_percent")
+                new_ev = row.get("ev_percent")
+                old_fv = (prior_row or {}).get("blended_fv")
+                new_fv = row.get("blended_fv")
+                try:
+                    print(
+                        f"🔍 Movement: {tracker_key} — EV {old_ev:.2f} → {new_ev:.2f}, FV {old_fv:.2f} → {new_fv:.2f}"
+                    )
+                except Exception:
+                    print(
+                        f"🔍 Movement: {tracker_key} — EV {old_ev} → {new_ev}, FV {old_fv} → {new_fv}"
+                    )
             rows.append(row)
     # Persist tracker after processing simulations
     save_tracker(MARKET_EVAL_TRACKER)
