@@ -1804,9 +1804,13 @@ def log_bets(
             4,
         )
 
-        print(
-            f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
-        )
+        # print statement below was previously used for every bet processed
+        # but created noisy output during batch logging. It has been removed
+        # in favor of an optional debug message controlled by ``VERBOSE_MODE``.
+        if VERBOSE_MODE:
+            print(
+                f"[DEBUG] Preparing to evaluate: game={game_id}, market={matched_key}, side={side_clean}"
+            )
 
         best_book_str = (
             extract_best_book(book_prices) if isinstance(book_prices, dict) else best_book
@@ -2156,9 +2160,12 @@ def log_derivative_bets(
 
                 sportsbook_source = source if isinstance(source, str) else "fallback"
 
-                print(
-                    f"📝 Logging → game: {game_id} | market: {matched_key} | side: '{side_clean}' | normalized: '{lookup_side}' | source: {price_source} | segment: {segment}"
-                )
+                # Removed noisy print that logged every bet. Use verbose mode
+                # for optional debug visibility when needed.
+                if VERBOSE_MODE:
+                    print(
+                        f"[DEBUG] Preparing to evaluate: game={game_id}, market={matched_key}, side={side_clean}"
+                    )
 
                 best_book_str = (
                     extract_best_book(book_prices) if isinstance(book_prices, dict) else sportsbook_source
