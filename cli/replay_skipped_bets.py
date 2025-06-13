@@ -9,6 +9,7 @@ from utils import canonical_game_id, parse_game_id
 FIELDNAMES = [
     "Date",
     "Time",
+    "Start Time (ISO)",
     "Matchup",
     "game_id",
     "market",
