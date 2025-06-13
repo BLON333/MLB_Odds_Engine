@@ -80,7 +80,11 @@ def append_rows(rows, csv_path):
 
 def main():
     parser = argparse.ArgumentParser(description="Replay skipped bets and log them")
-    parser.add_argument("--json", default="logs/skipped_bets.json", help="Path to skipped_bets.json")
+    parser.add_argument(
+        "--json",
+        default="logs/pending_bets.json",
+        help="Path to pending_bets.json",
+    )
     parser.add_argument("--csv", default="logs/market_evals.csv", help="Path to market_evals.csv")
     args = parser.parse_args()
 
