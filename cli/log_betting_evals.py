@@ -2645,7 +2645,7 @@ def process_theme_logged_bets(
     output_dir="logs",
     force_log=False,
 ):
-    print("\n🧾 Final Trimmed Bets to Log:")
+    print("🧾 Final Trimmed Bets to Log:")
 
     skipped_counts = {
         "duplicate": 0,
@@ -2675,11 +2675,11 @@ def process_theme_logged_bets(
                 print(f"⚠️  Removed segment '{seg}' from {theme_key}")
 
     for game_id in theme_logged:
-        print(f"\n🔍 Game: {game_id}")
+        print(f"🔍 Game: {game_id}")
         # 🔄 Refresh exposure from persistent tracker before evaluating bets
         existing_theme_stakes = load_theme_stakes()
 
-        print("\n📊 Theme Map:")
+        print("📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
             ordered_rows = []
             for segment, row in segment_map.items():
@@ -2769,14 +2769,8 @@ def process_theme_logged_bets(
                 delta = round(proposed_stake - theme_total, 2)
                 is_initial_bet = theme_total == 0.0
 
-                print(
-                    f"🔁 Evaluating: {row['side']} | {row['market']} (EV: {row['ev_percent']}%)"
-                )
-                print(f"                ➤ Segment     : {segment}")
-                print(f"                ➤ Theme       : {theme_key}")
-                print(
-                    f"                ➤ Proposed    : {proposed_stake:.2f}u | EV: {row['ev_percent']:.2f}%"
-                )
+                skip_reason = None
+                should_log = True
 
                 existing_stake = existing.get(key, 0.0)
                 if existing_stake > 0:
@@ -2785,48 +2779,47 @@ def process_theme_logged_bets(
                     )
 
                 if key in seen_keys or line_key in seen_lines:
-                    print(
-                        f"                ⚠️ Skipped      : Duplicate line already logged this run."
-                    )
+                    skip_reason = "duplicate"
                     skipped_counts["duplicate"] += 1
-                    continue
+                    should_log = False
 
                 if theme_total >= proposed_stake:
-                    print(
-                        f"                ⛔ Skipped      : Already logged {theme_total:.2f}u ≥ proposed {proposed_stake:.2f}u"
-                    )
+                    skip_reason = "already_logged"
                     skipped_counts["already_logged"] += 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = "already_logged"
                         ensure_consensus_books(row)
                         skipped_bets.append(row)
-                    continue
+                    should_log = False
 
                 if is_initial_bet and proposed_stake < 1.00:
-                    print(
-                        f"                ⛔ Skipped      : Initial stake too low ({proposed_stake:.2f}u < 1.00u)"
-                    )
+                    skip_reason = "low_initial"
                     skipped_counts["low_initial"] += 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = "low_initial"
                         ensure_consensus_books(row)
                         skipped_bets.append(row)
-                    continue
+                    should_log = False
 
                 if not is_initial_bet and delta < 0.50:
-                    print(
-                        f"                ⛔ Skipped      : Top-up delta too small ({delta:.2f}u < 0.50u)"
-                    )
+                    skip_reason = "low_topup"
                     skipped_counts["low_topup"] += 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = "low_topup"
                         ensure_consensus_books(row)
                         skipped_bets.append(row)
-                    continue
+                    should_log = False
 
-                print(
-                    f"                ✅ Logged       : {'First bet' if is_initial_bet else 'Top-up'} | Delta: {delta:.2f}u → Total: {proposed_stake:.2f}u"
-                )
+                if should_log:
+                    print(
+                        f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%, Stake {delta:.2f}u"
+                    )
+                elif VERBOSE_MODE:
+                    print(
+                        f"⛔ Skipped {row['game_id']} {row['side']} — Reason: {skip_reason}"
+                    )
+                if not should_log:
+                    continue
 
                 seen_keys.add(key)
                 seen_lines.add(line_key)
@@ -2929,6 +2922,8 @@ def process_theme_logged_bets(
             f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
         )
         send_discord_notification(row, skipped_bets)
+
+    print(f"🧾 Summary: {len(logged_bets_this_loop)} logged, {sum(skipped_counts.values())} skipped")
 
     # ✅ Expand snapshot per book with proper stake & EV% logic
     snapshot_raw = [r for rows in game_summary.values() for r in rows] + skipped_bets
