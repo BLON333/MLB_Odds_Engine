@@ -1578,9 +1578,14 @@ def write_to_csv(
 
         row_to_write = {k: v for k, v in row.items() if k in fieldnames}
         writer.writerow(row_to_write)
-        print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
-        if DEBUG and blend_weight is not None:
-            print(f"🔢 Blend Weight (Model): {blend_weight:.2f}")
+        if config.VERBOSE_MODE:
+            print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
+            if DEBUG and blend_weight is not None:
+                print(f"🔢 Blend Weight (Model): {blend_weight:.2f}")
+        else:
+            print(
+                f"✅ Logged {row['game_id']} {row['side']} ({row['market']}) — EV {row['ev_percent']:+.1f}%, Stake {row['stake']:.2f}u"
+            )
 
         # Update market confirmation tracker on successful log
         MARKET_CONF_TRACKER[tracker_key] = {
@@ -1620,21 +1625,21 @@ def write_to_csv(
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
-    print(
-        f"\n📦 Logging Bet: {row['game_id']} | {row['market']} ({row.get('market_class', '?')}) | {row['side']}"
-    )
+    if config.VERBOSE_MODE:
+        print(
+            f"\n📦 Logging Bet: {row['game_id']} | {row['market']} ({row.get('market_class', '?')}) | {row['side']}"
+        )
 
-    print(f"   • Entry Type : {row['entry_type']}")
-    stake_desc = (
-        "full" if row["entry_type"] == "first" else f"delta of {row['stake']:.2f}u"
-    )
-    print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
-    print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
-    # Debug: confirm the market probability at log time
-    print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
-    print(
-        f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
-    )
+        print(f"   • Entry Type : {row['entry_type']}")
+        stake_desc = (
+            "full" if row["entry_type"] == "first" else f"delta of {row['stake']:.2f}u"
+        )
+        print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
+        print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
+        print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
+        print(
+            f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
+        )
 
     return row
 
@@ -2818,9 +2823,10 @@ def process_theme_logged_bets(
                     should_log = False
 
                 if should_log:
-                    print(
-                        f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%, Stake {delta:.2f}u"
-                    )
+                    if config.VERBOSE_MODE:
+                        print(
+                            f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%, Stake {delta:.2f}u"
+                        )
                 elif config.VERBOSE_MODE:
                     print(
                         f"⛔ Skipped {row['game_id']} {row['side']} — Reason: {skip_reason}"
@@ -2846,6 +2852,7 @@ def process_theme_logged_bets(
                 evaluated = should_log_bet(
                     row_copy,
                     existing_theme_stakes,
+                    verbose=config.VERBOSE_MODE,
                     eval_tracker=MARKET_EVAL_TRACKER,
                     reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                 )
@@ -2889,9 +2896,10 @@ def process_theme_logged_bets(
     # ➡️ Log only the best bet per (game_id, market, segment)
     logged_bets_this_loop = []
     for best_row in best_market_segment.values():
-        print(
-            f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
-        )
+        if config.VERBOSE_MODE:
+            print(
+                f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
+            )
         result = write_to_csv(
             best_row,
             "logs/market_evals.csv",
@@ -2902,9 +2910,6 @@ def process_theme_logged_bets(
             force_log=force_log,
         )
         if result:
-            print(
-                f"✅ CSV Log Success → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
-            )
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
             logged_stake = best_row["stake"]
