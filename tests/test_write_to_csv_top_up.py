@@ -2,7 +2,8 @@ import os, sys, csv
 import pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from cli.log_betting_evals import write_to_csv
+from cli.log_betting_evals import write_to_csv, get_exposure_key
+from core.should_log_bet import should_log_bet
 
 
 def _base_row():
@@ -46,17 +47,24 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
     row["best_book"] = "B1"
 
     existing = {(row["game_id"], row["market"], row["side"]): 1.0}
+    theme_key = get_exposure_key(row)
+    theme_stakes = {theme_key: 1.0}
+
+    tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+    reference = {tracker_key: {"market_prob": 0.520}}
+    evaluated = should_log_bet(row, theme_stakes, verbose=False, reference_tracker=reference)
+    assert evaluated is not None
 
     monkeypatch.setattr(
         "utils.logging_allowed_now", lambda now=None, **_: True
     )
 
     path = tmp_path / "log.csv"
-    result = write_to_csv(row, path, existing, {}, {}, dry_run=False, force_log=False)
+    result = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
 
     assert result is not None
-    assert row["stake"] == 0.6
-    assert row["cumulative_stake"] == pytest.approx(1.6)
+    assert evaluated["stake"] == 0.6
+    assert evaluated["cumulative_stake"] == pytest.approx(1.6)
 
     with open(path) as f:
         rows = list(csv.DictReader(f))

@@ -287,11 +287,7 @@ from core.time_utils import compute_hours_to_game
 
 
 # === Staking Logic Refactor ===
-from core.should_log_bet import (
-    should_log_bet,
-    MIN_FIRST_STAKE,
-    MIN_TOPUP_STAKE,
-)
+from core.should_log_bet import should_log_bet
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 from core.market_movement_tracker import (
     track_and_update_market_movement,
@@ -1389,31 +1385,9 @@ def write_to_csv(
     #     return 0
     full_stake = round(float(row.get("full_stake", 0)), 2)
     entry_type = row.get("entry_type", "first")
-    stake_to_log = full_stake
-
-    if entry_type == "first":
-        if stake_to_log < MIN_FIRST_STAKE:
-            print(
-                f"⛔ First bet stake {stake_to_log:.2f}u below {MIN_FIRST_STAKE:.1f}u — skipping"
-            )
-            return None
-    elif entry_type == "top-up":
-        if stake_to_log < MIN_TOPUP_STAKE:
-            print(
-                f"⛔ Top-up stake {stake_to_log:.2f}u below {MIN_TOPUP_STAKE:.1f}u — skipping"
-            )
-            return None
+    stake_to_log = row.get("stake", full_stake)
 
     prev = existing.get(key, 0)
-    delta = round(stake_to_log - prev, 2)
-
-    if prev >= stake_to_log or delta <= 0:
-        print(f"  ⛔ Already logged full stake for {key}, skipping.")
-        return None
-
-    stake_to_log = delta
-
-    row["stake"] = stake_to_log
     row["cumulative_stake"] = prev + stake_to_log
     # Preserve the total intended exposure in full_stake
     row["full_stake"] = full_stake
@@ -1892,34 +1866,8 @@ def log_bets(
 
         row["full_stake"] = stake
 
-        if ev_calc < min_ev * 100:
-            if config.DEBUG_MODE or config.VERBOSE_MODE:
-                print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
-            if ev_calc >= 5.0 and skipped_bets is not None:
-                row["skip_reason"] = "low_ev"
-                skipped_bets.append(row)
-            continue
-
-        if stake < MIN_FIRST_STAKE:
-            if config.DEBUG_MODE or config.VERBOSE_MODE:
-                print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
-            if dry_run:
-                candidates.append(row)
-            row["skip_reason"] = "low_stake"
-            if ev_calc >= 5.0 and skipped_bets is not None:
-                skipped_bets.append(row)
-            continue
-
         key = (game_id, matched_key, side)
         prev = existing.get(key, 0)
-        full_stake = stake
-        delta = round(full_stake - prev, 2)
-        if delta <= 0:
-            print(f"⛔ Skipped — no stake delta for {key}")
-            continue
-
-        row["stake"] = delta
-        row["full_stake"] = full_stake
         row["entry_type"] = "top-up" if prev > 0 else "first"
         row["result"] = ""
         row.pop("consensus_books", None)
@@ -2279,28 +2227,7 @@ def log_derivative_bets(
                     f"        → EV: {ev_calc:.2f}% | Stake: {stake:.2f}u | Model: {p_model:.1%} | Market: {p_market:.1%} | Odds: {market_price}"
                 )
 
-                if ev_calc < min_ev * 100:
-                    if config.DEBUG_MODE or config.VERBOSE_MODE:
-                        print(f"        🟡 Skipped — low EV ({ev_calc:.2f}%)\n")
-                    if ev_calc >= 5.0 and skipped_bets is not None:
-                        row["skip_reason"] = "low_ev"
-                        skipped_bets.append(row)
-                    continue
-
-                if stake < MIN_FIRST_STAKE:
-                    if config.DEBUG_MODE or config.VERBOSE_MODE:
-                        print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
-                    row["skip_reason"] = "low_stake"
-                    ensure_consensus_books(row)
-                    if dry_run:
-                        candidates.append(row)
-                    if ev_calc >= 5.0 and skipped_bets is not None:
-                        skipped_bets.append(row)
-                    continue
-
                 full_stake = stake
-                delta = round(full_stake - prev, 2)
-                row["stake"] = delta
                 row["full_stake"] = full_stake
                 row["entry_type"] = "top-up" if prev > 0 else "first"
                 row["result"] = ""
@@ -2684,7 +2611,6 @@ def process_theme_logged_bets(
         "already_logged": 0,
     }
 
-    MAX_ALLOWED_EV = 20.0
     stake_mode = "model"  # or "actual" if you're filtering only logged bets
 
     seen_keys = set()
@@ -2724,58 +2650,6 @@ def process_theme_logged_bets(
                     f"   - {theme_key} [{segment}] → {row['side']} ({row['market']}) @ {stake:.2f}u | EV: {ev:.2f}%"
                 )
 
-        # 🔁 Over vs Under pruning (mainline segment only)
-        for theme_key in list(theme_logged[game_id].keys()):
-            if theme_key.startswith("Over") or theme_key.startswith("Under"):
-                other_theme = (
-                    theme_key.replace("Over", "Under")
-                    if theme_key.startswith("Over")
-                    else theme_key.replace("Under", "Over")
-                )
-                this_ev = (
-                    theme_logged[game_id][theme_key]
-                    .get("mainline", {})
-                    .get("ev_percent", 0)
-                )
-                that_ev = (
-                    theme_logged[game_id]
-                    .get(other_theme, {})
-                    .get("mainline", {})
-                    .get("ev_percent", 0)
-                )
-
-                this_has_mainline = "mainline" in theme_logged[game_id][theme_key]
-                that_has_mainline = "mainline" in theme_logged[game_id].get(
-                    other_theme, {}
-                )
-
-                if this_has_mainline and that_has_mainline:
-                    if this_ev > MAX_ALLOWED_EV and that_ev > MAX_ALLOWED_EV:
-                        print(
-                            f"⚖️ Discarding both Over and Under due to excessive EVs ({this_ev:.2f}%, {that_ev:.2f}%)"
-                        )
-                        safe_remove_segment(game_id, theme_key, "mainline")
-                        safe_remove_segment(game_id, other_theme, "mainline")
-                    elif this_ev > MAX_ALLOWED_EV:
-                        print(
-                            f"⚖️ Discarding {theme_key} (EV {this_ev:.2f}%) — exceeds cap {MAX_ALLOWED_EV:.2f}%"
-                        )
-                        safe_remove_segment(game_id, theme_key, "mainline")
-                    elif that_ev > MAX_ALLOWED_EV:
-                        print(
-                            f"⚖️ Discarding {other_theme} (EV {that_ev:.2f}%) — exceeds cap {MAX_ALLOWED_EV:.2f}%"
-                        )
-                        safe_remove_segment(game_id, other_theme, "mainline")
-                    elif this_ev >= that_ev:
-                        print(
-                            f"⚖️ Keeping {theme_key} (EV {this_ev:.2f}%) over {other_theme} (EV {that_ev:.2f}%)"
-                        )
-                        safe_remove_segment(game_id, other_theme, "mainline")
-                    else:
-                        print(
-                            f"⚖️ Keeping {other_theme} (EV {that_ev:.2f}%) over {theme_key} (EV {this_ev:.2f}%)"
-                        )
-                        safe_remove_segment(game_id, theme_key, "mainline")
 
         for theme_key, segment_map in theme_logged[game_id].items():
             ordered_rows = []
@@ -2785,18 +2659,11 @@ def process_theme_logged_bets(
                 key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
             )
             for segment, row in ordered_rows:
-                if row.get("ev_percent", 0) > MAX_ALLOWED_EV:
-                    print(
-                        f"                ⛔ Skipped      : EV exceeds cap ({row['ev_percent']:.2f}% > {MAX_ALLOWED_EV:.2f}%) — {row['side']} in {row['market']}"
-                    )
-                    continue
-
                 proposed_stake = round(float(row.get("full_stake", 0)), 2)
                 key = (row["game_id"], row["market"], row["side"])
                 line_key = (row["market"], row["side"])
                 exposure_key = get_exposure_key(row)
                 theme_total = existing_theme_stakes.get(exposure_key, 0.0)
-                delta = round(proposed_stake - theme_total, 2)
                 is_initial_bet = theme_total == 0.0
 
                 skip_reason = None
@@ -2826,7 +2693,7 @@ def process_theme_logged_bets(
                 if should_log:
                     if config.VERBOSE_MODE:
                         print(
-                            f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%, Stake {delta:.2f}u"
+                            f"✅ Logged {row['game_id']} {row['side']} ({segment}) — EV {row['ev_percent']:+.1f}%"
                         )
                 elif config.VERBOSE_MODE:
                     print(
@@ -2838,7 +2705,6 @@ def process_theme_logged_bets(
                 seen_keys.add(key)
                 seen_lines.add(line_key)
                 row["entry_type"] = "top-up" if not is_initial_bet else "first"
-                row["stake"] = delta
                 row["segment"] = segment
 
                 row_copy = row.copy()
