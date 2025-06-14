@@ -12,6 +12,7 @@ MIN_NEGATIVE_ODDS = -150
 from core.market_pricer import decimal_odds
 from core.confirmation_utils import required_market_move, book_agreement_score
 from core.skip_reasons import SkipReason
+from core.logger import get_logger
 
 
 from utils import (
@@ -149,6 +150,12 @@ def should_log_bet(
     new_bet["side"] = side  # ensure consistent formatting
     stake = new_bet["full_stake"]
     ev = new_bet["ev_percent"]
+
+    if DEBUG_MODE and ev >= 10.0 and stake >= 2.0:
+        logger = get_logger(__name__)
+        logger.debug(
+            f"High EV bet passed thresholds: EV={ev:.2f}%, Stake={stake:.2f}u"
+        )
 
     odds_value = None
     try:
