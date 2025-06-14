@@ -2629,6 +2629,8 @@ def process_theme_logged_bets(
         SkipReason.LOW_INITIAL.value: 0,
         SkipReason.LOW_TOPUP.value: 0,
         SkipReason.ALREADY_LOGGED.value: 0,
+        "low_ev": 0,
+        "low_stake": 0,
     }
 
     stake_mode = "model"  # or "actual" if you're filtering only logged bets
