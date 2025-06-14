@@ -4,8 +4,8 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
-import argparse
 from core.bootstrap import *  # noqa
+import argparse
 
 from utils import safe_load_json
 

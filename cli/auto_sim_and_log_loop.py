@@ -2,10 +2,9 @@ from core import config
 import argparse
 import sys
 import os
+from core.bootstrap import *  # noqa
 from dotenv import load_dotenv
 from core.logger import get_logger
-
-from core.bootstrap import *  # noqa
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PYTHON = sys.executable

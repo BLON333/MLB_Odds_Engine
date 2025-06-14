@@ -1,6 +1,7 @@
 # === Path Setup ===
 from core import config
-import os, sys
+import os
+import sys
 from core.bootstrap import *  # noqa
 
 # === Core Imports ===

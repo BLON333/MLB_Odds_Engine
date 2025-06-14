@@ -1,10 +1,10 @@
 import os
+from core.bootstrap import *  # noqa
 from core.config import DEBUG_MODE, VERBOSE_MODE
 import csv
 import json
 import argparse
 from dotenv import load_dotenv
-from core.bootstrap import *  # noqa
 
 from core.odds_fetcher import (
     fetch_consensus_for_single_game,
