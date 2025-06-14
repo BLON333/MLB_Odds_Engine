@@ -1,9 +1,9 @@
 import os
 import sys
+from core.bootstrap import *  # noqa
 import time
 from collections import defaultdict
 from datetime import datetime
-from core.bootstrap import *  # noqa
 
 from utils import (
     parse_game_id,

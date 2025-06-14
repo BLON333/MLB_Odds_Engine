@@ -1,10 +1,10 @@
 import csv
-from core.config import DEBUG_MODE, VERBOSE_MODE
-import argparse
-from datetime import datetime, timedelta
 import os
 import sys
 from core.bootstrap import *  # noqa
+from core.config import DEBUG_MODE, VERBOSE_MODE
+import argparse
+from datetime import datetime, timedelta
 
 from core.logger import get_logger
 logger = get_logger(__name__)

@@ -1,7 +1,7 @@
 import sys
-from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 from core.bootstrap import *  # noqa
+from core.config import DEBUG_MODE, VERBOSE_MODE
 
 from core.logger import get_logger
 logger = get_logger(__name__)

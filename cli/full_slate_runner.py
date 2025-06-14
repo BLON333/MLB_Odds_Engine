@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-from core.config import DEBUG_MODE, VERBOSE_MODE
 import sys
 import os
+from core.bootstrap import *  # noqa
+from core.config import DEBUG_MODE, VERBOSE_MODE
 import json
 import re
 from datetime import date
-from core.bootstrap import *  # noqa
 
 
 from core.logger import get_logger

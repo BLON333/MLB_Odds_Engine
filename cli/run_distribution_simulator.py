@@ -8,13 +8,13 @@ from core.config import DEBUG_MODE, VERBOSE_MODE
 import re
 import sys
 import os
+from core.bootstrap import *  # noqa
 import json
 import numpy as np
 import tempfile
 import matplotlib.pyplot as plt
 from collections import Counter
 from datetime import datetime
-from core.bootstrap import *  # noqa
 
 from core.logger import get_logger
 logger = get_logger(__name__)
