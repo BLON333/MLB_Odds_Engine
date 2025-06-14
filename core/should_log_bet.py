@@ -11,6 +11,7 @@ MIN_NEGATIVE_ODDS = -150
 
 from core.market_pricer import decimal_odds
 from core.confirmation_utils import required_market_move, book_agreement_score
+from core.skip_reasons import SkipReason
 
 
 from utils import (
@@ -238,7 +239,7 @@ def should_log_bet(
             except Exception:
                 pass
             new_bet["entry_type"] = "none"
-            new_bet["skip_reason"] = "suppressed_early_unconfirmed"
+            new_bet["skip_reason"] = SkipReason.SUPPRESSED_EARLY.value
             return None
 
         # Additional filter → require broad agreement across books when far from game time
@@ -284,7 +285,7 @@ def should_log_bet(
                 msg = "⛔ Skipping top-up: " + ", ".join(reason_parts)
                 _log_verbose(msg, verbose)
                 new_bet["entry_type"] = "none"
-                new_bet["skip_reason"] = msg
+                new_bet["skip_reason"] = SkipReason.ODDS_WORSENED.value
                 return None
         except Exception:
             pass
@@ -300,7 +301,7 @@ def should_log_bet(
                 verbose,
             )
             new_bet["entry_type"] = "none"
-            new_bet["skip_reason"] = "low_initial"
+            new_bet["skip_reason"] = SkipReason.LOW_INITIAL.value
             return None
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
@@ -322,6 +323,6 @@ def should_log_bet(
 
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
-    new_bet["skip_reason"] = "low_topup"
+    new_bet["skip_reason"] = SkipReason.LOW_TOPUP.value
     _log_verbose(msg, verbose)
     return None

@@ -4,6 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.should_log_bet import should_log_bet, get_theme, get_theme_key, get_segment_group
 from core.confirmation_utils import required_market_move
+from core.skip_reasons import SkipReason
 
 
 def _exposure_key(bet):
@@ -65,7 +66,7 @@ def test_top_up_rejected_for_small_delta():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result is None
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "low_topup"
+    assert bet["skip_reason"] == SkipReason.LOW_TOPUP.value
 
 
 def test_top_up_rejected_for_delta_point_three():
@@ -139,7 +140,7 @@ def test_top_up_rejected_if_odds_worse():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, reference_tracker=reference)
     assert result is None
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "⛔ Skipping top-up: EV fell from 7.0% to 6.0%, odds worsened from +110 to +105"
+    assert bet["skip_reason"] == SkipReason.ODDS_WORSENED.value
 
 
 def test_first_bet_logged_if_odds_improve():
@@ -203,7 +204,7 @@ def test_rejected_for_low_stake():
     result = should_log_bet(bet, {}, verbose=False)
     assert result is None
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "low_initial"
+    assert bet["skip_reason"] == SkipReason.LOW_INITIAL.value
 
 
 def test_rejected_for_odds_too_high():
@@ -255,7 +256,7 @@ def test_suppressed_early_unconfirmed(monkeypatch):
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result is None
-    assert bet["skip_reason"] == "suppressed_early_unconfirmed"
+    assert bet["skip_reason"] == SkipReason.SUPPRESSED_EARLY.value
 
 
 def test_early_bet_allowed_with_confirmation(monkeypatch):

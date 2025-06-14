@@ -2,6 +2,7 @@ import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from cli.log_betting_evals import write_to_csv, send_discord_notification
+from core.skip_reasons import SkipReason
 
 
 def _base_row():
@@ -43,7 +44,7 @@ def test_skip_reason_quiet_hours(monkeypatch):
     )
     result = write_to_csv(row, "dummy.csv", {}, {}, {}, dry_run=True, force_log=False)
     assert result is None
-    assert row["skip_reason"] == "quiet_hours"
+    assert row["skip_reason"] == SkipReason.QUIET_HOURS.value
 
 
 def test_skip_reason_no_consensus(monkeypatch):
@@ -54,7 +55,7 @@ def test_skip_reason_no_consensus(monkeypatch):
     )
     result = write_to_csv(row, "dummy.csv", {}, {}, {}, dry_run=True, force_log=False)
     assert result is None
-    assert row["skip_reason"] == "no_consensus"
+    assert row["skip_reason"] == SkipReason.NO_CONSENSUS.value
 
 
 def test_skip_reason_market_not_moved(monkeypatch, tmp_path):
@@ -66,7 +67,7 @@ def test_skip_reason_market_not_moved(monkeypatch, tmp_path):
     )
     result = write_to_csv(row, tmp_path / "t.csv", {}, {}, {}, dry_run=False, force_log=False)
     assert result is None
-    assert row["skip_reason"] == "market_not_moved"
+    assert row["skip_reason"] == SkipReason.MARKET_NOT_MOVED.value
 
 
 def test_top_up_skips_movement_check(monkeypatch, tmp_path):
@@ -89,5 +90,5 @@ def test_send_discord_notification_no_webhook(monkeypatch):
     monkeypatch.setattr("cli.log_betting_evals.DISCORD_WEBHOOK_URL", "")
     skipped = []
     send_discord_notification(row, skipped)
-    assert row["skip_reason"] == "no_webhook"
+    assert row["skip_reason"] == SkipReason.NO_WEBHOOK.value
     assert skipped and skipped[0] is row

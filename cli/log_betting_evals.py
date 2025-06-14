@@ -13,6 +13,7 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
+from core.skip_reasons import SkipReason
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 from utils import canonical_game_id
 from utils.book_helpers import ensure_consensus_books
@@ -1247,7 +1248,7 @@ def send_discord_notification(row, skipped_bets=None):
     if not webhook_url:
         print("⚠️ No Discord webhook configured. Notification skipped.")
         if skipped_bets is not None and should_include_in_summary(row):
-            row["skip_reason"] = "no_webhook"
+            row["skip_reason"] = SkipReason.NO_WEBHOOK.value
             ensure_consensus_books(row)
             skipped_bets.append(row)
         return
@@ -1339,7 +1340,7 @@ def write_to_csv(
             f"🕒 Logging disabled during quiet hours ({quiet_hours_start:02d}:00-"
             f"{quiet_hours_end:02d}:00 ET). Skipping CSV write."
         )
-        row["skip_reason"] = "quiet_hours"
+        row["skip_reason"] = SkipReason.QUIET_HOURS.value
         return None
 
     # 🗓️ Derive human-friendly fields from game_id
@@ -1375,7 +1376,7 @@ def write_to_csv(
 
     if new_conf_val is None:
         print(f"  ⛔ No valid consensus_prob for {tracker_key} — skipping")
-        row["skip_reason"] = "no_consensus"
+        row["skip_reason"] = SkipReason.NO_CONSENSUS.value
         return None
 
     # if prev_conf_val is not None and new_conf_val <= prev_conf_val:
@@ -1496,7 +1497,7 @@ def write_to_csv(
             annotate_display_deltas(row, prior_row)
             row["_movement_str"] = row.get("mkt_prob_display")
             row["_movement"] = movement
-            row["skip_reason"] = "market_not_moved"
+            row["skip_reason"] = SkipReason.MARKET_NOT_MOVED.value
             return None
         elif new_prob <= prior_prob:
             print("⛔ Market probability did not improve — skipping.")
@@ -1511,7 +1512,7 @@ def write_to_csv(
                     "status": "pending",
                     "timestamp": datetime.now().isoformat(),
                 }
-            row["skip_reason"] = "market_not_moved"
+            row["skip_reason"] = SkipReason.MARKET_NOT_MOVED.value
             return None
         elif (new_prob - prior_prob) < threshold:
             delta = new_prob - prior_prob
@@ -1529,7 +1530,7 @@ def write_to_csv(
                     "status": "pending",
                     "timestamp": datetime.now().isoformat(),
                 }
-            row["skip_reason"] = "market_not_moved"
+            row["skip_reason"] = SkipReason.MARKET_NOT_MOVED.value
             return None
 
     # Clean up non-persistent keys
@@ -2626,9 +2627,9 @@ def process_theme_logged_bets(
 
     skipped_counts = {
         "duplicate": 0,
-        "low_initial": 0,
-        "low_topup": 0,
-        "already_logged": 0,
+        SkipReason.LOW_INITIAL.value: 0,
+        SkipReason.LOW_TOPUP.value: 0,
+        SkipReason.ALREADY_LOGGED.value: 0,
     }
 
     stake_mode = "model"  # or "actual" if you're filtering only logged bets
@@ -2701,10 +2702,10 @@ def process_theme_logged_bets(
                     should_log = False
 
                 if theme_total >= proposed_stake:
-                    skip_reason = "already_logged"
-                    skipped_counts["already_logged"] += 1
+                    skip_reason = SkipReason.ALREADY_LOGGED.value
+                    skipped_counts[SkipReason.ALREADY_LOGGED.value] += 1
                     if should_include_in_summary(row):
-                        row["skip_reason"] = "already_logged"
+                        row["skip_reason"] = SkipReason.ALREADY_LOGGED.value
                         ensure_consensus_books(row)
                         skipped_bets.append(row)
                     should_log = False
