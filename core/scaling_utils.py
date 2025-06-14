@@ -127,7 +127,7 @@ def blend_prob(
         is the combined probability and ``w_model`` is the weight applied to the
         model probability.
     """
-    from core.market_pricer import implied_prob
+    from core.market_pricer import implied_prob, calculate_ev_from_prob
 
     if p_market is None:
         p_market = implied_prob(market_odds)
@@ -169,6 +169,19 @@ def blend_prob(
         p_model = 0.3 * 0.5 + 0.7 * p_model  # shrink toward neutral (50%)
 
     p_blended = w_model * p_model + w_market * p_market
+
+    ev_percent = calculate_ev_from_prob(p_blended, market_odds)
+    if ev_percent >= 10.0:
+        from core.logger import get_logger
+        logger = get_logger(__name__)
+        logger.debug(
+            "High-EV bet: std_dev_books=%.3f line_volatility_factor=%.3f "
+            "confirmation_strength=%.3f final_model_weight=%.3f",
+            std_dev_books,
+            line_volatility_factor,
+            strength,
+            w_model,
+        )
 
     if os.getenv("BLEND_PROB_DEBUG"):
         from core.logger import get_logger
