@@ -2746,7 +2746,7 @@ def process_theme_logged_bets(
 
                 if not evaluated:
                     reason = row_copy.get("skip_reason", "skipped")
-                    skipped_counts[reason] += 1
+                    skipped_counts[reason] = skipped_counts.get(reason, 0) + 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = reason
                         ensure_consensus_books(row)
