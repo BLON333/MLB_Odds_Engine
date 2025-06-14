@@ -2,8 +2,10 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from core.bet_manager import evaluate_late_confirmed_bet
-from core.confirmation_utils import required_market_move
+from core.confirmation_utils import (
+    evaluate_late_confirmed_bet,
+    required_market_move,
+)
 
 
 def _base_bet():
