@@ -1329,8 +1329,9 @@ def write_to_csv(
     Parameters
     ----------
     existing_theme_stakes : dict
-        Mapping used to track current theme exposure in-memory. Updated on
-        successful writes.
+        Mutable mapping tracking theme exposure in-memory. This function only
+        updates the provided dict. Persisting the updated exposure data is
+        handled by the caller.
     """
     if not force_log and should_skip_due_to_quiet_hours(
         start_hour=quiet_hours_start,
@@ -1617,7 +1618,6 @@ def write_to_csv(
         existing_theme_stakes[exposure_key] = (
             existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
         )
-        save_theme_stakes(existing_theme_stakes)
 
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
@@ -2502,8 +2502,7 @@ def run_batch_logging(
         if not fname.endswith(".json"):
             continue
 
-        # 🔄 Reload exposure from persistent tracker before each game
-        existing_theme_stakes = load_theme_stakes()
+
 
         raw_game_id = fname.replace(".json", "")
         game_id = canonical_game_id(raw_game_id)
@@ -2653,8 +2652,6 @@ def process_theme_logged_bets(
 
     for game_id in theme_logged:
         print(f"🔍 Game: {game_id}")
-        # 🔄 Refresh exposure from persistent tracker before evaluating bets
-        existing_theme_stakes = load_theme_stakes()
 
         print("📊 Theme Map:")
         for theme_key, segment_map in theme_logged[game_id].items():
@@ -2814,7 +2811,6 @@ def process_theme_logged_bets(
             existing_theme_stakes[exposure_key] = (
                 existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
             )
-            save_theme_stakes(existing_theme_stakes)
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
@@ -2860,6 +2856,9 @@ def process_theme_logged_bets(
                 final_snapshot, output_path=output_path, stake_mode="model"
             )
             upload_summary_image_to_discord(output_path, webhook_url)
+
+    # Persist updated theme exposure once per batch
+    save_theme_stakes(existing_theme_stakes)
 
     try:
         save_tracker(MARKET_EVAL_TRACKER)
