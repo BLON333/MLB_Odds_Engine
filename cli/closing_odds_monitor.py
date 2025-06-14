@@ -22,6 +22,29 @@ from utils import (
 )
 from dotenv import load_dotenv
 
+
+def retry_api_call(func, max_attempts: int = 3, wait_seconds: int = 2):
+    """Call ``func`` retrying on Exception."""
+    for attempt in range(max_attempts):
+        try:
+            return func()
+        except Exception as e:
+            if attempt < max_attempts - 1:
+                logger.warning(
+                    "\u26a0\ufe0f API call failed (attempt %d/%d): %s. Retrying...",
+                    attempt + 1,
+                    max_attempts,
+                    e,
+                )
+                time.sleep(wait_seconds)
+            else:
+                logger.error(
+                    "\u274c API call failed after %d attempts: %s",
+                    max_attempts,
+                    e,
+                )
+                raise
+
 from core.odds_fetcher import (
     fetch_consensus_for_single_game,
     fetch_market_odds_from_api,
@@ -324,19 +347,20 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
             existing = {}
 
         try:
-            resp = requests.get(
-                "https://api.the-odds-api.com/v4/sports/baseball_mlb/events",
-                params={"apiKey": os.getenv("ODDS_API_KEY")},
+            resp = retry_api_call(
+                lambda: requests.get(
+                    "https://api.the-odds-api.com/v4/sports/baseball_mlb/events",
+                    params={"apiKey": os.getenv("ODDS_API_KEY")},
+                )
             )
-            if resp.status_code != 200:
-                logger.error("❌ Error fetching events: %s", resp.text)
-                time.sleep(poll_interval)
-                continue
-            events = resp.json()
-        except Exception as e:
-            logger.error("❌ Failed to fetch events: %s", e)
+        except Exception:
             time.sleep(poll_interval)
             continue
+        if resp.status_code != 200:
+            logger.error("❌ Error fetching events: %s", resp.text)
+            time.sleep(poll_interval)
+            continue
+        events = resp.json()
 
         for event in events:
             start_time = event.get("commence_time", "")
@@ -420,34 +444,22 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                 if 0 <= time_to_game <= 600:
                     logger.info("📡 Fetching consensus odds for %s...", gid)
 
-                    consensus_odds = None
-                    for attempt in range(2):
-                        consensus_odds = fetch_consensus_for_single_game(gid)
-
-                        if debug_mode:
-                            logger.debug(
-                                "📡 [DEBUG] Attempt %s: consensus odds fetched: %s for %s",
-                                attempt + 1,
-                                bool(consensus_odds),
-                                gid,
-                            )
-
-                        if consensus_odds:
-                            break
-
-                        if attempt == 0:
-                            logger.warning("⚠️ No consensus odds found for %s — retrying...", gid)
-                            time.sleep(10)
-
-                    if not consensus_odds:
+                    try:
+                        consensus_odds = retry_api_call(
+                            lambda: fetch_consensus_for_single_game(gid),
+                            max_attempts=2,
+                            wait_seconds=10,
+                        )
+                    except Exception:
                         logger.warning(
-                            "⚠️ No consensus odds found for %s after retry. Using single-book fallback...",
+                            "⚠️ No consensus odds for %s after retry, using single-book fallback...",
                             gid,
                         )
                         consensus_odds = fetch_single_book_fallback(gid)
                         if not consensus_odds:
                             logger.warning(
-                                "❌ Fallback odds also unavailable for %s", gid
+                                "❌ Fallback odds also unavailable for %s",
+                                gid,
                             )
                             continue
 

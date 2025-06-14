@@ -12,6 +12,7 @@ from utils import (
 )
 from core.time_utils import compute_hours_to_game
 from core.odds_fetcher import fetch_consensus_for_single_game, american_to_prob
+from core.logger import get_logger
 from core.confirmation_utils import required_market_move
 from core.pending_bets import (
     load_pending_bets,
@@ -23,7 +24,32 @@ from core.market_eval_tracker import load_tracker as load_eval_tracker
 from cli.log_betting_evals import write_to_csv, load_existing_stakes
 from core.should_log_bet import should_log_bet
 
+logger = get_logger(__name__)
+
 CHECK_INTERVAL = 30 * 60  # 30 minutes
+
+
+def retry_api_call(func, max_attempts: int = 3, wait_seconds: int = 2):
+    """Call ``func`` retrying on Exception."""
+    for attempt in range(max_attempts):
+        try:
+            return func()
+        except Exception as e:
+            if attempt < max_attempts - 1:
+                logger.warning(
+                    "\u26a0\ufe0f API call failed (attempt %d/%d): %s. Retrying...",
+                    attempt + 1,
+                    max_attempts,
+                    e,
+                )
+                time.sleep(wait_seconds)
+            else:
+                logger.error(
+                    "\u274c API call failed after %d attempts: %s",
+                    max_attempts,
+                    e,
+                )
+                raise
 
 
 def _start_time_from_gid(game_id: str) -> datetime | None:
@@ -64,7 +90,9 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
         if hours_to_game <= 0:
             # Game started; drop entry
             continue
-        market_data = fetch_consensus_for_single_game(bet["game_id"])
+        market_data = retry_api_call(
+            lambda: fetch_consensus_for_single_game(bet["game_id"])
+        )
         if not market_data:
             updated[key] = bet
             continue
