@@ -1473,6 +1473,13 @@ def write_to_csv(
                 print(
                     f"⛔ Skipping {row.get('entry_type')} bet — no prior market probability ({prior_prob} → {new_prob})"
                 )
+            if prior_prob is None:
+                current_consensus_prob = new_conf_val if new_conf_val is not None else new_prob
+                MARKET_CONF_TRACKER[tracker_key] = {
+                    "consensus_prob": current_consensus_prob,
+                    "status": "pending",
+                    "timestamp": datetime.now().isoformat(),
+                }
             movement = track_and_update_market_movement(
                 row,
                 MARKET_EVAL_TRACKER,
@@ -1497,6 +1504,13 @@ def write_to_csv(
                 print(
                     f"⛔ Skipping {row.get('entry_type')} bet — market probability did not improve ({new_prob:.4f} ≤ {prior_prob:.4f})"
                 )
+            if prior_prob is None:
+                current_consensus_prob = new_conf_val if new_conf_val is not None else new_prob
+                MARKET_CONF_TRACKER[tracker_key] = {
+                    "consensus_prob": current_consensus_prob,
+                    "status": "pending",
+                    "timestamp": datetime.now().isoformat(),
+                }
             row["skip_reason"] = "market_not_moved"
             return None
         elif (new_prob - prior_prob) < threshold:
@@ -1508,6 +1522,13 @@ def write_to_csv(
                 print(
                     f"⛔ Skipping {row.get('entry_type')} bet — market % increase too small ({delta:.4f} < {threshold:.4f})"
                 )
+            if prior_prob is None:
+                current_consensus_prob = new_conf_val if new_conf_val is not None else new_prob
+                MARKET_CONF_TRACKER[tracker_key] = {
+                    "consensus_prob": current_consensus_prob,
+                    "status": "pending",
+                    "timestamp": datetime.now().isoformat(),
+                }
             row["skip_reason"] = "market_not_moved"
             return None
 
@@ -1567,7 +1588,6 @@ def write_to_csv(
             "consensus_prob": new_conf_val,
             "timestamp": datetime.now().isoformat(),
         }
-        save_market_conf_tracker(MARKET_CONF_TRACKER)
 
         movement = track_and_update_market_movement(
             row,
@@ -2847,6 +2867,11 @@ def process_theme_logged_bets(
         )
     except Exception as e:  # pragma: no cover - unexpected save failure
         logger.warning("\u26A0\ufe0f Failed to save market eval tracker: %s", e)
+
+    try:
+        save_market_conf_tracker(MARKET_CONF_TRACKER)
+    except Exception as e:
+        logger.warning("\u26A0\ufe0f Failed to save market confirmation tracker: %s", e)
 
     if not config.DEBUG_MODE:
         print(
