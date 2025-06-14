@@ -1900,7 +1900,7 @@ def log_bets(
                 skipped_bets.append(row)
             continue
 
-        if stake < 1.00:
+        if stake < MIN_FIRST_STAKE:
             if config.DEBUG_MODE or config.VERBOSE_MODE:
                 print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
             if dry_run:
@@ -2287,7 +2287,7 @@ def log_derivative_bets(
                         skipped_bets.append(row)
                     continue
 
-                if stake < 1.00:
+                if stake < MIN_FIRST_STAKE:
                     if config.DEBUG_MODE or config.VERBOSE_MODE:
                         print(f"        🟡 Skipped — low stake ({stake:.2f}u)\n")
                     row["skip_reason"] = "low_stake"
@@ -2822,23 +2822,6 @@ def process_theme_logged_bets(
                         skipped_bets.append(row)
                     should_log = False
 
-                if is_initial_bet and proposed_stake < 1.00:
-                    skip_reason = "low_initial"
-                    skipped_counts["low_initial"] += 1
-                    if should_include_in_summary(row):
-                        row["skip_reason"] = "low_initial"
-                        ensure_consensus_books(row)
-                        skipped_bets.append(row)
-                    should_log = False
-
-                if not is_initial_bet and delta < 0.50:
-                    skip_reason = "low_topup"
-                    skipped_counts["low_topup"] += 1
-                    if should_include_in_summary(row):
-                        row["skip_reason"] = "low_topup"
-                        ensure_consensus_books(row)
-                        skipped_bets.append(row)
-                    should_log = False
 
                 if should_log:
                     if config.VERBOSE_MODE:
@@ -2874,6 +2857,15 @@ def process_theme_logged_bets(
                     eval_tracker=MARKET_EVAL_TRACKER,
                     reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                 )
+
+                if not evaluated:
+                    reason = row_copy.get("skip_reason", "skipped")
+                    skipped_counts[reason] += 1
+                    if should_include_in_summary(row):
+                        row["skip_reason"] = reason
+                        ensure_consensus_books(row)
+                        skipped_bets.append(row)
+                    continue
 
                 # 📝 Update tracker for every evaluated bet
                 t_key = build_tracker_key(

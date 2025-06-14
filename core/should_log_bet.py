@@ -165,16 +165,13 @@ def should_log_bet(
             new_bet["skip_reason"] = "bad_odds"
             return None
 
-    if ev < min_ev * 100 or stake < min_stake:
+    if ev < min_ev * 100:
         if verbose:
             print(
-                f"⛔ should_log_bet: Rejected due to EV/stake threshold → EV: {ev:.2f}%, Stake: {stake:.2f}u"
+                f"⛔ should_log_bet: Rejected due to EV threshold → EV: {ev:.2f}%"
             )
         new_bet["entry_type"] = "none"
-        if ev < min_ev * 100:
-            new_bet["skip_reason"] = "low_ev"
-        elif stake < min_stake:
-            new_bet["skip_reason"] = "low_stake"
+        new_bet["skip_reason"] = "low_ev"
         return None
 
     base_market = market.replace("alternate_", "")
@@ -303,7 +300,7 @@ def should_log_bet(
                 verbose,
             )
             new_bet["entry_type"] = "none"
-            new_bet["skip_reason"] = "low_stake"
+            new_bet["skip_reason"] = "low_initial"
             return None
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
@@ -317,14 +314,6 @@ def should_log_bet(
     if delta >= MIN_TOPUP_STAKE:
         new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
-        if new_bet["stake"] < MIN_TOPUP_STAKE:
-            msg = (
-                f"⛔ Delta stake {new_bet['stake']:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
-            )
-            _log_verbose(msg, verbose)
-            new_bet["entry_type"] = "none"
-            new_bet["skip_reason"] = msg
-            return None
         _log_verbose(
             f"🔼 should_log_bet: Top-up accepted → {side} | {theme_key} [{segment}] | Δ {delta:.2f}u",
             verbose,
@@ -333,6 +322,6 @@ def should_log_bet(
 
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
-    new_bet["skip_reason"] = msg
+    new_bet["skip_reason"] = "low_topup"
     _log_verbose(msg, verbose)
     return None
