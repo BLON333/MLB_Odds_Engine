@@ -2340,6 +2340,22 @@ def send_summary_to_discord(skipped_bets, webhook_url):
         print(f"❌ Failed to send summary to Discord: {e}")
 
 
+def save_skipped_bets(skipped_bets: list, base_dir: str = os.path.join("logs", "skipped_bets")) -> str:
+    """Persist ``skipped_bets`` as a JSON file named by today's date.
+
+    Returns the final file path written.
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    os.makedirs(base_dir, exist_ok=True)
+    tmp_path = os.path.join(base_dir, f"{today}.json.tmp")
+    final_path = os.path.join(base_dir, f"{today}.json")
+    with open(tmp_path, "w") as f:
+        json.dump(skipped_bets, f, indent=2)
+    os.replace(tmp_path, final_path)
+    logger.info("💾 Saved %d skipped bets to %s", len(skipped_bets), final_path)
+    return final_path
+
+
 def run_batch_logging(
     eval_folder,
     market_odds,
@@ -2350,6 +2366,7 @@ def run_batch_logging(
     output_dir="logs",
     fallback_odds_path=None,
     force_log=False,
+    no_save_skips=False,
 ):
     from collections import defaultdict
     import os, json
@@ -2607,6 +2624,9 @@ def run_batch_logging(
             except Exception:
                 pass
         print(f"📁 Queued {len(summary_candidates)} pending bets to pending_bets.json")
+
+    if summary_candidates and not no_save_skips:
+        save_skipped_bets(summary_candidates)
 
 
 def process_theme_logged_bets(
@@ -2919,6 +2939,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Bypass quiet hours and allow logging at any time",
     )
+    p.add_argument(
+        "--no_save_skips",
+        action="store_true",
+        help="Disable saving skipped bets to disk",
+    )
     args = p.parse_args()
 
     if args.debug:
@@ -2973,4 +2998,5 @@ if __name__ == "__main__":
         output_dir=args.output_dir,
         fallback_odds_path=args.fallback_odds_path,
         force_log=force_log,
+        no_save_skips=args.no_save_skips,
     )
