@@ -29,6 +29,7 @@ from utils import (
     now_eastern,
     TEAM_NAME_TO_ABBR,
     TEAM_ABBR_TO_NAME,
+    post_with_retries,
 )
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
@@ -332,7 +333,7 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
         logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
         table = df.to_string(index=False)
         try:
-            requests.post(
+            post_with_retries(
                 webhook_url,
                 json={"content": f"```\n{table}\n```"},
                 timeout=15,
@@ -353,7 +354,7 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
         buf.close()
         table = df.to_string(index=False)
         try:
-            requests.post(
+            post_with_retries(
                 webhook_url,
                 json={"content": f"```\n{table}\n```"},
                 timeout=15,
@@ -369,14 +370,14 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     caption = "📊 **CLV Snapshot**"
     files = {"file": ("snapshot.png", buf, "image/png")}
     try:
-        resp = requests.post(
+        resp = post_with_retries(
             webhook_url,
             data={"payload_json": json.dumps({"content": caption})},
             files=files,
             timeout=15,
         )
-        resp.raise_for_status()
-        logger.info(f"✅ CLV Snapshot sent with {df.shape[0]} rows")
+        if resp:
+            logger.info(f"✅ CLV Snapshot sent with {df.shape[0]} rows")
     except Timeout:
         logger.error("❌ Discord post failed due to timeout")
         sys.exit(1)
