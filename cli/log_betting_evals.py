@@ -2733,13 +2733,20 @@ def process_theme_logged_bets(
                     should_log = False
 
                 if theme_total >= proposed_stake:
-                    skip_reason = SkipReason.ALREADY_LOGGED.value
-                    skipped_counts[SkipReason.ALREADY_LOGGED.value] += 1
-                    if should_include_in_summary(row):
-                        row["skip_reason"] = SkipReason.ALREADY_LOGGED.value
-                        ensure_consensus_books(row)
-                        skipped_bets.append(row)
-                    should_log = False
+                    if key not in existing:
+                        logger.warning(
+                            "Tracker shows full stake but bet missing from CSV: %s",
+                            key,
+                        )
+                        # Allow logging to proceed in case of tracker desync
+                    else:
+                        skip_reason = SkipReason.ALREADY_LOGGED.value
+                        skipped_counts[SkipReason.ALREADY_LOGGED.value] += 1
+                        if should_include_in_summary(row):
+                            row["skip_reason"] = SkipReason.ALREADY_LOGGED.value
+                            ensure_consensus_books(row)
+                            skipped_bets.append(row)
+                        should_log = False
 
 
                 if should_log:
