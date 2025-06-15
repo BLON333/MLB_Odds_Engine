@@ -78,7 +78,7 @@ def is_best_book_row(row: dict) -> bool:
 
 def is_live_snapshot_row(row: dict) -> bool:
     """Return True if row qualifies for the live snapshot."""
-    return row.get("ev_percent", 0) >= 5.0
+    return row.get("ev_percent", 0) >= 3.0
 
 
 def is_personal_book_row(row: dict) -> bool:

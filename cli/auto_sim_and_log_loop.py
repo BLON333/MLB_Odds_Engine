@@ -415,7 +415,12 @@ if initial_odds:
     last_log_time = last_snapshot_time
     last_sim_time = last_snapshot_time
     run_logger(initial_odds)
-    run_unified_snapshot_and_dispatch(initial_odds)
+    if any(p["name"].startswith("dispatch_") for p in active_processes):
+        logger.info(
+            "🟡 Skipping snapshot dispatch – previous dispatch scripts still active."
+        )
+    else:
+        run_unified_snapshot_and_dispatch(initial_odds)
 
 start_time = time.time()
 loop_count = 0
@@ -464,7 +469,12 @@ while True:
             else:
                 last_snapshot_time = now
                 run_logger(odds_file)
-                run_unified_snapshot_and_dispatch(odds_file)
+                if any(p["name"].startswith("dispatch_") for p in active_processes):
+                    logger.info(
+                        "🟡 Skipping snapshot dispatch – previous dispatch scripts still active."
+                    )
+                else:
+                    run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
         triggered_log = True
 
