@@ -13,7 +13,11 @@ from collections import defaultdict
 import requests
 from dotenv import load_dotenv
 
-from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
+from core.market_eval_tracker import (
+    load_tracker as load_eval_tracker,
+    save_tracker,
+    build_tracker_key,
+)
 from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
@@ -178,7 +182,7 @@ def latest_snapshot_path(folder="backtest"):
 
 
 # Load tracker for updates during logging
-MARKET_EVAL_TRACKER = load_tracker()
+MARKET_EVAL_TRACKER = load_eval_tracker()
 
 # Load most recent snapshot file for movement comparison
 SNAPSHOT_PATH_USED = latest_snapshot_path("backtest")
@@ -293,7 +297,11 @@ from core.time_utils import compute_hours_to_game
 
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
-from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
+from core.market_eval_tracker import (
+    load_tracker as load_eval_tracker,
+    save_tracker,
+    build_tracker_key,
+)
 from core.market_movement_tracker import (
     track_and_update_market_movement,
     detect_market_movement,
@@ -2456,7 +2464,7 @@ def run_batch_logging(
         market_evals_df = pd.DataFrame()
 
     MARKET_EVAL_TRACKER.clear()
-    MARKET_EVAL_TRACKER.update(load_tracker())
+    MARKET_EVAL_TRACKER.update(load_eval_tracker())
 
     # ✅ Ensure all required columns exist for downstream filters like should_log_bet
     required_cols = [
