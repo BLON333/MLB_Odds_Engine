@@ -13,6 +13,7 @@ from core.bootstrap import *  # noqa
 from dotenv import load_dotenv
 import pandas as pd
 import requests
+from requests.exceptions import Timeout
 
 from utils import safe_load_json
 from core.logger import get_logger
@@ -105,7 +106,18 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     if dfi is None:
         logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
         message = df.to_string(index=False)
-        requests.post(webhook_url, json={"content": f"```\n{message}\n```"})
+        try:
+            requests.post(
+                webhook_url,
+                json={"content": f"```\n{message}\n```"},
+                timeout=15,
+            )
+        except Timeout:
+            logger.error("❌ Discord post failed due to timeout")
+            sys.exit(1)
+        except Exception as e:
+            logger.error("❌ Failed to send snapshot: %s", e)
+            sys.exit(1)
         return
 
     styled = _style_plain(df)
@@ -125,12 +137,16 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
             webhook_url,
             data={"payload_json": json.dumps({"content": caption})},
             files=files,
-            timeout=10,
+            timeout=15,
         )
         resp.raise_for_status()
         logger.info("✅ Snapshot sent (%d rows)", df.shape[0])
+    except Timeout:
+        logger.error("❌ Discord post failed due to timeout")
+        sys.exit(1)
     except Exception as e:  # pragma: no cover - network errors
         logger.error("❌ Failed to send snapshot: %s", e)
+        sys.exit(1)
     finally:
         buf.close()
 
