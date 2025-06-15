@@ -15,7 +15,7 @@ import pandas as pd
 import requests
 from requests.exceptions import Timeout
 
-from utils import safe_load_json
+from utils import safe_load_json, post_with_retries
 from core.logger import get_logger
 from core.market_pricer import (
     extract_best_book,
@@ -107,7 +107,7 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
         logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
         message = df.to_string(index=False)
         try:
-            requests.post(
+            post_with_retries(
                 webhook_url,
                 json={"content": f"```\n{message}\n```"},
                 timeout=15,
@@ -133,14 +133,14 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     caption = "📊 Simulation-Only Snapshot Feed (Mainlines Only)"
     files = {"file": ("snapshot.png", buf, "image/png")}
     try:
-        resp = requests.post(
+        resp = post_with_retries(
             webhook_url,
             data={"payload_json": json.dumps({"content": caption})},
             files=files,
             timeout=15,
         )
-        resp.raise_for_status()
-        logger.info("✅ Snapshot sent (%d rows)", df.shape[0])
+        if resp:
+            logger.info("✅ Snapshot sent (%d rows)", df.shape[0])
     except Timeout:
         logger.error("❌ Discord post failed due to timeout")
         sys.exit(1)

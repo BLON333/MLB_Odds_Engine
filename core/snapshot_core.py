@@ -11,6 +11,7 @@ import io
 import pandas as pd
 
 import requests
+from utils import post_with_retries
 
 try:
     import dataframe_image as dfi
@@ -492,14 +493,14 @@ def send_bet_snapshot_to_discord(
 
     files = {"file": ("snapshot.png", buf, "image/png")}
     try:
-        resp = requests.post(
+        resp = post_with_retries(
             webhook_url,
             data={"payload_json": json.dumps({"content": caption})},
             files=files,
             timeout=10,
         )
-        resp.raise_for_status()
-        print(f"✅ Snapshot sent: {df.shape[0]} bets dispatched")
+        if resp:
+            print(f"✅ Snapshot sent: {df.shape[0]} bets dispatched")
     except Exception as e:
         print(f"❌ Failed to send snapshot for {market_type}: {e}")
     finally:
@@ -518,7 +519,7 @@ def _send_table_text(df: pd.DataFrame, market_type: str, webhook_url: str) -> No
 
     message = f"{caption}\n```\n{table}\n```"
     try:
-        requests.post(webhook_url, json={"content": message}, timeout=10)
+        post_with_retries(webhook_url, json={"content": message}, timeout=10)
     except Exception as e:
         print(f"❌ Failed to send text snapshot for {market_type}: {e}")
 

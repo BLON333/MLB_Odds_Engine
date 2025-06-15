@@ -11,6 +11,7 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
+from utils import post_with_retries
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import (
@@ -680,6 +681,7 @@ def generate_clean_summary_table(
 
 def upload_summary_image_to_discord(image_path, webhook_url):
     import requests
+    from utils import post_with_retries
     import os
 
     if not webhook_url:
@@ -693,9 +695,9 @@ def upload_summary_image_to_discord(image_path, webhook_url):
     with open(image_path, "rb") as img:
         files = {"file": (os.path.basename(image_path), img)}
         try:
-            response = requests.post(webhook_url, files=files)
-            response.raise_for_status()
-            print("✅ Summary image uploaded to Discord.")
+            resp = post_with_retries(webhook_url, files=files)
+            if resp:
+                print("✅ Summary image uploaded to Discord.")
         except Exception as e:
             print(f"❌ Failed to upload summary image to Discord: {e}")
 
@@ -1277,8 +1279,11 @@ def send_discord_notification(row, skipped_bets=None):
     message = build_discord_embed(row)
 
     try:
-        response = requests.post(webhook_url, json={"content": message.strip()})
-        print(f"Discord response: {response.status_code} | {response.text}")
+        response = post_with_retries(
+            webhook_url, json={"content": message.strip()}
+        )
+        if response:
+            print(f"Discord response: {response.status_code} | {response.text}")
     except Exception as e:
         print(f"❌ Failed to send Discord message: {e}")
         if message:
@@ -2345,8 +2350,9 @@ def send_summary_to_discord(skipped_bets, webhook_url):
         payload = {"embeds": [embed]}
 
     try:
-        requests.post(webhook_url, json=payload, timeout=5)
-        print(f"✅ Summary sent to Discord ({len(skipped_bets)} bets)")
+        resp = post_with_retries(webhook_url, json=payload, timeout=5)
+        if resp:
+            print(f"✅ Summary sent to Discord ({len(skipped_bets)} bets)")
     except Exception as e:
         print(f"❌ Failed to send summary to Discord: {e}")
 
