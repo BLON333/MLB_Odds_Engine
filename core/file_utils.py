@@ -43,6 +43,7 @@ def with_locked_file(lock_path: str, *, stale_after: int = 10, retries: int = 50
                 break
             except FileExistsError:
                 if is_file_older_than(lock_path, stale_after):
+                    print("⚠️ Stale tracker lock detected; removing old lock file")
                     try:
                         os.remove(lock_path)
                     except Exception:

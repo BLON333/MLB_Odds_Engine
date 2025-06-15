@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 
 from utils import safe_load_json, now_eastern
+from core.lock_utils import with_locked_file
 
 PENDING_BETS_PATH = os.path.join('logs', 'pending_bets.json')
 
@@ -16,12 +17,17 @@ def load_pending_bets(path: str = PENDING_BETS_PATH) -> dict:
 
 
 def save_pending_bets(pending: dict, path: str = PENDING_BETS_PATH) -> None:
-    """Persist ``pending`` to ``path`` atomically."""
+    """Persist ``pending`` to ``path`` atomically using a lock."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    lock = f"{path}.lock"
     tmp = f"{path}.tmp"
-    with open(tmp, 'w') as f:
-        json.dump(pending, f, indent=2)
-    os.replace(tmp, path)
+    try:
+        with with_locked_file(lock):
+            with open(tmp, 'w') as f:
+                json.dump(pending, f, indent=2)
+            os.replace(tmp, path)
+    except Exception as e:
+        print(f"⚠️ Failed to save pending bets: {e}")
 
 
 def queue_pending_bet(bet: dict, path: str = PENDING_BETS_PATH) -> None:

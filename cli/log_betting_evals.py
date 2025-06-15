@@ -14,6 +14,7 @@ import requests
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
+from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 from utils import canonical_game_id
@@ -108,12 +109,14 @@ def load_market_conf_tracker(path: str = MARKET_CONF_TRACKER_PATH):
 
 
 def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH):
-    """Atomically save tracker data to disk."""
+    """Atomically save tracker data to disk with a lock."""
+    lock = f"{path}.lock"
     tmp = f"{path}.tmp"
     try:
-        with open(tmp, "w") as f:
-            json.dump(tracker, f, indent=2)
-        os.replace(tmp, path)
+        with with_locked_file(lock):
+            with open(tmp, "w") as f:
+                json.dump(tracker, f, indent=2)
+            os.replace(tmp, path)
     except Exception as e:
         logger.warning("❌ Failed to save market confirmation tracker: %s", e)
 
