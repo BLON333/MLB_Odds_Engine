@@ -26,6 +26,7 @@ from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
 from utils import canonical_game_id
 from utils.book_helpers import ensure_consensus_books
 import re
+import warnings
 
 load_dotenv()
 from core.logger import get_logger, set_log_level
@@ -2474,7 +2475,15 @@ def run_batch_logging(
     existing = load_existing_stakes("logs/market_evals.csv")
     market_evals_path = "logs/market_evals.csv"
     if os.path.exists(market_evals_path):
-        market_evals_df = pd.read_csv(market_evals_path)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            try:
+                market_evals_df = pd.read_csv(
+                    market_evals_path, engine="python", on_bad_lines="warn"
+                )
+            except Exception as e:
+                logger.warning("⚠️ Failed to load market_evals.csv: %s", e)
+                market_evals_df = pd.DataFrame()
         market_evals_df.columns = market_evals_df.columns.str.strip()
         print(
             f"📋 Loaded market_evals.csv with columns: {market_evals_df.columns.tolist()}"
