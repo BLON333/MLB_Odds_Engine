@@ -114,21 +114,54 @@ def launch_process(name: str, cmd: list[str]) -> subprocess.Popen:
 def poll_active_processes() -> None:
     """Check running processes and log when they finish."""
     for entry in list(active_processes):
-        ret = entry["proc"].poll()
+        proc = entry["proc"]
+        ret = proc.poll()
         if ret is None:
             time_running = time.time() - entry["start"]
-            if entry["name"].startswith("FullSlateSim") and time_running > 45 * 60:
+
+            timeout = None
+            name = entry["name"]
+            if name.startswith("LogBets"):
+                timeout = 10 * 60
+            elif name.startswith("dispatch"):
+                timeout = 5 * 60
+            elif name.startswith("FullSlateSim"):
+                timeout = 45 * 60
+
+            if timeout and time_running > timeout:
+                try:
+                    proc.kill()
+                    proc.wait()
+                    logger.error(
+                        "💀 [%s] Force-terminated %s (PID %d) after %.1fs",
+                        now_eastern(),
+                        name,
+                        proc.pid,
+                        time_running,
+                    )
+                except Exception as exc:
+                    logger.error(
+                        "❌ [%s] Failed to kill %s (PID %d): %s",
+                        now_eastern(),
+                        name,
+                        proc.pid,
+                        exc,
+                    )
+                active_processes.remove(entry)
+                continue
+
+            if name.startswith("FullSlateSim") and time_running > 45 * 60:
                 logger.warning(
                     "⏳ [%s] %s still running after %dm \u2014 possible stall",
                     now_eastern(),
-                    entry["name"],
+                    name,
                     int(time_running // 60),
                 )
-            elif entry["name"].startswith("LogEval") and time_running > 10 * 60:
+            elif name.startswith("LogEval") and time_running > 10 * 60:
                 logger.warning(
                     "⏳ [%s] %s still running after %dm \u2014 possible stall",
                     now_eastern(),
-                    entry["name"],
+                    name,
                     int(time_running // 60),
                 )
             continue
