@@ -1604,6 +1604,12 @@ def write_to_csv(
             )
 
         row_to_write = {k: row.get(k, "") for k in fieldnames}
+
+        # Wrap any problematic strings with quotes to avoid malformed CSV rows
+        for k, v in row_to_write.items():
+            if isinstance(v, str) and ("," in v or "\n" in v):
+                row_to_write[k] = f'"{v.replace("\"", "'")}"'
+
         writer.writerow(row_to_write)
         if config.VERBOSE_MODE:
             print(f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}")
