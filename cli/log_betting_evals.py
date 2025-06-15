@@ -11,6 +11,8 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
+from utils import post_with_retries
+from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import (
@@ -78,6 +80,9 @@ OFFICIAL_PLAYS_WEBHOOK_URL = os.getenv("OFFICIAL_PLAYS_WEBHOOK_URL")
 # Configurable quiet hours (Eastern Time)
 quiet_hours_start = int(os.getenv("QUIET_HOURS_START", 22))  # default: 10 PM ET
 quiet_hours_end = int(os.getenv("QUIET_HOURS_END", 8))       # default: 8 AM ET
+
+# Maximum stake allowed per bet (units)
+MAX_STAKE = 2.0
 
 
 def should_skip_due_to_quiet_hours(
@@ -165,7 +170,11 @@ BASE_CSV_COLUMNS = [
     "best_book",
     "date_simulated",
     "result",
+    "logger_config",
 ]
+
+# Populated by run_batch_logging() and written with each CSV row
+LOGGER_CONFIG = ""
 
 
 def latest_snapshot_path(folder="backtest"):
@@ -680,6 +689,7 @@ def generate_clean_summary_table(
 
 def upload_summary_image_to_discord(image_path, webhook_url):
     import requests
+    from utils import post_with_retries
     import os
 
     if not webhook_url:
@@ -693,9 +703,9 @@ def upload_summary_image_to_discord(image_path, webhook_url):
     with open(image_path, "rb") as img:
         files = {"file": (os.path.basename(image_path), img)}
         try:
-            response = requests.post(webhook_url, files=files)
-            response.raise_for_status()
-            print("✅ Summary image uploaded to Discord.")
+            resp = post_with_retries(webhook_url, files=files)
+            if resp:
+                print("✅ Summary image uploaded to Discord.")
         except Exception as e:
             print(f"❌ Failed to upload summary image to Discord: {e}")
 
@@ -1277,8 +1287,11 @@ def send_discord_notification(row, skipped_bets=None):
     message = build_discord_embed(row)
 
     try:
-        response = requests.post(webhook_url, json={"content": message.strip()})
-        print(f"Discord response: {response.status_code} | {response.text}")
+        response = post_with_retries(
+            webhook_url, json={"content": message.strip()}
+        )
+        if response:
+            print(f"Discord response: {response.status_code} | {response.text}")
     except Exception as e:
         print(f"❌ Failed to send Discord message: {e}")
         if message:
@@ -1557,9 +1570,8 @@ def write_to_csv(
             reader = csv.DictReader(existing_file)
             fieldnames = reader.fieldnames or BASE_CSV_COLUMNS
         if not set(BASE_CSV_COLUMNS).issubset(set(fieldnames)):
-            raise ValueError(
-                "[CSV Logger] Existing CSV missing required columns"
-            )
+            missing_cols = [c for c in BASE_CSV_COLUMNS if c not in fieldnames]
+            fieldnames += missing_cols
     else:
         fieldnames = BASE_CSV_COLUMNS
 
@@ -1578,6 +1590,10 @@ def write_to_csv(
         # Remove transient keys not meant for CSV output
         for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
             row.pop(k, None)
+
+        # Attach logger configuration for audit trail
+        if LOGGER_CONFIG:
+            row["logger_config"] = LOGGER_CONFIG
 
         # Ensure required columns present in the row
         missing_required = [c for c in BASE_CSV_COLUMNS if c not in row]
@@ -2345,8 +2361,9 @@ def send_summary_to_discord(skipped_bets, webhook_url):
         payload = {"embeds": [embed]}
 
     try:
-        requests.post(webhook_url, json=payload, timeout=5)
-        print(f"✅ Summary sent to Discord ({len(skipped_bets)} bets)")
+        resp = post_with_retries(webhook_url, json=payload, timeout=5)
+        if resp:
+            print(f"✅ Summary sent to Discord ({len(skipped_bets)} bets)")
     except Exception as e:
         print(f"❌ Failed to send summary to Discord: {e}")
 
@@ -2384,6 +2401,13 @@ def run_batch_logging(
     from dotenv import load_dotenv
 
     load_dotenv()
+
+    global LOGGER_CONFIG
+    min_odds, max_odds = MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
+    min_ev_pct = round(min_ev * 100, 2)
+    LOGGER_CONFIG = (
+        f"ev_min={min_ev_pct}_stake_cap={MAX_STAKE}_odds_range={min_odds}/{max_odds}"
+    )
 
     if market_odds is None:
         logger.warning(
@@ -2487,9 +2511,10 @@ def run_batch_logging(
         "entry_type",
         "segment",
         "best_book",
-        "date_simulated",
-        "result",
-    ]
+    "date_simulated",
+    "result",
+    "logger_config",
+]
 
     for col in required_cols:
         if col not in market_evals_df.columns:
