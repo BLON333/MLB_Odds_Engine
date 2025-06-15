@@ -870,6 +870,8 @@ def build_snapshot_rows(
                 "_raw_sportsbook": sportsbook_odds,
                 "date_simulated": datetime.now().isoformat(),
                 "hours_to_game": round(hours_to_game, 2),
+                "logged": bool(entry.get("logged", False)),
+                "skip_reason": entry.get("skip_reason"),
             }
             parsed = parse_game_id(str(game_id))
             row["Date"] = parsed.get("date", "")
@@ -1042,6 +1044,8 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         "prev_market_prob",
         "prev_market_odds",
         "prev_blended_fv",
+        "logged",
+        "skip_reason",
     ]
 
     if include_movement:
@@ -1261,6 +1265,7 @@ def expand_snapshot_rows_with_kelly(
 
             expanded_any = True
             expanded_row = row.copy()
+            expanded_row["logged"] = bool(row.get("logged", False))
             expanded_row.update(
                 {
                     "best_book": book,
@@ -1304,6 +1309,7 @@ def expand_snapshot_rows_with_kelly(
         
         if not expanded_any:
             row_copy = row.copy()
+            row_copy["logged"] = bool(row.get("logged", False))
             if allowed_books:
                 row_copy["skip_reason"] = "book_filter"
             elif row.get("market_odds") is None:
