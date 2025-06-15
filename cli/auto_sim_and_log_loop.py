@@ -453,9 +453,18 @@ while True:
         )
         odds_file = fetch_and_cache_odds_snapshot()
         if odds_file:
-            last_snapshot_time = now
-            run_logger(odds_file)
-            run_unified_snapshot_and_dispatch(odds_file)
+            # Skip launching new logger processes if an existing LogBets
+            # subprocess is still running. This prevents duplicate log runs.
+            if any(
+                "logbets" in proc["name"].lower() for proc in active_processes
+            ):
+                logger.info(
+                    "🟡 Skipping logger – previous LogBets process still running."
+                )
+            else:
+                last_snapshot_time = now
+                run_logger(odds_file)
+                run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
         triggered_log = True
 
