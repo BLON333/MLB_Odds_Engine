@@ -73,24 +73,36 @@ def reconcile(csv_path: str = CSV_PATH, tracker_path: str = TRACKER_PATH) -> Non
         return
 
     original_count = len(tracker)
-    removed = 0
+    removed_keys: list[str] = []
     for key in list(tracker.keys()):
         parsed = parse_tracker_key(key)
         if parsed[0] is None:
             continue
         if parsed not in csv_keys:
+            removed_keys.append(key)
             del tracker[key]
-            removed += 1
 
-    if removed:
+    removed_count = len(removed_keys)
+    cleaned_tracker = tracker
+    if removed_count:
         backup_tracker(tracker_path)
-        save_tracker(tracker, tracker_path)
-        print(f"✅ Removed {removed} phantom entries (now {len(tracker)} total)")
-    else:
-        print("✅ No phantom entries found")
+        save_tracker(cleaned_tracker, tracker_path)
+    
+    print("✅ Reconciliation Complete")
+    print(f"🔢 Tracker entries removed: {removed_count}")
+    print(f"📊 Final tracker size: {len(cleaned_tracker)}")
+
+    print(f"Total entries in market_eval_tracker before: {original_count}")
+    print(f"Total entries after: {len(cleaned_tracker)}")
+    print(f"Total logged bets in market_evals.csv: {len(csv_keys)}")
+    print(f"Number of phantom tracker entries removed: {removed_count}")
+    if removed_keys:
+        print("Top 10 removed keys:")
+        for key in removed_keys[:10]:
+            print(f"  - {key}")
 
     # Confirm remaining keys exist in CSV
-    missing = [k for k in tracker if parse_tracker_key(k) not in csv_keys]
+    missing = [k for k in cleaned_tracker if parse_tracker_key(k) not in csv_keys]
     if missing:
         print(f"⚠️ {len(missing)} remaining keys not found in CSV")
     else:
