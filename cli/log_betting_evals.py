@@ -2815,20 +2815,32 @@ def process_theme_logged_bets(
 
     # ➡️ Log only the best bet per (game_id, market, segment)
     logged_bets_this_loop = []
+    final_rows = []
     for best_row in best_market_segment.values():
         if config.VERBOSE_MODE:
             print(
                 f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
             )
-        result = write_to_csv(
-            best_row,
-            "logs/market_evals.csv",
-            existing,
-            session_exposure,
-            existing_theme_stakes,
-            dry_run=dry_run,
-            force_log=force_log,
-        )
+        try:
+            result = write_to_csv(
+                best_row,
+                "logs/market_evals.csv",
+                existing,
+                session_exposure,
+                existing_theme_stakes,
+                dry_run=dry_run,
+                force_log=force_log,
+            )
+            final_rows.append(best_row)
+        except Exception as e:  # pragma: no cover - unexpected failure
+            label_key = f"{best_row.get('game_id')}|{best_row.get('market')}|{best_row.get('side')}"
+            logger.error(
+                "❌ Failed to write row to market_evals.csv: %s → %s",
+                label_key,
+                e,
+            )
+            continue
+
         if result:
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
@@ -2857,7 +2869,7 @@ def process_theme_logged_bets(
     print(f"🧾 Summary: {len(logged_bets_this_loop)} logged, {sum(skipped_counts.values())} skipped")
 
     # ✅ Expand snapshot per book with proper stake & EV% logic
-    snapshot_raw = [r for rows in game_summary.values() for r in rows] + skipped_bets
+    snapshot_raw = final_rows + skipped_bets
     final_snapshot = expand_snapshot_rows_with_kelly(
         snapshot_raw, min_ev=snapshot_ev, min_stake=0.5
     )
