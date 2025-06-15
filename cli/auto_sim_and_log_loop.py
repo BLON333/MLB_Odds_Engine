@@ -508,4 +508,27 @@ while True:
         early_monitor_msg,
     )
 
+    total = len(active_processes)
+    logbets_count = sum(1 for p in active_processes if "LogBets" in p["name"])
+    fullsim_count = sum(1 for p in active_processes if "FullSlateSim" in p["name"])
+    dispatch_count = sum(1 for p in active_processes if "dispatch" in p["name"])
+    monitor_count = sum(1 for p in active_processes if "monitor" in p["name"])
+    other_count = total - (logbets_count + fullsim_count + dispatch_count + monitor_count)
+
+    parts = []
+    if logbets_count:
+        parts.append(f"{logbets_count} LogBets")
+    if fullsim_count:
+        parts.append(f"{fullsim_count} FullSlateSim")
+    if dispatch_count:
+        parts.append(f"{dispatch_count} dispatch")
+    if monitor_count:
+        parts.append(f"{monitor_count} monitors")
+    if other_count:
+        parts.append(f"{other_count} other")
+
+    breakdown = ", ".join(parts) if parts else "none"
+    logger.info("Active processes: %s (%s)", total, breakdown)
+    logger.info("⏱ Sleeping for 10 seconds...\n")
+
     time.sleep(10)
