@@ -12,6 +12,7 @@ from datetime import datetime
 
 import pandas as pd
 import requests
+from requests.exceptions import Timeout
 from dotenv import load_dotenv
 from core.bootstrap import *  # noqa
 
@@ -330,7 +331,18 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     if dfi is None:
         logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
         table = df.to_string(index=False)
-        requests.post(webhook_url, json={"content": f"```\n{table}\n```"})
+        try:
+            requests.post(
+                webhook_url,
+                json={"content": f"```\n{table}\n```"},
+                timeout=15,
+            )
+        except Timeout:
+            logger.error("❌ Discord post failed due to timeout")
+            sys.exit(1)
+        except Exception as e:
+            logger.error("❌ Failed to send snapshot: %s", e)
+            sys.exit(1)
         return
     styled = _style_plain(df)
     buf = io.BytesIO()
@@ -340,7 +352,18 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
         logger.error("❌ dfi.export failed: %s", e)
         buf.close()
         table = df.to_string(index=False)
-        requests.post(webhook_url, json={"content": f"```\n{table}\n```"})
+        try:
+            requests.post(
+                webhook_url,
+                json={"content": f"```\n{table}\n```"},
+                timeout=15,
+            )
+        except Timeout:
+            logger.error("❌ Discord post failed due to timeout")
+            sys.exit(1)
+        except Exception as e:
+            logger.error("❌ Failed to send snapshot: %s", e)
+            sys.exit(1)
         return
     buf.seek(0)
     caption = "📊 **CLV Snapshot**"
@@ -350,12 +373,16 @@ def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
             webhook_url,
             data={"payload_json": json.dumps({"content": caption})},
             files=files,
-            timeout=10,
+            timeout=15,
         )
         resp.raise_for_status()
         logger.info(f"✅ CLV Snapshot sent with {df.shape[0]} rows")
+    except Timeout:
+        logger.error("❌ Discord post failed due to timeout")
+        sys.exit(1)
     except Exception as e:
         logger.error("❌ Failed to send snapshot: %s", e)
+        sys.exit(1)
     finally:
         buf.close()
 
