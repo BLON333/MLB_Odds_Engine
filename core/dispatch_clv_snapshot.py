@@ -33,6 +33,7 @@ from utils import (
     get_market_entry_with_alternate_fallback,
     convert_full_team_spread_to_odds_key,
     to_eastern,
+    EASTERN_TZ,
     now_eastern,
     TEAM_NAME_TO_ABBR,
     TEAM_ABBR_TO_NAME,
@@ -186,6 +187,8 @@ def parse_start_time(gid: str, odds_game: dict | None) -> datetime | None:
         if len(digits) == 4:
             try:
                 dt = datetime.strptime(f"{date} {digits}", "%Y-%m-%d %H%M")
+                # Treat game_id times as already in Eastern rather than UTC
+                dt = dt.replace(tzinfo=EASTERN_TZ)
             except Exception:
                 dt = None
     if dt is None and odds_game:
