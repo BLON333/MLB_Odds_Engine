@@ -26,3 +26,12 @@ def test_parse_start_time_handles_eastern_token():
     dt = parse_start_time(gid, None)
     assert dt.tzinfo == EASTERN_TZ
     assert dt.hour == 19 and dt.minute == 5
+
+
+def test_parse_start_time_returns_eastern():
+    """Game ID times should parse directly to Eastern timezone."""
+    gid = "2025-06-16-COL@WSH-T1905"
+    dt = parse_start_time(gid, None)
+    zone_name = getattr(dt.tzinfo, "zone", getattr(dt.tzinfo, "key", None))
+    assert zone_name == "US/Eastern"
+    assert dt.hour == 19 and dt.minute == 5
