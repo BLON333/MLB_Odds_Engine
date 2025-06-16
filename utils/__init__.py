@@ -1013,6 +1013,18 @@ def game_id_to_dt(game_id: str) -> datetime | None:
     return dt.replace(tzinfo=EASTERN_TZ) if dt else None
 
 
+def parse_snapshot_timestamp(token: str) -> datetime | None:
+    """Return Eastern-aware datetime from ``YYYYMMDDTHHMM`` string."""
+    try:
+        dt = datetime.strptime(token, "%Y%m%dT%H%M")
+        try:  # pytz compatibility
+            return EASTERN_TZ.localize(dt)
+        except AttributeError:
+            return dt.replace(tzinfo=EASTERN_TZ)
+    except Exception:
+        return None
+
+
 def lookup_fallback_odds(game_id: str, fallback_odds: dict) -> dict | None:
     """Return the best-matching fallback odds entry for ``game_id``."""
     if not isinstance(fallback_odds, dict):
