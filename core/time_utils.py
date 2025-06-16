@@ -15,4 +15,5 @@ def compute_hours_to_game(game_start: datetime, now: Optional[datetime] = None) 
     """
     start_et = to_eastern(game_start)
     now_et = to_eastern(now or now_eastern())
-    return (start_et - now_et).total_seconds() / 3600
+    diff = (start_et - now_et).total_seconds() / 3600
+    return diff if diff >= 0 else 0.0
