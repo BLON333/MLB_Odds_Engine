@@ -1,6 +1,9 @@
 import os
 import sys
 import logging
+from datetime import datetime, timedelta
+
+from utils import EASTERN_TZ
 import pandas as pd
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -116,3 +119,37 @@ def test_fuzzy_game_id_match():
     result = build_snapshot_rows(rows, odds)
 
     assert len(result) == 1
+
+
+def test_open_bet_retained_until_start(monkeypatch):
+    import core.dispatch_clv_snapshot as dcs
+
+    gid = "2031-07-01-NYM@ATL-T1930"
+    rows = [_row(gid, "h2h", "NYM")]
+    odds = {gid: {"h2h": {"NYM": {"consensus_prob": 0.5}}}}
+
+    start_dt = datetime(2031, 7, 1, 19, 30, tzinfo=EASTERN_TZ)
+
+    monkeypatch.setattr(dcs, "parse_start_time", lambda *_: start_dt)
+    monkeypatch.setattr(dcs, "now_eastern", lambda: start_dt - timedelta(minutes=30))
+
+    result = build_snapshot_rows(rows, odds)
+
+    assert len(result) == 1
+
+
+def test_started_game_is_skipped(monkeypatch):
+    import core.dispatch_clv_snapshot as dcs
+
+    gid = "2031-07-01-NYM@ATL-T1930"
+    rows = [_row(gid, "h2h", "NYM")]
+    odds = {gid: {"h2h": {"NYM": {"consensus_prob": 0.5}}}}
+
+    start_dt = datetime(2031, 7, 1, 19, 30, tzinfo=EASTERN_TZ)
+
+    monkeypatch.setattr(dcs, "parse_start_time", lambda *_: start_dt)
+    monkeypatch.setattr(dcs, "now_eastern", lambda: start_dt + timedelta(minutes=1))
+
+    result = build_snapshot_rows(rows, odds)
+
+    assert result == []
