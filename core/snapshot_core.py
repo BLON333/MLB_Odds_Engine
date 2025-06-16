@@ -35,6 +35,7 @@ from utils import (
     fuzzy_match_game_id,
 )
 from core.time_utils import compute_hours_to_game
+from core.dispatch_clv_snapshot import parse_start_time
 from core.should_log_bet import get_theme, get_theme_key
 from core.market_pricer import (
     to_american_odds,
@@ -719,7 +720,7 @@ def build_snapshot_rows(
                     )
                 continue
         start_str = odds.get("start_time") if odds else None
-        hours_to_game = 8.0
+        dt = None
         start_formatted = ""
         if start_str:
             try:
@@ -727,21 +728,27 @@ def build_snapshot_rows(
                 if dt.tzinfo is None:
                     dt = dt.replace(tzinfo=timezone.utc)
                 dt = to_eastern(dt)
-                hours_to_game = compute_hours_to_game(dt)
+            except Exception:
+                dt = None
+        if dt is None:
+            dt = parse_start_time(game_id, odds)
+        hours_to_game = 8.0
+        if dt:
+            dt = to_eastern(dt)
+            hours_to_game = compute_hours_to_game(dt)
+            if DEBUG_MODE:
                 logger.debug(
                     "🕓 %s start=%s now=%s Δ=%.2fh",
                     game_id,
-                    to_eastern(dt).isoformat(),
+                    dt.isoformat(),
                     now_eastern().isoformat(),
                     hours_to_game,
                 )
-                start_et = to_eastern(dt)
-                try:
-                    start_formatted = start_et.strftime("%-I:%M %p")
-                except Exception:
-                    start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
+            start_et = dt
+            try:
+                start_formatted = start_et.strftime("%-I:%M %p")
             except Exception:
-                start_formatted = ""
+                start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
         if hours_to_game < 0:
             logger.debug(
                 "⏱️ Skipping %s — game has already started (%.2fh ago)",
