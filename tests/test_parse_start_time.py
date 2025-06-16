@@ -18,3 +18,11 @@ def test_parse_start_time_fallback_iso():
     dt = parse_start_time(gid, odds)
     assert dt.tzinfo == EASTERN_TZ
     assert dt.hour == 14 and dt.minute == 45
+
+
+def test_parse_start_time_handles_eastern_token():
+    """Game ID time tags should already be in Eastern time."""
+    gid = "2025-07-04-NYM@ATL-T1905"
+    dt = parse_start_time(gid, None)
+    assert dt.tzinfo == EASTERN_TZ
+    assert dt.hour == 19 and dt.minute == 5
