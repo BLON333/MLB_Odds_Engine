@@ -507,16 +507,21 @@ def main() -> None:
     rows, counts = build_snapshot_rows(
         csv_rows, odds_data, verbose=args.verbose, return_counts=True
     )
-    if not args.skip_filter:
-        rows = filter_snapshot_rows(rows)
-    if not rows:
+    # rows = filter_snapshot_rows(rows)
+
+    # Skip snapshot only if absolutely no matched bets
+    if counts.get("matched", 0) == 0:
         if args.output_discord and WEBHOOK_URL:
             send_empty_clv_notice(WEBHOOK_URL, counts)
         else:
             logger.info("⚠️ No qualifying open bets found.")
         return
+
+    # Build DataFrame from matched rows (no filtering)
     df = pd.DataFrame(rows)
-    logger.debug("📊 Final snapshot rows: %d", df.shape[0])
+
+    # Optional: Log how many are going to Discord
+    logger.info(f"📤 Snapshot contains {df.shape[0]} matched rows")
     if args.sort_by == "profit":
         df = df.sort_values(
             by="Expected Profit",
