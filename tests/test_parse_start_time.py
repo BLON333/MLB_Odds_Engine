@@ -1,0 +1,20 @@
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from core.dispatch_clv_snapshot import parse_start_time
+from utils import EASTERN_TZ
+
+def test_parse_start_time_from_game_id():
+    gid = "2025-06-16-COL@WSH-T1845"
+    dt = parse_start_time(gid, None)
+    assert dt.tzinfo == EASTERN_TZ
+    assert dt.hour == 18 and dt.minute == 45
+
+def test_parse_start_time_fallback_iso():
+    gid = "2025-06-16-COL@WSH"
+    odds = {"start_time": "2025-06-16T18:45:00Z"}
+    dt = parse_start_time(gid, odds)
+    assert dt.tzinfo == EASTERN_TZ
+    assert dt.hour == 14 and dt.minute == 45
