@@ -188,7 +188,10 @@ def parse_start_time(gid: str, odds_game: dict | None) -> datetime | None:
             try:
                 dt = datetime.strptime(f"{date} {digits}", "%Y-%m-%d %H%M")
                 # Treat game_id times as already in Eastern rather than UTC
-                dt = dt.replace(tzinfo=EASTERN_TZ)
+                try:  # pytz compatibility
+                    dt = EASTERN_TZ.localize(dt)
+                except AttributeError:
+                    dt = dt.replace(tzinfo=EASTERN_TZ)
             except Exception:
                 dt = None
     if dt is None and odds_game:
