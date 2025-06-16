@@ -238,6 +238,44 @@ def build_snapshot_rows(
     for row in csv_rows:
         gid = canonical_game_id(row.get("game_id", ""))
         game_odds = odds_data.get(gid) or odds_data.get(gid.split("-T")[0])
+        if game_odds is None:
+            parts = parse_game_id(gid)
+
+            def _mins(token: str) -> int | None:
+                if not token or not token.startswith("T"):
+                    return None
+                digits = "".join(c for c in token[1:] if c.isdigit())[:4]
+                if len(digits) != 4:
+                    return None
+                try:
+                    return int(digits[:2]) * 60 + int(digits[2:])
+                except Exception:
+                    return None
+
+            target_min = _mins(parts.get("time", ""))
+            best_key = None
+            best_delta = None
+            for key in odds_data.keys():
+                c_parts = parse_game_id(key)
+                if (
+                    c_parts.get("date") != parts.get("date")
+                    or c_parts.get("away") != parts.get("away")
+                    or c_parts.get("home") != parts.get("home")
+                ):
+                    continue
+                cand_min = _mins(c_parts.get("time", ""))
+                if target_min is None or cand_min is None:
+                    best_key = key
+                    best_delta = 0
+                    break
+                delta = abs(cand_min - target_min)
+                if delta <= 5 and (best_delta is None or delta < best_delta):
+                    best_key = key
+                    best_delta = delta
+            if best_key is not None:
+                game_odds = odds_data.get(best_key)
+                if game_odds is not None and best_key != gid:
+                    logger.debug("🧠 Fuzzy matched %s → %s", gid, best_key)
         start_dt = parse_start_time(gid, game_odds)
         if start_dt and start_dt <= now:
             continue
