@@ -22,7 +22,7 @@ from core.market_eval_tracker import (
 )
 from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
-from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id
+from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id, to_eastern
 from utils import canonical_game_id
 from utils.book_helpers import ensure_consensus_books
 import re
@@ -558,7 +558,7 @@ def generate_clean_summary_table(
     stake_mode="model",
 ):
     import pandas as pd
-    from datetime import datetime
+    from datetime import datetime, timezone
     import os
 
     # ✅ Apply same filters as send_discord_notification
@@ -1715,6 +1715,9 @@ def log_bets(
         if start_str:
             try:
                 start_dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                if start_dt.tzinfo is None:
+                    start_dt = start_dt.replace(tzinfo=timezone.utc)
+                start_dt = to_eastern(start_dt)
             except Exception:
                 logger.warning("❌ Failed to parse start time %s", start_str)
         if not start_dt:
@@ -1950,7 +1953,7 @@ def log_derivative_bets(
     skipped_bets=None,
     existing=None,
 ):
-    from datetime import datetime
+    from datetime import datetime, timezone
     from core.market_pricer import decimal_odds, implied_prob, kelly_fraction
     from utils import convert_full_team_spread_to_odds_key
 
@@ -1968,6 +1971,9 @@ def log_derivative_bets(
         if start_str:
             try:
                 start_dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                if start_dt.tzinfo is None:
+                    start_dt = start_dt.replace(tzinfo=timezone.utc)
+                start_dt = to_eastern(start_dt)
             except Exception:
                 logger.warning("❌ Failed to parse start time %s", start_str)
         if not start_dt:
