@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import pandas as pd
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -56,3 +57,51 @@ def test_lookup_team_name_vs_abbr():
 
     result = build_snapshot_rows(rows, odds)
     assert len(result) == 1
+
+
+def test_send_empty_notice_called(monkeypatch):
+    import core.dispatch_clv_snapshot as dcs
+
+    monkeypatch.setattr(dcs, "WEBHOOK_URL", "http://example.com")
+    called = {}
+
+    def fake_load_logged_bets(path):
+        return [{}]
+
+    def fake_latest_odds_file(folder="data/market_odds"):
+        return "odds.json"
+
+    def fake_load_odds(path):
+        return {}
+
+    def fake_build_rows(csv_rows, odds_data, verbose=False, return_counts=False):
+        return ([], {"open": 0, "matched": 0, "skipped": 0})
+
+    def fake_send_empty(url, counts=None):
+        called["url"] = url
+
+    monkeypatch.setattr(dcs, "load_logged_bets", fake_load_logged_bets)
+    monkeypatch.setattr(dcs, "latest_odds_file", fake_latest_odds_file)
+    monkeypatch.setattr(dcs.os.path, "exists", lambda p: True)
+    monkeypatch.setattr(dcs, "load_odds", fake_load_odds)
+    monkeypatch.setattr(dcs, "build_snapshot_rows", fake_build_rows)
+    monkeypatch.setattr(dcs, "send_empty_clv_notice", fake_send_empty)
+
+    sys.argv = ["dispatch_clv_snapshot", "--output-discord"]
+    dcs.main()
+
+    assert called.get("url") == "http://example.com"
+
+
+def test_send_snapshot_empty(monkeypatch):
+    import core.dispatch_clv_snapshot as dcs
+    df = pd.DataFrame()
+    sent = {}
+
+    def fake_post(url, json=None, timeout=None, **kwargs):
+        sent["content"] = json.get("content")
+
+    monkeypatch.setattr(dcs, "post_with_retries", fake_post)
+    dcs.send_snapshot(df, "http://example.com", {})
+
+    assert "No qualifying open bets" in sent.get("content", "")

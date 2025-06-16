@@ -224,7 +224,12 @@ def lookup_consensus_prob(odds_game: dict, market: str, side: str) -> float | No
     return prob
 
 
-def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) -> list:
+def build_snapshot_rows(
+    csv_rows: list,
+    odds_data: dict,
+    verbose: bool = False,
+    return_counts: bool = False,
+) -> list | tuple:
     results = []
     skipped = 0
     open_count = 0
@@ -299,6 +304,12 @@ def build_snapshot_rows(csv_rows: list, odds_data: dict, verbose: bool = False) 
         )
     logger.debug("🧮 Open bets processed: %d", open_count)
     logger.debug("🔗 Consensus matches: %d", matched_count)
+    if return_counts:
+        return results, {
+            "open": open_count,
+            "matched": matched_count,
+            "skipped": skipped,
+        }
     return results
 
 
@@ -332,9 +343,34 @@ def _style_plain(df: pd.DataFrame) -> pd.io.formats.style.Styler:
     return styled
 
 
-def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
+def send_empty_clv_notice(webhook_url: str, counts: dict | None = None) -> None:
+    """Send a fallback message when no bets qualify for CLV reporting."""
+    lines = [
+        "📊 **CLV Snapshot**",
+        "⚠️ No qualifying open bets found.",
+        "(All bets may have started or lack consensus pricing.)",
+    ]
+    if counts:
+        lines.append(
+            f"Processed {counts.get('open', 0)} bets — "
+            f"{counts.get('matched', 0)} matched, {counts.get('skipped', 0)} skipped."
+        )
+    message = "\n".join(lines)
+    try:
+        post_with_retries(webhook_url, json={"content": message}, timeout=15)
+    except Timeout:
+        logger.error("❌ Discord post failed due to timeout")
+        sys.exit(1)
+    except Exception as e:  # pragma: no cover - network errors
+        logger.error("❌ Failed to send snapshot: %s", e)
+        sys.exit(1)
+
+
+def send_snapshot(df: pd.DataFrame, webhook_url: str, counts: dict | None = None) -> None:
     if df.empty:
-        logger.info("⚠️ No open bets to report.")
+        logger.info("⚠️ No qualifying open bets found.")
+        if dfi is not None:
+            send_empty_clv_notice(webhook_url, counts)
         return
     if dfi is None:
         logger.warning("⚠️ dataframe_image not available. Sending text fallback.")
@@ -425,10 +461,15 @@ def main() -> None:
         return
     odds_data = load_odds(odds_path)
 
-    rows = build_snapshot_rows(csv_rows, odds_data, verbose=args.verbose)
+    rows, counts = build_snapshot_rows(
+        csv_rows, odds_data, verbose=args.verbose, return_counts=True
+    )
     rows = filter_snapshot_rows(rows)
     if not rows:
-        logger.info("⚠️ No qualifying open bets found.")
+        if args.output_discord and WEBHOOK_URL:
+            send_empty_clv_notice(WEBHOOK_URL, counts)
+        else:
+            logger.info("⚠️ No qualifying open bets found.")
         return
     df = pd.DataFrame(rows)
     logger.debug("📊 Final snapshot rows: %d", df.shape[0])
@@ -446,7 +487,7 @@ def main() -> None:
         )
 
     if args.output_discord and WEBHOOK_URL:
-        send_snapshot(df, WEBHOOK_URL)
+        send_snapshot(df, WEBHOOK_URL, counts)
     else:
         print(df.to_string(index=False))
 
