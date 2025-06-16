@@ -2,7 +2,7 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from typing import List, Dict, Tuple
 from typing import Optional
@@ -724,6 +724,9 @@ def build_snapshot_rows(
         if start_str:
             try:
                 dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                dt = to_eastern(dt)
                 hours_to_game = compute_hours_to_game(dt)
                 logger.debug(
                     "🕓 %s start=%s now=%s Δ=%.2fh",

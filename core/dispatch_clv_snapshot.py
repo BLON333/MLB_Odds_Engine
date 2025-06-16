@@ -15,7 +15,7 @@ import json
 import csv
 import io
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pandas as pd
 import requests
@@ -199,6 +199,9 @@ def parse_start_time(gid: str, odds_game: dict | None) -> datetime | None:
         if start_iso:
             try:
                 dt = datetime.fromisoformat(start_iso.replace("Z", "+00:00"))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                dt = to_eastern(dt)
             except Exception:
                 dt = None
     return to_eastern(dt) if dt else None
