@@ -59,9 +59,11 @@ def _start_time_from_gid(game_id: str) -> datetime | None:
     if not date:
         return None
     if time_part.startswith("T"):
+        # Handle tokens like "T1845" or "T1845-DH1" by isolating the time digits
         raw = time_part.split("-")[0][1:]
+        digits = "".join(c for c in raw if c.isdigit())[:4]
         try:
-            dt = datetime.strptime(f"{date} {raw}", "%Y-%m-%d %H%M")
+            dt = datetime.strptime(f"{date} {digits}", "%Y-%m-%d %H%M")
             return dt.replace(tzinfo=EASTERN_TZ)
         except Exception:
             return None
