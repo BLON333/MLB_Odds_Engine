@@ -105,3 +105,14 @@ def test_send_snapshot_empty(monkeypatch):
     dcs.send_snapshot(df, "http://example.com", {})
 
     assert "No qualifying open bets" in sent.get("content", "")
+
+
+def test_fuzzy_game_id_match():
+    target = "2030-06-16-COL@WSH-T1845"
+    alt = "2030-06-16-COL@WSH-T1846"
+    rows = [_row(target, "h2h", "COL")]
+    odds = {alt: {"h2h": {"COL": {"consensus_prob": 0.55}}}}
+
+    result = build_snapshot_rows(rows, odds)
+
+    assert len(result) == 1
