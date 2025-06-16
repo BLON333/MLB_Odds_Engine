@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 """Generate and dispatch a CLV snapshot for open bets."""
 
-from core.config import DEBUG_MODE, VERBOSE_MODE
 import os
 import sys
+
+try:
+    from core.config import DEBUG_MODE, VERBOSE_MODE
+except ModuleNotFoundError:  # pragma: no cover - allow standalone execution
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if project_root not in sys.path:
+        sys.path.append(project_root)
+    from core.config import DEBUG_MODE, VERBOSE_MODE
 import json
 import csv
 import io
