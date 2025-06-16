@@ -24,6 +24,7 @@ from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
 from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id, to_eastern
 from utils import canonical_game_id
+from core.dispatch_clv_snapshot import parse_start_time
 from utils.book_helpers import ensure_consensus_books
 import re
 import warnings
@@ -1690,7 +1691,7 @@ def log_bets(
     existing=None,
 ):
 
-    from datetime import datetime
+    from datetime import datetime, timezone
     from core.market_pricer import decimal_odds, implied_prob, kelly_fraction
     from utils import convert_full_team_spread_to_odds_key
 
@@ -1714,12 +1715,14 @@ def log_bets(
         )
         if start_str:
             try:
-                start_dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
-                if start_dt.tzinfo is None:
-                    start_dt = start_dt.replace(tzinfo=timezone.utc)
-                start_dt = to_eastern(start_dt)
+                dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                start_dt = to_eastern(dt)
             except Exception:
                 logger.warning("❌ Failed to parse start time %s", start_str)
+        else:
+            start_dt = parse_start_time(game_id, None)
         if not start_dt:
             print(
                 f"⚠️ No start time found for game_id: {game_id} — defaulting to 8.0 hours"
@@ -1970,12 +1973,14 @@ def log_derivative_bets(
         )
         if start_str:
             try:
-                start_dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
-                if start_dt.tzinfo is None:
-                    start_dt = start_dt.replace(tzinfo=timezone.utc)
-                start_dt = to_eastern(start_dt)
+                dt = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                start_dt = to_eastern(dt)
             except Exception:
                 logger.warning("❌ Failed to parse start time %s", start_str)
+        else:
+            start_dt = parse_start_time(game_id, None)
         if not start_dt:
             print(
                 f"⚠️ No start time found for game_id: {game_id} — defaulting to 8.0 hours"
