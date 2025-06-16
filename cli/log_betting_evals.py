@@ -22,7 +22,14 @@ from core.market_eval_tracker import (
 )
 from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
-from utils import safe_load_json, now_eastern, EASTERN_TZ, parse_game_id, to_eastern
+from utils import (
+    safe_load_json,
+    now_eastern,
+    EASTERN_TZ,
+    parse_game_id,
+    to_eastern,
+    parse_snapshot_timestamp,
+)
 from utils import canonical_game_id
 from core.dispatch_clv_snapshot import parse_start_time
 from utils.book_helpers import ensure_consensus_books
@@ -206,15 +213,11 @@ if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
     # Determine snapshot timestamp from filename or modification time
     snap_dt = None
     m = re.search(
-        r"market_snapshot_(\d{8}T\d{4})", os.path.basename(SNAPSHOT_PATH_USED)
+        r"market_snapshot_(\d{8}T\d{4})",
+        os.path.basename(SNAPSHOT_PATH_USED),
     )
     if m:
-        try:
-            snap_dt = datetime.strptime(m.group(1), "%Y%m%dT%H%M").replace(
-                tzinfo=EASTERN_TZ
-            )
-        except Exception:
-            snap_dt = None
+        snap_dt = parse_snapshot_timestamp(m.group(1))
     if snap_dt is None:
         try:
             snap_dt = datetime.fromtimestamp(
