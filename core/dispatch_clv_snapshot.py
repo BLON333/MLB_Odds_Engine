@@ -485,6 +485,11 @@ def main() -> None:
         help="Sort by CLV percentage or expected profit",
     )
     parser.add_argument("--verbose", action="store_true", help="Show detailed warnings")
+    parser.add_argument(
+        "--skip-filter",
+        action="store_true",
+        help="Disable filtering of CLV snapshot rows",
+    )
     args = parser.parse_args()
 
     csv_rows = load_logged_bets(args.log_path)
@@ -502,7 +507,8 @@ def main() -> None:
     rows, counts = build_snapshot_rows(
         csv_rows, odds_data, verbose=args.verbose, return_counts=True
     )
-    rows = filter_snapshot_rows(rows)
+    if not args.skip_filter:
+        rows = filter_snapshot_rows(rows)
     if not rows:
         if args.output_discord and WEBHOOK_URL:
             send_empty_clv_notice(WEBHOOK_URL, counts)
