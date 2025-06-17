@@ -1,0 +1,182 @@
+{
+  "2025-06-13-COL@ATL-T1915:spreads_1st_5_innings:COL +1.5": {
+    "consensus_prob": 0.511178,
+    "timestamp": "2025-06-13T16:45:08.851534"
+  },
+  "2025-06-13-MIA@WSH-T1845:spreads_1st_5_innings:MIA +0.5": {
+    "consensus_prob": 0.589849,
+    "timestamp": "2025-06-13T16:45:08.890305"
+  },
+  "2025-06-13-MIN@HOU-T2010:totals_1st_3_innings:Under 2.5": {
+    "consensus_prob": 0.506069,
+    "timestamp": "2025-06-13T16:55:18.987661"
+  },
+  "2025-06-13-MIN@HOU-T2010:spreads_1st_5_innings:HOU +0.5": {
+    "consensus_prob": 0.573642,
+    "timestamp": "2025-06-13T16:55:19.028476"
+  },
+  "2025-06-13-LAA@BAL-T1908:totals:Under 10.5": {
+    "consensus_prob": 0.516406,
+    "timestamp": "2025-06-13T17:00:20.455354"
+  },
+  "2025-06-13-LAA@BAL-T1908:totals_1st_7_innings:Under 7.5": {
+    "consensus_prob": 0.454016,
+    "timestamp": "2025-06-13T17:00:20.495112"
+  },
+  "2025-06-13-MIA@WSH-T1845:spreads:MIA -1.5": {
+    "consensus_prob": 0.384272,
+    "timestamp": "2025-06-13T18:32:17.174910"
+  },
+  "2025-06-13-CWS@TEX-T2005:h2h:CWS": {
+    "consensus_prob": 0.382725,
+    "timestamp": "2025-06-13T18:37:13.439857"
+  },
+  "2025-06-13-NYY@BOS-T1910:h2h:NYY": {
+    "consensus_prob": 0.437578,
+    "timestamp": "2025-06-13T18:47:41.107281"
+  },
+  "2025-06-13-SD@ARI-T2140:totals_1st_5_innings:Under 5.5": {
+    "consensus_prob": 0.539577,
+    "timestamp": "2025-06-13T18:47:41.154827"
+  },
+  "2025-06-13-CLE@SEA-T2210:totals:Over 7.5": {
+    "consensus_prob": 0.491543,
+    "timestamp": "2025-06-13T18:52:43.120545"
+  },
+  "2025-06-14-MIA@WSH-T1305:spreads_1st_5_innings:MIA +0.5": {
+    "consensus_prob": 0.527529,
+    "timestamp": "2025-06-14T09:20:36.905291"
+  },
+  "2025-06-14-MIA@WSH-T1305:h2h:MIA": {
+    "consensus_prob": 0.457968,
+    "timestamp": "2025-06-14T09:41:08.010297"
+  },
+  "2025-06-14-OAK@KC-T1610:spreads_1st_5_innings:OAK +0.5": {
+    "consensus_prob": 0.514086,
+    "timestamp": "2025-06-14T10:42:45.790492"
+  },
+  "2025-06-14-TOR@PHI-T1605:h2h:TOR": {
+    "consensus_prob": 0.410081,
+    "timestamp": "2025-06-14T14:44:18.792600"
+  },
+  "2025-06-14-SD@ARI-T1915:totals_1st_3_innings:Under 2.5": {
+    "consensus_prob": 0.445168,
+    "timestamp": "2025-06-14T15:45:04.682999"
+  },
+  "2025-06-15-COL@ATL-T1335:spreads_1st_7_innings:COL +1.5": {
+    "consensus_prob": 0.408262,
+    "timestamp": "2025-06-15T08:17:48.317519"
+  },
+  "2025-06-15-OAK@KC-T1410:totals_1st_3_innings:Under 2.5": {
+    "consensus_prob": 0.482219,
+    "timestamp": "2025-06-15T08:28:01.253942"
+  },
+  "2025-06-15-TOR@PHI-T1335:h2h:TOR": {
+    "consensus_prob": 0.390651,
+    "timestamp": "2025-06-15T08:58:41.195883"
+  },
+  "2025-06-15-NYY@BOS-T1335:spreads_1st_7_innings:BOS +1.5": {
+    "consensus_prob": 0.533857,
+    "timestamp": "2025-06-15T09:03:47.422261"
+  },
+  "2025-06-15-MIA@WSH-T1335:spreads_1st_7_innings:MIA +0.5": {
+    "consensus_prob": 0.452423,
+    "timestamp": "2025-06-15T09:08:52.322774"
+  },
+  "2025-06-15-TOR@PHI-T1335:totals:Over 7.5": {
+    "consensus_prob": 0.49542,
+    "timestamp": "2025-06-15T09:08:52.333831"
+  },
+  "2025-06-15-MIA@WSH-T1335:h2h:MIA": {
+    "consensus_prob": 0.388812,
+    "timestamp": "2025-06-15T09:14:00.348417"
+  },
+  "2025-06-15-CWS@TEX-T1435:spreads_1st_7_innings:CWS +1.5": {
+    "consensus_prob": 0.562654,
+    "timestamp": "2025-06-15T11:03:52.519466"
+  },
+  "2025-06-15-CIN@DET-T1205:totals_1st_5_innings:Under 5.5": {
+    "consensus_prob": 0.572886,
+    "timestamp": "2025-06-15T11:55:42.471585"
+  },
+  "2025-06-15-LAA@BAL-T1335:spreads_1st_7_innings:BAL +0.5": {
+    "consensus_prob": 0.558059,
+    "timestamp": "2025-06-15T11:55:42.492950"
+  },
+  "2025-06-15-TB@NYM-T1340:totals:Over 7.5": {
+    "consensus_prob": 0.519338,
+    "timestamp": "2025-06-15T13:12:26.448989"
+  },
+  "2025-06-15-MIA@WSH-T1335:spreads_1st_5_innings:MIA -0.5": {
+    "consensus_prob": 0.326208,
+    "timestamp": "2025-06-15T13:17:33.284462"
+  },
+  "2025-06-15-SF@LAD-T1910:h2h:SF": {
+    "consensus_prob": 0.381834,
+    "timestamp": "2025-06-15T15:36:43.763636"
+  },
+  "2025-06-15-CLE@SEA-T1610:h2h:CLE": {
+    "consensus_prob": 0.470516,
+    "timestamp": "2025-06-15T15:51:53.339241"
+  },
+  "2025-06-16-COL@WSH-T1845:spreads_1st_5_innings:COL +1.5": {
+    "consensus_prob": 0.580645,
+    "timestamp": "2025-06-15T19:30:58.835328"
+  },
+  "2025-06-16-BAL@TB-T1935:totals_1st_3_innings:Under 2.5": {
+    "consensus_prob": 0.506069,
+    "timestamp": "2025-06-16T09:15:11.576769"
+  },
+  "2025-06-16-PHI@MIA-T1840:spreads_1st_5_innings:PHI +0.5": {
+    "consensus_prob": 0.570603,
+    "timestamp": "2025-06-16T10:46:34.728780"
+  },
+  "2025-06-16-PHI@MIA-T1840:spreads_1st_5_innings:PHI -0.5": {
+    "consensus_prob": 0.436681,
+    "timestamp": "2025-06-16T11:47:22.464074"
+  },
+  "2025-06-17-LAA@NYY-T1905:h2h:LAA": {
+    "consensus_prob": 0.327782,
+    "timestamp": "2025-06-16T14:40:18.898158"
+  },
+  "2025-06-17-BOS@SEA-T2140:totals:Over 7.5": {
+    "consensus_prob": 0.495668,
+    "timestamp": "2025-06-16T14:45:24.246004"
+  },
+  "2025-06-16-COL@WSH-T1845:spreads_1st_3_innings:COL +0.5": {
+    "consensus_prob": 0.536284,
+    "timestamp": "2025-06-16T16:18:48.862195"
+  },
+  "2025-06-16-COL@WSH-T1845:h2h:COL": {
+    "consensus_prob": 0.554586,
+    "timestamp": "2025-06-16T19:04:55.250309"
+  },
+  "2025-06-16-PHI@MIA-T1840:spreads:PHI -1.5": {
+    "consensus_prob": 0.445721,
+    "timestamp": "2025-06-16T18:44:26.169367"
+  },
+  "2025-06-16-COL@WSH-T1845:spreads_1st_5_innings:COL -0.5": {
+    "consensus_prob": 0.480822,
+    "timestamp": "2025-06-16T18:54:45.349845"
+  },
+  "2025-06-16-COL@WSH-T1845:totals_1st_5_innings:Over 5.5": {
+    "consensus_prob": 0.496338,
+    "timestamp": "2025-06-16T18:54:45.355664"
+  },
+  "2025-06-16-COL@WSH-T1845:spreads_1st_5_innings:COL +0.5": {
+    "consensus_prob": 0.766667,
+    "timestamp": "2025-06-16T19:04:55.256107"
+  },
+  "2025-06-16-PHI@MIA-T1840:totals_1st_3_innings:Over 2.5": {
+    "consensus_prob": 0.357143,
+    "timestamp": "2025-06-16T19:15:06.075923"
+  },
+  "2025-06-16-COL@WSH-T1845:h2h:WSH": {
+    "consensus_prob": 0.436771,
+    "timestamp": "2025-06-16T19:20:07.349703"
+  },
+  "2025-06-16-PHI@MIA-T1840:spreads_1st_5_innings:MIA +0.5": {
+    "consensus_prob": 0.574361,
+    "timestamp": "2025-06-16T19:20:07.357115"
+  }
+}
