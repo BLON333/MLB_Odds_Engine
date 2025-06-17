@@ -273,6 +273,57 @@ def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
     return date, matchup, time
 
 
+def get_closest_odds(game_id: str, market_odds: dict):
+    """Return odds for ``game_id`` with fuzzy suffix matching.
+
+    If ``game_id`` isn't found exactly, look for keys starting with the base
+    ID (everything before the last ``-T``) and choose the candidate with the
+    numerically closest ``T`` suffix.
+    """
+
+    if not isinstance(market_odds, dict):
+        return None
+
+    odds = market_odds.get(game_id)
+    if odds is not None:
+        return odds
+
+    if "-T" not in game_id:
+        return None
+
+    base, suffix = game_id.rsplit("-T", 1)
+    m = re.match(r"(\d+)", suffix)
+    if not m:
+        return None
+    target_num = int(m.group(1))
+    prefix = f"{base}-T"
+
+    closest_match = None
+    closest_diff = None
+
+    for key in market_odds:
+        if not key.startswith(prefix):
+            continue
+        rest = key[len(prefix) :]
+        m2 = re.match(r"(\d+)", rest)
+        if not m2:
+            continue
+        try:
+            num = int(m2.group(1))
+        except Exception:
+            continue
+        diff = abs(num - target_num)
+        if closest_diff is None or diff < closest_diff:
+            closest_match = key
+            closest_diff = diff
+
+    if closest_match:
+        logger.warning("⏱ Fuzzy-matched game ID %s → %s", game_id, closest_match)
+        return market_odds.get(closest_match)
+
+    return None
+
+
 from core.market_pricer import (
     implied_prob,
     decimal_odds,
@@ -2599,52 +2650,7 @@ def run_batch_logging(
             print(f"❌ Failed to load simulation file {sim_path}")
             continue
 
-        mkt = all_market_odds.get(game_id)
-
-        if not mkt and "-T" in game_id:
-            from datetime import datetime, timedelta
-            from utils import parse_game_id
-
-            try:
-                parts = parse_game_id(game_id)
-                date = parts["date"]
-                away = parts["away"]
-                home = parts["home"]
-                suffix = parts.get("time", "").split("-")[0]  # just T####
-
-                if suffix.startswith("T"):
-                    t_str = suffix[1:]
-                    t_dt = datetime.strptime(t_str, "%H%M")
-
-                    # Filter only game_ids with the same teams and date
-                    candidate_ids = [
-                        gid
-                        for gid in all_market_odds
-                        if f"{date}-{away}@{home}" in gid and "-T" in gid
-                    ]
-
-                    closest_match = None
-                    min_diff = float("inf")
-
-                    for cid in candidate_ids:
-                        try:
-                            c_parts = parse_game_id(cid)
-                            c_suffix = c_parts.get("time", "").split("-")[0]
-                            if c_suffix.startswith("T"):
-                                c_t_str = c_suffix[1:]
-                                c_dt = datetime.strptime(c_t_str, "%H%M")
-                                diff = abs((t_dt - c_dt).total_seconds()) / 60
-                                if diff <= 2 and diff < min_diff:
-                                    closest_match = cid
-                                    min_diff = diff
-                        except Exception:
-                            continue
-
-                    if closest_match:
-                        print(f"🔄 Fuzzy matched {game_id} → {closest_match}")
-                        mkt = all_market_odds.get(closest_match)
-            except Exception:
-                pass
+        mkt = get_closest_odds(game_id, all_market_odds)
 
         if not mkt:
             print(
