@@ -247,11 +247,19 @@ if SNAPSHOT_PATH_USED and os.path.exists(SNAPSHOT_PATH_USED):
     else:
         prior_snapshot_tracker = prior_snapshot_data  # already dict
 
-    MARKET_EVAL_TRACKER_BEFORE_UPDATE = {} if STALE_SNAPSHOT else prior_snapshot_tracker
+# After loading the snapshot (or falling back), determine our baseline tracker
+    MARKET_EVAL_TRACKER_BEFORE_UPDATE = (
+        {} if STALE_SNAPSHOT else prior_snapshot_tracker
+    )
 else:
     print("⚠️ No valid prior snapshot found — using fallback copy of tracker.")
     MARKET_EVAL_TRACKER_BEFORE_UPDATE = copy.deepcopy(MARKET_EVAL_TRACKER)
 
+# Warn if the baseline tracker is empty which means we have no prior snapshot
+if not MARKET_EVAL_TRACKER_BEFORE_UPDATE:
+    warn_msg = "No prior snapshot found—early bets will be suppressed."
+    print(f"⚠️ {warn_msg}")
+    logger.warning(warn_msg)
 
 # === Local Modules ===
 def _game_id_display_fields(game_id: str) -> tuple[str, str, str]:
