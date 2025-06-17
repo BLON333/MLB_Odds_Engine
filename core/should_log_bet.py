@@ -212,7 +212,7 @@ def should_log_bet(
     except Exception:
         hours_to_game = None
 
-    if hours_to_game is not None and hours_to_game > 6:
+    if hours_to_game is not None and hours_to_game > 12:
         prev_prob = None
         if prior_entry is not None:
             prev_prob = prior_entry.get("consensus_prob")
