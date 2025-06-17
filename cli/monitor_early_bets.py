@@ -132,6 +132,7 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
             verbose=False,
             eval_tracker=eval_tracker,
             reference_tracker=ref,
+            existing_csv_stakes=existing,
         )
         if evaluated:
             result = write_to_csv(

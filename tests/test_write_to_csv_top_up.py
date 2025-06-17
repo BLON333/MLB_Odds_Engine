@@ -52,7 +52,13 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
 
     tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
     reference = {tracker_key: {"market_prob": 0.520}}
-    evaluated = should_log_bet(row, theme_stakes, verbose=False, reference_tracker=reference)
+    evaluated = should_log_bet(
+        row,
+        theme_stakes,
+        verbose=False,
+        reference_tracker=reference,
+        existing_csv_stakes=existing,
+    )
     assert evaluated is not None
 
     monkeypatch.setattr(
@@ -72,3 +78,43 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
     assert len(rows) == 1
     assert float(rows[0]["stake"]) == 0.6
     assert float(rows[0]["cumulative_stake"]) == pytest.approx(1.6)
+
+
+def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
+    row = _base_row()
+    row["entry_type"] = "top-up"
+    row["full_stake"] = 1.2
+    row["market_prob"] = 0.515
+    row["_prior_snapshot"] = {"market_prob": 0.520}
+    row["best_book"] = "B1"
+
+    existing = {}
+    theme_key = get_exposure_key(row)
+    theme_stakes = {theme_key: 1.5}
+
+    tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
+    reference = {tracker_key: {"market_prob": 0.520}}
+    evaluated = should_log_bet(
+        row,
+        theme_stakes,
+        verbose=False,
+        reference_tracker=reference,
+        existing_csv_stakes=existing,
+    )
+    assert evaluated is not None
+    assert evaluated["stake"] == pytest.approx(1.2)
+
+    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+
+    path = tmp_path / "log.csv"
+    result = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
+
+    assert result is not None
+    assert evaluated["cumulative_stake"] == pytest.approx(1.2)
+
+    with open(path) as f:
+        rows = list(csv.DictReader(f))
+
+    assert len(rows) == 1
+    assert float(rows[0]["stake"]) == pytest.approx(1.2)
+    assert float(rows[0]["cumulative_stake"]) == pytest.approx(1.2)
