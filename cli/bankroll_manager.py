@@ -47,8 +47,7 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
     total_bets = 0
     total_wins = total_losses = total_pushes = 0
     total_staked = 0.0
-    total_drawdowns = []
-    total_bankroll = total_peak = starting_bankroll
+    total_bankroll = starting_bankroll
 
     market_stats = defaultdict(lambda: {"profit": 0.0, "bets": 0, "staked": 0.0})
     ev_buckets = {
@@ -92,8 +91,6 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
             delta = grade_bet(row, bankroll_per_unit)
             total_bankroll += delta
             total_profit += delta
-            total_peak = max(total_peak, total_bankroll)
-            total_drawdowns.append(total_peak - total_bankroll)
 
             total_bets += 1
             if result == "win":
@@ -218,8 +215,6 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
 
     roi = (total_profit / total_staked * 100) if total_staked > 0 else 0.0
     win_rate = (total_wins / total_bets) * 100 if total_bets else 0
-    max_dd = max(total_drawdowns) if total_drawdowns else 0
-
     print("\n🏦 BANKROLL PERFORMANCE")
     print("------------------------------")
     print(f"Start Bankroll:     ${starting_bankroll:.2f}")
@@ -228,7 +223,6 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
     print(f"ROI:                {colorize(roi, is_percent=True)}")
     print(f"Total Bets Graded:  {total_bets}")
     print(f"Win Rate:           {colorize(win_rate, is_percent=True)} ({total_wins} W / {total_losses} L / {total_pushes} P)")
-    print(f"Max Drawdown:       ${max_dd:.2f}")
     print("------------------------------")
 
     if market_stats:
