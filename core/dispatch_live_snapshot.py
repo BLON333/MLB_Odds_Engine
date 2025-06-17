@@ -36,7 +36,7 @@ def load_rows(path: str) -> list:
     rows = safe_load_json(path)
     if rows is None:
         logger.error("❌ Failed to load snapshot %s", path)
-        return []
+        sys.exit(1)
     return rows
 
 
@@ -76,7 +76,7 @@ def main() -> None:
     path = args.snapshot_path or latest_snapshot_path()
     if not path or not os.path.exists(path):
         logger.error("❌ Snapshot not found: %s", path)
-        return
+        sys.exit(1)
 
     rows = load_rows(path)
     for r in rows:
