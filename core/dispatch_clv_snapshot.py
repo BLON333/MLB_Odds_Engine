@@ -163,9 +163,13 @@ def get_market_data_with_alternates(consensus_odds, market_key):
 def load_logged_bets(path: str) -> list:
     if not os.path.exists(path):
         logger.error("❌ Logged bets CSV not found: %s", path)
-        return []
-    with open(path, newline="") as f:
-        return list(csv.DictReader(f))
+        sys.exit(1)
+    try:
+        with open(path, newline="") as f:
+            return list(csv.DictReader(f))
+    except Exception as e:
+        logger.error("❌ Failed to load logged bets CSV %s: %s", path, e)
+        sys.exit(1)
 
 
 def load_odds(path: str) -> dict:
@@ -174,7 +178,7 @@ def load_odds(path: str) -> dict:
             return json.load(f)
     except Exception as e:
         logger.error("❌ Failed to load odds file %s: %s", path, e)
-        return {}
+        sys.exit(1)
 
 
 def parse_start_time(gid: str, odds_game: dict | None) -> datetime | None:
@@ -510,7 +514,7 @@ def main() -> None:
     odds_path = args.odds_path or latest_odds_file()
     if not odds_path or not os.path.exists(odds_path):
         logger.error("❌ Odds snapshot not found: %s", odds_path)
-        return
+        sys.exit(1)
     odds_data = load_odds(odds_path)
 
     rows, counts = build_snapshot_rows(
