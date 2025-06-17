@@ -448,9 +448,14 @@ while True:
     triggered_log = False
 
     if now - last_sim_time > SIM_INTERVAL:
-        run_simulation()
-        last_sim_time = now
-        triggered_sim = True
+        if any(p["name"].startswith("FullSlateSim") for p in active_processes):
+            logger.info(
+                "🟡 Skipping simulation – previous FullSlateSim process still running."
+            )
+        else:
+            run_simulation()
+            last_sim_time = now
+            triggered_sim = True
 
     if now - last_log_time > LOG_INTERVAL:
         logger.info(
