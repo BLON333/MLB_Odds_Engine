@@ -46,28 +46,29 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
     total_profit = 0.0
     total_bets = 0
     total_wins = total_losses = total_pushes = 0
+    total_staked = 0.0
     total_drawdowns = []
     total_bankroll = total_peak = starting_bankroll
 
     market_stats = defaultdict(lambda: {"profit": 0.0, "bets": 0, "staked": 0.0})
     ev_buckets = {
-        "<3%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0},
-        "3%-5%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0},
-        "5%-8%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0},
-        "8%-12%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0},
-        "12%-20%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0},
-        "20%+": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0}
+        "<3%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0},
+        "3%-5%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0},
+        "5%-8%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0},
+        "8%-12%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0},
+        "12%-20%": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0},
+        "20%+": {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "staked": 0.0}
     }
 
-    daily_stats = defaultdict(lambda: {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "pushes": 0})
+    daily_stats = defaultdict(lambda: {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "pushes": 0, "staked": 0.0})
     time_buckets = {
-        "<2h": {"profit": 0.0, "bets": 0},
-        "2-6h": {"profit": 0.0, "bets": 0},
-        "6-12h": {"profit": 0.0, "bets": 0},
-        "12h+": {"profit": 0.0, "bets": 0}
+        "<2h": {"profit": 0.0, "bets": 0, "staked": 0.0},
+        "2-6h": {"profit": 0.0, "bets": 0, "staked": 0.0},
+        "6-12h": {"profit": 0.0, "bets": 0, "staked": 0.0},
+        "12h+": {"profit": 0.0, "bets": 0, "staked": 0.0}
     }
 
-    ev_5_20_no_h2h = {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "pushes": 0}
+    ev_5_20_no_h2h = {"profit": 0.0, "bets": 0, "wins": 0, "losses": 0, "pushes": 0, "staked": 0.0}
     top_ev_market_stats = defaultdict(lambda: {"profit": 0.0, "bets": 0, "staked": 0.0})
 
     today = datetime.today()
@@ -109,6 +110,8 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
                 ev_percent = float(row.get("ev_percent", 0))
                 hours_to_game_str = row.get("hours_to_game", "").strip()
                 hours_to_game = float(hours_to_game_str) if hours_to_game_str else 8.0
+                staked_amount = stake * bankroll_per_unit
+                total_staked += staked_amount
             except:
                 continue
 
@@ -122,10 +125,11 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
                 bucket = "12h+"
             time_buckets[bucket]["profit"] += delta
             time_buckets[bucket]["bets"] += 1
+            time_buckets[bucket]["staked"] += staked_amount
 
             market_stats[market]["profit"] += delta
             market_stats[market]["bets"] += 1
-            market_stats[market]["staked"] += stake * bankroll_per_unit
+            market_stats[market]["staked"] += staked_amount
 
             if ev_percent < 3:
                 bucket_ev = "<3%"
@@ -141,6 +145,7 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
                 bucket_ev = "20%+"
             ev_buckets[bucket_ev]["profit"] += delta
             ev_buckets[bucket_ev]["bets"] += 1
+            ev_buckets[bucket_ev]["staked"] += staked_amount
             if result == "win":
                 ev_buckets[bucket_ev]["wins"] += 1
             elif result == "loss":
@@ -149,6 +154,7 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
             if 5 <= ev_percent < 20:
                 ev_5_20_no_h2h["profit"] += delta
                 ev_5_20_no_h2h["bets"] += 1
+                ev_5_20_no_h2h["staked"] += staked_amount
                 if result == "win":
                     ev_5_20_no_h2h["wins"] += 1
                 elif result == "loss":
@@ -158,12 +164,13 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
 
                 top_ev_market_stats[market]["profit"] += delta
                 top_ev_market_stats[market]["bets"] += 1
-                top_ev_market_stats[market]["staked"] += stake * bankroll_per_unit
+                top_ev_market_stats[market]["staked"] += staked_amount
 
             if start_dt <= date_obj <= end_dt:
                 date_key = date_obj.strftime("%Y-%m-%d")
                 daily_stats[date_key]["profit"] += delta
                 daily_stats[date_key]["bets"] += 1
+                daily_stats[date_key]["staked"] += staked_amount
                 if result == "win":
                     daily_stats[date_key]["wins"] += 1
                 elif result == "loss":
@@ -188,7 +195,8 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         if not filtered_bets:
             continue
         profit = sum(float(r["result_amount"]) for r in filtered_bets)
-        roi = (profit / starting_bankroll) * 100
+        staked = sum(float(r["stake"]) * bankroll_per_unit for r in filtered_bets)
+        roi = (profit / staked * 100) if staked > 0 else 0.0
         wins = sum(1 for r in filtered_bets if r["result"] == "win")
         losses = sum(1 for r in filtered_bets if r["result"] == "loss")
         pushes = sum(1 for r in filtered_bets if r["result"] == "push")
@@ -196,7 +204,9 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         print(f"{emoji} {date_key} | Profit: {colorize(profit)} | ROI: {colorize(roi, is_percent=True)} | Bets: {len(filtered_bets)} (W:{wins} / L:{losses} / P:{pushes})")
 
     if ev_5_20_no_h2h["bets"] > 0:
-        roi_5_20 = (ev_5_20_no_h2h["profit"] / starting_bankroll * 100)
+        roi_5_20 = (
+            ev_5_20_no_h2h["profit"] / ev_5_20_no_h2h["staked"] * 100
+        ) if ev_5_20_no_h2h["staked"] > 0 else 0.0
         winrate_5_20 = (ev_5_20_no_h2h["wins"] / ev_5_20_no_h2h["bets"]) * 100
         print("\n🎯 EV 5%-20% BETS SUMMARY")
         print("-------------------------------------")
@@ -206,7 +216,7 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         print(f"Win Rate:   {colorize(winrate_5_20, is_percent=True)} ({ev_5_20_no_h2h['wins']} W / {ev_5_20_no_h2h['losses']} L / {ev_5_20_no_h2h['pushes']} P)")
 
 
-    roi = (total_profit / starting_bankroll) * 100
+    roi = (total_profit / total_staked * 100) if total_staked > 0 else 0.0
     win_rate = (total_wins / total_bets) * 100 if total_bets else 0
     max_dd = max(total_drawdowns) if total_drawdowns else 0
 
@@ -240,14 +250,14 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
 
     print("\n📈 ROI by EV% Range:")
     for bucket, stats in ev_buckets.items():
-        roi = (stats["profit"] / starting_bankroll * 100) if starting_bankroll > 0 else 0.0
+        roi = (stats["profit"] / stats["staked"] * 100) if stats["staked"] > 0 else 0.0
         winrate = (stats["wins"] / stats["bets"] * 100) if stats["bets"] else 0.0
         print(f"    - {bucket:<7} | {stats['bets']:>3} bets | ROI: {colorize(roi, is_percent=True)} | Win Rate: {colorize(winrate, is_percent=True)}")
 
     if sum(stats["bets"] for stats in time_buckets.values()) > 0:
         print("\n⏰ ROI by Hours-to-Game Window:")
         for bucket, stats in time_buckets.items():
-            roi = (stats["profit"] / starting_bankroll * 100) if starting_bankroll > 0 else 0.0
+            roi = (stats["profit"] / stats["staked"] * 100) if stats["staked"] > 0 else 0.0
             print(f"    - {bucket:<5} | {stats['bets']:>3} bets | ROI: {colorize(roi, is_percent=True)}")
     else:
         print("\n⏰ ROI by Hours-to-Game Window: [No valid hours_to_game data available]")
