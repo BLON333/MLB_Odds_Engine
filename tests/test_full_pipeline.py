@@ -76,16 +76,16 @@ def test_full_pipeline(tmp_path, monkeypatch):
     os.chdir(cwd)
 
     log_path = tmp_path / "logs" / "market_evals.csv"
-    assert log_path.exists()
-    logged = pd.read_csv(log_path)
-    assert len(logged) == 1
-    assert logged.loc[0, "game_id"] == game_id
+    # Bets exactly at the start time should be skipped
+    assert not log_path.exists()
+    logged = pd.read_csv(log_path) if log_path.exists() else pd.DataFrame()
+    assert logged.empty
 
     monkeypatch.setattr(usg, "save_tracker", lambda *a, **k: None)
     os.chdir(tmp_path)
     rows = usg.build_snapshot_for_date("2025-06-15", odds)
     os.chdir(cwd)
-    assert any(r["game_id"] == game_id for r in rows)
+    assert not any(r["game_id"] == game_id for r in rows)
 
     snap_path = tmp_path / "snap.json"
     with open(snap_path, "w") as f:
@@ -96,4 +96,4 @@ def test_full_pipeline(tmp_path, monkeypatch):
     monkeypatch.setenv("DISCORD_H2H_WEBHOOK_URL", "http://example.com")
     sys.argv = ["dispatch_live_snapshot", "--snapshot-path", str(snap_path), "--output-discord", "--min-ev", "0"]
     dls.main()
-    assert captured.get("rows", 0) > 0
+    assert captured.get("rows", 0) == 0

@@ -749,7 +749,7 @@ def build_snapshot_rows(
                 start_formatted = start_et.strftime("%-I:%M %p")
             except Exception:
                 start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
-        if hours_to_game < 0:
+        if hours_to_game <= 0:
             logger.debug(
                 "⏱️ Skipping %s — game has already started (%.2fh ago)",
                 game_id,
