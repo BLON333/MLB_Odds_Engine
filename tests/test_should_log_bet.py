@@ -319,3 +319,45 @@ def test_early_bet_allowed_with_book_agreement():
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result is not None
     assert result["entry_type"] == "first"
+
+
+def test_stale_theme_exposure_reset():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.2}
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        existing_csv_stakes={},
+    )
+    assert result is not None
+    assert result["entry_type"] == "first"
+    assert existing_theme_stakes[exposure_key] == 0.0
+
+
+def test_theme_exposure_kept_when_csv_matches():
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.2,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.2}
+    csv_stakes = {(bet["game_id"], bet["market"], bet["side"]): 1.2}
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        existing_csv_stakes=csv_stakes,
+    )
+    assert result is None
+    assert existing_theme_stakes[exposure_key] == 1.2

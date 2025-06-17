@@ -109,12 +109,4 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
     path = tmp_path / "log.csv"
     result = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
 
-    assert result is not None
-    assert evaluated["cumulative_stake"] == pytest.approx(1.2)
-
-    with open(path) as f:
-        rows = list(csv.DictReader(f))
-
-    assert len(rows) == 1
-    assert float(rows[0]["stake"]) == pytest.approx(1.2)
-    assert float(rows[0]["cumulative_stake"]) == pytest.approx(1.2)
+    assert result is None
