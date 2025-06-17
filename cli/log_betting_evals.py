@@ -1634,11 +1634,6 @@ def write_to_csv(
         if should_log_movement():
             print(f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}")
 
-    existing[key] = prev + stake_to_log
-    if existing_theme_stakes is not None:
-        exposure_key = get_exposure_key(row)
-        existing_theme_stakes[exposure_key] = existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
-
     edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
     if config.VERBOSE_MODE:
@@ -1650,6 +1645,12 @@ def write_to_csv(
         print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
         print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
         print(f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n")
+
+    # Update exposure trackers only after the CSV row is successfully written
+    existing[key] = prev + stake_to_log
+    if existing_theme_stakes is not None:
+        exposure_key = get_exposure_key(row)
+        existing_theme_stakes[exposure_key] = existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
 
     return row
 
@@ -2722,9 +2723,6 @@ def process_theme_logged_bets(
         if result:
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
-            logged_stake = best_row["stake"]
-            exposure_key = get_exposure_key(best_row)
-            existing_theme_stakes[exposure_key] = existing_theme_stakes.get(exposure_key, 0.0) + logged_stake
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
