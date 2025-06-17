@@ -114,9 +114,20 @@ def fetch_consensus_for_single_game(game_id, lookahead_days=2):
     logger.debug(f"🔎 Fetching consensus odds for {game_id}")
 
     # Step 1: Pull events
-    resp = requests.get(
-        EVENTS_URL, params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days}
-    )
+    try:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+            timeout=10,
+        )
+    except TypeError:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+        )
+    except requests.exceptions.RequestException as e:
+        logger.error("❌ Error fetching events: %s", e)
+        return {}
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events.")
         return None
@@ -160,16 +171,32 @@ def fetch_consensus_for_single_game(game_id, lookahead_days=2):
         return None
 
     # Step 3: Fetch odds for event
-    odds_resp = requests.get(
-        EVENT_ODDS_URL.format(event_id=event_id),
-        params={
-            "apiKey": ODDS_API_KEY,
-            "regions": "us",
-            "markets": ",".join(MARKET_KEYS),
-            "bookmakers": ",".join(BOOKMAKERS),
-            "oddsFormat": "american"
-        }
-    )
+    try:
+        odds_resp = requests.get(
+            EVENT_ODDS_URL.format(event_id=event_id),
+            params={
+                "apiKey": ODDS_API_KEY,
+                "regions": "us",
+                "markets": ",".join(MARKET_KEYS),
+                "bookmakers": ",".join(BOOKMAKERS),
+                "oddsFormat": "american",
+            },
+            timeout=10,
+        )
+    except TypeError:
+        odds_resp = requests.get(
+            EVENT_ODDS_URL.format(event_id=event_id),
+            params={
+                "apiKey": ODDS_API_KEY,
+                "regions": "us",
+                "markets": ",".join(MARKET_KEYS),
+                "bookmakers": ",".join(BOOKMAKERS),
+                "oddsFormat": "american",
+            },
+        )
+    except requests.exceptions.RequestException as e:
+        logger.error("❌ Error fetching odds for %s: %s", event_id, e)
+        return {}
     if odds_resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch odds for {event_id}")
         return None
@@ -222,9 +249,20 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
     logger.debug(f"🎯 Incoming game_ids from sim folder: {sorted(input_game_ids)}")
     logger.debug(f"[DEBUG] Using ODDS_API_KEY prefix: {ODDS_API_KEY[:4]}*****")
 
-    resp = requests.get(
-        EVENTS_URL, params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days}
-    )
+    try:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+            timeout=10,
+        )
+    except TypeError:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+        )
+    except requests.exceptions.RequestException as e:
+        logger.error("❌ Error fetching events: %s", e)
+        return {}
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events: {resp.text}")
         return None
@@ -278,16 +316,32 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
 
 
             event_id = event["id"]
-            odds_resp = requests.get(
-                EVENT_ODDS_URL.format(event_id=event_id),
-                params={
-                    "apiKey": ODDS_API_KEY,
-                    "regions": "us",
-                    "markets": ",".join(MARKET_KEYS),
-                    "bookmakers": ",".join(BOOKMAKERS),
-                    "oddsFormat": "american"
-                }
-            )
+            try:
+                odds_resp = requests.get(
+                    EVENT_ODDS_URL.format(event_id=event_id),
+                    params={
+                        "apiKey": ODDS_API_KEY,
+                        "regions": "us",
+                        "markets": ",".join(MARKET_KEYS),
+                        "bookmakers": ",".join(BOOKMAKERS),
+                        "oddsFormat": "american",
+                    },
+                    timeout=10,
+                )
+            except TypeError:
+                odds_resp = requests.get(
+                    EVENT_ODDS_URL.format(event_id=event_id),
+                    params={
+                        "apiKey": ODDS_API_KEY,
+                        "regions": "us",
+                        "markets": ",".join(MARKET_KEYS),
+                        "bookmakers": ",".join(BOOKMAKERS),
+                        "oddsFormat": "american",
+                    },
+                )
+            except requests.exceptions.RequestException as e:
+                logger.error("❌ Error fetching odds for %s: %s", game_id, e)
+                continue
 
             if odds_resp.status_code != 200:
                 logger.debug(f"⚠️ Failed to fetch odds for {game_id}: {odds_resp.text}")
@@ -433,9 +487,20 @@ def fetch_all_market_odds(lookahead_days=2):
 
     logger.debug(f"🌐 Fetching all market odds for daysFrom={lookahead_days}")
 
-    resp = requests.get(
-        EVENTS_URL, params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days}
-    )
+    try:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+            timeout=10,
+        )
+    except TypeError:
+        resp = requests.get(
+            EVENTS_URL,
+            params={"apiKey": ODDS_API_KEY, "daysFrom": lookahead_days},
+        )
+    except requests.exceptions.RequestException as e:
+        logger.error("❌ Error fetching events: %s", e)
+        return {}
     if resp.status_code != 200:
         logger.debug(f"❌ Failed to fetch events: {resp.text}")
         return None
@@ -471,16 +536,32 @@ def fetch_all_market_odds(lookahead_days=2):
             )
 
             event_id = event["id"]
-            odds_resp = requests.get(
-                EVENT_ODDS_URL.format(event_id=event_id),
-                params={
-                    "apiKey": ODDS_API_KEY,
-                    "regions": "us",
-                    "markets": ",".join(MARKET_KEYS),
-                    "bookmakers": ",".join(BOOKMAKERS),
-                    "oddsFormat": "american",
-                },
-            )
+            try:
+                odds_resp = requests.get(
+                    EVENT_ODDS_URL.format(event_id=event_id),
+                    params={
+                        "apiKey": ODDS_API_KEY,
+                        "regions": "us",
+                        "markets": ",".join(MARKET_KEYS),
+                        "bookmakers": ",".join(BOOKMAKERS),
+                        "oddsFormat": "american",
+                    },
+                    timeout=10,
+                )
+            except TypeError:
+                odds_resp = requests.get(
+                    EVENT_ODDS_URL.format(event_id=event_id),
+                    params={
+                        "apiKey": ODDS_API_KEY,
+                        "regions": "us",
+                        "markets": ",".join(MARKET_KEYS),
+                        "bookmakers": ",".join(BOOKMAKERS),
+                        "oddsFormat": "american",
+                    },
+                )
+            except requests.exceptions.RequestException as e:
+                logger.error("❌ Error fetching odds for %s: %s", game_id, e)
+                continue
 
             if odds_resp.status_code != 200:
                 logger.debug(f"⚠️ Failed to fetch odds for {game_id}: {odds_resp.text}")

@@ -351,9 +351,11 @@ def monitor_loop(poll_interval=600, target_date=None, force_game_id=None):
                 lambda: requests.get(
                     "https://api.the-odds-api.com/v4/sports/baseball_mlb/events",
                     params={"apiKey": os.getenv("ODDS_API_KEY")},
+                    timeout=10,
                 )
             )
-        except Exception:
+        except Exception as e:
+            logger.error("❌ Error fetching events: %s", e)
             time.sleep(poll_interval)
             continue
         if resp.status_code != 200:
