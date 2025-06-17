@@ -136,8 +136,16 @@ def should_log_bet(
     min_stake: float = MIN_FIRST_STAKE,
     eval_tracker: dict | None = None,
     reference_tracker: dict | None = None,
+    existing_csv_stakes: dict | None = None,
 ) -> Optional[dict]:
     """Return updated bet dict if staking and movement criteria are met.
+
+    Parameters
+    ----------
+    existing_csv_stakes : dict | None, optional
+        Mapping of previously logged stakes keyed by ``(game_id, market, side)``.
+        When provided, the function treats missing entries as no prior stake for
+        that specific market even if theme exposure exists.
 
     The optional ``eval_tracker`` should contain previous market evaluations
     keyed by ``game_id:market:side:book`` so line movement can be enforced for
@@ -188,6 +196,13 @@ def should_log_bet(
     theme_key = get_theme_key(base_market, theme)
     exposure_key = (game_id, theme_key, segment)
     theme_total = existing_theme_stakes.get(exposure_key, 0.0)
+    csv_stake = 0.0
+    if existing_csv_stakes is not None:
+        csv_stake = existing_csv_stakes.get((game_id, market, side), 0.0)
+
+    delta_base = theme_total
+    if theme_total >= stake and csv_stake == 0:
+        delta_base = 0.0
     is_alt_line = (
         market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
     )
@@ -317,7 +332,7 @@ def should_log_bet(
         return new_bet
 
     # Round the delta once to avoid floating point drift across the pipeline
-    delta_raw = stake - theme_total
+    delta_raw = stake - delta_base
     delta = round(delta_raw, 2)
     if delta >= MIN_TOPUP_STAKE:
         new_bet["stake"] = delta

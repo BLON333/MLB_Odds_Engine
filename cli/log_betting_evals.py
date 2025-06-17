@@ -2652,6 +2652,7 @@ def process_theme_logged_bets(
                     verbose=config.VERBOSE_MODE,
                     eval_tracker=MARKET_EVAL_TRACKER,
                     reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
+                    existing_csv_stakes=existing,
                 )
 
                 if not evaluated:
