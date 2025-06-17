@@ -290,7 +290,10 @@ def build_snapshot_rows(
                 if game_odds is not None and best_key != gid:
                     logger.debug("🧠 Fuzzy matched %s → %s", gid, best_key)
         start_dt = parse_start_time(gid, game_odds)
-        if start_dt and start_dt <= now:
+        if start_dt is None:
+            logger.debug("⏱️ Skipping %s — start time not found", gid)
+            continue
+        if start_dt <= now:
             continue
         open_count += 1
         market = row.get("market", "")

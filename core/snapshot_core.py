@@ -732,23 +732,24 @@ def build_snapshot_rows(
                 dt = None
         if dt is None:
             dt = parse_start_time(game_id, odds)
-        hours_to_game = 8.0
-        if dt:
-            dt = to_eastern(dt)
-            hours_to_game = compute_hours_to_game(dt)
-            if DEBUG_MODE:
-                logger.debug(
-                    "🕓 %s start=%s now=%s Δ=%.2fh",
-                    game_id,
-                    dt.isoformat(),
-                    now_eastern().isoformat(),
-                    hours_to_game,
-                )
-            start_et = dt
-            try:
-                start_formatted = start_et.strftime("%-I:%M %p")
-            except Exception:
-                start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
+        if dt is None:
+            logger.debug("⏱️ Skipping %s — start time not found", game_id)
+            debug_log.append({"game_id": game_id, "reason": "no_start_time"})
+            continue
+        hours_to_game = compute_hours_to_game(to_eastern(dt))
+        if DEBUG_MODE:
+            logger.debug(
+                "🕓 %s start=%s now=%s Δ=%.2fh",
+                game_id,
+                dt.isoformat(),
+                now_eastern().isoformat(),
+                hours_to_game,
+            )
+        start_et = to_eastern(dt)
+        try:
+            start_formatted = start_et.strftime("%-I:%M %p")
+        except Exception:
+            start_formatted = start_et.strftime("%I:%M %p").lstrip("0")
         if hours_to_game <= 0:
             logger.debug(
                 "⏱️ Skipping %s — game has already started (%.2fh ago)",

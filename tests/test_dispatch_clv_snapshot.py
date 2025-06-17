@@ -153,3 +153,17 @@ def test_started_game_is_skipped(monkeypatch):
     result = build_snapshot_rows(rows, odds)
 
     assert result == []
+
+
+def test_missing_start_time_skips_row(monkeypatch):
+    import core.dispatch_clv_snapshot as dcs
+
+    gid = "2031-07-02-NYM@ATL"
+    rows = [_row(gid, "h2h", "NYM")]
+    odds = {}
+
+    monkeypatch.setattr(dcs, "parse_start_time", lambda *_: None)
+
+    result = build_snapshot_rows(rows, odds)
+
+    assert result == []
