@@ -13,6 +13,8 @@ from core.market_pricer import decimal_odds
 from core.confirmation_utils import required_market_move, book_agreement_score
 from core.skip_reasons import SkipReason
 from core.logger import get_logger
+import csv
+import os
 
 
 from utils import (
@@ -128,6 +130,29 @@ def orientation_key(bet: dict) -> str:
     return team.upper()
 
 
+def _compute_csv_theme_total(
+    game_id: str,
+    theme_key: str,
+    segment: str,
+    csv_stakes: dict,
+) -> float:
+    """Return cumulative stake for a theme based on CSV stake mapping."""
+    total = 0.0
+    for (gid, mkt, side), stake in csv_stakes.items():
+        if gid != game_id:
+            continue
+        base = mkt.replace("alternate_", "")
+        seg = get_segment_group(mkt)
+        theme = get_theme({"side": side, "market": base})
+        key = get_theme_key(base, theme)
+        if (gid, key, seg) == (game_id, theme_key, segment):
+            try:
+                total += float(stake)
+            except Exception:
+                continue
+    return total
+
+
 def should_log_bet(
     new_bet: dict,
     existing_theme_stakes: dict,
@@ -199,6 +224,15 @@ def should_log_bet(
     csv_stake = 0.0
     if existing_csv_stakes is not None:
         csv_stake = existing_csv_stakes.get((game_id, market, side), 0.0)
+
+    if theme_total >= stake and existing_csv_stakes is not None:
+        csv_theme_total = _compute_csv_theme_total(
+            game_id, theme_key, segment, existing_csv_stakes
+        )
+        if csv_theme_total == 0:
+            # Tracker likely stale; reset exposure
+            existing_theme_stakes[exposure_key] = 0.0
+            theme_total = 0.0
 
     delta_base = theme_total
     if theme_total >= stake and csv_stake == 0:
