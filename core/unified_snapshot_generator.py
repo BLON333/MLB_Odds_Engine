@@ -222,20 +222,41 @@ def main() -> None:
     
         odds_cache = None
         if args.odds_path:
+            if not os.path.exists(args.odds_path):
+                logger.error(
+                    "❌ Failed to generate snapshot – odds file not found: %s",
+                    args.odds_path,
+                )
+                sys.exit(1)
             odds_cache = safe_load_json(args.odds_path)
-            if odds_cache is not None:
+            if odds_cache:
                 logger.info("📥 Loaded odds from %s", args.odds_path)
             else:
-                logger.error("❌ Failed to load odds file %s", args.odds_path)
+                logger.error(
+                    "❌ Failed to generate snapshot – no valid odds data loaded"
+                    " from %s",
+                    args.odds_path,
+                )
+                sys.exit(1)
         else:
             auto_path = latest_odds_file()
             if auto_path:
                 odds_cache = safe_load_json(auto_path)
-                if odds_cache is not None:
+                if odds_cache:
                     logger.info("📥 Auto-loaded latest odds: %s", auto_path)
+                else:
+                    logger.error(
+                        "❌ Failed to generate snapshot – no valid odds data"
+                        " loaded from %s",
+                        auto_path,
+                    )
+                    sys.exit(1)
             if odds_cache is None:
-                logger.error("❌ No market_odds_*.json files found or failed to load.")
-                return
+                logger.error(
+                    "❌ Failed to generate snapshot – no market_odds_*.json files"
+                    " found."
+                )
+                sys.exit(1)
     
         # Refresh tracker baseline before snapshot generation
         MARKET_EVAL_TRACKER.clear()
@@ -249,6 +270,12 @@ def main() -> None:
             for row in rows_for_date:
                 row["snapshot_for_date"] = date_str
             all_rows.extend(rows_for_date)
+
+        if len(all_rows) == 0:
+            logger.error(
+                "❌ Failed to generate snapshot – no qualifying bets found."
+            )
+            sys.exit(1)
 
         # Save tracker after snapshot generation
         save_tracker(MARKET_EVAL_TRACKER)
@@ -287,13 +314,7 @@ def main() -> None:
             )
             return
 
-        if len(all_rows) == 0:
-            logger.warning(
-                "⚠️ Snapshot %s written with 0 rows — no matched games.",
-                final_path,
-            )
-        else:
-            logger.info("✅ Snapshot written: %s with %d rows", final_path, len(all_rows))
+        logger.info("✅ Snapshot written: %s with %d rows", final_path, len(all_rows))
     except Exception:
         logger.exception("Snapshot generation failed:")
         sys.exit(1)
