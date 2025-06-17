@@ -182,7 +182,6 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
                 bet_rows.append(row)
 
     # ========== REPORTING SECTION ==========
-    print("\n📆 DAILY RESULTS BREAKDOWN (EV 5%–20%)")
     for date_key, stats in sorted(daily_stats.items()):
         filtered_bets = [
             row for row in bet_rows
@@ -198,7 +197,12 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         losses = sum(1 for r in filtered_bets if r["result"] == "loss")
         pushes = sum(1 for r in filtered_bets if r["result"] == "push")
         emoji = "📈" if profit >= 0 else "📉"
-        print(f"{emoji} {date_key} | Profit: {colorize(profit)} | ROI: {colorize(roi, is_percent=True)} | Bets: {len(filtered_bets)} (W:{wins} / L:{losses} / P:{pushes})")
+        print(f"\n📆 Daily Recap (EV 5%–20% Bets) — {date_key}")
+        print("-------------------------------------")
+        print(
+            f"{emoji} Profit: {colorize(profit)} | ROI: {colorize(roi, is_percent=True)} | "
+            f"Bets: {len(filtered_bets)} (W:{wins} / L:{losses} / P:{pushes})"
+        )
 
     if ev_5_20_no_h2h["bets"] > 0:
         roi_5_20 = (
@@ -212,10 +216,11 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         print(f"ROI:        {colorize(roi_5_20, is_percent=True)}")
         print(f"Win Rate:   {colorize(winrate_5_20, is_percent=True)} ({ev_5_20_no_h2h['wins']} W / {ev_5_20_no_h2h['losses']} L / {ev_5_20_no_h2h['pushes']} P)")
 
+    print("\n" + "-" * 40)
 
     roi = (total_profit / total_staked * 100) if total_staked > 0 else 0.0
     win_rate = (total_wins / total_bets) * 100 if total_bets else 0
-    print("\n🏦 BANKROLL PERFORMANCE")
+    print("\n**🏦 Overall Bankroll Performance to Date**")
     print("------------------------------")
     print(f"Start Bankroll:     ${starting_bankroll:.2f}")
     print(f"Final Bankroll:     {colorize(total_bankroll)}")
