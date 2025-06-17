@@ -240,7 +240,7 @@ def test_rejected_for_odds_too_negative():
 
 
 def test_suppressed_early_unconfirmed(monkeypatch):
-    hours = 10
+    hours = 14
     threshold = required_market_move(hours)
     bet = {
         "game_id": "gid",
@@ -260,7 +260,7 @@ def test_suppressed_early_unconfirmed(monkeypatch):
 
 
 def test_early_bet_allowed_with_confirmation(monkeypatch):
-    hours = 10
+    hours = 14
     move = required_market_move(hours) + 0.005
     bet = {
         "game_id": "gid",

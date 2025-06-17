@@ -25,7 +25,7 @@ def test_queue_pending_bet(monkeypatch, tmp_path):
         "full_stake": 1.0,
         "ev_percent": 6.0,
         "market_prob": 0.55,
-        "hours_to_game": 10,
+        "hours_to_game": 14,
     }
     tracker_key = f"{bet['game_id']}:{bet['market']}:Over 8.5"
     reference = {tracker_key: {"market_prob": bet["market_prob"]}}
