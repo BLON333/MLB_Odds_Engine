@@ -205,13 +205,6 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
         print(f"ROI:        {colorize(roi_5_20, is_percent=True)}")
         print(f"Win Rate:   {colorize(winrate_5_20, is_percent=True)} ({ev_5_20_no_h2h['wins']} W / {ev_5_20_no_h2h['losses']} L / {ev_5_20_no_h2h['pushes']} P)")
 
-    if top_ev_market_stats:
-        print("\n📊 Top Performing Markets (EV 5%–20%)")
-        print("------------------------------------------------")
-        sorted_markets = sorted(top_ev_market_stats.items(), key=lambda x: x[1]["profit"], reverse=True)
-        for market, stats in sorted_markets:
-            roi = (stats["profit"] / stats["staked"] * 100) if stats["staked"] > 0 else 0.0
-            print(f"    - {market:<22} | {stats['bets']:>3} bets | Profit: {colorize(stats['profit'])} | ROI: {colorize(roi, is_percent=True)}")
 
     roi = (total_profit / starting_bankroll) * 100
     win_rate = (total_wins / total_bets) * 100 if total_bets else 0
@@ -228,10 +221,22 @@ def run_bankroll_sim(log_path, starting_bankroll=40000, unit_percent=1.0, start_
     print(f"Max Drawdown:       ${max_dd:.2f}")
     print("------------------------------")
 
-    print("\n📊 ROI by Market Type:")
-    for market, stats in market_stats.items():
-        roi = (stats["profit"] / stats["staked"] * 100) if stats["staked"] > 0 else 0.0
-        print(f"    - {market:<22} | {stats['bets']:>3} bets | ROI: {colorize(roi, is_percent=True)}")
+    if market_stats:
+        print("\n📊 MARKET PERFORMANCE SUMMARY")
+        print("------------------------------------------------")
+        def market_roi(item):
+            profit = item[1]["profit"]
+            staked = item[1]["staked"]
+            return profit / staked if staked > 0 else float('-inf')
+
+        sorted_markets = sorted(market_stats.items(), key=market_roi, reverse=True)
+        for market, stats in sorted_markets:
+            staked = stats["staked"]
+            roi = (stats["profit"] / staked * 100) if staked > 0 else 0.0
+            print(
+                f"    - {market:<22} | {stats['bets']:>3} bets | Profit: {colorize(stats['profit'])} | "
+                f"Staked: ${staked:.2f} | ROI: {colorize(roi, is_percent=True)}"
+            )
 
     print("\n📈 ROI by EV% Range:")
     for bucket, stats in ev_buckets.items():
