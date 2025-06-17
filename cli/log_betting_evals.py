@@ -366,7 +366,6 @@ from core.market_movement_tracker import (
     detect_market_movement,
 )
 from core.theme_exposure_tracker import (
-    load_tracker as load_theme_stakes,
     save_tracker as save_theme_stakes,
 )
 from core.format_utils import format_market_odds_and_roles
@@ -2457,8 +2456,8 @@ def run_batch_logging(
                     f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
                 )
 
-    tracker_theme_stakes = load_theme_stakes()
-    existing_theme_stakes = {k: theme_stakes_from_csv[k] for k in tracker_theme_stakes if k in theme_stakes_from_csv}
+    # 🆕 Rebuild theme exposure tracker from scratch using market_evals.csv
+    existing_theme_stakes = theme_stakes_from_csv
     save_theme_stakes(existing_theme_stakes)
 
     odds_start_times = extract_start_times(all_market_odds)
