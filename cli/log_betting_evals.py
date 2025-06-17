@@ -1734,7 +1734,7 @@ def log_bets(
     if start_dt:
         hours_to_game = compute_hours_to_game(start_dt)
 
-    if hours_to_game < 0:
+    if hours_to_game <= 0:
         print(
             f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
         )
@@ -1992,7 +1992,7 @@ def log_derivative_bets(
     if start_dt:
         hours_to_game = compute_hours_to_game(start_dt)
 
-    if hours_to_game < 0:
+    if hours_to_game <= 0:
         print(
             f"⏱️ Skipping {game_id} — game has already started ({hours_to_game:.2f}h ago)"
         )
