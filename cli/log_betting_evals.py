@@ -2459,7 +2459,8 @@ def run_batch_logging(
 
     # 🆕 Rebuild theme exposure tracker from scratch using market_evals.csv
     existing_theme_stakes = theme_stakes_from_csv
-    save_theme_stakes(existing_theme_stakes)
+    if not dry_run:
+        save_theme_stakes(existing_theme_stakes)
 
     odds_start_times = extract_start_times(all_market_odds)
 
@@ -2513,7 +2514,7 @@ def run_batch_logging(
         force_log=force_log,
     )
 
-    if summary_candidates:
+    if summary_candidates and not dry_run:
         from core.pending_bets import queue_pending_bet
 
         for bet in summary_candidates:
@@ -2521,9 +2522,11 @@ def run_batch_logging(
                 queue_pending_bet(bet)
             except Exception:
                 pass
-        print(f"📁 Queued {len(summary_candidates)} pending bets to pending_bets.json")
+        print(
+            f"📁 Queued {len(summary_candidates)} pending bets to pending_bets.json"
+        )
 
-    if summary_candidates and not no_save_skips:
+    if summary_candidates and not no_save_skips and not dry_run:
         save_skipped_bets(summary_candidates)
 
 
@@ -2759,19 +2762,24 @@ def process_theme_logged_bets(
             generate_clean_summary_image(final_snapshot, output_path=output_path, stake_mode="model")
             upload_summary_image_to_discord(output_path, webhook_url)
 
-    # Persist updated theme exposure once per batch
-    save_theme_stakes(existing_theme_stakes)
+    if not dry_run:
+        # Persist updated theme exposure once per batch
+        save_theme_stakes(existing_theme_stakes)
 
-    try:
-        save_tracker(MARKET_EVAL_TRACKER)
-        logger.info("\u2705 Tracker saved with %d entries.", len(MARKET_EVAL_TRACKER))
-    except Exception as e:  # pragma: no cover - unexpected save failure
-        logger.warning("\u26a0\ufe0f Failed to save market eval tracker: %s", e)
+        try:
+            save_tracker(MARKET_EVAL_TRACKER)
+            logger.info(
+                "\u2705 Tracker saved with %d entries.", len(MARKET_EVAL_TRACKER)
+            )
+        except Exception as e:  # pragma: no cover - unexpected save failure
+            logger.warning("\u26a0\ufe0f Failed to save market eval tracker: %s", e)
 
-    try:
-        save_market_conf_tracker(MARKET_CONF_TRACKER)
-    except Exception as e:
-        logger.warning("\u26a0\ufe0f Failed to save market confirmation tracker: %s", e)
+        try:
+            save_market_conf_tracker(MARKET_CONF_TRACKER)
+        except Exception as e:
+            logger.warning(
+                "\u26a0\ufe0f Failed to save market confirmation tracker: %s", e
+            )
 
     if not config.DEBUG_MODE:
         print(f"\n🧾 Summary: {len(logged_bets_this_loop)} logged, {sum(skipped_counts.values())} skipped")
@@ -2789,7 +2797,11 @@ if __name__ == "__main__":
         help="Path to prior odds JSON for fallback lookup",
     )
     p.add_argument("--min-ev", type=float, default=0.05, help="Minimum EV% threshold for bets")
-    p.add_argument("--dry-run", action="store_true", help="Preview bets without writing to CSV")
+    p.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview bets without writing to CSV or updating trackers",
+    )
     p.add_argument("--debug", action="store_true", help="Enable debug logging")
     p.add_argument(
         "--image",
@@ -2848,8 +2860,9 @@ if __name__ == "__main__":
             date_tag,
         )
         odds = fetch_market_odds_from_api(games)
-        timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
-        odds_file = save_market_odds_to_file(odds, timestamp_tag)
+        if not args.dry_run:
+            timestamp_tag = now_eastern().strftime("market_odds_%Y%m%dT%H%M")
+            odds_file = save_market_odds_to_file(odds, timestamp_tag)
 
     run_batch_logging(
         eval_folder=args.eval_folder,
