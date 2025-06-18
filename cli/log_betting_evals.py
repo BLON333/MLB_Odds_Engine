@@ -1299,6 +1299,10 @@ def send_discord_notification(row, skipped_bets=None):
     print(f"📬 Sending Discord Notification → stake: {stake}, full: {full_stake}, type: {entry_type}")
 
     message = build_discord_embed(row)
+    message += (
+        "\n\n**If you are interested in keeping this discord more "
+        "exclusive and protecting the edge, please DM me**"
+    )
 
     try:
         response = post_with_retries(webhook_url, json={"content": message.strip()})
