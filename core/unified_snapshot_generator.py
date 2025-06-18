@@ -336,6 +336,13 @@ def main() -> None:
         # === Dispatch Snapshot to Discord ===
         try:
             df = format_for_display(all_rows)
+            role_count = sum(
+                1
+                for r in all_rows
+                if isinstance(r.get("snapshot_roles"), list)
+                and "live" in r["snapshot_roles"]
+            )
+            print(f"\U0001F3AF Rows with role='live': {role_count}")
             dispatch_snapshot_rows(
                 df,
                 market_type="Unified Snapshot",
