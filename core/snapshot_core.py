@@ -396,6 +396,21 @@ def send_bet_snapshot_to_discord(
     debug_counts: dict | None = None,
 ) -> None:
     """Render a styled image and send it to a Discord webhook."""
+    if df is not None:
+        try:
+            print(f"📤 send_bet_snapshot_to_discord() called with {df.shape[0]} rows")
+            print("📊 Columns in DataFrame:", df.columns.tolist())
+            print(df.head(3).to_string(index=False))
+        except Exception:
+            pass
+    if debug_counts:
+        try:
+            print(
+                f"📈 Dispatch counts — EV: {debug_counts['post_ev']}, "
+                f"Stake: {debug_counts['post_stake']}, Role: {debug_counts['post_role']}"
+            )
+        except Exception:
+            pass
     if df is None or df.empty:
         print("⚠️ No qualifying snapshot bets to dispatch")
         return
@@ -416,7 +431,7 @@ def send_bet_snapshot_to_discord(
         pass
 
     if df.empty:
-        print("⚠️ No qualifying snapshot bets to dispatch")
+        print("⚠️ No qualifying snapshot bets after stake filtering. Dispatch skipped.")
         return
     if dfi is None:
         print("⚠️ dataframe_image is not available. Sending text fallback.")
@@ -1397,7 +1412,19 @@ def dispatch_snapshot_rows(
     counts["post_role"] = len(df)
 
     if counts["post_role"] == 0:
-        send_bet_snapshot_to_discord(df, market_type, webhook_url, debug_counts=counts)
+        print(
+            f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
+            f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
+        )
+        send_bet_snapshot_to_discord(
+            df, market_type, webhook_url, debug_counts=counts
+        )
         return
 
-    send_bet_snapshot_to_discord(df, market_type, webhook_url)
+    print(
+        f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
+        f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
+    )
+    send_bet_snapshot_to_discord(
+        df, market_type, webhook_url, debug_counts=counts
+    )
