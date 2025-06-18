@@ -415,6 +415,19 @@ def send_bet_snapshot_to_discord(
         print("⚠️ No qualifying snapshot bets to dispatch")
         return
 
+    # Filter out rows from unsupported books
+    book_col = None
+    for col in ["best_book", "book", "Book"]:
+        if col in df.columns:
+            book_col = col
+            break
+    if book_col:
+        before_books = len(df)
+        df = df[df[book_col].str.lower().isin(VALID_BOOKMAKER_KEYS)]
+        if df.empty and before_books > 0:
+            print("⚠️ No qualifying snapshot bets after book filtering. Dispatch skipped.")
+            return
+
     # 🚫 Filter out bets with < 1 unit stake before rendering
     try:
         if "full_stake" in df.columns:
@@ -1073,6 +1086,7 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         "prev_blended_fv",
         "logged",
         "skip_reason",
+        "excluded_due_to_book",
     ]
 
     if include_movement:
@@ -1199,9 +1213,10 @@ def expand_snapshot_rows_with_kelly(
 ) -> List[dict]:
     """Expand rows into one row per sportsbook with updated EV and stake.
 
-    If ``allowed_books`` is provided, only sportsbooks in that list will be
-    expanded.  Each expanded row has its display fields refreshed to reflect the
-    specific book price.
+    If ``allowed_books`` is provided, books not in that list are still expanded
+    but their ``full_stake`` is set to ``0.0`` and the row is annotated with
+    ``excluded_due_to_book = True``. Each expanded row has its display fields
+    refreshed to reflect the specific book price.
     """
 
     if allowed_books is not None:
@@ -1249,10 +1264,6 @@ def expand_snapshot_rows_with_kelly(
 
         expanded_any = False
         for book, odds in per_book.items():
-            if allowed_books and book not in allowed_books:
-                continue
-            if allowed_books is not None and not is_valid_book(book):
-                continue
 
             p = row.get("blended_prob")
             if p is None:
@@ -1337,14 +1348,15 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("stake_movement", None)
             expanded_row.update(movement)
             ensure_consensus_books(expanded_row)
+            if allowed_books is not None and expanded_row["best_book"] not in allowed_books:
+                expanded_row["full_stake"] = 0.0
+                expanded_row["excluded_due_to_book"] = True
             expanded.append(expanded_row)
         
         if not expanded_any:
             row_copy = row.copy()
             row_copy["logged"] = bool(row.get("logged", False))
-            if allowed_books:
-                row_copy["skip_reason"] = "book_filter"
-            elif row.get("market_odds") is None:
+            if row.get("market_odds") is None:
                 row_copy.setdefault("skip_reason", "no_odds")
             else:
                 row_copy["skip_reason"] = "invalid_data"
