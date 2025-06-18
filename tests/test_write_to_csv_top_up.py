@@ -52,23 +52,24 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
 
     tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
     reference = {tracker_key: {"market_prob": 0.520}}
-    evaluated = should_log_bet(
+    result = should_log_bet(
         row,
         theme_stakes,
         verbose=False,
         reference_tracker=reference,
         existing_csv_stakes=existing,
     )
-    assert evaluated is not None
+    assert result["log"] is True
+    evaluated = result["bet"]
 
     monkeypatch.setattr(
         "utils.logging_allowed_now", lambda now=None, **_: True
     )
 
     path = tmp_path / "log.csv"
-    result = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
+    result_csv = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
 
-    assert result is not None
+    assert result_csv is not None
     assert evaluated["stake"] == 0.6
     assert evaluated["cumulative_stake"] == pytest.approx(1.6)
 
@@ -94,19 +95,20 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
 
     tracker_key = f"{row['game_id']}:{row['market']}:{row['side']}"
     reference = {tracker_key: {"market_prob": 0.520}}
-    evaluated = should_log_bet(
+    result = should_log_bet(
         row,
         theme_stakes,
         verbose=False,
         reference_tracker=reference,
         existing_csv_stakes=existing,
     )
-    assert evaluated is not None
+    assert result["log"] is True
+    evaluated = result["bet"]
     assert evaluated["stake"] == pytest.approx(1.2)
 
     monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
 
     path = tmp_path / "log.csv"
-    result = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
+    result_csv = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
 
-    assert result is None
+    assert result_csv is None

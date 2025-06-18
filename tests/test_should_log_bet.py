@@ -28,9 +28,10 @@ def test_top_up_accepted():
     tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.4}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
-    assert result is not None
-    assert result["entry_type"] == "top-up"
-    assert result["stake"] == 0.6
+    assert result["log"] is True
+    logged = result["bet"]
+    assert logged["entry_type"] == "top-up"
+    assert logged["stake"] == 0.6
 
 
 def test_top_up_accepted_for_1p6_full_stake():
@@ -46,9 +47,10 @@ def test_top_up_accepted_for_1p6_full_stake():
     tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
-    assert result is not None
-    assert result["entry_type"] == "top-up"
-    assert result["stake"] == 0.6
+    assert result["log"] is True
+    logged = result["bet"]
+    assert logged["entry_type"] == "top-up"
+    assert logged["stake"] == 0.6
 
 
 def test_top_up_rejected_for_small_delta():
@@ -64,9 +66,9 @@ def test_top_up_rejected_for_small_delta():
     tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.7}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == SkipReason.LOW_TOPUP.value
+    assert result["reason"] == SkipReason.LOW_TOPUP.value
 
 
 def test_top_up_rejected_for_delta_point_three():
@@ -82,7 +84,7 @@ def test_top_up_rejected_for_delta_point_three():
     tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
 
 
@@ -100,9 +102,10 @@ def test_top_up_delta_rounded_before_threshold():
     tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": existing}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
-    assert result is not None
-    assert result["entry_type"] == "top-up"
-    assert result["stake"] == 0.5
+    assert result["log"] is True
+    logged = result["bet"]
+    assert logged["entry_type"] == "top-up"
+    assert logged["stake"] == 0.5
 
 
 def test_first_bet_logged_even_if_odds_worse():
@@ -119,8 +122,8 @@ def test_first_bet_logged_even_if_odds_worse():
     reference = {tracker_key: {"market_odds": 110, "ev_percent": 7.0}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is not None
-    assert result["entry_type"] == "first"
+    assert result["log"] is True
+    assert result["bet"]["entry_type"] == "first"
 
 
 def test_top_up_rejected_if_odds_worse():
@@ -138,9 +141,9 @@ def test_top_up_rejected_if_odds_worse():
     reference = {tracker_key: {"market_odds": 110, "ev_percent": 7.0}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, reference_tracker=reference)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == SkipReason.ODDS_WORSENED.value
+    assert result["reason"] == SkipReason.ODDS_WORSENED.value
 
 
 def test_first_bet_logged_if_odds_improve():
@@ -157,8 +160,8 @@ def test_first_bet_logged_if_odds_improve():
     reference = {tracker_key: {"market_odds": 110, "ev_percent": 6.0}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is not None
-    assert result["entry_type"] == "first"
+    assert result["log"] is True
+    assert result["bet"]["entry_type"] == "first"
 
 
 def test_team_total_classified_as_over():
@@ -187,9 +190,9 @@ def test_rejected_for_low_ev():
     }
 
     result = should_log_bet(bet, {}, verbose=False, min_ev=0.05)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "low_ev"
+    assert result["reason"] == "low_ev"
 
 
 def test_rejected_for_low_stake():
@@ -202,9 +205,9 @@ def test_rejected_for_low_stake():
     }
 
     result = should_log_bet(bet, {}, verbose=False)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == SkipReason.LOW_INITIAL.value
+    assert result["reason"] == SkipReason.LOW_INITIAL.value
 
 
 def test_rejected_for_odds_too_high():
@@ -218,9 +221,9 @@ def test_rejected_for_odds_too_high():
     }
 
     result = should_log_bet(bet, {}, verbose=False)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "bad_odds"
+    assert result["reason"] == "bad_odds"
 
 
 def test_rejected_for_odds_too_negative():
@@ -234,9 +237,9 @@ def test_rejected_for_odds_too_negative():
     }
 
     result = should_log_bet(bet, {}, verbose=False)
-    assert result is None
+    assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert bet["skip_reason"] == "bad_odds"
+    assert result["reason"] == "bad_odds"
 
 
 def test_suppressed_early_unconfirmed(monkeypatch):
@@ -255,8 +258,8 @@ def test_suppressed_early_unconfirmed(monkeypatch):
     reference = {tracker_key: {"market_prob": bet["market_prob"]}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is None
-    assert bet["skip_reason"] == SkipReason.SUPPRESSED_EARLY.value
+    assert result["skip"] is True
+    assert result["reason"] == SkipReason.SUPPRESSED_EARLY.value
 
 
 def test_early_bet_allowed_with_confirmation(monkeypatch):
@@ -275,8 +278,8 @@ def test_early_bet_allowed_with_confirmation(monkeypatch):
     reference = {tracker_key: {"market_prob": 0.55}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is not None
-    assert result["entry_type"] == "first"
+    assert result["log"] is True
+    assert result["bet"]["entry_type"] == "first"
 
 
 def test_early_bet_rejected_for_low_book_agreement():
@@ -296,8 +299,8 @@ def test_early_bet_rejected_for_low_book_agreement():
     reference = {tracker_key: {"market_prob": 0.55}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is None
-    assert bet["skip_reason"] == "suppressed_low_agreement"
+    assert result["skip"] is True
+    assert result["reason"] == "suppressed_low_agreement"
 
 
 def test_early_bet_allowed_with_book_agreement():
@@ -317,8 +320,8 @@ def test_early_bet_allowed_with_book_agreement():
     reference = {tracker_key: {"market_prob": 0.55}}
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert result is not None
-    assert result["entry_type"] == "first"
+    assert result["log"] is True
+    assert result["bet"]["entry_type"] == "first"
 
 
 def test_stale_theme_exposure_reset():
@@ -337,8 +340,8 @@ def test_stale_theme_exposure_reset():
         verbose=False,
         existing_csv_stakes={},
     )
-    assert result is not None
-    assert result["entry_type"] == "first"
+    assert result["log"] is True
+    assert result["bet"]["entry_type"] == "first"
     assert existing_theme_stakes[exposure_key] == 0.0
 
 
@@ -359,5 +362,5 @@ def test_theme_exposure_kept_when_csv_matches():
         verbose=False,
         existing_csv_stakes=csv_stakes,
     )
-    assert result is None
+    assert result["skip"] is True
     assert existing_theme_stakes[exposure_key] == 1.2

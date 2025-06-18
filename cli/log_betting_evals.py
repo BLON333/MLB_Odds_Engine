@@ -356,6 +356,7 @@ from core.time_utils import compute_hours_to_game
 
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
+from core.utils import validate_bet_schema
 from core.market_eval_tracker import (
     load_tracker as load_eval_tracker,
     save_tracker,
@@ -2659,7 +2660,7 @@ def process_theme_logged_bets(
                         f"❌ [BUG] Derivative market improperly named: {row['market']} — should be something like totals_1st_5_innings"
                     )
 
-                evaluated = should_log_bet(
+                result = should_log_bet(
                     row_copy,
                     existing_theme_stakes,
                     verbose=config.VERBOSE_MODE,
@@ -2667,9 +2668,10 @@ def process_theme_logged_bets(
                     reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                     existing_csv_stakes=existing,
                 )
+                validate_bet_schema(result)
 
-                if not evaluated:
-                    reason = row_copy.get("skip_reason", "skipped")
+                if result["skip"]:
+                    reason = result.get("reason", "skipped")
                     skipped_counts[reason] = skipped_counts.get(reason, 0) + 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = reason
@@ -2677,11 +2679,13 @@ def process_theme_logged_bets(
                         skipped_bets.append(row)
                     continue
 
+                evaluated = result["bet"]
+
                 # 📝 Update tracker for every evaluated bet
                 t_key = build_tracker_key(row_copy["game_id"], row_copy["market"], row_copy["side"])
                 prior = MARKET_EVAL_TRACKER.get(t_key)
                 movement = detect_market_movement(
-                    row_copy,
+                    evaluated,
                     MARKET_EVAL_TRACKER.get(t_key),
                 )
                 if should_log_movement():
@@ -2690,7 +2694,7 @@ def process_theme_logged_bets(
                         print(f"🟡 First-time seen → {t_key}")
                     else:
                         try:
-                            print(f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row_copy.get('blended_fv')}")
+                            print(f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {evaluated.get('blended_fv')}")
                         except Exception:
                             pass
                 if evaluated:
