@@ -100,7 +100,7 @@ def _style_plain(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     """Render and send the DataFrame image to Discord."""
     if df.empty:
-        logger.info("⚠️ No snapshot rows to send.")
+        logger.info("No snapshot rows to send.")
         return
 
     if dfi is None:
