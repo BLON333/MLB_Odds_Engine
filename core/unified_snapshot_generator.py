@@ -115,7 +115,13 @@ def build_snapshot_for_date(
 ) -> list:
     """Return expanded snapshot rows for a single date."""
     sim_dir = os.path.join("backtest", "sims", date_str)
+    logger.info("🔍 Checking for sims in %s", sim_dir)
+    logger.info(
+        "📁 Sim files found: %s",
+        os.listdir(sim_dir) if os.path.exists(sim_dir) else "❌ Directory missing",
+    )
     sims = load_simulations(sim_dir)
+    logger.info("✅ Loaded %d sims from %s", len(sims), sim_dir)
     if not sims:
         logger.warning("❌ No simulation files found for %s", date_str)
         return []
@@ -126,6 +132,8 @@ def build_snapshot_for_date(
     else:
         odds = {gid: lookup_fallback_odds(gid, odds_data) for gid in sims.keys()}
 
+    logger.info("🔎 Available odds keys: %s", list(odds.keys()))
+
     for gid in sims.keys():
         if gid not in odds or odds.get(gid) is None:
             logger.warning(
@@ -135,12 +143,12 @@ def build_snapshot_for_date(
 
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
+    logger.info("🧱 Raw snapshot rows: %d", len(raw_rows))
     try:
         expanded_rows = expand_snapshot_rows_with_kelly(raw_rows, allowed_books=VALID_BOOKMAKER_KEYS)
     except TypeError:
         expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
-    logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
+    logger.info("📈 Expanded rows with Kelly: %d", len(expanded_rows))
 
     rows = expanded_rows
 
@@ -278,6 +286,10 @@ def main() -> None:
             logger.error(
                 "❌ Failed to generate snapshot – no qualifying bets found."
             )
+            logger.warning(
+                "Check if simulation files are missing or filtered out for all target dates."
+            )
+            logger.warning("Target dates: %s", date_list)
             sys.exit(1)
 
         # Save tracker after snapshot generation
