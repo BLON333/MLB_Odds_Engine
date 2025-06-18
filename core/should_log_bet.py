@@ -1,5 +1,4 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
-from typing import Optional
 
 # Minimum stake thresholds used across the staking pipeline
 MIN_FIRST_STAKE = 1.0
@@ -162,8 +161,8 @@ def should_log_bet(
     eval_tracker: dict | None = None,
     reference_tracker: dict | None = None,
     existing_csv_stakes: dict | None = None,
-) -> Optional[dict]:
-    """Return updated bet dict if staking and movement criteria are met.
+) -> dict:
+    """Evaluate whether a bet should be logged and return a structured result.
 
     Parameters
     ----------
@@ -204,7 +203,13 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "bad_odds"
-            return None
+            return {
+                "skip": True,
+                "reason": "bad_odds",
+                "full_stake": 0.0,
+                "log": False,
+                "bet": new_bet,
+            }
 
     if ev < min_ev * 100:
         if verbose:
@@ -213,7 +218,13 @@ def should_log_bet(
             )
         new_bet["entry_type"] = "none"
         new_bet["skip_reason"] = "low_ev"
-        return None
+        return {
+            "skip": True,
+            "reason": "low_ev",
+            "full_stake": 0.0,
+            "log": False,
+            "bet": new_bet,
+        }
 
     base_market = market.replace("alternate_", "")
     segment = get_segment_group(market)
@@ -296,7 +307,13 @@ def should_log_bet(
                 pass
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = SkipReason.SUPPRESSED_EARLY.value
-            return None
+            return {
+                "skip": True,
+                "reason": SkipReason.SUPPRESSED_EARLY.value,
+                "full_stake": 0.0,
+                "log": False,
+                "bet": new_bet,
+            }
 
         # Additional filter → require broad agreement across books when far from game time
         score = None
@@ -314,7 +331,13 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "suppressed_low_agreement"
-            return None
+            return {
+                "skip": True,
+                "reason": "suppressed_low_agreement",
+                "full_stake": 0.0,
+                "log": False,
+                "bet": new_bet,
+            }
 
     # 🚦 Reject bet if odds worsened versus reference snapshot
     if prior_entry is not None and theme_total > 0:
@@ -342,7 +365,13 @@ def should_log_bet(
                 _log_verbose(msg, verbose)
                 new_bet["entry_type"] = "none"
                 new_bet["skip_reason"] = SkipReason.ODDS_WORSENED.value
-                return None
+                return {
+                    "skip": True,
+                    "reason": SkipReason.ODDS_WORSENED.value,
+                    "full_stake": 0.0,
+                    "log": False,
+                    "bet": new_bet,
+                }
         except Exception:
             pass
 
@@ -358,12 +387,24 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = SkipReason.LOW_INITIAL.value
-            return None
+            return {
+                "skip": True,
+                "reason": SkipReason.LOW_INITIAL.value,
+                "full_stake": 0.0,
+                "log": False,
+                "bet": new_bet,
+            }
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
             verbose,
         )
-        return new_bet
+        return {
+            "skip": False,
+            "full_stake": stake,
+            "ev": ev,
+            "log": True,
+            "bet": new_bet,
+        }
 
     # Round the delta once to avoid floating point drift across the pipeline
     delta_raw = stake - delta_base
@@ -375,10 +416,23 @@ def should_log_bet(
             f"🔼 should_log_bet: Top-up accepted → {side} | {theme_key} [{segment}] | Δ {delta:.2f}u",
             verbose,
         )
-        return new_bet
+        return {
+            "skip": False,
+            "full_stake": stake,
+            "partial_stake": delta,
+            "ev": ev,
+            "log": True,
+            "bet": new_bet,
+        }
 
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
     new_bet["skip_reason"] = SkipReason.LOW_TOPUP.value
     _log_verbose(msg, verbose)
-    return None
+    return {
+        "skip": True,
+        "reason": SkipReason.LOW_TOPUP.value,
+        "full_stake": 0.0,
+        "log": False,
+        "bet": new_bet,
+    }

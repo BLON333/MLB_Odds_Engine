@@ -31,7 +31,7 @@ def test_queue_pending_bet(monkeypatch, tmp_path):
     reference = {tracker_key: {"market_prob": bet["market_prob"]}}
 
     res = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
-    assert res is None
+    assert res["skip"] is True
     data = pending_bets.load_pending_bets(str(path))
     key = f"{bet['game_id']}:{bet['market']}:{bet['side']}"
     assert key in data
