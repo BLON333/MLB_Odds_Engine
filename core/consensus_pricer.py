@@ -12,7 +12,13 @@ from utils import (
 _DEVIG_WARNING_LOGGED = set()
 
 DEFAULT_CONSENSUS_BOOKS = [
-    "pinnacle", "betonlineag", "fanduel", "betmgm", "draftkings", "williamhill", "mybookieag"
+    "pinnacle",
+    "betonlineag",
+    "fanduel",
+    "betmgm",
+    "draftkings",
+    "williamhill",
+    "mybookieag",
 ]
 
 

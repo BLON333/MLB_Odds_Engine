@@ -51,7 +51,7 @@ def test_fetch_market_odds_time_aware(monkeypatch):
             return DummyResp({
                 "bookmakers": [
                     {
-                        "key": "B1",
+                        "key": "fanduel",
                         "markets": [
                             {
                                 "key": "h2h",
@@ -102,7 +102,7 @@ def test_fetch_consensus_single_game_time_aware(monkeypatch):
             return DummyResp({
                 "bookmakers": [
                     {
-                        "key": "B1",
+                        "key": "fanduel",
                         "markets": [
                             {
                                 "key": "h2h",
@@ -153,7 +153,7 @@ def test_fetch_consensus_single_game_no_time(monkeypatch):
             return DummyResp({
                 "bookmakers": [
                     {
-                        "key": "B1",
+                        "key": "fanduel",
                         "markets": [
                             {
                                 "key": "h2h",

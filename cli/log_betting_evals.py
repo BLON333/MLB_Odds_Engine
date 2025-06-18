@@ -11,7 +11,7 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
-from utils import post_with_retries
+from utils import post_with_retries, is_valid_book
 from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
 from dotenv import load_dotenv
 
@@ -785,6 +785,9 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
         raw_books = bet.get("_raw_sportsbook") or bet.get("consensus_books", {})
         if not isinstance(raw_books, dict):
             continue  # skip malformed entries
+        raw_books = {b: o for b, o in raw_books.items() if is_valid_book(b)}
+        if not raw_books:
+            continue
 
         for book, odds in raw_books.items():
             try:

@@ -16,7 +16,7 @@ import shutil
 from datetime import timedelta
 from core.bootstrap import *  # noqa
 
-from utils import now_eastern, safe_load_json, lookup_fallback_odds
+from utils import now_eastern, safe_load_json, lookup_fallback_odds, VALID_BOOKMAKER_KEYS
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
@@ -136,7 +136,10 @@ def build_snapshot_for_date(
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
-    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
+    try:
+        expanded_rows = expand_snapshot_rows_with_kelly(raw_rows, allowed_books=VALID_BOOKMAKER_KEYS)
+    except TypeError:
+        expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
     logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
 
     rows = expanded_rows

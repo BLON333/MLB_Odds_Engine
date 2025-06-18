@@ -34,13 +34,43 @@ ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 SPORT = "baseball_mlb"
 
 BOOKMAKERS = [
-    "betonlineag", "betmgm", "betrivers", "betus", "bovada", "williamhill_us",
-    "draftkings", "fanatics", "fanduel", "lowvig", "mybookieag",
-    "ballybet", "betanysports", "betparx", "espnbet", "fliff", "hardrockbet", "windcreek",
-    "onexbet", "sport888", "betclic", "betfair_ex_eu", "betsson",
-    "betvictor", "coolbet", "everygame", "gtbets", "marathonbet", "matchbook",
-    "nordicbet", "pinnacle", "suprabets", "tipico_de", "unibet_eu", "williamhill",
-    "winamax_de", "winamax_fr"
+    "betonlineag",
+    "betmgm",
+    "betrivers",
+    "betus",
+    "bovada",
+    "williamhill_us",
+    "draftkings",
+    "fanatics",
+    "fanduel",
+    "lowvig",
+    "mybookieag",
+    "ballybet",
+    "betanysports",
+    "betparx",
+    "espnbet",
+    "fliff",
+    "hardrockbet",
+    "windcreek",
+    "onexbet",
+    "sport888",
+    "betclic",
+    "betfair_ex_eu",
+    "betsson",
+    "betvictor",
+    "coolbet",
+    "everygame",
+    "gtbets",
+    "marathonbet",
+    "matchbook",
+    "nordicbet",
+    "pinnacle",
+    "suprabets",
+    "tipico_de",
+    "unibet_eu",
+    "williamhill",
+    "winamax_de",
+    "winamax_fr",
 ]
 from core.logger import get_logger
 
@@ -372,6 +402,7 @@ def fetch_market_odds_from_api(game_ids, filter_bookmakers=None, lookahead_days=
             else:
                 logger.debug(f"📦 Odds markets received from {len(bookmakers_data)} bookmakers for {game_id}")
 
+
             offers = {}
 
             for bm in bookmakers_data:
@@ -584,6 +615,7 @@ def fetch_all_market_odds(lookahead_days=2):
             if not bookmakers_data or not isinstance(bookmakers_data, list):
                 logger.debug(f"⚠️ No bookmakers array in odds data for {game_id}")
                 continue
+
 
             offers = {}
 

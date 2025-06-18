@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Iterable, Tuple, Dict, Any
 import re
 import pandas as pd
+from utils import is_valid_book
 
 
 def parse_american_odds(val: str | float | int | None) -> float | None:
@@ -84,8 +85,14 @@ def ensure_consensus_books(row: Dict) -> None:
     """Ensure ``row['consensus_books']`` is populated consistently."""
     if "consensus_books" not in row or not row["consensus_books"]:
         if isinstance(row.get("_raw_sportsbook"), dict) and row["_raw_sportsbook"]:
-            row["consensus_books"] = row["_raw_sportsbook"]
+            row["consensus_books"] = {
+                b: o for b, o in row["_raw_sportsbook"].items() if is_valid_book(b)
+            }
         elif isinstance(row.get("best_book"), str) and isinstance(row.get("market_odds"), (int, float)):
             row["consensus_books"] = {row["best_book"]: row["market_odds"]}
+    else:
+        row["consensus_books"] = {
+            b: o for b, o in row.get("consensus_books", {}).items() if is_valid_book(b)
+        }
 
 
