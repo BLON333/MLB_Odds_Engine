@@ -11,7 +11,7 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
-from utils import post_with_retries, is_valid_book
+from utils import post_with_retries, is_valid_book, VALID_BOOKMAKER_KEYS
 from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
 from dotenv import load_dotenv
 
@@ -1379,6 +1379,11 @@ def write_to_csv(
         updates the provided dict. Persisting the updated exposure data is
         handled by the caller.
     """
+    # Skip logging if best_book is not whitelisted
+    book_key = str(row.get("best_book", "")).lower()
+    if book_key and book_key not in VALID_BOOKMAKER_KEYS:
+        row["skip_reason"] = "Unsupported book"
+        return None
     if not force_log and should_skip_due_to_quiet_hours(
         start_hour=quiet_hours_start,
         end_hour=quiet_hours_end,
@@ -2565,6 +2570,7 @@ def process_theme_logged_bets(
         SkipReason.ALREADY_LOGGED.value: 0,
         "low_ev": 0,
         "low_stake": 0,
+        "unsupported_book": 0,
     }
 
     stake_mode = "model"  # or "actual" if you're filtering only logged bets
@@ -2681,6 +2687,19 @@ def process_theme_logged_bets(
                     continue
 
                 evaluated = result["bet"]
+
+                book_key = str(evaluated.get("best_book", "")).lower()
+                if book_key and book_key not in VALID_BOOKMAKER_KEYS:
+                    evaluated["stake"] = 0.0
+                    evaluated["full_stake"] = 0.0
+                    evaluated["excluded_due_to_book"] = True
+                    evaluated["skip_reason"] = "Unsupported book"
+                    ensure_consensus_books(evaluated)
+                    skipped_bets.append(evaluated)
+                    skipped_counts["unsupported_book"] = skipped_counts.get(
+                        "unsupported_book", 0
+                    ) + 1
+                    continue
 
                 # 📝 Update tracker for every evaluated bet
                 t_key = build_tracker_key(row_copy["game_id"], row_copy["market"], row_copy["side"])

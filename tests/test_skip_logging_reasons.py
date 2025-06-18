@@ -29,7 +29,7 @@ def _base_row():
         "entry_type": "first",
         "segment": "full_game",
         "segment_label": "mainline",
-        "best_book": "B1",
+        "best_book": "draftkings",
         "Start Time (ISO)": "2025-01-01T13:05:00",
         "date_simulated": "2025-01-01",
         "result": "",
@@ -75,7 +75,7 @@ def test_top_up_skips_movement_check(monkeypatch, tmp_path):
     row["entry_type"] = "top-up"
     row["market_prob"] = 0.55
     row["_prior_snapshot"] = {"market_prob": 0.6}
-    row["best_book"] = "B1"
+    row["best_book"] = "draftkings"
     monkeypatch.setattr(
         "utils.logging_allowed_now", lambda now=None, **_: True
     )
