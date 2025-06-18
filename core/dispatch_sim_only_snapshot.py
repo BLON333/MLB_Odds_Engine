@@ -100,7 +100,7 @@ def _style_plain(df: pd.DataFrame) -> pd.io.formats.style.Styler:
 def send_snapshot(df: pd.DataFrame, webhook_url: str) -> None:
     """Render and send the DataFrame image to Discord."""
     if df.empty:
-        logger.info("⚠️ No snapshot rows to send.")
+        logger.info("No snapshot rows to send.")
         return
 
     if dfi is None:
@@ -160,7 +160,7 @@ def main() -> None:
     parser.add_argument("--snapshot-path", default=None, help="Path to unified snapshot JSON")
     parser.add_argument("--date", default=None, help="Filter by game date")
     parser.add_argument("--output-discord", action="store_true")
-    parser.add_argument("--min-ev", type=float, default=5.0)
+    parser.add_argument("--min-ev", type=float, default=10.0)
     parser.add_argument("--max-ev", type=float, default=20.0)
     parser.add_argument(
         "--max-rows",
@@ -170,7 +170,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    args.min_ev = max(5.0, args.min_ev)
+    args.min_ev = max(10.0, args.min_ev)
     args.max_ev = min(20.0, args.max_ev)
     if args.min_ev > args.max_ev:
         args.max_ev = args.min_ev
@@ -183,7 +183,7 @@ def main() -> None:
     rows = load_rows(path)
     rows = filter_by_date(rows, args.date)
 
-    processed: list[dict] = []
+    dedup: dict[tuple, dict] = {}
     for r in rows:
         if str(r.get("market_class", "main")).lower() != "main":
             continue
@@ -212,22 +212,25 @@ def main() -> None:
         except Exception:
             continue
 
-        if not (args.min_ev <= ev_sim <= args.max_ev):
-            continue
+        key = (r.get("game_id", ""), r.get("market", ""), r.get("side", ""))
+        entry = {
+            "Game": key[0],
+            "Market": key[1],
+            "Side": key[2],
+            "Book": best_book or "",
+            "Odds": odds_val,
+            "Sim Prob": sim_prob,
+            "Fair Odds": to_american_odds(float(sim_prob)),
+            "EV_numeric": ev_sim,
+            "Stake_units": stake_units,
+        }
 
-        processed.append(
-            {
-                "Game": r.get("game_id", ""),
-                "Market": r.get("market", ""),
-                "Side": r.get("side", ""),
-                "Book": best_book or "",
-                "Odds": odds_val,
-                "Sim Prob": sim_prob,
-                "Fair Odds": to_american_odds(float(sim_prob)),
-                "EV_numeric": ev_sim,
-                "Stake_units": stake_units,
-            }
-        )
+        if key not in dedup or entry["EV_numeric"] > dedup[key]["EV_numeric"]:
+            dedup[key] = entry
+
+    processed = [
+        v for v in dedup.values() if args.min_ev <= v["EV_numeric"] <= args.max_ev
+    ]
 
     if not processed:
         logger.info("⚠️ No rows after filtering.")
