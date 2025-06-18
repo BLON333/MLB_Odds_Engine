@@ -14,6 +14,28 @@ from core import config
 
 UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 
+# ---------------------------------------------------------------------------
+# Valid bookmaker whitelist
+# ---------------------------------------------------------------------------
+
+VALID_BOOKMAKER_KEYS = [
+    "novig",            # Novig (Exchange)
+    "prophetx",         # ProphetX (Exchange)
+    "fanduel",          # FanDuel
+    "pinnacle",         # Pinnacle
+    "betonlineag",      # BetOnline.ag
+    "fliff",            # Fliff
+    "williamhill_us",   # Caesars (US)
+    "betus",            # BetUS
+    "draftkings",       # DraftKings
+    "bovada",           # Bovada
+]
+
+
+def is_valid_book(book_key: str) -> bool:
+    """Return True if ``book_key`` is in the global whitelist."""
+    return str(book_key).lower() in VALID_BOOKMAKER_KEYS
+
 # Timezone helpers
 try:
     EASTERN_TZ = ZoneInfo("US/Eastern")
@@ -169,7 +191,7 @@ def merge_book_sources_for(market_key, offers):
     for key in alt_keys:
         for label, book_data in try_get(f"{key}_source").items():
             norm = normalize_label(label).strip()
-            merged.setdefault(norm, {}).update(book_data)
+            merged.setdefault(norm, {}).update({b: p for b, p in book_data.items() if is_valid_book(b)})
 
     return merged
 

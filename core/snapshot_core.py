@@ -11,7 +11,7 @@ import io
 import pandas as pd
 
 import requests
-from utils import post_with_retries
+from utils import post_with_retries, VALID_BOOKMAKER_KEYS, is_valid_book
 
 try:
     import dataframe_image as dfi
@@ -1189,6 +1189,9 @@ def expand_snapshot_rows_with_kelly(
     specific book price.
     """
 
+    if allowed_books is not None:
+        allowed_books = [b for b in allowed_books if is_valid_book(b)]
+
     expanded: List[dict] = []
 
     for row in rows:
@@ -1232,6 +1235,8 @@ def expand_snapshot_rows_with_kelly(
         expanded_any = False
         for book, odds in per_book.items():
             if allowed_books and book not in allowed_books:
+                continue
+            if allowed_books is not None and not is_valid_book(book):
                 continue
 
             p = row.get("blended_prob")
