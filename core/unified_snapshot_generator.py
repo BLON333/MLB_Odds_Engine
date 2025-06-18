@@ -146,10 +146,7 @@ def build_snapshot_for_date(
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     logger.info("🧱 Raw snapshot rows: %d", len(raw_rows))
-    try:
-        expanded_rows = expand_snapshot_rows_with_kelly(raw_rows, allowed_books=VALID_BOOKMAKER_KEYS)
-    except TypeError:
-        expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
+    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
     logger.info("📈 Expanded rows with Kelly: %d", len(expanded_rows))
 
     rows = expanded_rows
@@ -344,8 +341,11 @@ def main() -> None:
                 and "live" in r["snapshot_roles"]
             )
             print(f"\U0001F3AF Rows with role='live': {role_count}")
+            df_dispatch = df
+            if "Book" in df_dispatch.columns:
+                df_dispatch = df_dispatch[df_dispatch["Book"].str.lower().isin(VALID_BOOKMAKER_KEYS)]
             dispatch_snapshot_rows(
-                df,
+                df_dispatch,
                 market_type="Unified Snapshot",
                 webhook_url=DISCORD_SNAPSHOT_WEBHOOK,
                 ev_range=(5.0, 20.0),
