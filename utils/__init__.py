@@ -143,27 +143,34 @@ def merge_offers_with_alternates(offers: dict, alt_map: dict = None) -> dict:
 
 
 def merge_book_sources_for(market_key, offers):
+    """Merge main and alternate book sources for a given market key.
+
+    The helper previously relied on a hardcoded mapping of which markets have
+    alternate lines.  To make this more maintainable we infer the alternate
+    counterpart using naming conventions.  Markets beginning with one of
+    ``totals``, ``spreads`` or ``team_totals`` and optionally followed by a
+    recognized segment suffix (e.g. ``_1st_5_innings``) will search both the
+    base and ``alternate_<market>`` sources.
+
+    Any keys that do not match this pattern fall back to the single source for
+    ``market_key``.
+    """
+
     def try_get(k):
         return offers.get(k, {})
 
-    alt_map = {
-        "spreads": ["spreads", "alternate_spreads"],
-        "totals": ["totals", "alternate_totals"],
-        "team_totals": ["team_totals", "alternate_team_totals"],
-        "spreads_1st_5_innings": ["spreads_1st_5_innings", "alternate_spreads_1st_5_innings"],
-        "totals_1st_7_innings": ["totals_1st_7_innings", "alternate_totals_1st_7_innings"],
-        "team_totals_1st_1_innings": ["team_totals_1st_1_innings", "alternate_team_totals_1st_1_innings"],
-        "team_totals_1st_3_innings": ["team_totals_1st_3_innings", "alternate_team_totals_1st_3_innings"],
-        "team_totals_1st_5_innings": ["team_totals_1st_5_innings", "alternate_team_totals_1st_5_innings"],
-        "team_totals_1st_7_innings": ["team_totals_1st_7_innings", "alternate_team_totals_1st_7_innings"],
-        # Add more if needed
-    }
+    alt_keys = [market_key]
+
+    pattern = r"^(spreads|totals|team_totals)(?:_1st_(?:1|3|5|7)_innings)?$"
+    if re.match(pattern, market_key):
+        alt_keys.append(f"alternate_{market_key}")
 
     merged = {}
-    for key in alt_map.get(market_key, [market_key]):
+    for key in alt_keys:
         for label, book_data in try_get(f"{key}_source").items():
             norm = normalize_label(label).strip()
             merged.setdefault(norm, {}).update(book_data)
+
     return merged
 
 
