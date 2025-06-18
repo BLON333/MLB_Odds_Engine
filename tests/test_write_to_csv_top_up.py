@@ -30,7 +30,7 @@ def _base_row():
         "entry_type": "first",
         "segment": "full_game",
         "segment_label": "mainline",
-        "best_book": "B1",
+        "best_book": "draftkings",
         "Start Time (ISO)": "2025-01-01T13:05:00",
         "date_simulated": "2025-01-01",
         "result": "",
@@ -44,7 +44,7 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
     row["full_stake"] = 1.6
     row["market_prob"] = 0.515
     row["_prior_snapshot"] = {"market_prob": 0.520}
-    row["best_book"] = "B1"
+    row["best_book"] = "draftkings"
 
     existing = {(row["game_id"], row["market"], row["side"]): 1.0}
     theme_key = get_exposure_key(row)
@@ -87,7 +87,7 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
     row["full_stake"] = 1.2
     row["market_prob"] = 0.515
     row["_prior_snapshot"] = {"market_prob": 0.520}
-    row["best_book"] = "B1"
+    row["best_book"] = "draftkings"
 
     existing = {}
     theme_key = get_exposure_key(row)
