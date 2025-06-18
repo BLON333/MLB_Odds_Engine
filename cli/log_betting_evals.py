@@ -2801,41 +2801,46 @@ def process_theme_logged_bets(
             print(f"  - {count} skipped due to {reason}")
 
 
-def main() -> None:
-    p = argparse.ArgumentParser("Log value bets from sim output")
-    p.add_argument("--eval-folder", required=True, help="Folder containing simulation JSON files")
-    p.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
-    p.add_argument(
+def main(passed_args=None) -> None:
+    global args
+    parser = argparse.ArgumentParser("Log value bets from sim output")
+    parser.add_argument("--eval-folder", required=True)
+    parser.add_argument("--no-save-skips", action="store_true")
+    parser.add_argument("--min-ev", type=float, default=0.0)
+    parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
+    parser.add_argument(
         "--fallback-odds-path",
         default=None,
         help="Path to prior odds JSON for fallback lookup",
     )
-    p.add_argument("--min-ev", type=float, default=0.05, help="Minimum EV% threshold for bets")
-    p.add_argument(
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview bets without writing to CSV or updating trackers",
     )
-    p.add_argument("--debug", action="store_true", help="Enable debug logging")
-    p.add_argument(
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument(
         "--image",
         action="store_true",
         help="Generate summary image and post to Discord",
     )
-    p.add_argument("--output-dir", default="logs", help="Directory for summary image")
-    p.add_argument("--show-pending", action="store_true", help="Show pending bet details")
-    p.add_argument("--verbose", action="store_true", help="Enable verbose logging")
-    p.add_argument(
+    parser.add_argument("--output-dir", default="logs", help="Directory for summary image")
+    parser.add_argument("--show-pending", action="store_true", help="Show pending bet details")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
+    parser.add_argument(
         "--force-log",
         action="store_true",
         help="Bypass quiet hours and allow logging at any time",
     )
-    p.add_argument(
+    parser.add_argument(
         "--no_save_skips",
         action="store_true",
         help="Disable saving skipped bets to disk",
     )
-    args = p.parse_args()
+    if isinstance(passed_args, argparse.Namespace):
+        args = passed_args
+    else:
+        args = parser.parse_args(passed_args)
 
     if args.debug:
         set_log_level("DEBUG")
