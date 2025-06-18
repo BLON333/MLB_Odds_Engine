@@ -7,9 +7,9 @@ from core.scaling_utils import base_model_weight_for_market
 
 def test_base_model_weights():
     cases = {
-        "spreads": 0.6,
-        "totals": 0.6,
-        "h2h": 0.6,
+        "spreads": 0.75,
+        "totals": 0.75,
+        "h2h": 0.75,
         "spreads_1st_5_innings": 0.8,
         "totals_1st_5_innings": 0.9,
         "spreads_1st_3_innings": 0.9,
