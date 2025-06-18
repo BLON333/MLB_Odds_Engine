@@ -27,6 +27,8 @@ from core.snapshot_core import (
 )
 from core.snapshot_core import expand_snapshot_rows_with_kelly
 from core.market_eval_tracker import load_tracker, save_tracker
+from core.snapshot_core import format_for_display, dispatch_snapshot_rows
+from core.config import DISCORD_SNAPSHOT_WEBHOOK
 
 logger = get_logger(__name__)
 
@@ -330,6 +332,23 @@ def main() -> None:
             return
 
         logger.info("✅ Snapshot written: %s with %d rows", final_path, len(all_rows))
+
+        # === Dispatch Snapshot to Discord ===
+        try:
+            df = format_for_display(all_rows)
+            dispatch_snapshot_rows(
+                df,
+                market_type="Unified Snapshot",
+                webhook_url=DISCORD_SNAPSHOT_WEBHOOK,
+                ev_range=(5.0, 20.0),
+                min_stake=1.0,
+                role="live",
+            )
+        except Exception as dispatch_err:
+            logger.error(
+                "❌ Discord dispatch failed after snapshot generation: %s",
+                dispatch_err,
+            )
     except Exception:
         logger.exception("Snapshot generation failed:")
         sys.exit(1)
