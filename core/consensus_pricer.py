@@ -234,6 +234,7 @@ def calculate_consensus_prob(
                     _DEVIG_WARNING_LOGGED.add(game_id)
 
         book_probs = {}
+        market_book_probs = {}
         for book in shared_books:
             try:
                 p1 = implied_prob(books_label[book])
@@ -243,6 +244,7 @@ def calculate_consensus_prob(
                     continue
                 prob = round(p1 / total, 6)
                 book_probs[book] = prob
+                market_book_probs[book] = p1
             except:
                 continue
 
@@ -251,10 +253,17 @@ def calculate_consensus_prob(
             return sim_only("no devigged values")
 
         avg_prob = round(sum(book_probs.values()) / len(book_probs), 6)
+        market_prob = None
+        if market_book_probs:
+            market_prob = round(
+                sum(market_book_probs.values()) / len(market_book_probs),
+                6,
+            )
         fair_odds = to_american_odds(avg_prob)
 
         return {
             "consensus_prob": avg_prob,
+            "market_prob": market_prob,
             "fair_odds": fair_odds,
             "bookwise_probs": book_probs,
             "books_used": list(book_probs.keys()),
