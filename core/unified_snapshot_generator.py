@@ -324,4 +324,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        import traceback
+        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
+        sys.exit(1)

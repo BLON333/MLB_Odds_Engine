@@ -19,22 +19,16 @@ UNMATCHED_MARKET_LOOKUPS = defaultdict(list)
 # ---------------------------------------------------------------------------
 
 VALID_BOOKMAKER_KEYS = [
-    "novig",            # Novig (Exchange)
-    "prophetx",         # ProphetX (Exchange)
-    "fanduel",          # FanDuel
-    "pinnacle",         # Pinnacle
-    "betonlineag",      # BetOnline.ag
-    "fliff",            # Fliff
-    "williamhill_us",   # Caesars (US)
-    "betus",            # BetUS
-    "draftkings",       # DraftKings
-    "bovada",           # Bovada
-    "betmgm",
-    "espnbet",
-    "fanatics",
-    "betrivers",
-    "mybookieag",
-    "betfair_ex_uk"
+    "novig",
+    "prophetx",
+    "fanduel",
+    "pinnacle",
+    "betonlineag",
+    "fliff",
+    "williamhill_us",
+    "betus",
+    "draftkings",
+    "bovada",
 ]
 
 

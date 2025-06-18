@@ -123,6 +123,7 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
             updated[key] = bet
             continue
         row = bet.copy()
+        row.setdefault("full_stake", row.get("stake", 0.0))
         row["consensus_prob"] = new_prob
         row["market_prob"] = new_prob
         row["hours_to_game"] = hours_to_game
@@ -169,6 +170,5 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         import traceback
-        from datetime import datetime
-        print(f"[FATAL] {datetime.now()} — monitor_early_bets crashed:\n{traceback.format_exc()}")
+        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
         exit(1)

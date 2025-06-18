@@ -2801,7 +2801,7 @@ def process_theme_logged_bets(
             print(f"  - {count} skipped due to {reason}")
 
 
-if __name__ == "__main__":
+def main() -> None:
     p = argparse.ArgumentParser("Log value bets from sim output")
     p.add_argument("--eval-folder", required=True, help="Folder containing simulation JSON files")
     p.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
@@ -2890,3 +2890,12 @@ if __name__ == "__main__":
         force_log=force_log,
         no_save_skips=args.no_save_skips,
     )
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        import traceback
+        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
+        sys.exit(1)
