@@ -36,8 +36,8 @@ def min_weight_override_for_market(market_type: str) -> float:
     elif "1st" in market_type or "alt" in market_type:
         return 0.4
     elif "spread" in market_type or "total" in market_type:
-        return 0.3
-    return 0.3
+        return 0.4
+    return 0.4
 
 
 def dynamic_blend_weight(base_weight: float, hours_to_game: float, market_type: str) -> float:
@@ -71,9 +71,9 @@ def base_model_weight_for_market(market: str) -> float:
     key = market.lower().replace("alternate_", "").replace("_innings", "")
 
     base_weights = {
-        "spreads": 0.6,
-        "totals": 0.6,
-        "h2h": 0.6,
+        "spreads": 0.75,
+        "totals": 0.75,
+        "h2h": 0.75,
         "spreads_1st_5": 0.8,
         "totals_1st_5": 0.9,
         "spreads_1st_3": 0.9,
