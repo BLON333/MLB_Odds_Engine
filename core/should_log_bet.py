@@ -180,7 +180,9 @@ def should_log_bet(
     market = new_bet["market"]
     side = normalize_label_for_odds(new_bet["side"], market)
     new_bet["side"] = side  # ensure consistent formatting
-    stake = new_bet["full_stake"]
+    # ``full_stake`` may be absent in legacy entries; fall back to ``stake``
+    # or 0.0 to avoid KeyError.
+    stake = float(new_bet.get("full_stake", new_bet.get("stake", 0.0)))
     ev = new_bet["ev_percent"]
 
     if DEBUG_MODE and ev >= 10.0 and stake >= 2.0:
