@@ -29,6 +29,12 @@ VALID_BOOKMAKER_KEYS = [
     "betus",            # BetUS
     "draftkings",       # DraftKings
     "bovada",           # Bovada
+    "betmgm",
+    "espnbet",
+    "fanatics",
+    "betrivers",
+    "mybookieag",
+    "betfair_ex_uk"
 ]
 
 
