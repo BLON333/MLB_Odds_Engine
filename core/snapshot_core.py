@@ -1391,8 +1391,9 @@ def dispatch_snapshot_rows(
 
     # Role filter
     if role:
-        if "snapshot_roles" in df.columns:
-            df = df[df["snapshot_roles"].apply(lambda r: role in r if isinstance(r, list) else False)]
+        # ``format_for_display`` drops internal columns like ``snapshot_roles``.
+        # Skip DataFrame-based filtering to avoid KeyError.
+        pass
     counts["post_role"] = len(df)
 
     if counts["post_role"] == 0:

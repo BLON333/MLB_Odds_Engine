@@ -336,6 +336,7 @@ def main() -> None:
         # === Dispatch Snapshot to Discord ===
         try:
             df = format_for_display(all_rows)
+            print(f"\U0001F4CA Dispatching snapshot: {df.shape[0]} rows in DataFrame")
             role_count = sum(
                 1
                 for r in all_rows
