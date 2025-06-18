@@ -396,6 +396,7 @@ def send_bet_snapshot_to_discord(
     debug_counts: dict | None = None,
 ) -> None:
     """Render a styled image and send it to a Discord webhook."""
+    df_all = df.copy() if df is not None else pd.DataFrame()
     if df is not None:
         try:
             print(f"📤 send_bet_snapshot_to_discord() called with {df.shape[0]} rows")
@@ -414,6 +415,14 @@ def send_bet_snapshot_to_discord(
     if df is None or df.empty:
         print("⚠️ No qualifying snapshot bets to dispatch")
         return
+
+    try:
+        excluded_count = df_all[df_all.get("excluded_due_to_book") == True].shape[0]
+        print(f"📉 Excluded {excluded_count} snapshot rows due to unsupported books")
+        if debug_counts is not None:
+            debug_counts["excluded_books"] = excluded_count
+    except Exception:
+        pass
 
     # Filter out rows from unsupported books
     book_col = None
@@ -1258,6 +1267,15 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("stake_movement", None)
             row.update(movement)
             ensure_consensus_books(row)
+            book_key = str(row.get("best_book", row.get("book", ""))).lower()
+            if book_key not in VALID_BOOKMAKER_KEYS:
+                row["full_stake"] = 0.0
+                row["excluded_due_to_book"] = True
+            else:
+                row["excluded_due_to_book"] = False
+                if allowed_books is not None and book_key not in allowed_books:
+                    row["full_stake"] = 0.0
+                    row["excluded_due_to_book"] = True
             expanded.append(row)
             continue
 
@@ -1348,9 +1366,15 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("stake_movement", None)
             expanded_row.update(movement)
             ensure_consensus_books(expanded_row)
-            if allowed_books is not None and expanded_row["best_book"] not in allowed_books:
+            book_key = str(expanded_row.get("best_book", "")).lower()
+            if book_key not in VALID_BOOKMAKER_KEYS:
                 expanded_row["full_stake"] = 0.0
                 expanded_row["excluded_due_to_book"] = True
+            else:
+                expanded_row["excluded_due_to_book"] = False
+                if allowed_books is not None and book_key not in allowed_books:
+                    expanded_row["full_stake"] = 0.0
+                    expanded_row["excluded_due_to_book"] = True
             expanded.append(expanded_row)
         
         if not expanded_any:
@@ -1361,6 +1385,15 @@ def expand_snapshot_rows_with_kelly(
             else:
                 row_copy["skip_reason"] = "invalid_data"
             ensure_consensus_books(row_copy)
+            book_key = str(row_copy.get("best_book", row_copy.get("book", ""))).lower()
+            if book_key not in VALID_BOOKMAKER_KEYS:
+                row_copy["full_stake"] = 0.0
+                row_copy["excluded_due_to_book"] = True
+            else:
+                row_copy["excluded_due_to_book"] = False
+                if allowed_books is not None and book_key not in allowed_books:
+                    row_copy["full_stake"] = 0.0
+                    row_copy["excluded_due_to_book"] = True
             expanded.append(row_copy)
 
     deduped: List[dict] = []
@@ -1428,6 +1461,11 @@ def dispatch_snapshot_rows(
             f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
             f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
         )
+        print(
+            f"📈 Dispatch breakdown — EV filter: {counts['post_ev']}, "
+            f"Stake filter: {counts['post_stake']}, Role filter: {counts['post_role']}, "
+            f"Excluded books: {counts.get('excluded_books', '?')}"
+        )
         send_bet_snapshot_to_discord(
             df, market_type, webhook_url, debug_counts=counts
         )
@@ -1436,6 +1474,11 @@ def dispatch_snapshot_rows(
     print(
         f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
         f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
+    )
+    print(
+        f"📈 Dispatch breakdown — EV filter: {counts['post_ev']}, "
+        f"Stake filter: {counts['post_stake']}, Role filter: {counts['post_role']}, "
+        f"Excluded books: {counts.get('excluded_books', '?')}"
     )
     send_bet_snapshot_to_discord(
         df, market_type, webhook_url, debug_counts=counts
