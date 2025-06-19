@@ -34,13 +34,10 @@ ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 SPORT = "baseball_mlb"
 
 BOOKMAKERS = [
-    "betonlineag", "betmgm", "betrivers", "betus", "bovada", "williamhill_us",
-    "draftkings", "fanatics", "fanduel", "lowvig", "mybookieag",
-    "ballybet", "betanysports", "betparx", "espnbet", "fliff", "hardrockbet", "windcreek",
-    "onexbet", "sport888", "betclic", "betfair_ex_eu", "betsson",
-    "betvictor", "coolbet", "everygame", "gtbets", "marathonbet", "matchbook",
-    "nordicbet", "pinnacle", "suprabets", "tipico_de", "unibet_eu", "williamhill",
-    "winamax_de", "winamax_fr"
+    "betonlineag", "betus", "bovada", "williamhill_us",
+    "draftkings", "fanduel", "fanatics", "betmgm",
+    "betrivers", "ballybet", "espnbet", "fliff",
+    "mybookieag", "pinnacle", "novig", "prophetx",
 ]
 from core.logger import get_logger
 
