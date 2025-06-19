@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from datetime import datetime
 
 from utils import safe_load_json, now_eastern
@@ -25,7 +26,31 @@ def save_pending_bets(pending: dict, path: str = PENDING_BETS_PATH) -> None:
         with with_locked_file(lock):
             with open(tmp, 'w') as f:
                 json.dump(pending, f, indent=2)
-            os.replace(tmp, path)
+
+            # Skip replace if contents are unchanged
+            skip_replace = False
+            if os.path.exists(path):
+                try:
+                    with open(path, 'r') as cur, open(tmp, 'r') as new:
+                        if cur.read() == new.read():
+                            skip_replace = True
+                except Exception:
+                    pass
+
+            if not skip_replace:
+                try:
+                    os.replace(tmp, path)
+                except PermissionError as e:
+                    print(f"⚠️ Failed to save pending bets: {e} — retrying")
+                    time.sleep(0.5)
+                    try:
+                        os.replace(tmp, path)
+                    except Exception as retry_err:
+                        print(f"❌ Retry failed — could not save pending bets: {retry_err}")
+                except Exception as e:
+                    print(f"⚠️ Failed to save pending bets: {e}")
+            else:
+                os.remove(tmp)
     except Exception as e:
         print(f"⚠️ Failed to save pending bets: {e}")
 
