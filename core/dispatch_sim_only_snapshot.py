@@ -181,6 +181,12 @@ def main() -> None:
         sys.exit(1)
 
     rows = load_rows(path)
+
+    # Ensure 'side' is present for downstream filtering and display
+    for row in rows:
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
+
     rows = filter_by_date(rows, args.date)
 
     dedup: dict[tuple, dict] = {}
