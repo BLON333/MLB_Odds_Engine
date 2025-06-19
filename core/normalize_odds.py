@@ -1,5 +1,6 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.market_pricer import implied_prob, to_american_odds, best_price
+from core.book_whitelist import ALLOWED_BOOKS
 from utils import (
     normalize_label,
     merge_offers_with_alternates,
@@ -7,14 +8,24 @@ from utils import (
 )
 import numpy as np
 
+# Books we prefer to use when creating consensus prices
+DEFAULT_CONSENSUS_BOOKS = [
+    "pinnacle",
+    "betonlineag",
+    "fanduel",
+    "betmgm",
+    "draftkings",
+    "williamhill_us",
+    "mybookieag",
+]
+
+# Filter the default list by the global whitelist so we never use unapproved books
+CONSENSUS_BOOKS = [book for book in DEFAULT_CONSENSUS_BOOKS if book in ALLOWED_BOOKS]
+
 
 def normalize_odds(game_id: str, offers: dict) -> dict:
     # ✅ Merge alternate markets like alternate_totals → totals
     offers = merge_offers_with_alternates(offers)
-
-    CONSENSUS_BOOKS = [
-        "pinnacle", "betonlineag", "fanduel", "betmgm", "draftkings", "williamhill", "mybookieag"
-    ]
 
     def get_opponent_abbr(team_abbr, game_id):
         away, home = get_teams_from_game_id(game_id)
