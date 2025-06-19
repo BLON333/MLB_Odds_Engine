@@ -60,7 +60,7 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
         existing_csv_stakes=existing,
     )
     assert result["log"] is True
-    evaluated = result["bet"]
+    evaluated = result
 
     monkeypatch.setattr(
         "utils.logging_allowed_now", lambda now=None, **_: True
@@ -103,7 +103,7 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
         existing_csv_stakes=existing,
     )
     assert result["log"] is True
-    evaluated = result["bet"]
+    evaluated = result
     assert evaluated["stake"] == pytest.approx(1.2)
 
     monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)

@@ -29,9 +29,8 @@ def test_top_up_accepted():
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result["log"] is True
-    logged = result["bet"]
-    assert logged["entry_type"] == "top-up"
-    assert logged["stake"] == 0.6
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == 0.6
 
 
 def test_top_up_accepted_for_1p6_full_stake():
@@ -48,9 +47,8 @@ def test_top_up_accepted_for_1p6_full_stake():
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result["log"] is True
-    logged = result["bet"]
-    assert logged["entry_type"] == "top-up"
-    assert logged["stake"] == 0.6
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == 0.6
 
 
 def test_top_up_rejected_for_small_delta():
@@ -103,9 +101,8 @@ def test_top_up_delta_rounded_before_threshold():
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result["log"] is True
-    logged = result["bet"]
-    assert logged["entry_type"] == "top-up"
-    assert logged["stake"] == 0.5
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == 0.5
 
 
 def test_first_bet_logged_even_if_odds_worse():
@@ -123,7 +120,7 @@ def test_first_bet_logged_even_if_odds_worse():
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result["log"] is True
-    assert result["bet"]["entry_type"] == "first"
+    assert result["entry_type"] == "first"
 
 
 def test_top_up_rejected_if_odds_worse():
@@ -161,7 +158,7 @@ def test_first_bet_logged_if_odds_improve():
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result["log"] is True
-    assert result["bet"]["entry_type"] == "first"
+    assert result["entry_type"] == "first"
 
 
 def test_team_total_classified_as_over():
@@ -279,7 +276,7 @@ def test_early_bet_allowed_with_confirmation(monkeypatch):
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result["log"] is True
-    assert result["bet"]["entry_type"] == "first"
+    assert result["entry_type"] == "first"
 
 
 def test_early_bet_rejected_for_low_book_agreement():
@@ -321,7 +318,7 @@ def test_early_bet_allowed_with_book_agreement():
 
     result = should_log_bet(bet, {}, verbose=False, reference_tracker=reference)
     assert result["log"] is True
-    assert result["bet"]["entry_type"] == "first"
+    assert result["entry_type"] == "first"
 
 
 def test_stale_theme_exposure_reset():
@@ -341,7 +338,7 @@ def test_stale_theme_exposure_reset():
         existing_csv_stakes={},
     )
     assert result["log"] is True
-    assert result["bet"]["entry_type"] == "first"
+    assert result["entry_type"] == "first"
     assert existing_theme_stakes[exposure_key] == 0.0
 
 
