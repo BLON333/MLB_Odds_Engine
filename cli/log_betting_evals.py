@@ -3097,13 +3097,7 @@ def process_theme_logged_bets(
             print(
                 f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
             )
-        # Defensive fallback for missing 'side'
-        if "side" not in best_row and isinstance(best_row.get("bet"), dict):
-            best_row["side"] = best_row["bet"].get("side")
-        if not best_row.get("side"):
-            logger.warning("⛔ Skipping write: Missing 'side' for %s", best_row)
-            failed_log_count += 1
-            continue
+        assert best_row.get("side"), f"Missing 'side' for {best_row}"
         try:
             result = write_to_csv(
                 best_row,
@@ -3149,9 +3143,6 @@ def process_theme_logged_bets(
                 skipped_bets.append(best_row)
 
     for row in logged_bets_this_loop:
-        # Defensive fallback for missing 'side'
-        if "side" not in row and isinstance(row.get("bet"), dict):
-            row["side"] = row["bet"].get("side")
         print(
             f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
         )
@@ -3173,9 +3164,6 @@ def process_theme_logged_bets(
     if VERBOSE:
         print("\n🧠 Snapshot Prob Consistency Check:")
         for row in final_snapshot:
-            # Defensive fallback for missing 'side'
-            if "side" not in row and isinstance(row.get("bet"), dict):
-                row["side"] = row["bet"].get("side")
             key = build_tracker_key(row["game_id"], row["market"], row["side"])
             prior = row.get("_prior_snapshot")
             if prior:
