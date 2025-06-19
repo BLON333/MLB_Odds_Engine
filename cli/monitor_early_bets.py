@@ -146,16 +146,15 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
                 session_exposure,
                 theme_stakes,
             )
-            if result:
-                if not result.get("skip_reason") and result.get("side"):
-                    record_successful_log(result, existing, theme_stakes)
-                    save_theme_stakes(theme_stakes)
-                    continue
-                else:
-                    logger.warning(
-                        "❌ CSV write returned row but will not update tracker: %s",
-                        result,
-                    )
+            if result and not result.get("skip_reason") and result.get("side"):
+                record_successful_log(result, existing, theme_stakes)
+                save_theme_stakes(theme_stakes)
+                continue
+            else:
+                logger.warning(
+                    "❌ Skipping tracker update: result was skipped or malformed → %s",
+                    result,
+                )
         updated[key] = bet
 
     if updated != pending:

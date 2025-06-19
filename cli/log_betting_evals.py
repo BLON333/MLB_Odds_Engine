@@ -3019,12 +3019,20 @@ def process_theme_logged_bets(
             continue
 
         if result:
-            record_successful_log(result, existing, existing_theme_stakes)
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
             if should_include_in_summary(best_row):
                 ensure_consensus_books(best_row)
                 skipped_bets.append(best_row)
+
+            if not result.get("skip_reason") and result.get("side"):
+                record_successful_log(result, existing, existing_theme_stakes)
+                save_theme_stakes(existing_theme_stakes)
+            else:
+                logger.warning(
+                    "❌ Skipping tracker update: result was skipped or malformed → %s",
+                    result,
+                )
         else:
             print(
                 f"⛔ CSV Log Failed → {best_row['game_id']} | {best_row['market']} | {best_row['side']}"
