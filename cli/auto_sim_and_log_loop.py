@@ -364,7 +364,8 @@ def run_unified_snapshot_and_dispatch(odds_path: str):
     exit_code = run_subprocess(
         [
             PYTHON,
-            "core/unified_snapshot_generator.py",
+            "-m",
+            "core.unified_snapshot_generator",
             "--odds-path",
             odds_path,
             "--date",
@@ -480,12 +481,7 @@ while True:
                     "🧼 [%s] Reconciling tracker after log pass", now_eastern()
                 )
                 run_subprocess([PYTHON, "-m", "scripts.reconcile_theme_exposure"])
-                if any(p["name"].startswith("dispatch_") for p in active_processes):
-                    logger.info(
-                        "🟡 Skipping snapshot dispatch – previous dispatch scripts still active."
-                    )
-                else:
-                    run_unified_snapshot_and_dispatch(odds_file)
+                run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
         triggered_log = True
 
