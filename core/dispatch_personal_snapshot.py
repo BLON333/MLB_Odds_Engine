@@ -112,7 +112,24 @@ def main() -> None:
     )
 
     df = format_for_display(rows, include_movement=True)
-    allowed_books = ["pinnacle", "fanduel", "bovada", "betonlineag"]
+    allowed_books = [
+        "betonlineag",
+        "betus",
+        "bovada",
+        "williamhill_us",
+        "draftkings",
+        "fanduel",
+        "fanatics",
+        "betmgm",
+        "betrivers",
+        "ballybet",
+        "espnbet",
+        "fliff",
+        "mybookieag",
+        "pinnacle",
+        "novig",
+        "prophetx",
+    ]
     df = filter_by_books(df, allowed_books)
     if "sim_prob_display" in df.columns:
         df["Sim %"] = df["sim_prob_display"]
