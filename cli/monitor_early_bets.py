@@ -147,9 +147,15 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
                 theme_stakes,
             )
             if result:
-                record_successful_log(result, existing, theme_stakes)
-                save_theme_stakes(theme_stakes)
-                continue
+                if not result.get("skip_reason") and result.get("side"):
+                    record_successful_log(result, existing, theme_stakes)
+                    save_theme_stakes(theme_stakes)
+                    continue
+                else:
+                    logger.warning(
+                        "❌ CSV write returned row but will not update tracker: %s",
+                        result,
+                    )
         updated[key] = bet
 
     if updated != pending:
