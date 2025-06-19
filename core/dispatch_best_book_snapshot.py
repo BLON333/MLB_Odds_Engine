@@ -7,7 +7,7 @@ from core.bootstrap import *  # noqa
 """Dispatch best-book snapshot from unified snapshot JSON."""
 
 import json
-from utils import safe_load_json
+from core.utils import safe_load_json
 import argparse
 from dotenv import load_dotenv
 
@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
-from utils.book_helpers import filter_snapshot_rows, ensure_side
+from core.utils.book_helpers import filter_snapshot_rows, ensure_side
 from core.logger import get_logger
 
 logger = get_logger(__name__)
