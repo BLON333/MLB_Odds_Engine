@@ -523,6 +523,12 @@ def main() -> None:
     rows, counts = build_snapshot_rows(
         csv_rows, odds_data, verbose=args.verbose, return_counts=True
     )
+
+    # Ensure 'side' is present for downstream filtering and display
+    for row in rows:
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
+
     # rows = filter_snapshot_rows(rows)
 
     # Skip snapshot only if absolutely no matched bets

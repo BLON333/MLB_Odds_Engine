@@ -123,6 +123,11 @@ def main() -> None:
         if "book" not in r and "best_book" in r:
             r["book"] = r["best_book"]
 
+    # Ensure 'side' is present for downstream filtering and display
+    for row in rows:
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
+
     # ✅ No role/movement filter — allow full snapshot set
     rows = filter_by_date(rows, args.date)
 
