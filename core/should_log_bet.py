@@ -393,8 +393,9 @@ def should_log_bet(
             "full_stake": stake,
             "ev": ev,
             "log": True,
-            "bet": new_bet,
             "game_id": game_id,
+            "side": new_bet["side"],
+            **new_bet,
         }
 
     # Round the delta once to avoid floating point drift across the pipeline
@@ -413,8 +414,9 @@ def should_log_bet(
             "partial_stake": delta,
             "ev": ev,
             "log": True,
-            "bet": new_bet,
             "game_id": game_id,
+            "side": new_bet["side"],
+            **new_bet,
         }
 
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
