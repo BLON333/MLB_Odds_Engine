@@ -415,6 +415,26 @@ BOOKMAKER_TO_ROLE = {
     "pinnacle": "<@&1366768197247963170>",
 }
 
+# Book list aligned with ODDS_FETCHER Issue 1 updates
+POPULAR_BOOKS = [
+    "betonlineag",
+    "betus",
+    "bovada",
+    "williamhill_us",
+    "draftkings",
+    "fanduel",
+    "fanatics",
+    "betmgm",
+    "betrivers",
+    "ballybet",
+    "espnbet",
+    "fliff",
+    "mybookieag",
+    "pinnacle",
+    "novig",
+    "prophetx",
+]
+
 # === Segment Label to Discord Role Mapping (placeholder IDs) ===
 SEGMENT_ROLE = {
     "mainline": "<@&SEG_MAINLINE>",
@@ -777,7 +797,12 @@ def upload_summary_image_to_discord(image_path, webhook_url):
             print(f"❌ Failed to upload summary image to Discord: {e}")
 
 
-def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
+def expand_snapshot_rows_with_kelly(
+    final_snapshot,
+    min_ev: float = 1.0,
+    min_stake: float = 0.5,
+    allowed_books: list[str] | None = None,
+):
     """
     Expand snapshot rows into 1 row per sportsbook, recalculating EV% and stake using Quarter-Kelly.
     """
@@ -841,6 +866,8 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
             continue  # skip malformed entries
 
         for book, odds in raw_books.items():
+            if allowed_books and book not in allowed_books:
+                continue
             try:
                 p = base_fields.get("blended_prob", base_fields.get("sim_prob", 0))
                 fraction = 0.125 if bet.get("market_class") == "alternate" else 0.25
@@ -3054,7 +3081,10 @@ def process_theme_logged_bets(
     # ✅ Expand snapshot per book with proper stake & EV% logic
     snapshot_raw = final_rows + skipped_bets
     final_snapshot = expand_snapshot_rows_with_kelly(
-        snapshot_raw, min_ev=snapshot_ev, min_stake=0.5
+        snapshot_raw,
+        min_ev=snapshot_ev,
+        min_stake=0.5,
+        allowed_books=POPULAR_BOOKS,
     )
 
     if VERBOSE:
