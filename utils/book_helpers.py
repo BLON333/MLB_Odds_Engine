@@ -87,3 +87,10 @@ def ensure_consensus_books(row: Dict) -> None:
             row["consensus_books"] = row["_raw_sportsbook"]
         elif isinstance(row.get("best_book"), str) and isinstance(row.get("market_odds"), (int, float)):
             row["consensus_books"] = {row["best_book"]: row["market_odds"]}
+
+
+def ensure_side(row: Dict) -> None:
+    """Promote ``row['bet']['side']`` to ``row['side']`` when present."""
+    if "side" not in row and isinstance(row.get("bet"), dict):
+        row["side"] = row["bet"].get("side")
+

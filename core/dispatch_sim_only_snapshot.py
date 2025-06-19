@@ -16,6 +16,7 @@ import requests
 from requests.exceptions import Timeout
 
 from utils import safe_load_json, post_with_retries
+from utils.book_helpers import ensure_side
 from core.logger import get_logger
 from core.market_pricer import (
     extract_best_book,
@@ -53,6 +54,8 @@ def load_rows(path: str) -> List[dict]:
     if rows is None:
         logger.error("❌ Failed to load snapshot %s", path)
         sys.exit(1)
+    for r in rows:
+        ensure_side(r)
     return rows
 
 
@@ -182,10 +185,6 @@ def main() -> None:
 
     rows = load_rows(path)
 
-    # Ensure 'side' is present for downstream filtering and display
-    for row in rows:
-        if "side" not in row and isinstance(row.get("bet"), dict):
-            row["side"] = row["bet"].get("side")
 
     rows = filter_by_date(rows, args.date)
 
