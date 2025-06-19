@@ -3090,6 +3090,9 @@ def process_theme_logged_bets(
     final_rows = []
     failed_log_count = 0
     for best_row in best_market_segment.values():
+        # ✅ Ensure 'side' is present for CSV logging and Discord output
+        if "side" not in best_row and isinstance(best_row.get("bet"), dict):
+            best_row["side"] = best_row["bet"].get("side")
         if config.VERBOSE_MODE:
             print(
                 f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
