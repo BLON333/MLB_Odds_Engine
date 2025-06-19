@@ -386,6 +386,7 @@ from core.market_movement_tracker import (
 from core.theme_exposure_tracker import (
     save_tracker as save_theme_stakes,
 )
+from core.book_whitelist import ALLOWED_BOOKS
 from core.format_utils import format_market_odds_and_roles
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -1257,6 +1258,16 @@ def build_discord_embed(row: dict) -> str:
     best_book_data = row.get("best_book", {})
     if isinstance(best_book_data, dict):
         best_book = extract_best_book(best_book_data)
+        if best_book not in ALLOWED_BOOKS:
+            allowed = {b: o for b, o in best_book_data.items() if b in ALLOWED_BOOKS}
+            fallback = extract_best_book(allowed)
+            if fallback:
+                logger.debug(
+                    "🔄 Alert fallback best_book: %s → %s", best_book, fallback
+                )
+                best_book = fallback
+            else:
+                best_book = None
     elif isinstance(best_book_data, str) and best_book_data.strip().startswith("{"):
         try:
             tmp = json.loads(best_book_data.replace("'", '"'))
@@ -1265,6 +1276,22 @@ def build_discord_embed(row: dict) -> str:
             best_book = best_book_data
     else:
         best_book = best_book_data or row.get("sportsbook", "N/A")
+    if best_book and best_book not in ALLOWED_BOOKS:
+        allowed_odds = {
+            b: o
+            for b, o in (
+                row.get("_raw_sportsbook")
+                or row.get("consensus_books")
+                or {}
+            ).items()
+            if b in ALLOWED_BOOKS
+        }
+        fallback = extract_best_book(allowed_odds)
+        if fallback:
+            logger.debug("🔄 Alert best_book %s → %s", best_book, fallback)
+            best_book = fallback
+        else:
+            logger.debug("🔄 Alert best_book %s not allowed", best_book)
 
     tracker_key = build_tracker_key(game_id, market, side)
     prior = MARKET_EVAL_TRACKER_BEFORE_UPDATE.get(tracker_key)
@@ -2016,6 +2043,27 @@ def log_bets(
             if isinstance(book_prices, dict)
             else best_book
         )
+        if isinstance(book_prices, dict) and best_book_str not in ALLOWED_BOOKS:
+            allowed_odds = {b: o for b, o in book_prices.items() if b in ALLOWED_BOOKS}
+            fallback = extract_best_book(allowed_odds)
+            if fallback:
+                logger.debug(
+                    "🔄 Fallback best_book: %s → %s for %s %s %s",
+                    best_book_str,
+                    fallback,
+                    game_id,
+                    matched_key,
+                    side_clean,
+                )
+                best_book_str = fallback
+            else:
+                logger.debug(
+                    "⛔ No allowed books for %s %s %s — skipping bet",
+                    game_id,
+                    matched_key,
+                    side_clean,
+                )
+                continue
 
         row = {
             "game_id": game_id,
@@ -2371,6 +2419,27 @@ def log_derivative_bets(
                     if isinstance(book_prices, dict)
                     else sportsbook_source
                 )
+                if isinstance(book_prices, dict) and best_book_str not in ALLOWED_BOOKS:
+                    allowed_odds = {b: o for b, o in book_prices.items() if b in ALLOWED_BOOKS}
+                    fallback = extract_best_book(allowed_odds)
+                    if fallback:
+                        logger.debug(
+                            "🔄 Fallback best_book: %s → %s for %s %s %s",
+                            best_book_str,
+                            fallback,
+                            game_id,
+                            matched_key,
+                            side_clean,
+                        )
+                        best_book_str = fallback
+                    else:
+                        logger.debug(
+                            "⛔ No allowed books for %s %s %s — skipping bet",
+                            game_id,
+                            matched_key,
+                            side_clean,
+                        )
+                        continue
 
                 row = {
                     "game_id": game_id,

@@ -1,0 +1,18 @@
+ALLOWED_BOOKS = [
+    "betonlineag",
+    "betus",
+    "bovada",
+    "williamhill_us",
+    "draftkings",
+    "fanduel",
+    "fanatics",
+    "betmgm",
+    "betrivers",
+    "ballybet",
+    "espnbet",
+    "fliff",
+    "mybookieag",
+    "pinnacle",
+    "novig",
+    "prophetx",
+]
