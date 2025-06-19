@@ -15,8 +15,8 @@ import pandas as pd
 import requests
 from requests.exceptions import Timeout
 
-from utils import safe_load_json, post_with_retries
-from utils.book_helpers import ensure_side
+from core.utils import safe_load_json, post_with_retries
+from core.utils.book_helpers import ensure_side
 from core.logger import get_logger
 from core.market_pricer import (
     extract_best_book,
