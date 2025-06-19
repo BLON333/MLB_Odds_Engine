@@ -112,3 +112,20 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
     result_csv = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
 
     assert result_csv is None
+
+
+def test_missing_side_skips_write(monkeypatch, tmp_path):
+    row = _base_row()
+    row.pop("side")
+
+    existing = {}
+    theme_stakes = {}
+
+    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+
+    path = tmp_path / "log.csv"
+    result_csv = write_to_csv(row, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
+
+    assert result_csv is None
+    assert not existing
+    assert not theme_stakes

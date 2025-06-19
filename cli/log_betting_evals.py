@@ -1470,6 +1470,10 @@ def write_to_csv(
         updates the provided dict. Persisting the updated exposure data is
         handled by the caller.
     """
+    if not row.get("side"):
+        logger.warning("⛔ Skipping write: Missing 'side' for %s", row)
+        return None
+
     if not force_log and should_skip_due_to_quiet_hours(
         start_hour=quiet_hours_start,
         end_hour=quiet_hours_end,
@@ -2972,11 +2976,16 @@ def process_theme_logged_bets(
     # ➡️ Log only the best bet per (game_id, market, segment)
     logged_bets_this_loop = []
     final_rows = []
+    failed_log_count = 0
     for best_row in best_market_segment.values():
         if config.VERBOSE_MODE:
             print(
                 f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
             )
+        if not best_row.get("side"):
+            logger.warning("⛔ Skipping write: Missing 'side' for %s", best_row)
+            failed_log_count += 1
+            continue
         try:
             result = write_to_csv(
                 best_row,
@@ -2995,6 +3004,7 @@ def process_theme_logged_bets(
                 label_key,
                 e,
             )
+            failed_log_count += 1
             continue
 
         if result:
@@ -3073,6 +3083,11 @@ def process_theme_logged_bets(
         )
         for reason, count in skipped_counts.items():
             print(f"  - {count} skipped due to {reason}")
+        if failed_log_count > 1:
+            print(
+                f"⚠️ {failed_log_count} bets failed to log due to missing side or write error. "
+                "Run reconciliation script to realign."
+            )
 
 
 if __name__ == "__main__":

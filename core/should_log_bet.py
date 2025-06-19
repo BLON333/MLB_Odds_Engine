@@ -250,6 +250,9 @@ def should_log_bet(
 
     delta_base = theme_total
     if theme_total >= stake and csv_stake == 0:
+        print(
+            f"⚠️ Theme stake exists ({theme_total}) but no CSV stake for {side}. Tracker may be stale."
+        )
         delta_base = 0.0
     is_alt_line = (
         market.startswith("alternate_") or new_bet.get("market_class") == "alternate"
