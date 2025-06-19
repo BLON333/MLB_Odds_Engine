@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild theme_exposure.json from market_evals.csv."""
 
+import argparse
 import csv
 import os
 from datetime import datetime
@@ -70,4 +71,13 @@ def reconcile(csv_path: str = CSV_PATH, tracker_path: str = TRACKER_PATH) -> Non
 
 
 if __name__ == "__main__":
-    reconcile()
+    p = argparse.ArgumentParser("Rebuild theme_exposure.json from CSV")
+    p.add_argument("--csv", default=CSV_PATH, help="Path to market_evals.csv")
+    p.add_argument(
+        "--tracker",
+        default=TRACKER_PATH,
+        help="Path to theme_exposure.json to rebuild",
+    )
+    args = p.parse_args()
+
+    reconcile(args.csv, args.tracker)
