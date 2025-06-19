@@ -13,6 +13,7 @@ from collections import defaultdict
 
 from core.market_pricer import implied_prob, to_american_odds, best_price
 from core.bookmakers import get_us_bookmakers
+from core.book_whitelist import ALLOWED_BOOKS
 from utils import (
     normalize_label,
     normalize_label_for_odds,
@@ -33,12 +34,7 @@ load_dotenv()
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 SPORT = "baseball_mlb"
 
-BOOKMAKERS = [
-    "betonlineag", "betus", "bovada", "williamhill_us",
-    "draftkings", "fanduel", "fanatics", "betmgm",
-    "betrivers", "ballybet", "espnbet", "fliff",
-    "mybookieag", "pinnacle", "novig", "prophetx",
-]
+BOOKMAKERS = sorted(ALLOWED_BOOKS)
 from core.logger import get_logger
 
 logger = get_logger(__name__)

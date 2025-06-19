@@ -19,6 +19,7 @@ from core.bootstrap import *  # noqa
 from utils import now_eastern, safe_load_json, lookup_fallback_odds
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
+from core.book_whitelist import ALLOWED_BOOKS
 from core.snapshot_core import (
     load_simulations,
     build_snapshot_rows as _core_build_snapshot_rows,
@@ -55,24 +56,7 @@ def latest_odds_file(folder="data/market_odds") -> str | None:
 # Snapshot role helpers
 # ---------------------------------------------------------------------------
 # Book list aligned with ODDS_FETCHER Issue 1 updates
-POPULAR_BOOKS = [
-    "betonlineag",
-    "betus",
-    "bovada",
-    "williamhill_us",
-    "draftkings",
-    "fanduel",
-    "fanatics",
-    "betmgm",
-    "betrivers",
-    "ballybet",
-    "espnbet",
-    "fliff",
-    "mybookieag",
-    "pinnacle",
-    "novig",
-    "prophetx",
-]
+POPULAR_BOOKS = list(ALLOWED_BOOKS)
 
 
 def is_best_book_row(row: dict) -> bool:

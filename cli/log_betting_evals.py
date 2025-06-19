@@ -33,6 +33,7 @@ from utils import (
 from utils import canonical_game_id
 from core.dispatch_clv_snapshot import parse_start_time
 from utils.book_helpers import ensure_consensus_books
+from core.book_whitelist import ALLOWED_BOOKS
 import re
 import warnings
 
@@ -414,24 +415,7 @@ BOOKMAKER_TO_ROLE = {
 }
 
 # Book list aligned with ODDS_FETCHER Issue 1 updates
-POPULAR_BOOKS = [
-    "betonlineag",
-    "betus",
-    "bovada",
-    "williamhill_us",
-    "draftkings",
-    "fanduel",
-    "fanatics",
-    "betmgm",
-    "betrivers",
-    "ballybet",
-    "espnbet",
-    "fliff",
-    "mybookieag",
-    "pinnacle",
-    "novig",
-    "prophetx",
-]
+POPULAR_BOOKS = list(ALLOWED_BOOKS)
 
 # === Segment Label to Discord Role Mapping (placeholder IDs) ===
 SEGMENT_ROLE = {

@@ -21,6 +21,7 @@ from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 from core.should_log_bet import MAX_POSITIVE_ODDS, MIN_NEGATIVE_ODDS
 from utils.book_helpers import parse_american_odds, filter_by_odds
+from core.book_whitelist import ALLOWED_BOOKS
 
 logger = get_logger(__name__)
 
@@ -158,24 +159,7 @@ def main() -> None:
     df_all_books = df.copy()
 
     # ✅ Hardcoded sportsbook filter for FV Drop (aligned with POPULAR_BOOKS)
-    allowed_books = [
-        "betonlineag",
-        "betus",
-        "bovada",
-        "williamhill_us",
-        "draftkings",
-        "fanduel",
-        "fanatics",
-        "betmgm",
-        "betrivers",
-        "ballybet",
-        "espnbet",
-        "fliff",
-        "mybookieag",
-        "pinnacle",
-        "novig",
-        "prophetx",
-    ]
+    allowed_books = list(ALLOWED_BOOKS)
 
     df_allowed = filter_by_books(df, allowed_books)
     df_allowed = filter_main_lines(df_allowed)
