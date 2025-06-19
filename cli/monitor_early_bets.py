@@ -21,7 +21,11 @@ from core.pending_bets import (
 )
 from core.theme_exposure_tracker import load_tracker as load_theme_stakes, save_tracker as save_theme_stakes
 from core.market_eval_tracker import load_tracker as load_eval_tracker
-from cli.log_betting_evals import write_to_csv, load_existing_stakes
+from cli.log_betting_evals import (
+    write_to_csv,
+    load_existing_stakes,
+    record_successful_log,
+)
 from core.should_log_bet import should_log_bet
 
 logger = get_logger(__name__)
@@ -143,6 +147,7 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
                 theme_stakes,
             )
             if result:
+                record_successful_log(result, existing, theme_stakes)
                 save_theme_stakes(theme_stakes)
                 continue
         updated[key] = bet
