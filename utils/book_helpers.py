@@ -87,5 +87,3 @@ def ensure_consensus_books(row: Dict) -> None:
             row["consensus_books"] = row["_raw_sportsbook"]
         elif isinstance(row.get("best_book"), str) and isinstance(row.get("market_odds"), (int, float)):
             row["consensus_books"] = {row["best_book"]: row["market_odds"]}
-
-
