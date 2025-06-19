@@ -1802,9 +1802,7 @@ def write_to_csv(
                 f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
             )
 
-        # Update exposure trackers only after the CSV row is successfully written
-        record_successful_log(row, existing, existing_theme_stakes)
-
+        # Return the finalized row so callers can update trackers on success
         return row
     except Exception as e:
         label_key = f"{row.get('game_id')}|{row.get('market')}|{row.get('side')}"
@@ -3021,6 +3019,7 @@ def process_theme_logged_bets(
             continue
 
         if result:
+            record_successful_log(result, existing, existing_theme_stakes)
             logged_bets_this_loop.append(result)
             game_summary[best_row["game_id"]].append(best_row)
             if should_include_in_summary(best_row):
