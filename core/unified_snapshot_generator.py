@@ -54,20 +54,24 @@ def latest_odds_file(folder="data/market_odds") -> str | None:
 # ---------------------------------------------------------------------------
 # Snapshot role helpers
 # ---------------------------------------------------------------------------
+# Book list aligned with ODDS_FETCHER Issue 1 updates
 POPULAR_BOOKS = [
-    "fanduel",
-    "draftkings",
-    "betmgm",
+    "betonlineag",
+    "betus",
+    "bovada",
     "williamhill_us",
+    "draftkings",
+    "fanduel",
+    "fanatics",
+    "betmgm",
+    "betrivers",
+    "ballybet",
     "espnbet",
-    "hardrockbet",
     "fliff",
     "mybookieag",
-    "lowvig",
-    "betonlineag",
-    "betrivers",
-    "fanatics",
     "pinnacle",
+    "novig",
+    "prophetx",
 ]
 
 
@@ -83,12 +87,7 @@ def is_live_snapshot_row(row: dict) -> bool:
 
 def is_personal_book_row(row: dict) -> bool:
     """Return True if row is from a personal sportsbook."""
-    return row.get("book") in [
-        "pinnacle",
-        "fanduel",
-        "bovada",
-        "betonlineag",
-    ]
+    return row.get("book") in POPULAR_BOOKS
 
 
 # ---------------------------------------------------------------------------
@@ -136,7 +135,7 @@ def build_snapshot_for_date(
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
     logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
-    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
+    expanded_rows = expand_snapshot_rows_with_kelly(raw_rows, POPULAR_BOOKS)
     logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
 
     rows = expanded_rows

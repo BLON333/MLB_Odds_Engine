@@ -19,7 +19,7 @@ def test_build_snapshot_uses_full_game_id(monkeypatch):
         return []
 
     monkeypatch.setattr(usg, "build_snapshot_rows", fake_build_snapshot_rows)
-    monkeypatch.setattr(usg, "expand_snapshot_rows_with_kelly", lambda rows: rows)
+    monkeypatch.setattr(usg, "expand_snapshot_rows_with_kelly", lambda rows, *_: rows)
 
     odds_data = {gid: {"h2h": {}}}
     rows = usg.build_snapshot_for_date("2025-06-09", odds_data)
