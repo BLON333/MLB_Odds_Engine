@@ -793,6 +793,9 @@ def expand_snapshot_rows_with_kelly(
     expanded_rows = []
 
     for bet in final_snapshot:
+        # Defensive fallback for missing 'side'
+        if "side" not in bet and isinstance(bet.get("bet"), dict):
+            bet["side"] = bet["bet"].get("side")
         # ✅ Normalize market_prob from consensus_prob if not already present
         if "market_prob" not in bet and "consensus_prob" in bet:
             bet["market_prob"] = bet["consensus_prob"]
@@ -949,6 +952,9 @@ def expand_snapshot_rows_with_kelly(
     seen = set()
     deduped = []
     for row in expanded_rows:
+        # Defensive fallback for missing 'side'
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
         key = (row["game_id"], row["market"], row["side"], row["best_book"])
         if key not in seen:
             deduped.append(row)
@@ -993,6 +999,9 @@ def get_theme(row):
     - Match full team names (handles New York teams correctly)
     - Over/Under bets separately
     """
+    # Defensive fallback for missing 'side'
+    if "side" not in row and isinstance(row.get("bet"), dict):
+        row["side"] = row["bet"].get("side")
     side = remap_side_key(row["side"])  # Normalize side first
     market = row["market"]
 
@@ -1455,6 +1464,9 @@ def send_discord_notification(row, skipped_bets=None):
 
 
 def get_exposure_key(row):
+    # Defensive fallback for missing 'side'
+    if "side" not in row and isinstance(row.get("bet"), dict):
+        row["side"] = row["bet"].get("side")
     market = row["market"]
     game_id = row["game_id"]
     side = remap_side_key(row["side"])
@@ -1495,7 +1507,7 @@ def write_to_csv(
     existing_theme_stakes,
     dry_run=False,
     force_log=False,
-):
+): 
     """
     Final write function for fully approved bets only.
 
@@ -1514,6 +1526,9 @@ def write_to_csv(
         updates the provided dict. Persisting the updated exposure data is
         handled by the caller.
     """
+    # Defensive fallback for missing 'side'
+    if "side" not in row and isinstance(row.get("bet"), dict):
+        row["side"] = row["bet"].get("side")
     if not row.get("side") or float(row.get("stake", 0.0)) <= 0.0 or row.get("skip_reason"):
         logger.warning(
             "⛔ Skipping tracker update due to invalid or zero-stake bet: %s",
@@ -2772,6 +2787,9 @@ def run_batch_logging(
     theme_logged = defaultdict(lambda: defaultdict(dict))
 
     def cache_theme_bet(row, segment):
+        # Defensive fallback for missing 'side'
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
         theme = get_theme(row)
         game_id = row["game_id"]
         market = row["market"]
@@ -2924,6 +2942,9 @@ def process_theme_logged_bets(
                 key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
             )
             for segment, row in ordered_rows:
+                # Defensive fallback for missing 'side'
+                if "side" not in row and isinstance(row.get("bet"), dict):
+                    row["side"] = row["bet"].get("side")
                 stake = round(float(row.get("full_stake", row.get("stake", 0))), 2)
                 ev = row.get("ev_percent", 0)
                 print(
@@ -2938,6 +2959,9 @@ def process_theme_logged_bets(
                 key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
             )
             for segment, row in ordered_rows:
+                # Defensive fallback for missing 'side'
+                if "side" not in row and isinstance(row.get("bet"), dict):
+                    row["side"] = row["bet"].get("side")
                 proposed_stake = round(float(row.get("full_stake", 0)), 2)
                 key = (row["game_id"], row["market"], row["side"])
                 line_key = (row["market"], row["side"])
@@ -3070,6 +3094,9 @@ def process_theme_logged_bets(
             print(
                 f"📄 Logging: {best_row['game_id']} | {best_row['market']} | {best_row['side']} @ {best_row['stake']}u"
             )
+        # Defensive fallback for missing 'side'
+        if "side" not in best_row and isinstance(best_row.get("bet"), dict):
+            best_row["side"] = best_row["bet"].get("side")
         if not best_row.get("side"):
             logger.warning("⛔ Skipping write: Missing 'side' for %s", best_row)
             failed_log_count += 1
@@ -3119,6 +3146,9 @@ def process_theme_logged_bets(
                 skipped_bets.append(best_row)
 
     for row in logged_bets_this_loop:
+        # Defensive fallback for missing 'side'
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
         print(
             f"📤 Dispatching to Discord → {row['game_id']} | {row['market']} | {row['side']}"
         )
@@ -3140,6 +3170,9 @@ def process_theme_logged_bets(
     if VERBOSE:
         print("\n🧠 Snapshot Prob Consistency Check:")
         for row in final_snapshot:
+            # Defensive fallback for missing 'side'
+            if "side" not in row and isinstance(row.get("bet"), dict):
+                row["side"] = row["bet"].get("side")
             key = build_tracker_key(row["game_id"], row["market"], row["side"])
             prior = row.get("_prior_snapshot")
             if prior:
