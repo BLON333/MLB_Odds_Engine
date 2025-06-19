@@ -157,8 +157,25 @@ def main() -> None:
 
     df_all_books = df.copy()
 
-    # ✅ Hardcoded sportsbook filter for FV Drop
-    allowed_books = ["betonlineag", "bovada"]
+    # ✅ Hardcoded sportsbook filter for FV Drop (aligned with POPULAR_BOOKS)
+    allowed_books = [
+        "betonlineag",
+        "betus",
+        "bovada",
+        "williamhill_us",
+        "draftkings",
+        "fanduel",
+        "fanatics",
+        "betmgm",
+        "betrivers",
+        "ballybet",
+        "espnbet",
+        "fliff",
+        "mybookieag",
+        "pinnacle",
+        "novig",
+        "prophetx",
+    ]
 
     df_allowed = filter_by_books(df, allowed_books)
     df_allowed = filter_main_lines(df_allowed)
