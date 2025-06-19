@@ -156,7 +156,11 @@ def main() -> None:
     if "Mkt %" in df.columns:
         df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
-    df_all_books = df.copy()
+    # The all-books snapshot is disabled by default to avoid exposing
+    # disallowed books in production. Set ENABLE_ALL_BOOKS_OUTPUT=true to
+    # enable this debug output.
+    enable_all_books = os.getenv("ENABLE_ALL_BOOKS_OUTPUT", "false").lower() == "true"
+    df_all_books = df.copy() if enable_all_books else pd.DataFrame()
 
     # ✅ Hardcoded sportsbook filter for FV Drop (aligned with POPULAR_BOOKS)
     allowed_books = list(ALLOWED_BOOKS)
@@ -169,7 +173,7 @@ def main() -> None:
         MAX_POSITIVE_ODDS,
     )
 
-    if df_allowed.empty and df_all_books.empty:
+    if df_allowed.empty and (not enable_all_books or df_all_books.empty):
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
         return
 
@@ -184,10 +188,11 @@ def main() -> None:
         else:
             logger.error("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
 
-        if webhook_all and not df_all_books.empty:
-            send_bet_snapshot_to_discord(df_all_books, "FV Drop (All Books)", webhook_all)
-        elif webhook_all:
-            logger.warning("⚠️ No FV Drop rows for all books")
+        if enable_all_books:
+            if webhook_all and not df_all_books.empty:
+                send_bet_snapshot_to_discord(df_all_books, "FV Drop (All Books)", webhook_all)
+            elif webhook_all:
+                logger.warning("⚠️ No FV Drop rows for all books")
     else:
         print(df_allowed.to_string(index=False))
 
