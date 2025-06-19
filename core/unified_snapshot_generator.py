@@ -156,6 +156,10 @@ def build_snapshot_for_date(
                 ):
                     best_book_tracker[key] = row
 
+        # ✅ Normalize 'side' from nested 'bet' if not already present
+        if "side" not in row and isinstance(row.get("bet"), dict):
+            row["side"] = row["bet"].get("side")
+
         snapshot_rows.append(row)
 
     for best_row in best_book_tracker.values():
