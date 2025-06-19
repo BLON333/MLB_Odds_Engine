@@ -93,21 +93,19 @@ BOOKMAKER_CATALOG = {
     }
 }
 
-def get_us_bookmakers(include_exchanges=False, include_dfs=False, include_secondary=False):
-    keys = list(BOOKMAKER_CATALOG["us"].keys())
-    if include_secondary:
-        keys += BOOKMAKER_CATALOG["us2"].keys()
-    if include_exchanges:
-        keys += BOOKMAKER_CATALOG["us_ex"].keys()
-    if include_dfs:
-        keys += BOOKMAKER_CATALOG["us_dfs"].keys()
-    return keys
+# Import deprecated helpers for backwards compatibility.
+# ⚠️ Deprecated – not used in current logging/snapshot logic.
+# Logic now relies on core.book_whitelist.ALLOWED_BOOKS.
+from .legacy_book_utils import get_us_bookmakers  # noqa: F401
 
-def get_all_bookmaker_keys():
-    return [key for region in BOOKMAKER_CATALOG.values() for key in region.keys()]
+# ⚠️ Deprecated – not used in current logging/snapshot logic.
+# Logic now relies on core.book_whitelist.ALLOWED_BOOKS.
+from .legacy_book_utils import get_all_bookmaker_keys  # noqa: F401
 
-def get_bookmaker_label(book_key):
-    for region in BOOKMAKER_CATALOG.values():
-        if book_key in region:
-            return region[book_key]
-    return book_key  # fallback to key if not found
+# ⚠️ Deprecated – not used in current logging/snapshot logic.
+# Logic now relies on core.book_whitelist.ALLOWED_BOOKS.
+from .legacy_book_utils import get_all_bookmaker_display_names  # noqa: F401
+
+# ⚠️ Deprecated – not used in current logging/snapshot logic.
+# Logic now relies on core.book_whitelist.ALLOWED_BOOKS.
+from .legacy_book_utils import get_bookmaker_label  # noqa: F401
