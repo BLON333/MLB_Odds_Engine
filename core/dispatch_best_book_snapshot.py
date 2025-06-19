@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
-from utils.book_helpers import filter_snapshot_rows
+from utils.book_helpers import filter_snapshot_rows, ensure_side
 from core.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,6 +39,8 @@ def load_rows(path: str) -> list:
     if rows is None:
         logger.error("❌ Failed to load snapshot %s", path)
         sys.exit(1)
+    for r in rows:
+        ensure_side(r)
     return rows
 
 
@@ -91,10 +93,6 @@ def main() -> None:
         if "book" not in r and "best_book" in r:
             r["book"] = r["best_book"]
 
-    # Ensure 'side' is present for downstream filtering and display
-    for row in rows:
-        if "side" not in row and isinstance(row.get("bet"), dict):
-            row["side"] = row["bet"].get("side")
     rows = [r for r in rows if "best_book" in r.get("snapshot_roles", [])]
     rows = filter_by_date(rows, args.date)
 

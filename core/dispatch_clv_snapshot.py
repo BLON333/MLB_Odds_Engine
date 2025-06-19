@@ -42,7 +42,7 @@ from utils import (
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
 from core.market_pricer import calculate_clv_and_fv
-from utils.book_helpers import filter_snapshot_rows
+from utils.book_helpers import filter_snapshot_rows, ensure_side
 
 try:
     import dataframe_image as dfi
@@ -523,11 +523,8 @@ def main() -> None:
     rows, counts = build_snapshot_rows(
         csv_rows, odds_data, verbose=args.verbose, return_counts=True
     )
-
-    # Ensure 'side' is present for downstream filtering and display
     for row in rows:
-        if "side" not in row and isinstance(row.get("bet"), dict):
-            row["side"] = row["bet"].get("side")
+        ensure_side(row)
 
     # rows = filter_snapshot_rows(rows)
 
