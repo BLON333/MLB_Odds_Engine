@@ -11,7 +11,7 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
-from utils import post_with_retries, is_valid_book, VALID_BOOKMAKER_KEYS
+from utils import post_with_retries
 from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
 from dotenv import load_dotenv
 
@@ -356,7 +356,6 @@ from core.time_utils import compute_hours_to_game
 
 # === Staking Logic Refactor ===
 from core.should_log_bet import should_log_bet
-from core.utils import validate_bet_schema
 from core.market_eval_tracker import (
     load_tracker as load_eval_tracker,
     save_tracker,
@@ -786,9 +785,6 @@ def expand_snapshot_rows_with_kelly(final_snapshot, min_ev=1.0, min_stake=0.5):
         raw_books = bet.get("_raw_sportsbook") or bet.get("consensus_books", {})
         if not isinstance(raw_books, dict):
             continue  # skip malformed entries
-        raw_books = {b: o for b, o in raw_books.items() if is_valid_book(b)}
-        if not raw_books:
-            continue
 
         for book, odds in raw_books.items():
             try:
@@ -1379,11 +1375,6 @@ def write_to_csv(
         updates the provided dict. Persisting the updated exposure data is
         handled by the caller.
     """
-    # Skip logging if best_book is not whitelisted
-    book_key = str(row.get("best_book", "")).lower()
-    if book_key and book_key not in VALID_BOOKMAKER_KEYS:
-        row["skip_reason"] = "Unsupported book"
-        return None
     if not force_log and should_skip_due_to_quiet_hours(
         start_hour=quiet_hours_start,
         end_hour=quiet_hours_end,
@@ -1613,8 +1604,7 @@ def write_to_csv(
         # Wrap any problematic strings with quotes to avoid malformed CSV rows
         for k, v in row_to_write.items():
             if isinstance(v, str) and ("," in v or "\n" in v):
-                v_cleaned = v.replace('"', "'")
-                row_to_write[k] = f'"{v_cleaned}"'
+                row_to_write[k] = f'"{v.replace("\"", "'")}"'
 
         writer.writerow(row_to_write)
         if config.VERBOSE_MODE:
@@ -2570,7 +2560,6 @@ def process_theme_logged_bets(
         SkipReason.ALREADY_LOGGED.value: 0,
         "low_ev": 0,
         "low_stake": 0,
-        "unsupported_book": 0,
     }
 
     stake_mode = "model"  # or "actual" if you're filtering only logged bets
@@ -2667,7 +2656,7 @@ def process_theme_logged_bets(
                         f"❌ [BUG] Derivative market improperly named: {row['market']} — should be something like totals_1st_5_innings"
                     )
 
-                result = should_log_bet(
+                evaluated = should_log_bet(
                     row_copy,
                     existing_theme_stakes,
                     verbose=config.VERBOSE_MODE,
@@ -2675,10 +2664,9 @@ def process_theme_logged_bets(
                     reference_tracker=MARKET_EVAL_TRACKER_BEFORE_UPDATE,
                     existing_csv_stakes=existing,
                 )
-                validate_bet_schema(result)
 
-                if result["skip"]:
-                    reason = result.get("reason", "skipped")
+                if not evaluated:
+                    reason = row_copy.get("skip_reason", "skipped")
                     skipped_counts[reason] = skipped_counts.get(reason, 0) + 1
                     if should_include_in_summary(row):
                         row["skip_reason"] = reason
@@ -2686,26 +2674,11 @@ def process_theme_logged_bets(
                         skipped_bets.append(row)
                     continue
 
-                evaluated = result["bet"]
-
-                book_key = str(evaluated.get("best_book", "")).lower()
-                if book_key and book_key not in VALID_BOOKMAKER_KEYS:
-                    evaluated["stake"] = 0.0
-                    evaluated["full_stake"] = 0.0
-                    evaluated["excluded_due_to_book"] = True
-                    evaluated["skip_reason"] = "Unsupported book"
-                    ensure_consensus_books(evaluated)
-                    skipped_bets.append(evaluated)
-                    skipped_counts["unsupported_book"] = skipped_counts.get(
-                        "unsupported_book", 0
-                    ) + 1
-                    continue
-
                 # 📝 Update tracker for every evaluated bet
                 t_key = build_tracker_key(row_copy["game_id"], row_copy["market"], row_copy["side"])
                 prior = MARKET_EVAL_TRACKER.get(t_key)
                 movement = detect_market_movement(
-                    evaluated,
+                    row_copy,
                     MARKET_EVAL_TRACKER.get(t_key),
                 )
                 if should_log_movement():
@@ -2714,7 +2687,7 @@ def process_theme_logged_bets(
                         print(f"🟡 First-time seen → {t_key}")
                     else:
                         try:
-                            print(f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {evaluated.get('blended_fv')}")
+                            print(f"🧠 Prior FV: {prior.get('blended_fv')} → New FV: {row_copy.get('blended_fv')}")
                         except Exception:
                             pass
                 if evaluated:
@@ -2821,46 +2794,41 @@ def process_theme_logged_bets(
             print(f"  - {count} skipped due to {reason}")
 
 
-def main(passed_args=None) -> None:
-    global args
-    parser = argparse.ArgumentParser("Log value bets from sim output")
-    parser.add_argument("--eval-folder", required=True)
-    parser.add_argument("--no-save-skips", action="store_true")
-    parser.add_argument("--min-ev", type=float, default=0.0)
-    parser.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
-    parser.add_argument(
+if __name__ == "__main__":
+    p = argparse.ArgumentParser("Log value bets from sim output")
+    p.add_argument("--eval-folder", required=True, help="Folder containing simulation JSON files")
+    p.add_argument("--odds-path", default=None, help="Path to cached odds JSON")
+    p.add_argument(
         "--fallback-odds-path",
         default=None,
         help="Path to prior odds JSON for fallback lookup",
     )
-    parser.add_argument(
+    p.add_argument("--min-ev", type=float, default=0.05, help="Minimum EV% threshold for bets")
+    p.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview bets without writing to CSV or updating trackers",
     )
-    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
-    parser.add_argument(
+    p.add_argument("--debug", action="store_true", help="Enable debug logging")
+    p.add_argument(
         "--image",
         action="store_true",
         help="Generate summary image and post to Discord",
     )
-    parser.add_argument("--output-dir", default="logs", help="Directory for summary image")
-    parser.add_argument("--show-pending", action="store_true", help="Show pending bet details")
-    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
-    parser.add_argument(
+    p.add_argument("--output-dir", default="logs", help="Directory for summary image")
+    p.add_argument("--show-pending", action="store_true", help="Show pending bet details")
+    p.add_argument("--verbose", action="store_true", help="Enable verbose logging")
+    p.add_argument(
         "--force-log",
         action="store_true",
         help="Bypass quiet hours and allow logging at any time",
     )
-    parser.add_argument(
+    p.add_argument(
         "--no_save_skips",
         action="store_true",
         help="Disable saving skipped bets to disk",
     )
-    if isinstance(passed_args, argparse.Namespace):
-        args = passed_args
-    else:
-        args = parser.parse_args(passed_args)
+    args = p.parse_args()
 
     if args.debug:
         set_log_level("DEBUG")
@@ -2915,12 +2883,3 @@ def main(passed_args=None) -> None:
         force_log=force_log,
         no_save_skips=args.no_save_skips,
     )
-
-
-if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        import traceback
-        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
-        sys.exit(1)

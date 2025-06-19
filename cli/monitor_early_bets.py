@@ -23,7 +23,6 @@ from core.theme_exposure_tracker import load_tracker as load_theme_stakes, save_
 from core.market_eval_tracker import load_tracker as load_eval_tracker
 from cli.log_betting_evals import write_to_csv, load_existing_stakes
 from core.should_log_bet import should_log_bet
-from core.utils import validate_bet_schema
 
 logger = get_logger(__name__)
 
@@ -123,12 +122,11 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
             updated[key] = bet
             continue
         row = bet.copy()
-        row.setdefault("full_stake", row.get("stake", 0.0))
         row["consensus_prob"] = new_prob
         row["market_prob"] = new_prob
         row["hours_to_game"] = hours_to_game
         ref = {key: {"consensus_prob": prev_prob}}
-        result = should_log_bet(
+        evaluated = should_log_bet(
             row,
             theme_stakes,
             verbose=False,
@@ -136,12 +134,6 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
             reference_tracker=ref,
             existing_csv_stakes=existing,
         )
-        validate_bet_schema(result)
-        if result["skip"]:
-            print(f"[SKIP] {row['market']} - {result.get('reason', 'Unknown')}")
-            updated[key] = bet
-            continue
-        evaluated = result["bet"]
         if evaluated:
             result = write_to_csv(
                 evaluated,
@@ -166,9 +158,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        import traceback
-        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
-        exit(1)
+    main()

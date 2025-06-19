@@ -996,4 +996,3 @@ if __name__ == "__main__":
         edge_threshold=edge_threshold,
         export_json=export_json
     )
-
