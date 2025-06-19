@@ -403,16 +403,13 @@ BOOKMAKER_TO_ROLE = {
     "betus": "<@&1366767782049616004>",
     "williamhill_us": "<@&1366767816086392965>",  # Caesars
     "fanatics": "<@&1366767852123586661>",
-    "lowvig": "<@&1366767880762294313>",
     "mybookieag": "<@&1366767916883640361>",
     "ballybet": "<@&1366767951671328888>",
-    "betanysports": "<@&1366767991861018644>",
-    "betparx": "<@&1366768027483504690>",
     "espnbet": "<@&1366768064200179712>",
     "fliff": "<@&1366768103811452950>",
-    "hardrockbet": "<@&1366775051747065877>",
-    "windcreek": "<@&1366768133804789760>",
     "pinnacle": "<@&1366768197247963170>",
+    "novig": "<@&TBD>",
+    "prophetx": "<@&TBD>",
 }
 
 # Book list aligned with ODDS_FETCHER Issue 1 updates
