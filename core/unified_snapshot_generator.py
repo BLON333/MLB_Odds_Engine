@@ -16,7 +16,7 @@ import shutil
 from datetime import timedelta
 from core.bootstrap import *  # noqa
 
-from utils import now_eastern, safe_load_json, lookup_fallback_odds, VALID_BOOKMAKER_KEYS
+from utils import now_eastern, safe_load_json, lookup_fallback_odds
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.snapshot_core import (
@@ -27,8 +27,6 @@ from core.snapshot_core import (
 )
 from core.snapshot_core import expand_snapshot_rows_with_kelly
 from core.market_eval_tracker import load_tracker, save_tracker
-from core.snapshot_core import format_for_display, dispatch_snapshot_rows
-from core.config import DISCORD_SNAPSHOT_WEBHOOK
 
 logger = get_logger(__name__)
 
@@ -117,13 +115,7 @@ def build_snapshot_for_date(
 ) -> list:
     """Return expanded snapshot rows for a single date."""
     sim_dir = os.path.join("backtest", "sims", date_str)
-    logger.info("🔍 Checking for sims in %s", sim_dir)
-    logger.info(
-        "📁 Sim files found: %s",
-        os.listdir(sim_dir) if os.path.exists(sim_dir) else "❌ Directory missing",
-    )
     sims = load_simulations(sim_dir)
-    logger.info("✅ Loaded %d sims from %s", len(sims), sim_dir)
     if not sims:
         logger.warning("❌ No simulation files found for %s", date_str)
         return []
@@ -134,8 +126,6 @@ def build_snapshot_for_date(
     else:
         odds = {gid: lookup_fallback_odds(gid, odds_data) for gid in sims.keys()}
 
-    logger.info("🔎 Available odds keys: %s", list(odds.keys()))
-
     for gid in sims.keys():
         if gid not in odds or odds.get(gid) is None:
             logger.warning(
@@ -145,9 +135,9 @@ def build_snapshot_for_date(
 
     # Build base rows and expand per-book variants
     raw_rows = build_snapshot_rows(sims, odds, min_ev=0.01)
-    logger.info("🧱 Raw snapshot rows: %d", len(raw_rows))
+    logger.info("\U0001F9EA Raw bets from build_snapshot_rows(): %d", len(raw_rows))
     expanded_rows = expand_snapshot_rows_with_kelly(raw_rows)
-    logger.info("📈 Expanded rows with Kelly: %d", len(expanded_rows))
+    logger.info("\U0001F9E0 Expanded per-book rows: %d", len(expanded_rows))
 
     rows = expanded_rows
 
@@ -285,10 +275,6 @@ def main() -> None:
             logger.error(
                 "❌ Failed to generate snapshot – no qualifying bets found."
             )
-            logger.warning(
-                "Check if simulation files are missing or filtered out for all target dates."
-            )
-            logger.warning("Target dates: %s", date_list)
             sys.exit(1)
 
         # Save tracker after snapshot generation
@@ -329,43 +315,10 @@ def main() -> None:
             return
 
         logger.info("✅ Snapshot written: %s with %d rows", final_path, len(all_rows))
-
-        # === Dispatch Snapshot to Discord ===
-        try:
-            df = format_for_display(all_rows)
-            print(f"\U0001F4CA Dispatching snapshot: {df.shape[0]} rows in DataFrame")
-            role_count = sum(
-                1
-                for r in all_rows
-                if isinstance(r.get("snapshot_roles"), list)
-                and "live" in r["snapshot_roles"]
-            )
-            print(f"\U0001F3AF Rows with role='live': {role_count}")
-            df_dispatch = df
-            if "Book" in df_dispatch.columns:
-                df_dispatch = df_dispatch[df_dispatch["Book"].str.lower().isin(VALID_BOOKMAKER_KEYS)]
-            dispatch_snapshot_rows(
-                df_dispatch,
-                market_type="Unified Snapshot",
-                webhook_url=DISCORD_SNAPSHOT_WEBHOOK,
-                ev_range=(5.0, 20.0),
-                min_stake=1.0,
-                role="live",
-            )
-        except Exception as dispatch_err:
-            logger.error(
-                "❌ Discord dispatch failed after snapshot generation: %s",
-                dispatch_err,
-            )
     except Exception:
         logger.exception("Snapshot generation failed:")
         sys.exit(1)
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        import traceback
-        print(f"[FATAL] Crashed:\n{traceback.format_exc()}")
-        sys.exit(1)
+    main()

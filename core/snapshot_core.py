@@ -11,7 +11,7 @@ import io
 import pandas as pd
 
 import requests
-from utils import post_with_retries, VALID_BOOKMAKER_KEYS, is_valid_book
+from utils import post_with_retries
 
 try:
     import dataframe_image as dfi
@@ -396,37 +396,9 @@ def send_bet_snapshot_to_discord(
     debug_counts: dict | None = None,
 ) -> None:
     """Render a styled image and send it to a Discord webhook."""
-    if df is not None:
-        try:
-            print(f"📤 send_bet_snapshot_to_discord() called with {df.shape[0]} rows")
-            print("📊 Columns in DataFrame:", df.columns.tolist())
-            print(df.head(3).to_string(index=False))
-        except Exception:
-            pass
-    if debug_counts:
-        try:
-            print(
-                f"📈 Dispatch counts — EV: {debug_counts['post_ev']}, "
-                f"Stake: {debug_counts['post_stake']}, Role: {debug_counts['post_role']}"
-            )
-        except Exception:
-            pass
     if df is None or df.empty:
         print("⚠️ No qualifying snapshot bets to dispatch")
         return
-
-    # Filter out rows from unsupported books
-    book_col = None
-    for col in ["best_book", "book", "Book"]:
-        if col in df.columns:
-            book_col = col
-            break
-    if book_col:
-        before_books = len(df)
-        df = df[df[book_col].str.lower().isin(VALID_BOOKMAKER_KEYS)]
-        if df.empty and before_books > 0:
-            print("⚠️ No qualifying snapshot bets after book filtering. Dispatch skipped.")
-            return
 
     # 🚫 Filter out bets with < 1 unit stake before rendering
     try:
@@ -444,7 +416,7 @@ def send_bet_snapshot_to_discord(
         pass
 
     if df.empty:
-        print("⚠️ No qualifying snapshot bets after stake filtering. Dispatch skipped.")
+        print("⚠️ No qualifying snapshot bets to dispatch")
         return
     if dfi is None:
         print("⚠️ dataframe_image is not available. Sending text fallback.")
@@ -1086,7 +1058,6 @@ def format_for_display(rows: list, include_movement: bool = False) -> pd.DataFra
         "prev_blended_fv",
         "logged",
         "skip_reason",
-        "excluded_due_to_book",
     ]
 
     if include_movement:
@@ -1213,14 +1184,10 @@ def expand_snapshot_rows_with_kelly(
 ) -> List[dict]:
     """Expand rows into one row per sportsbook with updated EV and stake.
 
-    If ``allowed_books`` is provided, books not in that list are still expanded
-    but their ``full_stake`` is set to ``0.0`` and the row is annotated with
-    ``excluded_due_to_book = True``. Each expanded row has its display fields
-    refreshed to reflect the specific book price.
+    If ``allowed_books`` is provided, only sportsbooks in that list will be
+    expanded.  Each expanded row has its display fields refreshed to reflect the
+    specific book price.
     """
-
-    if allowed_books is not None:
-        allowed_books = [b for b in allowed_books if is_valid_book(b)]
 
     expanded: List[dict] = []
 
@@ -1264,6 +1231,8 @@ def expand_snapshot_rows_with_kelly(
 
         expanded_any = False
         for book, odds in per_book.items():
+            if allowed_books and book not in allowed_books:
+                continue
 
             p = row.get("blended_prob")
             if p is None:
@@ -1348,15 +1317,14 @@ def expand_snapshot_rows_with_kelly(
                 movement.pop("stake_movement", None)
             expanded_row.update(movement)
             ensure_consensus_books(expanded_row)
-            if allowed_books is not None and expanded_row["best_book"] not in allowed_books:
-                expanded_row["full_stake"] = 0.0
-                expanded_row["excluded_due_to_book"] = True
             expanded.append(expanded_row)
         
         if not expanded_any:
             row_copy = row.copy()
             row_copy["logged"] = bool(row.get("logged", False))
-            if row.get("market_odds") is None:
+            if allowed_books:
+                row_copy["skip_reason"] = "book_filter"
+            elif row.get("market_odds") is None:
                 row_copy.setdefault("skip_reason", "no_odds")
             else:
                 row_copy["skip_reason"] = "invalid_data"
@@ -1418,25 +1386,12 @@ def dispatch_snapshot_rows(
 
     # Role filter
     if role:
-        # ``format_for_display`` drops internal columns like ``snapshot_roles``.
-        # Skip DataFrame-based filtering to avoid KeyError.
-        pass
+        if "snapshot_roles" in df.columns:
+            df = df[df["snapshot_roles"].apply(lambda r: role in r if isinstance(r, list) else False)]
     counts["post_role"] = len(df)
 
     if counts["post_role"] == 0:
-        print(
-            f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
-            f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
-        )
-        send_bet_snapshot_to_discord(
-            df, market_type, webhook_url, debug_counts=counts
-        )
+        send_bet_snapshot_to_discord(df, market_type, webhook_url, debug_counts=counts)
         return
 
-    print(
-        f"📊 Dispatch snapshot: {counts['pre_ev']} → EV: {counts['post_ev']}, "
-        f"Stake: {counts['post_stake']}, Role: {counts['post_role']}"
-    )
-    send_bet_snapshot_to_discord(
-        df, market_type, webhook_url, debug_counts=counts
-    )
+    send_bet_snapshot_to_discord(df, market_type, webhook_url)

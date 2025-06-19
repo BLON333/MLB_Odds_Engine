@@ -2,7 +2,6 @@ from core.config import DEBUG_MODE, VERBOSE_MODE
 import numpy as np
 import math
 from core.logger import get_logger
-from utils import is_valid_book
 
 logger = get_logger(__name__)
 
@@ -127,11 +126,8 @@ def kelly_fraction(prob_win, american_odds, fraction=0.25):
 def extract_best_book(per_book: dict) -> str | None:
     """Return the sportsbook name offering the best (highest payout) price."""
     if isinstance(per_book, dict) and per_book:
-        filtered = {b: o for b, o in per_book.items() if is_valid_book(b)}
-        if not filtered:
-            return None
         try:
-            best = max(filtered, key=lambda b: decimal_odds(filtered[b]))
+            best = max(per_book, key=lambda b: decimal_odds(per_book[b]))
             logger.debug(f"✅ Best book resolved: {best}")
             return best
         except Exception:

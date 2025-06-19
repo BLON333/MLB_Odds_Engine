@@ -45,4 +45,3 @@ def save_tracker(stakes: Dict[Tuple[str, str, str], float], path: str = TRACKER_
             os.replace(tmp, path)
     except Exception as e:
         print(f"⚠️ Failed to save theme exposure tracker: {e}")
-
