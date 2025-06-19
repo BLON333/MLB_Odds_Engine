@@ -12,7 +12,6 @@ from zoneinfo import ZoneInfo
 from collections import defaultdict
 
 from core.market_pricer import implied_prob, to_american_odds, best_price
-from core.bookmakers import get_us_bookmakers
 from core.book_whitelist import ALLOWED_BOOKS
 from utils import (
     normalize_label,
