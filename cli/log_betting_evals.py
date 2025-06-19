@@ -1073,6 +1073,15 @@ def decimal_odds(american):
     )
 
 
+def record_successful_log(row: dict, existing: dict, theme_stakes: dict | None) -> None:
+    """Update exposure trackers after a confirmed CSV write."""
+    key = (row["game_id"], row["market"], row["side"])
+    existing[key] = existing.get(key, 0.0) + row["stake"]
+    if theme_stakes is not None:
+        exposure_key = get_exposure_key(row)
+        theme_stakes[exposure_key] = theme_stakes.get(exposure_key, 0.0) + row["stake"]
+
+
 def calculate_market_fv(sim_prob, market_odds):
     try:
         decimal = (
@@ -1470,8 +1479,11 @@ def write_to_csv(
         updates the provided dict. Persisting the updated exposure data is
         handled by the caller.
     """
-    if not row.get("side"):
-        logger.warning("⛔ Skipping write: Missing 'side' for %s", row)
+    if not row.get("side") or float(row.get("stake", 0.0)) <= 0.0 or row.get("skip_reason"):
+        logger.warning(
+            "⛔ Skipping tracker update due to invalid or zero-stake bet: %s",
+            row,
+        )
         return None
 
     if not force_log and should_skip_due_to_quiet_hours(
@@ -1697,41 +1709,43 @@ def write_to_csv(
     else:
         fieldnames = BASE_CSV_COLUMNS
 
-    with open(path, "a", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        if is_new:
-            writer.writeheader()
+    try:
+        with open(path, "a", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            if is_new:
+                writer.writeheader()
 
-        # ✅ Serialize books_used dict safely
-        if isinstance(row.get("books_used"), dict):
-            row["books_used"] = json.dumps(row["books_used"])
+            # ✅ Serialize books_used dict safely
+            if isinstance(row.get("books_used"), dict):
+                row["books_used"] = json.dumps(row["books_used"])
 
-        blend_weight = row.get("blend_weight_model")
-        row.pop("blend_weight_model", None)
+            blend_weight = row.get("blend_weight_model")
+            row.pop("blend_weight_model", None)
 
-        # Remove transient keys not meant for CSV output
-        for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
-            row.pop(k, None)
+            # Remove transient keys not meant for CSV output
+            for k in ["_movement", "_movement_str", "_prior_snapshot", "full_stake"]:
+                row.pop(k, None)
 
-        # Attach logger configuration for audit trail
-        if LOGGER_CONFIG:
-            row["logger_config"] = LOGGER_CONFIG
+            # Attach logger configuration for audit trail
+            if LOGGER_CONFIG:
+                row["logger_config"] = LOGGER_CONFIG
 
-        # Ensure required columns present in the row
-        missing_required = [c for c in BASE_CSV_COLUMNS if c not in row]
-        if missing_required:
-            raise ValueError(
-                f"[CSV Logger] Row is missing required keys: {missing_required}"
-            )
+            # Ensure required columns present in the row
+            missing_required = [c for c in BASE_CSV_COLUMNS if c not in row]
+            if missing_required:
+                raise ValueError(
+                    f"[CSV Logger] Row is missing required keys: {missing_required}"
+                )
 
-        row_to_write = {k: row.get(k, "") for k in fieldnames}
+            row_to_write = {k: row.get(k, "") for k in fieldnames}
 
-        # Wrap any problematic strings with quotes to avoid malformed CSV rows
-        for k, v in row_to_write.items():
-            if isinstance(v, str) and ("," in v or "\n" in v):
-                row_to_write[k] = f'"{v.replace("\"", "'")}"'
+            # Wrap any problematic strings with quotes to avoid malformed CSV rows
+            for k, v in row_to_write.items():
+                if isinstance(v, str) and ("," in v or "\n" in v):
+                    row_to_write[k] = f'"{v.replace("\"", "'")}"'
 
-        writer.writerow(row_to_write)
+            writer.writerow(row_to_write)
+
         if config.VERBOSE_MODE:
             print(
                 f"✅ Logged to CSV → {row['game_id']} | {row['market']} | {row['side']}"
@@ -1770,33 +1784,32 @@ def write_to_csv(
                 f"🧠 Movement for {tracker_key}: EV {movement['ev_movement']} | FV {movement['fv_movement']}"
             )
 
-    edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
+        edge = round(row["blended_prob"] - implied_prob(row["market_odds"]), 4)
 
-    if config.VERBOSE_MODE:
-        print(
-            f"\n📦 Logging Bet: {row['game_id']} | {row['market']} ({row.get('market_class', '?')}) | {row['side']}"
-        )
+        if config.VERBOSE_MODE:
+            print(
+                f"\n📦 Logging Bet: {row['game_id']} | {row['market']} ({row.get('market_class', '?')}) | {row['side']}"
+            )
 
-        print(f"   • Entry Type : {row['entry_type']}")
-        stake_desc = (
-            "full" if row["entry_type"] == "first" else f"delta of {row['stake']:.2f}u"
-        )
-        print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
-        print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
-        print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
-        print(
-            f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
-        )
+            print(f"   • Entry Type : {row['entry_type']}")
+            stake_desc = (
+                "full" if row["entry_type"] == "first" else f"delta of {row['stake']:.2f}u"
+            )
+            print(f"   • Stake      : {row['stake']:.2f}u ({stake_desc})")
+            print(f"   • Odds       : {row['market_odds']} | Book: {row['best_book']}")
+            print(f"   • Market Prob: {row['market_prob']*100:.1f}%")
+            print(
+                f"   • EV         : {row['ev_percent']:+.2f}% | Blended: {row['blended_prob']:.4f} | Edge: {edge:+.4f}\n"
+            )
 
-    # Update exposure trackers only after the CSV row is successfully written
-    existing[key] = prev + stake_to_log
-    if existing_theme_stakes is not None:
-        exposure_key = get_exposure_key(row)
-        existing_theme_stakes[exposure_key] = (
-            existing_theme_stakes.get(exposure_key, 0.0) + row["stake"]
-        )
+        # Update exposure trackers only after the CSV row is successfully written
+        record_successful_log(row, existing, existing_theme_stakes)
 
-    return row
+        return row
+    except Exception as e:
+        label_key = f"{row.get('game_id')}|{row.get('market')}|{row.get('side')}"
+        logger.error("❌ Failed to write row to market_evals.csv: %s → %s", label_key, e)
+        return None
 
 
 def log_bets(
