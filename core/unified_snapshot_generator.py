@@ -156,7 +156,7 @@ def build_snapshot_for_date(
                 ):
                     best_book_tracker[key] = row
 
-        # ✅ Normalize 'side' from nested 'bet' if not already present
+        # Defensive normalization of 'side'
         if "side" not in row and isinstance(row.get("bet"), dict):
             row["side"] = row["bet"].get("side")
 
