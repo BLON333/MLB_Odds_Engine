@@ -129,6 +129,23 @@ def orientation_key(bet: dict) -> str:
     return team.upper()
 
 
+def build_skipped_evaluation(
+    reason: str, game_id: str | None = None, bet: dict | None = None
+) -> dict:
+    """Return a consistent structure for skipped evaluations."""
+    result = {
+        "game_id": game_id,
+        "log": False,
+        "full_stake": 0.0,
+        "skip_reason": reason,
+        "skip": True,
+        "reason": reason,
+    }
+    if bet is not None:
+        result.update(bet)
+    return result
+
+
 def _compute_csv_theme_total(
     game_id: str,
     theme_key: str,
@@ -187,9 +204,7 @@ def should_log_bet(
 
     if DEBUG_MODE and ev >= 10.0 and stake >= 2.0:
         logger = get_logger(__name__)
-        logger.debug(
-            f"High EV bet passed thresholds: EV={ev:.2f}%, Stake={stake:.2f}u"
-        )
+        logger.debug(f"High EV bet passed thresholds: EV={ev:.2f}%, Stake={stake:.2f}u")
 
     odds_value = None
     try:
@@ -205,28 +220,14 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "bad_odds"
-            return {
-                "skip": True,
-                "reason": "bad_odds",
-                "full_stake": 0.0,
-                "log": False,
-                "bet": new_bet,
-            }
+            return build_skipped_evaluation("bad_odds", game_id, new_bet)
 
     if ev < min_ev * 100:
         if verbose:
-            print(
-                f"⛔ should_log_bet: Rejected due to EV threshold → EV: {ev:.2f}%"
-            )
+            print(f"⛔ should_log_bet: Rejected due to EV threshold → EV: {ev:.2f}%")
         new_bet["entry_type"] = "none"
         new_bet["skip_reason"] = "low_ev"
-        return {
-            "skip": True,
-            "reason": "low_ev",
-            "full_stake": 0.0,
-            "log": False,
-            "bet": new_bet,
-        }
+        return build_skipped_evaluation("low_ev", game_id, new_bet)
 
     base_market = market.replace("alternate_", "")
     segment = get_segment_group(market)
@@ -309,13 +310,9 @@ def should_log_bet(
                 pass
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = SkipReason.SUPPRESSED_EARLY.value
-            return {
-                "skip": True,
-                "reason": SkipReason.SUPPRESSED_EARLY.value,
-                "full_stake": 0.0,
-                "log": False,
-                "bet": new_bet,
-            }
+            return build_skipped_evaluation(
+                SkipReason.SUPPRESSED_EARLY.value, game_id, new_bet
+            )
 
         # Additional filter → require broad agreement across books when far from game time
         score = None
@@ -333,13 +330,9 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = "suppressed_low_agreement"
-            return {
-                "skip": True,
-                "reason": "suppressed_low_agreement",
-                "full_stake": 0.0,
-                "log": False,
-                "bet": new_bet,
-            }
+            return build_skipped_evaluation(
+                "suppressed_low_agreement", game_id, new_bet
+            )
 
     # 🚦 Reject bet if odds worsened versus reference snapshot
     if prior_entry is not None and theme_total > 0:
@@ -367,13 +360,9 @@ def should_log_bet(
                 _log_verbose(msg, verbose)
                 new_bet["entry_type"] = "none"
                 new_bet["skip_reason"] = SkipReason.ODDS_WORSENED.value
-                return {
-                    "skip": True,
-                    "reason": SkipReason.ODDS_WORSENED.value,
-                    "full_stake": 0.0,
-                    "log": False,
-                    "bet": new_bet,
-                }
+                return build_skipped_evaluation(
+                    SkipReason.ODDS_WORSENED.value, game_id, new_bet
+                )
         except Exception:
             pass
 
@@ -389,13 +378,9 @@ def should_log_bet(
             )
             new_bet["entry_type"] = "none"
             new_bet["skip_reason"] = SkipReason.LOW_INITIAL.value
-            return {
-                "skip": True,
-                "reason": SkipReason.LOW_INITIAL.value,
-                "full_stake": 0.0,
-                "log": False,
-                "bet": new_bet,
-            }
+            return build_skipped_evaluation(
+                SkipReason.LOW_INITIAL.value, game_id, new_bet
+            )
         _log_verbose(
             f"✅ should_log_bet: First bet → {side} | {theme_key} [{segment}] | Stake: {stake:.2f}u | EV: {ev:.2f}%",
             verbose,
@@ -406,6 +391,7 @@ def should_log_bet(
             "ev": ev,
             "log": True,
             "bet": new_bet,
+            "game_id": game_id,
         }
 
     # Round the delta once to avoid floating point drift across the pipeline
@@ -425,16 +411,11 @@ def should_log_bet(
             "ev": ev,
             "log": True,
             "bet": new_bet,
+            "game_id": game_id,
         }
 
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
     new_bet["skip_reason"] = SkipReason.LOW_TOPUP.value
     _log_verbose(msg, verbose)
-    return {
-        "skip": True,
-        "reason": SkipReason.LOW_TOPUP.value,
-        "full_stake": 0.0,
-        "log": False,
-        "bet": new_bet,
-    }
+    return build_skipped_evaluation(SkipReason.LOW_TOPUP.value, game_id, new_bet)
