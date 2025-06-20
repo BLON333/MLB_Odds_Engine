@@ -39,7 +39,7 @@ def required_market_move(hours_to_game: float, book_count: int = 1) -> float:
 
     Notes
     -----
-    A base movement unit of ``0.006`` (approximate 20-cent move at one book)
+    A base movement unit of ``0.0045`` (approximate 15-cent move at one book)
     is scaled by two multipliers:
 
     1. ``time_multiplier``
@@ -51,7 +51,9 @@ def required_market_move(hours_to_game: float, book_count: int = 1) -> float:
         increases by ``0.25`` for each missing book (capped at ``2.5`` when only
         one book is available).
     """
-    movement_unit = 0.006
+    BASE_MOVEMENT_UNIT = 0.0045
+
+    movement_unit = BASE_MOVEMENT_UNIT
 
     hours = 0.0 if hours_to_game is None else float(hours_to_game)
     clamped_time = min(max(hours, 0.0), 24.0)
@@ -109,7 +111,7 @@ def print_threshold_table() -> None:
     for hours in key_hours:
         threshold = required_market_move(hours, book_count=7)
         percent = threshold * 100.0
-        units = threshold / 0.006
+        units = threshold / 0.0045
         print(f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}")
 
 
