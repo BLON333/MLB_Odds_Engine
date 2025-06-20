@@ -1,7 +1,7 @@
 from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.market_pricer import implied_prob, to_american_odds, best_price
 from core.book_whitelist import ALLOWED_BOOKS
-from utils import (
+from core.utils import (
     normalize_label,
     merge_offers_with_alternates,
     get_teams_from_game_id,

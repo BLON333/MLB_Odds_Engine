@@ -7,7 +7,7 @@ from core.bootstrap import *  # noqa
 """Dispatch personal-book snapshot from unified snapshot JSON."""
 
 import json
-from utils import safe_load_json
+from core.utils import safe_load_json
 import argparse
 from typing import List
 import pandas as pd

@@ -11,7 +11,7 @@ from collections import defaultdict
 
 # === External Notification / Environment ===
 import requests
-from utils import post_with_retries
+from core.utils import post_with_retries
 from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
 from dotenv import load_dotenv
 
@@ -22,7 +22,7 @@ from core.market_eval_tracker import (
 )
 from core.lock_utils import with_locked_file
 from core.skip_reasons import SkipReason
-from utils import (
+from core.utils import (
     safe_load_json,
     now_eastern,
     EASTERN_TZ,
@@ -30,7 +30,7 @@ from utils import (
     to_eastern,
     parse_snapshot_timestamp,
 )
-from utils import canonical_game_id
+from core.utils import canonical_game_id
 from core.dispatch_clv_snapshot import parse_start_time
 from utils.book_helpers import ensure_consensus_books
 from core.book_whitelist import ALLOWED_BOOKS
@@ -103,7 +103,7 @@ def should_skip_due_to_quiet_hours(
     end_hour: int | None = None,
 ) -> bool:
     """Return ``True`` if logging should be skipped due to quiet hours."""
-    from utils import logging_allowed_now
+    from core.utils import logging_allowed_now
 
     return not logging_allowed_now(
         now=now,
@@ -349,7 +349,7 @@ from core.confirmation_utils import confirmation_strength
 from core.snapshot_core import annotate_display_deltas
 from core.scaling_utils import blend_prob
 from core.odds_fetcher import fetch_market_odds_from_api, save_market_odds_to_file
-from utils import (
+from core.utils import (
     TEAM_ABBR,
     TEAM_NAME_TO_ABBR,
     TEAM_ABBR_TO_NAME,
@@ -758,7 +758,7 @@ def generate_clean_summary_table(
 
 def upload_summary_image_to_discord(image_path, webhook_url):
     import requests
-    from utils import post_with_retries
+    from core.utils import post_with_retries
     import os
 
     if not webhook_url:
@@ -1206,7 +1206,7 @@ def build_discord_embed(row: dict) -> str:
     market = row["market"]
 
     segment_label = row.get("segment_label", "mainline")
-    from utils import format_segment_header
+    from core.utils import format_segment_header
 
     segment_header = format_segment_header(segment_label)
 
@@ -1227,7 +1227,7 @@ def build_discord_embed(row: dict) -> str:
     else:
         game_day_tag = f"\U0001f4c5 *{game_date.strftime('%A')}*"
 
-    from utils import TEAM_ABBR_TO_NAME
+    from core.utils import TEAM_ABBR_TO_NAME
 
     try:
         away_team = TEAM_ABBR_TO_NAME.get(parts["away"], parts["away"])
@@ -1861,7 +1861,7 @@ def log_bets(
 
     from datetime import datetime, timezone
     from core.market_pricer import decimal_odds, implied_prob, kelly_fraction
-    from utils import convert_full_team_spread_to_odds_key
+    from core.utils import convert_full_team_spread_to_odds_key
 
     game_id = canonical_game_id(game_id)
 
@@ -2150,7 +2150,7 @@ def log_derivative_bets(
 ):
     from datetime import datetime, timezone
     from core.market_pricer import decimal_odds, implied_prob, kelly_fraction
-    from utils import convert_full_team_spread_to_odds_key
+    from core.utils import convert_full_team_spread_to_odds_key
 
     date_sim = datetime.now().strftime("%Y-%m-%d %I:%M %p")
     candidates = []
@@ -2256,7 +2256,7 @@ def log_derivative_bets(
                     )
 
                     # Enforce segment match between sim market and odds market
-                    from utils import classify_market_segment
+                    from core.utils import classify_market_segment
 
                     sim_segment = classify_market_segment(
                         f"{market_key}_{segment_clean}"
@@ -2686,7 +2686,7 @@ def run_batch_logging(
     def extract_start_times(odds_data):
         from dateutil import parser
         from pytz import timezone
-        from utils import canonical_game_id
+        from core.utils import canonical_game_id
 
         if not isinstance(odds_data, dict):
             print(

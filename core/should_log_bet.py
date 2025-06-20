@@ -16,7 +16,7 @@ import csv
 import os
 
 
-from utils import (
+from core.utils import (
     normalize_label_for_odds,
     classify_market_segment,
     TEAM_ABBR_TO_NAME,

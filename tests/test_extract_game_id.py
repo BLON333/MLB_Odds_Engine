@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import utils
+import core.utils as utils
 
 
 def test_extract_game_id_from_event_datetime():

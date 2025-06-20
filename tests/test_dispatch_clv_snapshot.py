@@ -3,7 +3,7 @@ import sys
 import logging
 from datetime import datetime, timedelta
 
-from utils import EASTERN_TZ
+from core.utils import EASTERN_TZ
 import pandas as pd
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

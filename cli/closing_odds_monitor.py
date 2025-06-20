@@ -11,7 +11,7 @@ import json
 import time
 import requests
 from datetime import datetime
-from utils import (
+from core.utils import (
     now_eastern,
     to_eastern,
     safe_load_json,
@@ -52,7 +52,7 @@ from core.odds_fetcher import (
 )
 from core.consensus_pricer import get_paired_label
 from core.market_pricer import to_american_odds
-from utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
+from core.utils import TEAM_NAME_TO_ABBR, TEAM_ABBR_TO_NAME, TEAM_ABBR
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -124,7 +124,7 @@ def fetch_single_book_fallback(game_id, books=("pinnacle", "betonlineag")):
     return None
 
 
-from utils import (
+from core.utils import (
     TEAM_NAME_TO_ABBR,
     TEAM_ABBR_TO_NAME,
 )  # Make sure this is imported at the top

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from core.logger import get_logger
 logger = get_logger(__name__)
 
-from utils import (
+from core.utils import (
     format_market_key,
     TEAM_ABBR,
     safe_load_json,

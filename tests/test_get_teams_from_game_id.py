@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import utils
+import core.utils as utils
 
 
 def test_get_teams_from_valid_game_id():
