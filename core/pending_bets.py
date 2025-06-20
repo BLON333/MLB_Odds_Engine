@@ -38,17 +38,17 @@ def save_pending_bets(pending: dict, path: str = PENDING_BETS_PATH) -> None:
                     pass
 
             if not skip_replace:
-                try:
-                    os.replace(tmp, path)
-                except PermissionError as e:
-                    print(f"⚠️ Failed to save pending bets: {e} — retrying")
-                    time.sleep(0.5)
+                # Retry replace a few times in case another process still has the
+                # file open. This mirrors the behavior used in other trackers.
+                for _ in range(5):
                     try:
                         os.replace(tmp, path)
-                    except Exception as retry_err:
-                        print(f"❌ Retry failed — could not save pending bets: {retry_err}")
-                except Exception as e:
-                    print(f"⚠️ Failed to save pending bets: {e}")
+                        break
+                    except PermissionError as e:
+                        last_err = e
+                        time.sleep(0.1)
+                else:
+                    print(f"⚠️ Failed to save pending bets: {last_err}")
             else:
                 os.remove(tmp)
     except Exception as e:
