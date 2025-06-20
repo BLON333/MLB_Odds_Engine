@@ -122,7 +122,10 @@ def recheck_pending_bets(path: str = PENDING_BETS_PATH) -> None:
             movement = float(new_prob) - float(prev_prob)
         except Exception:
             movement = 0.0
-        if movement < required_market_move(hours_to_game):
+
+        books = bet.get("per_book")
+        book_count = len(books) if isinstance(books, dict) and books else 1
+        if movement < required_market_move(hours_to_game, book_count=book_count):
             updated[key] = bet
             continue
         row = bet.copy()

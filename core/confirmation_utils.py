@@ -21,13 +21,16 @@ VERBOSE = False
 MIN_TOPUP_STAKE = 0.5
 
 
-def required_market_move(hours_to_game: float) -> float:
+def required_market_move(hours_to_game: float, book_count: int = 1) -> float:
     """Return required consensus probability movement for confirmation.
 
     Parameters
     ----------
     hours_to_game : float
         Hours until game time.
+    book_count : int, optional
+        Number of sportsbooks contributing to the consensus line.  If
+        unknown or ``None`` this should default to ``1``.
 
     Returns
     -------
@@ -37,17 +40,31 @@ def required_market_move(hours_to_game: float) -> float:
     Notes
     -----
     A base movement unit of ``0.006`` (approximate 20-cent move at one book)
-    is scaled by a linear decay multiplier that ranges from ``3.0`` 24 hours
-    before the game to ``1.0`` at game time.
+    is scaled by two multipliers:
+
+    1. ``time_multiplier``
+        Linear decay from ``3.0`` at 24 hours before the game to ``1.0`` at
+        game time.
+    2. ``book_multiplier``
+        Scales stricter when fewer books contribute to the consensus odds. The
+        multiplier is ``1.0`` when seven or more books are present and
+        increases by ``0.25`` for each missing book (capped at ``2.5`` when only
+        one book is available).
     """
     movement_unit = 0.006
-    if hours_to_game is None:
-        hours = 0.0
-    else:
-        hours = float(hours_to_game)
-    clamped = min(max(hours, 0.0), 24.0)
-    multiplier = 1.0 + 2.0 * clamped / 24.0
-    return multiplier * movement_unit
+
+    hours = 0.0 if hours_to_game is None else float(hours_to_game)
+    clamped_time = min(max(hours, 0.0), 24.0)
+    time_multiplier = 1.0 + 2.0 * clamped_time / 24.0
+
+    try:
+        books = int(book_count)
+    except Exception:
+        books = 1
+    clamped_books = max(min(books, 7), 1)
+    book_multiplier = 1.0 + (max(7 - clamped_books, 0) * 0.25)
+
+    return movement_unit * time_multiplier * book_multiplier
 
 
 def confirmation_strength(observed_move: float, hours_to_game: float) -> float:
@@ -90,7 +107,7 @@ def print_threshold_table() -> None:
     key_hours = [24, 18, 12, 6, 3, 1, 0]
     print("[Hours to Game] | [Required Move (%)] | [Movement Units]")
     for hours in key_hours:
-        threshold = required_market_move(hours)
+        threshold = required_market_move(hours, book_count=7)
         percent = threshold * 100.0
         units = threshold / 0.006
         print(f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}")
