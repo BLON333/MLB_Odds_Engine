@@ -7,7 +7,7 @@ from core.bootstrap import *  # noqa
 """Dispatch FV drop snapshot (market probability increases) from unified snapshot JSON."""
 
 import json
-from core.utils import safe_load_json
+from utils import safe_load_json
 import argparse
 from typing import List
 import re
@@ -20,7 +20,7 @@ load_dotenv()
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 from core.should_log_bet import MAX_POSITIVE_ODDS, MIN_NEGATIVE_ODDS
-from core.utils.book_helpers import parse_american_odds, filter_by_odds, ensure_side
+from utils.book_helpers import parse_american_odds, filter_by_odds, ensure_side
 from core.book_whitelist import ALLOWED_BOOKS
 
 logger = get_logger(__name__)
