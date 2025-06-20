@@ -9,7 +9,7 @@ from core.dispatch_fv_drop_snapshot import (
     filter_by_books,
     filter_main_lines,
 )
-from utils.book_helpers import (
+from core.book_helpers import (
     parse_american_odds,
     filter_by_odds,
 )

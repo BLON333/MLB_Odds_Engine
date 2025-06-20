@@ -51,7 +51,7 @@ from core.market_movement_tracker import track_and_update_market_movement
 from core.market_eval_tracker import load_tracker, save_tracker, build_tracker_key
 import copy
 
-from utils.book_helpers import ensure_consensus_books
+from core.book_helpers import ensure_consensus_books
 
 # Load tracker once for snapshot utilities and keep a frozen copy for comparisons
 MARKET_EVAL_TRACKER = load_tracker()
