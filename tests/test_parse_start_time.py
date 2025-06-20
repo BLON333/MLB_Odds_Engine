@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.dispatch_clv_snapshot import parse_start_time
-from utils import EASTERN_TZ
+from core.utils import EASTERN_TZ
 
 def test_parse_start_time_from_game_id():
     gid = "2025-06-16-COL@WSH-T1845"

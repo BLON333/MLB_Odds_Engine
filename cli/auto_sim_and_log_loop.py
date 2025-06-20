@@ -30,7 +30,7 @@ import subprocess
 
 
 from datetime import timedelta
-from utils import now_eastern
+from core.utils import now_eastern
 from core.odds_fetcher import fetch_all_market_odds, save_market_odds_to_file
 
 EDGE_THRESHOLD = 0.05

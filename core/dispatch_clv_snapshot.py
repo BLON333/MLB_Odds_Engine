@@ -23,7 +23,7 @@ from requests.exceptions import Timeout
 from dotenv import load_dotenv
 from core.bootstrap import *  # noqa
 
-from utils import (
+from core.utils import (
     parse_game_id,
     canonical_game_id,
     normalize_line_label,

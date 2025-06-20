@@ -49,7 +49,8 @@ def test_tracker_updates_only_after_success(monkeypatch, tmp_path):
     row["_prior_snapshot"] = {"market_prob": 0.6}
     existing = {}
     theme = {}
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("core.utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("cli.log_betting_evals.LOGGER_CONFIG", "test", raising=False)
     path = tmp_path / "t.csv"
     result = write_to_csv(row, path, existing, {}, theme, dry_run=False, force_log=False)
     assert result is not None
@@ -69,7 +70,7 @@ def test_skip_does_not_update_tracker(monkeypatch, tmp_path):
     row["consensus_prob"] = None
     existing = {}
     theme = {}
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("core.utils.logging_allowed_now", lambda now=None, **_: True)
     path = tmp_path / "t.csv"
     result = write_to_csv(row, path, existing, {}, theme, dry_run=False, force_log=False)
     assert result is None

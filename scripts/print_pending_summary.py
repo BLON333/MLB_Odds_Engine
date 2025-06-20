@@ -7,7 +7,7 @@ import sys
 from core.bootstrap import *  # noqa
 import argparse
 
-from utils import safe_load_json
+from core.utils import safe_load_json
 
 DEFAULT_JSON = os.path.join("logs", "pending_bets.json")
 

@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 from typing import List, Optional
 
 def _get_eastern_tz():
-    from utils import EASTERN_TZ  # imported lazily to avoid circular deps
+    from core.utils import EASTERN_TZ  # imported lazily to avoid circular deps
     return EASTERN_TZ
 
 __all__ = ["build_game_id", "normalize_game_id", "fuzzy_match_game_id"]

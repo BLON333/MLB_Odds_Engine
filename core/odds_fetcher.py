@@ -13,7 +13,7 @@ from collections import defaultdict
 
 from core.market_pricer import implied_prob, to_american_odds, best_price
 from core.book_whitelist import ALLOWED_BOOKS
-from utils import (
+from core.utils import (
     normalize_label,
     normalize_label_for_odds,
     fallback_source,
@@ -686,7 +686,7 @@ def fetch_all_market_odds(lookahead_days=2):
 def normalize_odds(game_id: str, offers: dict) -> dict:
     """Normalize odds into a per-book structure."""
     from core.market_pricer import best_price
-    from utils import normalize_label, normalize_label_for_odds, fallback_source
+    from core.utils import normalize_label, normalize_label_for_odds, fallback_source
 
     logger.debug(f"\n🔍 Normalizing odds for: {game_id}")
 

@@ -63,8 +63,9 @@ def test_top_up_written_even_without_market_move(monkeypatch, tmp_path):
     evaluated = result
 
     monkeypatch.setattr(
-        "utils.logging_allowed_now", lambda now=None, **_: True
+        "core.utils.logging_allowed_now", lambda now=None, **_: True
     )
+    monkeypatch.setattr("cli.log_betting_evals.LOGGER_CONFIG", "test", raising=False)
 
     path = tmp_path / "log.csv"
     result_csv = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
@@ -106,7 +107,8 @@ def test_theme_total_ge_stake_without_csv_record(monkeypatch, tmp_path):
     evaluated = result
     assert evaluated["stake"] == pytest.approx(1.2)
 
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("core.utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("cli.log_betting_evals.LOGGER_CONFIG", "test", raising=False)
 
     path = tmp_path / "log.csv"
     result_csv = write_to_csv(evaluated, path, existing, theme_stakes, {}, dry_run=False, force_log=False)
@@ -121,7 +123,8 @@ def test_missing_side_skips_write(monkeypatch, tmp_path):
     existing = {}
     theme_stakes = {}
 
-    monkeypatch.setattr("utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("core.utils.logging_allowed_now", lambda now=None, **_: True)
+    monkeypatch.setattr("cli.log_betting_evals.LOGGER_CONFIG", "test", raising=False)
 
     path = tmp_path / "log.csv"
     result_csv = write_to_csv(row, path, existing, theme_stakes, {}, dry_run=False, force_log=False)

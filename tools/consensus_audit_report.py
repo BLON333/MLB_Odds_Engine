@@ -2,7 +2,7 @@
 
 import os
 import json
-from utils import normalize_label, classify_market_segment
+from core.utils import normalize_label, classify_market_segment
 from core.market_pricer import implied_prob
 
 # === Settings ===

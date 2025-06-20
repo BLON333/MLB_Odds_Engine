@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from utils import merge_book_sources_for
+from core.utils import merge_book_sources_for
 
 
 def test_merge_f5_totals_with_alternate():

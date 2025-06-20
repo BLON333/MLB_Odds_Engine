@@ -13,7 +13,7 @@ def test_tracker_updates_after_expand(monkeypatch):
     sc.MARKET_EVAL_TRACKER.clear()
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
 
-    from utils import canonical_game_id
+    from core.utils import canonical_game_id
     gid = canonical_game_id("2025-06-09-MIL@CIN-T1305")
     key = f"{gid}:h2h:TeamA"
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE[key] = {
@@ -66,7 +66,7 @@ def test_frozen_tracker_used_for_each_expanded_row(monkeypatch):
     sc.MARKET_EVAL_TRACKER.clear()
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
 
-    from utils import canonical_game_id
+    from core.utils import canonical_game_id
     gid = canonical_game_id("2025-06-09-MIL@CIN-T1305")
     key = f"{gid}:h2h:TeamA"
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE[key] = {

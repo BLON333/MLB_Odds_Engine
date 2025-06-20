@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from utils import format_segment_header
+from core.utils import format_segment_header
 
 
 def test_mainline_suppresses_tag():
