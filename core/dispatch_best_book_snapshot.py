@@ -7,7 +7,7 @@ from core.bootstrap import *  # noqa
 """Dispatch best-book snapshot from unified snapshot JSON."""
 
 import json
-from utils import safe_load_json
+from core.utils import safe_load_json
 import argparse
 from dotenv import load_dotenv
 

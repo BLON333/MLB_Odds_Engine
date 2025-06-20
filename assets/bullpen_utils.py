@@ -1,7 +1,7 @@
 import random
 import json
 import pandas as pd
-from utils import normalize_name, normalize_team_abbr_to_name
+from core.utils import normalize_name, normalize_team_abbr_to_name
 from core.project_hr_pa import project_hr_pa
 from assets.probable_pitchers import fetch_probable_pitchers
 

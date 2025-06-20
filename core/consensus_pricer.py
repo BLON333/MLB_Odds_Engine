@@ -2,7 +2,7 @@
 
 from core.config import DEBUG_MODE, VERBOSE_MODE
 from core.market_pricer import implied_prob, to_american_odds
-from utils import (
+from core.utils import (
     normalize_label,
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,

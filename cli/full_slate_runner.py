@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 # === Core Modules ===
 from assets.probable_pitchers import fetch_probable_pitchers
 from cli.run_distribution_simulator import simulate_distribution
-from utils import canonical_game_id
+from core.utils import canonical_game_id
 
 
 # === Config ===

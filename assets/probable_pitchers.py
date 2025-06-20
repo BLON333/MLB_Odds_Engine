@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from utils import (
+from core.utils import (
     canonical_game_id,
     disambiguate_game_id,
     to_eastern,

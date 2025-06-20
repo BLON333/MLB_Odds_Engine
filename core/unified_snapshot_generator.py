@@ -16,7 +16,7 @@ import shutil
 from datetime import timedelta
 from core.bootstrap import *  # noqa
 
-from utils import now_eastern, safe_load_json, lookup_fallback_odds
+from core.utils import now_eastern, safe_load_json, lookup_fallback_odds
 from core.logger import get_logger
 from core.odds_fetcher import fetch_market_odds_from_api
 from core.book_whitelist import ALLOWED_BOOKS

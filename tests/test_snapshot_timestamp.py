@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from utils import parse_snapshot_timestamp, EASTERN_TZ
+from core.utils import parse_snapshot_timestamp, EASTERN_TZ
 
 
 def test_parse_snapshot_timestamp_basic():

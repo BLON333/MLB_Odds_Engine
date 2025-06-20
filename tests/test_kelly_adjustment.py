@@ -11,7 +11,7 @@ def test_adjusted_kelly_scaling(monkeypatch):
     sc.MARKET_EVAL_TRACKER.clear()
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE.clear()
 
-    from utils import canonical_game_id
+    from core.utils import canonical_game_id
     gid = canonical_game_id("2025-06-09-MIL@CIN-T1305")
     key = f"{gid}:h2h:TeamA"
     sc.MARKET_EVAL_TRACKER_BEFORE_UPDATE[key] = {"market_prob": 0.5}

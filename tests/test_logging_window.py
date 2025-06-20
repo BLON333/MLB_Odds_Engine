@@ -4,7 +4,7 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from utils import logging_allowed_now, EASTERN_TZ
+from core.utils import logging_allowed_now, EASTERN_TZ
 
 
 def test_logging_allowed_daytime():

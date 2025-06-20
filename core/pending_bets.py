@@ -3,7 +3,7 @@ import json
 import time
 from datetime import datetime
 
-from utils import safe_load_json, now_eastern
+from core.utils import safe_load_json, now_eastern
 from core.lock_utils import with_locked_file
 
 PENDING_BETS_PATH = os.path.join('logs', 'pending_bets.json')
