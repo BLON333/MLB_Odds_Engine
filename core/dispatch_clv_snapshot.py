@@ -23,7 +23,7 @@ from requests.exceptions import Timeout
 from dotenv import load_dotenv
 from core.bootstrap import *  # noqa
 
-from core.utils import (
+from utils import (
     parse_game_id,
     canonical_game_id,
     normalize_line_label,
@@ -42,7 +42,7 @@ from core.utils import (
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
 from core.market_pricer import calculate_clv_and_fv
-from core.utils.book_helpers import filter_snapshot_rows, ensure_side
+from utils.book_helpers import filter_snapshot_rows, ensure_side
 
 try:
     import dataframe_image as dfi
