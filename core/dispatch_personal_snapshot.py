@@ -19,7 +19,7 @@ load_dotenv()
 from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 from core.book_whitelist import ALLOWED_BOOKS
-from utils.book_helpers import ensure_side
+from core.book_helpers import ensure_side
 
 logger = get_logger(__name__)
 

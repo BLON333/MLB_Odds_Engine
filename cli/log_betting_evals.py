@@ -32,7 +32,7 @@ from core.utils import (
 )
 from core.utils import canonical_game_id
 from core.dispatch_clv_snapshot import parse_start_time
-from utils.book_helpers import ensure_consensus_books
+from core.book_helpers import ensure_consensus_books
 from core.book_whitelist import ALLOWED_BOOKS
 import re
 import warnings

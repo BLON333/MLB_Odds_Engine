@@ -42,7 +42,7 @@ from core.utils import (
 from core.logger import get_logger
 from core.odds_fetcher import american_to_prob
 from core.market_pricer import calculate_clv_and_fv
-from utils.book_helpers import filter_snapshot_rows, ensure_side
+from core.book_helpers import filter_snapshot_rows, ensure_side
 
 try:
     import dataframe_image as dfi
