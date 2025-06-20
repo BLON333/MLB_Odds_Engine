@@ -294,10 +294,12 @@ def should_log_bet(
         except Exception:
             movement = 0.0
 
-        threshold = required_market_move(hours_to_game)
+        books = new_bet.get("per_book")
+        book_count = len(books) if isinstance(books, dict) and books else 1
+        threshold = required_market_move(hours_to_game, book_count=book_count)
         if movement < threshold:
             _log_verbose(
-                f"⛔ should_log_bet: Early bet suppressed — movement {movement:.3f} < {threshold:.3f}",
+                f"⛔ should_log_bet: Early bet suppressed — movement {movement:.3f} < {threshold:.3f} (books={book_count})",
                 verbose,
             )
             try:

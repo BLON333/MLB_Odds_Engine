@@ -12,23 +12,31 @@ from core.confirmation_utils import (
 
 
 def test_required_market_move_endpoints():
-    assert required_market_move(0) == pytest.approx(0.006)
-    assert required_market_move(24) == pytest.approx(0.018)
+    assert required_market_move(0, book_count=7) == pytest.approx(0.006)
+    assert required_market_move(24, book_count=7) == pytest.approx(0.018)
     # Hours beyond 24h should cap at 24h threshold
-    assert required_market_move(36) == pytest.approx(0.018)
+    assert required_market_move(36, book_count=7) == pytest.approx(0.018)
 
 
 def test_required_market_move_midpoint():
     expected = (1.0 + 2.0 * 12 / 24.0) * 0.006
-    assert required_market_move(12) == pytest.approx(expected)
+    assert required_market_move(12, book_count=7) == pytest.approx(expected)
+
+
+def test_required_market_move_book_scaling():
+    hours = 10
+    expected = 0.006 * (1.0 + 2.0 * hours / 24.0) * (1.0 + (4 * 0.25))
+    assert required_market_move(hours, book_count=3) == pytest.approx(expected)
+    assert required_market_move(hours, book_count=7) < expected
 
 
 def test_confirmation_strength_example():
     hours = 12
-    required = required_market_move(hours)
+    required = required_market_move(hours, book_count=7)
     strength = confirmation_strength(0.009, hours)
     assert required == pytest.approx(0.012)
-    assert strength == pytest.approx(0.009 / required)
+    expected = 0.009 / required_market_move(hours)
+    assert strength == pytest.approx(expected)
 
 
 def test_confirmation_strength_clamped():
@@ -47,7 +55,7 @@ def test_print_threshold_table_output(capsys):
     assert out_lines[0] == expected_header
     key_hours = [24, 18, 12, 6, 3, 1, 0]
     for idx, hours in enumerate(key_hours, start=1):
-        threshold = required_market_move(hours)
+        threshold = required_market_move(hours, book_count=7)
         percent = threshold * 100.0
         units = threshold / 0.006
         expected = f"{hours:>3}h | {percent:>6.3f}% | {units:>5.2f}".strip()
