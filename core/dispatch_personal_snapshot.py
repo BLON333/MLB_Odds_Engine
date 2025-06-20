@@ -24,10 +24,10 @@ from core.book_helpers import ensure_side
 logger = get_logger(__name__)
 
 # Optional debug log to verify environment variables are loaded
-logger.debug("✅ Loaded webhook: %s", os.getenv("DISCORD_PERSONAL_WEBHOOK_URL"))
+logger.debug("✅ Loaded webhook: %s", os.getenv("PERSONAL_DISCORD_WEBHOOK_URL"))
 
 PERSONAL_WEBHOOK_URL = os.getenv(
-    "DISCORD_PERSONAL_WEBHOOK_URL",
+    "PERSONAL_DISCORD_WEBHOOK_URL",
     "https://discord.com/api/webhooks/1368408687559053332/2uhUud0fgdonV0xdIDorXX02HGQ1AWsEO_lQHMDqWLh-4THpMEe3mXb7u88JSvssSRtM",
 )
 
