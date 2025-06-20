@@ -418,6 +418,7 @@ if initial_odds:
     run_logger(initial_odds)
     logger.info("🧼 [%s] Reconciling tracker after log pass", now_eastern())
     run_subprocess([PYTHON, "-m", "scripts.reconcile_theme_exposure"])
+    run_subprocess([PYTHON, "-m", "scripts.reconcile_tracker_with_csv"])
     if any(p["name"].startswith("dispatch_") for p in active_processes):
         logger.info(
             "🟡 Skipping snapshot dispatch – previous dispatch scripts still active."
@@ -481,6 +482,7 @@ while True:
                     "🧼 [%s] Reconciling tracker after log pass", now_eastern()
                 )
                 run_subprocess([PYTHON, "-m", "scripts.reconcile_theme_exposure"])
+                run_subprocess([PYTHON, "-m", "scripts.reconcile_tracker_with_csv"])
                 run_unified_snapshot_and_dispatch(odds_file)
         last_log_time = now
         triggered_log = True
