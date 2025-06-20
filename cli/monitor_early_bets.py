@@ -5,7 +5,7 @@ import time
 from collections import defaultdict
 from datetime import datetime
 
-from utils import (
+from core.utils import (
     parse_game_id,
     EASTERN_TZ,
     now_eastern,

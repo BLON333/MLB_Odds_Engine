@@ -11,7 +11,7 @@ import io
 import pandas as pd
 
 import requests
-from utils import post_with_retries
+from core.utils import post_with_retries
 
 try:
     import dataframe_image as dfi
@@ -22,7 +22,7 @@ from core.logger import get_logger
 
 logger = get_logger(__name__)
 
-from utils import (
+from core.utils import (
     convert_full_team_spread_to_odds_key,
     normalize_to_abbreviation,
     get_market_entry_with_alternate_fallback,

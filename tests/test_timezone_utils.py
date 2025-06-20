@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 def _reload_utils(monkeypatch, zoneinfo_patch=None):
     if zoneinfo_patch is not None:
         monkeypatch.setattr(zoneinfo, "ZoneInfo", zoneinfo_patch)
-    import utils
+    import core.utils as utils
     return importlib.reload(utils)
 
 

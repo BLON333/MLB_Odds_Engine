@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
-from utils import normalize_name
+from core.utils import normalize_name
 from core.project_hr_pa import project_hr_pa
 
 # === Safe float fallback ===

@@ -5,7 +5,7 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.time_utils import compute_hours_to_game
-from utils import EASTERN_TZ
+from core.utils import EASTERN_TZ
 
 
 def test_compute_hours_to_game_tz_normalization():

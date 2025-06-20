@@ -11,7 +11,7 @@ from datetime import datetime
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(ROOT_DIR)
 
-from utils import now_eastern
+from core.utils import now_eastern
 from core.logger import get_logger
 from core.dispatch_sim_only_snapshot import latest_snapshot_path
 

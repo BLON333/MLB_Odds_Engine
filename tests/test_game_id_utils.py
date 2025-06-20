@@ -10,7 +10,7 @@ from core.game_id_utils import (
     normalize_game_id,
     fuzzy_match_game_id,
 )
-from utils import lookup_fallback_odds
+from core.utils import lookup_fallback_odds
 
 
 def test_build_game_id_converts_to_eastern():

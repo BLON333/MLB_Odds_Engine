@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 
 from core.market_pricer import best_price
 from core.consensus_pricer import calculate_consensus_prob
-from utils import (
+from core.utils import (
     normalize_label,
     normalize_label_for_odds,
     merge_offers_with_alternates,

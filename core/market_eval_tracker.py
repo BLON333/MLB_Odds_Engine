@@ -7,7 +7,7 @@ from typing import Dict
 
 from core.logger import get_logger
 
-from utils import canonical_game_id, parse_game_id
+from core.utils import canonical_game_id, parse_game_id
 from core.file_utils import is_file_older_than, with_locked_file
 
 # Default location for persistent market evaluation tracking

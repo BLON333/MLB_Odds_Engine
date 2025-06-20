@@ -6,7 +6,7 @@ from datetime import datetime
 from assets.probable_pitchers import fetch_probable_pitchers
 from assets.lineup_scraper_selenium import fetch_lineups_selenium
 from assets.stats_loader import load_batter_stats, load_pitcher_stats, normalize_name
-from utils import get_teams_from_game_id
+from core.utils import get_teams_from_game_id
 from assets.bullpen_utils import build_bullpen_for_team
 from core.project_hr_pa import project_hr_pa
 import numpy as np
@@ -20,7 +20,7 @@ TEAM_ABBR_FIXES = {
 }
 
 def load_projected_lineups_from_csv(path="data/Batters.csv", key_metric="woba", top_n=9):
-    from utils import TEAM_ABBR_FIXES  # this must be present
+    from core.utils import TEAM_ABBR_FIXES  # this must be present
 
     from collections import defaultdict
     team_lineups = defaultdict(list)

@@ -36,7 +36,7 @@ from assets.env_builder import (
     get_noaa_weather,
     compute_weather_multipliers
 )
-from utils import (
+from core.utils import (
     canonical_game_id,
     parse_game_id,
     get_teams_from_game_id,
@@ -96,7 +96,7 @@ def apply_segment_scaling(values, target_mean=None, target_sd=None):
 def extract_universal_markets(game_id, full_game_market, derivative_segments, run_distribution=None):
     from core.market_pricer import to_american_odds, adjust_for_push
     from core.stats_tools import calculate_tail_probability
-    from utils import normalize_to_abbreviation
+    from core.utils import normalize_to_abbreviation
 
     def build_entry(market, side, prob, odds):
         return {

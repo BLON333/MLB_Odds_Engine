@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Optional
 
-from utils import to_eastern, now_eastern
+from core.utils import to_eastern, now_eastern
 
 
 def compute_hours_to_game(game_start: datetime, now: Optional[datetime] = None) -> float:

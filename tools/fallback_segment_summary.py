@@ -2,7 +2,7 @@
 
 import os
 import json
-from utils import normalize_label, classify_market_segment, find_sim_entry
+from core.utils import normalize_label, classify_market_segment, find_sim_entry
 
 # === Settings ===
 MARKET_ODDS_FOLDER = "data/market_odds"

@@ -1093,4 +1093,4 @@ def normalize_team_abbr_to_name(abbr):
     """
     return TEAM_NAME_FROM_ABBR.get(abbr.upper(), abbr.upper())
 
-from utils.discord import post_with_retries
+from core.discord import post_with_retries
