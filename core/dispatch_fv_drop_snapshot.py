@@ -21,6 +21,7 @@ from core.snapshot_core import format_for_display, send_bet_snapshot_to_discord
 from core.logger import get_logger
 from core.should_log_bet import MAX_POSITIVE_ODDS, MIN_NEGATIVE_ODDS
 from core.book_helpers import parse_american_odds, filter_by_odds, ensure_side
+from core.book_whitelist import ALLOWED_BOOKS
 
 # Subset of books to include when posting to the main FV Drop webhook
 FV_DROP_ALLOWED_BOOKS = [
@@ -167,41 +168,50 @@ def main() -> None:
         df = df[df["Mkt %"].apply(is_market_prob_increasing)]
 
     # Prepare DataFrame copies for sending to the different Discord channels
-    df_all_books = filter_main_lines(df.copy())
-    df_all_books = filter_by_odds(
-        df_all_books,
+    df_main = filter_main_lines(df.copy())
+    df_main = filter_by_odds(
+        df_main,
         MIN_NEGATIVE_ODDS,
         MAX_POSITIVE_ODDS,
     )
 
-    # ✅ Hardcoded sportsbook filter for FV Drop
-    allowed_books = FV_DROP_ALLOWED_BOOKS
+    # Filter snapshot twice: primary books and all allowed books
+    df_fv_filtered = filter_by_books(df_main, FV_DROP_ALLOWED_BOOKS)
+    df_fv_all = filter_by_books(df_main, list(ALLOWED_BOOKS))
 
-    df_allowed = filter_by_books(df_all_books, allowed_books)
-
-    if df_allowed.empty and df_all_books.empty:
+    if df_fv_filtered.empty and df_fv_all.empty:
         logger.info("⚠️ No qualifying FV Drop rows with market movement to display.")
         return
 
     if args.output_discord:
-        webhook_allowed = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
-        webhook_all = os.getenv("DISCORD_FV_DROP_ALL_WEBHOOK_URL")
+        fv_drop_webhook = os.getenv("DISCORD_FV_DROP_WEBHOOK_URL")
+        fv_drop_all_webhook = os.getenv("DISCORD_FV_DROP_ALL_WEBHOOK_URL")
 
-        if webhook_allowed and not df_allowed.empty:
-            send_bet_snapshot_to_discord(df_allowed, "FV Drop", webhook_allowed)
-        elif webhook_allowed:
-            logger.warning("⚠️ No FV Drop rows for allowed books")
+        if fv_drop_webhook:
+            if not df_fv_filtered.empty:
+                send_bet_snapshot_to_discord(
+                    df_fv_filtered,
+                    "FV Drop (Primary)",
+                    fv_drop_webhook,
+                )
+            else:
+                logger.warning("⚠️ No FV Drop rows for primary books")
         else:
             logger.error("❌ DISCORD_FV_DROP_WEBHOOK_URL not configured")
 
-        if webhook_all and not df_all_books.empty:
-            send_bet_snapshot_to_discord(df_all_books, "FV Drop (All Books)", webhook_all)
-        elif webhook_all:
-            logger.warning("⚠️ No FV Drop rows for all books")
+        if fv_drop_all_webhook:
+            if not df_fv_all.empty:
+                send_bet_snapshot_to_discord(
+                    df_fv_all,
+                    "FV Drop (All Allowed Books)",
+                    fv_drop_all_webhook,
+                )
+            else:
+                logger.warning("⚠️ No FV Drop rows for all allowed books")
         else:
             logger.error("❌ DISCORD_FV_DROP_ALL_WEBHOOK_URL not configured")
     else:
-        print(df_allowed.to_string(index=False))
+        print(df_fv_filtered.to_string(index=False))
 
 
 if __name__ == "__main__":
