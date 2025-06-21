@@ -391,6 +391,7 @@ from core.market_movement_tracker import (
     detect_market_movement,
 )
 from core.theme_exposure_tracker import (
+    load_tracker as load_theme_stakes,
     save_tracker as save_theme_stakes,
 )
 from core.book_whitelist import ALLOWED_BOOKS
@@ -1106,6 +1107,11 @@ def record_successful_log(row: dict, existing: dict, theme_stakes: dict | None) 
     if theme_stakes is not None:
         exposure_key = get_exposure_key(row)
         theme_stakes[exposure_key] = theme_stakes.get(exposure_key, 0.0) + stake_val
+        if "PYTEST_CURRENT_TEST" not in os.environ:
+            try:
+                save_theme_stakes(theme_stakes)
+            except Exception as e:  # pragma: no cover - unexpected save failure
+                logger.warning("⚠️ Failed to persist theme exposure: %s", e)
 
 
 def calculate_market_fv(sim_prob, market_odds):
@@ -2718,7 +2724,7 @@ def run_batch_logging(
         return start_times
 
     existing = load_existing_stakes("logs/market_evals.csv")
-    theme_stakes_from_csv = build_theme_exposure_tracker("logs/market_evals.csv")
+    theme_stakes_from_json = load_theme_stakes()
     market_evals_path = "logs/market_evals.csv"
     if os.path.exists(market_evals_path):
         with warnings.catch_warnings():
@@ -2803,8 +2809,8 @@ def run_batch_logging(
                     f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
                 )
 
-    # 🆕 Rebuild theme exposure tracker from the CSV log
-    existing_theme_stakes = theme_stakes_from_csv
+    # 🆕 Load theme exposure tracker from JSON
+    existing_theme_stakes = theme_stakes_from_json
 
     odds_start_times = extract_start_times(all_market_odds)
 
