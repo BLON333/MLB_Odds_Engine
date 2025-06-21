@@ -1124,9 +1124,9 @@ def load_existing_stakes(log_path):
     return existing
 
 
-def compute_theme_stakes_from_csv(csv_path: str):
+def build_theme_exposure_tracker(csv_path: str) -> dict:
     """Return theme exposure totals keyed by ``(game_id, theme_key, segment)``."""
-    totals = {}
+    totals: dict = {}
     if not os.path.exists(csv_path):
         return totals
 
@@ -1144,6 +1144,9 @@ def compute_theme_stakes_from_csv(csv_path: str):
             totals[key] = totals.get(key, 0.0) + stake
 
     return totals
+
+# Backwards compatibility
+compute_theme_stakes_from_csv = build_theme_exposure_tracker
 
 
 def get_market_class_emoji(segment_label: str) -> str:
@@ -2703,7 +2706,7 @@ def run_batch_logging(
         return start_times
 
     existing = load_existing_stakes("logs/market_evals.csv")
-    theme_stakes_from_csv = compute_theme_stakes_from_csv("logs/market_evals.csv")
+    theme_stakes_from_csv = build_theme_exposure_tracker("logs/market_evals.csv")
     market_evals_path = "logs/market_evals.csv"
     if os.path.exists(market_evals_path):
         with warnings.catch_warnings():
@@ -2788,10 +2791,8 @@ def run_batch_logging(
                     f"EV {row['ev_percent']} not better than current {current_best['ev_percent']}"
                 )
 
-    # 🆕 Rebuild theme exposure tracker from scratch using market_evals.csv
+    # 🆕 Rebuild theme exposure tracker from the CSV log
     existing_theme_stakes = theme_stakes_from_csv
-    if not dry_run:
-        save_theme_stakes(existing_theme_stakes)
 
     odds_start_times = extract_start_times(all_market_odds)
 
@@ -3094,7 +3095,6 @@ def process_theme_logged_bets(
 
             if not result.get("skip_reason") and result.get("side"):
                 record_successful_log(result, existing, existing_theme_stakes)
-                save_theme_stakes(existing_theme_stakes)
             else:
                 logger.warning(
                     "❌ Skipping tracker update: result was skipped or malformed → %s",
