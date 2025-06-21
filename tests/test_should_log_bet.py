@@ -1,5 +1,7 @@
 import os
 import sys
+import csv
+import pytest
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.should_log_bet import (
@@ -386,3 +388,65 @@ def test_theme_exposure_kept_when_csv_matches():
     )
     assert result["skip"] is True
     assert existing_theme_stakes[exposure_key] == 1.2
+
+
+def test_top_up_downgraded_without_csv(tmp_path):
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.6,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+    tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
+
+    csv_path = tmp_path / "market_evals.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["game_id", "market", "side", "stake"])
+        writer.writeheader()
+        writer.writerow({"game_id": "other", "market": "totals", "side": "Over 7.5", "stake": 1.0})
+
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        eval_tracker=tracker,
+        existing_csv_stakes={},
+        csv_path=str(csv_path),
+    )
+    assert result["log"] is True
+    assert result["entry_type"] == "first"
+    assert result["stake"] == pytest.approx(1.6)
+
+
+def test_top_up_respected_when_csv_exists(tmp_path):
+    bet = {
+        "game_id": "gid",
+        "market": "totals",
+        "side": "Over 8.5",
+        "full_stake": 1.6,
+        "ev_percent": 6.0,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+    tracker = {f"{bet['game_id']}:{bet['market']}:Over 8.5": {"stake": 1.0}}
+
+    csv_path = tmp_path / "market_evals.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["game_id", "market", "side", "stake"])
+        writer.writeheader()
+        writer.writerow({"game_id": bet["game_id"], "market": bet["market"], "side": bet["side"], "stake": 1.0})
+
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        eval_tracker=tracker,
+        existing_csv_stakes={},
+        csv_path=str(csv_path),
+    )
+    assert result["log"] is True
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == pytest.approx(0.6)

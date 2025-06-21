@@ -203,6 +203,33 @@ def _compute_csv_theme_total(
     return total
 
 
+def theme_already_logged_in_csv(
+    csv_path: str, game_id: str, theme_key: str, segment: str
+) -> bool:
+    """Return ``True`` if a matching theme entry exists in ``csv_path``."""
+    if not csv_path or not os.path.exists(csv_path):
+        return False
+
+    try:
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                gid = row.get("game_id")
+                market = row.get("market")
+                side = row.get("side")
+                if not gid or not market or not side:
+                    continue
+                base = market.replace("alternate_", "")
+                seg = normalize_segment(market)
+                theme = get_theme({"side": side, "market": base})
+                key = get_theme_key(base, theme)
+                if (gid, key, seg) == (game_id, theme_key, segment):
+                    return True
+    except Exception:
+        pass
+    return False
+
+
 def should_log_bet(
     new_bet: dict,
     existing_theme_stakes: dict,
@@ -212,6 +239,7 @@ def should_log_bet(
     eval_tracker: dict | None = None,
     reference_tracker: dict | None = None,
     existing_csv_stakes: dict | None = None,
+    csv_path: str | None = None,
 ) -> dict:
     """Evaluate whether a bet should be logged and return a structured result.
 
@@ -225,6 +253,11 @@ def should_log_bet(
     The optional ``eval_tracker`` should contain previous market evaluations
     keyed by ``game_id:market:side:book`` so line movement can be enforced for
     first-time entries.
+
+    csv_path : str | None, optional
+        Path to ``market_evals.csv`` for verifying previously logged exposure.
+        When provided, the CSV is scanned to confirm any prior theme-level
+        entry before classifying a bet as a top-up.
     """
 
     game_id = new_bet["game_id"]
@@ -406,6 +439,15 @@ def should_log_bet(
             pass
 
     tracker_key = f"{game_id}:{market}:{side}"
+
+    if theme_total > 0 and csv_path is not None:
+        if not theme_already_logged_in_csv(csv_path, game_id, theme_key, segment):
+            _log_verbose(
+                "⚠️ Tracker showed exposure but no log found — treating as first log.",
+                verbose,
+            )
+            theme_total = 0.0
+            delta_base = 0.0
 
     if theme_total == 0:
         new_bet["stake"] = round_stake(stake)
