@@ -203,6 +203,50 @@ def _compute_csv_theme_total(
     return total
 
 
+def get_best_logged_theme_odds_ev(
+    csv_path: str, game_id: str, theme_key: str, segment: str
+) -> tuple[float, float]:
+    """Return the max EV% and best decimal odds previously logged for a theme."""
+    best_ev = float("-inf")
+    best_odds = float("-inf")
+    if not os.path.exists(csv_path):
+        return best_ev, best_odds
+
+    try:
+        with open(csv_path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("game_id") != game_id:
+                    continue
+                mkt = row.get("market", "")
+                base = mkt.replace("alternate_", "")
+                seg = get_segment_group(mkt)
+                theme = get_theme({"side": row.get("side", ""), "market": base})
+                key = get_theme_key(base, theme)
+                if key != theme_key or seg != segment:
+                    continue
+                ev_val = row.get("ev_percent")
+                odds_val = row.get("market_odds")
+                try:
+                    if ev_val is not None and ev_val != "":
+                        ev_f = float(ev_val)
+                        if ev_f > best_ev:
+                            best_ev = ev_f
+                except Exception:
+                    pass
+                try:
+                    if odds_val is not None and odds_val != "":
+                        dec = decimal_odds(float(odds_val))
+                        if dec > best_odds:
+                            best_odds = dec
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
+    return best_ev, best_odds
+
+
 def should_log_bet(
     new_bet: dict,
     existing_theme_stakes: dict,
@@ -212,6 +256,7 @@ def should_log_bet(
     eval_tracker: dict | None = None,
     reference_tracker: dict | None = None,
     existing_csv_stakes: dict | None = None,
+    csv_path: str = os.path.join("logs", "market_evals.csv"),
 ) -> dict:
     """Evaluate whether a bet should be logged and return a structured result.
 
@@ -438,6 +483,32 @@ def should_log_bet(
     delta_raw = stake - delta_base
     delta = round_stake(delta_raw)
     if delta >= MIN_TOPUP_STAKE:
+        # Check best logged odds/EV for this theme
+        best_ev, best_odds = get_best_logged_theme_odds_ev(
+            csv_path, game_id, theme_key, segment
+        )
+        curr_odds_val = None
+        try:
+            curr_odds_val = float(new_bet.get("market_odds"))
+        except Exception:
+            pass
+        curr_dec_odds = decimal_odds(curr_odds_val) if curr_odds_val is not None else None
+        ev_val = None
+        try:
+            ev_val = float(ev)
+        except Exception:
+            pass
+        if (
+            ev_val is not None
+            and curr_dec_odds is not None
+            and ev_val < best_ev
+            and curr_dec_odds < best_odds
+        ):
+            new_bet["entry_type"] = "none"
+            new_bet["skip_reason"] = "odds_or_ev_worsened"
+            _log_verbose("⛔ Skipping top-up: odds_or_ev_worsened", verbose)
+            return build_skipped_evaluation("odds_or_ev_worsened", game_id, new_bet)
+
         new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
         _log_verbose(

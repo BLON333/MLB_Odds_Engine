@@ -1,5 +1,6 @@
 import os
 import sys
+import csv
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.should_log_bet import (
@@ -386,3 +387,105 @@ def test_theme_exposure_kept_when_csv_matches():
     )
     assert result["skip"] is True
     assert existing_theme_stakes[exposure_key] == 1.2
+
+
+def test_top_up_rejected_if_theme_worse_than_csv(tmp_path):
+    csv_path = tmp_path / "market_evals.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "game_id",
+                "market",
+                "side",
+                "ev_percent",
+                "market_odds",
+                "stake",
+                "entry_type",
+                "segment",
+            ],
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "game_id": "gid",
+                "market": "h2h",
+                "side": "TeamA",
+                "ev_percent": 8.0,
+                "market_odds": 120,
+                "stake": 1.0,
+                "entry_type": "first",
+                "segment": "full_game",
+            }
+        )
+
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 2.0,
+        "ev_percent": 7.0,
+        "market_odds": 115,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        csv_path=str(csv_path),
+    )
+    assert result["skip"] is True
+    assert result["reason"] == "odds_or_ev_worsened"
+
+
+def test_top_up_allowed_if_one_metric_improves(tmp_path):
+    csv_path = tmp_path / "market_evals.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "game_id",
+                "market",
+                "side",
+                "ev_percent",
+                "market_odds",
+                "stake",
+                "entry_type",
+                "segment",
+            ],
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "game_id": "gid",
+                "market": "h2h",
+                "side": "TeamA",
+                "ev_percent": 6.0,
+                "market_odds": 110,
+                "stake": 1.0,
+                "entry_type": "first",
+                "segment": "full_game",
+            }
+        )
+
+    bet = {
+        "game_id": "gid",
+        "market": "h2h",
+        "side": "TeamA",
+        "full_stake": 2.0,
+        "ev_percent": 5.5,
+        "market_odds": 115,
+    }
+    exposure_key = _exposure_key(bet)
+    existing_theme_stakes = {exposure_key: 1.0}
+
+    result = should_log_bet(
+        bet,
+        existing_theme_stakes,
+        verbose=False,
+        csv_path=str(csv_path),
+    )
+    assert result["log"] is True
+    assert result["entry_type"] == "top-up"
