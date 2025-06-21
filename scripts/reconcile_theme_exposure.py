@@ -5,7 +5,9 @@ import argparse
 import csv
 import os
 from datetime import datetime
-from typing import Dict, Tuple
+from typing import Dict
+
+from core.theme_key_utils import make_theme_key
 
 from cli.log_betting_evals import get_exposure_key
 from core.theme_exposure_tracker import TRACKER_PATH, load_tracker, save_tracker
@@ -28,9 +30,9 @@ def backup_tracker(path: str) -> str:
     return backup_path
 
 
-def compute_csv_totals(csv_path: str) -> Dict[Tuple[str, str, str], float]:
-    """Return exposure totals keyed by ``(game_id, theme_key, segment)``."""
-    totals: Dict[Tuple[str, str, str], float] = {}
+def compute_csv_totals(csv_path: str) -> Dict[str, float]:
+    """Return exposure totals keyed by ``game::theme::segment``."""
+    totals: Dict[str, float] = {}
     if not os.path.exists(csv_path):
         print(f"❌ CSV not found: {csv_path}")
         return totals

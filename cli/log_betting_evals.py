@@ -18,6 +18,7 @@ from core.should_log_bet import (
     round_stake,
     normalize_segment,
 )
+from core.theme_key_utils import make_theme_key
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import (
@@ -1600,7 +1601,7 @@ def get_exposure_key(row):
             theme = "Other"
 
     theme_key = f"{theme}_{market_type}"
-    return (game_id, theme_key, segment)
+    return make_theme_key(game_id, theme_key, segment)
 
 
 def write_to_csv(
@@ -3063,7 +3064,7 @@ def process_theme_logged_bets(
             )
             for segment, row in ordered_rows:
                 exposure_key = get_exposure_key(row)
-                key_str = "|".join(exposure_key)
+                key_str = exposure_key
                 pending = micro_topups.get(key_str)
                 if pending:
                     try:

@@ -10,6 +10,7 @@ from core.should_log_bet import (
     get_theme_key,
     normalize_segment,
 )
+from core.theme_key_utils import make_theme_key
 from core.confirmation_utils import required_market_move
 from core.skip_reasons import SkipReason
 
@@ -19,7 +20,7 @@ def _exposure_key(bet):
     segment = normalize_segment(bet["market"])
     theme = get_theme({"side": bet["side"], "market": base_market})
     theme_key = get_theme_key(base_market, theme)
-    return (bet["game_id"], theme_key, segment)
+    return make_theme_key(bet["game_id"], theme_key, segment)
 
 
 def test_top_up_accepted():

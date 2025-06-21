@@ -18,6 +18,8 @@ from core.logger import get_logger
 import csv
 import os
 
+from core.theme_key_utils import make_theme_key, theme_key_equals
+
 
 from core.utils import (
     normalize_label_for_odds,
@@ -188,6 +190,7 @@ def _compute_csv_theme_total(
 ) -> float:
     """Return cumulative stake for a theme based on CSV stake mapping."""
     total = 0.0
+    target = make_theme_key(game_id, theme_key, segment)
     for (gid, mkt, side), stake in csv_stakes.items():
         if gid != game_id:
             continue
@@ -195,7 +198,8 @@ def _compute_csv_theme_total(
         seg = normalize_segment(mkt)
         theme = get_theme({"side": side, "market": base})
         key = get_theme_key(base, theme)
-        if (gid, key, seg) == (game_id, theme_key, segment):
+        current = make_theme_key(gid, key, seg)
+        if theme_key_equals(current, target):
             try:
                 total += float(stake)
             except Exception:
@@ -213,6 +217,7 @@ def theme_already_logged_in_csv(
     try:
         with open(csv_path, newline="", encoding="utf-8") as f:
             reader = csv.DictReader(f)
+            target = make_theme_key(game_id, theme_key, segment)
             for row in reader:
                 gid = row.get("game_id")
                 market = row.get("market")
@@ -223,7 +228,8 @@ def theme_already_logged_in_csv(
                 seg = normalize_segment(market)
                 theme = get_theme({"side": side, "market": base})
                 key = get_theme_key(base, theme)
-                if (gid, key, seg) == (game_id, theme_key, segment):
+                current = make_theme_key(gid, key, seg)
+                if theme_key_equals(current, target):
                     return True
     except Exception:
         pass
@@ -300,7 +306,7 @@ def should_log_bet(
     segment = normalize_segment(market)
     theme = get_theme({"side": side, "market": base_market})
     theme_key = get_theme_key(base_market, theme)
-    exposure_key = (game_id, theme_key, segment)
+    exposure_key = make_theme_key(game_id, theme_key, segment)
     theme_total = existing_theme_stakes.get(exposure_key, 0.0)
     csv_stake = 0.0
     if existing_csv_stakes is not None:
@@ -470,7 +476,7 @@ def should_log_bet(
         try:
             from core.micro_topups import queue_micro_topup
 
-            queue_micro_topup((game_id, theme_key, segment), new_bet, delta)
+            queue_micro_topup(exposure_key, new_bet, delta)
         except Exception:
             pass
         msg = f"🔄 Delta stake {delta:.2f}u queued for later"
