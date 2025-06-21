@@ -445,11 +445,21 @@ def normalize_lookup_side(side):
     return side.strip()
 
 
+def normalize_market_key(market: str) -> str:
+    base = market.replace("alternate_", "").lower()
+    if base.startswith("totals") or base.startswith("team_totals"):
+        return "total"
+    if base.startswith("spreads") or base.startswith("runline"):
+        return "spread"
+    if base in {"h2h", "moneyline"} or base.startswith("h2h") or base.startswith("moneyline"):
+        return "h2h"
+    return base
+
+
 def get_theme_key(market: str, theme: str) -> str:
-    if "spreads" in market or "h2h" in market or "runline" in market:
-        return f"{theme}_spread"
-    elif "totals" in market:
-        return f"{theme}_total"
+    key = normalize_market_key(market)
+    if key in {"total", "spread", "h2h"}:
+        return f"{theme}_{key}"
     else:
         return f"{theme}_other"
 
@@ -1455,11 +1465,8 @@ def get_exposure_key(row):
     game_id = row["game_id"]
     side = remap_side_key(row["side"])
 
-    if "totals" in market:
-        market_type = "total"
-    elif "spreads" in market or "h2h" in market or "runline" in market:
-        market_type = "spread"
-    else:
+    market_type = normalize_market_key(market)
+    if market_type not in {"total", "spread", "h2h"}:
         market_type = "other"
 
     is_derivative = "_" in market and any(

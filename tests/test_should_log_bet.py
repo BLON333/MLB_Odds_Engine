@@ -177,6 +177,26 @@ def test_team_total_classified_as_under():
     assert theme_key == "Under_total"
 
 
+def test_normalized_market_keys():
+    # totals vs alternate_totals
+    bet_main = {"side": "Over 8.5", "market": "totals"}
+    bet_alt = {"side": "Over 8.5", "market": "alternate_totals"}
+    theme = get_theme(bet_main)
+    assert get_theme_key(bet_main["market"], theme) == get_theme_key(bet_alt["market"], theme)
+
+    # spreads vs alternate_spreads
+    bet_main = {"side": "ATL +1.5", "market": "spreads"}
+    bet_alt = {"side": "ATL +1.5", "market": "alternate_spreads"}
+    theme = get_theme(bet_main)
+    assert get_theme_key(bet_main["market"], theme) == get_theme_key(bet_alt["market"], theme)
+
+    # h2h vs moneyline
+    bet_main = {"side": "ATL", "market": "h2h"}
+    bet_alt = {"side": "ATL", "market": "moneyline"}
+    theme = get_theme(bet_main)
+    assert get_theme_key(bet_main["market"], theme) == get_theme_key(bet_alt["market"], theme)
+
+
 def test_rejected_for_low_ev():
     bet = {
         "game_id": "gid",
