@@ -29,6 +29,18 @@ def _log_verbose(msg: str, verbose: bool = True) -> None:
         print(msg)
 
 
+def normalize_market_key(market: str) -> str:
+    """Return a canonical key for a market name."""
+    base = market.replace("alternate_", "").lower()
+    if base.startswith("totals") or base.startswith("team_totals"):
+        return "total"
+    if base.startswith("spreads") or base.startswith("runline"):
+        return "spread"
+    if base in {"h2h", "moneyline"} or base.startswith("h2h") or base.startswith("moneyline"):
+        return "h2h"
+    return base
+
+
 def get_theme(bet: dict) -> str:
     """Return the exposure theme for a bet."""
     side = bet["side"].strip()
@@ -60,10 +72,10 @@ def get_theme(bet: dict) -> str:
 
 
 def get_theme_key(market: str, theme: str) -> str:
-    if "spreads" in market or "h2h" in market or "runline" in market:
-        return f"{theme}_spread"
-    if "totals" in market:
-        return f"{theme}_total"
+    """Return a theme key combining theme name with a normalized market."""
+    key = normalize_market_key(market)
+    if key in {"total", "spread", "h2h"}:
+        return f"{theme}_{key}"
     return f"{theme}_other"
 
 
