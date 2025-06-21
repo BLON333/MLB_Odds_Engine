@@ -12,7 +12,11 @@ from collections import defaultdict
 # === External Notification / Environment ===
 import requests
 from core.utils import post_with_retries
-from core.should_log_bet import MIN_NEGATIVE_ODDS, MAX_POSITIVE_ODDS
+from core.should_log_bet import (
+    MIN_NEGATIVE_ODDS,
+    MAX_POSITIVE_ODDS,
+    round_stake,
+)
 from dotenv import load_dotenv
 
 from core.market_eval_tracker import (
@@ -1095,10 +1099,11 @@ def decimal_odds(american):
 def record_successful_log(row: dict, existing: dict, theme_stakes: dict | None) -> None:
     """Update exposure trackers after a confirmed CSV write."""
     key = (row["game_id"], row["market"], row["side"])
-    existing[key] = existing.get(key, 0.0) + row["stake"]
+    stake_val = round_stake(row["stake"])
+    existing[key] = existing.get(key, 0.0) + stake_val
     if theme_stakes is not None:
         exposure_key = get_exposure_key(row)
-        theme_stakes[exposure_key] = theme_stakes.get(exposure_key, 0.0) + row["stake"]
+        theme_stakes[exposure_key] = theme_stakes.get(exposure_key, 0.0) + stake_val
 
 
 def calculate_market_fv(sim_prob, market_odds):
@@ -1576,9 +1581,9 @@ def write_to_csv(
     #         f"  ⛔ Market confirmation not improved ({new_conf_val:.4f} ≤ {prev_conf_val:.4f}) — skipping {tracker_key}"
     #     )
     #     return 0
-    full_stake = round(float(row.get("full_stake", 0)), 2)
+    full_stake = round_stake(float(row.get("full_stake", 0)))
     entry_type = row.get("entry_type", "first")
-    stake_to_log = row.get("stake", full_stake)
+    stake_to_log = round_stake(row.get("stake", full_stake))
 
     prev = existing.get(key, 0)
     row["cumulative_stake"] = prev + stake_to_log
