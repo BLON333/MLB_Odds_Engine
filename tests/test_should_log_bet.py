@@ -130,7 +130,7 @@ def test_first_bet_logged_even_if_odds_worse():
     assert result["entry_type"] == "first"
 
 
-def test_top_up_rejected_if_odds_worse():
+def test_top_up_logged_even_if_odds_worse():
     bet = {
         "game_id": "gid",
         "market": "h2h",
@@ -145,9 +145,9 @@ def test_top_up_rejected_if_odds_worse():
     reference = {tracker_key: {"market_odds": 110, "ev_percent": 7.0}}
 
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, reference_tracker=reference)
-    assert result["skip"] is True
-    assert bet["entry_type"] == "none"
-    assert result["reason"] == SkipReason.ODDS_WORSENED.value
+    assert result["log"] is True
+    assert result["entry_type"] == "top-up"
+    assert result["stake"] == pytest.approx(1.0)
 
 
 def test_first_bet_logged_if_odds_improve():
