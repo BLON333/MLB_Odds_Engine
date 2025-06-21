@@ -4,6 +4,9 @@ from core.config import DEBUG_MODE, VERBOSE_MODE
 MIN_FIRST_STAKE = 1.0
 MIN_TOPUP_STAKE = 0.5
 
+# Round stakes to this precision across the pipeline
+ROUND_STAKE_TO = 0.01
+
 # Odds outside this range are ignored for logging
 MAX_POSITIVE_ODDS = 200
 MIN_NEGATIVE_ODDS = -150
@@ -22,6 +25,11 @@ from core.utils import (
     TEAM_ABBR_TO_NAME,
     TEAM_NAME_TO_ABBR,
 )
+
+
+def round_stake(stake: float, precision: float = ROUND_STAKE_TO) -> float:
+    """Return ``stake`` rounded to the nearest ``precision``."""
+    return round(stake / precision) * precision
 
 
 def _log_verbose(msg: str, verbose: bool = True) -> None:
@@ -211,7 +219,7 @@ def should_log_bet(
     new_bet["side"] = side  # ensure consistent formatting
     # ``full_stake`` may be absent in legacy entries; fall back to ``stake``
     # or 0.0 to avoid KeyError.
-    stake = float(new_bet.get("full_stake", new_bet.get("stake", 0.0)))
+    stake = round_stake(float(new_bet.get("full_stake", new_bet.get("stake", 0.0))))
     ev = new_bet["ev_percent"]
 
     if DEBUG_MODE and ev >= 10.0 and stake >= 2.0:
@@ -386,7 +394,7 @@ def should_log_bet(
     tracker_key = f"{game_id}:{market}:{side}"
 
     if theme_total == 0:
-        new_bet["stake"] = round(stake, 2)
+        new_bet["stake"] = round_stake(stake)
         new_bet["entry_type"] = "first"
         if new_bet["stake"] < MIN_FIRST_STAKE:
             _log_verbose(
@@ -414,7 +422,7 @@ def should_log_bet(
 
     # Round the delta once to avoid floating point drift across the pipeline
     delta_raw = stake - delta_base
-    delta = round(delta_raw, 2)
+    delta = round_stake(delta_raw)
     if delta >= MIN_TOPUP_STAKE:
         new_bet["stake"] = delta
         new_bet["entry_type"] = "top-up"
