@@ -73,7 +73,7 @@ def test_top_up_rejected_for_small_delta():
     result = should_log_bet(bet, existing_theme_stakes, verbose=False, eval_tracker=tracker)
     assert result["skip"] is True
     assert bet["entry_type"] == "none"
-    assert result["reason"] == SkipReason.LOW_TOPUP.value
+    assert result["reason"] == "below_min_topup_queued"
 
 
 def test_top_up_rejected_for_delta_point_three():

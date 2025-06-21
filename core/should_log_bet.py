@@ -497,6 +497,19 @@ def should_log_bet(
             **new_bet,
         }
 
+    if delta > 0:
+        try:
+            from core.micro_topups import queue_micro_topup
+
+            queue_micro_topup((game_id, theme_key, segment), new_bet, delta)
+        except Exception:
+            pass
+        msg = f"🔄 Delta stake {delta:.2f}u queued for later"
+        new_bet["entry_type"] = "none"
+        new_bet["skip_reason"] = "below_min_topup_queued"
+        _log_verbose(msg, verbose)
+        return build_skipped_evaluation("below_min_topup_queued", game_id, new_bet)
+
     msg = f"⛔ Delta stake {delta:.2f}u < {MIN_TOPUP_STAKE:.1f}u minimum"
     new_bet["entry_type"] = "none"
     new_bet["skip_reason"] = SkipReason.LOW_TOPUP.value
