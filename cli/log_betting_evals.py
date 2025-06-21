@@ -151,6 +151,109 @@ def save_market_conf_tracker(tracker: dict, path: str = MARKET_CONF_TRACKER_PATH
         logger.warning("❌ Failed to save market confirmation tracker: %s", e)
 
 
+# === Quiet Hours Queue ===
+PENDING_QUIET_LOGS_PATH = os.path.join("logs", "pending_quiet_logs.json")
+
+
+def load_quiet_log_queue(path: str = PENDING_QUIET_LOGS_PATH) -> list:
+    """Return list of queued bets stored during quiet hours."""
+    data = safe_load_json(path)
+    if isinstance(data, list):
+        return data
+    return []
+
+
+def save_quiet_log_queue(queue: list, path: str = PENDING_QUIET_LOGS_PATH) -> None:
+    """Persist ``queue`` to ``path`` atomically."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = f"{path}.tmp"
+    with open(tmp, "w") as f:
+        json.dump(queue, f, indent=2)
+    os.replace(tmp, path)
+
+
+def queue_quiet_log(row: dict, path: str = PENDING_QUIET_LOGS_PATH) -> None:
+    """Append ``row`` to the quiet-hours queue."""
+    queue = load_quiet_log_queue(path)
+    queue.append({k: v for k, v in row.items() if not k.startswith("_")})
+    save_quiet_log_queue(queue, path)
+
+
+def process_quiet_hour_queue(market_odds: dict, min_ev: float = 0.05) -> int:
+    """Attempt to log queued bets once quiet hours have ended."""
+    queue = load_quiet_log_queue()
+    if not queue:
+        return 0
+
+    from collections import defaultdict
+    from core.theme_exposure_tracker import load_tracker as load_theme_stakes, save_tracker as save_theme_stakes
+    from core.market_eval_tracker import load_tracker as load_eval_tracker
+    from core.dispatch_clv_snapshot import parse_start_time, lookup_consensus_prob
+    from core.time_utils import compute_hours_to_game
+    from core.odds_fetcher import prob_to_american
+
+    existing = load_existing_stakes("logs/market_evals.csv")
+    session_exposure = defaultdict(set)
+    theme_stakes = load_theme_stakes()
+    eval_tracker = load_eval_tracker()
+
+    remaining: list = []
+    logged = 0
+    for bet in queue:
+        gid = bet.get("game_id")
+        if not gid:
+            continue
+        odds_game = market_odds.get(gid) or market_odds.get(gid.split("-T")[0])
+        start_dt = parse_start_time(gid, odds_game)
+        if not start_dt or compute_hours_to_game(start_dt) <= 0:
+            # Game already started
+            continue
+        if not odds_game:
+            remaining.append(bet)
+            continue
+        prob = lookup_consensus_prob(odds_game, bet["market"], bet["side"])
+        if prob is None:
+            remaining.append(bet)
+            continue
+        ev = (bet.get("blended_prob", bet.get("sim_prob", 0)) - prob) * 100
+        if ev < min_ev * 100:
+            continue
+
+        updated = bet.copy()
+        updated.update(
+            {
+                "market_odds": prob_to_american(prob),
+                "market_prob": prob,
+                "consensus_prob": prob,
+                "ev_percent": round(ev, 2),
+                "hours_to_game": compute_hours_to_game(start_dt),
+            }
+        )
+
+        result = write_to_csv(
+            updated,
+            "logs/market_evals.csv",
+            existing,
+            session_exposure,
+            theme_stakes,
+            force_log=True,
+        )
+        if result and not result.get("skip_reason"):
+            record_successful_log(result, existing, theme_stakes)
+            send_discord_notification(result)
+            logged += 1
+        else:
+            remaining.append(bet)
+
+    if remaining != queue:
+        save_quiet_log_queue(remaining)
+
+    if logged:
+        save_theme_stakes(theme_stakes)
+
+    return logged
+
+
 import copy
 from datetime import datetime
 
@@ -1543,6 +1646,10 @@ def write_to_csv(
             f"{quiet_hours_end:02d}:00 ET). Skipping CSV write."
         )
         row["skip_reason"] = SkipReason.QUIET_HOURS.value
+        try:
+            queue_quiet_log(row)
+        except Exception:
+            pass
         return None
 
     # 🗓️ Derive human-friendly fields from game_id

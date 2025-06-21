@@ -29,8 +29,10 @@ import time
 import subprocess
 
 
-from datetime import timedelta
-from core.utils import now_eastern
+from datetime import datetime, timedelta
+from core.utils import now_eastern, safe_load_json, to_eastern
+from utils.quiet_hours import is_within_quiet_hours
+from cli.log_betting_evals import process_quiet_hour_queue
 from core.odds_fetcher import fetch_all_market_odds, save_market_odds_to_file
 
 EDGE_THRESHOLD = 0.05
@@ -40,6 +42,7 @@ LOG_INTERVAL = 60 * 5  # Every 5 minutes
 last_sim_time = 0
 last_log_time = 0
 last_snapshot_time = 0
+last_log_dt = now_eastern()
 
 # Track the closing odds monitor subprocess so we can restart if it exits
 closing_monitor_proc = None
@@ -414,6 +417,7 @@ initial_odds = fetch_and_cache_odds_snapshot()
 if initial_odds:
     last_snapshot_time = time.time()
     last_log_time = last_snapshot_time
+    last_log_dt = now_eastern()
     last_sim_time = last_snapshot_time
     run_logger(initial_odds)
     logger.info("🧼 [%s] Reconciling tracker after log pass", now_eastern())
@@ -430,6 +434,7 @@ start_time = time.time()
 loop_count = 0
 if not initial_odds:
     last_log_time = start_time
+    last_log_dt = now_eastern()
     last_sim_time = start_time
 
 while True:
@@ -484,7 +489,16 @@ while True:
                 run_subprocess([PYTHON, "-m", "scripts.reconcile_theme_exposure"])
                 run_subprocess([PYTHON, "-m", "scripts.reconcile_tracker_with_csv"])
                 run_unified_snapshot_and_dispatch(odds_file)
+
+            crossed_quiet = is_within_quiet_hours(last_log_dt) and not is_within_quiet_hours(now_eastern())
+            if crossed_quiet:
+                odds_data = safe_load_json(odds_file)
+                if odds_data:
+                    logged = process_quiet_hour_queue(odds_data, MIN_EV)
+                    if logged:
+                        logger.info("🔔 Logged %d queued quiet-hour bets", logged)
         last_log_time = now
+        last_log_dt = now_eastern()
         triggered_log = True
 
     uptime = str(timedelta(seconds=int(now - start_time)))
