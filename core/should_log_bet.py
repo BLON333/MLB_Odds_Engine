@@ -93,6 +93,20 @@ def get_segment_group(market: str) -> str:
     return "derivative" if seg != "full_game" else "full_game"
 
 
+def normalize_segment(market: str) -> str:
+    """Return a unified segment tag from a raw market name."""
+    m = market.lower()
+    if "1st_3" in m:
+        return "1st_3"
+    if "1st_5" in m:
+        return "1st_5"
+    if "1st_7" in m:
+        return "1st_7"
+    if "1st_1" in m or "1st_inning" in m:
+        return "1st"
+    return "full_game"
+
+
 def parse_team_total_side(side: str) -> tuple[str, str]:
     """Return team abbreviation and direction from a team total label."""
     tokens = side.split()
@@ -178,7 +192,7 @@ def _compute_csv_theme_total(
         if gid != game_id:
             continue
         base = mkt.replace("alternate_", "")
-        seg = get_segment_group(mkt)
+        seg = normalize_segment(mkt)
         theme = get_theme({"side": side, "market": base})
         key = get_theme_key(base, theme)
         if (gid, key, seg) == (game_id, theme_key, segment):
@@ -250,7 +264,7 @@ def should_log_bet(
         return build_skipped_evaluation("low_ev", game_id, new_bet)
 
     base_market = market.replace("alternate_", "")
-    segment = get_segment_group(market)
+    segment = normalize_segment(market)
     theme = get_theme({"side": side, "market": base_market})
     theme_key = get_theme_key(base_market, theme)
     exposure_key = (game_id, theme_key, segment)

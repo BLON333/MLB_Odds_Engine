@@ -2,14 +2,19 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from core.should_log_bet import should_log_bet, get_theme, get_theme_key, get_segment_group
+from core.should_log_bet import (
+    should_log_bet,
+    get_theme,
+    get_theme_key,
+    normalize_segment,
+)
 from core.confirmation_utils import required_market_move
 from core.skip_reasons import SkipReason
 
 
 def _exposure_key(bet):
     base_market = bet["market"].replace("alternate_", "")
-    segment = get_segment_group(bet["market"])
+    segment = normalize_segment(bet["market"])
     theme = get_theme({"side": bet["side"], "market": base_market})
     theme_key = get_theme_key(base_market, theme)
     return (bet["game_id"], theme_key, segment)

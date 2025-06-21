@@ -16,6 +16,7 @@ from core.should_log_bet import (
     MIN_NEGATIVE_ODDS,
     MAX_POSITIVE_ODDS,
     round_stake,
+    normalize_segment,
 )
 from dotenv import load_dotenv
 
@@ -1474,10 +1475,7 @@ def get_exposure_key(row):
     if market_type not in {"total", "spread", "h2h"}:
         market_type = "other"
 
-    is_derivative = "_" in market and any(
-        x in market for x in ["1st", "f5", "3_innings", "5_innings", "7_innings"]
-    )
-    segment = "derivative" if is_derivative else "full_game"
+    segment = normalize_segment(market)
 
     for team in TEAM_NAME_TO_ABBR:
         if side.startswith(team):
