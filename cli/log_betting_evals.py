@@ -39,6 +39,7 @@ from core.utils import canonical_game_id
 from core.dispatch_clv_snapshot import parse_start_time
 from core.book_helpers import ensure_consensus_books
 from core.book_whitelist import ALLOWED_BOOKS
+from core.micro_topups import load_micro_topups, remove_micro_topup
 import re
 import warnings
 
@@ -2661,6 +2662,7 @@ def run_batch_logging(
 
     DISCORD_SUMMARY_WEBHOOK_URL = os.getenv("DISCORD_SUMMARY_WEBHOOK_URL")
     summary_candidates = []
+    micro_topups = load_micro_topups()
 
     if isinstance(market_odds, str):
         all_market_odds = safe_load_json(market_odds)
@@ -2856,6 +2858,7 @@ def run_batch_logging(
         image=image,
         output_dir=output_dir,
         force_log=force_log,
+        micro_topups=micro_topups,
     )
 
     if summary_candidates and not dry_run:
@@ -2885,8 +2888,12 @@ def process_theme_logged_bets(
     image=False,
     output_dir="logs",
     force_log=False,
+    micro_topups=None,
 ):
     print("🧾 Final Trimmed Bets to Log:")
+
+    if micro_topups is None:
+        micro_topups = {}
 
     skipped_counts = {
         "duplicate": 0,
@@ -2942,10 +2949,18 @@ def process_theme_logged_bets(
                 key=lambda x: 1 if x[1].get("market_class") == "alternate" else 0
             )
             for segment, row in ordered_rows:
+                exposure_key = get_exposure_key(row)
+                key_str = "|".join(exposure_key)
+                pending = micro_topups.get(key_str)
+                if pending:
+                    try:
+                        delta_p = float(pending.get("delta", 0))
+                    except Exception:
+                        delta_p = 0.0
+                    row["full_stake"] = round(float(row.get("full_stake", 0)) + delta_p, 2)
                 proposed_stake = round(float(row.get("full_stake", 0)), 2)
                 key = (row["game_id"], row["market"], row["side"])
                 line_key = (row["market"], row["side"])
-                exposure_key = get_exposure_key(row)
                 theme_total = existing_theme_stakes.get(exposure_key, 0.0)
                 is_initial_bet = theme_total == 0.0
 
@@ -3027,6 +3042,13 @@ def process_theme_logged_bets(
                         row["skip_reason"] = reason
                         ensure_consensus_books(row)
                         skipped_bets.append(row)
+                    if reason == "below_min_topup_queued":
+                        micro_topups = load_micro_topups()
+                        pending = micro_topups.get(key_str)
+                        if DEBUG and pending:
+                            print(
+                                f"🔄 Pending micro top-up {pending.get('delta')}u for {key_str}"
+                            )
                     continue
 
                 # 📝 Update tracker for every evaluated bet
@@ -3052,6 +3074,8 @@ def process_theme_logged_bets(
                         except Exception:
                             pass
                 if evaluated.get("log"):
+                    remove_micro_topup(exposure_key)
+                    micro_topups.pop(key_str, None)
                     evaluated["market"] = row["market"].replace("alternate_", "")
                     key_best = (
                         evaluated["game_id"],
